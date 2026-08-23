@@ -1,8 +1,8 @@
 ---
 slug: catalog-authoring-quality
-status: in-progress
+status: done
 created_at: 2026-08-22
-completed_at:
+completed_at: 2026-08-23
 supersedes:
 depends_on: catalog-schema-loader, safe-check-executor, administrative-cli-fixtures, curriculum-graph-path-recommendation
 priority: 170

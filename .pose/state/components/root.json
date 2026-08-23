@@ -2,12 +2,12 @@
   "schema_version": 1,
   "component_slug": "root",
   "path": ".",
-  "discovered_at": "2026-08-23T09:01:19Z",
-  "baseline_commit": "39349dbce8c1",
+  "discovered_at": "2026-08-23T09:22:20Z",
+  "baseline_commit": "a64248ebe477",
   "metrics": {
-    "loc_production": 8804,
-    "loc_tests": 7822,
-    "total_files": 141,
+    "loc_production": 9435,
+    "loc_tests": 8265,
+    "total_files": 148,
     "languages": [
       "go"
     ]

@@ -470,7 +470,7 @@
       ],
       "path": ".pose/specs/2026-08-22-catalog-authoring-quality.md",
       "priority": 170,
-      "status": "draft"
+      "status": "in-progress"
     },
     "catalog-schema-loader": {
       "depends_on": [
@@ -577,7 +577,7 @@
       ],
       "path": ".pose/specs/2026-08-22-interview-mode.md",
       "priority": 160,
-      "status": "in-progress"
+      "status": "done"
     },
     "learning-domain-model": {
       "depends_on": [

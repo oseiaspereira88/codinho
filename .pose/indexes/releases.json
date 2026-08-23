@@ -33,6 +33,14 @@
       "digest": "sha256:8de7a65d124e2a60b5624dd49059320814161556d5675fa3b5af9efdf11dd25d"
     },
     {
+      "spec": "interview-mode",
+      "category": "added",
+      "breaking": false,
+      "body": "Simulação de entrevista técnica genérica: duração opcional com timer\nreal, política de auxílio fixada (pistas bloqueadas são registradas sem\nrevelar nada), encerramento explícito ou por timeout, e um relatório\nfinal descritivo — nunca um score único — sempre acompanhado de um aviso\nclaro de que é uma prática local, sem vigilância e sem vínculo com\nprocesso seletivo real.",
+      "path": "interview-mode.md",
+      "digest": "sha256:269218a270fea6eb56a8cb6943b5d216f654cea483ee53389e0bcb5b30695062"
+    },
+    {
       "spec": "learning-practice-debug-modes",
       "category": "added",
       "breaking": false,

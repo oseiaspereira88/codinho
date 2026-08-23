@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "input_digest": "sha256:1d7264da2d4bf0724ee262277aca790b994d35ba7b5a2789cef6f2a6d73953f0",
-  "provenance_digest": "sha256:91f211ed70ab47db0bd7b142bb8adf545cbe28c3c06e4fae4cc210e586bc31c8",
+  "input_digest": "sha256:37c2501da0f8f4829409cc5adf6a0e5a650a6570d00a7f2b4ebefd88c5237f8b",
+  "provenance_digest": "sha256:1ddfbfb76d58170c09daef9f8394a320fb06c48e5be24940b1464e3b7ffc3673",
   "nodes": [
     {
       "id": "artifact:.agents/skills/codinho/SKILL.md",
@@ -162,6 +162,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/changelogs/unreleased/feedback-evaluation-progression.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/changelogs/unreleased/interview-mode.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/changelogs/unreleased/interview-mode.md"
       }
     },
     {
@@ -480,6 +487,13 @@
       }
     },
     {
+      "id": "artifact:.pose/review-attestations/rva-347e320f3e042b7d.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-attestations/rva-347e320f3e042b7d.json"
+      }
+    },
+    {
       "id": "artifact:.pose/review-attestations/rva-3d1d7f9cd719bd22.json",
       "type": "artifact",
       "attributes": {
@@ -561,6 +575,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/review-bundles/rvb-0f6ad091dd284d2d.json"
+      }
+    },
+    {
+      "id": "artifact:.pose/review-bundles/rvb-204bd8927d9faaee.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-bundles/rvb-204bd8927d9faaee.json"
       }
     },
     {
@@ -1317,6 +1338,20 @@
       "type": "artifact",
       "attributes": {
         "path": "internal/cli/doctor.go"
+      }
+    },
+    {
+      "id": "artifact:internal/cli/editorial.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/cli/editorial.go"
+      }
+    },
+    {
+      "id": "artifact:internal/cli/editorial_test.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/cli/editorial_test.go"
       }
     },
     {
@@ -2384,10 +2419,31 @@
       }
     },
     {
-      "id": "artifact:testdata/catalog-quality",
+      "id": "artifact:testdata/catalog-quality/editorial/manifest.yaml",
       "type": "artifact",
       "attributes": {
-        "path": "testdata/catalog-quality"
+        "path": "testdata/catalog-quality/editorial/manifest.yaml"
+      }
+    },
+    {
+      "id": "artifact:testdata/catalog-quality/editorial/pack.yaml",
+      "type": "artifact",
+      "attributes": {
+        "path": "testdata/catalog-quality/editorial/pack.yaml"
+      }
+    },
+    {
+      "id": "artifact:testdata/catalog-quality/structural/manifest.yaml",
+      "type": "artifact",
+      "attributes": {
+        "path": "testdata/catalog-quality/structural/manifest.yaml"
+      }
+    },
+    {
+      "id": "artifact:testdata/catalog-quality/structural/pack.yaml",
+      "type": "artifact",
+      "attributes": {
+        "path": "testdata/catalog-quality/structural/pack.yaml"
       }
     },
     {
@@ -2541,14 +2597,6 @@
       }
     },
     {
-      "id": "change-set:cs-293e9b20ca40",
-      "type": "change-set",
-      "attributes": {
-        "diff_digest": "sha256:56689833a0c0e02cf4a345cc7c43dfdcbd4a8f976633e773925ba6e3e9031542",
-        "selector": "trailers:interview-mode"
-      }
-    },
-    {
       "id": "change-set:cs-2e19a390d022",
       "type": "change-set",
       "attributes": {
@@ -2602,6 +2650,22 @@
       "attributes": {
         "diff_digest": "sha256:6b05c50d497aacbbfaf7e6028d3fc12669b55bdc8c860551b2da22b2b0362498",
         "selector": "trailers:safe-check-executor"
+      }
+    },
+    {
+      "id": "change-set:cs-7525cc2429b5",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:982d76126976e0ece14bc4d30494e229da2c49447393b28816ddab7d994db4af",
+        "selector": "trailers:interview-mode"
+      }
+    },
+    {
+      "id": "change-set:cs-837ef01a4385",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:5997e2567f82c0f377c98c9fc8d2b8e5d5fcad7d2d3103edcb79822ee7fdee93",
+        "selector": "trailers:catalog-authoring-quality"
       }
     },
     {
@@ -2715,7 +2779,7 @@
       "id": "spec:catalog-authoring-quality",
       "type": "spec",
       "attributes": {
-        "status": "draft"
+        "status": "in-progress"
       }
     },
     {
@@ -2792,7 +2856,7 @@
       "id": "spec:interview-mode",
       "type": "spec",
       "attributes": {
-        "status": "in-progress"
+        "status": "done"
       }
     },
     {
@@ -3617,86 +3681,6 @@
     {
       "from": "change-set:cs-27f24a7c63e8",
       "to": "artifact:internal/config/config.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-293e9b20ca40",
-      "to": "artifact:.agents/skills/codinho/SKILL.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-293e9b20ca40",
-      "to": "artifact:.agents/skills/codinho/assets/interview-report-template.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-293e9b20ca40",
-      "to": "artifact:.agents/skills/codinho/references/mcp-tool-routing.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-293e9b20ca40",
-      "to": "artifact:.agents/skills/codinho/references/session-modes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-293e9b20ca40",
-      "to": "artifact:.pose/specs/2026-08-22-interview-mode.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-293e9b20ca40",
-      "to": "artifact:internal/application/interview.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-293e9b20ca40",
-      "to": "artifact:internal/assessment/interview_report.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-293e9b20ca40",
-      "to": "artifact:internal/assessment/interview_report_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-293e9b20ca40",
-      "to": "artifact:internal/mcpserver/assistance_tools.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-293e9b20ca40",
-      "to": "artifact:internal/mcpserver/contract_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-293e9b20ca40",
-      "to": "artifact:internal/mcpserver/session_contract_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-293e9b20ca40",
-      "to": "artifact:internal/mcpserver/session_tools.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-293e9b20ca40",
-      "to": "artifact:internal/session/interview.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-293e9b20ca40",
-      "to": "artifact:internal/session/interview_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-293e9b20ca40",
-      "to": "artifact:internal/session/service.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-293e9b20ca40",
-      "to": "artifact:testdata/host/interview-transcripts/full-interview-session.md",
       "type": "changes"
     },
     {
@@ -4727,6 +4711,261 @@
     {
       "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/workspace/redaction.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:.agents/skills/codinho/SKILL.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:.agents/skills/codinho/assets/interview-report-template.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:.agents/skills/codinho/references/mcp-tool-routing.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:.agents/skills/codinho/references/session-modes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:.pose/assessments/README.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:.pose/assessments/consolidated.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:.pose/assessments/root.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:.pose/changelogs/unreleased/interview-mode.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:.pose/indexes/delivery-integrity.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:.pose/indexes/releases.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:.pose/indexes/spec-graph.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:.pose/results/delivery-validation.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:.pose/review-attestations/rva-347e320f3e042b7d.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:.pose/review-bundles/rvb-204bd8927d9faaee.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:.pose/specs/2026-08-22-interview-mode.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:.pose/state/components/root.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:.pose/state/project-state.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:internal/application/interview.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:internal/assessment/interview_report.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:internal/assessment/interview_report_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:internal/mcpserver/assistance_tools.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:internal/mcpserver/contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:internal/mcpserver/session_contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:internal/mcpserver/session_tools.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:internal/session/interview.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:internal/session/interview_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:internal/session/service.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7525cc2429b5",
+      "to": "artifact:testdata/host/interview-transcripts/full-interview-session.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:.pose/specs/2026-08-22-catalog-authoring-quality.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:cmd/codinho/cli_integration_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:docs/content-authoring.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:docs/content-review-checklist.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:internal/cli/catalog.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:internal/cli/cli_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:internal/cli/editorial.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:internal/cli/editorial_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:internal/curriculum/coverage.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:internal/curriculum/coverage_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:internal/curriculum/editorial.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:internal/curriculum/editorial_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:internal/curriculum/index.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:internal/curriculum/loader.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:internal/curriculum/model.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:internal/curriculum/playtest.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:internal/curriculum/validator.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:schemas/challenge.schema.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:schemas/editorial.schema.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:testdata/catalog-quality/editorial/manifest.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:testdata/catalog-quality/editorial/pack.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:testdata/catalog-quality/structural/manifest.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-837ef01a4385",
+      "to": "artifact:testdata/catalog-quality/structural/pack.yaml",
       "type": "changes"
     },
     {
@@ -5891,6 +6130,11 @@
     },
     {
       "from": "spec:catalog-authoring-quality",
+      "to": "artifact:cmd/codinho/cli_integration_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-authoring-quality",
       "to": "artifact:docs/content-authoring.md",
       "type": "declares"
     },
@@ -5902,6 +6146,21 @@
     {
       "from": "spec:catalog-authoring-quality",
       "to": "artifact:internal/cli/catalog.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-authoring-quality",
+      "to": "artifact:internal/cli/cli_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-authoring-quality",
+      "to": "artifact:internal/cli/editorial.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-authoring-quality",
+      "to": "artifact:internal/cli/editorial_test.go",
       "type": "declares"
     },
     {
@@ -5926,7 +6185,32 @@
     },
     {
       "from": "spec:catalog-authoring-quality",
+      "to": "artifact:internal/curriculum/index.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-authoring-quality",
+      "to": "artifact:internal/curriculum/loader.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-authoring-quality",
+      "to": "artifact:internal/curriculum/model.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-authoring-quality",
       "to": "artifact:internal/curriculum/playtest.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-authoring-quality",
+      "to": "artifact:internal/curriculum/validator.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-authoring-quality",
+      "to": "artifact:schemas/challenge.schema.json",
       "type": "declares"
     },
     {
@@ -5936,8 +6220,28 @@
     },
     {
       "from": "spec:catalog-authoring-quality",
-      "to": "artifact:testdata/catalog-quality",
+      "to": "artifact:testdata/catalog-quality/editorial/manifest.yaml",
       "type": "declares"
+    },
+    {
+      "from": "spec:catalog-authoring-quality",
+      "to": "artifact:testdata/catalog-quality/editorial/pack.yaml",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-authoring-quality",
+      "to": "artifact:testdata/catalog-quality/structural/manifest.yaml",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-authoring-quality",
+      "to": "artifact:testdata/catalog-quality/structural/pack.yaml",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-authoring-quality",
+      "to": "change-set:cs-837ef01a4385",
+      "type": "observed-by"
     },
     {
       "from": "spec:catalog-schema-loader",
@@ -6621,7 +6925,7 @@
     },
     {
       "from": "spec:interview-mode",
-      "to": "change-set:cs-293e9b20ca40",
+      "to": "change-set:cs-7525cc2429b5",
       "type": "observed-by"
     },
     {
@@ -7764,6 +8068,16 @@
     {
       "spec": "catalog-authoring-quality",
       "action": "created",
+      "path": "internal/cli/editorial.go"
+    },
+    {
+      "spec": "catalog-authoring-quality",
+      "action": "created",
+      "path": "internal/cli/editorial_test.go"
+    },
+    {
+      "spec": "catalog-authoring-quality",
+      "action": "created",
       "path": "internal/curriculum/coverage.go"
     },
     {
@@ -7794,12 +8108,62 @@
     {
       "spec": "catalog-authoring-quality",
       "action": "created",
-      "path": "testdata/catalog-quality"
+      "path": "testdata/catalog-quality/editorial/manifest.yaml"
+    },
+    {
+      "spec": "catalog-authoring-quality",
+      "action": "created",
+      "path": "testdata/catalog-quality/editorial/pack.yaml"
+    },
+    {
+      "spec": "catalog-authoring-quality",
+      "action": "created",
+      "path": "testdata/catalog-quality/structural/manifest.yaml"
+    },
+    {
+      "spec": "catalog-authoring-quality",
+      "action": "created",
+      "path": "testdata/catalog-quality/structural/pack.yaml"
+    },
+    {
+      "spec": "catalog-authoring-quality",
+      "action": "modified",
+      "path": "cmd/codinho/cli_integration_test.go"
     },
     {
       "spec": "catalog-authoring-quality",
       "action": "modified",
       "path": "internal/cli/catalog.go"
+    },
+    {
+      "spec": "catalog-authoring-quality",
+      "action": "modified",
+      "path": "internal/cli/cli_test.go"
+    },
+    {
+      "spec": "catalog-authoring-quality",
+      "action": "modified",
+      "path": "internal/curriculum/index.go"
+    },
+    {
+      "spec": "catalog-authoring-quality",
+      "action": "modified",
+      "path": "internal/curriculum/loader.go"
+    },
+    {
+      "spec": "catalog-authoring-quality",
+      "action": "modified",
+      "path": "internal/curriculum/model.go"
+    },
+    {
+      "spec": "catalog-authoring-quality",
+      "action": "modified",
+      "path": "internal/curriculum/validator.go"
+    },
+    {
+      "spec": "catalog-authoring-quality",
+      "action": "modified",
+      "path": "schemas/challenge.schema.json"
     },
     {
       "spec": "catalog-schema-loader",
@@ -9762,85 +10126,6 @@
       "diff_digest": "sha256:e9953a03f1dbec16030f48f076da80a5ec03855b06eaf9fb3f0bb8fa980bdc39"
     },
     {
-      "id": "cs-293e9b20ca40",
-      "spec": "interview-mode",
-      "selector": "trailers:interview-mode",
-      "base": "39349dbce8c147ef7a89d32f377e4335894b8eb0^",
-      "head": "39349dbce8c147ef7a89d32f377e4335894b8eb0",
-      "resolved_base": "9a4d4b3df7f4b182134f19113a9ac0413b63da13",
-      "resolved_head": "39349dbce8c147ef7a89d32f377e4335894b8eb0",
-      "commits": [
-        "39349dbce8c147ef7a89d32f377e4335894b8eb0"
-      ],
-      "paths": [
-        {
-          "action": "created",
-          "path": ".agents/skills/codinho/assets/interview-report-template.md"
-        },
-        {
-          "action": "created",
-          "path": "internal/application/interview.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/assessment/interview_report.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/assessment/interview_report_test.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/session/interview.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/session/interview_test.go"
-        },
-        {
-          "action": "created",
-          "path": "testdata/host/interview-transcripts/full-interview-session.md"
-        },
-        {
-          "action": "modified",
-          "path": ".agents/skills/codinho/SKILL.md"
-        },
-        {
-          "action": "modified",
-          "path": ".agents/skills/codinho/references/mcp-tool-routing.md"
-        },
-        {
-          "action": "modified",
-          "path": ".agents/skills/codinho/references/session-modes.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-interview-mode.md"
-        },
-        {
-          "action": "modified",
-          "path": "internal/mcpserver/assistance_tools.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/mcpserver/contract_test.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/mcpserver/session_contract_test.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/mcpserver/session_tools.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/session/service.go"
-        }
-      ],
-      "diff_digest": "sha256:56689833a0c0e02cf4a345cc7c43dfdcbd4a8f976633e773925ba6e3e9031542"
-    },
-    {
       "id": "cs-2e19a390d022",
       "spec": "administrative-cli-fixtures",
       "selector": "trailers:administrative-cli-fixtures",
@@ -10781,6 +11066,241 @@
       "diff_digest": "sha256:6b05c50d497aacbbfaf7e6028d3fc12669b55bdc8c860551b2da22b2b0362498"
     },
     {
+      "id": "cs-7525cc2429b5",
+      "spec": "interview-mode",
+      "selector": "trailers:interview-mode",
+      "base": "39349dbce8c147ef7a89d32f377e4335894b8eb0^",
+      "head": "48c34f87868825fd5f9d0aa8a7e5fe4823a38115",
+      "resolved_base": "9a4d4b3df7f4b182134f19113a9ac0413b63da13",
+      "resolved_head": "48c34f87868825fd5f9d0aa8a7e5fe4823a38115",
+      "commits": [
+        "39349dbce8c147ef7a89d32f377e4335894b8eb0",
+        "48c34f87868825fd5f9d0aa8a7e5fe4823a38115"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": ".agents/skills/codinho/assets/interview-report-template.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/changelogs/unreleased/interview-mode.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/review-attestations/rva-347e320f3e042b7d.json"
+        },
+        {
+          "action": "created",
+          "path": ".pose/review-bundles/rvb-204bd8927d9faaee.json"
+        },
+        {
+          "action": "created",
+          "path": "internal/application/interview.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/assessment/interview_report.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/assessment/interview_report_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/session/interview.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/session/interview_test.go"
+        },
+        {
+          "action": "created",
+          "path": "testdata/host/interview-transcripts/full-interview-session.md"
+        },
+        {
+          "action": "modified",
+          "path": ".agents/skills/codinho/SKILL.md"
+        },
+        {
+          "action": "modified",
+          "path": ".agents/skills/codinho/references/mcp-tool-routing.md"
+        },
+        {
+          "action": "modified",
+          "path": ".agents/skills/codinho/references/session-modes.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/README.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/consolidated.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/root.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/delivery-integrity.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/releases.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/spec-graph.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/results/delivery-validation.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-interview-mode.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/root.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/project-state.md"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/assistance_tools.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/contract_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/session_contract_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/session_tools.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/session/service.go"
+        }
+      ],
+      "diff_digest": "sha256:982d76126976e0ece14bc4d30494e229da2c49447393b28816ddab7d994db4af"
+    },
+    {
+      "id": "cs-837ef01a4385",
+      "spec": "catalog-authoring-quality",
+      "selector": "trailers:catalog-authoring-quality",
+      "base": "a64248ebe4776146a028120d0a68aaee8751bf90^",
+      "head": "a64248ebe4776146a028120d0a68aaee8751bf90",
+      "resolved_base": "48c34f87868825fd5f9d0aa8a7e5fe4823a38115",
+      "resolved_head": "a64248ebe4776146a028120d0a68aaee8751bf90",
+      "commits": [
+        "a64248ebe4776146a028120d0a68aaee8751bf90"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": "docs/content-authoring.md"
+        },
+        {
+          "action": "created",
+          "path": "docs/content-review-checklist.md"
+        },
+        {
+          "action": "created",
+          "path": "internal/cli/editorial.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/cli/editorial_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/coverage.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/coverage_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/editorial.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/editorial_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/playtest.go"
+        },
+        {
+          "action": "created",
+          "path": "schemas/editorial.schema.json"
+        },
+        {
+          "action": "created",
+          "path": "testdata/catalog-quality/editorial/manifest.yaml"
+        },
+        {
+          "action": "created",
+          "path": "testdata/catalog-quality/editorial/pack.yaml"
+        },
+        {
+          "action": "created",
+          "path": "testdata/catalog-quality/structural/manifest.yaml"
+        },
+        {
+          "action": "created",
+          "path": "testdata/catalog-quality/structural/pack.yaml"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-catalog-authoring-quality.md"
+        },
+        {
+          "action": "modified",
+          "path": "cmd/codinho/cli_integration_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/cli/catalog.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/cli/cli_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/index.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/loader.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/model.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/validator.go"
+        },
+        {
+          "action": "modified",
+          "path": "schemas/challenge.schema.json"
+        }
+      ],
+      "diff_digest": "sha256:5997e2567f82c0f377c98c9fc8d2b8e5d5fcad7d2d3103edcb79822ee7fdee93"
+    },
+    {
       "id": "cs-8589c5c09edb",
       "spec": "curriculum-graph-path-recommendation",
       "selector": "trailers:curriculum-graph-path-recommendation",
@@ -11658,6 +12178,7 @@
     ],
     "cmd/codinho/cli_integration_test.go": [
       "administrative-cli-fixtures",
+      "catalog-authoring-quality",
       "learning-practice-debug-modes"
     ],
     "cmd/codinho/integration_test.go": [
@@ -11859,11 +12380,18 @@
     ],
     "internal/cli/cli_test.go": [
       "administrative-cli-fixtures",
+      "catalog-authoring-quality",
       "security-privacy-hardening"
     ],
     "internal/cli/doctor.go": [
       "go-runtime-foundation",
       "reliability-observability-compatibility"
+    ],
+    "internal/cli/editorial.go": [
+      "catalog-authoring-quality"
+    ],
+    "internal/cli/editorial_test.go": [
+      "catalog-authoring-quality"
     ],
     "internal/cli/init.go": [
       "administrative-cli-fixtures"
@@ -11916,10 +12444,12 @@
     ],
     "internal/curriculum/index.go": [
       "assistance-hints-detours",
+      "catalog-authoring-quality",
       "catalog-schema-loader",
       "curriculum-graph-path-recommendation"
     ],
     "internal/curriculum/loader.go": [
+      "catalog-authoring-quality",
       "catalog-schema-loader"
     ],
     "internal/curriculum/loader_test.go": [
@@ -11927,6 +12457,7 @@
     ],
     "internal/curriculum/model.go": [
       "administrative-cli-fixtures",
+      "catalog-authoring-quality",
       "catalog-schema-loader",
       "curriculum-graph-path-recommendation",
       "safe-check-executor"
@@ -11997,6 +12528,7 @@
     ],
     "internal/curriculum/validator.go": [
       "administrative-cli-fixtures",
+      "catalog-authoring-quality",
       "catalog-schema-loader",
       "curriculum-graph-path-recommendation"
     ],
@@ -12380,6 +12912,7 @@
       "catalog-schema-loader"
     ],
     "schemas/challenge.schema.json": [
+      "catalog-authoring-quality",
       "catalog-schema-loader"
     ],
     "schemas/editorial.schema.json": [
@@ -12391,7 +12924,16 @@
     "scripts/smoke-install.sh": [
       "installation-documentation-ci"
     ],
-    "testdata/catalog-quality": [
+    "testdata/catalog-quality/editorial/manifest.yaml": [
+      "catalog-authoring-quality"
+    ],
+    "testdata/catalog-quality/editorial/pack.yaml": [
+      "catalog-authoring-quality"
+    ],
+    "testdata/catalog-quality/structural/manifest.yaml": [
+      "catalog-authoring-quality"
+    ],
+    "testdata/catalog-quality/structural/pack.yaml": [
       "catalog-authoring-quality"
     ],
     "testdata/host/adversarial-prompts.yaml": [
@@ -12541,15 +13083,6 @@
       "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-0d995288f4c1",
-      "code": "existence",
-      "severity": "error",
-      "spec": "catalog-authoring-quality",
-      "path": "testdata/catalog-quality",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-1094cd299934",
       "code": "existence",
       "severity": "error",
@@ -12692,15 +13225,6 @@
       "path": "tests/e2e/host-cli",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-279c3d81607e",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "catalog-authoring-quality",
-      "path": "schemas/editorial.schema.json",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec catalog-authoring-quality (ensure commits carry 'POSE-Spec: catalog-authoring-quality' trailer or generate report with pose report)"
     },
     {
       "id": "dif-28376d6827ec",
@@ -12901,24 +13425,6 @@
       "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-490b6cfd9640",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "catalog-authoring-quality",
-      "path": "internal/curriculum/coverage_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec catalog-authoring-quality (ensure commits carry 'POSE-Spec: catalog-authoring-quality' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-499365d366f0",
-      "code": "existence",
-      "severity": "error",
-      "spec": "catalog-authoring-quality",
-      "path": "docs/content-authoring.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-4b67bb22e4ef",
       "code": "existence",
       "severity": "error",
@@ -12935,15 +13441,6 @@
       "path": "docs/troubleshooting.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec reliability-observability-compatibility (ensure commits carry 'POSE-Spec: reliability-observability-compatibility' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-4d982fa90795",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "catalog-authoring-quality",
-      "path": "testdata/catalog-quality",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec catalog-authoring-quality (ensure commits carry 'POSE-Spec: catalog-authoring-quality' trailer or generate report with pose report)"
     },
     {
       "id": "dif-4e30eae5e246",
@@ -13045,15 +13542,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-5d44b3d3b830",
-      "code": "existence",
-      "severity": "error",
-      "spec": "catalog-authoring-quality",
-      "path": "internal/curriculum/editorial_test.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-60a5c66a291d",
       "code": "action-mismatch",
       "severity": "error",
@@ -13126,24 +13614,6 @@
       "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-70fc866be6d9",
-      "code": "existence",
-      "severity": "error",
-      "spec": "catalog-authoring-quality",
-      "path": "internal/curriculum/coverage_test.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-738a87658af4",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "catalog-authoring-quality",
-      "path": "internal/curriculum/editorial.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec catalog-authoring-quality (ensure commits carry 'POSE-Spec: catalog-authoring-quality' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-753eb10898d1",
       "code": "action-mismatch",
       "severity": "error",
@@ -13178,15 +13648,6 @@
       "path": "tests/e2e/session-guided",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-7bb512c1bcee",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "catalog-authoring-quality",
-      "path": "internal/curriculum/editorial_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec catalog-authoring-quality (ensure commits carry 'POSE-Spec: catalog-authoring-quality' trailer or generate report with pose report)"
     },
     {
       "id": "dif-7bcffebfc20d",
@@ -13243,15 +13704,6 @@
       "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-8a0a120f44d8",
-      "code": "existence",
-      "severity": "error",
-      "spec": "catalog-authoring-quality",
-      "path": "schemas/editorial.schema.json",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-8a16a17033b1",
       "code": "action-mismatch",
       "severity": "error",
@@ -13306,15 +13758,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-98b154bb27cb",
-      "code": "existence",
-      "severity": "error",
-      "spec": "catalog-authoring-quality",
-      "path": "docs/content-review-checklist.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-98f12ec263b6",
       "code": "action-mismatch",
       "severity": "error",
@@ -13333,38 +13776,11 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-9a5204655107",
-      "code": "existence",
-      "severity": "error",
-      "spec": "catalog-authoring-quality",
-      "path": "internal/curriculum/playtest.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-9d98af273492",
       "code": "existence",
       "severity": "error",
       "spec": "installation-documentation-ci",
       "path": "docs/catalog-authoring.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-9dd1fbeca3ee",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "catalog-authoring-quality",
-      "path": "internal/cli/catalog.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec catalog-authoring-quality (ensure commits carry 'POSE-Spec: catalog-authoring-quality' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-9df4ebcd4df2",
-      "code": "existence",
-      "severity": "error",
-      "spec": "catalog-authoring-quality",
-      "path": "internal/curriculum/editorial.go",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
@@ -13385,15 +13801,6 @@
       "path": "docs/catalog/go-backend.md",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-a46eef6ca47f",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "catalog-authoring-quality",
-      "path": "docs/content-authoring.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec catalog-authoring-quality (ensure commits carry 'POSE-Spec: catalog-authoring-quality' trailer or generate report with pose report)"
     },
     {
       "id": "dif-a6f76b3b47b6",
@@ -13684,15 +14091,6 @@
       "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-e5180c578037",
-      "code": "existence",
-      "severity": "error",
-      "spec": "catalog-authoring-quality",
-      "path": "internal/curriculum/coverage.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-e79fc1d4805f",
       "code": "existence",
       "severity": "error",
@@ -13711,24 +14109,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-ef0098bf4b34",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "catalog-authoring-quality",
-      "path": "internal/curriculum/playtest.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec catalog-authoring-quality (ensure commits carry 'POSE-Spec: catalog-authoring-quality' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-ef4aabc8976d",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "catalog-authoring-quality",
-      "path": "docs/content-review-checklist.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec catalog-authoring-quality (ensure commits carry 'POSE-Spec: catalog-authoring-quality' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-f2d565e96e5b",
       "code": "existence",
       "severity": "error",
@@ -13736,15 +14116,6 @@
       "path": "tests/e2e/installation",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-f5698486c2bf",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "catalog-authoring-quality",
-      "path": "internal/curriculum/coverage.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec catalog-authoring-quality (ensure commits carry 'POSE-Spec: catalog-authoring-quality' trailer or generate report with pose report)"
     },
     {
       "id": "dif-f7996239c3bc",
@@ -13802,19 +14173,20 @@
       "evidence_class": "build",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "39349dbce8c147ef7a89d32f377e4335894b8eb0",
-      "generated_at": "2026-08-23T09:00:38Z",
-      "provenance_digest": "sha256:91f211ed70ab47db0bd7b142bb8adf545cbe28c3c06e4fae4cc210e586bc31c8",
+      "git_head": "a64248ebe4776146a028120d0a68aaee8751bf90",
+      "generated_at": "2026-08-23T09:21:32Z",
+      "provenance_digest": "sha256:1ddfbfb76d58170c09daef9f8394a320fb06c48e5be24940b1464e3b7ffc3673",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
+        "catalog-authoring-quality": "sha256:7b770d3b40d1369b5c0a404f1ef703266ed0adf2f78556993c6d0ec58b8d38ee",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
-        "interview-mode": "sha256:4766982b49f0368e5778d4ad1f37961a6e019c256f082b706c7c81ce80deee9f",
+        "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
@@ -13833,19 +14205,20 @@
       "evidence_class": "e2e",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "39349dbce8c147ef7a89d32f377e4335894b8eb0",
-      "generated_at": "2026-08-23T09:00:38Z",
-      "provenance_digest": "sha256:91f211ed70ab47db0bd7b142bb8adf545cbe28c3c06e4fae4cc210e586bc31c8",
+      "git_head": "a64248ebe4776146a028120d0a68aaee8751bf90",
+      "generated_at": "2026-08-23T09:21:32Z",
+      "provenance_digest": "sha256:1ddfbfb76d58170c09daef9f8394a320fb06c48e5be24940b1464e3b7ffc3673",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
+        "catalog-authoring-quality": "sha256:7b770d3b40d1369b5c0a404f1ef703266ed0adf2f78556993c6d0ec58b8d38ee",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
-        "interview-mode": "sha256:4766982b49f0368e5778d4ad1f37961a6e019c256f082b706c7c81ce80deee9f",
+        "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
@@ -13864,19 +14237,20 @@
       "evidence_class": "reachability",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "39349dbce8c147ef7a89d32f377e4335894b8eb0",
-      "generated_at": "2026-08-23T09:00:38Z",
-      "provenance_digest": "sha256:91f211ed70ab47db0bd7b142bb8adf545cbe28c3c06e4fae4cc210e586bc31c8",
+      "git_head": "a64248ebe4776146a028120d0a68aaee8751bf90",
+      "generated_at": "2026-08-23T09:21:32Z",
+      "provenance_digest": "sha256:1ddfbfb76d58170c09daef9f8394a320fb06c48e5be24940b1464e3b7ffc3673",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
+        "catalog-authoring-quality": "sha256:7b770d3b40d1369b5c0a404f1ef703266ed0adf2f78556993c6d0ec58b8d38ee",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
-        "interview-mode": "sha256:4766982b49f0368e5778d4ad1f37961a6e019c256f082b706c7c81ce80deee9f",
+        "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
@@ -13895,19 +14269,20 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "39349dbce8c147ef7a89d32f377e4335894b8eb0",
-      "generated_at": "2026-08-23T09:00:38Z",
-      "provenance_digest": "sha256:91f211ed70ab47db0bd7b142bb8adf545cbe28c3c06e4fae4cc210e586bc31c8",
+      "git_head": "a64248ebe4776146a028120d0a68aaee8751bf90",
+      "generated_at": "2026-08-23T09:21:32Z",
+      "provenance_digest": "sha256:1ddfbfb76d58170c09daef9f8394a320fb06c48e5be24940b1464e3b7ffc3673",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
+        "catalog-authoring-quality": "sha256:7b770d3b40d1369b5c0a404f1ef703266ed0adf2f78556993c6d0ec58b8d38ee",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
-        "interview-mode": "sha256:4766982b49f0368e5778d4ad1f37961a6e019c256f082b706c7c81ce80deee9f",
+        "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
@@ -13926,19 +14301,20 @@
       "evidence_class": "unit",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "39349dbce8c147ef7a89d32f377e4335894b8eb0",
-      "generated_at": "2026-08-23T09:00:38Z",
-      "provenance_digest": "sha256:91f211ed70ab47db0bd7b142bb8adf545cbe28c3c06e4fae4cc210e586bc31c8",
+      "git_head": "a64248ebe4776146a028120d0a68aaee8751bf90",
+      "generated_at": "2026-08-23T09:21:32Z",
+      "provenance_digest": "sha256:1ddfbfb76d58170c09daef9f8394a320fb06c48e5be24940b1464e3b7ffc3673",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
+        "catalog-authoring-quality": "sha256:7b770d3b40d1369b5c0a404f1ef703266ed0adf2f78556993c6d0ec58b8d38ee",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
-        "interview-mode": "sha256:4766982b49f0368e5778d4ad1f37961a6e019c256f082b706c7c81ce80deee9f",
+        "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
@@ -13957,19 +14333,20 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "39349dbce8c147ef7a89d32f377e4335894b8eb0",
-      "generated_at": "2026-08-23T09:00:38Z",
-      "provenance_digest": "sha256:91f211ed70ab47db0bd7b142bb8adf545cbe28c3c06e4fae4cc210e586bc31c8",
+      "git_head": "a64248ebe4776146a028120d0a68aaee8751bf90",
+      "generated_at": "2026-08-23T09:21:32Z",
+      "provenance_digest": "sha256:1ddfbfb76d58170c09daef9f8394a320fb06c48e5be24940b1464e3b7ffc3673",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
+        "catalog-authoring-quality": "sha256:7b770d3b40d1369b5c0a404f1ef703266ed0adf2f78556993c6d0ec58b8d38ee",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
-        "interview-mode": "sha256:4766982b49f0368e5778d4ad1f37961a6e019c256f082b706c7c81ce80deee9f",
+        "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
@@ -13988,19 +14365,20 @@
       "evidence_class": "build",
       "severity": "optional",
       "outcome": "pass",
-      "git_head": "39349dbce8c147ef7a89d32f377e4335894b8eb0",
-      "generated_at": "2026-08-23T09:00:38Z",
-      "provenance_digest": "sha256:91f211ed70ab47db0bd7b142bb8adf545cbe28c3c06e4fae4cc210e586bc31c8",
+      "git_head": "a64248ebe4776146a028120d0a68aaee8751bf90",
+      "generated_at": "2026-08-23T09:21:32Z",
+      "provenance_digest": "sha256:1ddfbfb76d58170c09daef9f8394a320fb06c48e5be24940b1464e3b7ffc3673",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
+        "catalog-authoring-quality": "sha256:7b770d3b40d1369b5c0a404f1ef703266ed0adf2f78556993c6d0ec58b8d38ee",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
-        "interview-mode": "sha256:4766982b49f0368e5778d4ad1f37961a6e019c256f082b706c7c81ce80deee9f",
+        "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",

@@ -69,7 +69,7 @@ challenges:
 	}
 	t.Cleanup(func() { store.Close() })
 
-	return New(catalog, store)
+	return New(catalog, store, nil)
 }
 
 func TestStartAssignsFirstMacroStep(t *testing.T) {

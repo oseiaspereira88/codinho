@@ -53,7 +53,7 @@ challenges:
 	t.Cleanup(func() { store.Close() })
 
 	catalogService := NewCatalogService(catalog)
-	return catalogService, NewSessionService(catalogService, store)
+	return catalogService, NewSessionService(catalogService, store, nil)
 }
 
 func TestSessionServiceStartAssignsActiveStep(t *testing.T) {

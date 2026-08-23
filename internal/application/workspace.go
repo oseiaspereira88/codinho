@@ -34,6 +34,16 @@ type baselineKey struct {
 	step    learning.StepID
 }
 
+// baselineEntry remembers not just the baseline hashes but also the root
+// and globs the caller used to establish/refresh them, so a later
+// check_run (safe-check-executor) can reuse the same workspace without
+// repeating those parameters (safe-check-executor Decision 2).
+type baselineEntry struct {
+	baseline workspace.Baseline
+	root     string
+	globs    []string
+}
+
 // observationPayload is what this package stores as evidence content: a
 // structured summary of what changed, never the raw before/after file
 // bytes (keeps evidence small and avoids re-exposing anything the
@@ -58,7 +68,7 @@ type WorkspaceService struct {
 	evidence *evidence.Store
 
 	mu        sync.Mutex
-	baselines map[baselineKey]workspace.Baseline
+	baselines map[baselineKey]baselineEntry
 	scope     map[learning.SessionID]map[string]bool
 }
 
@@ -68,7 +78,7 @@ func NewWorkspaceService(store *eventstore.Store, evidenceStore *evidence.Store)
 	return &WorkspaceService{
 		store:     store,
 		evidence:  evidenceStore,
-		baselines: map[baselineKey]workspace.Baseline{},
+		baselines: map[baselineKey]baselineEntry{},
 		scope:     map[learning.SessionID]map[string]bool{},
 	}
 }
@@ -108,7 +118,7 @@ func (w *WorkspaceService) Observe(in ObserveInput) (ObserveResult, error) {
 
 	key := baselineKey{session: in.SessionID, step: in.StepID}
 	w.mu.Lock()
-	baseline, hasBaseline := w.baselines[key]
+	entry, hasBaseline := w.baselines[key]
 	w.mu.Unlock()
 
 	var (
@@ -117,7 +127,7 @@ func (w *WorkspaceService) Observe(in ObserveInput) (ObserveResult, error) {
 		isBaseline  bool
 	)
 	if hasBaseline {
-		result, err = workspace.Observe(root, in.Globs, baseline)
+		result, err = workspace.Observe(root, in.Globs, entry.baseline)
 	} else {
 		newBaseline, err = workspace.Capture(root, in.Globs)
 		if err == nil {
@@ -167,7 +177,13 @@ func (w *WorkspaceService) Observe(in ObserveInput) (ObserveResult, error) {
 
 	w.mu.Lock()
 	if isBaseline {
-		w.baselines[key] = newBaseline
+		w.baselines[key] = baselineEntry{baseline: newBaseline, root: in.Root, globs: in.Globs}
+	} else {
+		// Keep the root/globs a later check_run reuses in sync with the
+		// most recent call, even though the baseline hashes themselves
+		// only change when a new one is established.
+		entry.root, entry.globs = in.Root, in.Globs
+		w.baselines[key] = entry
 	}
 	if w.scope[in.SessionID] == nil {
 		w.scope[in.SessionID] = map[string]bool{}
@@ -239,6 +255,43 @@ func (w *WorkspaceService) EvidenceGet(in EvidenceGetInput) (EvidenceGetResult, 
 	}
 
 	return EvidenceGetResult{Content: data, Size: len(data), Stale: stale}, nil
+}
+
+// ErrNoWorkspaceBaseline is returned when a caller asks to reuse the
+// workspace root/globs for (session, step) before any workspace_observe
+// call established one (safe-check-executor Decision 2).
+var ErrNoWorkspaceBaseline = errors.New("application: no workspace baseline established for this step yet")
+
+// RootFor returns the root and globs most recently used to observe
+// (sessionID, stepID), so a caller (safe-check-executor) can run a check
+// against the same workspace without repeating those parameters.
+func (w *WorkspaceService) RootFor(sessionID learning.SessionID, stepID learning.StepID) (root string, globs []string, err error) {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	entry, ok := w.baselines[baselineKey{session: sessionID, step: stepID}]
+	if !ok {
+		return "", nil, ErrNoWorkspaceBaseline
+	}
+	return entry.root, entry.globs, nil
+}
+
+// PutEvidence stores raw content-addressed evidence and returns its ID,
+// for a caller (safe-check-executor) that produces its own evidence
+// payload shape but shares this service's evidence store.
+func (w *WorkspaceService) PutEvidence(raw []byte) (string, error) {
+	return w.evidence.Put(raw)
+}
+
+// RecordEvidence scopes evidenceID to sessionID, so a caller (safe-check-
+// executor) that put its own evidence still has it enforced by
+// EvidenceGet's per-session scope (requirement R8).
+func (w *WorkspaceService) RecordEvidence(sessionID learning.SessionID, evidenceID string) {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	if w.scope[sessionID] == nil {
+		w.scope[sessionID] = map[string]bool{}
+	}
+	w.scope[sessionID][evidenceID] = true
 }
 
 func observationKind(isBaseline bool) string {

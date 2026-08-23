@@ -56,6 +56,10 @@ func mapError(err error) (ErrorCode, string, bool) {
 		return ErrCodeInvalidInput, "the workspace root is not a valid, accessible directory", false
 	case errors.Is(err, application.ErrEvidenceOutOfScope):
 		return ErrCodeItemNotFound, "no evidence with that ID exists for this session", false
+	case errors.Is(err, application.ErrCheckNotFound):
+		return ErrCodeItemNotFound, "no check with that ID is declared by this session's challenge", false
+	case errors.Is(err, application.ErrNoWorkspaceBaseline):
+		return ErrCodeInvalidInput, "call workspace_observe for the active step before running a check", false
 	case errors.Is(err, evidence.ErrInvalidID), errors.Is(err, evidence.ErrIntegrityMismatch), errors.Is(err, os.ErrNotExist):
 		return ErrCodeItemNotFound, "no evidence with that ID exists for this session", false
 	default:

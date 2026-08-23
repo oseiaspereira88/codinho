@@ -1,7 +1,9 @@
 package application
 
 import (
+	"github.com/oseiaspereira88/codinho/internal/curriculum"
 	"github.com/oseiaspereira88/codinho/internal/eventstore"
+	"github.com/oseiaspereira88/codinho/internal/evidence"
 	"github.com/oseiaspereira88/codinho/internal/learning"
 	"github.com/oseiaspereira88/codinho/internal/session"
 )
@@ -31,9 +33,18 @@ type SessionService struct {
 	svc *session.Service
 }
 
-// NewSessionService wires a SessionService to its catalog and event store.
-func NewSessionService(catalog *CatalogService, store *eventstore.Store) *SessionService {
-	return &SessionService{svc: session.New(catalog.catalog, store)}
+// NewSessionService wires a SessionService to its catalog and event
+// store. evidenceStore may be nil where a caller has no need for
+// safe-check-executor's check-outcome override (Decision 3); session.New
+// treats a nil store the same way.
+func NewSessionService(catalog *CatalogService, store *eventstore.Store, evidenceStore *evidence.Store) *SessionService {
+	return &SessionService{svc: session.New(catalog.catalog, store, evidenceStore)}
+}
+
+// ActiveChecks returns the checks declared by the session's fixed
+// challenge and its active step (requirement R1, safe-check-executor).
+func (s *SessionService) ActiveChecks(id learning.SessionID) ([]curriculum.CheckAuthoring, learning.StepID, error) {
+	return s.svc.ActiveChecks(id)
 }
 
 // Start fixes a challenge and activates the session's first instructional

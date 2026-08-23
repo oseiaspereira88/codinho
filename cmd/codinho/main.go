@@ -79,15 +79,17 @@ func runServe(ctx context.Context, stderr *os.File) error {
 	}
 
 	catalogService := application.NewCatalogService(catalog)
-	sessionService := application.NewSessionService(catalogService, store)
+	sessionService := application.NewSessionService(catalogService, store, evidenceStore)
 	assistanceService := application.NewAssistanceService(catalogService)
 	workspaceService := application.NewWorkspaceService(store, evidenceStore)
+	checksService := application.NewChecksService(store, sessionService, workspaceService)
 
 	server := mcpserver.New(mcpserver.Deps{
 		Catalog:    catalogService,
 		Session:    sessionService,
 		Assistance: assistanceService,
 		Workspace:  workspaceService,
+		Checks:     checksService,
 	}, stderr)
 	return mcpserver.Run(ctx, server, &mcp.StdioTransport{})
 }

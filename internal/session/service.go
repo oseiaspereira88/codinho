@@ -6,6 +6,7 @@
 package session
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"sync"
@@ -15,6 +16,7 @@ import (
 	"github.com/oseiaspereira88/codinho/internal/assistance"
 	"github.com/oseiaspereira88/codinho/internal/curriculum"
 	"github.com/oseiaspereira88/codinho/internal/eventstore"
+	"github.com/oseiaspereira88/codinho/internal/evidence"
 	"github.com/oseiaspereira88/codinho/internal/learning"
 )
 
@@ -60,6 +62,12 @@ type record struct {
 type Service struct {
 	catalog *curriculum.Catalog
 	store   *eventstore.Store
+	// evidence is nil-safe: without it, step_evaluate falls back to
+	// feedback-evaluation-progression's original behavior (structural
+	// verdict from evidence presence alone). With it, a structural
+	// criterion citing check evidence (safe-check-executor) derives its
+	// verdict from the check's real outcome instead (Decision 3).
+	evidence *evidence.Store
 
 	mu            sync.Mutex
 	sessions      map[learning.SessionID]*record
@@ -76,16 +84,43 @@ func idempotencyKey(id learning.SessionID, requestID string) string {
 	return string(id) + "\x00" + requestID
 }
 
-// New wires a Service to its catalog and event store.
-func New(catalog *curriculum.Catalog, store *eventstore.Store) *Service {
+// New wires a Service to its catalog and event store. evidenceStore may be
+// nil: StepEvaluate's structural verdicts then fall back to feedback-
+// evaluation-progression's original evidence-presence behavior (Decision
+// 3, safe-check-executor).
+func New(catalog *curriculum.Catalog, store *eventstore.Store, evidenceStore *evidence.Store) *Service {
 	return &Service{
 		catalog:       catalog,
 		store:         store,
+		evidence:      evidenceStore,
 		sessions:      map[learning.SessionID]*record{},
 		startResults:  map[string]StartResult{},
 		hintResults:   map[string]HintResult{},
 		detourResults: map[string]DetourResult{},
 	}
+}
+
+// ActiveChecks returns the checks declared by the session's fixed
+// challenge and its currently active step, so a caller (safe-check-
+// executor) resolves check_id exclusively within this exact session's
+// version (requirement R1) without check_run needing a challenge_id
+// parameter of its own.
+func (s *Service) ActiveChecks(id learning.SessionID) ([]curriculum.CheckAuthoring, learning.StepID, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	rec, ok := s.sessions[id]
+	if !ok {
+		return nil, "", ErrSessionNotFound
+	}
+	challenge, err := s.challenge(rec.challengeID)
+	if err != nil {
+		return nil, "", err
+	}
+	var stepID learning.StepID
+	if active := rec.session.ActiveStep(); active != nil {
+		stepID = active.StepID
+	}
+	return challenge.Checks, stepID, nil
 }
 
 func (s *Service) challenge(id string) (curriculum.ChallengeAuthoring, error) {
@@ -715,6 +750,55 @@ type EvaluateResult struct {
 // the evaluation, and creates an attempt only when SubmissionIntent is
 // true. It never completes or advances the step (requirement R3, R5, R6,
 // R7; PROJECT.md §12.3 invariant 4).
+// checkEvidenceProbe reads only the two fields this override needs from an
+// evidence blob it does not otherwise interpret (learning-domain-model:
+// Evidence.ref stays opaque by design everywhere else).
+type checkEvidenceProbe struct {
+	Kind    string `json:"kind"`
+	Outcome string `json:"outcome"`
+}
+
+// verdictForCheckOutcome maps a safe-check-executor Outcome string to the
+// verdict step_evaluate reports (requirement R10).
+func verdictForCheckOutcome(outcome string) learning.EvaluationVerdict {
+	switch outcome {
+	case "pass":
+		return learning.VerdictMet
+	case "fail":
+		return learning.VerdictNotMet
+	case "skipped":
+		return learning.VerdictNotApplicable
+	default: // "error" or anything unrecognized: infra failure proves nothing either way
+		return learning.VerdictUnverifiable
+	}
+}
+
+// checkOutcomeOverride reconstructs r with a verdict derived from a real
+// check's outcome, when r is a structural criterion citing evidence that
+// is recognizably safe-check-executor's (kind: "check") rather than
+// workspace-observation-baselines' own (kind: "baseline"/"diff") or
+// absent evidence. assessment.Resolve (feedback-evaluation-progression,
+// sealed) is never modified for this: it remains the sole authority for
+// every case this override does not recognize (Decision 3).
+func (s *Service) checkOutcomeOverride(r learning.CriterionResult) (learning.CriterionResult, bool) {
+	if s.evidence == nil || r.Kind != learning.StructuralCriterionKind || r.EvidenceID == "" {
+		return learning.CriterionResult{}, false
+	}
+	data, err := s.evidence.Get(string(r.EvidenceID))
+	if err != nil {
+		return learning.CriterionResult{}, false
+	}
+	var probe checkEvidenceProbe
+	if err := json.Unmarshal(data, &probe); err != nil || probe.Kind != "check" {
+		return learning.CriterionResult{}, false
+	}
+	overridden, err := learning.NewCriterionResult(r.Name, r.Kind, r.Severity, verdictForCheckOutcome(probe.Outcome), r.EvidenceID, r.RubricRef)
+	if err != nil {
+		return learning.CriterionResult{}, false
+	}
+	return overridden, true
+}
+
 func (s *Service) StepEvaluate(in EvaluateInput) (EvaluateResult, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -732,6 +816,9 @@ func (s *Service) StepEvaluate(in EvaluateInput) (EvaluateResult, error) {
 		r, err := assessment.Resolve(c)
 		if err != nil {
 			return EvaluateResult{}, err
+		}
+		if overridden, ok := s.checkOutcomeOverride(r); ok {
+			r = overridden
 		}
 		results = append(results, r)
 	}

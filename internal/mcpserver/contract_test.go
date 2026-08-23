@@ -93,10 +93,11 @@ func newContractClient(t *testing.T) *mcp.ClientSession {
 	}
 
 	catalogService := application.NewCatalogService(catalog)
-	sessionService := application.NewSessionService(catalogService, store)
+	sessionService := application.NewSessionService(catalogService, store, evidenceStore)
 	assistanceService := application.NewAssistanceService(catalogService)
 	workspaceService := application.NewWorkspaceService(store, evidenceStore)
-	server := New(Deps{Catalog: catalogService, Session: sessionService, Assistance: assistanceService, Workspace: workspaceService}, io.Discard)
+	checksService := application.NewChecksService(store, sessionService, workspaceService)
+	server := New(Deps{Catalog: catalogService, Session: sessionService, Assistance: assistanceService, Workspace: workspaceService, Checks: checksService}, io.Discard)
 
 	clientTransport, serverTransport := mcp.NewInMemoryTransports()
 
@@ -157,7 +158,7 @@ func TestContractListsExactlyTheMinimalToolSlice(t *testing.T) {
 		"learning_detour_start": false, "learning_detour_finish": false,
 		"feedback_prepare": false, "feedback_record": false, "step_evaluate": false,
 		"reflection_record": false, "step_complete": false, "step_advance": false,
-		"workspace_observe": false, "evidence_get": false,
+		"workspace_observe": false, "evidence_get": false, "check_run": false,
 	}
 	for _, tool := range res.Tools {
 		if _, known := want[tool.Name]; !known {
@@ -324,7 +325,7 @@ func newTestServer(t *testing.T) *mcp.Server {
 	}
 	t.Cleanup(func() { store.Close() })
 	catalogService := application.NewCatalogService(catalog)
-	sessionService := application.NewSessionService(catalogService, store)
+	sessionService := application.NewSessionService(catalogService, store, nil)
 	return New(Deps{Catalog: catalogService, Session: sessionService}, io.Discard)
 }
 

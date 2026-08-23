@@ -165,11 +165,15 @@ type ReflectionAuthoring struct {
 }
 
 // CheckAuthoring declares a check by ID; the executor that resolves and
-// runs it belongs to safe-check-executor.
+// runs it belongs to safe-check-executor. Network defaults to denied
+// (safe-check-executor R5): only a check the challenge explicitly marks
+// true may reach the network, never something a caller decides at
+// check_run time (check_run takes no free parameter beyond check_id).
 type CheckAuthoring struct {
 	ID          string `yaml:"id"`
 	Runner      string `yaml:"runner"`
 	Package     string `yaml:"package"`
 	TestPattern string `yaml:"test_pattern"`
 	Timeout     string `yaml:"timeout"`
+	Network     bool   `yaml:"network"`
 }

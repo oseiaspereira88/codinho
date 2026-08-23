@@ -63,7 +63,7 @@ challenges:
 	t.Cleanup(func() { store.Close() })
 
 	catalogService := application.NewCatalogService(catalog)
-	sessionService := application.NewSessionService(catalogService, store)
+	sessionService := application.NewSessionService(catalogService, store, nil)
 	assistanceService := application.NewAssistanceService(catalogService)
 	server := New(Deps{Catalog: catalogService, Session: sessionService, Assistance: assistanceService}, io.Discard)
 

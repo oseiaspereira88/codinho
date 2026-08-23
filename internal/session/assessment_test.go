@@ -81,7 +81,7 @@ challenges:
 		t.Fatalf("unexpected error: %v", err)
 	}
 	t.Cleanup(func() { store.Close() })
-	return New(catalog, store)
+	return New(catalog, store, nil)
 }
 
 func TestFeedbackPrepareAssemblesPacketWithoutMutating(t *testing.T) {

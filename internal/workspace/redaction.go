@@ -64,8 +64,14 @@ var secretPatterns = []*regexp.Regexp{
 
 const redactedPlaceholder = "[REDACTED]"
 
-// redact replaces every secret-shaped substring of content with a fixed
-// placeholder before it becomes evidence.
+// Redact replaces every secret-shaped substring of content with a fixed
+// placeholder before it becomes evidence. Exported so other packages that
+// capture process output (safe-check-executor) reuse the same secret
+// patterns instead of duplicating them.
+func Redact(content []byte) []byte { return redact(content) }
+
+// redact is the unexported implementation Redact and this package's own
+// callers share.
 func redact(content []byte) []byte {
 	out := content
 	for _, p := range secretPatterns {

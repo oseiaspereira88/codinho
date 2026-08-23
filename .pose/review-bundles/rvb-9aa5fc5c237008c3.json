@@ -54,7 +54,7 @@
       "entries": [
         {
           "action": "created",
-          "path": "cmd/codinho/main.go",
+          "path": "cmd/ailearn/main.go",
           "class": "implementation",
           "digest": "sha256:3997ff0441fdf4157c437b61c09a1d38157811c31059d6625ada49a7fb7d1705",
           "reason": "attributed implementation path in the immutable change set"
@@ -126,8 +126,8 @@
           "path": "cmd",
           "kind": "directory",
           "sources": [
-            "artifact:go-runtime-foundation:cmd/codinho/main.go",
-            "observed:go-runtime-foundation:cmd/codinho/main.go"
+            "artifact:go-runtime-foundation:cmd/ailearn/main.go",
+            "observed:go-runtime-foundation:cmd/ailearn/main.go"
           ]
         },
         {
@@ -520,7 +520,7 @@
     },
     {
       "kind": "derived-evidence",
-      "path": ".pose/reports/2026-08-22-standard-fundacao-go-executavel-do-codinho.md",
+      "path": ".pose/reports/2026-08-22-standard-fundacao-go-executavel-do-ailearn.md",
       "reason": "attributed path is outside the semantic review subject"
     },
     {
@@ -530,7 +530,7 @@
     },
     {
       "kind": "derived-evidence",
-      "path": ".pose/reports/history/standard-fundacao-go-executavel-do-codinho.jsonl",
+      "path": ".pose/reports/history/standard-fundacao-go-executavel-do-ailearn.jsonl",
       "reason": "attributed path is outside the semantic review subject"
     },
     {

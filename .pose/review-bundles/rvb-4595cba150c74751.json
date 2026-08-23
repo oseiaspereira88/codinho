@@ -19,7 +19,7 @@
         "mcp-server"
       ],
       "deliveries": [
-        "contract:codinho-mcp-v1"
+        "contract:ailearn-mcp-v1"
       ],
       "sections": [
         {
@@ -143,7 +143,7 @@
         },
         {
           "action": "modified",
-          "path": "cmd/codinho/main.go",
+          "path": "cmd/ailearn/main.go",
           "class": "implementation",
           "digest": "sha256:b0bbbec1af0e4b9165775d6444f46f4c59bac0b8784b4d6b6168c84cc24eab3f",
           "reason": "attributed implementation path in the immutable change set"
@@ -173,9 +173,9 @@
           "path": "cmd",
           "kind": "directory",
           "sources": [
-            "artifact:mcp-stdio-foundation:cmd/codinho/main.go",
-            "delivery:contract:codinho-mcp-v1:cmd/codinho/main.go",
-            "observed:mcp-stdio-foundation:cmd/codinho/main.go"
+            "artifact:mcp-stdio-foundation:cmd/ailearn/main.go",
+            "delivery:contract:ailearn-mcp-v1:cmd/ailearn/main.go",
+            "observed:mcp-stdio-foundation:cmd/ailearn/main.go"
           ]
         },
         {
@@ -194,7 +194,7 @@
             "artifact:mcp-stdio-foundation:internal/mcpserver/server.go",
             "artifact:mcp-stdio-foundation:internal/mcpserver/server_test.go",
             "artifact:mcp-stdio-foundation:internal/mcpserver/session_tools.go",
-            "delivery:contract:codinho-mcp-v1:internal/mcpserver",
+            "delivery:contract:ailearn-mcp-v1:internal/mcpserver",
             "observed:mcp-stdio-foundation:internal/application/catalog.go",
             "observed:mcp-stdio-foundation:internal/application/session.go",
             "observed:mcp-stdio-foundation:internal/application/session_test.go",

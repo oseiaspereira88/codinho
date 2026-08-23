@@ -641,7 +641,7 @@
       ],
       "path": ".pose/specs/2026-08-22-reliability-observability-compatibility.md",
       "priority": 230,
-      "status": "draft"
+      "status": "in-progress"
     },
     "safe-check-executor": {
       "depends_on": [
@@ -663,7 +663,7 @@
       ],
       "path": ".pose/specs/2026-08-22-security-privacy-hardening.md",
       "priority": 220,
-      "status": "in-progress"
+      "status": "done"
     },
     "session-orchestration-disclosure": {
       "depends_on": [

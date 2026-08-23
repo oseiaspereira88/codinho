@@ -1,8 +1,8 @@
 ---
 slug: reliability-observability-compatibility
-status: in-progress
+status: done
 created_at: 2026-08-22
-completed_at:
+completed_at: 2026-08-23
 supersedes:
 depends_on: local-event-store, mcp-stdio-foundation, safe-check-executor, mastery-review-scheduling, administrative-cli-fixtures, security-privacy-hardening
 priority: 230

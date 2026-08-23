@@ -81,6 +81,14 @@
       "digest": "sha256:de388b43c1dc318c4ae0023f373f5065d099ab74a70a4bbc476b01d6ec1c610f"
     },
     {
+      "spec": "security-privacy-hardening",
+      "category": "added",
+      "breaking": false,
+      "body": "Adiciona `codinho privacy export`/`purge` para exportar ou apagar\nexplicitamente o estado local (nunca o código do aluno ou o Git);\npublica o threat model, a política de privacidade e os limites de\nsegurança do executor de checks; e torna visível se um check rodou com\nrede aprovada (`network_approved`).",
+      "path": "security-privacy-hardening.md",
+      "digest": "sha256:4f1a21013ce5d9fc14d4a26a374875621bbcb16d72ccbf8f49a46411b4693d68"
+    },
+    {
       "spec": "session-orchestration-disclosure",
       "category": "added",
       "breaking": false,

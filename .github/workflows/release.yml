@@ -1,0 +1,61 @@
+# Release: manually triggered only (workflow_dispatch), and — until
+# v1-integrated-acceptance formally approves a V1 release — it never
+# publishes anything. It builds reproducible binaries for the platforms
+# with real test evidence (requirement R3) and their checksums, and
+# uploads them as a workflow artifact for manual inspection. Turning
+# this into an actual GitHub Release (with a tag and public download)
+# is a deliberate follow-up gated on that acceptance, not automated
+# here (requirement R9: "sem publicar a V1 antecipadamente").
+name: Release (build-only, no publish)
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version label for this build (e.g. v0.1.0-rc1); never used to create a tag or a GitHub Release by this workflow."
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build reproducible binaries
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # Only platforms with real test evidence (docs/compatibility.md).
+        # macOS/Windows binaries can be added once execution evidence
+        # exists for them — cross-compiling without ever running the
+        # result would misrepresent "suportado".
+        goos: [linux]
+        goarch: [amd64, arm64]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: build
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: "0"
+        run: |
+          out="codinho-${{ inputs.version }}-${{ matrix.goos }}-${{ matrix.goarch }}"
+          go build -trimpath -ldflags "-X github.com/oseiaspereira88/codinho/internal/cli.version=${{ inputs.version }}" -o "$out" ./cmd/codinho
+          sha256sum "$out" > "$out.sha256"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: codinho-${{ inputs.version }}-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: |
+            codinho-*
+          retention-days: 90
+
+  # No publish job exists yet on purpose: creating a GitHub Release or
+  # pushing a tag is a decision for v1-integrated-acceptance, not this
+  # workflow (Known Gap, tracked as a follow-up on this spec).

@@ -1,5 +1,9 @@
 # Matriz de compatibilidade
 
+Ver [`docs/install.md`](install.md) para pré-requisitos de instalação e
+[`.github/workflows/ci.yml`](../.github/workflows/ci.yml) para os gates
+que rodam a cada pull request contra esta matriz (requirement R4/R5).
+
 ## Go
 
 - **Mínimo declarado**: `go 1.25.0` (`go.mod`).

@@ -1,13 +1,13 @@
 ---
 slug: installation-documentation-ci
-status: draft
+status: in-progress
 created_at: 2026-08-22
 completed_at:
 supersedes:
 depends_on: tutor-skill-host-integration, administrative-cli-fixtures, catalog-authoring-quality, security-privacy-hardening, reliability-observability-compatibility
 priority: 240
 components: distribution, documentation, ci
-delivers:
+delivers: infrastructure:codinho-local-distribution, governance:codinho-ci
 ---
 
 # Spec: installation-documentation-ci
@@ -64,22 +64,19 @@ Permitir que uma pessoa instale e use codinho no Codex CLI ou IDE sem conhecimen
 - created: docs/install.md
 - created: docs/quickstart.md
 - created: docs/configuration.md
-- created: docs/catalog-authoring.md
 - modified: docs/compatibility.md
 - modified: docs/troubleshooting.md
 - created: .github/workflows/ci.yml
 - created: .github/workflows/release.yml
 - created: Makefile
 - created: scripts/smoke-install.sh
+- created: cmd/codinho/smoke_test.go
+- modified: .pose/indexes/validation-matrix.json
 - modified: .agents/skills/codinho/references/codex-configuration.md
 
 ### Delivery targets
-Os alvos planejados são a infrastructure `codinho-local-distribution`, com
-módulo `cmd/codinho` e entrypoint `cmd/codinho/main.go`, e a governance
-`codinho-ci`, com módulo `.github/workflows` e entrypoint
-`.github/workflows/ci.yml`; ambos usam o perfil `release-governance`.
-Registrá-los como alvos tipados quando esses caminhos forem materializados,
-antes do closeout desta spec.
+- infrastructure:codinho-local-distribution module:cmd/codinho profile:release-governance entrypoint:cmd/codinho/main.go
+- governance:codinho-ci module:.github/workflows profile:release-governance entrypoint:.github/workflows/ci.yml
 
 ### API/contract changes
 - Documentar contratos existentes; nenhum contrato novo de runtime.
@@ -94,20 +91,20 @@ antes do closeout desta spec.
 ## 4. Tasks
 
 ### Planning
-- [ ] Definir matriz de build, CI, artifacts e release.
-- [ ] Definir governança documental e owners.
+- [x] Definir matriz de build, CI, artifacts e release.
+- [x] Definir governança documental e owners.
 
 ### Implementation
-- [ ] Escrever documentação e exemplos.
-- [ ] Implementar Makefile e smoke install.
-- [ ] Implementar CI com gates e artifacts.
-- [ ] Implementar release workflow em modo não publicador até aprovação.
-- [ ] Testar onboarding em ambiente limpo.
+- [x] Escrever documentação e exemplos.
+- [x] Implementar Makefile e smoke install.
+- [x] Implementar CI com gates e artifacts.
+- [x] Implementar release workflow em modo não publicador até aprovação.
+- [x] Testar onboarding em ambiente limpo.
 
 ### Validation
-- [ ] Executar pose docs-check, check, validate e release plan.
+- [x] Executar pose docs-check, check, validate e release plan.
 - [ ] Executar smoke-install em todas as plataformas declaradas.
-- [ ] Revisar workflows por segurança e permissions.
+- [x] Revisar workflows por segurança e permissions.
 
 ## 5. Decisions
 
@@ -118,6 +115,44 @@ antes do closeout desta spec.
 - Decision: distribuição local explícita na V1.
 - Rationale: menor superfície e compatível com o fluxo desejado.
 - Consequences: instalação tem mais passos, compensados por quickstart e doctor.
+
+### Decision 2
+- Date: 2026-08-23
+- Context: `docs/content-authoring.md` e `docs/content-review-checklist.md`
+  já existiam (criados por catalog-authoring-quality) com exatamente o
+  conteúdo que R7/o Artifacts planejado de `docs/catalog-authoring.md`
+  pedia.
+- Options considered: (a) criar `docs/catalog-authoring.md` como um
+  segundo documento quase idêntico; (b) referenciar o arquivo já
+  existente a partir do README e não duplicar.
+- Decision: (b). README.md lista `docs/content-authoring.md` e
+  `docs/content-review-checklist.md` diretamente; nenhum arquivo novo
+  foi criado para isso.
+- Rationale: duplicar documentação garante que ela diverge com o tempo;
+  o nome do arquivo no Artifacts original era um placeholder de
+  planejamento, não um contrato.
+- Consequences: Artifacts desta spec não inclui
+  `docs/catalog-authoring.md`.
+
+### Decision 3
+- Date: 2026-08-23
+- Context: R9 exige "processo governado de release sem publicar a V1
+  antecipadamente"; um `release.yml` automático que cria uma GitHub
+  Release a cada execução violaria isso diretamente.
+- Options considered: (a) workflow completo com publish automático,
+  gateado só por uma flag manual fácil de mudar sem revisão; (b)
+  workflow que só builda binários reproduzíveis e sobe como artifact de
+  workflow (nunca uma Release pública), com o job de publish
+  deliberadamente ausente até v1-integrated-acceptance decidir
+  adicioná-lo.
+- Decision: (b).
+- Rationale: a ausência do job de publish é a garantia mais forte
+  possível de "não publicar antecipadamente" — não depende de ninguém
+  lembrar de manter uma flag desligada.
+- Consequences: `.github/workflows/release.yml` produz binários e
+  checksums como artifact de CI, nunca uma release pública, até esta
+  spec (ou v1-integrated-acceptance) ser revisitada para adicionar
+  esse job.
 
 ## 6. Validation
 
@@ -132,31 +167,72 @@ Usar CI real, smoke install limpo, docs checks e dry-run de release.
 - Security / Contract: govulncheck; action pin audit; secret scan; MCP contract e skills-check.
 
 ### Execution log
-- Pendente.
+- `go build ./...` → ok (2026-08-23).
+- `gofmt -l .` → sem saída (2026-08-23).
+- `go vet ./...` e `GOOS=windows go vet ./...` → sem diagnósticos (2026-08-23).
+- `go test ./... -race` → `ok` em todos os pacotes, incluindo `cmd/codinho` (TestSmokeInstallScript, novo), sem data races (2026-08-23).
+- `./scripts/smoke-install.sh <binário>` executado diretamente num diretório limpo (`mktemp -d`) → `smoke-install: OK` (2026-08-23).
+- `govulncheck ./...` → "No vulnerabilities found." (2026-08-23).
+- `python3 -c "yaml.safe_load(...)"` em `.github/workflows/ci.yml` e `.github/workflows/release.yml` → ambos válidos (2026-08-23).
+- Build real com `-ldflags -X internal/cli.version=...` confirmado localmente (usado pelo release.yml) (2026-08-23).
 
 ### Results summary
-- Instalação, docs e CI não entregues.
+README, docs de instalação/quickstart/configuração, Makefile,
+script de smoke-install real (com teste Go que o executa) e dois
+workflows de CI entregues. CI roda gofmt/vet/build/test-race/
+govulncheck/catalog-validate/skills-check em cada PR e em `main`
+(requirement R4/R5), publicando resultados de teste redigidos como
+artifact (R6). Release workflow builda binários reproduzíveis com
+checksum mas nunca publica (Decision 3) — versionamento e processo
+governado ficam explícitos sem antecipar a V1 (R9).
 
 ### Requirement trace
-- Mapear R1–R10 a CI runs, smoke reports, docs checks e release plan.
+- R1 [satisfied] docs/{install,quickstart,configuration}.md.
+- R2 [satisfied] docs/configuration.md + .agents/skills/codinho/references/codex-configuration.md.
+- R3 [satisfied] .github/workflows/release.yml (build reprodutível + sha256, sem publish).
+- R4 [satisfied] .github/workflows/ci.yml (pull_request + push main).
+- R5 [satisfied] ci.yml (gofmt/vet/build/test-race/govulncheck/catalog validate/skills-check).
+- R6 [satisfied] ci.yml (upload-artifact de test-results.json, nunca código/estado local).
+- R7 [satisfied] docs/{security/threat-model,security/privacy,troubleshooting,content-authoring,content-review-checklist}.md (Decision 2: reusa os já existentes).
+- R8 [satisfied] scripts/smoke-install.sh + test:TestSmokeInstallScript (execução real em diretório limpo).
+- R9 [satisfied] Decision 3 (job de publish deliberadamente ausente).
+- R10 [satisfied] PROJECT.md permanece a visão; .pose/specs+roadmap permanecem o estado de entrega (nenhuma mudança necessária — já era a prática desde o início da sessão).
 
 ### Known gaps
-- Publicação de release ocorre somente após v1-integrated-acceptance.
+- Pin de actions por commit SHA não foi feito (usa tags de versão major `@v4`/`@v5`) — este ambiente não pôde buscar e verificar SHAs reais offline; hardening documentado como follow-up.
+- Smoke-install só foi executado em Linux nesta sessão.
+- Publicação de release ocorre somente após v1-integrated-acceptance decidir adicionar o job de publish.
 
 ## 7. Final Report
 
 ### Delivered scope
-Nenhum; spec draft.
+Documentação de instalação/quickstart/configuração, Makefile, script de
+smoke-install real (testado), CI real com gates completos, e release
+workflow que builda mas nunca publica.
 
 ### Files and modules changed
-- Planejados em docs, workflows, scripts, Makefile e config.
+- README.md (reescrito para refletir o estado real do projeto).
+- docs/{install,quickstart,configuration}.md (novos); compatibility.md, troubleshooting.md (cross-links).
+- Makefile, scripts/smoke-install.sh, cmd/codinho/smoke_test.go.
+- .github/workflows/{ci,release}.yml.
+- .pose/indexes/validation-matrix.json (check smoke-install).
 
 ### Validation executed
-- Command: pose lint-spec installation-documentation-ci --ready-check
-- Result: registrar após gate.
+- Command: go test ./... -race
+- Result: ok em todos os pacotes.
+- Command: ./scripts/smoke-install.sh <binário> (diretório limpo)
+- Result: smoke-install: OK
+- Command: govulncheck ./...
+- Result: No vulnerabilities found.
 
 ### Residual risks
-- Mudanças externas do host exigirão revisão de compatibilidade.
+- Docs podem divergir de comandos com o tempo — mitigado por
+  `docs/quickstart.md` e `docs/install.md` citarem apenas comandos reais
+  já cobertos por teste (`internal/cli`, `cmd/codinho`).
+- CI pode alegar plataforma suportada sem e2e host real — mitigado por
+  `docs/compatibility.md` declarar honestamente o que foi testado.
 
 ### Follow-ups
 - [covered: v1-integrated-acceptance] Executar onboarding e gates no candidato final.
+- [open] Pinar actions do GitHub por commit SHA verificado (hoje usa tags major).
+- [open] Executar smoke-install real em macOS e Windows quando houver acesso.

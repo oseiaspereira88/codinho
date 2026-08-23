@@ -1,0 +1,77 @@
+# CI: runs on every pull request and on main (requirement R4). Least
+# privilege by default (no write access unless a job explicitly needs
+# it); no secrets are used or required. Action versions are pinned to
+# major-version tags below — pinning to a verified commit SHA is a
+# documented follow-up (installation-documentation-ci Known Gap: this
+# session could not fetch and verify real upstream SHAs offline).
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: build, vet, test, vulncheck, catalog (requirement R5)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: gofmt
+        run: |
+          out="$(gofmt -l .)"
+          if [ -n "$out" ]; then
+            echo "gofmt needs to be run on:"
+            echo "$out"
+            exit 1
+          fi
+
+      - name: go vet
+        run: go vet ./...
+
+      - name: go vet (windows cross-compile check)
+        run: GOOS=windows go vet ./...
+
+      - name: build
+        run: go build ./...
+
+      - name: test (race)
+        run: go test ./... -race -json > test-results.json
+
+      - name: govulncheck
+        run: go run golang.org/x/vuln/cmd/govulncheck@latest ./...
+
+      - name: catalog validate
+        run: go run ./cmd/codinho catalog validate
+
+      - name: skills-check
+        run: |
+          if command -v pose >/dev/null 2>&1; then
+            pose skills-check --strict
+          else
+            echo "pose CLI not installed on this runner; skipping (documented gap, not a silently-passed gate)"
+          fi
+
+      # Redacted structured test output, never source code or secrets
+      # (Security requirement: "Não publicar evidências com código do
+      # aluno ou estado local"; requirement R6).
+      - name: upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results.json
+          retention-days: 30

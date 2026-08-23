@@ -1,5 +1,8 @@
 # Codex CLI configuration example
 
+See also `docs/configuration.md` at the repository root for the
+extension-IDE equivalent and general MCP configuration notes.
+
 Copy the block below into your own Codex config location (see Codex
 CLI's current documentation for the exact path) and adjust
 `command`/`args` if `codinho` is not on your `PATH`. This example

@@ -4,6 +4,9 @@ Primeiro passo sempre: `codinho doctor` (ou `codinho doctor --json` para
 um relatório estruturado). Ele nunca imprime código, ambiente completo
 ou segredos — só o necessário para diagnosticar.
 
+Instalação do zero: [`docs/install.md`](install.md). Configuração de
+host: [`docs/configuration.md`](configuration.md).
+
 ## `lock: orphaned`
 
 **Sintoma**: `codinho doctor` reporta `lock: error (orphaned: the

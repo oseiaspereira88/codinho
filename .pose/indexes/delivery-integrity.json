@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "input_digest": "sha256:37c2501da0f8f4829409cc5adf6a0e5a650a6570d00a7f2b4ebefd88c5237f8b",
-  "provenance_digest": "sha256:1ddfbfb76d58170c09daef9f8394a320fb06c48e5be24940b1464e3b7ffc3673",
+  "input_digest": "sha256:bf268f858caec0c79d917af60f9c9246e737e2683db4f65957a8b2e4fe8785a9",
+  "provenance_digest": "sha256:f367a71682708c9b2c49466a47a32e84d5cdab65106e90a334624085a611ed00",
   "nodes": [
     {
       "id": "artifact:.agents/skills/codinho/SKILL.md",
@@ -148,6 +148,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/changelogs/unreleased/assistance-hints-detours.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/changelogs/unreleased/catalog-authoring-quality.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/changelogs/unreleased/catalog-authoring-quality.md"
       }
     },
     {
@@ -508,6 +515,13 @@
       }
     },
     {
+      "id": "artifact:.pose/review-attestations/rva-611620153db77aaf.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-attestations/rva-611620153db77aaf.json"
+      }
+    },
+    {
       "id": "artifact:.pose/review-attestations/rva-79dd6ac6a9aba5e2.json",
       "type": "artifact",
       "attributes": {
@@ -683,6 +697,13 @@
       }
     },
     {
+      "id": "artifact:.pose/review-bundles/rvb-c2343a54f5783771.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-bundles/rvb-c2343a54f5783771.json"
+      }
+    },
+    {
       "id": "artifact:.pose/review-bundles/rvb-f44c15a4e81fdc74.json",
       "type": "artifact",
       "attributes": {
@@ -806,6 +827,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/specs/2026-08-22-safe-check-executor.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/specs/2026-08-22-security-privacy-hardening.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/specs/2026-08-22-security-privacy-hardening.md"
       }
     },
     {
@@ -1366,6 +1394,13 @@
       "type": "artifact",
       "attributes": {
         "path": "internal/cli/output.go"
+      }
+    },
+    {
+      "id": "artifact:internal/cli/privacy.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/cli/privacy.go"
       }
     },
     {
@@ -2090,13 +2125,6 @@
       }
     },
     {
-      "id": "artifact:internal/security/redaction.go",
-      "type": "artifact",
-      "attributes": {
-        "path": "internal/security/redaction.go"
-      }
-    },
-    {
       "id": "artifact:internal/session/adaptation.go",
       "type": "artifact",
       "attributes": {
@@ -2510,13 +2538,6 @@
       }
     },
     {
-      "id": "artifact:testdata/security",
-      "type": "artifact",
-      "attributes": {
-        "path": "testdata/security"
-      }
-    },
-    {
       "id": "artifact:tests/compatibility",
       "type": "artifact",
       "attributes": {
@@ -2661,14 +2682,6 @@
       }
     },
     {
-      "id": "change-set:cs-837ef01a4385",
-      "type": "change-set",
-      "attributes": {
-        "diff_digest": "sha256:5997e2567f82c0f377c98c9fc8d2b8e5d5fcad7d2d3103edcb79822ee7fdee93",
-        "selector": "trailers:catalog-authoring-quality"
-      }
-    },
-    {
       "id": "change-set:cs-8589c5c09edb",
       "type": "change-set",
       "attributes": {
@@ -2682,6 +2695,14 @@
       "attributes": {
         "diff_digest": "sha256:d2cf16cc1d95cd9507cd10245b3c9a3a5b80b6cfe7d67088490db9ee94a0ca89",
         "selector": "trailers:catalog-schema-loader"
+      }
+    },
+    {
+      "id": "change-set:cs-935f795f88ee",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:78c43a4f6007048d27b00ad424e44a3f66e62ef5d14c7deb05ea39ab2e275ada",
+        "selector": "trailers:catalog-authoring-quality"
       }
     },
     {
@@ -2714,6 +2735,14 @@
       "attributes": {
         "diff_digest": "sha256:2630eee8e51bc2f84b881e57051a437ef05c9a358a72e39d1fcb27700a30c975",
         "selector": "trailers:assistance-hints-detours"
+      }
+    },
+    {
+      "id": "change-set:cs-f3fa7a0b342f",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:6241d55180f62763ab2ce0761a4ab3564bb6953f5cae0deacdb27b45448b480f",
+        "selector": "trailers:security-privacy-hardening"
       }
     },
     {
@@ -2779,7 +2808,7 @@
       "id": "spec:catalog-authoring-quality",
       "type": "spec",
       "attributes": {
-        "status": "in-progress"
+        "status": "done"
       }
     },
     {
@@ -2912,7 +2941,7 @@
       "id": "spec:security-privacy-hardening",
       "type": "spec",
       "attributes": {
-        "status": "draft"
+        "status": "in-progress"
       }
     },
     {
@@ -4854,121 +4883,6 @@
       "type": "changes"
     },
     {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:.pose/specs/2026-08-22-catalog-authoring-quality.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:cmd/codinho/cli_integration_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:docs/content-authoring.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:docs/content-review-checklist.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:internal/cli/catalog.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:internal/cli/cli_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:internal/cli/editorial.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:internal/cli/editorial_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:internal/curriculum/coverage.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:internal/curriculum/coverage_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:internal/curriculum/editorial.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:internal/curriculum/editorial_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:internal/curriculum/index.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:internal/curriculum/loader.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:internal/curriculum/model.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:internal/curriculum/playtest.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:internal/curriculum/validator.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:schemas/challenge.schema.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:schemas/editorial.schema.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:testdata/catalog-quality/editorial/manifest.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:testdata/catalog-quality/editorial/pack.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:testdata/catalog-quality/structural/manifest.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-837ef01a4385",
-      "to": "artifact:testdata/catalog-quality/structural/pack.yaml",
-      "type": "changes"
-    },
-    {
       "from": "change-set:cs-8589c5c09edb",
       "to": "artifact:.pose/assessments/README.md",
       "type": "changes"
@@ -5336,6 +5250,181 @@
     {
       "from": "change-set:cs-89ad08ccd8e2",
       "to": "artifact:schemas/pack.schema.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:.pose/assessments/README.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:.pose/assessments/consolidated.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:.pose/assessments/root.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:.pose/changelogs/unreleased/catalog-authoring-quality.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:.pose/indexes/delivery-integrity.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:.pose/indexes/releases.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:.pose/indexes/spec-graph.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:.pose/results/delivery-validation.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:.pose/review-attestations/rva-611620153db77aaf.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:.pose/review-bundles/rvb-c2343a54f5783771.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:.pose/specs/2026-08-22-catalog-authoring-quality.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:.pose/state/components/root.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:.pose/state/project-state.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:cmd/codinho/cli_integration_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:docs/content-authoring.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:docs/content-review-checklist.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:internal/cli/catalog.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:internal/cli/cli_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:internal/cli/editorial.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:internal/cli/editorial_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:internal/curriculum/coverage.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:internal/curriculum/coverage_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:internal/curriculum/editorial.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:internal/curriculum/editorial_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:internal/curriculum/index.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:internal/curriculum/loader.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:internal/curriculum/model.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:internal/curriculum/playtest.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:internal/curriculum/validator.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:schemas/challenge.schema.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:schemas/editorial.schema.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:testdata/catalog-quality/editorial/manifest.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:testdata/catalog-quality/editorial/pack.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:testdata/catalog-quality/structural/manifest.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-935f795f88ee",
+      "to": "artifact:testdata/catalog-quality/structural/pack.yaml",
       "type": "changes"
     },
     {
@@ -5849,6 +5938,86 @@
       "type": "changes"
     },
     {
+      "from": "change-set:cs-f3fa7a0b342f",
+      "to": "artifact:.pose/indexes/validation-matrix.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f3fa7a0b342f",
+      "to": "artifact:.pose/specs/2026-08-22-security-privacy-hardening.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f3fa7a0b342f",
+      "to": "artifact:cmd/codinho/cli_integration_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f3fa7a0b342f",
+      "to": "artifact:docs/security/executor-limitations.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f3fa7a0b342f",
+      "to": "artifact:docs/security/privacy.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f3fa7a0b342f",
+      "to": "artifact:docs/security/threat-model.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f3fa7a0b342f",
+      "to": "artifact:internal/application/checks.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f3fa7a0b342f",
+      "to": "artifact:internal/checks/security_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f3fa7a0b342f",
+      "to": "artifact:internal/cli/cli_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f3fa7a0b342f",
+      "to": "artifact:internal/cli/privacy.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f3fa7a0b342f",
+      "to": "artifact:internal/cli/root.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f3fa7a0b342f",
+      "to": "artifact:internal/mcpserver/check_contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f3fa7a0b342f",
+      "to": "artifact:internal/mcpserver/check_tools.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f3fa7a0b342f",
+      "to": "artifact:internal/security/policy.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f3fa7a0b342f",
+      "to": "artifact:internal/security/policy_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f3fa7a0b342f",
+      "to": "artifact:internal/workspace/security_test.go",
+      "type": "changes"
+    },
+    {
       "from": "delivery:capability:codinho-tutor",
       "to": "entrypoint:.agents/skills/codinho/SKILL.md",
       "type": "composes"
@@ -6240,7 +6409,7 @@
     },
     {
       "from": "spec:catalog-authoring-quality",
-      "to": "change-set:cs-837ef01a4385",
+      "to": "change-set:cs-935f795f88ee",
       "type": "observed-by"
     },
     {
@@ -7520,6 +7689,16 @@
     },
     {
       "from": "spec:security-privacy-hardening",
+      "to": "artifact:.pose/indexes/validation-matrix.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:security-privacy-hardening",
+      "to": "artifact:cmd/codinho/cli_integration_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:security-privacy-hardening",
       "to": "artifact:docs/security/executor-limitations.md",
       "type": "declares"
     },
@@ -7535,6 +7714,11 @@
     },
     {
       "from": "spec:security-privacy-hardening",
+      "to": "artifact:internal/application/checks.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:security-privacy-hardening",
       "to": "artifact:internal/checks/security_test.go",
       "type": "declares"
     },
@@ -7545,7 +7729,22 @@
     },
     {
       "from": "spec:security-privacy-hardening",
-      "to": "artifact:internal/mcpserver/contract_test.go",
+      "to": "artifact:internal/cli/privacy.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:security-privacy-hardening",
+      "to": "artifact:internal/cli/root.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:security-privacy-hardening",
+      "to": "artifact:internal/mcpserver/check_contract_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:security-privacy-hardening",
+      "to": "artifact:internal/mcpserver/check_tools.go",
       "type": "declares"
     },
     {
@@ -7560,18 +7759,13 @@
     },
     {
       "from": "spec:security-privacy-hardening",
-      "to": "artifact:internal/security/redaction.go",
-      "type": "declares"
-    },
-    {
-      "from": "spec:security-privacy-hardening",
       "to": "artifact:internal/workspace/security_test.go",
       "type": "declares"
     },
     {
       "from": "spec:security-privacy-hardening",
-      "to": "artifact:testdata/security",
-      "type": "declares"
+      "to": "change-set:cs-f3fa7a0b342f",
+      "type": "observed-by"
     },
     {
       "from": "spec:session-orchestration-disclosure",
@@ -9398,6 +9592,11 @@
     {
       "spec": "security-privacy-hardening",
       "action": "created",
+      "path": "internal/cli/privacy.go"
+    },
+    {
+      "spec": "security-privacy-hardening",
+      "action": "created",
       "path": "internal/security/policy.go"
     },
     {
@@ -9407,13 +9606,18 @@
     },
     {
       "spec": "security-privacy-hardening",
-      "action": "created",
-      "path": "internal/security/redaction.go"
+      "action": "modified",
+      "path": ".pose/indexes/validation-matrix.json"
     },
     {
       "spec": "security-privacy-hardening",
-      "action": "created",
-      "path": "testdata/security"
+      "action": "modified",
+      "path": "cmd/codinho/cli_integration_test.go"
+    },
+    {
+      "spec": "security-privacy-hardening",
+      "action": "modified",
+      "path": "internal/application/checks.go"
     },
     {
       "spec": "security-privacy-hardening",
@@ -9428,7 +9632,17 @@
     {
       "spec": "security-privacy-hardening",
       "action": "modified",
-      "path": "internal/mcpserver/contract_test.go"
+      "path": "internal/cli/root.go"
+    },
+    {
+      "spec": "security-privacy-hardening",
+      "action": "modified",
+      "path": "internal/mcpserver/check_contract_test.go"
+    },
+    {
+      "spec": "security-privacy-hardening",
+      "action": "modified",
+      "path": "internal/mcpserver/check_tools.go"
     },
     {
       "spec": "security-privacy-hardening",
@@ -11194,113 +11408,6 @@
       "diff_digest": "sha256:982d76126976e0ece14bc4d30494e229da2c49447393b28816ddab7d994db4af"
     },
     {
-      "id": "cs-837ef01a4385",
-      "spec": "catalog-authoring-quality",
-      "selector": "trailers:catalog-authoring-quality",
-      "base": "a64248ebe4776146a028120d0a68aaee8751bf90^",
-      "head": "a64248ebe4776146a028120d0a68aaee8751bf90",
-      "resolved_base": "48c34f87868825fd5f9d0aa8a7e5fe4823a38115",
-      "resolved_head": "a64248ebe4776146a028120d0a68aaee8751bf90",
-      "commits": [
-        "a64248ebe4776146a028120d0a68aaee8751bf90"
-      ],
-      "paths": [
-        {
-          "action": "created",
-          "path": "docs/content-authoring.md"
-        },
-        {
-          "action": "created",
-          "path": "docs/content-review-checklist.md"
-        },
-        {
-          "action": "created",
-          "path": "internal/cli/editorial.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/cli/editorial_test.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/curriculum/coverage.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/curriculum/coverage_test.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/curriculum/editorial.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/curriculum/editorial_test.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/curriculum/playtest.go"
-        },
-        {
-          "action": "created",
-          "path": "schemas/editorial.schema.json"
-        },
-        {
-          "action": "created",
-          "path": "testdata/catalog-quality/editorial/manifest.yaml"
-        },
-        {
-          "action": "created",
-          "path": "testdata/catalog-quality/editorial/pack.yaml"
-        },
-        {
-          "action": "created",
-          "path": "testdata/catalog-quality/structural/manifest.yaml"
-        },
-        {
-          "action": "created",
-          "path": "testdata/catalog-quality/structural/pack.yaml"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-catalog-authoring-quality.md"
-        },
-        {
-          "action": "modified",
-          "path": "cmd/codinho/cli_integration_test.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/cli/catalog.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/cli/cli_test.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/curriculum/index.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/curriculum/loader.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/curriculum/model.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/curriculum/validator.go"
-        },
-        {
-          "action": "modified",
-          "path": "schemas/challenge.schema.json"
-        }
-      ],
-      "diff_digest": "sha256:5997e2567f82c0f377c98c9fc8d2b8e5d5fcad7d2d3103edcb79822ee7fdee93"
-    },
-    {
       "id": "cs-8589c5c09edb",
       "spec": "curriculum-graph-path-recommendation",
       "selector": "trailers:curriculum-graph-path-recommendation",
@@ -11628,6 +11735,162 @@
         }
       ],
       "diff_digest": "sha256:d2cf16cc1d95cd9507cd10245b3c9a3a5b80b6cfe7d67088490db9ee94a0ca89"
+    },
+    {
+      "id": "cs-935f795f88ee",
+      "spec": "catalog-authoring-quality",
+      "selector": "trailers:catalog-authoring-quality",
+      "base": "a64248ebe4776146a028120d0a68aaee8751bf90^",
+      "head": "47326979ac6325a4215d2ef49fbba12335d02e85",
+      "resolved_base": "48c34f87868825fd5f9d0aa8a7e5fe4823a38115",
+      "resolved_head": "47326979ac6325a4215d2ef49fbba12335d02e85",
+      "commits": [
+        "a64248ebe4776146a028120d0a68aaee8751bf90",
+        "47326979ac6325a4215d2ef49fbba12335d02e85"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": ".pose/changelogs/unreleased/catalog-authoring-quality.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/review-attestations/rva-611620153db77aaf.json"
+        },
+        {
+          "action": "created",
+          "path": ".pose/review-bundles/rvb-c2343a54f5783771.json"
+        },
+        {
+          "action": "created",
+          "path": "docs/content-authoring.md"
+        },
+        {
+          "action": "created",
+          "path": "docs/content-review-checklist.md"
+        },
+        {
+          "action": "created",
+          "path": "internal/cli/editorial.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/cli/editorial_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/coverage.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/coverage_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/editorial.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/editorial_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/playtest.go"
+        },
+        {
+          "action": "created",
+          "path": "schemas/editorial.schema.json"
+        },
+        {
+          "action": "created",
+          "path": "testdata/catalog-quality/editorial/manifest.yaml"
+        },
+        {
+          "action": "created",
+          "path": "testdata/catalog-quality/editorial/pack.yaml"
+        },
+        {
+          "action": "created",
+          "path": "testdata/catalog-quality/structural/manifest.yaml"
+        },
+        {
+          "action": "created",
+          "path": "testdata/catalog-quality/structural/pack.yaml"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/README.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/consolidated.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/root.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/delivery-integrity.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/releases.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/spec-graph.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/results/delivery-validation.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-catalog-authoring-quality.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/root.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/project-state.md"
+        },
+        {
+          "action": "modified",
+          "path": "cmd/codinho/cli_integration_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/cli/catalog.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/cli/cli_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/index.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/loader.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/model.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/validator.go"
+        },
+        {
+          "action": "modified",
+          "path": "schemas/challenge.schema.json"
+        }
+      ],
+      "diff_digest": "sha256:78c43a4f6007048d27b00ad424e44a3f66e62ef5d14c7deb05ea39ab2e275ada"
     },
     {
       "id": "cs-987ed739adc0",
@@ -12105,6 +12368,86 @@
         }
       ],
       "diff_digest": "sha256:2630eee8e51bc2f84b881e57051a437ef05c9a358a72e39d1fcb27700a30c975"
+    },
+    {
+      "id": "cs-f3fa7a0b342f",
+      "spec": "security-privacy-hardening",
+      "selector": "trailers:security-privacy-hardening",
+      "base": "c378b9c1c06dea4ee0a0a602bd84810c2181e55f^",
+      "head": "35bbba5e1c585a8c5237d9fe517040b34e77e423",
+      "resolved_base": "47326979ac6325a4215d2ef49fbba12335d02e85",
+      "resolved_head": "35bbba5e1c585a8c5237d9fe517040b34e77e423",
+      "commits": [
+        "c378b9c1c06dea4ee0a0a602bd84810c2181e55f",
+        "35bbba5e1c585a8c5237d9fe517040b34e77e423"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": "docs/security/executor-limitations.md"
+        },
+        {
+          "action": "created",
+          "path": "docs/security/privacy.md"
+        },
+        {
+          "action": "created",
+          "path": "docs/security/threat-model.md"
+        },
+        {
+          "action": "created",
+          "path": "internal/cli/privacy.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/security/policy.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/security/policy_test.go"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/validation-matrix.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-security-privacy-hardening.md"
+        },
+        {
+          "action": "modified",
+          "path": "cmd/codinho/cli_integration_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/application/checks.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/checks/security_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/cli/cli_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/cli/root.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/check_contract_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/check_tools.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/workspace/security_test.go"
+        }
+      ],
+      "diff_digest": "sha256:6241d55180f62763ab2ce0761a4ab3564bb6953f5cae0deacdb27b45448b480f"
     }
   ],
   "reverse": {
@@ -12168,6 +12511,7 @@
       "administrative-cli-fixtures",
       "go-runtime-foundation",
       "mcp-stdio-foundation",
+      "security-privacy-hardening",
       "tutor-skill-host-integration"
     ],
     "Makefile": [
@@ -12179,7 +12523,8 @@
     "cmd/codinho/cli_integration_test.go": [
       "administrative-cli-fixtures",
       "catalog-authoring-quality",
-      "learning-practice-debug-modes"
+      "learning-practice-debug-modes",
+      "security-privacy-hardening"
     ],
     "cmd/codinho/integration_test.go": [
       "tutor-skill-host-integration"
@@ -12273,7 +12618,8 @@
       "session-orchestration-disclosure"
     ],
     "internal/application/checks.go": [
-      "safe-check-executor"
+      "safe-check-executor",
+      "security-privacy-hardening"
     ],
     "internal/application/checks_test.go": [
       "safe-check-executor"
@@ -12399,12 +12745,16 @@
     "internal/cli/output.go": [
       "administrative-cli-fixtures"
     ],
+    "internal/cli/privacy.go": [
+      "security-privacy-hardening"
+    ],
     "internal/cli/progress.go": [
       "administrative-cli-fixtures"
     ],
     "internal/cli/root.go": [
       "administrative-cli-fixtures",
-      "go-runtime-foundation"
+      "go-runtime-foundation",
+      "security-privacy-hardening"
     ],
     "internal/cli/root_test.go": [
       "go-runtime-foundation"
@@ -12669,10 +13019,12 @@
       "mcp-stdio-foundation"
     ],
     "internal/mcpserver/check_contract_test.go": [
-      "safe-check-executor"
+      "safe-check-executor",
+      "security-privacy-hardening"
     ],
     "internal/mcpserver/check_tools.go": [
-      "safe-check-executor"
+      "safe-check-executor",
+      "security-privacy-hardening"
     ],
     "internal/mcpserver/contract_test.go": [
       "assistance-hints-detours",
@@ -12683,7 +13035,6 @@
       "mastery-review-scheduling",
       "mcp-stdio-foundation",
       "safe-check-executor",
-      "security-privacy-hardening",
       "session-orchestration-disclosure",
       "workspace-observation-baselines"
     ],
@@ -12768,9 +13119,6 @@
       "security-privacy-hardening"
     ],
     "internal/security/policy_test.go": [
-      "security-privacy-hardening"
-    ],
-    "internal/security/redaction.go": [
       "security-privacy-hardening"
     ],
     "internal/session/adaptation.go": [
@@ -12963,9 +13311,6 @@
     "testdata/packs/production": [
       "go-production-architecture-packs"
     ],
-    "testdata/security": [
-      "security-privacy-hardening"
-    ],
     "tests/compatibility": [
       "reliability-observability-compatibility"
     ],
@@ -13009,15 +13354,6 @@
       "path": "internal/eventstore/fault_test.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec reliability-observability-compatibility (ensure commits carry 'POSE-Spec: reliability-observability-compatibility' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-03619f3f82b1",
-      "code": "existence",
-      "severity": "error",
-      "spec": "security-privacy-hardening",
-      "path": "testdata/security",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-04804efdc00f",
@@ -13072,15 +13408,6 @@
       "path": "testdata/packs/foundations",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec go-foundations-packs (ensure commits carry 'POSE-Spec: go-foundations-packs' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-0b7c13861cee",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "security-privacy-hardening",
-      "path": "internal/security/policy_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
     },
     {
       "id": "dif-1094cd299934",
@@ -13236,15 +13563,6 @@
       "remediation": "no Git change sets are attributed to spec go-foundations-packs (ensure commits carry 'POSE-Spec: go-foundations-packs' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-2869ac9043c7",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "security-privacy-hardening",
-      "path": "docs/security/executor-limitations.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-2b63b030b4e2",
       "code": "action-mismatch",
       "severity": "error",
@@ -13270,15 +13588,6 @@
       "path": "scripts/smoke-install.sh",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-2f1615097222",
-      "code": "existence",
-      "severity": "error",
-      "spec": "security-privacy-hardening",
-      "path": "docs/security/threat-model.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-2f2ea862eeeb",
@@ -13317,15 +13626,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-397b82d2d2f0",
-      "code": "existence",
-      "severity": "error",
-      "spec": "security-privacy-hardening",
-      "path": "docs/security/privacy.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-39f2e1d5cc43",
       "code": "action-mismatch",
       "severity": "error",
@@ -13335,15 +13635,6 @@
       "remediation": "no Git change sets are attributed to spec go-foundations-packs (ensure commits carry 'POSE-Spec: go-foundations-packs' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-3a6be6fa5094",
-      "code": "existence",
-      "severity": "error",
-      "spec": "security-privacy-hardening",
-      "path": "internal/security/policy.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-3ba4ec217521",
       "code": "existence",
       "severity": "error",
@@ -13351,15 +13642,6 @@
       "path": "internal/eventstore/fault_test.go",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-3bd9a730f0d5",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "security-privacy-hardening",
-      "path": "internal/checks/security_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
     },
     {
       "id": "dif-3cea106c54b8",
@@ -13416,15 +13698,6 @@
       "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-47bc39b0ea6a",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "security-privacy-hardening",
-      "path": "internal/workspace/security_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-4b67bb22e4ef",
       "code": "existence",
       "severity": "error",
@@ -13468,15 +13741,6 @@
       "path": "tests/e2e/modes",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-53a98de1b19a",
-      "code": "existence",
-      "severity": "error",
-      "spec": "security-privacy-hardening",
-      "path": "docs/security/executor-limitations.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-54510cb42f92",
@@ -13542,24 +13806,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-60a5c66a291d",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "security-privacy-hardening",
-      "path": "docs/security/privacy.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-66596b0747b3",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "security-privacy-hardening",
-      "path": "internal/security/redaction.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-69ff5c0ff467",
       "code": "action-mismatch",
       "severity": "error",
@@ -13603,15 +13849,6 @@
       "path": "tests/compatibility",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec reliability-observability-compatibility (ensure commits carry 'POSE-Spec: reliability-observability-compatibility' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-70f79dd43ff1",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "security-privacy-hardening",
-      "path": "internal/cli/cli_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
     },
     {
       "id": "dif-753eb10898d1",
@@ -13695,15 +13932,6 @@
       "remediation": "no Git change sets are attributed to spec go-foundations-packs (ensure commits carry 'POSE-Spec: go-foundations-packs' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-88c35fe26b69",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "security-privacy-hardening",
-      "path": "testdata/security",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-8a16a17033b1",
       "code": "action-mismatch",
       "severity": "error",
@@ -13749,15 +13977,6 @@
       "remediation": "no Git change sets are attributed to spec go-interviews-pack (ensure commits carry 'POSE-Spec: go-interviews-pack' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-98891965118c",
-      "code": "existence",
-      "severity": "error",
-      "spec": "security-privacy-hardening",
-      "path": "internal/security/redaction.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-98f12ec263b6",
       "code": "action-mismatch",
       "severity": "error",
@@ -13783,15 +14002,6 @@
       "path": "docs/catalog-authoring.md",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-9e33d642ba69",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "security-privacy-hardening",
-      "path": "docs/security/threat-model.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
     },
     {
       "id": "dif-a351218dabec",
@@ -13956,15 +14166,6 @@
       "remediation": "no Git change sets are attributed to spec go-production-architecture-packs (ensure commits carry 'POSE-Spec: go-production-architecture-packs' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-c9b663cbb863",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "security-privacy-hardening",
-      "path": "internal/mcpserver/contract_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-cb43e72efe7b",
       "code": "action-mismatch",
       "severity": "error",
@@ -14055,15 +14256,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-dffb37285e47",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "security-privacy-hardening",
-      "path": "internal/security/policy.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-e270eea0fa9d",
       "code": "existence",
       "severity": "error",
@@ -14125,15 +14317,6 @@
       "path": "docs/install.md",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-ff795f27b99b",
-      "code": "existence",
-      "severity": "error",
-      "spec": "security-privacy-hardening",
-      "path": "internal/security/policy_test.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
     }
   ],
   "deliveries": [
@@ -14173,15 +14356,15 @@
       "evidence_class": "build",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "a64248ebe4776146a028120d0a68aaee8751bf90",
-      "generated_at": "2026-08-23T09:21:32Z",
-      "provenance_digest": "sha256:1ddfbfb76d58170c09daef9f8394a320fb06c48e5be24940b1464e3b7ffc3673",
+      "git_head": "35bbba5e1c585a8c5237d9fe517040b34e77e423",
+      "generated_at": "2026-08-23T09:36:57Z",
+      "provenance_digest": "sha256:f367a71682708c9b2c49466a47a32e84d5cdab65106e90a334624085a611ed00",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
-        "catalog-authoring-quality": "sha256:7b770d3b40d1369b5c0a404f1ef703266ed0adf2f78556993c6d0ec58b8d38ee",
+        "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
@@ -14193,6 +14376,7 @@
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
+        "security-privacy-hardening": "sha256:500ba5787d66c5ff843b48e89d386465e4c1df5d39de6020fee56aec8e20bbd0",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
@@ -14205,15 +14389,15 @@
       "evidence_class": "e2e",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "a64248ebe4776146a028120d0a68aaee8751bf90",
-      "generated_at": "2026-08-23T09:21:32Z",
-      "provenance_digest": "sha256:1ddfbfb76d58170c09daef9f8394a320fb06c48e5be24940b1464e3b7ffc3673",
+      "git_head": "35bbba5e1c585a8c5237d9fe517040b34e77e423",
+      "generated_at": "2026-08-23T09:36:57Z",
+      "provenance_digest": "sha256:f367a71682708c9b2c49466a47a32e84d5cdab65106e90a334624085a611ed00",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
-        "catalog-authoring-quality": "sha256:7b770d3b40d1369b5c0a404f1ef703266ed0adf2f78556993c6d0ec58b8d38ee",
+        "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
@@ -14225,6 +14409,7 @@
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
+        "security-privacy-hardening": "sha256:500ba5787d66c5ff843b48e89d386465e4c1df5d39de6020fee56aec8e20bbd0",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
@@ -14237,15 +14422,15 @@
       "evidence_class": "reachability",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "a64248ebe4776146a028120d0a68aaee8751bf90",
-      "generated_at": "2026-08-23T09:21:32Z",
-      "provenance_digest": "sha256:1ddfbfb76d58170c09daef9f8394a320fb06c48e5be24940b1464e3b7ffc3673",
+      "git_head": "35bbba5e1c585a8c5237d9fe517040b34e77e423",
+      "generated_at": "2026-08-23T09:36:57Z",
+      "provenance_digest": "sha256:f367a71682708c9b2c49466a47a32e84d5cdab65106e90a334624085a611ed00",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
-        "catalog-authoring-quality": "sha256:7b770d3b40d1369b5c0a404f1ef703266ed0adf2f78556993c6d0ec58b8d38ee",
+        "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
@@ -14257,6 +14442,7 @@
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
+        "security-privacy-hardening": "sha256:500ba5787d66c5ff843b48e89d386465e4c1df5d39de6020fee56aec8e20bbd0",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
@@ -14269,15 +14455,15 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "a64248ebe4776146a028120d0a68aaee8751bf90",
-      "generated_at": "2026-08-23T09:21:32Z",
-      "provenance_digest": "sha256:1ddfbfb76d58170c09daef9f8394a320fb06c48e5be24940b1464e3b7ffc3673",
+      "git_head": "35bbba5e1c585a8c5237d9fe517040b34e77e423",
+      "generated_at": "2026-08-23T09:36:57Z",
+      "provenance_digest": "sha256:f367a71682708c9b2c49466a47a32e84d5cdab65106e90a334624085a611ed00",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
-        "catalog-authoring-quality": "sha256:7b770d3b40d1369b5c0a404f1ef703266ed0adf2f78556993c6d0ec58b8d38ee",
+        "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
@@ -14289,6 +14475,7 @@
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
+        "security-privacy-hardening": "sha256:500ba5787d66c5ff843b48e89d386465e4c1df5d39de6020fee56aec8e20bbd0",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
@@ -14301,15 +14488,15 @@
       "evidence_class": "unit",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "a64248ebe4776146a028120d0a68aaee8751bf90",
-      "generated_at": "2026-08-23T09:21:32Z",
-      "provenance_digest": "sha256:1ddfbfb76d58170c09daef9f8394a320fb06c48e5be24940b1464e3b7ffc3673",
+      "git_head": "35bbba5e1c585a8c5237d9fe517040b34e77e423",
+      "generated_at": "2026-08-23T09:36:57Z",
+      "provenance_digest": "sha256:f367a71682708c9b2c49466a47a32e84d5cdab65106e90a334624085a611ed00",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
-        "catalog-authoring-quality": "sha256:7b770d3b40d1369b5c0a404f1ef703266ed0adf2f78556993c6d0ec58b8d38ee",
+        "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
@@ -14321,6 +14508,7 @@
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
+        "security-privacy-hardening": "sha256:500ba5787d66c5ff843b48e89d386465e4c1df5d39de6020fee56aec8e20bbd0",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
@@ -14333,15 +14521,15 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "a64248ebe4776146a028120d0a68aaee8751bf90",
-      "generated_at": "2026-08-23T09:21:32Z",
-      "provenance_digest": "sha256:1ddfbfb76d58170c09daef9f8394a320fb06c48e5be24940b1464e3b7ffc3673",
+      "git_head": "35bbba5e1c585a8c5237d9fe517040b34e77e423",
+      "generated_at": "2026-08-23T09:36:57Z",
+      "provenance_digest": "sha256:f367a71682708c9b2c49466a47a32e84d5cdab65106e90a334624085a611ed00",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
-        "catalog-authoring-quality": "sha256:7b770d3b40d1369b5c0a404f1ef703266ed0adf2f78556993c6d0ec58b8d38ee",
+        "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
@@ -14353,6 +14541,7 @@
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
+        "security-privacy-hardening": "sha256:500ba5787d66c5ff843b48e89d386465e4c1df5d39de6020fee56aec8e20bbd0",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
@@ -14365,15 +14554,15 @@
       "evidence_class": "build",
       "severity": "optional",
       "outcome": "pass",
-      "git_head": "a64248ebe4776146a028120d0a68aaee8751bf90",
-      "generated_at": "2026-08-23T09:21:32Z",
-      "provenance_digest": "sha256:1ddfbfb76d58170c09daef9f8394a320fb06c48e5be24940b1464e3b7ffc3673",
+      "git_head": "35bbba5e1c585a8c5237d9fe517040b34e77e423",
+      "generated_at": "2026-08-23T09:36:57Z",
+      "provenance_digest": "sha256:f367a71682708c9b2c49466a47a32e84d5cdab65106e90a334624085a611ed00",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
-        "catalog-authoring-quality": "sha256:7b770d3b40d1369b5c0a404f1ef703266ed0adf2f78556993c6d0ec58b8d38ee",
+        "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
@@ -14385,6 +14574,7 @@
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
+        "security-privacy-hardening": "sha256:500ba5787d66c5ff843b48e89d386465e4c1df5d39de6020fee56aec8e20bbd0",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"

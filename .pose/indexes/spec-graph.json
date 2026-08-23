@@ -470,7 +470,7 @@
       ],
       "path": ".pose/specs/2026-08-22-catalog-authoring-quality.md",
       "priority": 170,
-      "status": "in-progress"
+      "status": "done"
     },
     "catalog-schema-loader": {
       "depends_on": [
@@ -663,7 +663,7 @@
       ],
       "path": ".pose/specs/2026-08-22-security-privacy-hardening.md",
       "priority": 220,
-      "status": "draft"
+      "status": "in-progress"
     },
     "session-orchestration-disclosure": {
       "depends_on": [

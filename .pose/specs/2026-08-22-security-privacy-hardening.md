@@ -1,8 +1,8 @@
 ---
 slug: security-privacy-hardening
-status: in-progress
+status: done
 created_at: 2026-08-22
-completed_at:
+completed_at: 2026-08-23
 supersedes:
 depends_on: mcp-stdio-foundation, workspace-observation-baselines, safe-check-executor, tutor-skill-host-integration, administrative-cli-fixtures
 priority: 220

@@ -488,7 +488,7 @@
       ],
       "path": ".pose/specs/2026-08-22-curriculum-graph-path-recommendation.md",
       "priority": 120,
-      "status": "draft"
+      "status": "in-progress"
     },
     "eventstore-idempotency-scope": {
       "depends_on": [
@@ -617,7 +617,7 @@
       ],
       "path": ".pose/specs/2026-08-22-mastery-review-scheduling.md",
       "priority": 110,
-      "status": "in-progress"
+      "status": "done"
     },
     "mcp-stdio-foundation": {
       "depends_on": [

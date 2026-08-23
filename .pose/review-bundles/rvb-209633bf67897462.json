@@ -1,0 +1,752 @@
+{
+  "schema_version": 1,
+  "bundle_id": "rvb-209633bf67897462",
+  "bundle_digest": "sha256:209633bf678974626e721bce1968488497763b4356872406ab4463c095b0ed3f",
+  "state": "sealed",
+  "sealed_at": "2026-08-23T07:34:15Z",
+  "payload": {
+    "scope": {
+      "ref": "spec:curriculum-graph-path-recommendation",
+      "kind": "spec",
+      "slug": "curriculum-graph-path-recommendation",
+      "depends_on": [
+        "catalog-schema-loader",
+        "mastery-review-scheduling"
+      ],
+      "components": [
+        "curriculum",
+        "recommendations"
+      ],
+      "sections": [
+        {
+          "kind": "semantic-section",
+          "path": "decisions",
+          "digest": "sha256:4bfe04cf660aa82f62be43d841775d4d2c9f0b1f0028f174fe6b31bfb9503b15",
+          "reason": "governed semantic review input"
+        },
+        {
+          "kind": "semantic-section",
+          "path": "intent",
+          "digest": "sha256:d22b0dc9865d68cb0ca34dd0f0835e7771057558954665598e383c751914f306",
+          "reason": "governed semantic review input"
+        },
+        {
+          "kind": "semantic-section",
+          "path": "requirements",
+          "digest": "sha256:c502fcd3ea02dbffbb496eb9cbacd6a403a3358a00501e5d77308c5a3b462e84",
+          "reason": "governed semantic review input"
+        },
+        {
+          "kind": "semantic-section",
+          "path": "technical plan",
+          "digest": "sha256:04d672bdcb01e3d46398ed1ce00ef3fd730026433971f30e1a8ecc3c3428718a",
+          "reason": "governed semantic review input"
+        }
+      ]
+    },
+    "subject": {
+      "change_sets": [
+        "cs-3cd1fc67a4eb"
+      ],
+      "base": "3b6888091ae013bf11417c4be505c0d239a2f5de",
+      "head": "43799bc0604180e57e61eeca8b497cfac6ffa18e",
+      "patch_digest": "sha256:7e8dbce3949ad58a53bc1d918ff74e72b445e1d90fd59ff96770e06134d77c0b",
+      "tree_digest": "sha256:2280808dfd13e9cd43b7a46f112a0fa682d7432fc23f6060e4a89404df6c83e0",
+      "entries": [
+        {
+          "action": "created",
+          "path": "internal/application/recommendation.go",
+          "class": "implementation",
+          "digest": "sha256:4113a9619cece6e49c138d4d08d1179131386770f0d884fb68febba95cf2a84f",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/application/recommendation_test.go",
+          "class": "implementation",
+          "digest": "sha256:aa69f48f217fe44c8cda35417a03061307926f0181b63eb72c2843d0157c32cc",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/graph.go",
+          "class": "implementation",
+          "digest": "sha256:173675f20afb3b334803d10c17e29d391de73aea31751ea14299004ca269574e",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/graph_test.go",
+          "class": "implementation",
+          "digest": "sha256:89340fc96bc47888c1cc8be17388cb00da7796bb6d3c2e93b9c70a17e97ed5f7",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/search.go",
+          "class": "implementation",
+          "digest": "sha256:5bac96ca3acb099e2405465ea84cb1bf66bcdc3cb0d95b55b85780888578a8d7",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/search_bench_test.go",
+          "class": "implementation",
+          "digest": "sha256:770ca36942ce3894c0efca9c3bd65f672dbf0bc7c97aa15b09cab503200dfa17",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/search_test.go",
+          "class": "implementation",
+          "digest": "sha256:d3c4322f7756c2b4d6346db72763e22976129eb64fbc1799b08bab136071eb47",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/testdata/relation_cycle/manifest.yaml",
+          "class": "implementation",
+          "digest": "sha256:09264d7983b219da06a7ca76f429ff888788bda85af1ddeb6e875f6f85829a12",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/testdata/relation_cycle/pack.yaml",
+          "class": "implementation",
+          "digest": "sha256:36e3a8a4cf853d1d6428792951d25928fd7d46f0098ce80c69e0a33700fa7f92",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/testdata/unknown_relation_kind/manifest.yaml",
+          "class": "implementation",
+          "digest": "sha256:09264d7983b219da06a7ca76f429ff888788bda85af1ddeb6e875f6f85829a12",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/testdata/unknown_relation_kind/pack.yaml",
+          "class": "implementation",
+          "digest": "sha256:2701efadb4d769ac9acbb502db64d0fba376573bf9c53b3a0ce932e32f46e17f",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/mcpserver/recommendation_contract_test.go",
+          "class": "implementation",
+          "digest": "sha256:7aa19b828d18a99f7001a184574ff0215a5e26bd2fb872e12b44ad6d646b5145",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/mcpserver/recommendation_tools.go",
+          "class": "implementation",
+          "digest": "sha256:b3528c7de33f11592c8cf4296a60ed8dfc5b4b3439f44e9d7b89448e24fd9dd3",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/recommendation/explanation.go",
+          "class": "implementation",
+          "digest": "sha256:83068fa119de260f3f7454a1069640c73f0765186e7b2f11be8c3e64a1ff6759",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/recommendation/model.go",
+          "class": "implementation",
+          "digest": "sha256:af75f61569088d8e837fc6097c0133f1d20b710bdfb41bbfc445960666a91013",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/recommendation/service.go",
+          "class": "implementation",
+          "digest": "sha256:9004a9314b02a7f162bf9769cb60075f2d5fe2a97777adf7eba88cf01fd9d30f",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/recommendation/service_test.go",
+          "class": "implementation",
+          "digest": "sha256:a198e936f140ee9a741288dfa9d1031f3ed2026f4bb4abce987adedf0218160e",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "cmd/codinho/main.go",
+          "class": "implementation",
+          "digest": "sha256:2e07f31deba35ea1f293b6cd61b035cf54cc5c5fee1cbc85da7015061c4918da",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/application/catalog.go",
+          "class": "implementation",
+          "digest": "sha256:8c87a27998b28650ef8df2272c793af980ca99111ba3b550c7ca2a583a5de086",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/index.go",
+          "class": "implementation",
+          "digest": "sha256:6314ab21c374ca4533b41374a4651710be06e95c923b8f59fc5f8a7485cb54a1",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/model.go",
+          "class": "implementation",
+          "digest": "sha256:304b48597ab5916663973fb9e737b295a5c07ed49611b5eb32e19561c851f260",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/testdata/valid/pack.yaml",
+          "class": "implementation",
+          "digest": "sha256:31ef64404f50db3f4b8c4d79557116b00d1bf195004263166b17c9a7df6b61b3",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/validator.go",
+          "class": "implementation",
+          "digest": "sha256:aa73e11872066d96a1cb9ebd72c658de3895dbfa6874cf1c1825719a31b94821",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mastery/model.go",
+          "class": "implementation",
+          "digest": "sha256:ab50922e298be51cb1266e7881ea24ba6b3c54ce47be48adfd4fa819d57f9c40",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mastery/rules_test.go",
+          "class": "implementation",
+          "digest": "sha256:8c5485f6ab8f420deee6e064d5df70dc91f9bfc1732219f86a72db7f56e6cc4f",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/catalog_tools.go",
+          "class": "implementation",
+          "digest": "sha256:9c3234557267b5428d4cf6ba554a6c65650b6cae2810cf144cef4f68f77bee35",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/contract_test.go",
+          "class": "implementation",
+          "digest": "sha256:f64aba5274790cfda0e34e8a9f6b25864da998f7437ded519d031e2d627139f6",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/errors.go",
+          "class": "implementation",
+          "digest": "sha256:be3ac181c36dcc9f96970338b43797e0147a42a096f64d0bf6df4e8dff5cdf57",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/server.go",
+          "class": "implementation",
+          "digest": "sha256:1935f3aeac66c8a3d9def5248fe8b758516d6acbcc74a947566550f767d4dad4",
+          "reason": "attributed implementation path in the immutable change set"
+        }
+      ]
+    },
+    "plan": {
+      "plan_digest": "sha256:4eab41c430e538d8c63b605c4aba038f41c705a5b608722dcce7b46b267664b2",
+      "independence": "same-actor-separate-execution",
+      "components": [
+        {
+          "id": "cmd",
+          "path": "cmd",
+          "kind": "directory",
+          "sources": [
+            "artifact:curriculum-graph-path-recommendation:cmd/codinho/main.go",
+            "observed:curriculum-graph-path-recommendation:cmd/codinho/main.go"
+          ]
+        },
+        {
+          "id": "internal",
+          "path": "internal",
+          "kind": "directory",
+          "sources": [
+            "artifact:curriculum-graph-path-recommendation:internal/application/catalog.go",
+            "artifact:curriculum-graph-path-recommendation:internal/application/recommendation.go",
+            "artifact:curriculum-graph-path-recommendation:internal/application/recommendation_test.go",
+            "artifact:curriculum-graph-path-recommendation:internal/curriculum/graph.go",
+            "artifact:curriculum-graph-path-recommendation:internal/curriculum/graph_test.go",
+            "artifact:curriculum-graph-path-recommendation:internal/curriculum/index.go",
+            "artifact:curriculum-graph-path-recommendation:internal/curriculum/model.go",
+            "artifact:curriculum-graph-path-recommendation:internal/curriculum/search.go",
+            "artifact:curriculum-graph-path-recommendation:internal/curriculum/search_bench_test.go",
+            "artifact:curriculum-graph-path-recommendation:internal/curriculum/search_test.go",
+            "artifact:curriculum-graph-path-recommendation:internal/curriculum/testdata/relation_cycle/manifest.yaml",
+            "artifact:curriculum-graph-path-recommendation:internal/curriculum/testdata/relation_cycle/pack.yaml",
+            "artifact:curriculum-graph-path-recommendation:internal/curriculum/testdata/unknown_relation_kind/manifest.yaml",
+            "artifact:curriculum-graph-path-recommendation:internal/curriculum/testdata/unknown_relation_kind/pack.yaml",
+            "artifact:curriculum-graph-path-recommendation:internal/curriculum/testdata/valid/pack.yaml",
+            "artifact:curriculum-graph-path-recommendation:internal/curriculum/validator.go",
+            "artifact:curriculum-graph-path-recommendation:internal/mastery/model.go",
+            "artifact:curriculum-graph-path-recommendation:internal/mastery/rules_test.go",
+            "artifact:curriculum-graph-path-recommendation:internal/mcpserver/catalog_tools.go",
+            "artifact:curriculum-graph-path-recommendation:internal/mcpserver/contract_test.go",
+            "artifact:curriculum-graph-path-recommendation:internal/mcpserver/errors.go",
+            "artifact:curriculum-graph-path-recommendation:internal/mcpserver/recommendation_contract_test.go",
+            "artifact:curriculum-graph-path-recommendation:internal/mcpserver/recommendation_tools.go",
+            "artifact:curriculum-graph-path-recommendation:internal/mcpserver/server.go",
+            "artifact:curriculum-graph-path-recommendation:internal/recommendation/explanation.go",
+            "artifact:curriculum-graph-path-recommendation:internal/recommendation/model.go",
+            "artifact:curriculum-graph-path-recommendation:internal/recommendation/service.go",
+            "artifact:curriculum-graph-path-recommendation:internal/recommendation/service_test.go",
+            "observed:curriculum-graph-path-recommendation:internal/application/catalog.go",
+            "observed:curriculum-graph-path-recommendation:internal/application/recommendation.go",
+            "observed:curriculum-graph-path-recommendation:internal/application/recommendation_test.go",
+            "observed:curriculum-graph-path-recommendation:internal/curriculum/graph.go",
+            "observed:curriculum-graph-path-recommendation:internal/curriculum/graph_test.go",
+            "observed:curriculum-graph-path-recommendation:internal/curriculum/index.go",
+            "observed:curriculum-graph-path-recommendation:internal/curriculum/model.go",
+            "observed:curriculum-graph-path-recommendation:internal/curriculum/search.go",
+            "observed:curriculum-graph-path-recommendation:internal/curriculum/search_bench_test.go",
+            "observed:curriculum-graph-path-recommendation:internal/curriculum/search_test.go",
+            "observed:curriculum-graph-path-recommendation:internal/curriculum/testdata/relation_cycle/manifest.yaml",
+            "observed:curriculum-graph-path-recommendation:internal/curriculum/testdata/relation_cycle/pack.yaml",
+            "observed:curriculum-graph-path-recommendation:internal/curriculum/testdata/unknown_relation_kind/manifest.yaml",
+            "observed:curriculum-graph-path-recommendation:internal/curriculum/testdata/unknown_relation_kind/pack.yaml",
+            "observed:curriculum-graph-path-recommendation:internal/curriculum/testdata/valid/pack.yaml",
+            "observed:curriculum-graph-path-recommendation:internal/curriculum/validator.go",
+            "observed:curriculum-graph-path-recommendation:internal/mastery/model.go",
+            "observed:curriculum-graph-path-recommendation:internal/mastery/rules_test.go",
+            "observed:curriculum-graph-path-recommendation:internal/mcpserver/catalog_tools.go",
+            "observed:curriculum-graph-path-recommendation:internal/mcpserver/contract_test.go",
+            "observed:curriculum-graph-path-recommendation:internal/mcpserver/errors.go",
+            "observed:curriculum-graph-path-recommendation:internal/mcpserver/recommendation_contract_test.go",
+            "observed:curriculum-graph-path-recommendation:internal/mcpserver/recommendation_tools.go",
+            "observed:curriculum-graph-path-recommendation:internal/mcpserver/server.go",
+            "observed:curriculum-graph-path-recommendation:internal/recommendation/explanation.go",
+            "observed:curriculum-graph-path-recommendation:internal/recommendation/model.go",
+            "observed:curriculum-graph-path-recommendation:internal/recommendation/service.go",
+            "observed:curriculum-graph-path-recommendation:internal/recommendation/service_test.go"
+          ]
+        }
+      ],
+      "criteria": [
+        {
+          "id": "compatibility",
+          "description": "Public CLI, file and MCP contracts are compatible or explicitly migrated.",
+          "required": true,
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "correctness",
+          "description": "Functional and negative behavior is correct.",
+          "required": true,
+          "evidence_classes": [
+            "test",
+            "validation"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "cross-component-integration",
+          "description": "Observed component boundaries and contracts are integrated and covered by current evidence.",
+          "required": true,
+          "evidence_classes": [
+            "integration"
+          ],
+          "profiles": [
+            "synthetic:cross-component"
+          ]
+        },
+        {
+          "id": "documentation",
+          "description": "Operational docs, templates and scaffold match runtime behavior.",
+          "required": true,
+          "rules": [
+            "documentation-style"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "operability",
+          "description": "Errors, explanations and remediation are actionable.",
+          "required": true,
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "requirements",
+          "description": "Every requirement has current, relevant evidence.",
+          "required": true,
+          "evidence_classes": [
+            "requirement-trace",
+            "test"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "scope",
+          "description": "The implementation matches the approved spec scope.",
+          "required": true,
+          "rules": [
+            "documentation-style"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "security",
+          "description": "Inputs, paths, evidence and authority boundaries are safe.",
+          "required": true,
+          "rules": [
+            "security"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        }
+      ],
+      "tools": [
+        {
+          "id": "artifact-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "artifact-check",
+            "--spec",
+            "curriculum-graph-path-recommendation",
+            "--strict"
+          ],
+          "rationale": "reconcile declared artifacts with Git-observed provenance",
+          "criteria": [
+            "requirements",
+            "scope"
+          ],
+          "preconditions": [
+            "artifacts-attributed"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            "cmd"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": "cmd",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            "internal"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": "internal",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-integrate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "assess",
+            "integrate"
+          ],
+          "rationale": "inspect providers, consumers and inter-component contract gaps",
+          "evidence_classes": [
+            "integration"
+          ],
+          "criteria": [
+            "cross-component-integration"
+          ],
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-tech-debt",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "tech-debt"
+          ],
+          "rationale": "inspect unresolved TODO, FIXME, panic and stub findings",
+          "criteria": [
+            "correctness"
+          ],
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "closeout-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "closeout-check",
+            "spec:curriculum-graph-path-recommendation"
+          ],
+          "rationale": "verify remaining hierarchical closeout blockers",
+          "preconditions": [
+            "review-complete"
+          ]
+        },
+        {
+          "id": "review-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "review-check",
+            "spec:curriculum-graph-path-recommendation"
+          ],
+          "rationale": "verify exact review-plan coverage and freshness",
+          "preconditions": [
+            "review-complete"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            "cmd"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": "cmd",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            "internal"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": "internal",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "validation"
+          ],
+          "criteria": [
+            "correctness",
+            "requirements"
+          ],
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            "cmd"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "validation"
+          ],
+          "component": "cmd",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            "internal"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "validation"
+          ],
+          "component": "internal",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        }
+      ]
+    },
+    "evidence": [
+      {
+        "id": "./go/build",
+        "module": ".",
+        "check": "build",
+        "evidence_class": "build",
+        "outcome": "pass",
+        "git_head": "43799bc0604180e57e61eeca8b497cfac6ffa18e",
+        "provenance_digest": "sha256:c3ce8fa8ae01204d5085f6c7a55904d42693d5afffff625a07039a24563321d6",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/mcp-contract",
+        "module": ".",
+        "check": "mcp-contract",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "43799bc0604180e57e61eeca8b497cfac6ffa18e",
+        "provenance_digest": "sha256:c3ce8fa8ae01204d5085f6c7a55904d42693d5afffff625a07039a24563321d6",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/test",
+        "module": ".",
+        "check": "test",
+        "evidence_class": "unit",
+        "outcome": "pass",
+        "git_head": "43799bc0604180e57e61eeca8b497cfac6ffa18e",
+        "provenance_digest": "sha256:c3ce8fa8ae01204d5085f6c7a55904d42693d5afffff625a07039a24563321d6",
+        "report": ".pose/results/delivery-validation.json"
+      }
+    ],
+    "consumed_inputs": [
+      {
+        "kind": "governed-config",
+        "path": ".pose/indexes/validation-matrix.json",
+        "digest": "sha256:45811b492e1a9cac051aa88e8a2e48bbe3be5936a95bebb1ac599a04a84b99c1",
+        "reason": "consumed review policy or validation contract"
+      },
+      {
+        "kind": "governed-config",
+        "path": ".pose/policy/review.json",
+        "digest": "sha256:89a78e6ec6e1806414c669e66239831b593c08b9a182e36fae119bccecd28b5e",
+        "reason": "consumed review policy or validation contract"
+      },
+      {
+        "kind": "review-plan",
+        "path": "spec-closeout@1",
+        "digest": "sha256:4eab41c430e538d8c63b605c4aba038f41c705a5b608722dcce7b46b267664b2",
+        "reason": "effective component-aware plan contract"
+      },
+      {
+        "kind": "review-profile",
+        "path": ".pose/review-profiles/spec-closeout.json",
+        "digest": "sha256:de13c1d59e485aaf4cb474a8c2836507447c44dc7090cbdc2de589fa75c6cc92",
+        "reason": "selected by effective review plan"
+      },
+      {
+        "kind": "rule",
+        "path": ".pose/rules/documentation-style.md",
+        "digest": "sha256:5c5c666fc6c796cf9ae3876d25d3fd4fa523d121892459dc0d681d73da1d60ae",
+        "reason": "selected by effective review criterion"
+      },
+      {
+        "kind": "rule",
+        "path": ".pose/rules/security.md",
+        "digest": "sha256:1cbf29c12d09cad0799e2d8715e94f84a49ee8fa09867bb5f12a544f8df43774",
+        "reason": "selected by effective review criterion"
+      },
+      {
+        "kind": "schema",
+        "path": "review-bundle@1",
+        "digest": "sha256:e7c9643ec88eccb2a6dea3ee3291c351983d78e1d2fa44b61399514c5021bcb0",
+        "reason": "canonical bundle and attestation schema identity"
+      },
+      {
+        "kind": "tool-catalog",
+        "path": "native-review-tools@1",
+        "digest": "sha256:4eab41c430e538d8c63b605c4aba038f41c705a5b608722dcce7b46b267664b2",
+        "reason": "closed resolved native tool contract"
+      }
+    ]
+  },
+  "excluded_inputs": [
+    {
+      "kind": "derived-section",
+      "path": "final report",
+      "digest": "sha256:41ddc5ae0dcb86ef9d99cc5e76aa8a76242c60b9f3b0e58ca6523404fab20c29",
+      "reason": "operational closeout content is verified by its own gate"
+    },
+    {
+      "kind": "derived-section",
+      "path": "tasks",
+      "digest": "sha256:fa57ceec3973819cb8fc8e549888c6036bd6bd61b79cf197806093b7cedbfd03",
+      "reason": "operational closeout content is verified by its own gate"
+    },
+    {
+      "kind": "derived-section",
+      "path": "validation",
+      "digest": "sha256:32498801f21c535a651926dd6dcd83778251cfb08b14890826f9d06778e45b96",
+      "reason": "operational closeout content is verified by its own gate"
+    },
+    {
+      "kind": "lifecycle",
+      "path": "/home/go/GolandProjects/ai-code-micro-learning/.pose/specs/2026-08-22-curriculum-graph-path-recommendation.md",
+      "reason": "status and completed_at do not define the reviewed semantic subject"
+    },
+    {
+      "kind": "semantic-scope",
+      "path": ".pose/specs/2026-08-22-catalog-authoring-quality.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "semantic-scope",
+      "path": ".pose/specs/2026-08-22-curriculum-graph-path-recommendation.md",
+      "reason": "attributed path is outside the semantic review subject"
+    }
+  ],
+  "warnings": [
+    "unmapped review component explicit:curriculum",
+    "unmapped review component explicit:recommendations"
+  ],
+  "path": ".pose/review-bundles/rvb-209633bf67897462.json"
+}

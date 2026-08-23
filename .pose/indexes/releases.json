@@ -17,6 +17,14 @@
       "digest": "sha256:8de7a65d124e2a60b5624dd49059320814161556d5675fa3b5af9efdf11dd25d"
     },
     {
+      "spec": "mastery-review-scheduling",
+      "category": "added",
+      "breaking": false,
+      "body": "O tutor agora projeta domínio do aluno em oito dimensões independentes\n(compreensão, sintaxe, implementação guiada e autônoma, depuração,\nexplicação, retenção e transferência) por regras transparentes, e\nagenda revisões espaçadas que se adaptam ao resultado real — sem nunca\npromover domínio por uma única conclusão guiada ou por uma solução\nrevelada.",
+      "path": "mastery-review-scheduling.md",
+      "digest": "sha256:1bcb94fd1a8affa8b580584a52eba850e3af1841ef4d29301080c1ea1b0efc33"
+    },
+    {
       "spec": "mcp-stdio-foundation",
       "category": "added",
       "breaking": false,

@@ -73,7 +73,7 @@ Permitir feedback e avaliação baseados no que o aluno realmente produziu, pres
 - created: internal/mcpserver/workspace_tools.go
 - created: internal/mcpserver/workspace_contract_test.go
 - modified: internal/mcpserver/server.go
-- modified: internal/mcpserver/envelope.go
+- modified: internal/mcpserver/errors.go
 - modified: internal/mcpserver/contract_test.go
 - modified: cmd/codinho/main.go
 

@@ -116,7 +116,28 @@ type ChallengeAuthoring struct {
 	// only thing that ever materializes it onto disk (administrative-cli-
 	// fixtures requirement R6).
 	Fixture []FixtureFileAuthoring `yaml:"fixture"`
+	// Publication declares editorial metadata gating status: published
+	// (catalog-authoring-quality requirement R7). A zero value (empty
+	// Status) is an ordinary, unpublished authoring draft and is never
+	// flagged by the editorial gate.
+	Publication PublicationAuthoring `yaml:"publication"`
 }
+
+// PublicationAuthoring is the editorial metadata catalog-authoring-
+// quality requires before a challenge may declare `status: published`:
+// who authored it, who reviewed it (a different person, per Constraint
+// "revisão... por pessoa diferente do autor"), and whether it was
+// playtested.
+type PublicationAuthoring struct {
+	Status     string `yaml:"status"`
+	Author     string `yaml:"author"`
+	ReviewedBy string `yaml:"reviewed_by"`
+	Playtested bool   `yaml:"playtested"`
+}
+
+// StatusPublished is the only PublicationAuthoring.Status value the
+// editorial gate enforces metadata for.
+const StatusPublished = "published"
 
 // FixtureFileAuthoring is one file a workspace-prepare command materializes
 // verbatim into the learner's chosen destination.

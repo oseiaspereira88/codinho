@@ -56,7 +56,8 @@
           "runner": { "type": "string" },
           "package": { "type": "string" },
           "test_pattern": { "type": "string" },
-          "timeout": { "type": "string" }
+          "timeout": { "type": "string" },
+          "network": { "type": "boolean", "description": "Defaults to false (denied); safe-check-executor requirement R5." }
         }
       }
     },
@@ -64,6 +65,30 @@
       "type": "array",
       "items": { "type": "string" },
       "description": "Reserved: never exposed by the catalog's default public queries."
+    },
+    "fixture": {
+      "type": "array",
+      "description": "Starter files this challenge ships (e.g. buggy code for a debug challenge); administrative-cli-fixtures requirement R6.",
+      "items": {
+        "type": "object",
+        "required": ["path", "content"],
+        "additionalProperties": false,
+        "properties": {
+          "path": { "type": "string", "minLength": 1, "description": "Relative, never absolute or containing '..'." },
+          "content": { "type": "string" }
+        }
+      }
+    },
+    "publication": {
+      "type": "object",
+      "description": "Editorial metadata gating status: published (catalog-authoring-quality requirement R7).",
+      "additionalProperties": false,
+      "properties": {
+        "status": { "type": "string", "enum": ["", "draft", "published"] },
+        "author": { "type": "string" },
+        "reviewed_by": { "type": "string", "description": "Must differ from author when status is published." },
+        "playtested": { "type": "boolean" }
+      }
     }
   },
   "definitions": {

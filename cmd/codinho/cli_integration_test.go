@@ -34,6 +34,8 @@ challenges:
     difficulty: foundational
     competencies:
       primary: [comp-a]
+    acceptance:
+      - O bug relatado deixa de ocorrer.
     layers:
       - id: understanding
         macro_steps:

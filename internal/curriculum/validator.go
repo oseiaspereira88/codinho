@@ -3,6 +3,7 @@ package curriculum
 import (
 	"path"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strings"
 )
@@ -24,7 +25,15 @@ const (
 	DiagRelationCycle             DiagnosticCode = "relation_cycle"
 	DiagInvalidFixturePath        DiagnosticCode = "invalid_fixture_path"
 	DiagDuplicateFixturePath      DiagnosticCode = "duplicate_fixture_path"
+	DiagInvalidVersion            DiagnosticCode = "invalid_version"
 )
+
+// semverPattern requires a plain major.minor.patch version (catalog-
+// authoring-quality requirement R1: "validar... versões"). It
+// intentionally rejects pre-release/build metadata suffixes: pack and
+// challenge versions are simple content revisions, not software
+// releases.
+var semverPattern = regexp.MustCompile(`^[0-9]+\.[0-9]+\.[0-9]+$`)
 
 // Diagnostic reports one finding with the file, item and field it came
 // from, so authors can locate and fix it (requirement R4). Blocking
@@ -63,6 +72,14 @@ func Validate(packs []Pack) []Diagnostic {
 	}
 
 	for _, p := range packs {
+		if !semverPattern.MatchString(p.Version) {
+			diags = append(diags, Diagnostic{File: p.File, Item: p.ID, Field: "version", Code: DiagInvalidVersion, Detail: p.Version, Blocking: true})
+		}
+		for _, ch := range p.Challenges {
+			if !semverPattern.MatchString(ch.Version) {
+				diags = append(diags, Diagnostic{File: p.File, Item: ch.ID, Field: "version", Code: DiagInvalidVersion, Detail: ch.Version, Blocking: true})
+			}
+		}
 		for _, t := range p.Themes {
 			if d := claim(t.ID, p.File); d != nil {
 				diags = append(diags, *d)

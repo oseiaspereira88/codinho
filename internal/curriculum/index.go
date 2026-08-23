@@ -22,6 +22,15 @@ type Catalog struct {
 	graph        *Graph
 }
 
+// NewCatalogFromPacks builds a Catalog directly from already-loaded and
+// validated packs, for a caller that obtained them via LoadPacks (e.g.
+// catalog-authoring-quality's CLI wiring, which needs both the raw packs
+// for editorial checks and an assembled Catalog for coverage
+// projection).
+func NewCatalogFromPacks(packs []Pack) *Catalog {
+	return newCatalog(packs)
+}
+
 func newCatalog(packs []Pack) *Catalog {
 	c := &Catalog{
 		themes:       map[string]ThemeAuthoring{},

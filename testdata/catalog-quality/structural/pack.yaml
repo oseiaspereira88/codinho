@@ -1,0 +1,35 @@
+# Structural (loader-level, not editorial-gate) negative examples. These
+# are blocking Diagnostics from internal/curriculum's Load/Validate
+# itself, so a pack containing them never fully loads into a Catalog —
+# kept in a separate file from negative-fixtures.yaml so that file's
+# editorial-rule examples can still load successfully and be checked by
+# RunEditorialChecks.
+schema_version: 1
+id: catalog-quality-negative-fixtures-structural
+version: 1.0.0
+competencies:
+  - id: neg-struct-competency
+    title: Negative structural fixture competency
+challenges:
+  # invalid_version (blocking): Version is not major.minor.patch.
+  - schema_version: 1
+    id: neg.invalid-version
+    version: "v1"
+    title: Invalid version
+    kind: atomic
+    difficulty: foundational
+    acceptance: ["ok"]
+    competencies: { primary: [neg-struct-competency] }
+
+  # invalid_fixture_path (blocking): path traversal in a fixture entry.
+  - schema_version: 1
+    id: neg.fixture-path-traversal
+    version: 1.0.0
+    title: Fixture path traversal
+    kind: debug
+    difficulty: foundational
+    acceptance: ["ok"]
+    competencies: { primary: [neg-struct-competency] }
+    fixture:
+      - path: "../escape.go"
+        content: "package main\n"

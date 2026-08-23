@@ -1,6 +1,6 @@
 ---
 slug: catalog-authoring-quality
-status: draft
+status: in-progress
 created_at: 2026-08-22
 completed_at:
 supersedes:
@@ -65,11 +65,23 @@ Impedir que a meta de cobertura produza conteúdo superficial, não avaliável o
 - created: internal/curriculum/playtest.go
 - created: internal/curriculum/editorial_test.go
 - created: internal/curriculum/coverage_test.go
+- modified: internal/curriculum/model.go
+- modified: internal/curriculum/validator.go
+- modified: internal/curriculum/loader.go
+- modified: internal/curriculum/index.go
 - modified: internal/cli/catalog.go
+- created: internal/cli/editorial.go
+- created: internal/cli/editorial_test.go
+- modified: internal/cli/cli_test.go
+- modified: cmd/codinho/cli_integration_test.go
+- modified: schemas/challenge.schema.json
 - created: schemas/editorial.schema.json
 - created: docs/content-authoring.md
 - created: docs/content-review-checklist.md
-- created: testdata/catalog-quality/
+- created: testdata/catalog-quality/editorial/manifest.yaml
+- created: testdata/catalog-quality/editorial/pack.yaml
+- created: testdata/catalog-quality/structural/manifest.yaml
+- created: testdata/catalog-quality/structural/pack.yaml
 
 ### Delivery targets
 Nenhum; gate interno de conteúdo.
@@ -87,20 +99,20 @@ Nenhum; gate interno de conteúdo.
 ## 4. Tasks
 
 ### Planning
-- [ ] Definir IDs, severidades e política de supressão.
-- [ ] Definir prova de playtest e reviewer distinto.
+- [x] Definir IDs, severidades e política de supressão.
+- [x] Definir prova de playtest e reviewer distinto.
 
 ### Implementation
-- [ ] Implementar regras estruturais e editoriais.
-- [ ] Implementar execução controlada de fixtures.
-- [ ] Implementar projeção de cobertura e gates V1.
-- [ ] Integrar CLI e CI.
-- [ ] Documentar autoria e revisão.
+- [x] Implementar regras estruturais e editoriais.
+- [x] Implementar execução controlada de fixtures.
+- [x] Implementar projeção de cobertura e gates V1.
+- [x] Integrar CLI e CI.
+- [x] Documentar autoria e revisão.
 
 ### Validation
-- [ ] Criar uma fixture negativa por regra.
+- [x] Criar uma fixture negativa por regra.
 - [ ] Executar mutation tests do validador onde viável.
-- [ ] Revisar falsos positivos em amostra humana.
+- [x] Revisar falsos positivos em amostra humana.
 
 ## 5. Decisions
 
@@ -111,6 +123,50 @@ Nenhum; gate interno de conteúdo.
 - Decision: bloquear regras objetivas e exigir evidência humana para qualidade semântica.
 - Rationale: automação não deve fingir compreender pedagogia.
 - Consequences: publicação possui workflow de revisão explícito.
+
+### Decision 2
+- Date: 2026-08-23
+- Context: checar checks reais contra fixtures (R5) exige
+  `internal/fixtures` e `internal/checks`, mas ambos já importam
+  `internal/curriculum` (fixtures para `ChallengeAuthoring`, checks
+  indiretamente via workspace) — colocar essa lógica dentro de
+  `internal/curriculum` criaria um ciclo de import.
+- Options considered: (a) inverter a dependência, injetando uma
+  interface de "materializar+executar" em `internal/curriculum`; (b)
+  implementar a execução real na camada `internal/cli`, que já pode
+  importar curriculum, fixtures e checks juntos sem ciclo, e manter em
+  `internal/curriculum` só os IDs de regra e severidades.
+- Decision: (b). `internal/cli/editorial.go` implementa
+  `runChecksAgainstFixtures`, ligado a `catalog validate --checks`;
+  `internal/curriculum/editorial.go` só declara
+  `RuleFixtureNotReproducible`/`RuleCheckNotResolvable`/
+  `RuleCheckExecutionError` como vocabulário compartilhado.
+- Rationale: evita inversão de dependência artificial só para manter um
+  arquivo num pacote "errado"; a camada CLI já é o lugar natural de
+  qualquer coisa que spawna subprocessos.
+- Consequences: `RunEditorialChecks` (puro, em curriculum) nunca inclui
+  os achados de R5 sozinho — um caller que só chama essa função (sem
+  passar por `catalog validate --checks`) não executa nada, o que é
+  intencional (R5 exige subprocessos reais, opt-in via flag).
+
+### Decision 3
+- Date: 2026-08-23
+- Context: R9 (gate V1: 160 conceitos, 100 competências, 84 desafios, 12
+  trilhas, 500 step nodes) e R10 (distribuição exata por spec de pack)
+  não podem ser satisfeitos por este catálogo em progresso (hoje: 1
+  tema, ~11 conceitos, 3 competências, 2 desafios).
+- Options considered: (a) rodar o gate V1 por padrão em `catalog
+  validate`, bloqueando todo build atual; (b) manter o gate V1 e a
+  distribuição exata como checks explícitos, opt-in (`--v1-gate`), nunca
+  parte do fluxo padrão.
+- Decision: (b).
+- Rationale: um gate de conclusão da V1 não deve quebrar o
+  desenvolvimento incremental do próprio conteúdo que ele mede; ele
+  pertence ao momento do aceite V1 (v1-integrated-acceptance), não a
+  cada `catalog validate`.
+- Consequences: `codinho catalog validate` (sem flags) nunca falha por
+  causa dos limiares V1; `--v1-gate` só é usado deliberadamente perto do
+  aceite.
 
 ## 6. Validation
 
@@ -125,31 +181,68 @@ Usar corpus positivo/negativo, checks reais de fixture e auditoria amostral.
 - Security / Contract: fixture confinement, secret scan e check registry.
 
 ### Execution log
-- Pendente.
+- `go build ./...` → ok (2026-08-23).
+- `gofmt -l .` → sem saída (2026-08-23).
+- `go vet ./...` e `GOOS=windows go vet ./...` → sem diagnósticos (2026-08-23).
+- `go test ./... -race` → `ok` em todos os pacotes, incluindo `internal/curriculum` (editorial.go/coverage.go/playtest.go novos, corpus negativo em `testdata/catalog-quality/`) e `internal/cli` (editorial.go novo, `--checks`/`--v1-gate`), sem data races (2026-08-23).
+- `go run ./cmd/codinho catalog validate` no catálogo real (`packs/`) → exit 0, só avisos `relation_isolated` (esperado: nenhum item ainda declara relations além de requires/prerequisites) (2026-08-23).
+- `govulncheck ./...` → "No vulnerabilities found." (2026-08-23).
 
 ### Results summary
-- Nenhum gate editorial entregue.
+Gate de qualidade editorial entregue: validação estrutural existente
+(schema/IDs/referências/ciclos) ganhou checagem de versão
+(`invalid_version`); novo pacote de regras editoriais (pistas
+crescentes, sem gabarito prematuro, competência/aceite obrigatórios,
+metadados de publicação com revisor distinto, coerência de relações);
+projeção de cobertura e gate V1 explícito (opt-in); execução real de
+checks contra fixtures materializadas (opt-in, `--checks`). `codinho
+catalog validate` permanece a única superfície (R8), agora reportando
+diagnósticos estruturais + achados editoriais + cobertura.
 
 ### Requirement trace
-- Mapear R1–R10 a rule IDs, fixtures e relatório de cobertura.
+- R1 [satisfied] internal/curriculum/validator.go (DiagInvalidVersion) + já existente (schema/IDs/referências/ciclos/fixture paths).
+- R2 [satisfied] checkCompoundIntent (aviso) + test:TestCheckCompoundIntentFlagsConjunction.
+- R3 [satisfied] checkCoverageGaps (competência/aceite bloqueantes; hints/reflexão avisos) + testes correspondentes.
+- R4 [satisfied] checkHintOrder + checkNoEmbeddedSolutionText + testes correspondentes.
+- R5 [satisfied] internal/cli/editorial.go (runChecksAgainstFixtures, real via internal_ast) + test:TestRunChecksAgainstFixturesExecutesRealInternalASTCheck, test:TestCatalogValidateChecksFlagExecutesFixtureChecks.
+- R6 [satisfied] coverage.go (ProjectCoverage) + checkRelationCoherence + testes correspondentes.
+- R7 [satisfied] playtest.go (checkPublicationMetadata) + testes correspondentes.
+- R8 [satisfied] internal/cli/catalog.go (catalog validate: humano/JSON, exit codes estáveis) + test:TestCatalogValidateFlagsMissingCompetencyAsBlocking.
+- R9 [satisfied] coverage.go (CheckV1Gate, opt-in `--v1-gate`) + test:TestCheckV1GateFlagsEveryDimensionBelowThreshold.
+- R10 [satisfied] coverage.go (CheckTypeDistribution, genérico — nenhuma spec de pack ainda declara números exatos) + test:TestCheckTypeDistributionFlagsMismatch.
 
 ### Known gaps
-- Rubricas podem evoluir após playtests da V1.
+- Mutation testing do validador não foi executado (ferramenta de mutation testing para Go não está no toolchain atual); cobertura por corpus negativo (`testdata/catalog-quality/`) é o substituto usado.
+- R10 (distribuição exata) tem o mecanismo pronto mas nenhuma spec de pack (go-foundations-packs etc.) ainda declarou uma distribuição concreta para checar contra.
+- `--checks` só prova reprodutibilidade de infraestrutura (materializa + resolve + executa sem erro); não afirma que o outcome (`pass`/`fail`) é o esperado — isso é revisão humana (Decision 1).
 
 ## 7. Final Report
 
 ### Delivered scope
-Nenhum; spec draft.
+Gate de qualidade editorial: validação estrutural ampliada (versões),
+regras editoriais (pistas, briefing, cobertura, publicação, relações),
+projeção de cobertura, gate V1 opt-in, execução real de checks contra
+fixtures, documentação de autoria e revisão.
 
 ### Files and modules changed
-- Planejados em curriculum, CLI, schemas, docs e testdata.
+- internal/curriculum/{editorial,coverage,playtest}.go (novos) + testes.
+- internal/curriculum/{model,validator,loader,index}.go: campo Publication, DiagInvalidVersion, LoadPacks/NewCatalogFromPacks exportados.
+- internal/cli/{catalog,editorial}.go: catalog validate com achados editoriais/cobertura, flags --checks e --v1-gate.
+- schemas/challenge.schema.json (fixture, publication, network) + schemas/editorial.schema.json (novo).
+- docs/{content-authoring,content-review-checklist}.md.
+- testdata/catalog-quality/{editorial,structural}/ (corpus negativo, um exemplo por regra).
 
 ### Validation executed
-- Command: pose lint-spec catalog-authoring-quality --ready-check
-- Result: registrar após gate.
+- Command: go test ./... -race
+- Result: ok em todos os pacotes.
+- Command: go run ./cmd/codinho catalog validate (catálogo real)
+- Result: exit 0, só avisos esperados.
+- Command: govulncheck ./...
+- Result: No vulnerabilities found.
 
 ### Residual risks
 - Revisão humana continua sendo o gargalo correto para publicação.
+- Heurística de intenção composta (`compound_micro_instruction`) é conservadora — pode deixar passar casos reais (por isso é aviso, nunca bloqueante).
 
 ### Follow-ups
 - [covered: v1-integrated-acceptance] Reconciliar contagem, qualidade e playtests de todos os packs.

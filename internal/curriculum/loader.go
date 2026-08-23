@@ -33,6 +33,27 @@ var DefaultLimits = Limits{
 // blocking diagnostic (see Diagnostic.Blocking) prevents catalog
 // construction so a broken pack can never be materialized silently.
 func Load(dir string, limits Limits) (*Catalog, []Diagnostic, error) {
+	packs, diags, err := LoadPacks(dir, limits)
+	if err != nil {
+		return nil, nil, err
+	}
+	for _, d := range diags {
+		if d.Blocking {
+			return nil, diags, nil
+		}
+	}
+	return newCatalog(packs), diags, nil
+}
+
+// LoadPacks reads and validates every pack under dir the same way Load
+// does, but returns the raw []Pack instead of an assembled Catalog. It
+// exists for callers that need authored data Catalog's public API does
+// not expose in bulk — e.g. catalog-authoring-quality's editorial checks,
+// which need Pack.Relations and per-pack File attribution across every
+// item, not just one Catalog.Challenge(id) at a time. It returns a nil
+// []Pack (not an error) when a blocking diagnostic exists, matching
+// Load's own "never partially trust a pack" contract.
+func LoadPacks(dir string, limits Limits) ([]Pack, []Diagnostic, error) {
 	manifestPath := filepath.Join(dir, "manifest.yaml")
 	manifestNode, err := readLimitedYAML(manifestPath, limits)
 	if err != nil {
@@ -91,8 +112,7 @@ func Load(dir string, limits Limits) (*Catalog, []Diagnostic, error) {
 		}
 	}
 
-	catalog := newCatalog(packs)
-	return catalog, diags, nil
+	return packs, diags, nil
 }
 
 // readLimitedYAML reads path, rejects it if it exceeds limits.MaxFileBytes,

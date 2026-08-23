@@ -107,8 +107,8 @@ func TestCatalogValidateOK(t *testing.T) {
 	if code != exitOK {
 		t.Fatalf("code = %d, stderr = %q", code, stderr)
 	}
-	if !strings.Contains(stdout, "ok") {
-		t.Fatalf("stdout = %q", stdout)
+	if strings.Contains(stdout, "error:") {
+		t.Fatalf("no blocking finding is expected for this fixture, stdout = %q", stdout)
 	}
 }
 
@@ -119,6 +119,83 @@ func TestCatalogValidateJSONIsStableAcrossRuns(t *testing.T) {
 	out2, _, _ := run(t, "catalog", "validate", "--json")
 	if out1 != out2 {
 		t.Fatalf("non-deterministic JSON output:\n%s\nvs\n%s", out1, out2)
+	}
+}
+
+func TestCatalogValidateFlagsMissingCompetencyAsBlocking(t *testing.T) {
+	root := t.TempDir()
+	packsDir := filepath.Join(root, "packs")
+	if err := os.MkdirAll(packsDir, 0o700); err != nil {
+		t.Fatalf("mkdir packs: %v", err)
+	}
+	manifest := "schema_version: 1\npacks:\n  - bad-pack.yaml\n"
+	badPack := `schema_version: 1
+id: bad-pack
+version: 1.0.0
+challenges:
+  - schema_version: 1
+    id: bad.no-competency
+    version: 1.0.0
+    title: Missing competency
+    kind: atomic
+    difficulty: foundational
+    acceptance:
+      - algo
+`
+	if err := os.WriteFile(filepath.Join(packsDir, "manifest.yaml"), []byte(manifest), 0o600); err != nil {
+		t.Fatalf("writing manifest: %v", err)
+	}
+	if err := os.WriteFile(filepath.Join(packsDir, "bad-pack.yaml"), []byte(badPack), 0o600); err != nil {
+		t.Fatalf("writing pack: %v", err)
+	}
+	t.Chdir(root)
+
+	stdout, _, code := run(t, "catalog", "validate")
+	if code != exitError {
+		t.Fatalf("code = %d, want exitError for a blocking editorial finding", code)
+	}
+	if !strings.Contains(stdout, "missing_competency") {
+		t.Fatalf("stdout = %q, want the missing_competency rule reported", stdout)
+	}
+}
+
+func TestCatalogValidateChecksFlagExecutesFixtureChecks(t *testing.T) {
+	root := setupWorkspace(t)
+	packsDir := filepath.Join(root, "packs")
+	pack := `schema_version: 1
+id: checks-pack
+version: 1.0.0
+challenges:
+  - schema_version: 1
+    id: checks.parse-fixture
+    version: 1.0.0
+    title: Parses
+    kind: atomic
+    difficulty: foundational
+    acceptance:
+      - ok
+    competencies:
+      primary: [slice-filter]
+    fixture:
+      - path: main.go
+        content: "package main\n\nfunc main() {}\n"
+    checks:
+      - id: parses
+        runner: internal_ast
+        package: main.go
+`
+	if err := os.WriteFile(filepath.Join(packsDir, "checks-pack.yaml"), []byte(pack), 0o600); err != nil {
+		t.Fatalf("writing pack: %v", err)
+	}
+	manifest := "schema_version: 1\npacks:\n  - test-pack.yaml\n  - checks-pack.yaml\n"
+	if err := os.WriteFile(filepath.Join(packsDir, "manifest.yaml"), []byte(manifest), 0o600); err != nil {
+		t.Fatalf("writing manifest: %v", err)
+	}
+	t.Chdir(root)
+
+	stdout, stderr, code := run(t, "catalog", "validate", "--checks")
+	if code != exitOK {
+		t.Fatalf("code = %d, stdout = %q, stderr = %q", code, stdout, stderr)
 	}
 }
 

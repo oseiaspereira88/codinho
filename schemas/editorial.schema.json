@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://codinho.dev/schemas/editorial.schema.json",
+  "title": "Editorial finding",
+  "description": "The stable shape `codinho catalog validate --json`'s \"editorial\" array reports (catalog-authoring-quality requirement R8). rule is a stable ID a CI pipeline can pin or suppress without changing the meaning of every other rule (Compatibility requirement). This document also enumerates every known rule ID and its severity class, so a rule's severity is discoverable without reading Go source.",
+  "type": "object",
+  "required": ["rule", "severity"],
+  "additionalProperties": false,
+  "properties": {
+    "file": { "type": "string" },
+    "item": { "type": "string" },
+    "rule": { "type": "string", "enum": [
+      "hints_increasing_order",
+      "hint_reveals_solution_early",
+      "brief_contains_code_fence",
+      "compound_micro_instruction",
+      "missing_competency",
+      "missing_acceptance",
+      "missing_hints_for_gated_step",
+      "missing_reflection",
+      "published_without_author",
+      "published_without_review",
+      "published_same_reviewer",
+      "published_without_playtest",
+      "relation_isolated",
+      "relation_not_reciprocal",
+      "fixture_not_reproducible",
+      "check_not_resolvable",
+      "check_execution_error",
+      "v1_gate_below_threshold",
+      "type_distribution_mismatch"
+    ]},
+    "severity": { "type": "string", "enum": ["blocking", "warning"] },
+    "detail": { "type": "string" },
+    "suggestion": { "type": "string" }
+  },
+  "definitions": {
+    "blocking_rules": {
+      "description": "Objective, mechanically-enforceable rules the gate fails a build on (Decision 1).",
+      "const": [
+        "hints_increasing_order", "hint_reveals_solution_early", "brief_contains_code_fence",
+        "missing_competency", "missing_acceptance",
+        "published_without_author", "published_without_review", "published_same_reviewer", "published_without_playtest",
+        "fixture_not_reproducible", "check_not_resolvable", "check_execution_error",
+        "v1_gate_below_threshold", "type_distribution_mismatch"
+      ]
+    },
+    "warning_rules": {
+      "description": "Qualitative rules that need a human's judgment; never block a build (Decision 1).",
+      "const": [
+        "compound_micro_instruction", "missing_hints_for_gated_step", "missing_reflection",
+        "relation_isolated", "relation_not_reciprocal"
+      ]
+    }
+  }
+}

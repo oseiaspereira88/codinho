@@ -1,0 +1,175 @@
+# One challenge per catalog-authoring-quality rule (Validation task:
+# "Criar uma fixture negativa por regra"). Each challenge's ID names the
+# rule it is meant to trigger. This pack is intentionally never listed in
+# packs/manifest.yaml — loading it for real would fail the repo's own
+# gate — it exists only as authoring reference and as input to
+# internal/curriculum's editorial tests.
+schema_version: 1
+id: catalog-quality-negative-fixtures
+version: 1.0.0
+themes:
+  - id: neg-theme
+    title: Negative fixture theme
+concepts:
+  - id: neg-concept
+    title: Negative fixture concept
+competencies:
+  - id: neg-competency
+    title: Negative fixture competency
+challenges:
+  # missing_competency (blocking): no competencies.primary declared.
+  - schema_version: 1
+    id: neg.missing-competency
+    version: 1.0.0
+    title: Missing competency
+    kind: atomic
+    difficulty: foundational
+    acceptance: ["ok"]
+
+  # missing_acceptance (blocking): no acceptance criteria declared.
+  - schema_version: 1
+    id: neg.missing-acceptance
+    version: 1.0.0
+    title: Missing acceptance
+    kind: atomic
+    difficulty: foundational
+    competencies: { primary: [neg-competency] }
+
+  # brief_contains_code_fence (blocking): brief embeds a code block,
+  # which risks leaking a gabarito before any hint is requested.
+  - schema_version: 1
+    id: neg.brief-code-fence
+    version: 1.0.0
+    title: Brief contains code fence
+    kind: atomic
+    difficulty: foundational
+    acceptance: ["ok"]
+    competencies: { primary: [neg-competency] }
+    brief: |
+      Implemente assim:
+      ```go
+      func f() {}
+      ```
+
+  # hints_increasing_order (blocking): hint levels do not strictly
+  # increase.
+  - schema_version: 1
+    id: neg.hints-non-increasing
+    version: 1.0.0
+    title: Hints out of order
+    kind: atomic
+    difficulty: foundational
+    acceptance: ["ok"]
+    competencies: { primary: [neg-competency] }
+    layers:
+      - id: l1
+        macro_steps:
+          - id: neg.hints-non-increasing.step
+            kind: micro
+            title: Step
+            instruction: { objective: "Faça algo.", scope: "Só isso." }
+            hints:
+              - { level: 2, kind: guiding_question }
+              - { level: 1, kind: guiding_question }
+
+  # hint_reveals_solution_early (blocking): a hint below level 6 is
+  # kind=solution.
+  - schema_version: 1
+    id: neg.hint-early-solution
+    version: 1.0.0
+    title: Hint reveals solution early
+    kind: atomic
+    difficulty: foundational
+    acceptance: ["ok"]
+    competencies: { primary: [neg-competency] }
+    layers:
+      - id: l1
+        macro_steps:
+          - id: neg.hint-early-solution.step
+            kind: micro
+            title: Step
+            instruction: { objective: "Faça algo.", scope: "Só isso." }
+            hints:
+              - { level: 3, kind: solution }
+
+  # compound_micro_instruction (warning): objective joins two clauses.
+  - schema_version: 1
+    id: neg.compound-intent
+    version: 1.0.0
+    title: Compound micro instruction
+    kind: atomic
+    difficulty: foundational
+    acceptance: ["ok"]
+    competencies: { primary: [neg-competency] }
+    layers:
+      - id: l1
+        macro_steps:
+          - id: neg.compound-intent.step
+            kind: micro
+            title: Step
+            instruction: { objective: "Declare o tipo e também implemente o método.", scope: "Ambos." }
+
+  # missing_hints_for_gated_step (warning): gated step has zero hints.
+  - schema_version: 1
+    id: neg.missing-hints-gated
+    version: 1.0.0
+    title: Missing hints for gated step
+    kind: atomic
+    difficulty: foundational
+    acceptance: ["ok"]
+    competencies: { primary: [neg-competency] }
+    layers:
+      - id: l1
+        macro_steps:
+          - id: neg.missing-hints-gated.step
+            kind: micro
+            title: Step
+            instruction: { objective: "Faça algo.", scope: "Só isso." }
+            completion: { requires_positive_evaluation: true, requires_user_confirmation: false }
+
+  # missing_reflection (warning): no reflection prompt anywhere.
+  - schema_version: 1
+    id: neg.missing-reflection
+    version: 1.0.0
+    title: Missing reflection
+    kind: atomic
+    difficulty: foundational
+    acceptance: ["ok"]
+    competencies: { primary: [neg-competency] }
+    layers:
+      - id: l1
+        macro_steps:
+          - id: neg.missing-reflection.step
+            kind: micro
+            title: Step
+            instruction: { objective: "Faça algo.", scope: "Só isso." }
+
+  # published_without_author / published_without_review /
+  # published_same_reviewer / published_without_playtest (all blocking):
+  # status published with incomplete/invalid editorial metadata.
+  - schema_version: 1
+    id: neg.published-same-reviewer
+    version: 1.0.0
+    title: Published with same reviewer
+    kind: atomic
+    difficulty: foundational
+    acceptance: ["ok"]
+    competencies: { primary: [neg-competency] }
+    publication: { status: published, author: alice, reviewed_by: alice, playtested: true }
+
+  - schema_version: 1
+    id: neg.published-without-playtest
+    version: 1.0.0
+    title: Published without playtest
+    kind: atomic
+    difficulty: foundational
+    acceptance: ["ok"]
+    competencies: { primary: [neg-competency] }
+    publication: { status: published, author: alice, reviewed_by: bob, playtested: false }
+
+relations:
+  # relation_not_reciprocal (warning): a-contrasts-with-b with no b-to-a
+  # reciprocal edge declared.
+  - from: neg-concept
+    to: neg-competency
+    kind: contrasts_with

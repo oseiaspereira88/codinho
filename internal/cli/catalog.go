@@ -53,15 +53,33 @@ type diagnosticOut struct {
 	Blocking bool   `json:"blocking"`
 }
 
+type editorialFindingOut struct {
+	File       string `json:"file,omitempty"`
+	Item       string `json:"item,omitempty"`
+	Rule       string `json:"rule"`
+	Severity   string `json:"severity"`
+	Detail     string `json:"detail,omitempty"`
+	Suggestion string `json:"suggestion,omitempty"`
+}
+
+type catalogValidateOut struct {
+	Diagnostics []diagnosticOut       `json:"diagnostics"`
+	Editorial   []editorialFindingOut `json:"editorial"`
+	Coverage    curriculum.Coverage   `json:"coverage"`
+	V1Gate      []editorialFindingOut `json:"v1_gate,omitempty"`
+}
+
 func runCatalogValidate(args []string, stdout, stderr io.Writer) int {
 	fs := newFlagSet("catalog validate", stderr)
 	jsonOut := fs.Bool("json", false, "print diagnostics as JSON")
+	v1Gate := fs.Bool("v1-gate", false, "also check coverage against the V1 roadmap thresholds (requirement R9); off by default since an in-progress catalog is expected to be below them")
+	runChecks := fs.Bool("checks", false, "materialize every challenge with both a fixture and checks, and actually run those checks against it (requirement R5); off by default since it spawns real subprocesses")
 	if err := fs.Parse(args); err != nil {
 		return exitUsage
 	}
 
 	cfg := config.Load()
-	_, diags, err := loadCatalog(cfg)
+	packs, diags, err := curriculum.LoadPacks(filepath.Join(cfg.WorkspaceRoot, "packs"), curriculum.DefaultLimits)
 	if err != nil {
 		fmt.Fprintf(stderr, "codinho: catalog validate: %v\n", err)
 		return exitError
@@ -74,24 +92,71 @@ func runCatalogValidate(args []string, stdout, stderr io.Writer) int {
 		}
 	}
 
+	var editorial []curriculum.EditorialFinding
+	var coverage curriculum.Coverage
+	var v1Findings []curriculum.EditorialFinding
+	if !blocking {
+		editorial = curriculum.RunEditorialChecks(packs)
+		coverage = curriculum.ProjectCoverage(curriculum.NewCatalogFromPacks(packs))
+		for _, f := range editorial {
+			if f.Severity == curriculum.SeverityBlocking {
+				blocking = true
+			}
+		}
+		if *v1Gate {
+			v1Findings = curriculum.CheckV1Gate(coverage)
+			if len(v1Findings) > 0 {
+				blocking = true
+			}
+		}
+		if *runChecks {
+			checkFindings, err := runChecksAgainstFixtures(packs)
+			if err != nil {
+				fmt.Fprintf(stderr, "codinho: catalog validate: %v\n", err)
+				return exitError
+			}
+			editorial = append(editorial, checkFindings...)
+			if len(checkFindings) > 0 {
+				blocking = true
+			}
+		}
+	}
+
 	if *jsonOut {
-		out := make([]diagnosticOut, 0, len(diags))
+		out := catalogValidateOut{Coverage: coverage}
 		for _, d := range diags {
-			out = append(out, diagnosticOut{File: d.File, Item: d.Item, Field: d.Field, Code: string(d.Code), Detail: d.Detail, Blocking: d.Blocking})
+			out.Diagnostics = append(out.Diagnostics, diagnosticOut{File: d.File, Item: d.Item, Field: d.Field, Code: string(d.Code), Detail: d.Detail, Blocking: d.Blocking})
+		}
+		for _, f := range editorial {
+			out.Editorial = append(out.Editorial, editorialFindingOut{File: f.File, Item: f.Item, Rule: string(f.Rule), Severity: string(f.Severity), Detail: f.Detail, Suggestion: f.Suggestion})
+		}
+		for _, f := range v1Findings {
+			out.V1Gate = append(out.V1Gate, editorialFindingOut{Item: f.Item, Rule: string(f.Rule), Severity: string(f.Severity), Detail: f.Detail, Suggestion: f.Suggestion})
 		}
 		if err := writeJSON(stdout, out); err != nil {
 			fmt.Fprintf(stderr, "codinho: catalog validate: %v\n", err)
 			return exitError
 		}
-	} else if len(diags) == 0 {
-		fmt.Fprintln(stdout, "catalog: ok, no diagnostics")
 	} else {
+		if len(diags) == 0 && len(editorial) == 0 && len(v1Findings) == 0 {
+			fmt.Fprintln(stdout, "catalog: ok, no diagnostics")
+		}
 		for _, d := range diags {
 			level := "warn"
 			if d.Blocking {
 				level = "error"
 			}
 			fmt.Fprintf(stdout, "%s: file=%s item=%s field=%s code=%s detail=%s\n", level, d.File, d.Item, d.Field, d.Code, d.Detail)
+		}
+		for _, f := range editorial {
+			level := "warn"
+			if f.Severity == curriculum.SeverityBlocking {
+				level = "error"
+			}
+			fmt.Fprintf(stdout, "%s: file=%s item=%s rule=%s detail=%s suggestion=%s\n", level, f.File, f.Item, f.Rule, f.Detail, f.Suggestion)
+		}
+		for _, f := range v1Findings {
+			fmt.Fprintf(stdout, "error: item=%s rule=%s detail=%s\n", f.Item, f.Rule, f.Detail)
 		}
 	}
 

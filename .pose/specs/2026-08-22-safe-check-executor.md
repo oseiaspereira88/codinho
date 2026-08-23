@@ -38,7 +38,7 @@ Gerar evidência objetiva sem oferecer ao agente uma ferramenta de shell arbitr�
 - R4: Aplicar timeout, limite de output, paralelismo e cancelamento da árvore de processos.
 - R5: Negar rede salvo check explicitamente marcado e aprovado.
 - R6: Capturar stdout e stderr truncados, aplicar redaction e criar evidência imutável.
-- R7: Vincular resultado à revisão do workspace e marcar evidência obsoleta quando necessário.
+- R7: Vincular resultado à revisão do workspace e marcar evidência obsoleta quando necessário, usando `workspace.Fingerprint`/`workspace.FingerprintOf` (workspace-observation-baselines) em vez de reimplementar detecção de obsolescência — o mesmo mecanismo que `evidence_get` já usa para reportar `stale`.
 - R8: Retornar pass, fail, error ou skipped sem confundir falha de infra com falha do aluno.
 - R9: Expor check_run sem parâmetro de comando livre.
 - R10: Alimentar o critério `structural` de `step_evaluate` (feedback-evaluation-progression) com o resultado real do check (pass/fail/error/skipped), substituindo a derivação por mera presença de evidência (Decision 2 de feedback-evaluation-progression) por um verdict determinístico baseado na execução.

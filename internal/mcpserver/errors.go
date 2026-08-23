@@ -2,9 +2,11 @@ package mcpserver
 
 import (
 	"errors"
+	"os"
 
 	"github.com/oseiaspereira88/codinho/internal/application"
 	"github.com/oseiaspereira88/codinho/internal/eventstore"
+	"github.com/oseiaspereira88/codinho/internal/evidence"
 	"github.com/oseiaspereira88/codinho/internal/learning"
 )
 
@@ -50,6 +52,12 @@ func mapError(err error) (ErrorCode, string, bool) {
 		return ErrCodeInvalidInput, "revealing the solution requires explicit confirmation", false
 	case errors.Is(err, application.ErrConceptNotFound):
 		return ErrCodeItemNotFound, "the requested concept does not exist in the catalog", false
+	case errors.Is(err, application.ErrWorkspaceRootInvalid):
+		return ErrCodeInvalidInput, "the workspace root is not a valid, accessible directory", false
+	case errors.Is(err, application.ErrEvidenceOutOfScope):
+		return ErrCodeItemNotFound, "no evidence with that ID exists for this session", false
+	case errors.Is(err, evidence.ErrInvalidID), errors.Is(err, evidence.ErrIntegrityMismatch), errors.Is(err, os.ErrNotExist):
+		return ErrCodeItemNotFound, "no evidence with that ID exists for this session", false
 	default:
 		var domainErr learning.DomainError
 		if errors.As(err, &domainErr) {

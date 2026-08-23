@@ -13,6 +13,7 @@ import (
 	"github.com/oseiaspereira88/codinho/internal/application"
 	"github.com/oseiaspereira88/codinho/internal/curriculum"
 	"github.com/oseiaspereira88/codinho/internal/eventstore"
+	"github.com/oseiaspereira88/codinho/internal/evidence"
 )
 
 const fixtureChallengeID = "fixture.challenge-one"
@@ -86,10 +87,16 @@ func newContractClient(t *testing.T) *mcp.ClientSession {
 	}
 	t.Cleanup(func() { store.Close() })
 
+	evidenceStore, err := evidence.Open(filepath.Join(t.TempDir(), "evidence"))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
 	catalogService := application.NewCatalogService(catalog)
 	sessionService := application.NewSessionService(catalogService, store)
 	assistanceService := application.NewAssistanceService(catalogService)
-	server := New(Deps{Catalog: catalogService, Session: sessionService, Assistance: assistanceService}, io.Discard)
+	workspaceService := application.NewWorkspaceService(store, evidenceStore)
+	server := New(Deps{Catalog: catalogService, Session: sessionService, Assistance: assistanceService, Workspace: workspaceService}, io.Discard)
 
 	clientTransport, serverTransport := mcp.NewInMemoryTransports()
 
@@ -150,6 +157,7 @@ func TestContractListsExactlyTheMinimalToolSlice(t *testing.T) {
 		"learning_detour_start": false, "learning_detour_finish": false,
 		"feedback_prepare": false, "feedback_record": false, "step_evaluate": false,
 		"reflection_record": false, "step_complete": false, "step_advance": false,
+		"workspace_observe": false, "evidence_get": false,
 	}
 	for _, tool := range res.Tools {
 		if _, known := want[tool.Name]; !known {

@@ -18,6 +18,7 @@ import (
 	"github.com/oseiaspereira88/codinho/internal/config"
 	"github.com/oseiaspereira88/codinho/internal/curriculum"
 	"github.com/oseiaspereira88/codinho/internal/eventstore"
+	"github.com/oseiaspereira88/codinho/internal/evidence"
 	"github.com/oseiaspereira88/codinho/internal/mcpserver"
 )
 
@@ -72,10 +73,21 @@ func runServe(ctx context.Context, stderr *os.File) error {
 	}
 	defer store.Close()
 
+	evidenceStore, err := evidence.Open(filepath.Join(stateDir, "evidence"))
+	if err != nil {
+		return fmt.Errorf("opening evidence store: %w", err)
+	}
+
 	catalogService := application.NewCatalogService(catalog)
 	sessionService := application.NewSessionService(catalogService, store)
 	assistanceService := application.NewAssistanceService(catalogService)
+	workspaceService := application.NewWorkspaceService(store, evidenceStore)
 
-	server := mcpserver.New(mcpserver.Deps{Catalog: catalogService, Session: sessionService, Assistance: assistanceService}, stderr)
+	server := mcpserver.New(mcpserver.Deps{
+		Catalog:    catalogService,
+		Session:    sessionService,
+		Assistance: assistanceService,
+		Workspace:  workspaceService,
+	}, stderr)
 	return mcpserver.Run(ctx, server, &mcp.StdioTransport{})
 }

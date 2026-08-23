@@ -9,6 +9,14 @@
       "digest": "sha256:5a54ef2fa2d73da9883b1d77e094366987522cdaa2fd231a078b17e4dd77590c"
     },
     {
+      "spec": "feedback-evaluation-progression",
+      "category": "added",
+      "breaking": false,
+      "body": "O tutor agora consegue preparar feedback consultivo, avaliar uma tentativa por\ncritérios determinísticos e qualitativos, registrar reflexão do aluno,\nconcluir um passo respeitando a política autoral e avançar para o próximo\npasso da árvore de um desafio — sem que o feedback sozinho conclua ou avance\nnada.",
+      "path": "feedback-evaluation-progression.md",
+      "digest": "sha256:8de7a65d124e2a60b5624dd49059320814161556d5675fa3b5af9efdf11dd25d"
+    },
+    {
       "spec": "mcp-stdio-foundation",
       "category": "added",
       "breaking": false,

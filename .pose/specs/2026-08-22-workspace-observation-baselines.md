@@ -1,8 +1,8 @@
 ---
 slug: workspace-observation-baselines
-status: in-progress
+status: done
 created_at: 2026-08-22
-completed_at:
+completed_at: 2026-08-23
 supersedes:
 depends_on: go-runtime-foundation, local-event-store, learning-domain-model
 priority: 90

@@ -14,14 +14,7 @@
 - _Not provided_
 
 ## Files Changed
-- pose/indexes/delivery-integrity.json
-- .pose/reports/history/standard-fechar-feedback-evaluation-progression.jsonl
-- .pose/reports/history/standard-validate-native.jsonl
-- .pose/specs/2026-08-22-feedback-evaluation-progression.md
-- .pose/specs/2026-08-22-safe-check-executor.md
-- .pose/specs/2026-08-22-v1-integrated-acceptance.md
-- .pose/reports/2026-08-23-standard-fechar-feedback-evaluation-progression.md
-- .pose/reports/2026-08-23-standard-validate-native.md
+- _No files detected_
 
 ## Validation Commands
 - _Fill manually_
@@ -30,14 +23,14 @@
 - _No validation output detected_
 
 ## Execution Metadata
-- Generated at (UTC): 2026-08-23T03:58:17Z
+- Generated at (UTC): 2026-08-23T04:31:30Z
 - Context: auto-validate
 - Validation profile: strict
-- Sequence for task/spec: 8
+- Sequence for task/spec: 9
 - Stable comparison hash: 5b47855e60f64e73728abd99582eb01357a94f0c289ad7fa9125d680a322e54f
 
 ## Historical Comparison
-- Previous execution: 2026-08-23T03:57:21Z
+- Previous execution: 2026-08-23T03:58:17Z
 - Status: stable
 - Stable field diffs:
 - _No changes in stable fields_

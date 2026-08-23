@@ -427,6 +427,10 @@
     {
       "from": "workspace-observation-baselines",
       "to": "local-event-store"
+    },
+    {
+      "from": "workspace-observation-baselines",
+      "to": "learning-domain-model"
     }
   ],
   "schemaVersion": 1,
@@ -502,7 +506,7 @@
       ],
       "path": ".pose/specs/2026-08-22-feedback-evaluation-progression.md",
       "priority": 80,
-      "status": "in-progress"
+      "status": "done"
     },
     "go-backend-packs": {
       "depends_on": [
@@ -720,11 +724,12 @@
     "workspace-observation-baselines": {
       "depends_on": [
         "go-runtime-foundation",
-        "local-event-store"
+        "local-event-store",
+        "learning-domain-model"
       ],
       "path": ".pose/specs/2026-08-22-workspace-observation-baselines.md",
       "priority": 90,
-      "status": "draft"
+      "status": "in-progress"
     }
   }
 }

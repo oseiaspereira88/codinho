@@ -9,9 +9,14 @@ package mcpserver
 type ProgressEffect string
 
 const (
-	ProgressEffectNone           ProgressEffect = "none"
-	ProgressEffectSessionChanged ProgressEffect = "session_changed"
-	ProgressEffectSolutionReveal ProgressEffect = "solution_revealed"
+	ProgressEffectNone               ProgressEffect = "none"
+	ProgressEffectSessionChanged     ProgressEffect = "session_changed"
+	ProgressEffectFeedbackRecorded   ProgressEffect = "feedback_recorded"
+	ProgressEffectAttemptRecorded    ProgressEffect = "attempt_recorded"
+	ProgressEffectEvaluationRecorded ProgressEffect = "evaluation_recorded"
+	ProgressEffectStepCompleted      ProgressEffect = "step_completed"
+	ProgressEffectStepAdvanced       ProgressEffect = "step_advanced"
+	ProgressEffectSolutionReveal     ProgressEffect = "solution_revealed"
 )
 
 // ActiveNode identifies the session's current instructional node.

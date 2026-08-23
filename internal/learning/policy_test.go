@@ -106,7 +106,7 @@ func TestEvaluationNeverCompletesOrAdvances(t *testing.T) {
 	eval := Evaluation{
 		StepID: "step_1",
 		Criteria: []CriterionResult{
-			{Name: "fields-match", Blocking: true, Verdict: VerdictNotMet},
+			{Name: "fields-match", Kind: StructuralCriterionKind, Severity: SeverityBlocking, Verdict: VerdictNotMet},
 		},
 	}
 	if !eval.HasBlockingFailure() {

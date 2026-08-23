@@ -36,6 +36,7 @@ func New(deps Deps, stderr io.Writer) *mcp.Server {
 	registerCatalogTools(server, deps.Catalog)
 	registerSessionTools(server, deps.Session)
 	registerAssistanceTools(server, deps.Session, deps.Assistance)
+	registerAssessmentTools(server, deps.Session)
 
 	return server
 }

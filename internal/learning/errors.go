@@ -8,16 +8,19 @@ import "fmt"
 type ErrorCode string
 
 const (
-	ErrCodeInvalidValue             ErrorCode = "invalid_value"
-	ErrCodeInstructionAlreadyActive ErrorCode = "instruction_already_active"
-	ErrCodeNoActiveInstruction      ErrorCode = "no_active_instruction"
-	ErrCodeInvalidSessionTransition ErrorCode = "invalid_session_transition"
-	ErrCodeInvalidStepTransition    ErrorCode = "invalid_step_transition"
-	ErrCodeInvalidDetourTransition  ErrorCode = "invalid_detour_transition"
-	ErrCodeStepNotCompletable       ErrorCode = "step_not_completable"
-	ErrCodeAdvanceNotAllowed        ErrorCode = "advance_not_allowed"
-	ErrCodeDisclosureExceeded       ErrorCode = "disclosure_exceeded"
-	ErrCodeHintLevelSkipped         ErrorCode = "hint_level_skipped"
+	ErrCodeInvalidValue                        ErrorCode = "invalid_value"
+	ErrCodeInstructionAlreadyActive            ErrorCode = "instruction_already_active"
+	ErrCodeNoActiveInstruction                 ErrorCode = "no_active_instruction"
+	ErrCodeInvalidSessionTransition            ErrorCode = "invalid_session_transition"
+	ErrCodeInvalidStepTransition               ErrorCode = "invalid_step_transition"
+	ErrCodeInvalidDetourTransition             ErrorCode = "invalid_detour_transition"
+	ErrCodeStepNotCompletable                  ErrorCode = "step_not_completable"
+	ErrCodeAdvanceNotAllowed                   ErrorCode = "advance_not_allowed"
+	ErrCodeDisclosureExceeded                  ErrorCode = "disclosure_exceeded"
+	ErrCodeHintLevelSkipped                    ErrorCode = "hint_level_skipped"
+	ErrCodeQualitativeJudgmentRequiresEvidence ErrorCode = "qualitative_judgment_requires_evidence"
+	ErrCodeStepNotEvaluable                    ErrorCode = "step_not_evaluable"
+	ErrCodeCompletionPolicyNotMet              ErrorCode = "completion_policy_not_met"
 )
 
 // DomainError is a typed, comparable error. Two DomainError values are equal

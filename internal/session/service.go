@@ -11,6 +11,7 @@ import (
 	"sync"
 	"sync/atomic"
 
+	"github.com/oseiaspereira88/codinho/internal/assessment"
 	"github.com/oseiaspereira88/codinho/internal/assistance"
 	"github.com/oseiaspereira88/codinho/internal/curriculum"
 	"github.com/oseiaspereira88/codinho/internal/eventstore"
@@ -45,6 +46,11 @@ type record struct {
 	session     *learning.LearningSession
 	challengeID string
 	depth       learning.Depth
+	// cleanEvaluation tracks whether the active step's most recent
+	// evaluation had no blocking failure, gating step_complete's
+	// requires_positive_evaluation policy (requirement R7). It resets
+	// whenever the active step changes.
+	cleanEvaluation bool
 }
 
 // Service orchestrates sessions: lifecycle, single active instruction,
@@ -436,6 +442,7 @@ func (s *Service) GranularityAdjust(id learning.SessionID, depth learning.Depth,
 			return GranularityResult{}, err
 		}
 		rec.depth = depth
+		rec.cleanEvaluation = false
 	}
 	return GranularityResult{StepID: window.StepID, Kind: window.Kind, Revision: ev.Revision}, nil
 }
@@ -645,4 +652,277 @@ func (s *Service) DetourFinish(id learning.SessionID, outcome assistance.DetourO
 		}
 	}
 	return DetourResult{State: d.State, Revision: ev.Revision}, nil
+}
+
+// FeedbackPrepare assembles the read-only context feedback_record's caller
+// authors the actual feedback from (requirement R1). It never mutates
+// session state or writes an event.
+func (s *Service) FeedbackPrepare(id learning.SessionID, question string) (assessment.FeedbackPacket, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	_, _, step, err := s.activeWindow(id)
+	if err != nil {
+		return assessment.FeedbackPacket{}, err
+	}
+	return assessment.PrepareFeedback(step, question), nil
+}
+
+// FeedbackRecord persists feedback already authored elsewhere (the tutor
+// agent), without approving, consuming an attempt, completing or advancing
+// the step (requirement R2; PROJECT.md §8.6 invariant 3).
+func (s *Service) FeedbackRecord(id learning.SessionID, feedbackType learning.FeedbackType, text string, blockingOverride *bool, expectedRevision uint64, requestID string) (LifecycleResult, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	rec, active, _, err := s.activeWindow(id)
+	if err != nil {
+		return LifecycleResult{}, err
+	}
+	fb, err := learning.NewFeedbackRecord(active.StepID, feedbackType, text, blockingOverride)
+	if err != nil {
+		return LifecycleResult{}, err
+	}
+	ev, _, err := s.mutate(id, expectedRevision, requestID, eventstore.EventFeedbackRecorded, map[string]any{
+		"step_id": string(fb.StepID), "type": string(fb.Type), "blocking": fb.Blocking,
+	})
+	if err != nil {
+		return LifecycleResult{}, err
+	}
+	return LifecycleResult{State: rec.session.State, Revision: ev.Revision}, nil
+}
+
+// EvaluateInput is what StepEvaluate receives (requirement R3).
+type EvaluateInput struct {
+	SessionID        learning.SessionID
+	Criteria         []assessment.CriterionInput
+	SubmissionIntent bool
+	ExpectedRevision uint64
+	RequestID        string
+}
+
+// EvaluateResult is what StepEvaluate returns.
+type EvaluateResult struct {
+	StepID             learning.StepID
+	Criteria           []learning.CriterionResult
+	HasBlockingFailure bool
+	AttemptRecorded    bool
+	Revision           uint64
+}
+
+// StepEvaluate resolves each criterion (deterministically for structural
+// ones, from the caller's cited judgment for qualitative ones), persists
+// the evaluation, and creates an attempt only when SubmissionIntent is
+// true. It never completes or advances the step (requirement R3, R5, R6,
+// R7; PROJECT.md §12.3 invariant 4).
+func (s *Service) StepEvaluate(in EvaluateInput) (EvaluateResult, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	rec, active, _, err := s.activeWindow(in.SessionID)
+	if err != nil {
+		return EvaluateResult{}, err
+	}
+	if active.State != learning.StepStateActive && active.State != learning.StepStateEvaluated {
+		return EvaluateResult{}, learning.DomainError{Code: learning.ErrCodeStepNotEvaluable, Detail: string(active.State)}
+	}
+
+	results := make([]learning.CriterionResult, 0, len(in.Criteria))
+	for _, c := range in.Criteria {
+		r, err := assessment.Resolve(c)
+		if err != nil {
+			return EvaluateResult{}, err
+		}
+		results = append(results, r)
+	}
+	blocking := (learning.Evaluation{StepID: active.StepID, Criteria: results}).HasBlockingFailure()
+
+	ev, fresh, err := s.mutate(in.SessionID, in.ExpectedRevision, in.RequestID, eventstore.EventEvaluationRecorded, map[string]any{
+		"step_id":              string(active.StepID),
+		"criteria":             results,
+		"submission_intent":    in.SubmissionIntent,
+		"has_blocking_failure": blocking,
+	})
+	if err != nil {
+		return EvaluateResult{}, err
+	}
+	if fresh {
+		if active.State == learning.StepStateActive {
+			if err := active.Transition(learning.StepStateEvaluated, false); err != nil {
+				return EvaluateResult{}, err
+			}
+		}
+		rec.cleanEvaluation = !blocking
+	}
+
+	if in.SubmissionIntent {
+		var evidenceIDs []string
+		for _, r := range results {
+			if r.EvidenceID != "" {
+				evidenceIDs = append(evidenceIDs, string(r.EvidenceID))
+			}
+		}
+		attemptRequestID := ""
+		if in.RequestID != "" {
+			attemptRequestID = in.RequestID + ":attempt"
+		}
+		// A distinct request_id keeps this second append independently
+		// idempotent: reusing in.RequestID would hit the eventstore's own
+		// (global-by-request_id) replay cache from the append above and
+		// silently skip this one.
+		if _, _, err := s.mutate(in.SessionID, ev.Revision, attemptRequestID, eventstore.EventAttemptSubmitted, map[string]any{
+			"step_id":           string(active.StepID),
+			"evidence_ids":      evidenceIDs,
+			"solution_revealed": active.SolutionRevealed,
+		}); err != nil {
+			return EvaluateResult{}, err
+		}
+	}
+
+	return EvaluateResult{
+		StepID:             active.StepID,
+		Criteria:           results,
+		HasBlockingFailure: blocking,
+		AttemptRecorded:    in.SubmissionIntent,
+		Revision:           s.store.Revision(string(in.SessionID)),
+	}, nil
+}
+
+// ReflectionRecord persists a short reasoning answer and its descriptive
+// assessment, distinct from implementation evidence (requirement R9;
+// PROJECT.md §8.9). It never changes step or session state.
+func (s *Service) ReflectionRecord(id learning.SessionID, competencyID learning.CompetencyID, prompt, answer, assessmentText string, expectedRevision uint64, requestID string) (LifecycleResult, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	rec, active, _, err := s.activeWindow(id)
+	if err != nil {
+		return LifecycleResult{}, err
+	}
+	if answer == "" {
+		return LifecycleResult{}, learning.DomainError{Code: learning.ErrCodeInvalidValue, Detail: "reflection answer is required"}
+	}
+	ev, _, err := s.mutate(id, expectedRevision, requestID, eventstore.EventReflectionRecorded, map[string]any{
+		"step_id": string(active.StepID), "competency_id": string(competencyID),
+		"prompt": prompt, "answer": answer, "assessment": assessmentText,
+	})
+	if err != nil {
+		return LifecycleResult{}, err
+	}
+	return LifecycleResult{State: rec.session.State, Revision: ev.Revision}, nil
+}
+
+// StepComplete marks the active step completed when the step's authored
+// completion policy is satisfied (or override is set), never activating
+// the next node (requirement R7, R8; PROJECT.md §8.6 "Conclusão").
+func (s *Service) StepComplete(id learning.SessionID, confirm, override bool, expectedRevision uint64, requestID string) (LifecycleResult, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	rec, active, step, err := s.activeWindow(id)
+	if err != nil {
+		return LifecycleResult{}, err
+	}
+	if !override {
+		if step.Completion.RequiresPositiveEvaluation && !rec.cleanEvaluation {
+			return LifecycleResult{}, learning.DomainError{Code: learning.ErrCodeCompletionPolicyNotMet, Detail: "requires_positive_evaluation"}
+		}
+		if step.Completion.RequiresUserConfirmation && !confirm {
+			return LifecycleResult{}, learning.DomainError{Code: learning.ErrCodeCompletionPolicyNotMet, Detail: "requires_user_confirmation"}
+		}
+	}
+
+	ev, fresh, err := s.mutate(id, expectedRevision, requestID, eventstore.EventStepCompleted, map[string]any{
+		"step_id": string(active.StepID), "override": override, "clean_evaluation": rec.cleanEvaluation, "confirmed": confirm,
+	})
+	if err != nil {
+		return LifecycleResult{}, err
+	}
+	if fresh {
+		if err := active.Complete(override); err != nil {
+			return LifecycleResult{}, err
+		}
+	}
+	return LifecycleResult{State: rec.session.State, Revision: ev.Revision}, nil
+}
+
+// AdvanceOption is one candidate next step when the active step branches
+// into more than one child (PROJECT.md §15.6 "informa opções quando houver
+// ramificação").
+type AdvanceOption struct {
+	StepID string `json:"step_id"`
+	Kind   string `json:"kind"`
+}
+
+// AdvanceResult is what StepAdvance returns: either a single activated
+// next step, a list of branch options to choose from, or Done when the
+// challenge tree is exhausted. Branches and Done never mutate state or
+// consume expectedRevision/requestID — only activating a single next step
+// does.
+type AdvanceResult struct {
+	StepID   string
+	Kind     string
+	Branches []AdvanceOption
+	Done     bool
+	Revision uint64
+}
+
+// StepAdvance activates the next permitted node in the authored tree's
+// document order, requiring the current active step to be completed
+// unless override is set (requirement R7; PROJECT.md §8.6 "Avanço").
+func (s *Service) StepAdvance(id learning.SessionID, override bool, expectedRevision uint64, requestID string) (AdvanceResult, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	rec, ok := s.sessions[id]
+	if !ok {
+		return AdvanceResult{}, ErrSessionNotFound
+	}
+	active := rec.session.ActiveStep()
+	if active == nil {
+		return AdvanceResult{}, ErrNoActiveStep
+	}
+	challenge, err := s.challenge(rec.challengeID)
+	if err != nil {
+		return AdvanceResult{}, err
+	}
+	roots, ok := rootSteps(challenge)
+	if !ok {
+		return AdvanceResult{}, ErrNoWindowAtDepth
+	}
+	next, branches, found, ok := advanceFrom(roots, string(active.StepID), nil)
+	if !found {
+		return AdvanceResult{}, ErrNotFound
+	}
+	if len(branches) > 0 {
+		opts := make([]AdvanceOption, len(branches))
+		for i, b := range branches {
+			opts[i] = AdvanceOption{StepID: b.ID, Kind: b.Kind}
+		}
+		return AdvanceResult{Branches: opts, Revision: s.store.Revision(string(id))}, nil
+	}
+	if !ok {
+		return AdvanceResult{Done: true, Revision: s.store.Revision(string(id))}, nil
+	}
+
+	ev, fresh, err := s.mutate(id, expectedRevision, requestID, eventstore.EventStepAdvanced, map[string]string{
+		"from": string(active.StepID), "to": next.ID,
+	})
+	if err != nil {
+		return AdvanceResult{}, err
+	}
+	if fresh {
+		nextProgress := learning.NewStepProgress(learning.StepID(next.ID))
+		if err := nextProgress.Transition(learning.StepStateAvailable, false); err != nil {
+			return AdvanceResult{}, err
+		}
+		if err := nextProgress.Transition(learning.StepStateActive, false); err != nil {
+			return AdvanceResult{}, err
+		}
+		if err := rec.session.Advance(nextProgress, override); err != nil {
+			return AdvanceResult{}, err
+		}
+		rec.cleanEvaluation = false
+	}
+	return AdvanceResult{StepID: next.ID, Kind: next.Kind, Revision: ev.Revision}, nil
 }

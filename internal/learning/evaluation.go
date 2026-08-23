@@ -66,21 +66,80 @@ func NewFeedbackRecord(stepID StepID, feedbackType FeedbackType, text string, bl
 }
 
 // EvaluationVerdict is the outcome of comparing evidence with criteria
-// (PROJECT.md §8.6 "Avaliação").
+// (PROJECT.md §8.6 "Avaliação", §21.2).
 type EvaluationVerdict string
 
 const (
-	VerdictMet          EvaluationVerdict = "met"
-	VerdictPartiallyMet EvaluationVerdict = "partially_met"
-	VerdictNotMet       EvaluationVerdict = "not_met"
-	VerdictUnverifiable EvaluationVerdict = "unverifiable"
+	VerdictMet           EvaluationVerdict = "met"
+	VerdictPartiallyMet  EvaluationVerdict = "partially_met"
+	VerdictNotMet        EvaluationVerdict = "not_met"
+	VerdictUnverifiable  EvaluationVerdict = "unverifiable"
+	VerdictNotApplicable EvaluationVerdict = "not_applicable"
 )
 
-// CriterionResult judges one evaluation criterion.
+func (v EvaluationVerdict) valid() bool {
+	switch v {
+	case VerdictMet, VerdictPartiallyMet, VerdictNotMet, VerdictUnverifiable, VerdictNotApplicable:
+		return true
+	}
+	return false
+}
+
+// FindingSeverity classifies an achado (finding) surfaced while evaluating
+// a criterion (PROJECT.md §21.2).
+type FindingSeverity string
+
+const (
+	SeverityBlocking             FindingSeverity = "blocking"
+	SeverityImportantNonBlocking FindingSeverity = "important_non_blocking"
+	SeverityAdvisory             FindingSeverity = "advisory"
+)
+
+func (s FindingSeverity) valid() bool {
+	switch s {
+	case SeverityBlocking, SeverityImportantNonBlocking, SeverityAdvisory:
+		return true
+	}
+	return false
+}
+
+// CriterionResult judges one evaluation criterion. EvidenceID and
+// RubricRef are required for every qualitative judgment (requirement R4,
+// PROJECT.md §21.1: "Cada julgamento qualitativo deve citar uma evidência
+// observada e uma rubrica"); Kind == "structural" is the one exemption,
+// since its verdict is derived by the caller from evidence presence
+// alone, not semantic judgment.
 type CriterionResult struct {
-	Name     string
-	Blocking bool
-	Verdict  EvaluationVerdict
+	Name       string            `json:"name"`
+	Kind       string            `json:"kind"`
+	Severity   FindingSeverity   `json:"severity"`
+	Verdict    EvaluationVerdict `json:"verdict"`
+	EvidenceID EvidenceID        `json:"evidence_id,omitempty"`
+	RubricRef  string            `json:"rubric_ref,omitempty"`
+}
+
+// StructuralCriterionKind marks a criterion whose verdict this system
+// derives deterministically rather than from semantic judgment (PROJECT.md
+// §21.1 "Determinística pelo servidor").
+const StructuralCriterionKind = "structural"
+
+// NewCriterionResult validates severity and verdict, and enforces that
+// every non-structural (qualitative) judgment cites both evidence and a
+// rubric (requirement R4).
+func NewCriterionResult(name, kind string, severity FindingSeverity, verdict EvaluationVerdict, evidenceID EvidenceID, rubricRef string) (CriterionResult, error) {
+	if name == "" {
+		return CriterionResult{}, newDomainError(ErrCodeInvalidValue, "criterion name is required")
+	}
+	if !severity.valid() {
+		return CriterionResult{}, newDomainError(ErrCodeInvalidValue, "finding severity: "+string(severity))
+	}
+	if !verdict.valid() {
+		return CriterionResult{}, newDomainError(ErrCodeInvalidValue, "evaluation verdict: "+string(verdict))
+	}
+	if kind != StructuralCriterionKind && (evidenceID == "" || rubricRef == "") {
+		return CriterionResult{}, newDomainError(ErrCodeQualitativeJudgmentRequiresEvidence, name)
+	}
+	return CriterionResult{Name: name, Kind: kind, Severity: severity, Verdict: verdict, EvidenceID: evidenceID, RubricRef: rubricRef}, nil
 }
 
 // Evaluation compares evidence with criteria. It never completes or
@@ -92,10 +151,12 @@ type Evaluation struct {
 	AttemptID *EvidenceID // set only when the learner deliberately submitted
 }
 
-// HasBlockingFailure reports whether any blocking criterion was not met.
+// HasBlockingFailure reports whether any blocking-severity criterion was
+// not met (not_applicable never blocks: the criterion simply does not
+// apply here).
 func (e Evaluation) HasBlockingFailure() bool {
 	for _, c := range e.Criteria {
-		if c.Blocking && c.Verdict != VerdictMet {
+		if c.Severity == SeverityBlocking && c.Verdict != VerdictMet && c.Verdict != VerdictNotApplicable {
 			return true
 		}
 	}

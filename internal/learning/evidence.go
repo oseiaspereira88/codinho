@@ -87,10 +87,15 @@ func NewHintUsage(stepID StepID, level DisclosureLevel, policy DisclosurePolicy)
 
 // Reflection is a short, non-interrogative response demonstrating reasoning
 // (PROJECT.md §8.9). Its quality is evidence separate from implementation.
+// Assessment is the tutor's descriptive (non-blocking, non-scoring) read of
+// that quality; it never completes or advances a step (feedback-evaluation-
+// progression requirement R9).
 type Reflection struct {
-	StepID StepID
-	Prompt string
-	Answer string
+	StepID       StepID
+	CompetencyID CompetencyID
+	Prompt       string
+	Answer       string
+	Assessment   string
 }
 
 // MasteryEvidence is one data point feeding a longitudinal mastery

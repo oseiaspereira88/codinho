@@ -148,6 +148,8 @@ func TestContractListsExactlyTheMinimalToolSlice(t *testing.T) {
 		"session_finish": false, "granularity_adjust": false,
 		"hint_request": false, "syntax_recall_get": false, "concept_content_get": false,
 		"learning_detour_start": false, "learning_detour_finish": false,
+		"feedback_prepare": false, "feedback_record": false, "step_evaluate": false,
+		"reflection_record": false, "step_complete": false, "step_advance": false,
 	}
 	for _, tool := range res.Tools {
 		if _, known := want[tool.Name]; !known {

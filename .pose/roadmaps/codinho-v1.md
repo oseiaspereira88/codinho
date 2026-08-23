@@ -28,7 +28,7 @@ host e cumprimento dos gates editoriais do catálogo.
 
 ## Milestone: executable-foundation
 - after: architecture-baseline
-- specs: go-runtime-foundation, learning-domain-model, catalog-schema-loader, local-event-store, mcp-stdio-foundation
+- specs: go-runtime-foundation, learning-domain-model, catalog-schema-loader, local-event-store, eventstore-idempotency-scope, mcp-stdio-foundation
 
 ## Milestone: pedagogical-core
 - after: executable-foundation

@@ -68,7 +68,8 @@ Transformar tools e estado em uma experiência pedagógica consistente que prese
 - created: .agents/skills/codinho/references/mcp-tool-routing.md
 - created: .agents/skills/codinho/assets/session-summary-template.md
 - created: testdata/host/adversarial-prompts.yaml
-- created: testdata/host/session-transcripts/
+- created: testdata/host/session-transcripts/practice-session-happy-path.md
+- created: testdata/host/session-transcripts/degraded-mode-and-injection.md
 - created: .codex/config.toml.example
 
 ### Delivery targets

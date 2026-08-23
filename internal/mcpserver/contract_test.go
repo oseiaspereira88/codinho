@@ -64,6 +64,10 @@ challenges:
             concepts: [slice-declaration]
             evidence:
               strategies: [compile]
+relations:
+  - from: fixture.challenge-one
+    to: slice-declaration
+    kind: requires
 `)
 	catalog, diags, err := curriculum.Load(dir, curriculum.DefaultLimits)
 	if err != nil {
@@ -98,7 +102,11 @@ func newContractClient(t *testing.T) *mcp.ClientSession {
 	workspaceService := application.NewWorkspaceService(store, evidenceStore)
 	checksService := application.NewChecksService(store, sessionService, workspaceService)
 	progressService := application.NewProgressService(store)
-	server := New(Deps{Catalog: catalogService, Session: sessionService, Assistance: assistanceService, Workspace: workspaceService, Checks: checksService, Progress: progressService}, io.Discard)
+	recommendationService := application.NewRecommendationService(catalog, progressService)
+	server := New(Deps{
+		Catalog: catalogService, Session: sessionService, Assistance: assistanceService, Workspace: workspaceService,
+		Checks: checksService, Progress: progressService, Recommendation: recommendationService,
+	}, io.Discard)
 
 	clientTransport, serverTransport := mcp.NewInMemoryTransports()
 
@@ -161,6 +169,7 @@ func TestContractListsExactlyTheMinimalToolSlice(t *testing.T) {
 		"reflection_record": false, "step_complete": false, "step_advance": false,
 		"workspace_observe": false, "evidence_get": false, "check_run": false,
 		"progress_get": false, "review_due": false, "mastery_evidence_record": false,
+		"concept_relations_get": false, "learning_path_recommend": false,
 	}
 	for _, tool := range res.Tools {
 		if _, known := want[tool.Name]; !known {

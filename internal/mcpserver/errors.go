@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/oseiaspereira88/codinho/internal/application"
+	"github.com/oseiaspereira88/codinho/internal/curriculum"
 	"github.com/oseiaspereira88/codinho/internal/eventstore"
 	"github.com/oseiaspereira88/codinho/internal/evidence"
 	"github.com/oseiaspereira88/codinho/internal/learning"
@@ -64,6 +65,8 @@ func mapError(err error) (ErrorCode, string, bool) {
 		return ErrCodeInvalidInput, "dimension must be one of the eight declared mastery dimensions", false
 	case errors.Is(err, application.ErrInvalidCompetency):
 		return ErrCodeInvalidInput, "competency_id and evidence_id are required", false
+	case errors.Is(err, curriculum.ErrSearchTextTooLong):
+		return ErrCodeInvalidInput, "search text is too long", false
 	case errors.Is(err, evidence.ErrInvalidID), errors.Is(err, evidence.ErrIntegrityMismatch), errors.Is(err, os.ErrNotExist):
 		return ErrCodeItemNotFound, "no evidence with that ID exists for this session", false
 	default:

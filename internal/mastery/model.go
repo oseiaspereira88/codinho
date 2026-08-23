@@ -57,6 +57,16 @@ var rank = map[State]int{
 	StateTransferred:             5,
 }
 
+// Higher returns whichever of a, b is further along the ladder, so a
+// caller comparing a competency's states across dimensions (curriculum-
+// graph-path-recommendation) never needs its own copy of the ladder order.
+func Higher(a, b State) State {
+	if rank[b] > rank[a] {
+		return b
+	}
+	return a
+}
+
 // Signal is one piece of mastery evidence a caller (mastery_evidence_
 // record) asserts, citing an already-recorded Evidence rather than
 // creating a new one (Decision 2; invariant 9: evidence is immutable).

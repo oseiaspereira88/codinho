@@ -37,7 +37,7 @@ Impedir que a meta de cobertura produza conteúdo superficial, não avaliável o
 - R3: Detectar ausência de competência, critério, evidência, borda, pista ou reflexão exigida.
 - R4: Verificar ordem crescente das pistas e possível gabarito no briefing ou níveis inferiores.
 - R5: Executar ou validar todos os checks contra fixtures reproduzíveis.
-- R6: Projetar cobertura por tema, conceito, competência, tipo, nível, variante e step node.
+- R6: Projetar cobertura por tema, conceito, competência, tipo, nível, variante e step node, e verificar cobertura e coerência das relações do grafo curricular (curriculum-graph-path-recommendation): todo item publicável deve ter ao menos uma relação declarada além de `requires`/`prerequisites` puro, e relações `contrasts_with`/`commonly_fails_with` devem ser recíprocas ou justificadas.
 - R7: Exigir metadados de autoria, revisão humana e playtest antes de status published.
 - R8: Expor codinho catalog validate com saída humana, JSON e códigos estáveis.
 - R9: Falhar o gate V1 abaixo de 160 conceitos, 100 competências, 84 desafios, 12 trilhas e 500 step nodes.

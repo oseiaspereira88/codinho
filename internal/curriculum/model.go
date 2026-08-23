@@ -30,7 +30,7 @@ type PackManifest struct {
 }
 
 // Pack is one authored YAML file: a self-contained set of themes, concepts,
-// competencies, tracks and challenges, versioned as a unit.
+// competencies, tracks, challenges and relations, versioned as a unit.
 type Pack struct {
 	SchemaVersion int                   `yaml:"schema_version"`
 	ID            string                `yaml:"id"`
@@ -40,10 +40,26 @@ type Pack struct {
 	Competencies  []CompetencyAuthoring `yaml:"competencies"`
 	Tracks        []TrackAuthoring      `yaml:"tracks"`
 	Challenges    []ChallengeAuthoring  `yaml:"challenges"`
+	// Relations is additive to Prerequisites (curriculum-graph-path-
+	// recommendation Decision 2): it connects any two catalog items by one
+	// of the eight declared kinds, independent of the older, challenge-only
+	// Prerequisites mechanism.
+	Relations []RelationAuthoring `yaml:"relations"`
 
 	// File is the source path, set by the loader for diagnostics. It is not
 	// part of the authored YAML shape.
 	File string `yaml:"-"`
+}
+
+// RelationAuthoring is one authored edge between two catalog items,
+// identified by ID regardless of kind (curriculum-graph-path-
+// recommendation, requirement R1). Kind must be one of the eight declared
+// RelationKind values; the loader rejects anything else explicitly rather
+// than ignoring it (Compatibility).
+type RelationAuthoring struct {
+	From string `yaml:"from"`
+	To   string `yaml:"to"`
+	Kind string `yaml:"kind"`
 }
 
 // ThemeAuthoring is a knowledge area (PROJECT.md §7.1, §14.2).

@@ -18,6 +18,8 @@ const (
 	DiagMissingReference          DiagnosticCode = "missing_reference"
 	DiagPrerequisiteCycle         DiagnosticCode = "prerequisite_cycle"
 	DiagCriteriaWithoutEvidence   DiagnosticCode = "criteria_without_evidence"
+	DiagUnknownRelationKind       DiagnosticCode = "unknown_relation_kind"
+	DiagRelationCycle             DiagnosticCode = "relation_cycle"
 )
 
 // Diagnostic reports one finding with the file, item and field it came
@@ -127,7 +129,46 @@ func Validate(packs []Pack) []Diagnostic {
 	}
 
 	diags = append(diags, detectPrerequisiteCycles(prereqs)...)
+	diags = append(diags, validateRelations(packs, themes, concepts, competencies, challenges)...)
 
+	return diags
+}
+
+// validateRelations checks every authored RelationAuthoring (curriculum-
+// graph-path-recommendation, requirement R1): an unknown Kind fails
+// explicitly (Compatibility) rather than being silently indexed by
+// newGraph, both endpoints must reference a real catalog item, and
+// precedence-implying kinds (Decision 3) must never cycle (requirement
+// R2).
+func validateRelations(packs []Pack, themes, concepts, competencies, challenges map[string]bool) []Diagnostic {
+	exists := func(id string) bool {
+		return themes[id] || concepts[id] || competencies[id] || challenges[id]
+	}
+
+	var diags []Diagnostic
+	deps := map[string][]string{}
+	for _, p := range packs {
+		for _, r := range p.Relations {
+			kind := RelationKind(r.Kind)
+			if !knownRelationKinds[kind] {
+				diags = append(diags, Diagnostic{
+					File: p.File, Item: r.From, Field: "relations", Code: DiagUnknownRelationKind,
+					Detail: r.Kind, Blocking: true,
+				})
+				continue
+			}
+			if !exists(r.From) {
+				diags = append(diags, Diagnostic{File: p.File, Item: r.From, Field: "relations.from", Code: DiagMissingReference, Detail: r.From})
+			}
+			if !exists(r.To) {
+				diags = append(diags, Diagnostic{File: p.File, Item: r.From, Field: "relations.to", Code: DiagMissingReference, Detail: r.To})
+			}
+			if kind.IsPrecedence() {
+				deps[r.From] = append(deps[r.From], r.To)
+			}
+		}
+	}
+	diags = append(diags, detectRelationCycles(deps)...)
 	return diags
 }
 

@@ -1,0 +1,12 @@
+schema_version: 1
+id: fixture-pack
+version: 1.0.0
+concepts:
+  - id: concept-a
+    title: Concept A
+  - id: concept-b
+    title: Concept B
+relations:
+  - from: concept-a
+    to: concept-b
+    kind: not_a_real_relation_kind

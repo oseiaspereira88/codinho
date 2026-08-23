@@ -16,12 +16,13 @@ import (
 // acquiring the workspace lock, and closing/releasing them after Run
 // returns.
 type Deps struct {
-	Catalog    *application.CatalogService
-	Session    *application.SessionService
-	Assistance *application.AssistanceService
-	Workspace  *application.WorkspaceService
-	Checks     *application.ChecksService
-	Progress   *application.ProgressService
+	Catalog        *application.CatalogService
+	Session        *application.SessionService
+	Assistance     *application.AssistanceService
+	Workspace      *application.WorkspaceService
+	Checks         *application.ChecksService
+	Progress       *application.ProgressService
+	Recommendation *application.RecommendationService
 }
 
 // New builds an MCP server exposing the minimal vertical slice of tools
@@ -43,6 +44,7 @@ func New(deps Deps, stderr io.Writer) *mcp.Server {
 	registerWorkspaceTools(server, deps.Workspace)
 	registerCheckTools(server, deps.Checks)
 	registerProgressTools(server, deps.Progress)
+	registerRecommendationTools(server, deps.Recommendation)
 
 	return server
 }

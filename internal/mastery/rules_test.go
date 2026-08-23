@@ -90,6 +90,15 @@ func TestAdvanceStateTransferRequiresAnUnseenVariant(t *testing.T) {
 	}
 }
 
+func TestHigherReturnsTheFurtherAlongState(t *testing.T) {
+	if got := Higher(StateIntroduced, StateRetained); got != StateRetained {
+		t.Fatalf("Higher(introduced, retained) = %s, want retained", got)
+	}
+	if got := Higher(StateTransferred, StateNotObserved); got != StateTransferred {
+		t.Fatalf("Higher(transferred, not_observed) = %s, want transferred", got)
+	}
+}
+
 func TestAdvanceStateEvidenceCountAlwaysIncrements(t *testing.T) {
 	proj := DimensionProjection{}
 	for i := 1; i <= 5; i++ {

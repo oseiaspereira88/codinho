@@ -39,3 +39,13 @@ challenges:
                 kind: structural
     variants:
       - reserved-variant
+relations:
+  - from: fixture.challenge-one
+    to: slice-declaration
+    kind: requires
+  - from: slice-declaration
+    to: slice-filter
+    kind: deepens_into
+  - from: fixture.challenge-one
+    to: slice-filter
+    kind: relates_to

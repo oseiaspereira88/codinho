@@ -19,6 +19,7 @@ type Catalog struct {
 	competencies map[string]CompetencyAuthoring
 	tracks       map[string]TrackAuthoring
 	challenges   map[string]ChallengeAuthoring
+	graph        *Graph
 }
 
 func newCatalog(packs []Pack) *Catalog {
@@ -28,6 +29,7 @@ func newCatalog(packs []Pack) *Catalog {
 		competencies: map[string]CompetencyAuthoring{},
 		tracks:       map[string]TrackAuthoring{},
 		challenges:   map[string]ChallengeAuthoring{},
+		graph:        newGraph(packs),
 	}
 	for _, p := range packs {
 		for _, t := range p.Themes {
@@ -121,4 +123,30 @@ func (c *Catalog) Challenge(id string) (ChallengeAuthoring, bool) {
 	}
 	ch.Variants = nil // reserved: excluded from the public view
 	return ch, true
+}
+
+// Relations returns every relation authored to or from id, both
+// directions, in deterministic order (curriculum-graph-path-
+// recommendation, requirement R1, R7).
+func (c *Catalog) Relations(id string) (out, in []Relation) {
+	return c.graph.Out(id), c.graph.In(id)
+}
+
+// Competency returns the authoring record for id, or false when id is not
+// a competency.
+func (c *Catalog) Competency(id string) (CompetencyAuthoring, bool) {
+	cp, ok := c.competencies[id]
+	return cp, ok
+}
+
+// Challenges returns every challenge in the catalog, for callers (search,
+// recommendation) that need to scan the full set rather than one lookup
+// or a single-kind, single-theme List.
+func (c *Catalog) Challenges() []ChallengeAuthoring {
+	out := make([]ChallengeAuthoring, 0, len(c.challenges))
+	for _, ch := range c.challenges {
+		ch.Variants = nil // reserved: excluded from the public view, same as Challenge
+		out = append(out, ch)
+	}
+	return out
 }

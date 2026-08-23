@@ -25,21 +25,40 @@ func NewCatalogService(catalog *curriculum.Catalog) *CatalogService {
 	return &CatalogService{catalog: catalog}
 }
 
-// SearchQuery narrows List by kind and theme (requirement R5, R6: "filtros
-// básicos").
+// SearchQuery narrows a catalog search by any combination of fields
+// (requirement R3; R5, R6: "filtros básicos" from mcp-stdio-foundation
+// remain the Kind/Theme subset). An empty field is not applied.
 type SearchQuery struct {
-	Kind  curriculum.ItemKind
-	Theme string
+	Kind          curriculum.ItemKind
+	Theme         string
+	Text          string
+	Competency    string
+	Difficulty    string
+	ChallengeKind string
+	MaxMinutes    int
+	Prerequisite  string
+}
+
+// SearchResult is what Search returns: matching items plus whether the
+// result-count cap actually dropped matches (Security: never silently
+// claim completeness).
+type SearchResult struct {
+	Items     []curriculum.Item
+	Truncated bool
 }
 
 // Search returns every sanitized item matching q. An empty Kind defaults to
-// challenges, the slice's primary browsing surface.
-func (s *CatalogService) Search(q SearchQuery) []curriculum.Item {
-	kind := q.Kind
-	if kind == "" {
-		kind = curriculum.KindChallenge
+// challenges, the catalog's primary browsing surface (requirement R3).
+func (s *CatalogService) Search(q SearchQuery) (SearchResult, error) {
+	result, err := s.catalog.Search(curriculum.Query{
+		Kind: q.Kind, Theme: q.Theme, Text: q.Text, Competency: q.Competency,
+		Difficulty: q.Difficulty, ChallengeKind: q.ChallengeKind, MaxMinutes: q.MaxMinutes,
+		Prerequisite: q.Prerequisite,
+	})
+	if err != nil {
+		return SearchResult{}, err
 	}
-	return s.catalog.List(kind, q.Theme)
+	return SearchResult{Items: result.Items, Truncated: result.Truncated}, nil
 }
 
 // Get returns the sanitized item with id, or ErrNotFound.
@@ -49,4 +68,14 @@ func (s *CatalogService) Get(id string) (curriculum.Item, error) {
 		return curriculum.Item{}, ErrNotFound
 	}
 	return item, nil
+}
+
+// Relations returns id's outgoing and incoming relations, or ErrNotFound
+// when id does not exist in the catalog at all (requirement R7).
+func (s *CatalogService) Relations(id string) (out, in []curriculum.Relation, err error) {
+	if _, ok := s.catalog.Get(id); !ok {
+		return nil, nil, ErrNotFound
+	}
+	out, in = s.catalog.Relations(id)
+	return out, in, nil
 }

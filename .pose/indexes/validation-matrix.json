@@ -81,7 +81,7 @@
         {"name": "tutor-skill-routing", "program": "go", "args": ["test", "./cmd/codinho/...", "-run", "TestTutorSkillFullSessionRoutingOverRealStdio"], "severity": "required", "evidenceClass": "integration"},
         {"name": "cli-reachability", "program": "go", "args": ["test", "./cmd/codinho/...", "-run", "TestCLIEntrypointReachesEveryCommand"], "severity": "required", "evidenceClass": "reachability"},
         {"name": "cli-e2e", "program": "go", "args": ["test", "./cmd/codinho/...", "-run", "TestCLIEndToEndWorkflow"], "severity": "required", "evidenceClass": "e2e"},
-        {"name": "govulncheck", "program": "govulncheck", "args": ["./..."], "severity": "required", "evidenceClass": "security"}
+        {"name": "govulncheck", "program": "govulncheck", "args": ["./..."], "severity": "required"}
       ]
     }
   }

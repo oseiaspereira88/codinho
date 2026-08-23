@@ -70,7 +70,7 @@ Transformar tools e estado em uma experiência pedagógica consistente que prese
 - created: testdata/host/adversarial-prompts.yaml
 - created: testdata/host/session-transcripts/practice-session-happy-path.md
 - created: testdata/host/session-transcripts/degraded-mode-and-injection.md
-- created: .codex/config.example.toml
+- created: .codex/README.md
 - created: cmd/codinho/integration_test.go
 - modified: .pose/indexes/validation-matrix.json
 
@@ -160,7 +160,7 @@ Combinar conformance da skill, transcripts adversariais e sessões reais nos doi
 
 ### Execution log
 - `pose skills-check --strict` → `skills.checked=12 skills.errors=0 skills.warnings=0` (2026-08-23).
-- `python3 -c "yaml.safe_load(...)"` em `agents/openai.yaml` e `testdata/host/adversarial-prompts.yaml`, e parse de `.codex/config.example.toml` via `tomllib` → todos válidos (2026-08-23).
+- `python3 -c "yaml.safe_load(...)"` em `agents/openai.yaml` e `testdata/host/adversarial-prompts.yaml`, e `tomllib.load` no bloco TOML de `.codex/README.md` → todos válidos (2026-08-23).
 - `go build ./...` → ok (2026-08-23).
 - `go test ./... -race` → `ok` em todos os pacotes com testes, incluindo `cmd/codinho` (novo), sem data races (2026-08-23).
 - `govulncheck ./...` → "No vulnerabilities found." (2026-08-23).
@@ -195,7 +195,7 @@ Combinar conformance da skill, transcripts adversariais e sessões reais nos doi
   invariante 9. Estes são specs comportamentais para revisão
   manual/host (Known Gaps), não asserções byte-a-byte, porque
   comportamento de modelo varia.
-- `.codex/config.example.toml` e `agents/openai.yaml` declaram a
+- `.codex/README.md` e `agents/openai.yaml` declaram a
   dependência do servidor MCP sem paths privados; residual risk já
   documentado sobre compatibilidade futura com o formato real do Codex.
 
@@ -235,7 +235,7 @@ regras 3/4 preservados).
 ### Files and modules changed
 - `.agents/skills/codinho/{SKILL.md,agents/openai.yaml,references/*.md,assets/session-summary-template.md}` (criados)
 - `testdata/host/{adversarial-prompts.yaml,session-transcripts/*.md}` (criados)
-- `.codex/config.example.toml` (criado)
+- `.codex/README.md` (criado)
 - `cmd/codinho/integration_test.go` (criado)
 - `.pose/indexes/validation-matrix.json` (modificado: check `tutor-skill-routing` com `evidenceClass: integration`)
 

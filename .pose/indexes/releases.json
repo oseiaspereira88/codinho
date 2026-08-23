@@ -31,6 +31,14 @@
       "body": "`codinho serve` now supports the full session lifecycle: `session_configure`,\n`session_pause`, `session_resume`, `session_finish` and `granularity_adjust`\njoin `session_start`/`session_get`/`instruction_get`, letting an agent\npause, resume, finish and adjust the instructional depth of a running\nsession with optimistic-concurrency safety and idempotent retries.",
       "path": "session-orchestration-disclosure.md",
       "digest": "sha256:792f2673ede51ce52e04a7ab9e3f457db66f134affa998f84bc0d9eca86616d7"
+    },
+    {
+      "spec": "workspace-observation-baselines",
+      "category": "added",
+      "breaking": false,
+      "body": "O tutor agora consegue observar o workspace do aluno de forma somente\nleitura: estabelece uma baseline no início de um passo, reporta o que\nmudou em chamadas seguintes (restrito aos arquivos declarados pelo\ndesafio), e nunca inclui segredos ou credenciais na evidência coletada.",
+      "path": "workspace-observation-baselines.md",
+      "digest": "sha256:bde891834e16b6d7972b892a4e0e236eca043de988f268cccfd88936e04ff8df"
     }
   ],
   "releases": []

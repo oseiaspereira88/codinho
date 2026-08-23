@@ -69,10 +69,10 @@ specs.
   - report:2026-08-22-standard-create-complete-ailearn-v1-spec-portfolio.md
 
 ## Arquitetura
-<!-- state:derived hash:7c8d1467b720 status:active -->
+<!-- state:derived hash:2b9b705da47a status:active -->
 
 - componentes: total=1 verificados=1 completude=100.0%
-- linhas_de_codigo: producao=5332 testes=4181 total=9513
+- linhas_de_codigo: producao=6100 testes=5114 total=11214
 - linguagens: go
 - saude_de_codigo: TODOs=0 FIXMEs=0 panics=0 stubs=0
 - ultimos_assessments: ver artefatos em .pose/assessments/ e .pose/state/

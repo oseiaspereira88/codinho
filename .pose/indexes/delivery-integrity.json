@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "input_digest": "sha256:b586b65d412bbb12152622431f520846a4f1c1d25120afa318f477dc8d8c8ef8",
-  "provenance_digest": "sha256:b3030c83b8020ce05b8a020d2a7d77942c8343b9f80cd12417ad71ba14e06c52",
+  "input_digest": "sha256:f323dc35224d48a5ae9e55609b5f64f9daf2d6a91947f4d2f7c7449c5519b85e",
+  "provenance_digest": "sha256:e42f29485796874d8f7f4d5f0bf7ac014b5a6640a036452784e85851e6ca5e04",
   "nodes": [
     {
       "id": "artifact:.agents/skills/codinho/SKILL.md",
@@ -155,6 +155,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/changelogs/unreleased/session-orchestration-disclosure.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/changelogs/unreleased/workspace-observation-baselines.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/changelogs/unreleased/workspace-observation-baselines.md"
       }
     },
     {
@@ -319,6 +326,13 @@
       }
     },
     {
+      "id": "artifact:.pose/reports/2026-08-23-standard-fechar-workspace-observation-baselines.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/reports/2026-08-23-standard-fechar-workspace-observation-baselines.md"
+      }
+    },
+    {
       "id": "artifact:.pose/reports/2026-08-23-standard-validate-native.md",
       "type": "artifact",
       "attributes": {
@@ -330,6 +344,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/reports/history/standard-fechar-feedback-evaluation-progression.jsonl"
+      }
+    },
+    {
+      "id": "artifact:.pose/reports/history/standard-fechar-workspace-observation-baselines.jsonl",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/reports/history/standard-fechar-workspace-observation-baselines.jsonl"
       }
     },
     {
@@ -424,6 +445,13 @@
       }
     },
     {
+      "id": "artifact:.pose/review-attestations/rva-fabdeb7b5bea1ea4.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-attestations/rva-fabdeb7b5bea1ea4.json"
+      }
+    },
+    {
       "id": "artifact:.pose/review-bundles/rvb-0f6ad091dd284d2d.json",
       "type": "artifact",
       "attributes": {
@@ -442,6 +470,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/review-bundles/rvb-4595cba150c74751.json"
+      }
+    },
+    {
+      "id": "artifact:.pose/review-bundles/rvb-5b9a0c8620a814f5.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-bundles/rvb-5b9a0c8620a814f5.json"
       }
     },
     {
@@ -816,6 +851,20 @@
       }
     },
     {
+      "id": "artifact:internal/application/checks.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/application/checks.go"
+      }
+    },
+    {
+      "id": "artifact:internal/application/checks_test.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/application/checks_test.go"
+      }
+    },
+    {
       "id": "artifact:internal/application/progress.go",
       "type": "artifact",
       "attributes": {
@@ -963,10 +1012,24 @@
       }
     },
     {
+      "id": "artifact:internal/checks/process_unix_test.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/checks/process_unix_test.go"
+      }
+    },
+    {
       "id": "artifact:internal/checks/process_windows.go",
       "type": "artifact",
       "attributes": {
         "path": "internal/checks/process_windows.go"
+      }
+    },
+    {
+      "id": "artifact:internal/checks/process_windows_test.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/checks/process_windows_test.go"
       }
     },
     {
@@ -1523,6 +1586,13 @@
       }
     },
     {
+      "id": "artifact:internal/mcpserver/check_tools.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/mcpserver/check_tools.go"
+      }
+    },
+    {
       "id": "artifact:internal/mcpserver/contract_test.go",
       "type": "artifact",
       "attributes": {
@@ -1688,6 +1758,13 @@
       "type": "artifact",
       "attributes": {
         "path": "internal/session/assistance_test.go"
+      }
+    },
+    {
+      "id": "artifact:internal/session/checks_override_test.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/session/checks_override_test.go"
       }
     },
     {
@@ -2137,11 +2214,27 @@
       }
     },
     {
+      "id": "change-set:cs-4d3f63ca699e",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:ccdbd56ee5bfffdb982f2303d2e14f6a87575ac2c28b9a384e1315762dec22b8",
+        "selector": "trailers:workspace-observation-baselines"
+      }
+    },
+    {
       "id": "change-set:cs-4dcb2c920c9c",
       "type": "change-set",
       "attributes": {
         "diff_digest": "sha256:c56c94d83eb7442caa4abedf20c6e89a820fc599ad313c9f3f2f5b61050e70ca",
         "selector": "trailers:session-orchestration-disclosure"
+      }
+    },
+    {
+      "id": "change-set:cs-7a9bb4244979",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:7e3f0c6fa6b161450e6660cd936aa7f1f17e425bdd9348ebdb0943b656a929a0",
+        "selector": "trailers:safe-check-executor"
       }
     },
     {
@@ -2158,14 +2251,6 @@
       "attributes": {
         "diff_digest": "sha256:70af66be7ae38584241d4baf1f5fefbb2d29d20a312fb8e6bea421c57cf97969",
         "selector": "trailers:local-event-store"
-      }
-    },
-    {
-      "id": "change-set:cs-a3a43e01a920",
-      "type": "change-set",
-      "attributes": {
-        "diff_digest": "sha256:67f630e0fd0d7c548adbb36fdbccfea8a233d537a6515e3e2f257449b7a1250c",
-        "selector": "trailers:workspace-observation-baselines"
       }
     },
     {
@@ -2342,7 +2427,7 @@
       "id": "spec:safe-check-executor",
       "type": "spec",
       "attributes": {
-        "status": "draft"
+        "status": "in-progress"
       }
     },
     {
@@ -2377,7 +2462,7 @@
       "id": "spec:workspace-observation-baselines",
       "type": "spec",
       "attributes": {
-        "status": "in-progress"
+        "status": "done"
       }
     },
     {
@@ -3164,6 +3249,181 @@
       "type": "changes"
     },
     {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:.pose/assessments/README.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:.pose/assessments/consolidated.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:.pose/assessments/root.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:.pose/changelogs/unreleased/workspace-observation-baselines.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:.pose/indexes/delivery-integrity.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:.pose/indexes/releases.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:.pose/indexes/spec-graph.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:.pose/reports/2026-08-23-standard-fechar-workspace-observation-baselines.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:.pose/reports/2026-08-23-standard-validate-native.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:.pose/reports/history/standard-fechar-workspace-observation-baselines.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:.pose/reports/history/standard-validate-native.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:.pose/results/delivery-validation.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:.pose/review-attestations/rva-fabdeb7b5bea1ea4.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:.pose/review-bundles/rvb-5b9a0c8620a814f5.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:.pose/specs/2026-08-22-safe-check-executor.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:.pose/specs/2026-08-22-workspace-observation-baselines.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:.pose/state/components/root.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:.pose/state/project-state.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:cmd/codinho/main.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:internal/application/workspace.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:internal/application/workspace_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:internal/mcpserver/contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:internal/mcpserver/errors.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:internal/mcpserver/server.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:internal/mcpserver/workspace_contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:internal/mcpserver/workspace_tools.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:internal/workspace/baseline.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:internal/workspace/git.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:internal/workspace/glob.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:internal/workspace/golang.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:internal/workspace/hashes.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:internal/workspace/redaction.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:internal/workspace/root.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:internal/workspace/security_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4d3f63ca699e",
+      "to": "artifact:internal/workspace/workspace_test.go",
+      "type": "changes"
+    },
+    {
       "from": "change-set:cs-4dcb2c920c9c",
       "to": "artifact:.pose/changelogs/unreleased/session-orchestration-disclosure.md",
       "type": "changes"
@@ -3266,6 +3526,166 @@
     {
       "from": "change-set:cs-4dcb2c920c9c",
       "to": "artifact:internal/session/service_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:.pose/specs/2026-08-22-safe-check-executor.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:cmd/codinho/main.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/application/checks.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/application/checks_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/application/session.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/application/session_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/application/workspace.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/checks/executor.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/checks/executor_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/checks/limits.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/checks/model.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/checks/process_unix.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/checks/process_unix_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/checks/process_windows.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/checks/process_windows_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/checks/registry.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/checks/security_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/curriculum/model.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/mcpserver/assessment_contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/mcpserver/assistance_contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/mcpserver/check_contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/mcpserver/check_tools.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/mcpserver/contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/mcpserver/errors.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/mcpserver/server.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/mcpserver/session_contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/session/assessment_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/session/assistance_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/session/checks_override_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/session/service.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/session/service_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-7a9bb4244979",
+      "to": "artifact:internal/workspace/redaction.go",
       "type": "changes"
     },
     {
@@ -3496,101 +3916,6 @@
     {
       "from": "change-set:cs-a018e6cae57f",
       "to": "artifact:internal/evidence/store_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a3a43e01a920",
-      "to": "artifact:.pose/specs/2026-08-22-safe-check-executor.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a3a43e01a920",
-      "to": "artifact:.pose/specs/2026-08-22-workspace-observation-baselines.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a3a43e01a920",
-      "to": "artifact:cmd/codinho/main.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a3a43e01a920",
-      "to": "artifact:internal/application/workspace.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a3a43e01a920",
-      "to": "artifact:internal/application/workspace_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a3a43e01a920",
-      "to": "artifact:internal/mcpserver/contract_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a3a43e01a920",
-      "to": "artifact:internal/mcpserver/errors.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a3a43e01a920",
-      "to": "artifact:internal/mcpserver/server.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a3a43e01a920",
-      "to": "artifact:internal/mcpserver/workspace_contract_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a3a43e01a920",
-      "to": "artifact:internal/mcpserver/workspace_tools.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a3a43e01a920",
-      "to": "artifact:internal/workspace/baseline.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a3a43e01a920",
-      "to": "artifact:internal/workspace/git.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a3a43e01a920",
-      "to": "artifact:internal/workspace/glob.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a3a43e01a920",
-      "to": "artifact:internal/workspace/golang.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a3a43e01a920",
-      "to": "artifact:internal/workspace/hashes.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a3a43e01a920",
-      "to": "artifact:internal/workspace/redaction.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a3a43e01a920",
-      "to": "artifact:internal/workspace/root.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a3a43e01a920",
-      "to": "artifact:internal/workspace/security_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a3a43e01a920",
-      "to": "artifact:internal/workspace/workspace_test.go",
       "type": "changes"
     },
     {
@@ -4820,6 +5145,36 @@
     },
     {
       "from": "spec:safe-check-executor",
+      "to": "artifact:cmd/codinho/main.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
+      "to": "artifact:internal/application/checks.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
+      "to": "artifact:internal/application/checks_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
+      "to": "artifact:internal/application/session.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
+      "to": "artifact:internal/application/session_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
+      "to": "artifact:internal/application/workspace.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
       "to": "artifact:internal/checks/executor.go",
       "type": "declares"
     },
@@ -4845,7 +5200,17 @@
     },
     {
       "from": "spec:safe-check-executor",
+      "to": "artifact:internal/checks/process_unix_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
       "to": "artifact:internal/checks/process_windows.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
+      "to": "artifact:internal/checks/process_windows_test.go",
       "type": "declares"
     },
     {
@@ -4860,13 +5225,83 @@
     },
     {
       "from": "spec:safe-check-executor",
+      "to": "artifact:internal/curriculum/model.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
+      "to": "artifact:internal/mcpserver/assessment_contract_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
+      "to": "artifact:internal/mcpserver/assistance_contract_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
       "to": "artifact:internal/mcpserver/check_contract_test.go",
       "type": "declares"
     },
     {
       "from": "spec:safe-check-executor",
-      "to": "artifact:internal/mcpserver/workspace_tools.go",
+      "to": "artifact:internal/mcpserver/check_tools.go",
       "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
+      "to": "artifact:internal/mcpserver/contract_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
+      "to": "artifact:internal/mcpserver/errors.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
+      "to": "artifact:internal/mcpserver/server.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
+      "to": "artifact:internal/mcpserver/session_contract_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
+      "to": "artifact:internal/session/assessment_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
+      "to": "artifact:internal/session/assistance_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
+      "to": "artifact:internal/session/checks_override_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
+      "to": "artifact:internal/session/service.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
+      "to": "artifact:internal/session/service_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
+      "to": "artifact:internal/workspace/redaction.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:safe-check-executor",
+      "to": "change-set:cs-7a9bb4244979",
+      "type": "observed-by"
     },
     {
       "from": "spec:security-privacy-hardening",
@@ -5180,7 +5615,7 @@
     },
     {
       "from": "spec:workspace-observation-baselines",
-      "to": "change-set:cs-a3a43e01a920",
+      "to": "change-set:cs-4d3f63ca699e",
       "type": "observed-by"
     }
   ],
@@ -6218,6 +6653,16 @@
     {
       "spec": "safe-check-executor",
       "action": "created",
+      "path": "internal/application/checks.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "created",
+      "path": "internal/application/checks_test.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "created",
       "path": "internal/checks/executor.go"
     },
     {
@@ -6243,7 +6688,17 @@
     {
       "spec": "safe-check-executor",
       "action": "created",
+      "path": "internal/checks/process_unix_test.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "created",
       "path": "internal/checks/process_windows.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "created",
+      "path": "internal/checks/process_windows_test.go"
     },
     {
       "spec": "safe-check-executor",
@@ -6262,8 +6717,93 @@
     },
     {
       "spec": "safe-check-executor",
+      "action": "created",
+      "path": "internal/mcpserver/check_tools.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "created",
+      "path": "internal/session/checks_override_test.go"
+    },
+    {
+      "spec": "safe-check-executor",
       "action": "modified",
-      "path": "internal/mcpserver/workspace_tools.go"
+      "path": "cmd/codinho/main.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "modified",
+      "path": "internal/application/session.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "modified",
+      "path": "internal/application/session_test.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "modified",
+      "path": "internal/application/workspace.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "modified",
+      "path": "internal/curriculum/model.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "modified",
+      "path": "internal/mcpserver/assessment_contract_test.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "modified",
+      "path": "internal/mcpserver/assistance_contract_test.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "modified",
+      "path": "internal/mcpserver/contract_test.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "modified",
+      "path": "internal/mcpserver/errors.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "modified",
+      "path": "internal/mcpserver/server.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "modified",
+      "path": "internal/mcpserver/session_contract_test.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "modified",
+      "path": "internal/session/assessment_test.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "modified",
+      "path": "internal/session/assistance_test.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "modified",
+      "path": "internal/session/service.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "modified",
+      "path": "internal/session/service_test.go"
+    },
+    {
+      "spec": "safe-check-executor",
+      "action": "modified",
+      "path": "internal/workspace/redaction.go"
     },
     {
       "spec": "security-privacy-hardening",
@@ -7202,6 +7742,163 @@
       "diff_digest": "sha256:7ecdc0bbcd4028c0159755f3daad871deb95358c824dfb85c52563faabaca13a"
     },
     {
+      "id": "cs-4d3f63ca699e",
+      "spec": "workspace-observation-baselines",
+      "selector": "trailers:workspace-observation-baselines",
+      "base": "a2f598cff220f9c23d470aa7cbff6896f3806990^",
+      "head": "913e4b8e13e6bbde56fdf0989a227e3ed8d45d06",
+      "resolved_base": "7c118dba569470f2b5ebf38abf3c98c007b0a1ee",
+      "resolved_head": "913e4b8e13e6bbde56fdf0989a227e3ed8d45d06",
+      "commits": [
+        "a2f598cff220f9c23d470aa7cbff6896f3806990",
+        "020481672fea7d8ef2d7006d1fdebd263a783fc8",
+        "913e4b8e13e6bbde56fdf0989a227e3ed8d45d06"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": ".pose/changelogs/unreleased/workspace-observation-baselines.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-08-23-standard-fechar-workspace-observation-baselines.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/history/standard-fechar-workspace-observation-baselines.jsonl"
+        },
+        {
+          "action": "created",
+          "path": ".pose/review-attestations/rva-fabdeb7b5bea1ea4.json"
+        },
+        {
+          "action": "created",
+          "path": ".pose/review-bundles/rvb-5b9a0c8620a814f5.json"
+        },
+        {
+          "action": "created",
+          "path": "internal/application/workspace.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/application/workspace_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/mcpserver/workspace_contract_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/mcpserver/workspace_tools.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/workspace/baseline.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/workspace/git.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/workspace/glob.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/workspace/golang.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/workspace/hashes.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/workspace/redaction.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/workspace/root.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/workspace/security_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/workspace/workspace_test.go"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/README.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/consolidated.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/root.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/delivery-integrity.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/releases.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/spec-graph.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/reports/2026-08-23-standard-validate-native.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/reports/history/standard-validate-native.jsonl"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/results/delivery-validation.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-safe-check-executor.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-workspace-observation-baselines.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/root.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/project-state.md"
+        },
+        {
+          "action": "modified",
+          "path": "cmd/codinho/main.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/contract_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/errors.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/server.go"
+        }
+      ],
+      "diff_digest": "sha256:ccdbd56ee5bfffdb982f2303d2e14f6a87575ac2c28b9a384e1315762dec22b8"
+    },
+    {
       "id": "cs-4dcb2c920c9c",
       "spec": "session-orchestration-disclosure",
       "selector": "trailers:session-orchestration-disclosure",
@@ -7300,6 +7997,149 @@
         }
       ],
       "diff_digest": "sha256:c56c94d83eb7442caa4abedf20c6e89a820fc599ad313c9f3f2f5b61050e70ca"
+    },
+    {
+      "id": "cs-7a9bb4244979",
+      "spec": "safe-check-executor",
+      "selector": "trailers:safe-check-executor",
+      "base": "efcdbff6a44b10967efabdf184ef910b2769fe0c^",
+      "head": "efcdbff6a44b10967efabdf184ef910b2769fe0c",
+      "resolved_base": "913e4b8e13e6bbde56fdf0989a227e3ed8d45d06",
+      "resolved_head": "efcdbff6a44b10967efabdf184ef910b2769fe0c",
+      "commits": [
+        "efcdbff6a44b10967efabdf184ef910b2769fe0c"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": "internal/application/checks.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/application/checks_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/checks/executor.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/checks/executor_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/checks/limits.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/checks/model.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/checks/process_unix.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/checks/process_unix_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/checks/process_windows.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/checks/process_windows_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/checks/registry.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/checks/security_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/mcpserver/check_contract_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/mcpserver/check_tools.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/session/checks_override_test.go"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-safe-check-executor.md"
+        },
+        {
+          "action": "modified",
+          "path": "cmd/codinho/main.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/application/session.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/application/session_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/application/workspace.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/model.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/assessment_contract_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/assistance_contract_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/contract_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/errors.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/server.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/session_contract_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/session/assessment_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/session/assistance_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/session/service.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/session/service_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/workspace/redaction.go"
+        }
+      ],
+      "diff_digest": "sha256:7e3f0c6fa6b161450e6660cd936aa7f1f17e425bdd9348ebdb0943b656a929a0"
     },
     {
       "id": "cs-89ad08ccd8e2",
@@ -7519,98 +8359,6 @@
       "diff_digest": "sha256:70af66be7ae38584241d4baf1f5fefbb2d29d20a312fb8e6bea421c57cf97969"
     },
     {
-      "id": "cs-a3a43e01a920",
-      "spec": "workspace-observation-baselines",
-      "selector": "trailers:workspace-observation-baselines",
-      "base": "a2f598cff220f9c23d470aa7cbff6896f3806990^",
-      "head": "020481672fea7d8ef2d7006d1fdebd263a783fc8",
-      "resolved_base": "7c118dba569470f2b5ebf38abf3c98c007b0a1ee",
-      "resolved_head": "020481672fea7d8ef2d7006d1fdebd263a783fc8",
-      "commits": [
-        "a2f598cff220f9c23d470aa7cbff6896f3806990",
-        "020481672fea7d8ef2d7006d1fdebd263a783fc8"
-      ],
-      "paths": [
-        {
-          "action": "created",
-          "path": "internal/application/workspace.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/application/workspace_test.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/mcpserver/workspace_contract_test.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/mcpserver/workspace_tools.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/workspace/baseline.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/workspace/git.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/workspace/glob.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/workspace/golang.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/workspace/hashes.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/workspace/redaction.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/workspace/root.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/workspace/security_test.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/workspace/workspace_test.go"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-safe-check-executor.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-workspace-observation-baselines.md"
-        },
-        {
-          "action": "modified",
-          "path": "cmd/codinho/main.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/mcpserver/contract_test.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/mcpserver/errors.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/mcpserver/server.go"
-        }
-      ],
-      "diff_digest": "sha256:67f630e0fd0d7c548adbb36fdbccfea8a233d537a6515e3e2f257449b7a1250c"
-    },
-    {
       "id": "cs-ace3ca5ace4e",
       "spec": "assistance-hints-detours",
       "selector": "trailers:assistance-hints-detours",
@@ -7801,6 +8549,7 @@
       "assistance-hints-detours",
       "go-runtime-foundation",
       "mcp-stdio-foundation",
+      "safe-check-executor",
       "workspace-observation-baselines"
     ],
     "docs/acceptance/v1-pilot-report.md": [
@@ -7881,17 +8630,26 @@
       "mcp-stdio-foundation",
       "session-orchestration-disclosure"
     ],
+    "internal/application/checks.go": [
+      "safe-check-executor"
+    ],
+    "internal/application/checks_test.go": [
+      "safe-check-executor"
+    ],
     "internal/application/progress.go": [
       "mastery-review-scheduling"
     ],
     "internal/application/session.go": [
       "mcp-stdio-foundation",
+      "safe-check-executor",
       "session-orchestration-disclosure"
     ],
     "internal/application/session_test.go": [
-      "mcp-stdio-foundation"
+      "mcp-stdio-foundation",
+      "safe-check-executor"
     ],
     "internal/application/workspace.go": [
+      "safe-check-executor",
       "workspace-observation-baselines"
     ],
     "internal/application/workspace_test.go": [
@@ -7945,7 +8703,13 @@
     "internal/checks/process_unix.go": [
       "safe-check-executor"
     ],
+    "internal/checks/process_unix_test.go": [
+      "safe-check-executor"
+    ],
     "internal/checks/process_windows.go": [
+      "safe-check-executor"
+    ],
+    "internal/checks/process_windows_test.go": [
       "safe-check-executor"
     ],
     "internal/checks/registry.go": [
@@ -8021,7 +8785,8 @@
       "catalog-schema-loader"
     ],
     "internal/curriculum/model.go": [
-      "catalog-schema-loader"
+      "catalog-schema-loader",
+      "safe-check-executor"
     ],
     "internal/curriculum/playtest.go": [
       "catalog-authoring-quality"
@@ -8181,13 +8946,15 @@
       "mastery-review-scheduling"
     ],
     "internal/mcpserver/assessment_contract_test.go": [
-      "feedback-evaluation-progression"
+      "feedback-evaluation-progression",
+      "safe-check-executor"
     ],
     "internal/mcpserver/assessment_tools.go": [
       "feedback-evaluation-progression"
     ],
     "internal/mcpserver/assistance_contract_test.go": [
-      "assistance-hints-detours"
+      "assistance-hints-detours",
+      "safe-check-executor"
     ],
     "internal/mcpserver/assistance_tools.go": [
       "assistance-hints-detours"
@@ -8202,10 +8969,14 @@
     "internal/mcpserver/check_contract_test.go": [
       "safe-check-executor"
     ],
+    "internal/mcpserver/check_tools.go": [
+      "safe-check-executor"
+    ],
     "internal/mcpserver/contract_test.go": [
       "assistance-hints-detours",
       "feedback-evaluation-progression",
       "mcp-stdio-foundation",
+      "safe-check-executor",
       "security-privacy-hardening",
       "session-orchestration-disclosure",
       "workspace-observation-baselines"
@@ -8217,6 +8988,7 @@
     "internal/mcpserver/errors.go": [
       "assistance-hints-detours",
       "mcp-stdio-foundation",
+      "safe-check-executor",
       "session-orchestration-disclosure",
       "workspace-observation-baselines"
     ],
@@ -8239,6 +9011,7 @@
       "assistance-hints-detours",
       "feedback-evaluation-progression",
       "mcp-stdio-foundation",
+      "safe-check-executor",
       "workspace-observation-baselines"
     ],
     "internal/mcpserver/server_test.go": [
@@ -8247,6 +9020,7 @@
     ],
     "internal/mcpserver/session_contract_test.go": [
       "assistance-hints-detours",
+      "safe-check-executor",
       "session-orchestration-disclosure"
     ],
     "internal/mcpserver/session_tools.go": [
@@ -8257,7 +9031,6 @@
       "workspace-observation-baselines"
     ],
     "internal/mcpserver/workspace_tools.go": [
-      "safe-check-executor",
       "workspace-observation-baselines"
     ],
     "internal/recommendation/explanation.go": [
@@ -8285,10 +9058,15 @@
       "learning-practice-debug-modes"
     ],
     "internal/session/assessment_test.go": [
-      "feedback-evaluation-progression"
+      "feedback-evaluation-progression",
+      "safe-check-executor"
     ],
     "internal/session/assistance_test.go": [
-      "assistance-hints-detours"
+      "assistance-hints-detours",
+      "safe-check-executor"
+    ],
+    "internal/session/checks_override_test.go": [
+      "safe-check-executor"
     ],
     "internal/session/disclosure.go": [
       "session-orchestration-disclosure"
@@ -8320,9 +9098,11 @@
     "internal/session/service.go": [
       "assistance-hints-detours",
       "feedback-evaluation-progression",
+      "safe-check-executor",
       "session-orchestration-disclosure"
     ],
     "internal/session/service_test.go": [
+      "safe-check-executor",
       "session-orchestration-disclosure"
     ],
     "internal/workspace/baseline.go": [
@@ -8341,6 +9121,7 @@
       "workspace-observation-baselines"
     ],
     "internal/workspace/redaction.go": [
+      "safe-check-executor",
       "workspace-observation-baselines"
     ],
     "internal/workspace/root.go": [
@@ -8533,15 +9314,6 @@
       "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-0641e333cf60",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "safe-check-executor",
-      "path": "internal/checks/executor.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec safe-check-executor (ensure commits carry 'POSE-Spec: safe-check-executor' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-06cf84182a03",
       "code": "action-mismatch",
       "severity": "error",
@@ -8623,15 +9395,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-1251a23b30c3",
-      "code": "existence",
-      "severity": "error",
-      "spec": "security-privacy-hardening",
-      "path": "internal/checks/security_test.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-12b608b60906",
       "code": "existence",
       "severity": "error",
@@ -8646,15 +9409,6 @@
       "severity": "error",
       "spec": "go-production-architecture-packs",
       "path": "packs/go-architecture-debugging",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-1546c376ef6c",
-      "code": "existence",
-      "severity": "error",
-      "spec": "safe-check-executor",
-      "path": "internal/checks/security_test.go",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
@@ -8702,15 +9456,6 @@
       "path": "docs/acceptance/v1-requirement-matrix.md",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-1f2f98d01143",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "safe-check-executor",
-      "path": "internal/mcpserver/check_contract_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec safe-check-executor (ensure commits carry 'POSE-Spec: safe-check-executor' trailer or generate report with pose report)"
     },
     {
       "id": "dif-211957449618",
@@ -8810,15 +9555,6 @@
       "path": "docs/security/executor-limitations.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-296af800920f",
-      "code": "existence",
-      "severity": "error",
-      "spec": "safe-check-executor",
-      "path": "internal/checks/limits.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-2aea901e2c65",
@@ -9127,15 +9863,6 @@
       "remediation": "no Git change sets are attributed to spec catalog-authoring-quality (ensure commits carry 'POSE-Spec: catalog-authoring-quality' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-4925e2409429",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "safe-check-executor",
-      "path": "internal/checks/registry.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec safe-check-executor (ensure commits carry 'POSE-Spec: safe-check-executor' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-499365d366f0",
       "code": "existence",
       "severity": "error",
@@ -9159,15 +9886,6 @@
       "severity": "error",
       "spec": "reliability-observability-compatibility",
       "path": "internal/mcpserver/benchmark_test.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-4baa1e826847",
-      "code": "existence",
-      "severity": "error",
-      "spec": "safe-check-executor",
-      "path": "internal/checks/registry.go",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
@@ -9224,15 +9942,6 @@
       "path": "tests/e2e/modes",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-50e038301358",
-      "code": "existence",
-      "severity": "error",
-      "spec": "safe-check-executor",
-      "path": "internal/checks/process_unix.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-5227e7f738cc",
@@ -9352,15 +10061,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-5aef048c3c3e",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "safe-check-executor",
-      "path": "internal/checks/process_windows.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec safe-check-executor (ensure commits carry 'POSE-Spec: safe-check-executor' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-5cb2334ca177",
       "code": "existence",
       "severity": "error",
@@ -9451,15 +10151,6 @@
       "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-66a552b6f5e0",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "safe-check-executor",
-      "path": "internal/checks/limits.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec safe-check-executor (ensure commits carry 'POSE-Spec: safe-check-executor' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-68af22c43666",
       "code": "action-mismatch",
       "severity": "error",
@@ -9483,15 +10174,6 @@
       "severity": "error",
       "spec": "interview-mode",
       "path": "internal/assessment/interview_report.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-69eb6c1d6529",
-      "code": "existence",
-      "severity": "error",
-      "spec": "safe-check-executor",
-      "path": "internal/checks/executor.go",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
@@ -9559,15 +10241,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-709279b2a2a7",
-      "code": "existence",
-      "severity": "error",
-      "spec": "safe-check-executor",
-      "path": "internal/checks/model.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-70cc13ed0f07",
       "code": "action-mismatch",
       "severity": "error",
@@ -9611,15 +10284,6 @@
       "path": "internal/curriculum/coverage_test.go",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-7167c94a2272",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "safe-check-executor",
-      "path": "internal/checks/model.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec safe-check-executor (ensure commits carry 'POSE-Spec: safe-check-executor' trailer or generate report with pose report)"
     },
     {
       "id": "dif-7387befa769f",
@@ -9746,15 +10410,6 @@
       "path": "internal/assessment/interview_report.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec interview-mode (ensure commits carry 'POSE-Spec: interview-mode' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-802990ab6e9e",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "safe-check-executor",
-      "path": "internal/checks/executor_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec safe-check-executor (ensure commits carry 'POSE-Spec: safe-check-executor' trailer or generate report with pose report)"
     },
     {
       "id": "dif-81631b140ccb",
@@ -9944,15 +10599,6 @@
       "path": "packs/go-interviews",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec go-interviews-pack (ensure commits carry 'POSE-Spec: go-interviews-pack' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-9243b1ac5259",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "safe-check-executor",
-      "path": "internal/mcpserver/workspace_tools.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec safe-check-executor (ensure commits carry 'POSE-Spec: safe-check-executor' trailer or generate report with pose report)"
     },
     {
       "id": "dif-95501a39edf7",
@@ -10333,15 +10979,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-b95c0690988e",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "safe-check-executor",
-      "path": "internal/checks/security_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec safe-check-executor (ensure commits carry 'POSE-Spec: safe-check-executor' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-b9b37c24de9b",
       "code": "existence",
       "severity": "error",
@@ -10612,15 +11249,6 @@
       "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-df62c88ffc2b",
-      "code": "existence",
-      "severity": "error",
-      "spec": "safe-check-executor",
-      "path": "internal/mcpserver/check_contract_test.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-dfb1f5acecaa",
       "code": "existence",
       "severity": "error",
@@ -10774,15 +11402,6 @@
       "remediation": "no Git change sets are attributed to spec catalog-authoring-quality (ensure commits carry 'POSE-Spec: catalog-authoring-quality' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-ef4dc8f037c4",
-      "code": "existence",
-      "severity": "error",
-      "spec": "safe-check-executor",
-      "path": "internal/checks/executor_test.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-f0350419cb8f",
       "code": "action-mismatch",
       "severity": "error",
@@ -10808,15 +11427,6 @@
       "path": "internal/curriculum/coverage.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec catalog-authoring-quality (ensure commits carry 'POSE-Spec: catalog-authoring-quality' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-f6c854f39a8b",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "safe-check-executor",
-      "path": "internal/checks/process_unix.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec safe-check-executor (ensure commits carry 'POSE-Spec: safe-check-executor' trailer or generate report with pose report)"
     },
     {
       "id": "dif-f6f4339bdb46",
@@ -10880,15 +11490,6 @@
       "path": "internal/security/policy_test.go",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-ffbc18263caf",
-      "code": "existence",
-      "severity": "error",
-      "spec": "safe-check-executor",
-      "path": "internal/checks/process_windows.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
     }
   ],
   "deliveries": [
@@ -10910,9 +11511,9 @@
       "evidence_class": "build",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "020481672fea7d8ef2d7006d1fdebd263a783fc8",
-      "generated_at": "2026-08-23T04:32:06Z",
-      "provenance_digest": "sha256:b3030c83b8020ce05b8a020d2a7d77942c8343b9f80cd12417ad71ba14e06c52",
+      "git_head": "efcdbff6a44b10967efabdf184ef910b2769fe0c",
+      "generated_at": "2026-08-23T05:01:01Z",
+      "provenance_digest": "sha256:e42f29485796874d8f7f4d5f0bf7ac014b5a6640a036452784e85851e6ca5e04",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
@@ -10923,8 +11524,9 @@
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
+        "safe-check-executor": "sha256:895db1478830c83415a517aedab237c7ae02f9483f68bce6c4d76cbef3aecb7f",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "workspace-observation-baselines": "sha256:24e6310ad7e254edc53a3d93d43fe0ab6388b6502e3db6d2d2efdf777030a4f6"
+        "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
     {
@@ -10934,9 +11536,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "020481672fea7d8ef2d7006d1fdebd263a783fc8",
-      "generated_at": "2026-08-23T04:32:06Z",
-      "provenance_digest": "sha256:b3030c83b8020ce05b8a020d2a7d77942c8343b9f80cd12417ad71ba14e06c52",
+      "git_head": "efcdbff6a44b10967efabdf184ef910b2769fe0c",
+      "generated_at": "2026-08-23T05:01:01Z",
+      "provenance_digest": "sha256:e42f29485796874d8f7f4d5f0bf7ac014b5a6640a036452784e85851e6ca5e04",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
@@ -10947,8 +11549,9 @@
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
+        "safe-check-executor": "sha256:895db1478830c83415a517aedab237c7ae02f9483f68bce6c4d76cbef3aecb7f",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "workspace-observation-baselines": "sha256:24e6310ad7e254edc53a3d93d43fe0ab6388b6502e3db6d2d2efdf777030a4f6"
+        "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
     {
@@ -10958,9 +11561,9 @@
       "evidence_class": "unit",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "020481672fea7d8ef2d7006d1fdebd263a783fc8",
-      "generated_at": "2026-08-23T04:32:06Z",
-      "provenance_digest": "sha256:b3030c83b8020ce05b8a020d2a7d77942c8343b9f80cd12417ad71ba14e06c52",
+      "git_head": "efcdbff6a44b10967efabdf184ef910b2769fe0c",
+      "generated_at": "2026-08-23T05:01:01Z",
+      "provenance_digest": "sha256:e42f29485796874d8f7f4d5f0bf7ac014b5a6640a036452784e85851e6ca5e04",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
@@ -10971,8 +11574,9 @@
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
+        "safe-check-executor": "sha256:895db1478830c83415a517aedab237c7ae02f9483f68bce6c4d76cbef3aecb7f",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "workspace-observation-baselines": "sha256:24e6310ad7e254edc53a3d93d43fe0ab6388b6502e3db6d2d2efdf777030a4f6"
+        "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
     {
@@ -10982,9 +11586,9 @@
       "evidence_class": "build",
       "severity": "optional",
       "outcome": "pass",
-      "git_head": "020481672fea7d8ef2d7006d1fdebd263a783fc8",
-      "generated_at": "2026-08-23T04:32:06Z",
-      "provenance_digest": "sha256:b3030c83b8020ce05b8a020d2a7d77942c8343b9f80cd12417ad71ba14e06c52",
+      "git_head": "efcdbff6a44b10967efabdf184ef910b2769fe0c",
+      "generated_at": "2026-08-23T05:01:01Z",
+      "provenance_digest": "sha256:e42f29485796874d8f7f4d5f0bf7ac014b5a6640a036452784e85851e6ca5e04",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
@@ -10995,8 +11599,9 @@
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
+        "safe-check-executor": "sha256:895db1478830c83415a517aedab237c7ae02f9483f68bce6c4d76cbef3aecb7f",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "workspace-observation-baselines": "sha256:24e6310ad7e254edc53a3d93d43fe0ab6388b6502e3db6d2d2efdf777030a4f6"
+        "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     }
   ],

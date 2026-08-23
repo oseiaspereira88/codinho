@@ -651,7 +651,7 @@
       ],
       "path": ".pose/specs/2026-08-22-safe-check-executor.md",
       "priority": 100,
-      "status": "draft"
+      "status": "in-progress"
     },
     "security-privacy-hardening": {
       "depends_on": [
@@ -729,7 +729,7 @@
       ],
       "path": ".pose/specs/2026-08-22-workspace-observation-baselines.md",
       "priority": 90,
-      "status": "in-progress"
+      "status": "done"
     }
   }
 }

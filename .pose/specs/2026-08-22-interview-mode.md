@@ -1,8 +1,8 @@
 ---
 slug: interview-mode
-status: in-progress
+status: done
 created_at: 2026-08-22
-completed_at:
+completed_at: 2026-08-23
 supersedes:
 depends_on: feedback-evaluation-progression, safe-check-executor, tutor-skill-host-integration, learning-practice-debug-modes
 priority: 160

@@ -33,6 +33,14 @@
       "digest": "sha256:8de7a65d124e2a60b5624dd49059320814161556d5675fa3b5af9efdf11dd25d"
     },
     {
+      "spec": "learning-practice-debug-modes",
+      "category": "added",
+      "breaking": false,
+      "body": "Cada modo de sessão (ensino, prática, revisão, depuração, exploração)\nagora tem seus próprios padrões de profundidade, ajuda, revelação e\navaliação, sempre substituíveis explicitamente. O modo depuração segue um\nprotocolo guiado de 6 estágios; a granularidade pode se ajustar\nautomaticamente com base em evidência repetida, sempre explicando a\nmudança ao aluno; e o aluno agora pode propor seu próprio próximo passo.",
+      "path": "learning-practice-debug-modes.md",
+      "digest": "sha256:f9653d7c9f42ea4ed52df57545a564a9a4ed8d48b0d6af093b40ab6156b313a5"
+    },
+    {
       "spec": "mastery-review-scheduling",
       "category": "added",
       "breaking": false,

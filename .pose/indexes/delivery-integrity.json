@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "input_digest": "sha256:e38a0e2b27a131dc9afacc04df3768559c8349bf72db6d8fad7643a9e78aa57e",
-  "provenance_digest": "sha256:11cdea5de188ef2b1a99ea9973e86d47285aba15a039d3ee4a64c51f1f991bbf",
+  "input_digest": "sha256:b9baf178832b80b4c079af65c1e3bb4eb74d15a48db05c8be1978bfeca58fe70",
+  "provenance_digest": "sha256:2d672a38e9e9f02e415f501b71bb0f5a842351e63ad89a2eccfc606002071c5f",
   "nodes": [
     {
       "id": "artifact:.agents/skills/codinho/SKILL.md",
@@ -32,6 +32,13 @@
       }
     },
     {
+      "id": "artifact:.agents/skills/codinho/references/codex-configuration.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".agents/skills/codinho/references/codex-configuration.md"
+      }
+    },
+    {
       "id": "artifact:.agents/skills/codinho/references/feedback-rubric.md",
       "type": "artifact",
       "attributes": {
@@ -57,13 +64,6 @@
       "type": "artifact",
       "attributes": {
         "path": ".agents/skills/codinho/references/tutor-contract.md"
-      }
-    },
-    {
-      "id": "artifact:.codex/config.toml.example",
-      "type": "artifact",
-      "attributes": {
-        "path": ".codex/config.toml.example"
       }
     },
     {
@@ -232,6 +232,20 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/contributions/20260823-040039-disposio-covered-em-follow-ups-no-exige-.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/contributions/20260823-080019-review-bundle-unrecognized-extension-und.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/contributions/20260823-080019-review-bundle-unrecognized-extension-und.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/feedback/bug-review-bundle-unrecognized-extension-und.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/feedback/bug-review-bundle-unrecognized-extension-und.md"
       }
     },
     {
@@ -648,6 +662,13 @@
       }
     },
     {
+      "id": "artifact:.pose/specs/2026-08-22-installation-documentation-ci.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/specs/2026-08-22-installation-documentation-ci.md"
+      }
+    },
+    {
       "id": "artifact:.pose/specs/2026-08-22-learning-domain-model.md",
       "type": "artifact",
       "attributes": {
@@ -778,6 +799,13 @@
       "type": "artifact",
       "attributes": {
         "path": "cmd/ailearn/main.go"
+      }
+    },
+    {
+      "id": "artifact:cmd/codinho/integration_test.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "cmd/codinho/integration_test.go"
       }
     },
     {
@@ -2378,19 +2406,19 @@
       }
     },
     {
+      "id": "change-set:cs-13629b71529e",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:71374dcaac84a82bf2e58734320bb74be05f8e785a373c667cd68ad23cfcdd42",
+        "selector": "trailers:tutor-skill-host-integration"
+      }
+    },
+    {
       "id": "change-set:cs-15b6a229ef87",
       "type": "change-set",
       "attributes": {
         "diff_digest": "sha256:99af988f9b3d75b3ee0304952a578c49163845943110481445da9e9e60953670",
         "selector": "trailers:architecture-decision-baseline"
-      }
-    },
-    {
-      "id": "change-set:cs-2450c3a5e619",
-      "type": "change-set",
-      "attributes": {
-        "diff_digest": "sha256:d3d092b585b8bd93412fcf254398d5c5fc98d5987a6abb188c3d7ad8d0539b5d",
-        "selector": "trailers:tutor-skill-host-integration"
       }
     },
     {
@@ -2763,6 +2791,11 @@
       "type": "implemented-by"
     },
     {
+      "from": "artifact:.agents/skills/codinho/references/codex-configuration.md",
+      "to": "delivery:capability:codinho-tutor",
+      "type": "implemented-by"
+    },
+    {
       "from": "artifact:.agents/skills/codinho/references/feedback-rubric.md",
       "to": "delivery:capability:codinho-tutor",
       "type": "implemented-by"
@@ -2783,13 +2816,18 @@
       "type": "implemented-by"
     },
     {
-      "from": "artifact:.codex/config.toml.example",
+      "from": "artifact:.pose/indexes/validation-matrix.json",
       "to": "delivery:capability:codinho-tutor",
       "type": "implemented-by"
     },
     {
       "from": "artifact:.pose/indexes/validation-matrix.json",
       "to": "delivery:contract:codinho-mcp-v1",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:cmd/codinho/integration_test.go",
+      "to": "delivery:capability:codinho-tutor",
       "type": "implemented-by"
     },
     {
@@ -3093,6 +3131,121 @@
       "type": "changes"
     },
     {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:.agents/skills/codinho/SKILL.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:.agents/skills/codinho/agents/openai.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:.agents/skills/codinho/assets/session-summary-template.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:.agents/skills/codinho/references/codex-configuration.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:.agents/skills/codinho/references/feedback-rubric.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:.agents/skills/codinho/references/mcp-tool-routing.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:.agents/skills/codinho/references/session-modes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:.agents/skills/codinho/references/tutor-contract.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:.pose/assessments/integrations.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:.pose/contributions/20260823-080019-review-bundle-unrecognized-extension-und.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:.pose/feedback/bug-review-bundle-unrecognized-extension-und.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:.pose/indexes/delivery-integrity.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:.pose/indexes/releases.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:.pose/indexes/spec-graph.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:.pose/indexes/validation-matrix.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:.pose/results/delivery-validation.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:.pose/specs/2026-08-22-installation-documentation-ci.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:.pose/specs/2026-08-22-tutor-skill-host-integration.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:.pose/state/integrations.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:cmd/codinho/integration_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:testdata/host/adversarial-prompts.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:testdata/host/session-transcripts/degraded-mode-and-injection.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-13629b71529e",
+      "to": "artifact:testdata/host/session-transcripts/practice-session-happy-path.md",
+      "type": "changes"
+    },
+    {
       "from": "change-set:cs-15b6a229ef87",
       "to": "artifact:.pose/adr/2026-08-22-agent-mcp-and-core-boundaries.md",
       "type": "changes"
@@ -3215,76 +3368,6 @@
     {
       "from": "change-set:cs-15b6a229ef87",
       "to": "artifact:.pose/state/refresh-log.jsonl",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-2450c3a5e619",
-      "to": "artifact:.agents/skills/codinho/SKILL.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-2450c3a5e619",
-      "to": "artifact:.agents/skills/codinho/agents/openai.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-2450c3a5e619",
-      "to": "artifact:.agents/skills/codinho/assets/session-summary-template.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-2450c3a5e619",
-      "to": "artifact:.agents/skills/codinho/references/feedback-rubric.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-2450c3a5e619",
-      "to": "artifact:.agents/skills/codinho/references/mcp-tool-routing.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-2450c3a5e619",
-      "to": "artifact:.agents/skills/codinho/references/session-modes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-2450c3a5e619",
-      "to": "artifact:.agents/skills/codinho/references/tutor-contract.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-2450c3a5e619",
-      "to": "artifact:.codex/config.toml.example",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-2450c3a5e619",
-      "to": "artifact:.pose/assessments/integrations.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-2450c3a5e619",
-      "to": "artifact:.pose/specs/2026-08-22-tutor-skill-host-integration.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-2450c3a5e619",
-      "to": "artifact:.pose/state/integrations.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-2450c3a5e619",
-      "to": "artifact:testdata/host/adversarial-prompts.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-2450c3a5e619",
-      "to": "artifact:testdata/host/session-transcripts/degraded-mode-and-injection.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-2450c3a5e619",
-      "to": "artifact:testdata/host/session-transcripts/practice-session-happy-path.md",
       "type": "changes"
     },
     {
@@ -5664,7 +5747,7 @@
     },
     {
       "from": "spec:installation-documentation-ci",
-      "to": "artifact:.codex/config.toml.example",
+      "to": "artifact:.agents/skills/codinho/references/codex-configuration.md",
       "type": "declares"
     },
     {
@@ -6419,6 +6502,11 @@
     },
     {
       "from": "spec:tutor-skill-host-integration",
+      "to": "artifact:.agents/skills/codinho/references/codex-configuration.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:tutor-skill-host-integration",
       "to": "artifact:.agents/skills/codinho/references/feedback-rubric.md",
       "type": "declares"
     },
@@ -6439,7 +6527,12 @@
     },
     {
       "from": "spec:tutor-skill-host-integration",
-      "to": "artifact:.codex/config.toml.example",
+      "to": "artifact:.pose/indexes/validation-matrix.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:tutor-skill-host-integration",
+      "to": "artifact:cmd/codinho/integration_test.go",
       "type": "declares"
     },
     {
@@ -6464,7 +6557,7 @@
     },
     {
       "from": "spec:tutor-skill-host-integration",
-      "to": "change-set:cs-2450c3a5e619",
+      "to": "change-set:cs-13629b71529e",
       "type": "observed-by"
     },
     {
@@ -7392,7 +7485,7 @@
     {
       "spec": "installation-documentation-ci",
       "action": "modified",
-      "path": ".codex/config.toml.example"
+      "path": ".agents/skills/codinho/references/codex-configuration.md"
     },
     {
       "spec": "installation-documentation-ci",
@@ -8072,6 +8165,11 @@
     {
       "spec": "tutor-skill-host-integration",
       "action": "created",
+      "path": ".agents/skills/codinho/references/codex-configuration.md"
+    },
+    {
+      "spec": "tutor-skill-host-integration",
+      "action": "created",
       "path": ".agents/skills/codinho/references/feedback-rubric.md"
     },
     {
@@ -8092,7 +8190,7 @@
     {
       "spec": "tutor-skill-host-integration",
       "action": "created",
-      "path": ".codex/config.toml.example"
+      "path": "cmd/codinho/integration_test.go"
     },
     {
       "spec": "tutor-skill-host-integration",
@@ -8108,6 +8206,11 @@
       "spec": "tutor-skill-host-integration",
       "action": "created",
       "path": "testdata/host/session-transcripts/practice-session-happy-path.md"
+    },
+    {
+      "spec": "tutor-skill-host-integration",
+      "action": "modified",
+      "path": ".pose/indexes/validation-matrix.json"
     },
     {
       "spec": "v1-integrated-acceptance",
@@ -8439,6 +8542,118 @@
       "diff_digest": "sha256:c3a01733b1073e2758add9a03faf7b5eeb36228354a0b7e52c8f680d2d8fc5a8"
     },
     {
+      "id": "cs-13629b71529e",
+      "spec": "tutor-skill-host-integration",
+      "selector": "trailers:tutor-skill-host-integration",
+      "base": "19b009f4a27e37e3ccf2765a38c2c601f5e2a6dd^",
+      "head": "05aa8117c1d3f04aee7da2e871a6bc0da7cd9e41",
+      "resolved_base": "8461aa7181f300d9e1a12f31c8f2270378d49f4e",
+      "resolved_head": "05aa8117c1d3f04aee7da2e871a6bc0da7cd9e41",
+      "commits": [
+        "19b009f4a27e37e3ccf2765a38c2c601f5e2a6dd",
+        "f620d150b81aee38f6fbcf3e6498483d24742d83",
+        "ddc18ecf07a9842778a8eded6553f31e53ac9474",
+        "bd7ca845b59685ab721444adafb0e79d8875574d",
+        "9fa6f8e9b96adfce17c5ee9c7905b9a63bda771e",
+        "05aa8117c1d3f04aee7da2e871a6bc0da7cd9e41"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": ".agents/skills/codinho/SKILL.md"
+        },
+        {
+          "action": "created",
+          "path": ".agents/skills/codinho/agents/openai.yaml"
+        },
+        {
+          "action": "created",
+          "path": ".agents/skills/codinho/assets/session-summary-template.md"
+        },
+        {
+          "action": "created",
+          "path": ".agents/skills/codinho/references/codex-configuration.md"
+        },
+        {
+          "action": "created",
+          "path": ".agents/skills/codinho/references/feedback-rubric.md"
+        },
+        {
+          "action": "created",
+          "path": ".agents/skills/codinho/references/mcp-tool-routing.md"
+        },
+        {
+          "action": "created",
+          "path": ".agents/skills/codinho/references/session-modes.md"
+        },
+        {
+          "action": "created",
+          "path": ".agents/skills/codinho/references/tutor-contract.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/assessments/integrations.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/contributions/20260823-080019-review-bundle-unrecognized-extension-und.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/feedback/bug-review-bundle-unrecognized-extension-und.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/state/integrations.json"
+        },
+        {
+          "action": "created",
+          "path": "cmd/codinho/integration_test.go"
+        },
+        {
+          "action": "created",
+          "path": "testdata/host/adversarial-prompts.yaml"
+        },
+        {
+          "action": "created",
+          "path": "testdata/host/session-transcripts/degraded-mode-and-injection.md"
+        },
+        {
+          "action": "created",
+          "path": "testdata/host/session-transcripts/practice-session-happy-path.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/delivery-integrity.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/releases.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/spec-graph.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/validation-matrix.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/results/delivery-validation.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-installation-documentation-ci.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-tutor-skill-host-integration.md"
+        }
+      ],
+      "diff_digest": "sha256:71374dcaac84a82bf2e58734320bb74be05f8e785a373c667cd68ad23cfcdd42"
+    },
+    {
       "id": "cs-15b6a229ef87",
       "spec": "architecture-decision-baseline",
       "selector": "trailers:architecture-decision-baseline",
@@ -8556,78 +8771,6 @@
         }
       ],
       "diff_digest": "sha256:99af988f9b3d75b3ee0304952a578c49163845943110481445da9e9e60953670"
-    },
-    {
-      "id": "cs-2450c3a5e619",
-      "spec": "tutor-skill-host-integration",
-      "selector": "trailers:tutor-skill-host-integration",
-      "base": "19b009f4a27e37e3ccf2765a38c2c601f5e2a6dd^",
-      "head": "f620d150b81aee38f6fbcf3e6498483d24742d83",
-      "resolved_base": "8461aa7181f300d9e1a12f31c8f2270378d49f4e",
-      "resolved_head": "f620d150b81aee38f6fbcf3e6498483d24742d83",
-      "commits": [
-        "19b009f4a27e37e3ccf2765a38c2c601f5e2a6dd",
-        "f620d150b81aee38f6fbcf3e6498483d24742d83"
-      ],
-      "paths": [
-        {
-          "action": "created",
-          "path": ".agents/skills/codinho/SKILL.md"
-        },
-        {
-          "action": "created",
-          "path": ".agents/skills/codinho/agents/openai.yaml"
-        },
-        {
-          "action": "created",
-          "path": ".agents/skills/codinho/assets/session-summary-template.md"
-        },
-        {
-          "action": "created",
-          "path": ".agents/skills/codinho/references/feedback-rubric.md"
-        },
-        {
-          "action": "created",
-          "path": ".agents/skills/codinho/references/mcp-tool-routing.md"
-        },
-        {
-          "action": "created",
-          "path": ".agents/skills/codinho/references/session-modes.md"
-        },
-        {
-          "action": "created",
-          "path": ".agents/skills/codinho/references/tutor-contract.md"
-        },
-        {
-          "action": "created",
-          "path": ".codex/config.toml.example"
-        },
-        {
-          "action": "created",
-          "path": ".pose/assessments/integrations.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/state/integrations.json"
-        },
-        {
-          "action": "created",
-          "path": "testdata/host/adversarial-prompts.yaml"
-        },
-        {
-          "action": "created",
-          "path": "testdata/host/session-transcripts/degraded-mode-and-injection.md"
-        },
-        {
-          "action": "created",
-          "path": "testdata/host/session-transcripts/practice-session-happy-path.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-tutor-skill-host-integration.md"
-        }
-      ],
-      "diff_digest": "sha256:d3d092b585b8bd93412fcf254398d5c5fc98d5987a6abb188c3d7ad8d0539b5d"
     },
     {
       "id": "cs-27f24a7c63e8",
@@ -10071,6 +10214,10 @@
     ".agents/skills/codinho/assets/session-summary-template.md": [
       "tutor-skill-host-integration"
     ],
+    ".agents/skills/codinho/references/codex-configuration.md": [
+      "installation-documentation-ci",
+      "tutor-skill-host-integration"
+    ],
     ".agents/skills/codinho/references/feedback-rubric.md": [
       "tutor-skill-host-integration"
     ],
@@ -10083,10 +10230,6 @@
       "tutor-skill-host-integration"
     ],
     ".agents/skills/codinho/references/tutor-contract.md": [
-      "tutor-skill-host-integration"
-    ],
-    ".codex/config.toml.example": [
-      "installation-documentation-ci",
       "tutor-skill-host-integration"
     ],
     ".github/workflows/ci.yml": [
@@ -10112,13 +10255,17 @@
     ],
     ".pose/indexes/validation-matrix.json": [
       "go-runtime-foundation",
-      "mcp-stdio-foundation"
+      "mcp-stdio-foundation",
+      "tutor-skill-host-integration"
     ],
     "Makefile": [
       "installation-documentation-ci"
     ],
     "README.md": [
       "installation-documentation-ci"
+    ],
+    "cmd/codinho/integration_test.go": [
+      "tutor-skill-host-integration"
     ],
     "cmd/codinho/main.go": [
       "assistance-hints-detours",
@@ -11043,6 +11190,15 @@
       "remediation": "no Git change sets are attributed to spec administrative-cli-fixtures (ensure commits carry 'POSE-Spec: administrative-cli-fixtures' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-176dc242bcea",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "installation-documentation-ci",
+      "path": ".agents/skills/codinho/references/codex-configuration.md",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
+    },
+    {
       "id": "dif-193e03bba500",
       "code": "action-mismatch",
       "severity": "error",
@@ -11257,15 +11413,6 @@
       "path": "internal/diagnostics/report.go",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-34ac3e337495",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": ".codex/config.toml.example",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
     },
     {
       "id": "dif-35bfd79f27d6",
@@ -12637,9 +12784,9 @@
       "evidence_class": "build",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "f620d150b81aee38f6fbcf3e6498483d24742d83",
-      "generated_at": "2026-08-23T07:52:57Z",
-      "provenance_digest": "sha256:11cdea5de188ef2b1a99ea9973e86d47285aba15a039d3ee4a64c51f1f991bbf",
+      "git_head": "05aa8117c1d3f04aee7da2e871a6bc0da7cd9e41",
+      "generated_at": "2026-08-23T08:07:18Z",
+      "provenance_digest": "sha256:2d672a38e9e9f02e415f501b71bb0f5a842351e63ad89a2eccfc606002071c5f",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
@@ -12654,7 +12801,7 @@
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "tutor-skill-host-integration": "sha256:375635e4f8785fab58ad904d3dd444ebe2453f36eea328076554850614322775",
+        "tutor-skill-host-integration": "sha256:707de8078448fb9a5052196849c11d048d38b1e16206ef9b08cb61f04823ffbb",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -12665,9 +12812,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "f620d150b81aee38f6fbcf3e6498483d24742d83",
-      "generated_at": "2026-08-23T07:52:57Z",
-      "provenance_digest": "sha256:11cdea5de188ef2b1a99ea9973e86d47285aba15a039d3ee4a64c51f1f991bbf",
+      "git_head": "05aa8117c1d3f04aee7da2e871a6bc0da7cd9e41",
+      "generated_at": "2026-08-23T08:07:18Z",
+      "provenance_digest": "sha256:2d672a38e9e9f02e415f501b71bb0f5a842351e63ad89a2eccfc606002071c5f",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
@@ -12682,7 +12829,7 @@
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "tutor-skill-host-integration": "sha256:375635e4f8785fab58ad904d3dd444ebe2453f36eea328076554850614322775",
+        "tutor-skill-host-integration": "sha256:707de8078448fb9a5052196849c11d048d38b1e16206ef9b08cb61f04823ffbb",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -12693,9 +12840,9 @@
       "evidence_class": "unit",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "f620d150b81aee38f6fbcf3e6498483d24742d83",
-      "generated_at": "2026-08-23T07:52:57Z",
-      "provenance_digest": "sha256:11cdea5de188ef2b1a99ea9973e86d47285aba15a039d3ee4a64c51f1f991bbf",
+      "git_head": "05aa8117c1d3f04aee7da2e871a6bc0da7cd9e41",
+      "generated_at": "2026-08-23T08:07:18Z",
+      "provenance_digest": "sha256:2d672a38e9e9f02e415f501b71bb0f5a842351e63ad89a2eccfc606002071c5f",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
@@ -12710,7 +12857,7 @@
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "tutor-skill-host-integration": "sha256:375635e4f8785fab58ad904d3dd444ebe2453f36eea328076554850614322775",
+        "tutor-skill-host-integration": "sha256:707de8078448fb9a5052196849c11d048d38b1e16206ef9b08cb61f04823ffbb",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -12721,9 +12868,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "f620d150b81aee38f6fbcf3e6498483d24742d83",
-      "generated_at": "2026-08-23T07:52:57Z",
-      "provenance_digest": "sha256:11cdea5de188ef2b1a99ea9973e86d47285aba15a039d3ee4a64c51f1f991bbf",
+      "git_head": "05aa8117c1d3f04aee7da2e871a6bc0da7cd9e41",
+      "generated_at": "2026-08-23T08:07:18Z",
+      "provenance_digest": "sha256:2d672a38e9e9f02e415f501b71bb0f5a842351e63ad89a2eccfc606002071c5f",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
@@ -12738,7 +12885,7 @@
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "tutor-skill-host-integration": "sha256:375635e4f8785fab58ad904d3dd444ebe2453f36eea328076554850614322775",
+        "tutor-skill-host-integration": "sha256:707de8078448fb9a5052196849c11d048d38b1e16206ef9b08cb61f04823ffbb",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -12749,9 +12896,9 @@
       "evidence_class": "build",
       "severity": "optional",
       "outcome": "pass",
-      "git_head": "f620d150b81aee38f6fbcf3e6498483d24742d83",
-      "generated_at": "2026-08-23T07:52:57Z",
-      "provenance_digest": "sha256:11cdea5de188ef2b1a99ea9973e86d47285aba15a039d3ee4a64c51f1f991bbf",
+      "git_head": "05aa8117c1d3f04aee7da2e871a6bc0da7cd9e41",
+      "generated_at": "2026-08-23T08:07:18Z",
+      "provenance_digest": "sha256:2d672a38e9e9f02e415f501b71bb0f5a842351e63ad89a2eccfc606002071c5f",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
@@ -12766,7 +12913,7 @@
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "tutor-skill-host-integration": "sha256:375635e4f8785fab58ad904d3dd444ebe2453f36eea328076554850614322775",
+        "tutor-skill-host-integration": "sha256:707de8078448fb9a5052196849c11d048d38b1e16206ef9b08cb61f04823ffbb",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     }
@@ -12777,14 +12924,16 @@
       "artifact:.agents/skills/codinho/SKILL.md",
       "artifact:.agents/skills/codinho/agents/openai.yaml",
       "artifact:.agents/skills/codinho/assets/session-summary-template.md",
+      "artifact:.agents/skills/codinho/references/codex-configuration.md",
       "artifact:.agents/skills/codinho/references/feedback-rubric.md",
       "artifact:.agents/skills/codinho/references/mcp-tool-routing.md",
       "artifact:.agents/skills/codinho/references/session-modes.md",
       "artifact:.agents/skills/codinho/references/tutor-contract.md",
-      "artifact:.codex/config.toml.example",
+      "artifact:cmd/codinho/integration_test.go",
       "artifact:testdata/host/adversarial-prompts.yaml",
       "artifact:testdata/host/session-transcripts/degraded-mode-and-injection.md",
       "artifact:testdata/host/session-transcripts/practice-session-happy-path.md",
+      "artifact:.pose/indexes/validation-matrix.json",
       "delivery:capability:codinho-tutor",
       "entrypoint:.agents/skills/codinho/SKILL.md",
       "validation-result:./go/mcp-contract",

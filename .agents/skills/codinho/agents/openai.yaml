@@ -1,0 +1,31 @@
+# Codex CLI agent metadata for the codinho tutor skill.
+#
+# Schema follows the documented Agent Skills interface metadata shape at
+# the time this spec was authored. Codex's own metadata format may evolve
+# independently of this repository; verify against current Codex
+# documentation before relying on this file in a real host integration
+# (tutor-skill-host-integration Residual risks, requirement R2).
+name: codinho
+description: >-
+  Tutor de prática deliberada para desenvolvimento de fluência em Go,
+  guiando o aluno por desafios curriculares com feedback consultivo e
+  avaliação híbrida, sem nunca editar o código do aluno.
+entrypoint: ../SKILL.md
+mcp_servers:
+  - name: codinho
+    command: codinho
+    args: ["serve"]
+    required: true
+    transport: stdio
+    on_unavailable: degrade-to-conversational
+interface:
+  # No custom UI surface: this skill only reads/writes through the
+  # codinho MCP tool contract (see references/mcp-tool-routing.md).
+  exposes_ui: false
+  exposes_slash_commands: false
+permissions:
+  # The skill never requests filesystem write access on its own; every
+  # write path is mediated by the codinho MCP server, which itself never
+  # edits the learner's files (PROJECT.md §22.1).
+  filesystem_write: false
+  network: false

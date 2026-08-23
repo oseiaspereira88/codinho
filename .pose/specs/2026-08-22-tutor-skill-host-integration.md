@@ -1,13 +1,13 @@
 ---
 slug: tutor-skill-host-integration
-status: draft
+status: in-progress
 created_at: 2026-08-22
 completed_at:
 supersedes:
 depends_on: mcp-stdio-foundation, session-orchestration-disclosure, assistance-hints-detours, feedback-evaluation-progression, workspace-observation-baselines, safe-check-executor
 priority: 130
 components: tutor-skill, mcp-server
-delivers:
+delivers: capability:codinho-tutor
 ---
 
 # Spec: tutor-skill-host-integration
@@ -72,10 +72,7 @@ Transformar tools e estado em uma experiência pedagógica consistente que prese
 - created: .codex/config.toml.example
 
 ### Delivery targets
-O alvo planejado é a capability `codinho-tutor`, com módulo
-`.agents/skills/codinho`, perfil `composed-capability` e entrypoint
-`.agents/skills/codinho/SKILL.md`. Registrá-lo como alvo tipado quando esses
-caminhos forem materializados, antes do closeout desta spec.
+- capability:codinho-tutor module:.agents/skills/codinho profile:composed-capability entrypoint:.agents/skills/codinho/SKILL.md
 
 ### API/contract changes
 - Consumir o contrato MCP v1 sem adicionar estado na skill.
@@ -115,6 +112,36 @@ caminhos forem materializados, antes do closeout desta spec.
 - Decision: skill governa workflow; MCP governa estado e capabilities.
 - Rationale: mantém a conversa flexível e o progresso determinístico.
 - Consequences: integração deve testar ambos em composição.
+
+### Decision 2
+- Date: 2026-08-23
+- Context: R9 pede operar "no Codex CLI e IDE com o mesmo MCP
+  configurado", mas este ambiente de execução não tem um Codex CLI nem
+  uma extensão de IDE reais para abrir uma sessão interativa de
+  verdade. v1-integrated-acceptance já declara explicitamente
+  "Aceite exige Codex CLI e extensão IDE reais" como CONSTRAINT
+  daquele gate final, não desta spec.
+- Options considered: (a) bloquear esta spec até haver acesso a hosts
+  reais; (b) provar a integração pelo mesmo mecanismo de transporte que
+  um host real usaria (`mcp.CommandTransport` sobre stdio — a MESMA
+  interface que Codex CLI e a extensão de IDE usam para falar com
+  `codinho serve`), documentando a verificação de UI/host literal como
+  residual, coberta pelo gate final.
+- Decision: (b). Prova-se aqui que a skill roteia corretamente para
+  cada tool na ordem que as 16 regras de PROJECT.md §16.2 exigem,
+  via sessões reais de protocolo stdio (não mockadas) contra o
+  binário `codinho serve` real — o mesmo transporte, mesmo protocolo,
+  mesmos tools que Codex CLI/IDE usariam. A verificação visual de UI em
+  Codex CLI e na extensão de IDE em si permanece para
+  v1-integrated-acceptance, conforme a constraint que aquela spec já
+  declara.
+- Rationale: não duplicar/antecipar um gate que já pertence
+  explicitamente a outra spec; ainda assim entregar verificação real
+  (não apenas documental) do que está sob controle desta spec — o
+  conteúdo e roteamento da skill, não a apresentação do host.
+- Consequences: Known Gap explícito nesta spec: comportamento
+  específico de renderização/UX de um host real (Codex CLI, extensão
+  de IDE) só é confirmado no gate de aceite V1.
 
 ## 6. Validation
 

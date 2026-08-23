@@ -20,6 +20,10 @@
       "kind": "governance",
       "requiredEvidenceClasses": ["integration"]
     },
+    "local-distribution": {
+      "kind": "infrastructure",
+      "requiredEvidenceClasses": ["integration"]
+    },
     "backend-go": {
       "kind": "governance",
       "requiredEvidenceClasses": ["integration"]

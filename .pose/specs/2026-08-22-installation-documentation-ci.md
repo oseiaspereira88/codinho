@@ -75,7 +75,7 @@ Permitir que uma pessoa instale e use codinho no Codex CLI ou IDE sem conhecimen
 - modified: .agents/skills/codinho/references/codex-configuration.md
 
 ### Delivery targets
-- infrastructure:codinho-local-distribution module:cmd/codinho profile:release-governance entrypoint:cmd/codinho/main.go
+- infrastructure:codinho-local-distribution module:cmd/codinho profile:local-distribution entrypoint:cmd/codinho/main.go
 - governance:codinho-ci module:.github/workflows profile:release-governance entrypoint:.github/workflows/ci.yml
 
 ### API/contract changes

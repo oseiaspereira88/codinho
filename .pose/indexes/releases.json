@@ -57,6 +57,14 @@
       "digest": "sha256:792f2673ede51ce52e04a7ab9e3f457db66f134affa998f84bc0d9eca86616d7"
     },
     {
+      "spec": "tutor-skill-host-integration",
+      "category": "added",
+      "breaking": false,
+      "body": "Adicionada a skill `codinho`, que ensina o Codex CLI e a extensão de IDE a\nusar o servidor MCP como tutor de prática deliberada em Go: anuncia modo e\nprofundidade, observa o workspace antes de avaliar, trata feedback como\nconsultivo e nunca edita o código do aluno.",
+      "path": "tutor-skill-host-integration.md",
+      "digest": "sha256:bb719c351e85305a46e021641d89d61a2305867bcc40bd27f06e33eb86160e78"
+    },
+    {
       "spec": "workspace-observation-baselines",
       "category": "added",
       "breaking": false,

@@ -445,7 +445,7 @@
       ],
       "path": ".pose/specs/2026-08-22-administrative-cli-fixtures.md",
       "priority": 140,
-      "status": "draft"
+      "status": "in-progress"
     },
     "architecture-decision-baseline": {
       "depends_on": null,
@@ -687,7 +687,7 @@
       ],
       "path": ".pose/specs/2026-08-22-tutor-skill-host-integration.md",
       "priority": 130,
-      "status": "in-progress"
+      "status": "done"
     },
     "v1-integrated-acceptance": {
       "depends_on": [

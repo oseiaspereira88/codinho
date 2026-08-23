@@ -224,6 +224,68 @@ func TestContractGranularityAdjustWalksToMicro(t *testing.T) {
 	}
 }
 
+func TestContractGranularityAdjustAcceptsReason(t *testing.T) {
+	cs := newNestedContractClient(t)
+	ctx := context.Background()
+	start := startFixtureSession(t, cs)
+	rev := revisionOf(t, start)
+
+	res, err := cs.CallTool(ctx, &mcp.CallToolParams{Name: "granularity_adjust", Arguments: map[string]any{
+		"session_id": start.SessionID, "depth": "micro", "reason": "3 evidências sem ajuda", "expected_revision": rev,
+	}})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	env := decodeEnvelope(t, res)
+	if env.Status != "ok" {
+		t.Fatalf("unexpected envelope: %+v", env)
+	}
+}
+
+func TestContractLearnerNextStepProposeRecordsWithoutAdvancing(t *testing.T) {
+	cs := newNestedContractClient(t)
+	ctx := context.Background()
+	start := startFixtureSession(t, cs)
+	rev := revisionOf(t, start)
+
+	res, err := cs.CallTool(ctx, &mcp.CallToolParams{Name: "learner_next_step_propose", Arguments: map[string]any{
+		"session_id": start.SessionID, "step_id": "fixture.micro-one", "expected_revision": rev,
+	}})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	env := decodeEnvelope(t, res)
+	if env.Status != "ok" {
+		t.Fatalf("unexpected envelope: %+v", env)
+	}
+
+	getRes, err := cs.CallTool(ctx, &mcp.CallToolParams{Name: "session_get", Arguments: map[string]any{"session_id": start.SessionID}})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	get := decodeEnvelope(t, getRes)
+	if get.ActiveNode == nil || get.ActiveNode.ID == "fixture.micro-one" {
+		t.Fatalf("proposing a step must never advance the active node: %+v", get)
+	}
+}
+
+func TestContractLearnerNextStepProposeRejectsUnknownStep(t *testing.T) {
+	cs := newNestedContractClient(t)
+	ctx := context.Background()
+	start := startFixtureSession(t, cs)
+	rev := revisionOf(t, start)
+
+	res, err := cs.CallTool(ctx, &mcp.CallToolParams{Name: "learner_next_step_propose", Arguments: map[string]any{
+		"session_id": start.SessionID, "step_id": "does-not-exist", "expected_revision": rev,
+	}})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if !res.IsError {
+		t.Fatal("expected IsError for an unknown step_id")
+	}
+}
+
 func TestContractGranularityAdjustRequiresDepth(t *testing.T) {
 	cs := newNestedContractClient(t)
 	ctx := context.Background()

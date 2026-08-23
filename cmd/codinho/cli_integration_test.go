@@ -155,3 +155,35 @@ func TestCLIEndToEndWorkflow(t *testing.T) {
 		t.Fatalf("progress show: code=%d stdout=%q stderr=%q", code, stdout, stderr)
 	}
 }
+
+// TestWorkspacePrepareMaterializesRealAuthoredDebugChallenge runs the real
+// binary against the project's own packs/ (not a synthetic fixture),
+// proving workspace prepare end to end against a real, authored
+// kind:debug challenge's fixture content (learning-practice-debug-modes
+// requirement R10).
+func TestWorkspacePrepareMaterializesRealAuthoredDebugChallenge(t *testing.T) {
+	bin := buildCodinhoBinary(t)
+	repoRoot, err := filepath.Abs("../..")
+	if err != nil {
+		t.Fatalf("resolving repo root: %v", err)
+	}
+
+	stdout, stderr, code := runCodinho(t, bin, repoRoot, "catalog", "show", "go-debug.slice-off-by-one")
+	if code != 0 || !strings.Contains(stdout, "fixture:") {
+		t.Fatalf("catalog show: code=%d stdout=%q stderr=%q", code, stdout, stderr)
+	}
+
+	dest := t.TempDir()
+	stdout, stderr, code = runCodinho(t, bin, repoRoot, "workspace", "prepare", "go-debug.slice-off-by-one", "--dest", dest)
+	if code != 0 {
+		t.Fatalf("workspace prepare: code=%d stdout=%q stderr=%q", code, stdout, stderr)
+	}
+
+	got, err := os.ReadFile(filepath.Join(dest, "main.go"))
+	if err != nil {
+		t.Fatalf("reading materialized main.go: %v", err)
+	}
+	if !strings.Contains(string(got), "func lastElement") || !strings.Contains(string(got), "values[len(values)]") {
+		t.Fatalf("materialized content does not match the authored fixture:\n%s", got)
+	}
+}

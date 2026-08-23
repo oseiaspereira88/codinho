@@ -44,6 +44,11 @@ const (
 	EventSessionFinished  EventType = "session_finished"
 	EventMasteryProjected EventType = "mastery_projected"
 	EventReviewScheduled  EventType = "review_scheduled"
+	// EventLearnerNextStepProposed records a pure autonomy signal
+	// (learning-practice-debug-modes requirement R9; PROJECT.md §21.5,
+	// "capacidade de propor o próximo passo"): it never advances
+	// anything on its own.
+	EventLearnerNextStepProposed EventType = "learner_next_step_proposed"
 )
 
 // Event is one immutable, append-only log entry (requirement R1). Revision

@@ -290,7 +290,7 @@ func TestGranularityAdjustWalksToRequestedDepth(t *testing.T) {
 		t.Fatalf("unexpected error: %v", err)
 	}
 
-	result, err := svc.GranularityAdjust(start.SessionID, learning.DepthMicro, start.Revision, "")
+	result, err := svc.GranularityAdjust(start.SessionID, learning.DepthMicro, "", start.Revision, "")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -316,7 +316,7 @@ func TestGranularityAdjustNeverRewritesTheTree(t *testing.T) {
 
 	rev := start.Revision
 	for _, depth := range []learning.Depth{learning.DepthMicro, learning.DepthMacro, learning.DepthMicro} {
-		result, err := svc.GranularityAdjust(start.SessionID, depth, rev, "")
+		result, err := svc.GranularityAdjust(start.SessionID, depth, "", rev, "")
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
 		}
@@ -326,7 +326,7 @@ func TestGranularityAdjustNeverRewritesTheTree(t *testing.T) {
 	// The tree itself is re-derived fresh from the catalog each time, so
 	// asking for micro again must resolve to the same node as before —
 	// nothing was mutated by the earlier macro request.
-	final, err := svc.GranularityAdjust(start.SessionID, learning.DepthMicro, rev, "")
+	final, err := svc.GranularityAdjust(start.SessionID, learning.DepthMicro, "", rev, "")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}

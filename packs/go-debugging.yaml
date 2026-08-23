@@ -1,0 +1,126 @@
+schema_version: 1
+id: go-debugging
+version: 1.0.0
+themes: []
+concepts:
+  - id: slice-bounds
+    title: Limites de um slice
+competencies:
+  - id: debug-slice-bounds
+    title: Diagnosticar um erro de limite em slice
+tracks: []
+challenges:
+  - schema_version: 1
+    id: go-debug.slice-off-by-one
+    version: 1.0.0
+    title: Corrigir um índice fora dos limites
+    kind: debug
+    difficulty: foundational
+    estimated_minutes: 20
+    themes: [slices]
+    competencies:
+      primary: [debug-slice-bounds]
+      secondary: []
+    prerequisites: [slice-bounds]
+    brief: >
+      O programa deveria imprimir o último elemento do slice, mas falha com
+      panic de índice fora dos limites. Encontre e corrija o menor defeito
+      possível.
+    constraints:
+      - Não reescreva a função inteira; aplique a menor correção.
+    acceptance:
+      - O programa imprime o último elemento sem panic.
+    layers:
+      - id: investigation
+        macro_steps:
+          - id: go-debug.reproduce
+            kind: macro
+            action: observe
+            target: behavior
+            title: Reproduzir o problema
+            instruction:
+              objective: Rode o programa e observe a falha real antes de tocar no código.
+              scope: Somente observação; não edite nada ainda.
+              constraints:
+                - Não altere código nesta etapa.
+            concepts: [slice-bounds]
+            evidence:
+              strategies: [compile, source_inspection]
+            criteria:
+              - id: reproduced
+                kind: structural
+            completion:
+              requires_positive_evaluation: false
+              requires_user_confirmation: true
+            children:
+              - id: go-debug.locate-divergence
+                kind: meso
+                title: Localizar a primeira divergência
+                instruction:
+                  objective: Aponte a linha exata onde o índice usado diverge do índice válido.
+                  scope: Somente localização, sem corrigir ainda.
+                concepts: [slice-bounds]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: divergence-located
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: false
+                  requires_user_confirmation: true
+                children:
+                  - id: go-debug.hypothesize
+                    kind: micro
+                    title: Formular uma hipótese
+                    instruction:
+                      objective: Formule por escrito por que esse índice ultrapassa o limite do slice.
+                      scope: Somente a hipótese, sem aplicar a correção.
+                    concepts: [slice-bounds]
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: hypothesis-stated
+                        kind: qualitative
+                    completion:
+                      requires_positive_evaluation: false
+                      requires_user_confirmation: true
+                    reflection:
+                      optional:
+                        - Por que esse índice específico ultrapassa o limite?
+                    children:
+                      - id: go-debug.apply-smallest-fix
+                        kind: micro
+                        action: modify
+                        target: index_expression
+                        title: Aplicar a menor correção
+                        instruction:
+                          objective: Corrija apenas a expressão de índice, sem reescrever a função.
+                          scope: Somente a expressão de índice reportada na hipótese.
+                          constraints:
+                            - Não reescrever a função inteira.
+                        concepts: [slice-bounds]
+                        evidence:
+                          strategies: [compile, source_inspection]
+                        criteria:
+                          - id: fix-applied
+                            kind: structural
+                        completion:
+                          requires_positive_evaluation: true
+                          requires_user_confirmation: false
+                        hints:
+                          - level: 1
+                            kind: guiding_question
+    fixture:
+      - path: main.go
+        content: |
+          package main
+
+          import "fmt"
+
+          func lastElement(values []int) int {
+              return values[len(values)]
+          }
+
+          func main() {
+              fmt.Println(lastElement([]int{1, 2, 3}))
+          }

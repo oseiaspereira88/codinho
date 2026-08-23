@@ -162,7 +162,7 @@ func TestContractListsExactlyTheMinimalToolSlice(t *testing.T) {
 		"catalog_search": false, "catalog_get": false,
 		"session_start": false, "session_get": false, "instruction_get": false,
 		"session_configure": false, "session_pause": false, "session_resume": false,
-		"session_finish": false, "granularity_adjust": false,
+		"session_finish": false, "granularity_adjust": false, "learner_next_step_propose": false,
 		"hint_request": false, "syntax_recall_get": false, "concept_content_get": false,
 		"learning_detour_start": false, "learning_detour_finish": false,
 		"feedback_prepare": false, "feedback_record": false, "step_evaluate": false,

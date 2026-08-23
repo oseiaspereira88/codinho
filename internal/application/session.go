@@ -12,20 +12,22 @@ import (
 // lives in internal/session; these aliases let mcpserver depend only on
 // application's stable surface (session-orchestration-disclosure).
 type (
-	StartInput        = session.StartInput
-	StartResult       = session.StartResult
-	GetResult         = session.GetResult
-	Instruction       = session.Instruction
-	ConfigureInput    = session.ConfigureInput
-	LifecycleResult   = session.LifecycleResult
-	GranularityResult = session.GranularityResult
-	Disclosure        = session.Disclosure
+	StartInput            = session.StartInput
+	StartResult           = session.StartResult
+	GetResult             = session.GetResult
+	Instruction           = session.Instruction
+	ConfigureInput        = session.ConfigureInput
+	LifecycleResult       = session.LifecycleResult
+	GranularityResult     = session.GranularityResult
+	ProposeNextStepResult = session.ProposeNextStepResult
+	Disclosure            = session.Disclosure
 )
 
 var (
 	ErrSessionNotFound     = session.ErrSessionNotFound
 	ErrChallengeHasNoSteps = session.ErrChallengeHasNoSteps
 	ErrNoWindowAtDepth     = session.ErrNoWindowAtDepth
+	ErrStepNotFound        = session.ErrStepNotFound
 )
 
 // SessionService adapts internal/session.Service for the MCP server.
@@ -81,7 +83,16 @@ func (s *SessionService) Finish(id learning.SessionID, expectedRevision uint64, 
 }
 
 // GranularityAdjust moves the session's instructional window without
-// rewriting the canonical step tree (requirement R6).
-func (s *SessionService) GranularityAdjust(id learning.SessionID, depth learning.Depth, expectedRevision uint64, requestID string) (GranularityResult, error) {
-	return s.svc.GranularityAdjust(id, depth, expectedRevision, requestID)
+// rewriting the canonical step tree (requirement R6). reason is durably
+// recorded so every change is explainable (learning-practice-debug-modes
+// requirement R8); it may be empty.
+func (s *SessionService) GranularityAdjust(id learning.SessionID, depth learning.Depth, reason string, expectedRevision uint64, requestID string) (GranularityResult, error) {
+	return s.svc.GranularityAdjust(id, depth, reason, expectedRevision, requestID)
+}
+
+// ProposeNextStep records a pure autonomy signal: the learner proposed
+// stepID as what comes next, without advancing anything
+// (learning-practice-debug-modes requirement R9).
+func (s *SessionService) ProposeNextStep(id learning.SessionID, stepID learning.StepID, expectedRevision uint64, requestID string) (ProposeNextStepResult, error) {
+	return s.svc.ProposeNextStep(id, stepID, expectedRevision, requestID)
 }

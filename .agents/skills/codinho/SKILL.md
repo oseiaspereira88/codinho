@@ -81,7 +81,7 @@ por muitas mensagens.
 
 - `references/tutor-contract.md` — as 16 regras expandidas com
   exemplos corretos/incorretos e defesa contra prompt injection.
-- `references/mcp-tool-routing.md` — quando chamar cada uma das 29
+- `references/mcp-tool-routing.md` — quando chamar cada uma das 30
   tools do contrato MCP v1, em que ordem, e o que fazer com cada
   `progress_effect`.
 - `references/feedback-rubric.md` — critérios de `rubric://idiomatic-go`

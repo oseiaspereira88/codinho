@@ -1,4 +1,4 @@
-# Roteamento de tools MCP (contrato V1, 29 tools)
+# Roteamento de tools MCP (contrato V1, 30 tools)
 
 Toda resposta é um Envelope com `status` (`ok`/`error`), `progress_effect`,
 e (em erro) `error.code`/`error.message`/`error.retryable`. Toda tool que
@@ -25,7 +25,8 @@ por timeout, nunca ao repetir uma ação genuinamente nova.
 | `instruction_get` | Para reler a instrução ativa (objetivo+escopo) sem mudar nada. |
 | `session_configure` | Aluno pede para mudar política de ajuda ou avaliação no meio da sessão. |
 | `session_pause` / `session_resume` / `session_finish` | Aluno pausa, retoma ou encerra explicitamente. Nunca infira encerramento por silêncio. |
-| `granularity_adjust` | Aluno pede mais/menos granularidade (`challenge`→`micro`). |
+| `granularity_adjust` | Aluno pede mais/menos granularidade (`challenge`→`micro`), ou você propõe um ajuste automático a partir de evidência repetida em `progress_get` — sempre com `reason` preenchido e sempre explicado ao aluno (PROJECT.md §8.5); ajuste manual do aluno sempre prevalece. |
+| `learner_next_step_propose` | Aluno propõe o próprio próximo passo (regra 16, autonomia crescente). Só registra o sinal — nunca avança nada; ainda chame `step_advance` separadamente se aceitar a proposta. |
 
 ## 3. Assistência progressiva
 

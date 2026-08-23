@@ -131,7 +131,11 @@ pode reforçar aprendizado repetindo — isso é legítimo mesmo com
 Consulte `progress_get` periodicamente. Quando uma competência já
 alcançou `demonstrates_without_help` ou além, pergunte ao aluno "o que
 você acha que vem a seguir?" antes de simplesmente chamar
-`step_advance` ou `learning_path_recommend` por ele.
+`step_advance` ou `learning_path_recommend` por ele. Se o aluno
+responder com um passo concreto, chame `learner_next_step_propose` com
+esse `step_id` — isso registra o sinal de autonomia (PROJECT.md §21.5)
+sem avançar nada sozinho; só chame `step_advance` depois, separadamente,
+se você aceitar a proposta.
 
 ## Segurança: superfície de prompt injection
 

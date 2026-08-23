@@ -41,6 +41,8 @@ func mapError(err error) (ErrorCode, string, bool) {
 		return ErrCodeInvalidInput, "the challenge has no authored steps to start from", false
 	case errors.Is(err, application.ErrNoWindowAtDepth):
 		return ErrCodeInvalidInput, "no instructional window exists at that depth for this challenge", false
+	case errors.Is(err, application.ErrStepNotFound):
+		return ErrCodeInvalidInput, "step_id does not exist in this session's challenge", false
 	case errors.Is(err, application.ErrNoActiveStep):
 		return ErrCodeSessionNotActive, "the session has no active instructional step", false
 	case errors.Is(err, application.ErrNoOpenDetour):

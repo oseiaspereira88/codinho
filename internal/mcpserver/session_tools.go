@@ -43,6 +43,14 @@ type sessionLifecycleArgs struct {
 type granularityAdjustArgs struct {
 	SessionID        string `json:"session_id" jsonschema:"session ID returned by session_start"`
 	Depth            string `json:"depth" jsonschema:"target depth: challenge, layer, macro, meso or micro"`
+	Reason           string `json:"reason,omitempty" jsonschema:"why this change is happening, so the student can be told (PROJECT.md §8.5: every granularity change must be explained)"`
+	ExpectedRevision uint64 `json:"expected_revision" jsonschema:"session revision this call expects, from session_get"`
+	RequestID        string `json:"request_id,omitempty" jsonschema:"idempotency key for retries"`
+}
+
+type learnerNextStepProposeArgs struct {
+	SessionID        string `json:"session_id" jsonschema:"session ID returned by session_start"`
+	StepID           string `json:"step_id" jsonschema:"the step ID the learner proposes as what comes next"`
 	ExpectedRevision uint64 `json:"expected_revision" jsonschema:"session revision this call expects, from session_get"`
 	RequestID        string `json:"request_id,omitempty" jsonschema:"idempotency key for retries"`
 }
@@ -81,7 +89,7 @@ func registerSessionTools(server *mcp.Server, sessions *application.SessionServi
 		env.SessionID = string(result.SessionID)
 		env.ActiveNode = &ActiveNode{ID: string(result.ActiveStep), Kind: "micro"}
 		env.Disclosure = toDisclosure(result.Disclosure)
-		env.AllowedActions = []string{"instruction_get", "session_get", "session_configure", "session_pause", "session_finish", "granularity_adjust"}
+		env.AllowedActions = []string{"instruction_get", "session_get", "session_configure", "session_pause", "session_finish", "granularity_adjust", "learner_next_step_propose"}
 		return nil, env, nil
 	})
 
@@ -180,7 +188,7 @@ func registerSessionTools(server *mcp.Server, sessions *application.SessionServi
 		if args.SessionID == "" || args.Depth == "" {
 			return errorResult(), errorEnvelope(requestID, ErrCodeInvalidInput, "session_id and depth are required", false, nil), nil
 		}
-		result, err := sessions.GranularityAdjust(learning.SessionID(args.SessionID), learning.Depth(args.Depth), args.ExpectedRevision, args.RequestID)
+		result, err := sessions.GranularityAdjust(learning.SessionID(args.SessionID), learning.Depth(args.Depth), args.Reason, args.ExpectedRevision, args.RequestID)
 		if err != nil {
 			code, msg, retryable := mapError(err)
 			return errorResult(), errorEnvelope(requestID, code, msg, retryable, nil), nil
@@ -188,6 +196,25 @@ func registerSessionTools(server *mcp.Server, sessions *application.SessionServi
 		env := okEnvelope(requestID, ProgressEffectNone, map[string]any{"revision": result.Revision})
 		env.SessionID = args.SessionID
 		env.ActiveNode = &ActiveNode{ID: result.StepID, Kind: result.Kind}
+		return nil, env, nil
+	})
+
+	mcp.AddTool(server, &mcp.Tool{
+		Name:        "learner_next_step_propose",
+		Description: "Record that the learner proposed a step as what comes next: a pure autonomy signal that never advances anything on its own.",
+		Annotations: &mcp.ToolAnnotations{ReadOnlyHint: false, IdempotentHint: true},
+	}, func(_ context.Context, req *mcp.CallToolRequest, args learnerNextStepProposeArgs) (*mcp.CallToolResult, Envelope, error) {
+		requestID := requestIDFor(req)
+		if args.SessionID == "" || args.StepID == "" {
+			return errorResult(), errorEnvelope(requestID, ErrCodeInvalidInput, "session_id and step_id are required", false, nil), nil
+		}
+		result, err := sessions.ProposeNextStep(learning.SessionID(args.SessionID), learning.StepID(args.StepID), args.ExpectedRevision, args.RequestID)
+		if err != nil {
+			code, msg, retryable := mapError(err)
+			return errorResult(), errorEnvelope(requestID, code, msg, retryable, nil), nil
+		}
+		env := okEnvelope(requestID, ProgressEffectNone, map[string]any{"revision": result.Revision})
+		env.SessionID = args.SessionID
 		return nil, env, nil
 	})
 }

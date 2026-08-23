@@ -178,21 +178,25 @@ func (s *Service) Start(in StartInput) (StartResult, error) {
 	if mode == "" {
 		mode = learning.ModePractice
 	}
+	// Each mode supplies its own independent defaults (PROJECT.md §8.2;
+	// learning-practice-debug-modes requirement R1); an explicit
+	// StartInput field always overrides its mode's default (R2).
+	defaults := DefaultsForMode(mode)
 	depth := in.Depth
 	if depth == "" {
-		depth = learning.DepthMicro
+		depth = defaults.Depth
 	}
 	help := in.Help
 	if help == "" {
-		help = learning.HelpProgressive
+		help = defaults.Help
 	}
 	disclosureMax := in.DisclosureMax
 	if disclosureMax == 0 {
-		disclosureMax = learning.DisclosureGuidingQuestion
+		disclosureMax = defaults.Disclosure
 	}
 	evaluation := in.Evaluation
 	if evaluation == "" {
-		evaluation = learning.EvaluationOnDemand
+		evaluation = defaults.Evaluation
 	}
 	policy, err := learning.NewSessionPolicy(mode, depth, help, disclosureMax, evaluation, learning.AdvanceExplicit, nil)
 	if err != nil {
@@ -440,7 +444,12 @@ type GranularityResult struct {
 
 // GranularityAdjust moves the session's instructional window to depth by
 // walking the canonical, unmodified step tree (requirement R6; Decision 1).
-func (s *Service) GranularityAdjust(id learning.SessionID, depth learning.Depth, expectedRevision uint64, requestID string) (GranularityResult, error) {
+// reason is durably recorded on the granularity_changed event whether it
+// comes from a human/skill rationale or from SuggestGranularity, so every
+// change is explainable after the fact (learning-practice-debug-modes
+// requirement R8, PROJECT.md §8.5: "deve ser informado ao aluno"); it may
+// be empty for a purely manual adjustment with no stated reason.
+func (s *Service) GranularityAdjust(id learning.SessionID, depth learning.Depth, reason string, expectedRevision uint64, requestID string) (GranularityResult, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -460,6 +469,7 @@ func (s *Service) GranularityAdjust(id learning.SessionID, depth learning.Depth,
 	ev, fresh, err := s.mutate(id, expectedRevision, requestID, eventstore.EventGranularityChanged, map[string]string{
 		"depth":   string(depth),
 		"step_id": window.StepID,
+		"reason":  reason,
 	})
 	if err != nil {
 		return GranularityResult{}, err
@@ -480,6 +490,46 @@ func (s *Service) GranularityAdjust(id learning.SessionID, depth learning.Depth,
 		rec.cleanEvaluation = false
 	}
 	return GranularityResult{StepID: window.StepID, Kind: window.Kind, Revision: ev.Revision}, nil
+}
+
+// ErrStepNotFound is returned when a proposed step ID does not exist in
+// the session's fixed challenge.
+var ErrStepNotFound = errors.New("session: step not found in challenge")
+
+// ProposeNextStepResult is what ProposeNextStep returns.
+type ProposeNextStepResult struct {
+	Revision uint64
+}
+
+// ProposeNextStep durably records that the learner proposed stepID as
+// what comes next, without advancing anything: it is a pure autonomy
+// signal (PROJECT.md §21.5, "capacidade de propor o próximo passo";
+// learning-practice-debug-modes requirement R9), never a substitute for
+// an explicit step_advance call. stepID must name a real step in the
+// session's fixed challenge, so the recorded signal is never noise.
+func (s *Service) ProposeNextStep(id learning.SessionID, stepID learning.StepID, expectedRevision uint64, requestID string) (ProposeNextStepResult, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	rec, ok := s.sessions[id]
+	if !ok {
+		return ProposeNextStepResult{}, ErrSessionNotFound
+	}
+	challenge, err := s.challenge(rec.challengeID)
+	if err != nil {
+		return ProposeNextStepResult{}, err
+	}
+	if _, ok := findStep(challenge, string(stepID)); !ok {
+		return ProposeNextStepResult{}, ErrStepNotFound
+	}
+
+	ev, _, err := s.mutate(id, expectedRevision, requestID, eventstore.EventLearnerNextStepProposed, map[string]string{
+		"step_id": string(stepID),
+	})
+	if err != nil {
+		return ProposeNextStepResult{}, err
+	}
+	return ProposeNextStepResult{Revision: ev.Revision}, nil
 }
 
 // HintResult is what HintRequest and SyntaxRecallGet return: enough

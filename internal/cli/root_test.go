@@ -3,6 +3,8 @@ package cli
 import (
 	"bytes"
 	"context"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 )
@@ -48,14 +50,54 @@ func TestRunVersionIsDeterministic(t *testing.T) {
 }
 
 func TestRunDoctorReportsOK(t *testing.T) {
+	t.Chdir(setupWorkspace(t))
+
 	var stdout, stderr bytes.Buffer
 	code := Run(context.Background(), []string{"doctor"}, &stdout, &stderr)
 
 	if code != exitOK {
-		t.Fatalf("exit code = %d, want %d", code, exitOK)
+		t.Fatalf("exit code = %d, want %d, stdout = %q, stderr = %q", code, exitOK, stdout.String(), stderr.String())
 	}
 	if !strings.Contains(stdout.String(), "status: ok") {
 		t.Fatalf("doctor output missing status: %q", stdout.String())
+	}
+}
+
+func TestRunDoctorJSONReportsChecksAndNeverLeaksEnv(t *testing.T) {
+	t.Setenv("CODINHO_TEST_SECRET_MARKER", "should-never-appear-in-doctor-output")
+	t.Chdir(setupWorkspace(t))
+
+	var stdout, stderr bytes.Buffer
+	code := Run(context.Background(), []string{"doctor", "--json"}, &stdout, &stderr)
+	if code != exitOK {
+		t.Fatalf("exit code = %d, want %d, stderr = %q", code, exitOK, stderr.String())
+	}
+	if !strings.Contains(stdout.String(), `"catalog"`) {
+		t.Fatalf("doctor --json missing catalog check: %q", stdout.String())
+	}
+	if strings.Contains(stdout.String(), "should-never-appear-in-doctor-output") {
+		t.Fatal("doctor --json leaked an environment value")
+	}
+}
+
+func TestRunDoctorDetectsOrphanedLock(t *testing.T) {
+	root := setupWorkspace(t)
+	t.Chdir(root)
+	stateDir := filepath.Join(root, ".codinho", "state")
+	if err := os.MkdirAll(stateDir, 0o700); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if err := os.WriteFile(filepath.Join(stateDir, "lock"), []byte("999999999\n"), 0o600); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	var stdout, stderr bytes.Buffer
+	code := Run(context.Background(), []string{"doctor"}, &stdout, &stderr)
+	if code != exitError {
+		t.Fatalf("exit code = %d, want exitError for an orphaned lock, stdout = %q", code, stdout.String())
+	}
+	if !strings.Contains(stdout.String(), "orphaned") {
+		t.Fatalf("doctor output missing orphaned-lock detail: %q", stdout.String())
 	}
 }
 

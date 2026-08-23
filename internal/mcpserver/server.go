@@ -29,13 +29,15 @@ type Deps struct {
 // (requirement R5) with stderr-only logging, so stdout stays reserved for
 // the protocol (requirement R1; security).
 func New(deps Deps, stderr io.Writer) *mcp.Server {
+	logger := slog.New(slog.NewTextHandler(stderr, nil))
 	server := mcp.NewServer(&mcp.Implementation{
 		Name:    "codinho",
 		Version: "0.1.0",
 	}, &mcp.ServerOptions{
 		Instructions: Instructions,
-		Logger:       slog.New(slog.NewTextHandler(stderr, nil)),
+		Logger:       logger,
 	})
+	server.AddReceivingMiddleware(loggingMiddleware(logger))
 
 	registerCatalogTools(server, deps.Catalog)
 	registerSessionTools(server, deps.Session)

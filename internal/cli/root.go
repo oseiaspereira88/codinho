@@ -63,7 +63,7 @@ func Run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 	case "version":
 		return runVersion(stdout)
 	case "doctor":
-		return runDoctor(stdout)
+		return runDoctor(args[1:], stdout, stderr)
 	case "catalog":
 		return runCatalog(args[1:], stdout, stderr)
 	case "session":

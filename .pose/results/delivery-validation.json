@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-23T09:36:57Z",
+  "generated_at": "2026-08-23T14:15:43Z",
   "mode": "strict",
-  "git_head": "35bbba5e1c585a8c5237d9fe517040b34e77e423",
-  "matrix_sha256": "sha256:41daa80fc99579e4ab756fdc2011439facd73d59e519243d26e20e1c7253e310",
-  "provenance_digest": "sha256:f367a71682708c9b2c49466a47a32e84d5cdab65106e90a334624085a611ed00",
+  "git_head": "1fb241eebad020bb249f9a142d6dc9bf4e2169e0",
+  "matrix_sha256": "sha256:50615396a2a92b735e8b716c28d5ec27f7e46a55293fd01f3a5135e1f52b925f",
+  "provenance_digest": "sha256:5e1fadb8a0b8346ed2f198f489a5fde8a099508f418ef6912a00eeec03237ac1",
   "scope_provenance": {
     "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
     "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
@@ -21,15 +21,15 @@
     "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
     "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
     "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
-    "security-privacy-hardening": "sha256:500ba5787d66c5ff843b48e89d386465e4c1df5d39de6020fee56aec8e20bbd0",
+    "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
     "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
     "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
     "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
   },
   "outcome": "pass",
   "counts": {
-    "executed": 8,
-    "passed": 8,
+    "executed": 10,
+    "passed": 10,
     "failed": 0,
     "optional_failed": 0,
     "errored": 0,
@@ -49,8 +49,8 @@
       "severity": "required",
       "evidence_class": "unit",
       "outcome": "pass",
-      "duration_seconds": 1.839665821,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t1.517s\nok  \tgithub.com/oseiaspereira88/codinho/internal/application\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/assessment\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/assistance\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/checks\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/cli\t(cached)\n?   \tgithub.com/oseiaspereira88/codinho/internal/config\t[no test files]\nok  \tgithub.com/oseiaspereira88/codinho/internal/curriculum\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/eventstore\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/evidence\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/fixtures\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/learning\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/mastery\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/mcpserver\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/recommendation\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/security\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/session\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/workspace\t(cached)\n"
+      "duration_seconds": 3.138001581,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t2.785s\nok  \tgithub.com/oseiaspereira88/codinho/internal/application\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/assessment\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/assistance\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/checks\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/cli\t0.010s\n?   \tgithub.com/oseiaspereira88/codinho/internal/config\t[no test files]\nok  \tgithub.com/oseiaspereira88/codinho/internal/curriculum\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/diagnostics\t0.003s\nok  \tgithub.com/oseiaspereira88/codinho/internal/eventstore\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/evidence\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/fixtures\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/learning\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/mastery\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/mcpserver\t0.615s\nok  \tgithub.com/oseiaspereira88/codinho/internal/recommendation\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/security\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/session\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/workspace\t(cached)\n"
     },
     {
       "id": "./go/vet",
@@ -65,7 +65,7 @@
       "severity": "optional",
       "evidence_class": "build",
       "outcome": "pass",
-      "duration_seconds": 0.07473207
+      "duration_seconds": 0.079700702
     },
     {
       "id": "./go/build",
@@ -80,7 +80,7 @@
       "severity": "required",
       "evidence_class": "build",
       "outcome": "pass",
-      "duration_seconds": 0.313618666
+      "duration_seconds": 0.361305825
     },
     {
       "id": "./go/mcp-contract",
@@ -97,8 +97,8 @@
       "severity": "required",
       "evidence_class": "integration",
       "outcome": "pass",
-      "duration_seconds": 0.064278351,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/internal/mcpserver\t(cached)\n"
+      "duration_seconds": 0.814584568,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/internal/mcpserver\t0.535s\n"
     },
     {
       "id": "./go/tutor-skill-routing",
@@ -115,8 +115,8 @@
       "severity": "required",
       "evidence_class": "integration",
       "outcome": "pass",
-      "duration_seconds": 0.052688077,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t(cached)\n"
+      "duration_seconds": 0.809884306,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.513s\n"
     },
     {
       "id": "./go/cli-reachability",
@@ -133,8 +133,8 @@
       "severity": "required",
       "evidence_class": "reachability",
       "outcome": "pass",
-      "duration_seconds": 0.056224251,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t(cached)\n"
+      "duration_seconds": 0.598965015,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.367s\n"
     },
     {
       "id": "./go/cli-e2e",
@@ -151,8 +151,8 @@
       "severity": "required",
       "evidence_class": "e2e",
       "outcome": "pass",
-      "duration_seconds": 0.049642329,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t(cached)\n"
+      "duration_seconds": 0.731342993,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.345s\n"
     },
     {
       "id": "./go/govulncheck",
@@ -165,8 +165,44 @@
       ],
       "severity": "required",
       "outcome": "pass",
-      "duration_seconds": 2.014576479,
+      "duration_seconds": 2.5910285760000002,
       "output": "No vulnerabilities found.\n"
+    },
+    {
+      "id": "./go/stdout-purity",
+      "module": ".",
+      "stack": "go",
+      "name": "stdout-purity",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho/...",
+        "-run",
+        "TestServeNeverWritesToStdoutOnStartupFailure|TestServeStdoutIsOnlyValidJSONFrames"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "pass",
+      "duration_seconds": 0.944071758,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.709s\n"
+    },
+    {
+      "id": "./go/startup-budget",
+      "module": ".",
+      "stack": "go",
+      "name": "startup-budget",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho/...",
+        "-run",
+        "TestServeStartupRespondsWithinOneSecond"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "pass",
+      "duration_seconds": 0.573399332,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.333s\n"
     }
   ]
 }

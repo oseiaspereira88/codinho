@@ -447,7 +447,7 @@
       ],
       "path": ".pose/specs/2026-08-22-assistance-hints-detours.md",
       "priority": 70,
-      "status": "draft"
+      "status": "in-progress"
     },
     "catalog-authoring-quality": {
       "depends_on": [
@@ -653,7 +653,7 @@
       ],
       "path": ".pose/specs/2026-08-22-session-orchestration-disclosure.md",
       "priority": 60,
-      "status": "in-progress"
+      "status": "done"
     },
     "tutor-skill-host-integration": {
       "depends_on": [

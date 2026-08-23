@@ -6,7 +6,15 @@
       "breaking": false,
       "body": "`codinho serve` now starts a local MCP server over stdio, exposing an initial\nvertical slice for agents to browse the curriculum and run a minimal\nlearning session: `catalog_search`, `catalog_get`, `session_start`,\n`session_get` and `instruction_get`.",
       "path": "mcp-stdio-foundation.md",
-      "digest": "sha256:9d9bd5f84bfe0a6b5b58f03f9163a3cc6d64a5dffa6b5cb58ed8e62844dd8bab"
+      "digest": "sha256:9ac910e91c2352fc5dc8bbde1356994b22ac45a97fe0e17380419a333da49ec1"
+    },
+    {
+      "spec": "session-orchestration-disclosure",
+      "category": "added",
+      "breaking": false,
+      "body": "`codinho serve` now supports the full session lifecycle: `session_configure`,\n`session_pause`, `session_resume`, `session_finish` and `granularity_adjust`\njoin `session_start`/`session_get`/`instruction_get`, letting an agent\npause, resume, finish and adjust the instructional depth of a running\nsession with optimistic-concurrency safety and idempotent retries.",
+      "path": "session-orchestration-disclosure.md",
+      "digest": "sha256:792f2673ede51ce52e04a7ab9e3f457db66f134affa998f84bc0d9eca86616d7"
     }
   ],
   "releases": []

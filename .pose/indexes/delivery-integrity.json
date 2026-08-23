@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "input_digest": "sha256:e74f23ec377175c4998f4ee124bed5223323934534fac3074870a003e8a27a8d",
-  "provenance_digest": "sha256:f38cf52550662669a679e107980d15b095067d5ed02cc8d694ea5d0fb5a5d004",
+  "input_digest": "sha256:e8cce7725cf19e45efaaee94fb24eadc4cc3055f602012ecbd6131a47f2b5495",
+  "provenance_digest": "sha256:39f0ec6d8a45b0dc298a8797431f23b191d4ea804c65cc42a1b7325e4215aa53",
   "nodes": [
     {
       "id": "artifact:.agents/skills/codinho/SKILL.md",
@@ -116,6 +116,13 @@
       }
     },
     {
+      "id": "artifact:.pose/changelogs/unreleased/session-orchestration-disclosure.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/changelogs/unreleased/session-orchestration-disclosure.md"
+      }
+    },
+    {
       "id": "artifact:.pose/contributions/20260822-104601-review-bundle-seal-crashes-on-overlay-pr.md",
       "type": "artifact",
       "attributes": {
@@ -172,6 +179,13 @@
       }
     },
     {
+      "id": "artifact:.pose/indexes/releases.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/indexes/releases.json"
+      }
+    },
+    {
       "id": "artifact:.pose/indexes/repo-map.json",
       "type": "artifact",
       "attributes": {
@@ -221,10 +235,10 @@
       }
     },
     {
-      "id": "artifact:.pose/reports/2026-08-22-standard-fundacao-go-executavel-do-codinho.md",
+      "id": "artifact:.pose/reports/2026-08-22-standard-fundacao-go-executavel-do-ailearn.md",
       "type": "artifact",
       "attributes": {
-        "path": ".pose/reports/2026-08-22-standard-fundacao-go-executavel-do-codinho.md"
+        "path": ".pose/reports/2026-08-22-standard-fundacao-go-executavel-do-ailearn.md"
       }
     },
     {
@@ -242,10 +256,10 @@
       }
     },
     {
-      "id": "artifact:.pose/reports/history/standard-fundacao-go-executavel-do-codinho.jsonl",
+      "id": "artifact:.pose/reports/history/standard-fundacao-go-executavel-do-ailearn.jsonl",
       "type": "artifact",
       "attributes": {
-        "path": ".pose/reports/history/standard-fundacao-go-executavel-do-codinho.jsonl"
+        "path": ".pose/reports/history/standard-fundacao-go-executavel-do-ailearn.jsonl"
       }
     },
     {
@@ -298,6 +312,13 @@
       }
     },
     {
+      "id": "artifact:.pose/review-attestations/rva-a6caab8e64fdb7d5.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-attestations/rva-a6caab8e64fdb7d5.json"
+      }
+    },
+    {
       "id": "artifact:.pose/review-attestations/rva-aeeb91251ef17f5c.json",
       "type": "artifact",
       "attributes": {
@@ -316,6 +337,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/review-bundles/rvb-4595cba150c74751.json"
+      }
+    },
+    {
+      "id": "artifact:.pose/review-bundles/rvb-5c4faf2ea21566d6.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-bundles/rvb-5c4faf2ea21566d6.json"
       }
     },
     {
@@ -358,6 +386,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/specs/2026-08-22-architecture-decision-baseline.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/specs/2026-08-22-assistance-hints-detours.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/specs/2026-08-22-assistance-hints-detours.md"
       }
     },
     {
@@ -442,6 +477,13 @@
       "type": "artifact",
       "attributes": {
         "path": "README.md"
+      }
+    },
+    {
+      "id": "artifact:cmd/ailearn/main.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "cmd/ailearn/main.go"
       }
     },
     {
@@ -596,6 +638,13 @@
       "type": "artifact",
       "attributes": {
         "path": "go.sum"
+      }
+    },
+    {
+      "id": "artifact:internal/application/assistance.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/application/assistance.go"
       }
     },
     {
@@ -1208,6 +1257,13 @@
       }
     },
     {
+      "id": "artifact:internal/learning/step_test.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/learning/step_test.go"
+      }
+    },
+    {
       "id": "artifact:internal/mastery/model.go",
       "type": "artifact",
       "attributes": {
@@ -1443,6 +1499,13 @@
       "type": "artifact",
       "attributes": {
         "path": "internal/session/adaptation_test.go"
+      }
+    },
+    {
+      "id": "artifact:internal/session/assistance_test.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/session/assistance_test.go"
       }
     },
     {
@@ -1855,6 +1918,14 @@
       }
     },
     {
+      "id": "change-set:cs-3924ec4df49d",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:9e42e1ad24af516855dce573a7b1d7db2e2ce298c53914a717ab55504e04f58e",
+        "selector": "trailers:assistance-hints-detours"
+      }
+    },
+    {
       "id": "change-set:cs-40725deda987",
       "type": "change-set",
       "attributes": {
@@ -1863,10 +1934,10 @@
       }
     },
     {
-      "id": "change-set:cs-68cc928bc720",
+      "id": "change-set:cs-4dcb2c920c9c",
       "type": "change-set",
       "attributes": {
-        "diff_digest": "sha256:acff24ea5085ed01864ab3acc3738b969cfa784e7456653afb55bc588e3ee95b",
+        "diff_digest": "sha256:c56c94d83eb7442caa4abedf20c6e89a820fc599ad313c9f3f2f5b61050e70ca",
         "selector": "trailers:session-orchestration-disclosure"
       }
     },
@@ -1919,7 +1990,7 @@
       "id": "spec:assistance-hints-detours",
       "type": "spec",
       "attributes": {
-        "status": "draft"
+        "status": "in-progress"
       }
     },
     {
@@ -2059,7 +2130,7 @@
       "id": "spec:session-orchestration-disclosure",
       "type": "spec",
       "attributes": {
-        "status": "in-progress"
+        "status": "done"
       }
     },
     {
@@ -2123,11 +2194,6 @@
   "edges": [
     {
       "from": "artifact:.pose/indexes/validation-matrix.json",
-      "to": "delivery:contract:codinho-mcp-v1",
-      "type": "implemented-by"
-    },
-    {
-      "from": "artifact:cmd/codinho/main.go",
       "to": "delivery:contract:codinho-mcp-v1",
       "type": "implemented-by"
     },
@@ -2358,7 +2424,7 @@
     },
     {
       "from": "change-set:cs-27f24a7c63e8",
-      "to": "artifact:.pose/reports/2026-08-22-standard-fundacao-go-executavel-do-codinho.md",
+      "to": "artifact:.pose/reports/2026-08-22-standard-fundacao-go-executavel-do-ailearn.md",
       "type": "changes"
     },
     {
@@ -2368,7 +2434,7 @@
     },
     {
       "from": "change-set:cs-27f24a7c63e8",
-      "to": "artifact:.pose/reports/history/standard-fundacao-go-executavel-do-codinho.jsonl",
+      "to": "artifact:.pose/reports/history/standard-fundacao-go-executavel-do-ailearn.jsonl",
       "type": "changes"
     },
     {
@@ -2403,7 +2469,7 @@
     },
     {
       "from": "change-set:cs-27f24a7c63e8",
-      "to": "artifact:cmd/codinho/main.go",
+      "to": "artifact:cmd/ailearn/main.go",
       "type": "changes"
     },
     {
@@ -2517,6 +2583,106 @@
       "type": "changes"
     },
     {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:.pose/specs/2026-08-22-assistance-hints-detours.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:cmd/codinho/main.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:internal/application/assistance.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:internal/assistance/detour.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:internal/assistance/disclosure_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:internal/assistance/ladder.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:internal/assistance/service.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:internal/assistance/service_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:internal/curriculum/index.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:internal/learning/errors.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:internal/learning/step.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:internal/learning/step_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:internal/mcpserver/assistance_contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:internal/mcpserver/assistance_tools.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:internal/mcpserver/contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:internal/mcpserver/errors.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:internal/mcpserver/server.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:internal/mcpserver/session_contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:internal/session/assistance_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-3924ec4df49d",
+      "to": "artifact:internal/session/service.go",
+      "type": "changes"
+    },
+    {
       "from": "change-set:cs-40725deda987",
       "to": "artifact:.pose/changelogs/unreleased/mcp-stdio-foundation.md",
       "type": "changes"
@@ -2583,7 +2749,7 @@
     },
     {
       "from": "change-set:cs-40725deda987",
-      "to": "artifact:cmd/codinho/main.go",
+      "to": "artifact:cmd/ailearn/main.go",
       "type": "changes"
     },
     {
@@ -2652,72 +2818,107 @@
       "type": "changes"
     },
     {
-      "from": "change-set:cs-68cc928bc720",
+      "from": "change-set:cs-4dcb2c920c9c",
+      "to": "artifact:.pose/changelogs/unreleased/session-orchestration-disclosure.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4dcb2c920c9c",
+      "to": "artifact:.pose/indexes/delivery-integrity.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4dcb2c920c9c",
+      "to": "artifact:.pose/indexes/releases.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4dcb2c920c9c",
+      "to": "artifact:.pose/indexes/spec-graph.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4dcb2c920c9c",
+      "to": "artifact:.pose/results/delivery-validation.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4dcb2c920c9c",
+      "to": "artifact:.pose/review-attestations/rva-a6caab8e64fdb7d5.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4dcb2c920c9c",
+      "to": "artifact:.pose/review-bundles/rvb-5c4faf2ea21566d6.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-4dcb2c920c9c",
       "to": "artifact:.pose/specs/2026-08-22-session-orchestration-disclosure.md",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-68cc928bc720",
+      "from": "change-set:cs-4dcb2c920c9c",
       "to": "artifact:internal/application/catalog.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-68cc928bc720",
+      "from": "change-set:cs-4dcb2c920c9c",
       "to": "artifact:internal/application/session.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-68cc928bc720",
+      "from": "change-set:cs-4dcb2c920c9c",
       "to": "artifact:internal/eventstore/event.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-68cc928bc720",
+      "from": "change-set:cs-4dcb2c920c9c",
       "to": "artifact:internal/mcpserver/contract_test.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-68cc928bc720",
+      "from": "change-set:cs-4dcb2c920c9c",
       "to": "artifact:internal/mcpserver/errors.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-68cc928bc720",
+      "from": "change-set:cs-4dcb2c920c9c",
       "to": "artifact:internal/mcpserver/server_test.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-68cc928bc720",
+      "from": "change-set:cs-4dcb2c920c9c",
       "to": "artifact:internal/mcpserver/session_contract_test.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-68cc928bc720",
+      "from": "change-set:cs-4dcb2c920c9c",
       "to": "artifact:internal/mcpserver/session_tools.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-68cc928bc720",
+      "from": "change-set:cs-4dcb2c920c9c",
       "to": "artifact:internal/session/disclosure.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-68cc928bc720",
+      "from": "change-set:cs-4dcb2c920c9c",
       "to": "artifact:internal/session/disclosure_test.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-68cc928bc720",
+      "from": "change-set:cs-4dcb2c920c9c",
       "to": "artifact:internal/session/granularity.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-68cc928bc720",
+      "from": "change-set:cs-4dcb2c920c9c",
       "to": "artifact:internal/session/service.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-68cc928bc720",
+      "from": "change-set:cs-4dcb2c920c9c",
       "to": "artifact:internal/session/service_test.go",
       "type": "changes"
     },
@@ -3043,6 +3244,16 @@
     },
     {
       "from": "spec:assistance-hints-detours",
+      "to": "artifact:cmd/codinho/main.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:assistance-hints-detours",
+      "to": "artifact:internal/application/assistance.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:assistance-hints-detours",
       "to": "artifact:internal/assistance/detour.go",
       "type": "declares"
     },
@@ -3068,6 +3279,26 @@
     },
     {
       "from": "spec:assistance-hints-detours",
+      "to": "artifact:internal/curriculum/index.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:assistance-hints-detours",
+      "to": "artifact:internal/learning/errors.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:assistance-hints-detours",
+      "to": "artifact:internal/learning/step.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:assistance-hints-detours",
+      "to": "artifact:internal/learning/step_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:assistance-hints-detours",
       "to": "artifact:internal/mcpserver/assistance_contract_test.go",
       "type": "declares"
     },
@@ -3078,8 +3309,38 @@
     },
     {
       "from": "spec:assistance-hints-detours",
+      "to": "artifact:internal/mcpserver/contract_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:assistance-hints-detours",
+      "to": "artifact:internal/mcpserver/errors.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:assistance-hints-detours",
+      "to": "artifact:internal/mcpserver/server.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:assistance-hints-detours",
+      "to": "artifact:internal/mcpserver/session_contract_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:assistance-hints-detours",
+      "to": "artifact:internal/session/assistance_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:assistance-hints-detours",
       "to": "artifact:internal/session/service.go",
       "type": "declares"
+    },
+    {
+      "from": "spec:assistance-hints-detours",
+      "to": "change-set:cs-3924ec4df49d",
+      "type": "observed-by"
     },
     {
       "from": "spec:catalog-authoring-quality",
@@ -4088,7 +4349,7 @@
     },
     {
       "from": "spec:session-orchestration-disclosure",
-      "to": "change-set:cs-68cc928bc720",
+      "to": "change-set:cs-4dcb2c920c9c",
       "type": "observed-by"
     },
     {
@@ -4316,6 +4577,11 @@
     {
       "spec": "assistance-hints-detours",
       "action": "created",
+      "path": "internal/application/assistance.go"
+    },
+    {
+      "spec": "assistance-hints-detours",
+      "action": "created",
       "path": "internal/assistance/detour.go"
     },
     {
@@ -4341,12 +4607,62 @@
     {
       "spec": "assistance-hints-detours",
       "action": "created",
+      "path": "internal/learning/step_test.go"
+    },
+    {
+      "spec": "assistance-hints-detours",
+      "action": "created",
       "path": "internal/mcpserver/assistance_contract_test.go"
     },
     {
       "spec": "assistance-hints-detours",
       "action": "created",
       "path": "internal/mcpserver/assistance_tools.go"
+    },
+    {
+      "spec": "assistance-hints-detours",
+      "action": "created",
+      "path": "internal/session/assistance_test.go"
+    },
+    {
+      "spec": "assistance-hints-detours",
+      "action": "modified",
+      "path": "cmd/codinho/main.go"
+    },
+    {
+      "spec": "assistance-hints-detours",
+      "action": "modified",
+      "path": "internal/curriculum/index.go"
+    },
+    {
+      "spec": "assistance-hints-detours",
+      "action": "modified",
+      "path": "internal/learning/errors.go"
+    },
+    {
+      "spec": "assistance-hints-detours",
+      "action": "modified",
+      "path": "internal/learning/step.go"
+    },
+    {
+      "spec": "assistance-hints-detours",
+      "action": "modified",
+      "path": "internal/mcpserver/contract_test.go"
+    },
+    {
+      "spec": "assistance-hints-detours",
+      "action": "modified",
+      "path": "internal/mcpserver/errors.go"
+    },
+    {
+      "spec": "assistance-hints-detours",
+      "action": "modified",
+      "path": "internal/mcpserver/server.go"
+    },
+    {
+      "spec": "assistance-hints-detours",
+      "action": "modified",
+      "path": "internal/mcpserver/session_contract_test.go"
     },
     {
       "spec": "assistance-hints-detours",
@@ -5622,11 +5938,11 @@
         },
         {
           "action": "created",
-          "path": ".pose/reports/2026-08-22-standard-fundacao-go-executavel-do-codinho.md"
+          "path": ".pose/reports/2026-08-22-standard-fundacao-go-executavel-do-ailearn.md"
         },
         {
           "action": "created",
-          "path": ".pose/reports/history/standard-fundacao-go-executavel-do-codinho.jsonl"
+          "path": ".pose/reports/history/standard-fundacao-go-executavel-do-ailearn.jsonl"
         },
         {
           "action": "created",
@@ -5638,7 +5954,7 @@
         },
         {
           "action": "created",
-          "path": "cmd/codinho/main.go"
+          "path": "cmd/ailearn/main.go"
         },
         {
           "action": "created",
@@ -5792,6 +6108,101 @@
       "diff_digest": "sha256:a1f1f3592e4043c7efb7bb360cbbb5e57093b8a6c0525eaa20f403335e9e6ba9"
     },
     {
+      "id": "cs-3924ec4df49d",
+      "spec": "assistance-hints-detours",
+      "selector": "trailers:assistance-hints-detours",
+      "base": "bada400a7136cd1b6ab0a1c7c848fc4c7c149379^",
+      "head": "bada400a7136cd1b6ab0a1c7c848fc4c7c149379",
+      "resolved_base": "b0f9b10212341744c01d0c8257ccacfe5249ffa4",
+      "resolved_head": "bada400a7136cd1b6ab0a1c7c848fc4c7c149379",
+      "commits": [
+        "bada400a7136cd1b6ab0a1c7c848fc4c7c149379"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": "internal/application/assistance.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/assistance/detour.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/assistance/disclosure_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/assistance/ladder.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/assistance/service.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/assistance/service_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/learning/step_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/mcpserver/assistance_contract_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/mcpserver/assistance_tools.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/session/assistance_test.go"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-assistance-hints-detours.md"
+        },
+        {
+          "action": "modified",
+          "path": "cmd/codinho/main.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/index.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/learning/errors.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/learning/step.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/contract_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/errors.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/server.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/session_contract_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/session/service.go"
+        }
+      ],
+      "diff_digest": "sha256:9e42e1ad24af516855dce573a7b1d7db2e2ce298c53914a717ab55504e04f58e"
+    },
+    {
       "id": "cs-40725deda987",
       "spec": "mcp-stdio-foundation",
       "selector": "trailers:mcp-stdio-foundation",
@@ -5904,7 +6315,7 @@
         },
         {
           "action": "modified",
-          "path": "cmd/codinho/main.go"
+          "path": "cmd/ailearn/main.go"
         },
         {
           "action": "modified",
@@ -5918,17 +6329,30 @@
       "diff_digest": "sha256:7ecdc0bbcd4028c0159755f3daad871deb95358c824dfb85c52563faabaca13a"
     },
     {
-      "id": "cs-68cc928bc720",
+      "id": "cs-4dcb2c920c9c",
       "spec": "session-orchestration-disclosure",
       "selector": "trailers:session-orchestration-disclosure",
       "base": "7c55aa3b19c963616f29ec7cf0c2e508079d5dbd^",
-      "head": "7c55aa3b19c963616f29ec7cf0c2e508079d5dbd",
+      "head": "67891d65c68508cb57f712ee9507319d9675c4ea",
       "resolved_base": "f7b933490a3618487db28b4ceb6b18d895267621",
-      "resolved_head": "7c55aa3b19c963616f29ec7cf0c2e508079d5dbd",
+      "resolved_head": "67891d65c68508cb57f712ee9507319d9675c4ea",
       "commits": [
-        "7c55aa3b19c963616f29ec7cf0c2e508079d5dbd"
+        "7c55aa3b19c963616f29ec7cf0c2e508079d5dbd",
+        "67891d65c68508cb57f712ee9507319d9675c4ea"
       ],
       "paths": [
+        {
+          "action": "created",
+          "path": ".pose/changelogs/unreleased/session-orchestration-disclosure.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/review-attestations/rva-a6caab8e64fdb7d5.json"
+        },
+        {
+          "action": "created",
+          "path": ".pose/review-bundles/rvb-5c4faf2ea21566d6.json"
+        },
         {
           "action": "created",
           "path": "internal/mcpserver/session_contract_test.go"
@@ -5952,6 +6376,22 @@
         {
           "action": "created",
           "path": "internal/session/service_test.go"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/delivery-integrity.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/releases.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/spec-graph.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/results/delivery-validation.json"
         },
         {
           "action": "modified",
@@ -5986,7 +6426,7 @@
           "path": "internal/mcpserver/session_tools.go"
         }
       ],
-      "diff_digest": "sha256:acff24ea5085ed01864ab3acc3738b969cfa784e7456653afb55bc588e3ee95b"
+      "diff_digest": "sha256:c56c94d83eb7442caa4abedf20c6e89a820fc599ad313c9f3f2f5b61050e70ca"
     },
     {
       "id": "cs-89ad08ccd8e2",
@@ -6269,6 +6709,7 @@
       "installation-documentation-ci"
     ],
     "cmd/codinho/main.go": [
+      "assistance-hints-detours",
       "go-runtime-foundation",
       "mcp-stdio-foundation"
     ],
@@ -6339,6 +6780,9 @@
     "go.sum": [
       "catalog-schema-loader",
       "mcp-stdio-foundation"
+    ],
+    "internal/application/assistance.go": [
+      "assistance-hints-detours"
     ],
     "internal/application/catalog.go": [
       "mcp-stdio-foundation",
@@ -6471,6 +6915,7 @@
       "curriculum-graph-path-recommendation"
     ],
     "internal/curriculum/index.go": [
+      "assistance-hints-detours",
       "catalog-schema-loader"
     ],
     "internal/curriculum/loader.go": [
@@ -6587,6 +7032,7 @@
       "learning-domain-model"
     ],
     "internal/learning/errors.go": [
+      "assistance-hints-detours",
       "learning-domain-model"
     ],
     "internal/learning/evaluation.go": [
@@ -6608,7 +7054,11 @@
       "learning-domain-model"
     ],
     "internal/learning/step.go": [
+      "assistance-hints-detours",
       "learning-domain-model"
+    ],
+    "internal/learning/step_test.go": [
+      "assistance-hints-detours"
     ],
     "internal/mastery/model.go": [
       "mastery-review-scheduling"
@@ -6652,6 +7102,7 @@
       "safe-check-executor"
     ],
     "internal/mcpserver/contract_test.go": [
+      "assistance-hints-detours",
       "mcp-stdio-foundation",
       "security-privacy-hardening",
       "session-orchestration-disclosure"
@@ -6660,6 +7111,7 @@
       "mcp-stdio-foundation"
     ],
     "internal/mcpserver/errors.go": [
+      "assistance-hints-detours",
       "mcp-stdio-foundation",
       "session-orchestration-disclosure"
     ],
@@ -6679,6 +7131,7 @@
       "curriculum-graph-path-recommendation"
     ],
     "internal/mcpserver/server.go": [
+      "assistance-hints-detours",
       "mcp-stdio-foundation"
     ],
     "internal/mcpserver/server_test.go": [
@@ -6686,6 +7139,7 @@
       "session-orchestration-disclosure"
     ],
     "internal/mcpserver/session_contract_test.go": [
+      "assistance-hints-detours",
       "session-orchestration-disclosure"
     ],
     "internal/mcpserver/session_tools.go": [
@@ -6719,6 +7173,9 @@
     ],
     "internal/session/adaptation_test.go": [
       "learning-practice-debug-modes"
+    ],
+    "internal/session/assistance_test.go": [
+      "assistance-hints-detours"
     ],
     "internal/session/disclosure.go": [
       "session-orchestration-disclosure"
@@ -6927,13 +7384,13 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-0506ed4b4d2f",
+      "id": "dif-04804efdc00f",
       "code": "action-mismatch",
       "severity": "error",
-      "spec": "assistance-hints-detours",
-      "path": "internal/session/service.go",
+      "spec": "go-runtime-foundation",
+      "path": "cmd/codinho/main.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec assistance-hints-detours (ensure commits carry 'POSE-Spec: assistance-hints-detours' trailer or generate report with pose report)"
+      "remediation": "correct the action or record the exact attributed revisions"
     },
     {
       "id": "dif-0582cf976f99",
@@ -6963,6 +7420,15 @@
       "remediation": "no Git change sets are attributed to spec safe-check-executor (ensure commits carry 'POSE-Spec: safe-check-executor' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-06cf84182a03",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "tutor-skill-host-integration",
+      "path": ".agents/skills/codinho/references/session-modes.md",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
+    },
+    {
       "id": "dif-07c9ad6dc187",
       "code": "existence",
       "severity": "error",
@@ -6988,15 +7454,6 @@
       "path": "testdata/packs/foundations",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec go-foundations-packs (ensure commits carry 'POSE-Spec: go-foundations-packs' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-0ac56164215f",
-      "code": "existence",
-      "severity": "error",
-      "spec": "assistance-hints-detours",
-      "path": "internal/assistance/disclosure_test.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-0b7c13861cee",
@@ -7026,38 +7483,11 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-10d336d97570",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "assistance-hints-detours",
-      "path": "internal/assistance/ladder.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec assistance-hints-detours (ensure commits carry 'POSE-Spec: assistance-hints-detours' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-113524b1178d",
       "code": "existence",
       "severity": "error",
       "spec": "v1-integrated-acceptance",
       "path": "tests/e2e/host-cli",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-1146ce3b3a00",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "assistance-hints-detours",
-      "path": "internal/assistance/service_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec assistance-hints-detours (ensure commits carry 'POSE-Spec: assistance-hints-detours' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-1217fb44fc4b",
-      "code": "existence",
-      "severity": "error",
-      "spec": "interview-mode",
-      "path": ".agents/skills/codinho/references/session-modes.md",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
@@ -7098,15 +7528,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-1572692b83ca",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "assistance-hints-detours",
-      "path": "internal/assistance/detour.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec assistance-hints-detours (ensure commits carry 'POSE-Spec: assistance-hints-detours' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-15ff0ddaa4ad",
       "code": "existence",
       "severity": "error",
@@ -7141,15 +7562,6 @@
       "path": "docs/compatibility.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-193ed1335e01",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/assets/session-summary-template.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
     },
     {
       "id": "dif-1a00b6723e0e",
@@ -7341,15 +7753,6 @@
       "remediation": "no Git change sets are attributed to spec reliability-observability-compatibility (ensure commits carry 'POSE-Spec: reliability-observability-compatibility' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-2b9ea7586051",
-      "code": "existence",
-      "severity": "error",
-      "spec": "assistance-hints-detours",
-      "path": "internal/assistance/service_test.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-2bf7d79b5aeb",
       "code": "action-mismatch",
       "severity": "error",
@@ -7357,6 +7760,24 @@
       "path": "docs/acceptance/v1-requirement-matrix.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-2ce02d969927",
+      "code": "existence",
+      "severity": "error",
+      "spec": "tutor-skill-host-integration",
+      "path": ".agents/skills/codinho/assets/session-summary-template.md",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-2cf0a3935007",
+      "code": "existence",
+      "severity": "error",
+      "spec": "interview-mode",
+      "path": ".agents/skills/codinho/assets/interview-report-template.md",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-2d046e1915b4",
@@ -7391,15 +7812,6 @@
       "severity": "error",
       "spec": "go-backend-packs",
       "path": "packs/go-concurrency-context",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-2fd356fc6b11",
-      "code": "existence",
-      "severity": "error",
-      "spec": "interview-mode",
-      "path": ".agents/skills/codinho/assets/interview-report-template.md",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
@@ -7465,15 +7877,6 @@
       "path": "internal/cli/workspace.go",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-36da3df78fa8",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "assistance-hints-detours",
-      "path": "internal/assistance/disclosure_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec assistance-hints-detours (ensure commits carry 'POSE-Spec: assistance-hints-detours' trailer or generate report with pose report)"
     },
     {
       "id": "dif-37cc2a7298d9",
@@ -7620,13 +8023,13 @@
       "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-45f2d740f661",
-      "code": "existence",
+      "id": "dif-45f6d391b15e",
+      "code": "action-mismatch",
       "severity": "error",
-      "spec": "assistance-hints-detours",
-      "path": "internal/assistance/detour.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
+      "spec": "mcp-stdio-foundation",
+      "path": "cmd/codinho/main.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "correct the action or record the exact attributed revisions"
     },
     {
       "id": "dif-46f4e36a33df",
@@ -7681,15 +8084,6 @@
       "path": "internal/checks/registry.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec safe-check-executor (ensure commits carry 'POSE-Spec: safe-check-executor' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-495e64045c93",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "interview-mode",
-      "path": ".agents/skills/codinho/assets/interview-report-template.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec interview-mode (ensure commits carry 'POSE-Spec: interview-mode' trailer or generate report with pose report)"
     },
     {
       "id": "dif-499365d366f0",
@@ -7899,15 +8293,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-57188064cb10",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/references/mcp-tool-routing.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-5847c8091b39",
       "code": "action-mismatch",
       "severity": "error",
@@ -7951,15 +8336,6 @@
       "path": "packs/go-production",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-5acae3dfc222",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "interview-mode",
-      "path": ".agents/skills/codinho/references/session-modes.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec interview-mode (ensure commits carry 'POSE-Spec: interview-mode' trailer or generate report with pose report)"
     },
     {
       "id": "dif-5aef048c3c3e",
@@ -8007,15 +8383,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-5f624e212b4c",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "learning-practice-debug-modes",
-      "path": ".agents/skills/codinho/references/session-modes.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec learning-practice-debug-modes (ensure commits carry 'POSE-Spec: learning-practice-debug-modes' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-60a5c66a291d",
       "code": "action-mismatch",
       "severity": "error",
@@ -8043,11 +8410,20 @@
       "remediation": "no Git change sets are attributed to spec mastery-review-scheduling (ensure commits carry 'POSE-Spec: mastery-review-scheduling' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-648091914247",
+      "id": "dif-64a642d76796",
+      "code": "existence",
+      "severity": "error",
+      "spec": "tutor-skill-host-integration",
+      "path": ".agents/skills/codinho/references/feedback-rubric.md",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-64ab177daf4e",
       "code": "action-mismatch",
       "severity": "error",
       "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/SKILL.md",
+      "path": ".agents/skills/codinho/references/tutor-contract.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
     },
@@ -8113,15 +8489,6 @@
       "path": "internal/mcpserver/lifecycle_test.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec reliability-observability-compatibility (ensure commits carry 'POSE-Spec: reliability-observability-compatibility' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-6a51d169a84f",
-      "code": "existence",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/references/tutor-contract.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-6b6aa15bec7e",
@@ -8196,6 +8563,15 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
+      "id": "dif-70cc13ed0f07",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "learning-practice-debug-modes",
+      "path": ".agents/skills/codinho/references/session-modes.md",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec learning-practice-debug-modes (ensure commits carry 'POSE-Spec: learning-practice-debug-modes' trailer or generate report with pose report)"
+    },
+    {
       "id": "dif-70ce7e09a1dc",
       "code": "action-mismatch",
       "severity": "error",
@@ -8239,6 +8615,15 @@
       "path": "internal/checks/model.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec safe-check-executor (ensure commits carry 'POSE-Spec: safe-check-executor' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-7387befa769f",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "tutor-skill-host-integration",
+      "path": ".agents/skills/codinho/assets/session-summary-template.md",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
     },
     {
       "id": "dif-738a87658af4",
@@ -8304,24 +8689,6 @@
       "remediation": "no Git change sets are attributed to spec mastery-review-scheduling (ensure commits carry 'POSE-Spec: mastery-review-scheduling' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-7aeff53a94d2",
-      "code": "existence",
-      "severity": "error",
-      "spec": "assistance-hints-detours",
-      "path": "internal/mcpserver/assistance_contract_test.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-7b2e4559e3a3",
-      "code": "existence",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/agents/openai.yaml",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-7b533dec7be4",
       "code": "existence",
       "severity": "error",
@@ -8354,6 +8721,15 @@
       "severity": "error",
       "spec": "workspace-observation-baselines",
       "path": "internal/mcpserver/workspace_tools.go",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-7d127525929e",
+      "code": "existence",
+      "severity": "error",
+      "spec": "learning-practice-debug-modes",
+      "path": ".agents/skills/codinho/references/session-modes.md",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
@@ -8448,6 +8824,15 @@
       "remediation": "no Git change sets are attributed to spec administrative-cli-fixtures (ensure commits carry 'POSE-Spec: administrative-cli-fixtures' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-850151064c69",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "interview-mode",
+      "path": ".agents/skills/codinho/references/session-modes.md",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec interview-mode (ensure commits carry 'POSE-Spec: interview-mode' trailer or generate report with pose report)"
+    },
+    {
       "id": "dif-85f9ac30ae6d",
       "code": "existence",
       "severity": "error",
@@ -8509,6 +8894,15 @@
       "path": "internal/application/progress.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec mastery-review-scheduling (ensure commits carry 'POSE-Spec: mastery-review-scheduling' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-8aee95756897",
+      "code": "existence",
+      "severity": "error",
+      "spec": "tutor-skill-host-integration",
+      "path": ".agents/skills/codinho/references/tutor-contract.md",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-8d6420587145",
@@ -8736,13 +9130,13 @@
       "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-9eba32e97fe5",
-      "code": "existence",
+      "id": "dif-9e6edeb4aa89",
+      "code": "action-mismatch",
       "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/assets/session-summary-template.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
+      "spec": "interview-mode",
+      "path": ".agents/skills/codinho/assets/interview-report-template.md",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec interview-mode (ensure commits carry 'POSE-Spec: interview-mode' trailer or generate report with pose report)"
     },
     {
       "id": "dif-a1963eb2f204",
@@ -8750,6 +9144,15 @@
       "severity": "error",
       "spec": "administrative-cli-fixtures",
       "path": "internal/cli/output.go",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-a30f2ed97a89",
+      "code": "existence",
+      "severity": "error",
+      "spec": "tutor-skill-host-integration",
+      "path": ".agents/skills/codinho/agents/openai.yaml",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
@@ -8799,6 +9202,15 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
+      "id": "dif-a50a27d0e39b",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "tutor-skill-host-integration",
+      "path": ".agents/skills/codinho/SKILL.md",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
+    },
+    {
       "id": "dif-a6980c2ea3e0",
       "code": "action-mismatch",
       "severity": "error",
@@ -8806,15 +9218,6 @@
       "path": "internal/mcpserver/recommendation_contract_test.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec curriculum-graph-path-recommendation (ensure commits carry 'POSE-Spec: curriculum-graph-path-recommendation' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-a6b5be26ed13",
-      "code": "existence",
-      "severity": "error",
-      "spec": "assistance-hints-detours",
-      "path": "internal/assistance/ladder.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-a6f76b3b47b6",
@@ -8898,6 +9301,15 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
+      "id": "dif-aefbaffb4864",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "tutor-skill-host-integration",
+      "path": ".agents/skills/codinho/references/feedback-rubric.md",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
+    },
+    {
       "id": "dif-af53c673b1c8",
       "code": "existence",
       "severity": "error",
@@ -8970,20 +9382,20 @@
       "remediation": "no Git change sets are attributed to spec feedback-evaluation-progression (ensure commits carry 'POSE-Spec: feedback-evaluation-progression' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-b41eead0ac73",
+      "code": "existence",
+      "severity": "error",
+      "spec": "tutor-skill-host-integration",
+      "path": ".agents/skills/codinho/SKILL.md",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
       "id": "dif-b42f8182957e",
       "code": "existence",
       "severity": "error",
       "spec": "installation-documentation-ci",
       "path": ".codex/config.toml.example",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-b55c33a2b0d9",
-      "code": "existence",
-      "severity": "error",
-      "spec": "learning-practice-debug-modes",
-      "path": ".agents/skills/codinho/references/session-modes.md",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
@@ -9024,11 +9436,20 @@
       "remediation": "no Git change sets are attributed to spec safe-check-executor (ensure commits carry 'POSE-Spec: safe-check-executor' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-bac966c9c06b",
+      "id": "dif-b9b37c24de9b",
       "code": "existence",
       "severity": "error",
       "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/SKILL.md",
+      "path": ".agents/skills/codinho/references/session-modes.md",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-bb2c0583fc92",
+      "code": "existence",
+      "severity": "error",
+      "spec": "tutor-skill-host-integration",
+      "path": ".agents/skills/codinho/references/mcp-tool-routing.md",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
@@ -9141,15 +9562,6 @@
       "remediation": "no Git change sets are attributed to spec mastery-review-scheduling (ensure commits carry 'POSE-Spec: mastery-review-scheduling' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-c8398690bd40",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "assistance-hints-detours",
-      "path": "internal/mcpserver/assistance_tools.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec assistance-hints-detours (ensure commits carry 'POSE-Spec: assistance-hints-detours' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-c88c4d244d15",
       "code": "existence",
       "severity": "error",
@@ -9202,15 +9614,6 @@
       "path": "packs/go-http",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-cc11f945790d",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/references/feedback-rubric.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
     },
     {
       "id": "dif-ce16cb871671",
@@ -9294,15 +9697,6 @@
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-d70db61d842d",
-      "code": "existence",
-      "severity": "error",
-      "spec": "assistance-hints-detours",
-      "path": "internal/assistance/service.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-d823b60920b6",
       "code": "action-mismatch",
       "severity": "error",
@@ -9348,22 +9742,13 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-dcf19f7ec4f8",
-      "code": "existence",
-      "severity": "error",
-      "spec": "assistance-hints-detours",
-      "path": "internal/mcpserver/assistance_tools.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-df47bbd666a7",
-      "code": "existence",
+      "id": "dif-def2eb24b0da",
+      "code": "action-mismatch",
       "severity": "error",
       "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/references/mcp-tool-routing.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
+      "path": ".agents/skills/codinho/agents/openai.yaml",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
     },
     {
       "id": "dif-df62c88ffc2b",
@@ -9465,15 +9850,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-e8cecf9117d9",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "assistance-hints-detours",
-      "path": "internal/mcpserver/assistance_contract_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec assistance-hints-detours (ensure commits carry 'POSE-Spec: assistance-hints-detours' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-e8f1504b48d2",
       "code": "existence",
       "severity": "error",
@@ -9519,15 +9895,6 @@
       "remediation": "no Git change sets are attributed to spec learning-practice-debug-modes (ensure commits carry 'POSE-Spec: learning-practice-debug-modes' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-ec6b126811d1",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/references/tutor-contract.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-ee0f203ccb24",
       "code": "existence",
       "severity": "error",
@@ -9546,11 +9913,11 @@
       "remediation": "no Git change sets are attributed to spec interview-mode (ensure commits carry 'POSE-Spec: interview-mode' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-ee7a39528a9c",
+      "id": "dif-eeea38935eb6",
       "code": "action-mismatch",
       "severity": "error",
       "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/references/session-modes.md",
+      "path": ".agents/skills/codinho/references/mcp-tool-routing.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
     },
@@ -9627,6 +9994,15 @@
       "remediation": "no Git change sets are attributed to spec safe-check-executor (ensure commits carry 'POSE-Spec: safe-check-executor' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-f6f4339bdb46",
+      "code": "existence",
+      "severity": "error",
+      "spec": "interview-mode",
+      "path": ".agents/skills/codinho/references/session-modes.md",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
       "id": "dif-f7996239c3bc",
       "code": "existence",
       "severity": "error",
@@ -9645,15 +10021,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-f8b468f8b51d",
-      "code": "existence",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/references/session-modes.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-f9497f3c9bb0",
       "code": "action-mismatch",
       "severity": "error",
@@ -9663,15 +10030,6 @@
       "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-fa0e48719a36",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "assistance-hints-detours",
-      "path": "internal/assistance/service.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec assistance-hints-detours (ensure commits carry 'POSE-Spec: assistance-hints-detours' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-fc4d373b7385",
       "code": "action-mismatch",
       "severity": "error",
@@ -9679,24 +10037,6 @@
       "path": "internal/mastery/rules.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec mastery-review-scheduling (ensure commits carry 'POSE-Spec: mastery-review-scheduling' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-fc99c693d848",
-      "code": "existence",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/references/feedback-rubric.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-fcdd0e2580a1",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/agents/openai.yaml",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
     },
     {
       "id": "dif-fe9aa51092d0",
@@ -9754,18 +10094,19 @@
       "evidence_class": "build",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "7c55aa3b19c963616f29ec7cf0c2e508079d5dbd",
-      "generated_at": "2026-08-23T01:21:34Z",
-      "provenance_digest": "sha256:f38cf52550662669a679e107980d15b095067d5ed02cc8d694ea5d0fb5a5d004",
+      "git_head": "bada400a7136cd1b6ab0a1c7c848fc4c7c149379",
+      "generated_at": "2026-08-23T02:13:57Z",
+      "provenance_digest": "sha256:39f0ec6d8a45b0dc298a8797431f23b191d4ea804c65cc42a1b7325e4215aa53",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
+        "assistance-hints-detours": "sha256:d456c1e80a760f4f01be5c6dae25e7a2ade8c78c800db3f92a40d0d88772f040",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
-        "go-runtime-foundation": "sha256:9a4e47998be06f380306497a3e5f9a87b700e2ea0881b7f33cea67e2d2d7da03",
+        "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
-        "mcp-stdio-foundation": "sha256:a38a20dbb09c69098d0b7a64b361a7dc053c2c8570b72758430be1aefab39f6d",
-        "session-orchestration-disclosure": "sha256:c9b1c495ee4665a29ed79b6eced15c4894317d92d0fdbfb374be7f88d10acfd8"
+        "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
+        "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae"
       }
     },
     {
@@ -9775,18 +10116,19 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "7c55aa3b19c963616f29ec7cf0c2e508079d5dbd",
-      "generated_at": "2026-08-23T01:21:34Z",
-      "provenance_digest": "sha256:f38cf52550662669a679e107980d15b095067d5ed02cc8d694ea5d0fb5a5d004",
+      "git_head": "bada400a7136cd1b6ab0a1c7c848fc4c7c149379",
+      "generated_at": "2026-08-23T02:13:57Z",
+      "provenance_digest": "sha256:39f0ec6d8a45b0dc298a8797431f23b191d4ea804c65cc42a1b7325e4215aa53",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
+        "assistance-hints-detours": "sha256:d456c1e80a760f4f01be5c6dae25e7a2ade8c78c800db3f92a40d0d88772f040",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
-        "go-runtime-foundation": "sha256:9a4e47998be06f380306497a3e5f9a87b700e2ea0881b7f33cea67e2d2d7da03",
+        "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
-        "mcp-stdio-foundation": "sha256:a38a20dbb09c69098d0b7a64b361a7dc053c2c8570b72758430be1aefab39f6d",
-        "session-orchestration-disclosure": "sha256:c9b1c495ee4665a29ed79b6eced15c4894317d92d0fdbfb374be7f88d10acfd8"
+        "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
+        "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae"
       }
     },
     {
@@ -9796,18 +10138,19 @@
       "evidence_class": "unit",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "7c55aa3b19c963616f29ec7cf0c2e508079d5dbd",
-      "generated_at": "2026-08-23T01:21:34Z",
-      "provenance_digest": "sha256:f38cf52550662669a679e107980d15b095067d5ed02cc8d694ea5d0fb5a5d004",
+      "git_head": "bada400a7136cd1b6ab0a1c7c848fc4c7c149379",
+      "generated_at": "2026-08-23T02:13:57Z",
+      "provenance_digest": "sha256:39f0ec6d8a45b0dc298a8797431f23b191d4ea804c65cc42a1b7325e4215aa53",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
+        "assistance-hints-detours": "sha256:d456c1e80a760f4f01be5c6dae25e7a2ade8c78c800db3f92a40d0d88772f040",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
-        "go-runtime-foundation": "sha256:9a4e47998be06f380306497a3e5f9a87b700e2ea0881b7f33cea67e2d2d7da03",
+        "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
-        "mcp-stdio-foundation": "sha256:a38a20dbb09c69098d0b7a64b361a7dc053c2c8570b72758430be1aefab39f6d",
-        "session-orchestration-disclosure": "sha256:c9b1c495ee4665a29ed79b6eced15c4894317d92d0fdbfb374be7f88d10acfd8"
+        "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
+        "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae"
       }
     },
     {
@@ -9817,18 +10160,19 @@
       "evidence_class": "build",
       "severity": "optional",
       "outcome": "pass",
-      "git_head": "7c55aa3b19c963616f29ec7cf0c2e508079d5dbd",
-      "generated_at": "2026-08-23T01:21:34Z",
-      "provenance_digest": "sha256:f38cf52550662669a679e107980d15b095067d5ed02cc8d694ea5d0fb5a5d004",
+      "git_head": "bada400a7136cd1b6ab0a1c7c848fc4c7c149379",
+      "generated_at": "2026-08-23T02:13:57Z",
+      "provenance_digest": "sha256:39f0ec6d8a45b0dc298a8797431f23b191d4ea804c65cc42a1b7325e4215aa53",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
+        "assistance-hints-detours": "sha256:d456c1e80a760f4f01be5c6dae25e7a2ade8c78c800db3f92a40d0d88772f040",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
-        "go-runtime-foundation": "sha256:9a4e47998be06f380306497a3e5f9a87b700e2ea0881b7f33cea67e2d2d7da03",
+        "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
-        "mcp-stdio-foundation": "sha256:a38a20dbb09c69098d0b7a64b361a7dc053c2c8570b72758430be1aefab39f6d",
-        "session-orchestration-disclosure": "sha256:c9b1c495ee4665a29ed79b6eced15c4894317d92d0fdbfb374be7f88d10acfd8"
+        "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
+        "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae"
       }
     }
   ],
@@ -9847,7 +10191,6 @@
       "artifact:internal/mcpserver/server_test.go",
       "artifact:internal/mcpserver/session_tools.go",
       "artifact:.pose/indexes/validation-matrix.json",
-      "artifact:cmd/codinho/main.go",
       "artifact:go.mod",
       "artifact:go.sum",
       "delivery:contract:codinho-mcp-v1",

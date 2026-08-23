@@ -1,8 +1,8 @@
 ---
 slug: assistance-hints-detours
-status: in-progress
+status: done
 created_at: 2026-08-22
-completed_at:
+completed_at: 2026-08-23
 supersedes:
 depends_on: session-orchestration-disclosure
 priority: 70

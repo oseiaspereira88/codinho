@@ -78,7 +78,7 @@ Permitir que a mesma árvore curricular atenda perfis e intenções diferentes s
 - modified: .agents/skills/codinho/references/mcp-tool-routing.md
 - modified: .agents/skills/codinho/SKILL.md
 - created: testdata/host/mode-transcripts/debug-mode-session.md
-- created: packs/go-debugging.yaml (desafio `kind: debug` com `fixture`, requirement R10)
+- created: packs/go-debugging.yaml
 - modified: packs/manifest.yaml
 - modified: cmd/codinho/cli_integration_test.go
 

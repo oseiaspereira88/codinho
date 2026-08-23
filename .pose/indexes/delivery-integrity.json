@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "input_digest": "sha256:d6a3e7873b4fcee5236c140a71e9d575b10f72e7c2baf7450b92e33dbababf4f",
-  "provenance_digest": "sha256:c3ce8fa8ae01204d5085f6c7a55904d42693d5afffff625a07039a24563321d6",
+  "input_digest": "sha256:e38a0e2b27a131dc9afacc04df3768559c8349bf72db6d8fad7643a9e78aa57e",
+  "provenance_digest": "sha256:11cdea5de188ef2b1a99ea9973e86d47285aba15a039d3ee4a64c51f1f991bbf",
   "nodes": [
     {
       "id": "artifact:.agents/skills/codinho/SKILL.md",
@@ -123,6 +123,13 @@
       }
     },
     {
+      "id": "artifact:.pose/assessments/integrations.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/assessments/integrations.md"
+      }
+    },
+    {
       "id": "artifact:.pose/assessments/root.md",
       "type": "artifact",
       "attributes": {
@@ -134,6 +141,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/changelogs/unreleased/assistance-hints-detours.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/changelogs/unreleased/curriculum-graph-path-recommendation.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/changelogs/unreleased/curriculum-graph-path-recommendation.md"
       }
     },
     {
@@ -466,6 +480,13 @@
       }
     },
     {
+      "id": "artifact:.pose/review-attestations/rva-d49df54c17db1665.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-attestations/rva-d49df54c17db1665.json"
+      }
+    },
+    {
       "id": "artifact:.pose/review-attestations/rva-d8bde250ba75e74b.json",
       "type": "artifact",
       "attributes": {
@@ -484,6 +505,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/review-bundles/rvb-0f6ad091dd284d2d.json"
+      }
+    },
+    {
+      "id": "artifact:.pose/review-bundles/rvb-209633bf67897462.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-bundles/rvb-209633bf67897462.json"
       }
     },
     {
@@ -662,6 +690,13 @@
       }
     },
     {
+      "id": "artifact:.pose/specs/2026-08-22-tutor-skill-host-integration.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/specs/2026-08-22-tutor-skill-host-integration.md"
+      }
+    },
+    {
       "id": "artifact:.pose/specs/2026-08-22-v1-integrated-acceptance.md",
       "type": "artifact",
       "attributes": {
@@ -694,6 +729,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/state/history.jsonl"
+      }
+    },
+    {
+      "id": "artifact:.pose/state/integrations.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/state/integrations.json"
       }
     },
     {
@@ -2223,10 +2265,17 @@
       }
     },
     {
-      "id": "artifact:testdata/host/session-transcripts",
+      "id": "artifact:testdata/host/session-transcripts/degraded-mode-and-injection.md",
       "type": "artifact",
       "attributes": {
-        "path": "testdata/host/session-transcripts"
+        "path": "testdata/host/session-transcripts/degraded-mode-and-injection.md"
+      }
+    },
+    {
+      "id": "artifact:testdata/host/session-transcripts/practice-session-happy-path.md",
+      "type": "artifact",
+      "attributes": {
+        "path": "testdata/host/session-transcripts/practice-session-happy-path.md"
       }
     },
     {
@@ -2337,6 +2386,14 @@
       }
     },
     {
+      "id": "change-set:cs-2450c3a5e619",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:d3d092b585b8bd93412fcf254398d5c5fc98d5987a6abb188c3d7ad8d0539b5d",
+        "selector": "trailers:tutor-skill-host-integration"
+      }
+    },
+    {
       "id": "change-set:cs-27f24a7c63e8",
       "type": "change-set",
       "attributes": {
@@ -2350,14 +2407,6 @@
       "attributes": {
         "diff_digest": "sha256:a1f1f3592e4043c7efb7bb360cbbb5e57093b8a6c0525eaa20f403335e9e6ba9",
         "selector": "trailers:learning-domain-model"
-      }
-    },
-    {
-      "id": "change-set:cs-3cd1fc67a4eb",
-      "type": "change-set",
-      "attributes": {
-        "diff_digest": "sha256:18485e6877709ffee57c87bc7810cf397fba3d64b3210234b6208387715f06d3",
-        "selector": "trailers:curriculum-graph-path-recommendation"
       }
     },
     {
@@ -2393,6 +2442,14 @@
       }
     },
     {
+      "id": "change-set:cs-8589c5c09edb",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:1ce7dd01536a4b081b1966afc99c0547082eaaa2232aafff0ae6de704ac04893",
+        "selector": "trailers:curriculum-graph-path-recommendation"
+      }
+    },
+    {
       "id": "change-set:cs-89ad08ccd8e2",
       "type": "change-set",
       "attributes": {
@@ -2425,11 +2482,26 @@
       }
     },
     {
+      "id": "delivery:capability:codinho-tutor",
+      "type": "capability",
+      "attributes": {
+        "module": ".agents/skills/codinho",
+        "profile": "composed-capability"
+      }
+    },
+    {
       "id": "delivery:contract:codinho-mcp-v1",
       "type": "contract",
       "attributes": {
         "module": "internal/mcpserver",
         "profile": "api-contract"
+      }
+    },
+    {
+      "id": "entrypoint:.agents/skills/codinho/SKILL.md",
+      "type": "entrypoint",
+      "attributes": {
+        "path": ".agents/skills/codinho/SKILL.md"
       }
     },
     {
@@ -2478,7 +2550,7 @@
       "id": "spec:curriculum-graph-path-recommendation",
       "type": "spec",
       "attributes": {
-        "status": "in-progress"
+        "status": "done"
       }
     },
     {
@@ -2611,7 +2683,7 @@
       "id": "spec:tutor-skill-host-integration",
       "type": "spec",
       "attributes": {
-        "status": "draft"
+        "status": "in-progress"
       }
     },
     {
@@ -2656,6 +2728,15 @@
       }
     },
     {
+      "id": "validation-result:./go/tutor-skill-routing",
+      "type": "validation-result",
+      "attributes": {
+        "check": "tutor-skill-routing",
+        "evidence_class": "integration",
+        "outcome": "pass"
+      }
+    },
+    {
       "id": "validation-result:./go/vet",
       "type": "validation-result",
       "attributes": {
@@ -2666,6 +2747,46 @@
     }
   ],
   "edges": [
+    {
+      "from": "artifact:.agents/skills/codinho/SKILL.md",
+      "to": "delivery:capability:codinho-tutor",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.agents/skills/codinho/agents/openai.yaml",
+      "to": "delivery:capability:codinho-tutor",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.agents/skills/codinho/assets/session-summary-template.md",
+      "to": "delivery:capability:codinho-tutor",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.agents/skills/codinho/references/feedback-rubric.md",
+      "to": "delivery:capability:codinho-tutor",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.agents/skills/codinho/references/mcp-tool-routing.md",
+      "to": "delivery:capability:codinho-tutor",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.agents/skills/codinho/references/session-modes.md",
+      "to": "delivery:capability:codinho-tutor",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.agents/skills/codinho/references/tutor-contract.md",
+      "to": "delivery:capability:codinho-tutor",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.codex/config.toml.example",
+      "to": "delivery:capability:codinho-tutor",
+      "type": "implemented-by"
+    },
     {
       "from": "artifact:.pose/indexes/validation-matrix.json",
       "to": "delivery:contract:codinho-mcp-v1",
@@ -2734,6 +2855,21 @@
     {
       "from": "artifact:internal/mcpserver/session_tools.go",
       "to": "delivery:contract:codinho-mcp-v1",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:testdata/host/adversarial-prompts.yaml",
+      "to": "delivery:capability:codinho-tutor",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:testdata/host/session-transcripts/degraded-mode-and-injection.md",
+      "to": "delivery:capability:codinho-tutor",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:testdata/host/session-transcripts/practice-session-happy-path.md",
+      "to": "delivery:capability:codinho-tutor",
       "type": "implemented-by"
     },
     {
@@ -3082,6 +3218,76 @@
       "type": "changes"
     },
     {
+      "from": "change-set:cs-2450c3a5e619",
+      "to": "artifact:.agents/skills/codinho/SKILL.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2450c3a5e619",
+      "to": "artifact:.agents/skills/codinho/agents/openai.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2450c3a5e619",
+      "to": "artifact:.agents/skills/codinho/assets/session-summary-template.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2450c3a5e619",
+      "to": "artifact:.agents/skills/codinho/references/feedback-rubric.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2450c3a5e619",
+      "to": "artifact:.agents/skills/codinho/references/mcp-tool-routing.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2450c3a5e619",
+      "to": "artifact:.agents/skills/codinho/references/session-modes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2450c3a5e619",
+      "to": "artifact:.agents/skills/codinho/references/tutor-contract.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2450c3a5e619",
+      "to": "artifact:.codex/config.toml.example",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2450c3a5e619",
+      "to": "artifact:.pose/assessments/integrations.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2450c3a5e619",
+      "to": "artifact:.pose/specs/2026-08-22-tutor-skill-host-integration.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2450c3a5e619",
+      "to": "artifact:.pose/state/integrations.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2450c3a5e619",
+      "to": "artifact:testdata/host/adversarial-prompts.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2450c3a5e619",
+      "to": "artifact:testdata/host/session-transcripts/degraded-mode-and-injection.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2450c3a5e619",
+      "to": "artifact:testdata/host/session-transcripts/practice-session-happy-path.md",
+      "type": "changes"
+    },
+    {
       "from": "change-set:cs-27f24a7c63e8",
       "to": "artifact:.pose/contributions/20260822-201802-review-bundle-root-level-files-gomod-pro.md",
       "type": "changes"
@@ -3274,161 +3480,6 @@
     {
       "from": "change-set:cs-34b93787f8dd",
       "to": "artifact:internal/learning/step.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:.pose/specs/2026-08-22-catalog-authoring-quality.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:.pose/specs/2026-08-22-curriculum-graph-path-recommendation.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:cmd/codinho/main.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/application/catalog.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/application/recommendation.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/application/recommendation_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/curriculum/graph.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/curriculum/graph_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/curriculum/index.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/curriculum/model.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/curriculum/search.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/curriculum/search_bench_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/curriculum/search_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/curriculum/testdata/relation_cycle/manifest.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/curriculum/testdata/relation_cycle/pack.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/curriculum/testdata/unknown_relation_kind/manifest.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/curriculum/testdata/unknown_relation_kind/pack.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/curriculum/testdata/valid/pack.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/curriculum/validator.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/mastery/model.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/mastery/rules_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/mcpserver/catalog_tools.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/mcpserver/contract_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/mcpserver/errors.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/mcpserver/recommendation_contract_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/mcpserver/recommendation_tools.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/mcpserver/server.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/recommendation/explanation.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/recommendation/model.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/recommendation/service.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-3cd1fc67a4eb",
-      "to": "artifact:internal/recommendation/service_test.go",
       "type": "changes"
     },
     {
@@ -4067,6 +4118,221 @@
       "type": "changes"
     },
     {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:.pose/assessments/README.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:.pose/assessments/consolidated.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:.pose/assessments/root.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:.pose/changelogs/unreleased/curriculum-graph-path-recommendation.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:.pose/indexes/delivery-integrity.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:.pose/indexes/releases.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:.pose/indexes/spec-graph.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:.pose/results/delivery-validation.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:.pose/review-attestations/rva-d49df54c17db1665.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:.pose/review-bundles/rvb-209633bf67897462.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:.pose/specs/2026-08-22-catalog-authoring-quality.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:.pose/specs/2026-08-22-curriculum-graph-path-recommendation.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:.pose/state/components/root.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:.pose/state/project-state.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:cmd/codinho/main.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/application/catalog.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/application/recommendation.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/application/recommendation_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/curriculum/graph.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/curriculum/graph_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/curriculum/index.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/curriculum/model.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/curriculum/search.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/curriculum/search_bench_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/curriculum/search_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/curriculum/testdata/relation_cycle/manifest.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/curriculum/testdata/relation_cycle/pack.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/curriculum/testdata/unknown_relation_kind/manifest.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/curriculum/testdata/unknown_relation_kind/pack.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/curriculum/testdata/valid/pack.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/curriculum/validator.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/mastery/model.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/mastery/rules_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/mcpserver/catalog_tools.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/mcpserver/contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/mcpserver/errors.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/mcpserver/recommendation_contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/mcpserver/recommendation_tools.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/mcpserver/server.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/recommendation/explanation.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/recommendation/model.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/recommendation/service.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-8589c5c09edb",
+      "to": "artifact:internal/recommendation/service_test.go",
+      "type": "changes"
+    },
+    {
       "from": "change-set:cs-89ad08ccd8e2",
       "to": "artifact:.pose/indexes/delivery-integrity.json",
       "type": "changes"
@@ -4577,6 +4843,21 @@
       "type": "changes"
     },
     {
+      "from": "delivery:capability:codinho-tutor",
+      "to": "entrypoint:.agents/skills/codinho/SKILL.md",
+      "type": "composes"
+    },
+    {
+      "from": "delivery:capability:codinho-tutor",
+      "to": "validation-result:./go/mcp-contract",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:codinho-tutor",
+      "to": "validation-result:./go/tutor-skill-routing",
+      "type": "validated-by"
+    },
+    {
       "from": "delivery:contract:codinho-mcp-v1",
       "to": "entrypoint:cmd/codinho/main.go",
       "type": "composes"
@@ -4587,8 +4868,28 @@
       "type": "validated-by"
     },
     {
+      "from": "delivery:contract:codinho-mcp-v1",
+      "to": "validation-result:./go/tutor-skill-routing",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:.agents/skills/codinho/SKILL.md",
+      "to": "validation-result:./go/mcp-contract",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:.agents/skills/codinho/SKILL.md",
+      "to": "validation-result:./go/tutor-skill-routing",
+      "type": "validated-by"
+    },
+    {
       "from": "entrypoint:cmd/codinho/main.go",
       "to": "validation-result:./go/mcp-contract",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/tutor-skill-routing",
       "type": "validated-by"
     },
     {
@@ -5093,7 +5394,7 @@
     },
     {
       "from": "spec:curriculum-graph-path-recommendation",
-      "to": "change-set:cs-3cd1fc67a4eb",
+      "to": "change-set:cs-8589c5c09edb",
       "type": "observed-by"
     },
     {
@@ -6148,8 +6449,23 @@
     },
     {
       "from": "spec:tutor-skill-host-integration",
-      "to": "artifact:testdata/host/session-transcripts",
+      "to": "artifact:testdata/host/session-transcripts/degraded-mode-and-injection.md",
       "type": "declares"
+    },
+    {
+      "from": "spec:tutor-skill-host-integration",
+      "to": "artifact:testdata/host/session-transcripts/practice-session-happy-path.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:tutor-skill-host-integration",
+      "to": "delivery:capability:codinho-tutor",
+      "type": "delivers"
+    },
+    {
+      "from": "spec:tutor-skill-host-integration",
+      "to": "change-set:cs-2450c3a5e619",
+      "type": "observed-by"
     },
     {
       "from": "spec:v1-integrated-acceptance",
@@ -7786,7 +8102,12 @@
     {
       "spec": "tutor-skill-host-integration",
       "action": "created",
-      "path": "testdata/host/session-transcripts"
+      "path": "testdata/host/session-transcripts/degraded-mode-and-injection.md"
+    },
+    {
+      "spec": "tutor-skill-host-integration",
+      "action": "created",
+      "path": "testdata/host/session-transcripts/practice-session-happy-path.md"
     },
     {
       "spec": "v1-integrated-acceptance",
@@ -8237,6 +8558,78 @@
       "diff_digest": "sha256:99af988f9b3d75b3ee0304952a578c49163845943110481445da9e9e60953670"
     },
     {
+      "id": "cs-2450c3a5e619",
+      "spec": "tutor-skill-host-integration",
+      "selector": "trailers:tutor-skill-host-integration",
+      "base": "19b009f4a27e37e3ccf2765a38c2c601f5e2a6dd^",
+      "head": "f620d150b81aee38f6fbcf3e6498483d24742d83",
+      "resolved_base": "8461aa7181f300d9e1a12f31c8f2270378d49f4e",
+      "resolved_head": "f620d150b81aee38f6fbcf3e6498483d24742d83",
+      "commits": [
+        "19b009f4a27e37e3ccf2765a38c2c601f5e2a6dd",
+        "f620d150b81aee38f6fbcf3e6498483d24742d83"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": ".agents/skills/codinho/SKILL.md"
+        },
+        {
+          "action": "created",
+          "path": ".agents/skills/codinho/agents/openai.yaml"
+        },
+        {
+          "action": "created",
+          "path": ".agents/skills/codinho/assets/session-summary-template.md"
+        },
+        {
+          "action": "created",
+          "path": ".agents/skills/codinho/references/feedback-rubric.md"
+        },
+        {
+          "action": "created",
+          "path": ".agents/skills/codinho/references/mcp-tool-routing.md"
+        },
+        {
+          "action": "created",
+          "path": ".agents/skills/codinho/references/session-modes.md"
+        },
+        {
+          "action": "created",
+          "path": ".agents/skills/codinho/references/tutor-contract.md"
+        },
+        {
+          "action": "created",
+          "path": ".codex/config.toml.example"
+        },
+        {
+          "action": "created",
+          "path": ".pose/assessments/integrations.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/state/integrations.json"
+        },
+        {
+          "action": "created",
+          "path": "testdata/host/adversarial-prompts.yaml"
+        },
+        {
+          "action": "created",
+          "path": "testdata/host/session-transcripts/degraded-mode-and-injection.md"
+        },
+        {
+          "action": "created",
+          "path": "testdata/host/session-transcripts/practice-session-happy-path.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-tutor-skill-host-integration.md"
+        }
+      ],
+      "diff_digest": "sha256:d3d092b585b8bd93412fcf254398d5c5fc98d5987a6abb188c3d7ad8d0539b5d"
+    },
+    {
       "id": "cs-27f24a7c63e8",
       "spec": "go-runtime-foundation",
       "selector": "trailers:go-runtime-foundation",
@@ -8427,145 +8820,6 @@
         }
       ],
       "diff_digest": "sha256:a1f1f3592e4043c7efb7bb360cbbb5e57093b8a6c0525eaa20f403335e9e6ba9"
-    },
-    {
-      "id": "cs-3cd1fc67a4eb",
-      "spec": "curriculum-graph-path-recommendation",
-      "selector": "trailers:curriculum-graph-path-recommendation",
-      "base": "43799bc0604180e57e61eeca8b497cfac6ffa18e^",
-      "head": "43799bc0604180e57e61eeca8b497cfac6ffa18e",
-      "resolved_base": "3b6888091ae013bf11417c4be505c0d239a2f5de",
-      "resolved_head": "43799bc0604180e57e61eeca8b497cfac6ffa18e",
-      "commits": [
-        "43799bc0604180e57e61eeca8b497cfac6ffa18e"
-      ],
-      "paths": [
-        {
-          "action": "created",
-          "path": "internal/application/recommendation.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/application/recommendation_test.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/curriculum/graph.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/curriculum/graph_test.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/curriculum/search.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/curriculum/search_bench_test.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/curriculum/search_test.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/curriculum/testdata/relation_cycle/manifest.yaml"
-        },
-        {
-          "action": "created",
-          "path": "internal/curriculum/testdata/relation_cycle/pack.yaml"
-        },
-        {
-          "action": "created",
-          "path": "internal/curriculum/testdata/unknown_relation_kind/manifest.yaml"
-        },
-        {
-          "action": "created",
-          "path": "internal/curriculum/testdata/unknown_relation_kind/pack.yaml"
-        },
-        {
-          "action": "created",
-          "path": "internal/mcpserver/recommendation_contract_test.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/mcpserver/recommendation_tools.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/recommendation/explanation.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/recommendation/model.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/recommendation/service.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/recommendation/service_test.go"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-catalog-authoring-quality.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-curriculum-graph-path-recommendation.md"
-        },
-        {
-          "action": "modified",
-          "path": "cmd/codinho/main.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/application/catalog.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/curriculum/index.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/curriculum/model.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/curriculum/testdata/valid/pack.yaml"
-        },
-        {
-          "action": "modified",
-          "path": "internal/curriculum/validator.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/mastery/model.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/mastery/rules_test.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/mcpserver/catalog_tools.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/mcpserver/contract_test.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/mcpserver/errors.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/mcpserver/server.go"
-        }
-      ],
-      "diff_digest": "sha256:18485e6877709ffee57c87bc7810cf397fba3d64b3210234b6208387715f06d3"
     },
     {
       "id": "cs-40725deda987",
@@ -9141,6 +9395,194 @@
         }
       ],
       "diff_digest": "sha256:6b05c50d497aacbbfaf7e6028d3fc12669b55bdc8c860551b2da22b2b0362498"
+    },
+    {
+      "id": "cs-8589c5c09edb",
+      "spec": "curriculum-graph-path-recommendation",
+      "selector": "trailers:curriculum-graph-path-recommendation",
+      "base": "43799bc0604180e57e61eeca8b497cfac6ffa18e^",
+      "head": "8461aa7181f300d9e1a12f31c8f2270378d49f4e",
+      "resolved_base": "3b6888091ae013bf11417c4be505c0d239a2f5de",
+      "resolved_head": "8461aa7181f300d9e1a12f31c8f2270378d49f4e",
+      "commits": [
+        "43799bc0604180e57e61eeca8b497cfac6ffa18e",
+        "8461aa7181f300d9e1a12f31c8f2270378d49f4e"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": ".pose/changelogs/unreleased/curriculum-graph-path-recommendation.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/review-attestations/rva-d49df54c17db1665.json"
+        },
+        {
+          "action": "created",
+          "path": ".pose/review-bundles/rvb-209633bf67897462.json"
+        },
+        {
+          "action": "created",
+          "path": "internal/application/recommendation.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/application/recommendation_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/graph.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/graph_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/search.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/search_bench_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/search_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/testdata/relation_cycle/manifest.yaml"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/testdata/relation_cycle/pack.yaml"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/testdata/unknown_relation_kind/manifest.yaml"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/testdata/unknown_relation_kind/pack.yaml"
+        },
+        {
+          "action": "created",
+          "path": "internal/mcpserver/recommendation_contract_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/mcpserver/recommendation_tools.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/recommendation/explanation.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/recommendation/model.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/recommendation/service.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/recommendation/service_test.go"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/README.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/consolidated.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/root.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/delivery-integrity.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/releases.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/spec-graph.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/results/delivery-validation.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-catalog-authoring-quality.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-curriculum-graph-path-recommendation.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/root.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/project-state.md"
+        },
+        {
+          "action": "modified",
+          "path": "cmd/codinho/main.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/application/catalog.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/index.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/model.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/testdata/valid/pack.yaml"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/validator.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mastery/model.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mastery/rules_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/catalog_tools.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/contract_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/errors.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/server.go"
+        }
+      ],
+      "diff_digest": "sha256:1ce7dd01536a4b081b1966afc99c0547082eaaa2232aafff0ae6de704ac04893"
     },
     {
       "id": "cs-89ad08ccd8e2",
@@ -10391,7 +10833,10 @@
     "testdata/host/mode-transcripts": [
       "learning-practice-debug-modes"
     ],
-    "testdata/host/session-transcripts": [
+    "testdata/host/session-transcripts/degraded-mode-and-injection.md": [
+      "tutor-skill-host-integration"
+    ],
+    "testdata/host/session-transcripts/practice-session-happy-path.md": [
       "tutor-skill-host-integration"
     ],
     "testdata/packs/backend": [
@@ -10497,15 +10942,6 @@
       "path": "testdata/packs/backend",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-06cf84182a03",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/references/session-modes.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
     },
     {
       "id": "dif-07c9ad6dc187",
@@ -10758,15 +11194,6 @@
       "path": "docs/acceptance/v1-requirement-matrix.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-2ce02d969927",
-      "code": "existence",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/assets/session-summary-template.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-2cf0a3935007",
@@ -11219,24 +11646,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-64a642d76796",
-      "code": "existence",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/references/feedback-rubric.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-64ab177daf4e",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/references/tutor-contract.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-66596b0747b3",
       "code": "action-mismatch",
       "severity": "error",
@@ -11300,15 +11709,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-6d6daefc379a",
-      "code": "existence",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".codex/config.toml.example",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-6de0e4aaef00",
       "code": "action-mismatch",
       "severity": "error",
@@ -11361,15 +11761,6 @@
       "path": "internal/curriculum/coverage_test.go",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-7387befa769f",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/assets/session-summary-template.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
     },
     {
       "id": "dif-738a87658af4",
@@ -11435,15 +11826,6 @@
       "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-7d127525929e",
-      "code": "existence",
-      "severity": "error",
-      "spec": "learning-practice-debug-modes",
-      "path": ".agents/skills/codinho/references/session-modes.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-7e564edb1121",
       "code": "action-mismatch",
       "severity": "error",
@@ -11469,15 +11851,6 @@
       "path": "internal/assessment/interview_report.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec interview-mode (ensure commits carry 'POSE-Spec: interview-mode' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-81631b140ccb",
-      "code": "existence",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": "testdata/host/adversarial-prompts.yaml",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-81ba0f74659f",
@@ -11561,15 +11934,6 @@
       "remediation": "no Git change sets are attributed to spec go-interviews-pack (ensure commits carry 'POSE-Spec: go-interviews-pack' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-8aee95756897",
-      "code": "existence",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/references/tutor-contract.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-8db377654989",
       "code": "action-mismatch",
       "severity": "error",
@@ -11622,15 +11986,6 @@
       "path": "packs/go-interviews",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec go-interviews-pack (ensure commits carry 'POSE-Spec: go-interviews-pack' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-95501a39edf7",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".codex/config.toml.example",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
     },
     {
       "id": "dif-976db26827bc",
@@ -11750,15 +12105,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-a30f2ed97a89",
-      "code": "existence",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/agents/openai.yaml",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-a351218dabec",
       "code": "existence",
       "severity": "error",
@@ -11784,15 +12130,6 @@
       "path": "docs/content-authoring.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec catalog-authoring-quality (ensure commits carry 'POSE-Spec: catalog-authoring-quality' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-a50a27d0e39b",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/SKILL.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
     },
     {
       "id": "dif-a6f76b3b47b6",
@@ -11858,15 +12195,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-aefbaffb4864",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/references/feedback-rubric.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-b13821b4de8c",
       "code": "existence",
       "severity": "error",
@@ -11903,24 +12231,6 @@
       "remediation": "no Git change sets are attributed to spec interview-mode (ensure commits carry 'POSE-Spec: interview-mode' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-b41eead0ac73",
-      "code": "existence",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/SKILL.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-b42f8182957e",
-      "code": "existence",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": ".codex/config.toml.example",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-b5ce26280085",
       "code": "action-mismatch",
       "severity": "error",
@@ -11944,24 +12254,6 @@
       "severity": "error",
       "spec": "administrative-cli-fixtures",
       "path": "internal/cli/catalog.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-b9b37c24de9b",
-      "code": "existence",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/references/session-modes.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-bb2c0583fc92",
-      "code": "existence",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/references/mcp-tool-routing.md",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
@@ -12074,15 +12366,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-cea4a1b9b14b",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": "testdata/host/adversarial-prompts.yaml",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-cfa689745438",
       "code": "existence",
       "severity": "error",
@@ -12153,15 +12436,6 @@
       "path": "docs/catalog/go-interviews.md",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-def2eb24b0da",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/agents/openai.yaml",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
     },
     {
       "id": "dif-dfb1f5acecaa",
@@ -12272,15 +12546,6 @@
       "remediation": "no Git change sets are attributed to spec learning-practice-debug-modes (ensure commits carry 'POSE-Spec: learning-practice-debug-modes' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-ee0f203ccb24",
-      "code": "existence",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": "testdata/host/session-transcripts",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-ee5e022f6e27",
       "code": "action-mismatch",
       "severity": "error",
@@ -12288,15 +12553,6 @@
       "path": "testdata/host/interview-transcripts",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec interview-mode (ensure commits carry 'POSE-Spec: interview-mode' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-eeea38935eb6",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": ".agents/skills/codinho/references/mcp-tool-routing.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
     },
     {
       "id": "dif-ef0098bf4b34",
@@ -12335,15 +12591,6 @@
       "remediation": "no Git change sets are attributed to spec catalog-authoring-quality (ensure commits carry 'POSE-Spec: catalog-authoring-quality' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-f6f4339bdb46",
-      "code": "existence",
-      "severity": "error",
-      "spec": "interview-mode",
-      "path": ".agents/skills/codinho/references/session-modes.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-f7996239c3bc",
       "code": "existence",
       "severity": "error",
@@ -12351,15 +12598,6 @@
       "path": "docs/install.md",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-f9497f3c9bb0",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "tutor-skill-host-integration",
-      "path": "testdata/host/session-transcripts",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
     },
     {
       "id": "dif-ff795f27b99b",
@@ -12372,6 +12610,15 @@
     }
   ],
   "deliveries": [
+    {
+      "spec": "tutor-skill-host-integration",
+      "ref": "capability:codinho-tutor",
+      "kind": "capability",
+      "id": "codinho-tutor",
+      "module": ".agents/skills/codinho",
+      "profile": "composed-capability",
+      "entrypoint": ".agents/skills/codinho/SKILL.md"
+    },
     {
       "spec": "mcp-stdio-foundation",
       "ref": "contract:codinho-mcp-v1",
@@ -12390,15 +12637,15 @@
       "evidence_class": "build",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "43799bc0604180e57e61eeca8b497cfac6ffa18e",
-      "generated_at": "2026-08-23T07:34:11Z",
-      "provenance_digest": "sha256:c3ce8fa8ae01204d5085f6c7a55904d42693d5afffff625a07039a24563321d6",
+      "git_head": "f620d150b81aee38f6fbcf3e6498483d24742d83",
+      "generated_at": "2026-08-23T07:52:57Z",
+      "provenance_digest": "sha256:11cdea5de188ef2b1a99ea9973e86d47285aba15a039d3ee4a64c51f1f991bbf",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
-        "curriculum-graph-path-recommendation": "sha256:0e75b153f2fba252cae5b8ea200e867f54f5eaf6ab27ef6d54c0c7487aab5470",
+        "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
@@ -12407,6 +12654,7 @@
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
+        "tutor-skill-host-integration": "sha256:375635e4f8785fab58ad904d3dd444ebe2453f36eea328076554850614322775",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -12417,15 +12665,15 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "43799bc0604180e57e61eeca8b497cfac6ffa18e",
-      "generated_at": "2026-08-23T07:34:11Z",
-      "provenance_digest": "sha256:c3ce8fa8ae01204d5085f6c7a55904d42693d5afffff625a07039a24563321d6",
+      "git_head": "f620d150b81aee38f6fbcf3e6498483d24742d83",
+      "generated_at": "2026-08-23T07:52:57Z",
+      "provenance_digest": "sha256:11cdea5de188ef2b1a99ea9973e86d47285aba15a039d3ee4a64c51f1f991bbf",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
-        "curriculum-graph-path-recommendation": "sha256:0e75b153f2fba252cae5b8ea200e867f54f5eaf6ab27ef6d54c0c7487aab5470",
+        "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
@@ -12434,6 +12682,7 @@
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
+        "tutor-skill-host-integration": "sha256:375635e4f8785fab58ad904d3dd444ebe2453f36eea328076554850614322775",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -12444,15 +12693,15 @@
       "evidence_class": "unit",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "43799bc0604180e57e61eeca8b497cfac6ffa18e",
-      "generated_at": "2026-08-23T07:34:11Z",
-      "provenance_digest": "sha256:c3ce8fa8ae01204d5085f6c7a55904d42693d5afffff625a07039a24563321d6",
+      "git_head": "f620d150b81aee38f6fbcf3e6498483d24742d83",
+      "generated_at": "2026-08-23T07:52:57Z",
+      "provenance_digest": "sha256:11cdea5de188ef2b1a99ea9973e86d47285aba15a039d3ee4a64c51f1f991bbf",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
-        "curriculum-graph-path-recommendation": "sha256:0e75b153f2fba252cae5b8ea200e867f54f5eaf6ab27ef6d54c0c7487aab5470",
+        "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
@@ -12461,6 +12710,35 @@
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
+        "tutor-skill-host-integration": "sha256:375635e4f8785fab58ad904d3dd444ebe2453f36eea328076554850614322775",
+        "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
+      }
+    },
+    {
+      "id": "./go/tutor-skill-routing",
+      "module": ".",
+      "check": "tutor-skill-routing",
+      "evidence_class": "integration",
+      "severity": "required",
+      "outcome": "pass",
+      "git_head": "f620d150b81aee38f6fbcf3e6498483d24742d83",
+      "generated_at": "2026-08-23T07:52:57Z",
+      "provenance_digest": "sha256:11cdea5de188ef2b1a99ea9973e86d47285aba15a039d3ee4a64c51f1f991bbf",
+      "report": ".pose/results/delivery-validation.json",
+      "scope_provenance": {
+        "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
+        "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
+        "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
+        "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+        "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
+        "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
+        "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
+        "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
+        "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
+        "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
+        "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
+        "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
+        "tutor-skill-host-integration": "sha256:375635e4f8785fab58ad904d3dd444ebe2453f36eea328076554850614322775",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -12471,15 +12749,15 @@
       "evidence_class": "build",
       "severity": "optional",
       "outcome": "pass",
-      "git_head": "43799bc0604180e57e61eeca8b497cfac6ffa18e",
-      "generated_at": "2026-08-23T07:34:11Z",
-      "provenance_digest": "sha256:c3ce8fa8ae01204d5085f6c7a55904d42693d5afffff625a07039a24563321d6",
+      "git_head": "f620d150b81aee38f6fbcf3e6498483d24742d83",
+      "generated_at": "2026-08-23T07:52:57Z",
+      "provenance_digest": "sha256:11cdea5de188ef2b1a99ea9973e86d47285aba15a039d3ee4a64c51f1f991bbf",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
-        "curriculum-graph-path-recommendation": "sha256:0e75b153f2fba252cae5b8ea200e867f54f5eaf6ab27ef6d54c0c7487aab5470",
+        "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
@@ -12488,11 +12766,30 @@
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
+        "tutor-skill-host-integration": "sha256:375635e4f8785fab58ad904d3dd444ebe2453f36eea328076554850614322775",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     }
   ],
   "paths": {
+    "capability:codinho-tutor": [
+      "spec:tutor-skill-host-integration",
+      "artifact:.agents/skills/codinho/SKILL.md",
+      "artifact:.agents/skills/codinho/agents/openai.yaml",
+      "artifact:.agents/skills/codinho/assets/session-summary-template.md",
+      "artifact:.agents/skills/codinho/references/feedback-rubric.md",
+      "artifact:.agents/skills/codinho/references/mcp-tool-routing.md",
+      "artifact:.agents/skills/codinho/references/session-modes.md",
+      "artifact:.agents/skills/codinho/references/tutor-contract.md",
+      "artifact:.codex/config.toml.example",
+      "artifact:testdata/host/adversarial-prompts.yaml",
+      "artifact:testdata/host/session-transcripts/degraded-mode-and-injection.md",
+      "artifact:testdata/host/session-transcripts/practice-session-happy-path.md",
+      "delivery:capability:codinho-tutor",
+      "entrypoint:.agents/skills/codinho/SKILL.md",
+      "validation-result:./go/mcp-contract",
+      "validation-result:./go/tutor-skill-routing"
+    ],
     "contract:codinho-mcp-v1": [
       "spec:mcp-stdio-foundation",
       "artifact:internal/application/catalog.go",
@@ -12511,7 +12808,8 @@
       "artifact:go.sum",
       "delivery:contract:codinho-mcp-v1",
       "entrypoint:cmd/codinho/main.go",
-      "validation-result:./go/mcp-contract"
+      "validation-result:./go/mcp-contract",
+      "validation-result:./go/tutor-skill-routing"
     ]
   }
 }

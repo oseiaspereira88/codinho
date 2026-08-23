@@ -488,7 +488,7 @@
       ],
       "path": ".pose/specs/2026-08-22-curriculum-graph-path-recommendation.md",
       "priority": 120,
-      "status": "in-progress"
+      "status": "done"
     },
     "eventstore-idempotency-scope": {
       "depends_on": [
@@ -687,7 +687,7 @@
       ],
       "path": ".pose/specs/2026-08-22-tutor-skill-host-integration.md",
       "priority": 130,
-      "status": "draft"
+      "status": "in-progress"
     },
     "v1-integrated-acceptance": {
       "depends_on": [

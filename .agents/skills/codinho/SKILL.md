@@ -90,6 +90,8 @@ por muitas mensagens.
 - `references/session-modes.md` — os seis modos pedagógicos
   (`teaching`, `practice`, `review`, `debug`, `exploration`,
   `interview`) e as cinco profundidades (`challenge` → `micro`).
+- `references/codex-configuration.md` — exemplo de configuração MCP
+  para o Codex CLI, sem paths privados.
 - `assets/session-summary-template.md` — modelo para resumir uma
   sessão ao final (competências praticadas, evidências, próxima
   revisão vencida).

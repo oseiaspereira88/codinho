@@ -57,7 +57,7 @@ Permitir que uma pessoa instale e use codinho no Codex CLI ou IDE sem conhecimen
 ## 3. Technical Plan
 
 ### Affected areas
-- README.md, docs/, .github/workflows/, Makefile, scripts/, .codex/
+- README.md, docs/, .github/workflows/, Makefile, scripts/, .agents/skills/codinho/
 
 ### Artifacts
 - modified: README.md
@@ -71,7 +71,7 @@ Permitir que uma pessoa instale e use codinho no Codex CLI ou IDE sem conhecimen
 - created: .github/workflows/release.yml
 - created: Makefile
 - created: scripts/smoke-install.sh
-- modified: .codex/README.md
+- modified: .agents/skills/codinho/references/codex-configuration.md
 
 ### Delivery targets
 Os alvos planejados são a infrastructure `codinho-local-distribution`, com

@@ -1,4 +1,4 @@
-# Codex CLI example configuration
+# Codex CLI configuration example
 
 Copy the block below into your own Codex config location (see Codex
 CLI's current documentation for the exact path) and adjust

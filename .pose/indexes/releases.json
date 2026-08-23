@@ -25,6 +25,14 @@
       "digest": "sha256:9ac910e91c2352fc5dc8bbde1356994b22ac45a97fe0e17380419a333da49ec1"
     },
     {
+      "spec": "safe-check-executor",
+      "category": "added",
+      "breaking": false,
+      "body": "O tutor agora consegue rodar verificações determinísticas de verdade\n(testes, vet, build, formatação) sobre o código do aluno, isoladas de\nrede, ambiente e tempo, e usar o resultado real para decidir se um\ncritério de avaliação foi atendido — em vez de confiar apenas em o\naluno ter citado alguma evidência.",
+      "path": "safe-check-executor.md",
+      "digest": "sha256:de388b43c1dc318c4ae0023f373f5065d099ab74a70a4bbc476b01d6ec1c610f"
+    },
+    {
       "spec": "session-orchestration-disclosure",
       "category": "added",
       "breaking": false,

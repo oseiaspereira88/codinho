@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "input_digest": "sha256:f323dc35224d48a5ae9e55609b5f64f9daf2d6a91947f4d2f7c7449c5519b85e",
-  "provenance_digest": "sha256:e42f29485796874d8f7f4d5f0bf7ac014b5a6640a036452784e85851e6ca5e04",
+  "input_digest": "sha256:9c792bd19563a1167a5ab51b3262dc0cc0348198b92365f542d4cdb5f6a0fe57",
+  "provenance_digest": "sha256:5ba7e4f17ea396b4bfa003a70ec00de6f05105b69098e830811c8f3a3c841c74",
   "nodes": [
     {
       "id": "artifact:.agents/skills/codinho/SKILL.md",
@@ -148,6 +148,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/changelogs/unreleased/mcp-stdio-foundation.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/changelogs/unreleased/safe-check-executor.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/changelogs/unreleased/safe-check-executor.md"
       }
     },
     {
@@ -417,6 +424,13 @@
       }
     },
     {
+      "id": "artifact:.pose/review-attestations/rva-7e2c4291c22eb0f3.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-attestations/rva-7e2c4291c22eb0f3.json"
+      }
+    },
+    {
       "id": "artifact:.pose/review-attestations/rva-854cd3bf2ce14b65.json",
       "type": "artifact",
       "attributes": {
@@ -522,6 +536,13 @@
       }
     },
     {
+      "id": "artifact:.pose/review-bundles/rvb-f44c15a4e81fdc74.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-bundles/rvb-f44c15a4e81fdc74.json"
+      }
+    },
+    {
       "id": "artifact:.pose/roadmaps/codinho-v1.md",
       "type": "artifact",
       "attributes": {
@@ -575,6 +596,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/specs/2026-08-22-local-event-store.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/specs/2026-08-22-mastery-review-scheduling.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/specs/2026-08-22-mastery-review-scheduling.md"
       }
     },
     {
@@ -869,6 +897,13 @@
       "type": "artifact",
       "attributes": {
         "path": "internal/application/progress.go"
+      }
+    },
+    {
+      "id": "artifact:internal/application/progress_test.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/application/progress_test.go"
       }
     },
     {
@@ -1520,6 +1555,13 @@
       "type": "artifact",
       "attributes": {
         "path": "internal/mastery/rules.go"
+      }
+    },
+    {
+      "id": "artifact:internal/mastery/rules_test.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/mastery/rules_test.go"
       }
     },
     {
@@ -2230,10 +2272,10 @@
       }
     },
     {
-      "id": "change-set:cs-7a9bb4244979",
+      "id": "change-set:cs-5bccc7e9e711",
       "type": "change-set",
       "attributes": {
-        "diff_digest": "sha256:7e3f0c6fa6b161450e6660cd936aa7f1f17e425bdd9348ebdb0943b656a929a0",
+        "diff_digest": "sha256:6b05c50d497aacbbfaf7e6028d3fc12669b55bdc8c860551b2da22b2b0362498",
         "selector": "trailers:safe-check-executor"
       }
     },
@@ -2259,6 +2301,14 @@
       "attributes": {
         "diff_digest": "sha256:2630eee8e51bc2f84b881e57051a437ef05c9a358a72e39d1fcb27700a30c975",
         "selector": "trailers:assistance-hints-detours"
+      }
+    },
+    {
+      "id": "change-set:cs-e835a66a6f95",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:4ce3f287d2bd5b5a93c0810265e95793d16a4d3dfeb4477112b8bb205b2ed01b",
+        "selector": "trailers:mastery-review-scheduling"
       }
     },
     {
@@ -2406,7 +2456,7 @@
       "id": "spec:mastery-review-scheduling",
       "type": "spec",
       "attributes": {
-        "status": "draft"
+        "status": "in-progress"
       }
     },
     {
@@ -2427,7 +2477,7 @@
       "id": "spec:safe-check-executor",
       "type": "spec",
       "attributes": {
-        "status": "in-progress"
+        "status": "done"
       }
     },
     {
@@ -3529,162 +3579,222 @@
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
+      "to": "artifact:.pose/assessments/README.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-5bccc7e9e711",
+      "to": "artifact:.pose/assessments/consolidated.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-5bccc7e9e711",
+      "to": "artifact:.pose/assessments/root.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-5bccc7e9e711",
+      "to": "artifact:.pose/changelogs/unreleased/safe-check-executor.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-5bccc7e9e711",
+      "to": "artifact:.pose/indexes/delivery-integrity.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-5bccc7e9e711",
+      "to": "artifact:.pose/indexes/releases.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-5bccc7e9e711",
+      "to": "artifact:.pose/indexes/spec-graph.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-5bccc7e9e711",
+      "to": "artifact:.pose/results/delivery-validation.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-5bccc7e9e711",
+      "to": "artifact:.pose/review-attestations/rva-7e2c4291c22eb0f3.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-5bccc7e9e711",
+      "to": "artifact:.pose/review-bundles/rvb-f44c15a4e81fdc74.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:.pose/specs/2026-08-22-safe-check-executor.md",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
+      "to": "artifact:.pose/state/components/root.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-5bccc7e9e711",
+      "to": "artifact:.pose/state/project-state.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:cmd/codinho/main.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/application/checks.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/application/checks_test.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/application/session.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/application/session_test.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/application/workspace.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/checks/executor.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/checks/executor_test.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/checks/limits.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/checks/model.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/checks/process_unix.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/checks/process_unix_test.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/checks/process_windows.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/checks/process_windows_test.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/checks/registry.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/checks/security_test.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/curriculum/model.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/mcpserver/assessment_contract_test.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/mcpserver/assistance_contract_test.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/mcpserver/check_contract_test.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/mcpserver/check_tools.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/mcpserver/contract_test.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/mcpserver/errors.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/mcpserver/server.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/mcpserver/session_contract_test.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/session/assessment_test.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/session/assistance_test.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/session/checks_override_test.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/session/service.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/session/service_test.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-7a9bb4244979",
+      "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/workspace/redaction.go",
       "type": "changes"
     },
@@ -4051,6 +4161,91 @@
     {
       "from": "change-set:cs-ace3ca5ace4e",
       "to": "artifact:internal/session/service.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-e835a66a6f95",
+      "to": "artifact:.pose/specs/2026-08-22-mastery-review-scheduling.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-e835a66a6f95",
+      "to": "artifact:cmd/codinho/main.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-e835a66a6f95",
+      "to": "artifact:internal/application/progress.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-e835a66a6f95",
+      "to": "artifact:internal/application/progress_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-e835a66a6f95",
+      "to": "artifact:internal/mastery/model.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-e835a66a6f95",
+      "to": "artifact:internal/mastery/projector.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-e835a66a6f95",
+      "to": "artifact:internal/mastery/projector_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-e835a66a6f95",
+      "to": "artifact:internal/mastery/rules.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-e835a66a6f95",
+      "to": "artifact:internal/mastery/rules_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-e835a66a6f95",
+      "to": "artifact:internal/mastery/scheduler.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-e835a66a6f95",
+      "to": "artifact:internal/mastery/scheduler_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-e835a66a6f95",
+      "to": "artifact:internal/mcpserver/contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-e835a66a6f95",
+      "to": "artifact:internal/mcpserver/envelope.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-e835a66a6f95",
+      "to": "artifact:internal/mcpserver/errors.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-e835a66a6f95",
+      "to": "artifact:internal/mcpserver/progress_contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-e835a66a6f95",
+      "to": "artifact:internal/mcpserver/progress_tools.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-e835a66a6f95",
+      "to": "artifact:internal/mcpserver/server.go",
       "type": "changes"
     },
     {
@@ -4965,7 +5160,17 @@
     },
     {
       "from": "spec:mastery-review-scheduling",
+      "to": "artifact:cmd/codinho/main.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:mastery-review-scheduling",
       "to": "artifact:internal/application/progress.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:mastery-review-scheduling",
+      "to": "artifact:internal/application/progress_test.go",
       "type": "declares"
     },
     {
@@ -4990,12 +5195,32 @@
     },
     {
       "from": "spec:mastery-review-scheduling",
+      "to": "artifact:internal/mastery/rules_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:mastery-review-scheduling",
       "to": "artifact:internal/mastery/scheduler.go",
       "type": "declares"
     },
     {
       "from": "spec:mastery-review-scheduling",
       "to": "artifact:internal/mastery/scheduler_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:mastery-review-scheduling",
+      "to": "artifact:internal/mcpserver/contract_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:mastery-review-scheduling",
+      "to": "artifact:internal/mcpserver/envelope.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:mastery-review-scheduling",
+      "to": "artifact:internal/mcpserver/errors.go",
       "type": "declares"
     },
     {
@@ -5007,6 +5232,16 @@
       "from": "spec:mastery-review-scheduling",
       "to": "artifact:internal/mcpserver/progress_tools.go",
       "type": "declares"
+    },
+    {
+      "from": "spec:mastery-review-scheduling",
+      "to": "artifact:internal/mcpserver/server.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:mastery-review-scheduling",
+      "to": "change-set:cs-e835a66a6f95",
+      "type": "observed-by"
     },
     {
       "from": "spec:mcp-stdio-foundation",
@@ -5300,7 +5535,7 @@
     },
     {
       "from": "spec:safe-check-executor",
-      "to": "change-set:cs-7a9bb4244979",
+      "to": "change-set:cs-5bccc7e9e711",
       "type": "observed-by"
     },
     {
@@ -6488,6 +6723,11 @@
     {
       "spec": "mastery-review-scheduling",
       "action": "created",
+      "path": "internal/application/progress_test.go"
+    },
+    {
+      "spec": "mastery-review-scheduling",
+      "action": "created",
       "path": "internal/mastery/model.go"
     },
     {
@@ -6508,6 +6748,11 @@
     {
       "spec": "mastery-review-scheduling",
       "action": "created",
+      "path": "internal/mastery/rules_test.go"
+    },
+    {
+      "spec": "mastery-review-scheduling",
+      "action": "created",
       "path": "internal/mastery/scheduler.go"
     },
     {
@@ -6524,6 +6769,31 @@
       "spec": "mastery-review-scheduling",
       "action": "created",
       "path": "internal/mcpserver/progress_tools.go"
+    },
+    {
+      "spec": "mastery-review-scheduling",
+      "action": "modified",
+      "path": "cmd/codinho/main.go"
+    },
+    {
+      "spec": "mastery-review-scheduling",
+      "action": "modified",
+      "path": "internal/mcpserver/contract_test.go"
+    },
+    {
+      "spec": "mastery-review-scheduling",
+      "action": "modified",
+      "path": "internal/mcpserver/envelope.go"
+    },
+    {
+      "spec": "mastery-review-scheduling",
+      "action": "modified",
+      "path": "internal/mcpserver/errors.go"
+    },
+    {
+      "spec": "mastery-review-scheduling",
+      "action": "modified",
+      "path": "internal/mcpserver/server.go"
     },
     {
       "spec": "mcp-stdio-foundation",
@@ -7999,17 +8269,30 @@
       "diff_digest": "sha256:c56c94d83eb7442caa4abedf20c6e89a820fc599ad313c9f3f2f5b61050e70ca"
     },
     {
-      "id": "cs-7a9bb4244979",
+      "id": "cs-5bccc7e9e711",
       "spec": "safe-check-executor",
       "selector": "trailers:safe-check-executor",
       "base": "efcdbff6a44b10967efabdf184ef910b2769fe0c^",
-      "head": "efcdbff6a44b10967efabdf184ef910b2769fe0c",
+      "head": "86ac5cc4b1ce1efa947138303365ab176eb3ff03",
       "resolved_base": "913e4b8e13e6bbde56fdf0989a227e3ed8d45d06",
-      "resolved_head": "efcdbff6a44b10967efabdf184ef910b2769fe0c",
+      "resolved_head": "86ac5cc4b1ce1efa947138303365ab176eb3ff03",
       "commits": [
-        "efcdbff6a44b10967efabdf184ef910b2769fe0c"
+        "efcdbff6a44b10967efabdf184ef910b2769fe0c",
+        "86ac5cc4b1ce1efa947138303365ab176eb3ff03"
       ],
       "paths": [
+        {
+          "action": "created",
+          "path": ".pose/changelogs/unreleased/safe-check-executor.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/review-attestations/rva-7e2c4291c22eb0f3.json"
+        },
+        {
+          "action": "created",
+          "path": ".pose/review-bundles/rvb-f44c15a4e81fdc74.json"
+        },
         {
           "action": "created",
           "path": "internal/application/checks.go"
@@ -8072,7 +8355,43 @@
         },
         {
           "action": "modified",
+          "path": ".pose/assessments/README.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/consolidated.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/root.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/delivery-integrity.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/releases.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/spec-graph.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/results/delivery-validation.json"
+        },
+        {
+          "action": "modified",
           "path": ".pose/specs/2026-08-22-safe-check-executor.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/root.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/project-state.md"
         },
         {
           "action": "modified",
@@ -8139,7 +8458,7 @@
           "path": "internal/workspace/redaction.go"
         }
       ],
-      "diff_digest": "sha256:7e3f0c6fa6b161450e6660cd936aa7f1f17e425bdd9348ebdb0943b656a929a0"
+      "diff_digest": "sha256:6b05c50d497aacbbfaf7e6028d3fc12669b55bdc8c860551b2da22b2b0362498"
     },
     {
       "id": "cs-89ad08ccd8e2",
@@ -8481,6 +8800,89 @@
         }
       ],
       "diff_digest": "sha256:2630eee8e51bc2f84b881e57051a437ef05c9a358a72e39d1fcb27700a30c975"
+    },
+    {
+      "id": "cs-e835a66a6f95",
+      "spec": "mastery-review-scheduling",
+      "selector": "trailers:mastery-review-scheduling",
+      "base": "1d06a93c100d2f3857373e540265bd5fed5a7e9e^",
+      "head": "1d06a93c100d2f3857373e540265bd5fed5a7e9e",
+      "resolved_base": "86ac5cc4b1ce1efa947138303365ab176eb3ff03",
+      "resolved_head": "1d06a93c100d2f3857373e540265bd5fed5a7e9e",
+      "commits": [
+        "1d06a93c100d2f3857373e540265bd5fed5a7e9e"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": "internal/application/progress.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/application/progress_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/mastery/model.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/mastery/projector.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/mastery/projector_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/mastery/rules.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/mastery/rules_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/mastery/scheduler.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/mastery/scheduler_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/mcpserver/progress_contract_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/mcpserver/progress_tools.go"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-mastery-review-scheduling.md"
+        },
+        {
+          "action": "modified",
+          "path": "cmd/codinho/main.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/contract_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/envelope.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/errors.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/server.go"
+        }
+      ],
+      "diff_digest": "sha256:4ce3f287d2bd5b5a93c0810265e95793d16a4d3dfeb4477112b8bb205b2ed01b"
     }
   ],
   "reverse": {
@@ -8548,6 +8950,7 @@
     "cmd/codinho/main.go": [
       "assistance-hints-detours",
       "go-runtime-foundation",
+      "mastery-review-scheduling",
       "mcp-stdio-foundation",
       "safe-check-executor",
       "workspace-observation-baselines"
@@ -8637,6 +9040,9 @@
       "safe-check-executor"
     ],
     "internal/application/progress.go": [
+      "mastery-review-scheduling"
+    ],
+    "internal/application/progress_test.go": [
       "mastery-review-scheduling"
     ],
     "internal/application/session.go": [
@@ -8938,6 +9344,9 @@
     "internal/mastery/rules.go": [
       "mastery-review-scheduling"
     ],
+    "internal/mastery/rules_test.go": [
+      "mastery-review-scheduling"
+    ],
     "internal/mastery/scheduler.go": [
       "learning-practice-debug-modes",
       "mastery-review-scheduling"
@@ -8975,6 +9384,7 @@
     "internal/mcpserver/contract_test.go": [
       "assistance-hints-detours",
       "feedback-evaluation-progression",
+      "mastery-review-scheduling",
       "mcp-stdio-foundation",
       "safe-check-executor",
       "security-privacy-hardening",
@@ -8983,10 +9393,12 @@
     ],
     "internal/mcpserver/envelope.go": [
       "feedback-evaluation-progression",
+      "mastery-review-scheduling",
       "mcp-stdio-foundation"
     ],
     "internal/mcpserver/errors.go": [
       "assistance-hints-detours",
+      "mastery-review-scheduling",
       "mcp-stdio-foundation",
       "safe-check-executor",
       "session-orchestration-disclosure",
@@ -9010,6 +9422,7 @@
     "internal/mcpserver/server.go": [
       "assistance-hints-detours",
       "feedback-evaluation-progression",
+      "mastery-review-scheduling",
       "mcp-stdio-foundation",
       "safe-check-executor",
       "workspace-observation-baselines"
@@ -9395,15 +9808,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-12b608b60906",
-      "code": "existence",
-      "severity": "error",
-      "spec": "mastery-review-scheduling",
-      "path": "internal/mastery/projector_test.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-142068a7618d",
       "code": "existence",
       "severity": "error",
@@ -9665,15 +10069,6 @@
       "remediation": "no Git change sets are attributed to spec go-foundations-packs (ensure commits carry 'POSE-Spec: go-foundations-packs' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-329bd8e118fc",
-      "code": "existence",
-      "severity": "error",
-      "spec": "mastery-review-scheduling",
-      "path": "internal/mastery/rules.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-337cc1bc20b2",
       "code": "existence",
       "severity": "error",
@@ -9762,15 +10157,6 @@
       "path": "docs/catalog/go-foundations.md",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-3f43debaeb48",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "mastery-review-scheduling",
-      "path": "internal/mcpserver/progress_tools.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec mastery-review-scheduling (ensure commits carry 'POSE-Spec: mastery-review-scheduling' trailer or generate report with pose report)"
     },
     {
       "id": "dif-40f67082a1ac",
@@ -9962,15 +10348,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-53d178f79d6c",
-      "code": "existence",
-      "severity": "error",
-      "spec": "mastery-review-scheduling",
-      "path": "internal/application/progress.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-54510cb42f92",
       "code": "existence",
       "severity": "error",
@@ -10113,15 +10490,6 @@
       "path": "internal/cli/cli_test.go",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-61c3ae2e0b3f",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "mastery-review-scheduling",
-      "path": "internal/mcpserver/progress_contract_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec mastery-review-scheduling (ensure commits carry 'POSE-Spec: mastery-review-scheduling' trailer or generate report with pose report)"
     },
     {
       "id": "dif-64a642d76796",
@@ -10268,15 +10636,6 @@
       "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-70f82a1887d9",
-      "code": "existence",
-      "severity": "error",
-      "spec": "mastery-review-scheduling",
-      "path": "internal/mastery/model.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-70fc866be6d9",
       "code": "existence",
       "severity": "error",
@@ -10338,15 +10697,6 @@
       "path": "tests/e2e/installation",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-795f8a55489a",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "mastery-review-scheduling",
-      "path": "internal/mastery/model.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec mastery-review-scheduling (ensure commits carry 'POSE-Spec: mastery-review-scheduling' trailer or generate report with pose report)"
     },
     {
       "id": "dif-7b533dec7be4",
@@ -10511,15 +10861,6 @@
       "remediation": "no Git change sets are attributed to spec go-interviews-pack (ensure commits carry 'POSE-Spec: go-interviews-pack' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-8a6cb7ff143d",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "mastery-review-scheduling",
-      "path": "internal/application/progress.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec mastery-review-scheduling (ensure commits carry 'POSE-Spec: mastery-review-scheduling' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-8aee95756897",
       "code": "existence",
       "severity": "error",
@@ -10556,29 +10897,11 @@
       "remediation": "no Git change sets are attributed to spec go-interviews-pack (ensure commits carry 'POSE-Spec: go-interviews-pack' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-8e640d5efc51",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "mastery-review-scheduling",
-      "path": "internal/mastery/scheduler.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec mastery-review-scheduling (ensure commits carry 'POSE-Spec: mastery-review-scheduling' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-8f45e72e7a06",
       "code": "existence",
       "severity": "error",
       "spec": "administrative-cli-fixtures",
       "path": "internal/cli/session.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-8f6d4c7087a4",
-      "code": "existence",
-      "severity": "error",
-      "spec": "mastery-review-scheduling",
-      "path": "internal/mcpserver/progress_tools.go",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
@@ -10763,15 +11086,6 @@
       "remediation": "no Git change sets are attributed to spec catalog-authoring-quality (ensure commits carry 'POSE-Spec: catalog-authoring-quality' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-a4b3914d0142",
-      "code": "existence",
-      "severity": "error",
-      "spec": "mastery-review-scheduling",
-      "path": "internal/mastery/scheduler_test.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-a50a27d0e39b",
       "code": "action-mismatch",
       "severity": "error",
@@ -10822,15 +11136,6 @@
       "severity": "error",
       "spec": "curriculum-graph-path-recommendation",
       "path": "internal/recommendation/service_test.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-a9698a69ba0c",
-      "code": "existence",
-      "severity": "error",
-      "spec": "learning-practice-debug-modes",
-      "path": "internal/mastery/scheduler.go",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
@@ -10894,15 +11199,6 @@
       "severity": "error",
       "spec": "administrative-cli-fixtures",
       "path": "internal/fixtures/manifest.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-b15afcee0a29",
-      "code": "existence",
-      "severity": "error",
-      "spec": "mastery-review-scheduling",
-      "path": "internal/mcpserver/progress_contract_test.go",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
@@ -11069,38 +11365,11 @@
       "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-c4e2a59ed957",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "mastery-review-scheduling",
-      "path": "internal/mastery/projector.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec mastery-review-scheduling (ensure commits carry 'POSE-Spec: mastery-review-scheduling' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-c648ae6d8fca",
       "code": "existence",
       "severity": "error",
       "spec": "v1-integrated-acceptance",
       "path": "tests/e2e/modes",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-c6f7bcf388e7",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "mastery-review-scheduling",
-      "path": "internal/mastery/projector_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec mastery-review-scheduling (ensure commits carry 'POSE-Spec: mastery-review-scheduling' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-c8f864d649be",
-      "code": "existence",
-      "severity": "error",
-      "spec": "mastery-review-scheduling",
-      "path": "internal/mastery/projector.go",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
@@ -11402,15 +11671,6 @@
       "remediation": "no Git change sets are attributed to spec catalog-authoring-quality (ensure commits carry 'POSE-Spec: catalog-authoring-quality' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-f0350419cb8f",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "mastery-review-scheduling",
-      "path": "internal/mastery/scheduler_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec mastery-review-scheduling (ensure commits carry 'POSE-Spec: mastery-review-scheduling' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-f2d565e96e5b",
       "code": "existence",
       "severity": "error",
@@ -11447,15 +11707,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-f838bcb17e39",
-      "code": "existence",
-      "severity": "error",
-      "spec": "mastery-review-scheduling",
-      "path": "internal/mastery/scheduler.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-f9497f3c9bb0",
       "code": "action-mismatch",
       "severity": "error",
@@ -11463,15 +11714,6 @@
       "path": "testdata/host/session-transcripts",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec tutor-skill-host-integration (ensure commits carry 'POSE-Spec: tutor-skill-host-integration' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-fc4d373b7385",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "mastery-review-scheduling",
-      "path": "internal/mastery/rules.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec mastery-review-scheduling (ensure commits carry 'POSE-Spec: mastery-review-scheduling' trailer or generate report with pose report)"
     },
     {
       "id": "dif-ff41d3770289",
@@ -11511,9 +11753,9 @@
       "evidence_class": "build",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "efcdbff6a44b10967efabdf184ef910b2769fe0c",
-      "generated_at": "2026-08-23T05:01:01Z",
-      "provenance_digest": "sha256:e42f29485796874d8f7f4d5f0bf7ac014b5a6640a036452784e85851e6ca5e04",
+      "git_head": "1d06a93c100d2f3857373e540265bd5fed5a7e9e",
+      "generated_at": "2026-08-23T07:06:40Z",
+      "provenance_digest": "sha256:5ba7e4f17ea396b4bfa003a70ec00de6f05105b69098e830811c8f3a3c841c74",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
@@ -11523,8 +11765,9 @@
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
+        "mastery-review-scheduling": "sha256:a454f8d5fafc3379e3bce72d9ba90450a03e6b6e6ec82bfc1bd16fb428fd3e24",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
-        "safe-check-executor": "sha256:895db1478830c83415a517aedab237c7ae02f9483f68bce6c4d76cbef3aecb7f",
+        "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
@@ -11536,9 +11779,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "efcdbff6a44b10967efabdf184ef910b2769fe0c",
-      "generated_at": "2026-08-23T05:01:01Z",
-      "provenance_digest": "sha256:e42f29485796874d8f7f4d5f0bf7ac014b5a6640a036452784e85851e6ca5e04",
+      "git_head": "1d06a93c100d2f3857373e540265bd5fed5a7e9e",
+      "generated_at": "2026-08-23T07:06:40Z",
+      "provenance_digest": "sha256:5ba7e4f17ea396b4bfa003a70ec00de6f05105b69098e830811c8f3a3c841c74",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
@@ -11548,8 +11791,9 @@
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
+        "mastery-review-scheduling": "sha256:a454f8d5fafc3379e3bce72d9ba90450a03e6b6e6ec82bfc1bd16fb428fd3e24",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
-        "safe-check-executor": "sha256:895db1478830c83415a517aedab237c7ae02f9483f68bce6c4d76cbef3aecb7f",
+        "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
@@ -11561,9 +11805,9 @@
       "evidence_class": "unit",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "efcdbff6a44b10967efabdf184ef910b2769fe0c",
-      "generated_at": "2026-08-23T05:01:01Z",
-      "provenance_digest": "sha256:e42f29485796874d8f7f4d5f0bf7ac014b5a6640a036452784e85851e6ca5e04",
+      "git_head": "1d06a93c100d2f3857373e540265bd5fed5a7e9e",
+      "generated_at": "2026-08-23T07:06:40Z",
+      "provenance_digest": "sha256:5ba7e4f17ea396b4bfa003a70ec00de6f05105b69098e830811c8f3a3c841c74",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
@@ -11573,8 +11817,9 @@
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
+        "mastery-review-scheduling": "sha256:a454f8d5fafc3379e3bce72d9ba90450a03e6b6e6ec82bfc1bd16fb428fd3e24",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
-        "safe-check-executor": "sha256:895db1478830c83415a517aedab237c7ae02f9483f68bce6c4d76cbef3aecb7f",
+        "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
@@ -11586,9 +11831,9 @@
       "evidence_class": "build",
       "severity": "optional",
       "outcome": "pass",
-      "git_head": "efcdbff6a44b10967efabdf184ef910b2769fe0c",
-      "generated_at": "2026-08-23T05:01:01Z",
-      "provenance_digest": "sha256:e42f29485796874d8f7f4d5f0bf7ac014b5a6640a036452784e85851e6ca5e04",
+      "git_head": "1d06a93c100d2f3857373e540265bd5fed5a7e9e",
+      "generated_at": "2026-08-23T07:06:40Z",
+      "provenance_digest": "sha256:5ba7e4f17ea396b4bfa003a70ec00de6f05105b69098e830811c8f3a3c841c74",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
@@ -11598,8 +11843,9 @@
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
+        "mastery-review-scheduling": "sha256:a454f8d5fafc3379e3bce72d9ba90450a03e6b6e6ec82bfc1bd16fb428fd3e24",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
-        "safe-check-executor": "sha256:895db1478830c83415a517aedab237c7ae02f9483f68bce6c4d76cbef3aecb7f",
+        "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }

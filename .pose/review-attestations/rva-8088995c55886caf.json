@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "attestation_id": "rva-8088995c55886caf",
+  "bundle_id": "rvb-b9d0320e92aec80e",
+  "bundle_digest": "sha256:b9d0320e92aec80e34b4a22575831b9793ebc6a3f3200af8c9c3881b4d1cce92",
+  "reviewer": "agent:claude-sonnet-5",
+  "decision": "approved",
+  "criteria": [
+    {
+      "id": "compatibility",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "correctness",
+      "disposition": "passed",
+      "evidence": "test:auto-attest"
+    },
+    {
+      "id": "cross-component-integration",
+      "disposition": "passed",
+      "evidence": "integration:./go/mcp-contract"
+    },
+    {
+      "id": "documentation",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "operability",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "requirements",
+      "disposition": "passed",
+      "evidence": "requirement-trace:auto-attest"
+    },
+    {
+      "id": "scope",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "security",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    }
+  ],
+  "tools": [
+    {
+      "id": "artifact-check",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "assess-discover",
+      "component": "cmd",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "assess-discover",
+      "component": "internal",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "assess-integrate",
+      "disposition": "passed",
+      "evidence": "integration:./go/mcp-contract"
+    },
+    {
+      "id": "assess-tech-debt",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "closeout-check",
+      "disposition": "deferred",
+      "rationale": "post-review gate"
+    },
+    {
+      "id": "review-check",
+      "disposition": "deferred",
+      "rationale": "post-review gate"
+    },
+    {
+      "id": "suggest-review",
+      "component": "cmd",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "suggest-review",
+      "component": "internal",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "validate",
+      "disposition": "passed",
+      "evidence": "validation:auto-attest"
+    },
+    {
+      "id": "validate",
+      "component": "cmd",
+      "disposition": "passed",
+      "evidence": "validation:auto-attest"
+    },
+    {
+      "id": "validate",
+      "component": "internal",
+      "disposition": "passed",
+      "evidence": "validation:auto-attest"
+    }
+  ],
+  "evidence_refs": [
+    "build:./go/build",
+    "integration:./go/mcp-contract",
+    "requirement-trace:auto-attest",
+    "test:auto-attest",
+    "unit:./go/test"
+  ],
+  "findings": [],
+  "attested_at": "2026-08-23T07:06:51Z",
+  "path": ".pose/review-attestations/rva-8088995c55886caf.json"
+}

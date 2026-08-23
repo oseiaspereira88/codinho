@@ -445,7 +445,7 @@
       ],
       "path": ".pose/specs/2026-08-22-administrative-cli-fixtures.md",
       "priority": 140,
-      "status": "in-progress"
+      "status": "done"
     },
     "architecture-decision-baseline": {
       "depends_on": null,
@@ -598,7 +598,7 @@
       ],
       "path": ".pose/specs/2026-08-22-learning-practice-debug-modes.md",
       "priority": 150,
-      "status": "draft"
+      "status": "in-progress"
     },
     "local-event-store": {
       "depends_on": [

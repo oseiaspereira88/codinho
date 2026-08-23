@@ -1,8 +1,8 @@
 ---
 slug: learning-practice-debug-modes
-status: in-progress
+status: done
 created_at: 2026-08-22
-completed_at:
+completed_at: 2026-08-23
 supersedes:
 depends_on: session-orchestration-disclosure, assistance-hints-detours, feedback-evaluation-progression, mastery-review-scheduling, tutor-skill-host-integration
 priority: 150

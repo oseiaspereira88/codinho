@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "input_digest": "sha256:88b3e5b2552b3fecd9237581afd8830a74c2b644d864a7738554752d9d3c93b8",
-  "provenance_digest": "sha256:ddf266d87dcce6b2f6f083d3e7561c844f7601d853d82af27109d1ae6377346c",
+  "input_digest": "sha256:1a53822be52750f81fa7ac50785ea71b64946789adf51d56e15d5a136f3b19de",
+  "provenance_digest": "sha256:10ccc1407ce8c89f7aa554551956d67fb6877bec0ac11415c03b51621c654778",
   "nodes": [
     {
       "id": "artifact:.agents/skills/codinho/SKILL.md",
@@ -134,6 +134,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/assessments/root.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/changelogs/unreleased/administrative-cli-fixtures.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/changelogs/unreleased/administrative-cli-fixtures.md"
       }
     },
     {
@@ -452,6 +459,13 @@
       }
     },
     {
+      "id": "artifact:.pose/review-attestations/rva-20034f85b8f34380.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-attestations/rva-20034f85b8f34380.json"
+      }
+    },
+    {
       "id": "artifact:.pose/review-attestations/rva-22e5279c5c347a07.json",
       "type": "artifact",
       "attributes": {
@@ -540,6 +554,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/review-bundles/rvb-209633bf67897462.json"
+      }
+    },
+    {
+      "id": "artifact:.pose/review-bundles/rvb-21059952c0abdd21.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-bundles/rvb-21059952c0abdd21.json"
       }
     },
     {
@@ -2216,10 +2237,10 @@
       }
     },
     {
-      "id": "artifact:packs/go-debugging.yaml (desafio(s) `kind: debug` com `fixture`, requirement R10)",
+      "id": "artifact:packs/go-debugging.yaml",
       "type": "artifact",
       "attributes": {
-        "path": "packs/go-debugging.yaml (desafio(s) `kind: debug` com `fixture`, requirement R10)"
+        "path": "packs/go-debugging.yaml"
       }
     },
     {
@@ -2349,10 +2370,10 @@
       }
     },
     {
-      "id": "artifact:testdata/host/mode-transcripts",
+      "id": "artifact:testdata/host/mode-transcripts/debug-mode-session.md",
       "type": "artifact",
       "attributes": {
-        "path": "testdata/host/mode-transcripts"
+        "path": "testdata/host/mode-transcripts/debug-mode-session.md"
       }
     },
     {
@@ -2485,6 +2506,14 @@
       }
     },
     {
+      "id": "change-set:cs-2e19a390d022",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:71836dbf84b9c3fa835063433c025b3ccec8179e234e7dd610a6f27d8c38f0bd",
+        "selector": "trailers:administrative-cli-fixtures"
+      }
+    },
+    {
       "id": "change-set:cs-34b93787f8dd",
       "type": "change-set",
       "attributes": {
@@ -2514,6 +2543,14 @@
       "attributes": {
         "diff_digest": "sha256:c56c94d83eb7442caa4abedf20c6e89a820fc599ad313c9f3f2f5b61050e70ca",
         "selector": "trailers:session-orchestration-disclosure"
+      }
+    },
+    {
+      "id": "change-set:cs-50579735d6fd",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:18151fcb8dd19c0a9bb9721201a1f03f9e21dad30d914ca26dd28af8b934d698",
+        "selector": "trailers:learning-practice-debug-modes"
       }
     },
     {
@@ -2562,14 +2599,6 @@
       "attributes": {
         "diff_digest": "sha256:ce252850ea4ac95984e648df0351f7c1ebe4ba4cdeaf96ec862c963a57139b90",
         "selector": "trailers:tutor-skill-host-integration"
-      }
-    },
-    {
-      "id": "change-set:cs-a1acf7be6497",
-      "type": "change-set",
-      "attributes": {
-        "diff_digest": "sha256:bd2bd0b8207af62ffc6afeeed018c680368504c1afebbc4e78ce4fb172a41819",
-        "selector": "trailers:administrative-cli-fixtures"
       }
     },
     {
@@ -2622,7 +2651,7 @@
       "id": "spec:administrative-cli-fixtures",
       "type": "spec",
       "attributes": {
-        "status": "in-progress"
+        "status": "done"
       }
     },
     {
@@ -2734,7 +2763,7 @@
       "id": "spec:learning-practice-debug-modes",
       "type": "spec",
       "attributes": {
-        "status": "draft"
+        "status": "in-progress"
       }
     },
     {
@@ -3548,6 +3577,156 @@
       "type": "changes"
     },
     {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:.pose/assessments/README.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:.pose/assessments/consolidated.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:.pose/assessments/root.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:.pose/changelogs/unreleased/administrative-cli-fixtures.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:.pose/indexes/delivery-integrity.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:.pose/indexes/releases.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:.pose/indexes/spec-graph.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:.pose/indexes/validation-matrix.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:.pose/results/delivery-validation.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:.pose/review-attestations/rva-20034f85b8f34380.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:.pose/review-bundles/rvb-21059952c0abdd21.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:.pose/specs/2026-08-22-administrative-cli-fixtures.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:.pose/specs/2026-08-22-learning-practice-debug-modes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:.pose/state/components/root.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:.pose/state/project-state.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:cmd/codinho/cli_integration_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:internal/cli/catalog.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:internal/cli/cli_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:internal/cli/init.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:internal/cli/output.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:internal/cli/progress.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:internal/cli/root.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:internal/cli/session.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:internal/cli/state.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:internal/cli/workspace.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:internal/curriculum/model.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:internal/curriculum/validator.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:internal/fixtures/manifest.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:internal/fixtures/materialize.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-2e19a390d022",
+      "to": "artifact:internal/fixtures/materialize_test.go",
+      "type": "changes"
+    },
+    {
       "from": "change-set:cs-34b93787f8dd",
       "to": "artifact:.pose/indexes/delivery-integrity.json",
       "type": "changes"
@@ -4040,6 +4219,111 @@
     {
       "from": "change-set:cs-4dcb2c920c9c",
       "to": "artifact:internal/session/service_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:.agents/skills/codinho/SKILL.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:.agents/skills/codinho/references/mcp-tool-routing.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:.agents/skills/codinho/references/session-modes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:.agents/skills/codinho/references/tutor-contract.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:.pose/specs/2026-08-22-learning-practice-debug-modes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:cmd/codinho/cli_integration_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:internal/application/session.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:internal/eventstore/event.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:internal/mcpserver/contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:internal/mcpserver/errors.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:internal/mcpserver/session_contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:internal/mcpserver/session_tools.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:internal/session/adaptation.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:internal/session/adaptation_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:internal/session/modes.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:internal/session/modes_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:internal/session/service.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:internal/session/service_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:packs/go-debugging.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:packs/manifest.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-50579735d6fd",
+      "to": "artifact:testdata/host/mode-transcripts/debug-mode-session.md",
       "type": "changes"
     },
     {
@@ -5008,96 +5292,6 @@
       "type": "changes"
     },
     {
-      "from": "change-set:cs-a1acf7be6497",
-      "to": "artifact:.pose/indexes/validation-matrix.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a1acf7be6497",
-      "to": "artifact:.pose/specs/2026-08-22-administrative-cli-fixtures.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a1acf7be6497",
-      "to": "artifact:.pose/specs/2026-08-22-learning-practice-debug-modes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a1acf7be6497",
-      "to": "artifact:cmd/codinho/cli_integration_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a1acf7be6497",
-      "to": "artifact:internal/cli/catalog.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a1acf7be6497",
-      "to": "artifact:internal/cli/cli_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a1acf7be6497",
-      "to": "artifact:internal/cli/init.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a1acf7be6497",
-      "to": "artifact:internal/cli/output.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a1acf7be6497",
-      "to": "artifact:internal/cli/progress.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a1acf7be6497",
-      "to": "artifact:internal/cli/root.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a1acf7be6497",
-      "to": "artifact:internal/cli/session.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a1acf7be6497",
-      "to": "artifact:internal/cli/state.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a1acf7be6497",
-      "to": "artifact:internal/cli/workspace.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a1acf7be6497",
-      "to": "artifact:internal/curriculum/model.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a1acf7be6497",
-      "to": "artifact:internal/curriculum/validator.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a1acf7be6497",
-      "to": "artifact:internal/fixtures/manifest.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a1acf7be6497",
-      "to": "artifact:internal/fixtures/materialize.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-a1acf7be6497",
-      "to": "artifact:internal/fixtures/materialize_test.go",
-      "type": "changes"
-    },
-    {
       "from": "change-set:cs-ace3ca5ace4e",
       "to": "artifact:.pose/changelogs/unreleased/assistance-hints-detours.md",
       "type": "changes"
@@ -5384,7 +5578,7 @@
     },
     {
       "from": "spec:administrative-cli-fixtures",
-      "to": "change-set:cs-a1acf7be6497",
+      "to": "change-set:cs-2e19a390d022",
       "type": "observed-by"
     },
     {
@@ -6259,12 +6453,57 @@
     },
     {
       "from": "spec:learning-practice-debug-modes",
+      "to": "artifact:.agents/skills/codinho/SKILL.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-practice-debug-modes",
+      "to": "artifact:.agents/skills/codinho/references/mcp-tool-routing.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-practice-debug-modes",
       "to": "artifact:.agents/skills/codinho/references/session-modes.md",
       "type": "declares"
     },
     {
       "from": "spec:learning-practice-debug-modes",
-      "to": "artifact:internal/mastery/scheduler.go",
+      "to": "artifact:.agents/skills/codinho/references/tutor-contract.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-practice-debug-modes",
+      "to": "artifact:cmd/codinho/cli_integration_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-practice-debug-modes",
+      "to": "artifact:internal/application/session.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-practice-debug-modes",
+      "to": "artifact:internal/eventstore/event.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-practice-debug-modes",
+      "to": "artifact:internal/mcpserver/contract_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-practice-debug-modes",
+      "to": "artifact:internal/mcpserver/errors.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-practice-debug-modes",
+      "to": "artifact:internal/mcpserver/session_contract_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-practice-debug-modes",
+      "to": "artifact:internal/mcpserver/session_tools.go",
       "type": "declares"
     },
     {
@@ -6289,13 +6528,33 @@
     },
     {
       "from": "spec:learning-practice-debug-modes",
-      "to": "artifact:packs/go-debugging.yaml (desafio(s) `kind: debug` com `fixture`, requirement R10)",
+      "to": "artifact:internal/session/service.go",
       "type": "declares"
     },
     {
       "from": "spec:learning-practice-debug-modes",
-      "to": "artifact:testdata/host/mode-transcripts",
+      "to": "artifact:internal/session/service_test.go",
       "type": "declares"
+    },
+    {
+      "from": "spec:learning-practice-debug-modes",
+      "to": "artifact:packs/go-debugging.yaml",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-practice-debug-modes",
+      "to": "artifact:packs/manifest.yaml",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-practice-debug-modes",
+      "to": "artifact:testdata/host/mode-transcripts/debug-mode-session.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-practice-debug-modes",
+      "to": "change-set:cs-50579735d6fd",
+      "type": "observed-by"
     },
     {
       "from": "spec:local-event-store",
@@ -8007,12 +8266,22 @@
     {
       "spec": "learning-practice-debug-modes",
       "action": "created",
-      "path": "packs/go-debugging.yaml (desafio(s) `kind: debug` com `fixture`, requirement R10)"
+      "path": "packs/go-debugging.yaml"
     },
     {
       "spec": "learning-practice-debug-modes",
       "action": "created",
-      "path": "testdata/host/mode-transcripts"
+      "path": "testdata/host/mode-transcripts/debug-mode-session.md"
+    },
+    {
+      "spec": "learning-practice-debug-modes",
+      "action": "modified",
+      "path": ".agents/skills/codinho/SKILL.md"
+    },
+    {
+      "spec": "learning-practice-debug-modes",
+      "action": "modified",
+      "path": ".agents/skills/codinho/references/mcp-tool-routing.md"
     },
     {
       "spec": "learning-practice-debug-modes",
@@ -8022,7 +8291,57 @@
     {
       "spec": "learning-practice-debug-modes",
       "action": "modified",
-      "path": "internal/mastery/scheduler.go"
+      "path": ".agents/skills/codinho/references/tutor-contract.md"
+    },
+    {
+      "spec": "learning-practice-debug-modes",
+      "action": "modified",
+      "path": "cmd/codinho/cli_integration_test.go"
+    },
+    {
+      "spec": "learning-practice-debug-modes",
+      "action": "modified",
+      "path": "internal/application/session.go"
+    },
+    {
+      "spec": "learning-practice-debug-modes",
+      "action": "modified",
+      "path": "internal/eventstore/event.go"
+    },
+    {
+      "spec": "learning-practice-debug-modes",
+      "action": "modified",
+      "path": "internal/mcpserver/contract_test.go"
+    },
+    {
+      "spec": "learning-practice-debug-modes",
+      "action": "modified",
+      "path": "internal/mcpserver/errors.go"
+    },
+    {
+      "spec": "learning-practice-debug-modes",
+      "action": "modified",
+      "path": "internal/mcpserver/session_contract_test.go"
+    },
+    {
+      "spec": "learning-practice-debug-modes",
+      "action": "modified",
+      "path": "internal/mcpserver/session_tools.go"
+    },
+    {
+      "spec": "learning-practice-debug-modes",
+      "action": "modified",
+      "path": "internal/session/service.go"
+    },
+    {
+      "spec": "learning-practice-debug-modes",
+      "action": "modified",
+      "path": "internal/session/service_test.go"
+    },
+    {
+      "spec": "learning-practice-debug-modes",
+      "action": "modified",
+      "path": "packs/manifest.yaml"
     },
     {
       "spec": "local-event-store",
@@ -9175,6 +9494,142 @@
       "diff_digest": "sha256:e9953a03f1dbec16030f48f076da80a5ec03855b06eaf9fb3f0bb8fa980bdc39"
     },
     {
+      "id": "cs-2e19a390d022",
+      "spec": "administrative-cli-fixtures",
+      "selector": "trailers:administrative-cli-fixtures",
+      "base": "f86fdc75aced3f094aa1a9dd478f7c7bc0ee96c6^",
+      "head": "de93036ee604c1efb7751ef1c42c84e401371014",
+      "resolved_base": "33f0f48bf12b7c08be2e58a1f47bd8cf961f8b79",
+      "resolved_head": "de93036ee604c1efb7751ef1c42c84e401371014",
+      "commits": [
+        "f86fdc75aced3f094aa1a9dd478f7c7bc0ee96c6",
+        "de93036ee604c1efb7751ef1c42c84e401371014"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": ".pose/changelogs/unreleased/administrative-cli-fixtures.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/review-attestations/rva-20034f85b8f34380.json"
+        },
+        {
+          "action": "created",
+          "path": ".pose/review-bundles/rvb-21059952c0abdd21.json"
+        },
+        {
+          "action": "created",
+          "path": "cmd/codinho/cli_integration_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/cli/catalog.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/cli/cli_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/cli/init.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/cli/output.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/cli/progress.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/cli/session.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/cli/state.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/cli/workspace.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/fixtures/manifest.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/fixtures/materialize.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/fixtures/materialize_test.go"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/README.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/consolidated.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/root.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/delivery-integrity.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/releases.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/spec-graph.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/validation-matrix.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/results/delivery-validation.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-administrative-cli-fixtures.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-learning-practice-debug-modes.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/root.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/project-state.md"
+        },
+        {
+          "action": "modified",
+          "path": "internal/cli/root.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/model.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/validator.go"
+        }
+      ],
+      "diff_digest": "sha256:71836dbf84b9c3fa835063433c025b3ccec8179e234e7dd610a6f27d8c38f0bd"
+    },
+    {
       "id": "cs-34b93787f8dd",
       "spec": "learning-domain-model",
       "selector": "trailers:learning-domain-model",
@@ -9636,6 +10091,106 @@
         }
       ],
       "diff_digest": "sha256:c56c94d83eb7442caa4abedf20c6e89a820fc599ad313c9f3f2f5b61050e70ca"
+    },
+    {
+      "id": "cs-50579735d6fd",
+      "spec": "learning-practice-debug-modes",
+      "selector": "trailers:learning-practice-debug-modes",
+      "base": "e7c11a37e7f6988a201128324aa57704c10f952f^",
+      "head": "df700ccf3f486cc9d4a0c98e70bfed7fa205d9ce",
+      "resolved_base": "de93036ee604c1efb7751ef1c42c84e401371014",
+      "resolved_head": "df700ccf3f486cc9d4a0c98e70bfed7fa205d9ce",
+      "commits": [
+        "e7c11a37e7f6988a201128324aa57704c10f952f",
+        "df700ccf3f486cc9d4a0c98e70bfed7fa205d9ce"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": "internal/session/adaptation.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/session/adaptation_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/session/modes.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/session/modes_test.go"
+        },
+        {
+          "action": "created",
+          "path": "packs/go-debugging.yaml"
+        },
+        {
+          "action": "created",
+          "path": "testdata/host/mode-transcripts/debug-mode-session.md"
+        },
+        {
+          "action": "modified",
+          "path": ".agents/skills/codinho/SKILL.md"
+        },
+        {
+          "action": "modified",
+          "path": ".agents/skills/codinho/references/mcp-tool-routing.md"
+        },
+        {
+          "action": "modified",
+          "path": ".agents/skills/codinho/references/session-modes.md"
+        },
+        {
+          "action": "modified",
+          "path": ".agents/skills/codinho/references/tutor-contract.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-learning-practice-debug-modes.md"
+        },
+        {
+          "action": "modified",
+          "path": "cmd/codinho/cli_integration_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/application/session.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/eventstore/event.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/contract_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/errors.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/session_contract_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/session_tools.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/session/service.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/session/service_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "packs/manifest.yaml"
+        }
+      ],
+      "diff_digest": "sha256:18151fcb8dd19c0a9bb9721201a1f03f9e21dad30d914ca26dd28af8b934d698"
     },
     {
       "id": "cs-5bccc7e9e711",
@@ -10512,93 +11067,6 @@
       "diff_digest": "sha256:ce252850ea4ac95984e648df0351f7c1ebe4ba4cdeaf96ec862c963a57139b90"
     },
     {
-      "id": "cs-a1acf7be6497",
-      "spec": "administrative-cli-fixtures",
-      "selector": "trailers:administrative-cli-fixtures",
-      "base": "f86fdc75aced3f094aa1a9dd478f7c7bc0ee96c6^",
-      "head": "f86fdc75aced3f094aa1a9dd478f7c7bc0ee96c6",
-      "resolved_base": "33f0f48bf12b7c08be2e58a1f47bd8cf961f8b79",
-      "resolved_head": "f86fdc75aced3f094aa1a9dd478f7c7bc0ee96c6",
-      "commits": [
-        "f86fdc75aced3f094aa1a9dd478f7c7bc0ee96c6"
-      ],
-      "paths": [
-        {
-          "action": "created",
-          "path": "cmd/codinho/cli_integration_test.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/cli/catalog.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/cli/cli_test.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/cli/init.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/cli/output.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/cli/progress.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/cli/session.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/cli/state.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/cli/workspace.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/fixtures/manifest.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/fixtures/materialize.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/fixtures/materialize_test.go"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/indexes/validation-matrix.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-administrative-cli-fixtures.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-learning-practice-debug-modes.md"
-        },
-        {
-          "action": "modified",
-          "path": "internal/cli/root.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/curriculum/model.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/curriculum/validator.go"
-        }
-      ],
-      "diff_digest": "sha256:bd2bd0b8207af62ffc6afeeed018c680368504c1afebbc4e78ce4fb172a41819"
-    },
-    {
       "id": "cs-ace3ca5ace4e",
       "spec": "assistance-hints-detours",
       "selector": "trailers:assistance-hints-detours",
@@ -10725,6 +11193,7 @@
   ],
   "reverse": {
     ".agents/skills/codinho/SKILL.md": [
+      "learning-practice-debug-modes",
       "tutor-skill-host-integration"
     ],
     ".agents/skills/codinho/agents/openai.yaml": [
@@ -10744,6 +11213,7 @@
       "tutor-skill-host-integration"
     ],
     ".agents/skills/codinho/references/mcp-tool-routing.md": [
+      "learning-practice-debug-modes",
       "tutor-skill-host-integration"
     ],
     ".agents/skills/codinho/references/session-modes.md": [
@@ -10752,6 +11222,7 @@
       "tutor-skill-host-integration"
     ],
     ".agents/skills/codinho/references/tutor-contract.md": [
+      "learning-practice-debug-modes",
       "tutor-skill-host-integration"
     ],
     ".github/workflows/ci.yml": [
@@ -10788,7 +11259,8 @@
       "installation-documentation-ci"
     ],
     "cmd/codinho/cli_integration_test.go": [
-      "administrative-cli-fixtures"
+      "administrative-cli-fixtures",
+      "learning-practice-debug-modes"
     ],
     "cmd/codinho/integration_test.go": [
       "tutor-skill-host-integration"
@@ -10900,6 +11372,7 @@
       "curriculum-graph-path-recommendation"
     ],
     "internal/application/session.go": [
+      "learning-practice-debug-modes",
       "mcp-stdio-foundation",
       "safe-check-executor",
       "session-orchestration-disclosure"
@@ -11136,6 +11609,7 @@
       "reliability-observability-compatibility"
     ],
     "internal/eventstore/event.go": [
+      "learning-practice-debug-modes",
       "local-event-store",
       "session-orchestration-disclosure"
     ],
@@ -11234,7 +11708,6 @@
       "mastery-review-scheduling"
     ],
     "internal/mastery/scheduler.go": [
-      "learning-practice-debug-modes",
       "mastery-review-scheduling"
     ],
     "internal/mastery/scheduler_test.go": [
@@ -11271,6 +11744,7 @@
       "assistance-hints-detours",
       "curriculum-graph-path-recommendation",
       "feedback-evaluation-progression",
+      "learning-practice-debug-modes",
       "mastery-review-scheduling",
       "mcp-stdio-foundation",
       "safe-check-executor",
@@ -11286,6 +11760,7 @@
     "internal/mcpserver/errors.go": [
       "assistance-hints-detours",
       "curriculum-graph-path-recommendation",
+      "learning-practice-debug-modes",
       "mastery-review-scheduling",
       "mcp-stdio-foundation",
       "safe-check-executor",
@@ -11325,10 +11800,12 @@
     ],
     "internal/mcpserver/session_contract_test.go": [
       "assistance-hints-detours",
+      "learning-practice-debug-modes",
       "safe-check-executor",
       "session-orchestration-disclosure"
     ],
     "internal/mcpserver/session_tools.go": [
+      "learning-practice-debug-modes",
       "mcp-stdio-foundation",
       "session-orchestration-disclosure"
     ],
@@ -11406,10 +11883,12 @@
     "internal/session/service.go": [
       "assistance-hints-detours",
       "feedback-evaluation-progression",
+      "learning-practice-debug-modes",
       "safe-check-executor",
       "session-orchestration-disclosure"
     ],
     "internal/session/service_test.go": [
+      "learning-practice-debug-modes",
       "safe-check-executor",
       "session-orchestration-disclosure"
     ],
@@ -11457,7 +11936,7 @@
     "packs/go-database": [
       "go-backend-packs"
     ],
-    "packs/go-debugging.yaml (desafio(s) `kind: debug` com `fixture`, requirement R10)": [
+    "packs/go-debugging.yaml": [
       "learning-practice-debug-modes"
     ],
     "packs/go-errors": [
@@ -11488,7 +11967,8 @@
       "go-foundations-packs"
     ],
     "packs/manifest.yaml": [
-      "catalog-schema-loader"
+      "catalog-schema-loader",
+      "learning-practice-debug-modes"
     ],
     "schemas/catalog.schema.json": [
       "catalog-schema-loader"
@@ -11514,7 +11994,7 @@
     "testdata/host/interview-transcripts": [
       "interview-mode"
     ],
-    "testdata/host/mode-transcripts": [
+    "testdata/host/mode-transcripts/debug-mode-session.md": [
       "learning-practice-debug-modes"
     ],
     "testdata/host/session-transcripts/degraded-mode-and-injection.md": [
@@ -11770,15 +12250,6 @@
       "path": "docs/acceptance/v1-release-readiness.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-241bc605f8a3",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "learning-practice-debug-modes",
-      "path": "testdata/host/mode-transcripts",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec learning-practice-debug-modes (ensure commits carry 'POSE-Spec: learning-practice-debug-modes' trailer or generate report with pose report)"
     },
     {
       "id": "dif-2450befb20e7",
@@ -12087,24 +12558,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-4be09482ad61",
-      "code": "existence",
-      "severity": "error",
-      "spec": "learning-practice-debug-modes",
-      "path": "packs/go-debugging.yaml (desafio(s) `kind: debug` com `fixture`, requirement R10)",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-4c1ccca9020b",
-      "code": "existence",
-      "severity": "error",
-      "spec": "learning-practice-debug-modes",
-      "path": "internal/session/modes_test.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-4d8ee0c5f1c9",
       "code": "action-mismatch",
       "severity": "error",
@@ -12173,15 +12626,6 @@
       "severity": "error",
       "spec": "go-interviews-pack",
       "path": "testdata/packs/interviews",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-54eef4177faa",
-      "code": "existence",
-      "severity": "error",
-      "spec": "learning-practice-debug-modes",
-      "path": "testdata/host/mode-transcripts",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
@@ -12267,24 +12711,6 @@
       "remediation": "no Git change sets are attributed to spec security-privacy-hardening (ensure commits carry 'POSE-Spec: security-privacy-hardening' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-68af22c43666",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "learning-practice-debug-modes",
-      "path": "internal/mastery/scheduler.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec learning-practice-debug-modes (ensure commits carry 'POSE-Spec: learning-practice-debug-modes' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-6971b6c8c325",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "learning-practice-debug-modes",
-      "path": "internal/session/adaptation_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec learning-practice-debug-modes (ensure commits carry 'POSE-Spec: learning-practice-debug-modes' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-699713d402ab",
       "code": "existence",
       "severity": "error",
@@ -12328,15 +12754,6 @@
       "path": "docs/catalog/go-interviews.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec go-interviews-pack (ensure commits carry 'POSE-Spec: go-interviews-pack' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-70cc13ed0f07",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "learning-practice-debug-modes",
-      "path": ".agents/skills/codinho/references/session-modes.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec learning-practice-debug-modes (ensure commits carry 'POSE-Spec: learning-practice-debug-modes' trailer or generate report with pose report)"
     },
     {
       "id": "dif-70ce7e09a1dc",
@@ -12436,15 +12853,6 @@
       "path": "docs/catalog/go-foundations.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec go-foundations-packs (ensure commits carry 'POSE-Spec: go-foundations-packs' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-7ee9a59aaa3f",
-      "code": "existence",
-      "severity": "error",
-      "spec": "learning-practice-debug-modes",
-      "path": "internal/session/adaptation_test.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-7ffd47db572a",
@@ -12596,15 +13004,6 @@
       "severity": "error",
       "spec": "reliability-observability-compatibility",
       "path": "docs/compatibility.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-99f27f08a018",
-      "code": "existence",
-      "severity": "error",
-      "spec": "learning-practice-debug-modes",
-      "path": "internal/session/adaptation.go",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
@@ -12816,15 +13215,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-c27c13631922",
-      "code": "existence",
-      "severity": "error",
-      "spec": "learning-practice-debug-modes",
-      "path": "internal/session/modes.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-c3eb68d6226b",
       "code": "action-mismatch",
       "severity": "error",
@@ -12933,15 +13323,6 @@
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-d950681bd02d",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "learning-practice-debug-modes",
-      "path": "internal/session/adaptation.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec learning-practice-debug-modes (ensure commits carry 'POSE-Spec: learning-practice-debug-modes' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-da0ed50158d5",
       "code": "action-mismatch",
       "severity": "error",
@@ -13014,15 +13395,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-e7522201f949",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "learning-practice-debug-modes",
-      "path": "packs/go-debugging.yaml (desafio(s) `kind: debug` com `fixture`, requirement R10)",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec learning-practice-debug-modes (ensure commits carry 'POSE-Spec: learning-practice-debug-modes' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-e79fc1d4805f",
       "code": "existence",
       "severity": "error",
@@ -13039,24 +13411,6 @@
       "path": "docs/catalog/interview-playtest-report.md",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-ebc6e066b0d8",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "learning-practice-debug-modes",
-      "path": "internal/session/modes.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec learning-practice-debug-modes (ensure commits carry 'POSE-Spec: learning-practice-debug-modes' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-ebe26bdc755a",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "learning-practice-debug-modes",
-      "path": "internal/session/modes_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec learning-practice-debug-modes (ensure commits carry 'POSE-Spec: learning-practice-debug-modes' trailer or generate report with pose report)"
     },
     {
       "id": "dif-ee5e022f6e27",
@@ -13159,12 +13513,12 @@
       "evidence_class": "build",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "f86fdc75aced3f094aa1a9dd478f7c7bc0ee96c6",
-      "generated_at": "2026-08-23T08:25:36Z",
-      "provenance_digest": "sha256:ddf266d87dcce6b2f6f083d3e7561c844f7601d853d82af27109d1ae6377346c",
+      "git_head": "df700ccf3f486cc9d4a0c98e70bfed7fa205d9ce",
+      "generated_at": "2026-08-23T08:44:13Z",
+      "provenance_digest": "sha256:10ccc1407ce8c89f7aa554551956d67fb6877bec0ac11415c03b51621c654778",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
-        "administrative-cli-fixtures": "sha256:d008f6d70e8cd3e39030be940357472bf6f2dc3b0ef562aa29bf02b1b1a599c1",
+        "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
@@ -13172,6 +13526,7 @@
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
+        "learning-practice-debug-modes": "sha256:86e4bb701046bcfcd71afd6f04af8928cce6aa4a5ce534d0a01c0a58d398ea5b",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
@@ -13188,12 +13543,12 @@
       "evidence_class": "e2e",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "f86fdc75aced3f094aa1a9dd478f7c7bc0ee96c6",
-      "generated_at": "2026-08-23T08:25:36Z",
-      "provenance_digest": "sha256:ddf266d87dcce6b2f6f083d3e7561c844f7601d853d82af27109d1ae6377346c",
+      "git_head": "df700ccf3f486cc9d4a0c98e70bfed7fa205d9ce",
+      "generated_at": "2026-08-23T08:44:13Z",
+      "provenance_digest": "sha256:10ccc1407ce8c89f7aa554551956d67fb6877bec0ac11415c03b51621c654778",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
-        "administrative-cli-fixtures": "sha256:d008f6d70e8cd3e39030be940357472bf6f2dc3b0ef562aa29bf02b1b1a599c1",
+        "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
@@ -13201,6 +13556,7 @@
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
+        "learning-practice-debug-modes": "sha256:86e4bb701046bcfcd71afd6f04af8928cce6aa4a5ce534d0a01c0a58d398ea5b",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
@@ -13217,12 +13573,12 @@
       "evidence_class": "reachability",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "f86fdc75aced3f094aa1a9dd478f7c7bc0ee96c6",
-      "generated_at": "2026-08-23T08:25:36Z",
-      "provenance_digest": "sha256:ddf266d87dcce6b2f6f083d3e7561c844f7601d853d82af27109d1ae6377346c",
+      "git_head": "df700ccf3f486cc9d4a0c98e70bfed7fa205d9ce",
+      "generated_at": "2026-08-23T08:44:13Z",
+      "provenance_digest": "sha256:10ccc1407ce8c89f7aa554551956d67fb6877bec0ac11415c03b51621c654778",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
-        "administrative-cli-fixtures": "sha256:d008f6d70e8cd3e39030be940357472bf6f2dc3b0ef562aa29bf02b1b1a599c1",
+        "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
@@ -13230,6 +13586,7 @@
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
+        "learning-practice-debug-modes": "sha256:86e4bb701046bcfcd71afd6f04af8928cce6aa4a5ce534d0a01c0a58d398ea5b",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
@@ -13246,12 +13603,12 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "f86fdc75aced3f094aa1a9dd478f7c7bc0ee96c6",
-      "generated_at": "2026-08-23T08:25:36Z",
-      "provenance_digest": "sha256:ddf266d87dcce6b2f6f083d3e7561c844f7601d853d82af27109d1ae6377346c",
+      "git_head": "df700ccf3f486cc9d4a0c98e70bfed7fa205d9ce",
+      "generated_at": "2026-08-23T08:44:13Z",
+      "provenance_digest": "sha256:10ccc1407ce8c89f7aa554551956d67fb6877bec0ac11415c03b51621c654778",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
-        "administrative-cli-fixtures": "sha256:d008f6d70e8cd3e39030be940357472bf6f2dc3b0ef562aa29bf02b1b1a599c1",
+        "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
@@ -13259,6 +13616,7 @@
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
+        "learning-practice-debug-modes": "sha256:86e4bb701046bcfcd71afd6f04af8928cce6aa4a5ce534d0a01c0a58d398ea5b",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
@@ -13275,12 +13633,12 @@
       "evidence_class": "unit",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "f86fdc75aced3f094aa1a9dd478f7c7bc0ee96c6",
-      "generated_at": "2026-08-23T08:25:36Z",
-      "provenance_digest": "sha256:ddf266d87dcce6b2f6f083d3e7561c844f7601d853d82af27109d1ae6377346c",
+      "git_head": "df700ccf3f486cc9d4a0c98e70bfed7fa205d9ce",
+      "generated_at": "2026-08-23T08:44:13Z",
+      "provenance_digest": "sha256:10ccc1407ce8c89f7aa554551956d67fb6877bec0ac11415c03b51621c654778",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
-        "administrative-cli-fixtures": "sha256:d008f6d70e8cd3e39030be940357472bf6f2dc3b0ef562aa29bf02b1b1a599c1",
+        "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
@@ -13288,6 +13646,7 @@
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
+        "learning-practice-debug-modes": "sha256:86e4bb701046bcfcd71afd6f04af8928cce6aa4a5ce534d0a01c0a58d398ea5b",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
@@ -13304,12 +13663,12 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "f86fdc75aced3f094aa1a9dd478f7c7bc0ee96c6",
-      "generated_at": "2026-08-23T08:25:36Z",
-      "provenance_digest": "sha256:ddf266d87dcce6b2f6f083d3e7561c844f7601d853d82af27109d1ae6377346c",
+      "git_head": "df700ccf3f486cc9d4a0c98e70bfed7fa205d9ce",
+      "generated_at": "2026-08-23T08:44:13Z",
+      "provenance_digest": "sha256:10ccc1407ce8c89f7aa554551956d67fb6877bec0ac11415c03b51621c654778",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
-        "administrative-cli-fixtures": "sha256:d008f6d70e8cd3e39030be940357472bf6f2dc3b0ef562aa29bf02b1b1a599c1",
+        "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
@@ -13317,6 +13676,7 @@
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
+        "learning-practice-debug-modes": "sha256:86e4bb701046bcfcd71afd6f04af8928cce6aa4a5ce534d0a01c0a58d398ea5b",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
@@ -13333,12 +13693,12 @@
       "evidence_class": "build",
       "severity": "optional",
       "outcome": "pass",
-      "git_head": "f86fdc75aced3f094aa1a9dd478f7c7bc0ee96c6",
-      "generated_at": "2026-08-23T08:25:36Z",
-      "provenance_digest": "sha256:ddf266d87dcce6b2f6f083d3e7561c844f7601d853d82af27109d1ae6377346c",
+      "git_head": "df700ccf3f486cc9d4a0c98e70bfed7fa205d9ce",
+      "generated_at": "2026-08-23T08:44:13Z",
+      "provenance_digest": "sha256:10ccc1407ce8c89f7aa554551956d67fb6877bec0ac11415c03b51621c654778",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
-        "administrative-cli-fixtures": "sha256:d008f6d70e8cd3e39030be940357472bf6f2dc3b0ef562aa29bf02b1b1a599c1",
+        "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
@@ -13346,6 +13706,7 @@
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
+        "learning-practice-debug-modes": "sha256:86e4bb701046bcfcd71afd6f04af8928cce6aa4a5ce534d0a01c0a58d398ea5b",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",

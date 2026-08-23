@@ -6,7 +6,7 @@
 
 | #  | Componente Slug | Módulo / Path | Linguagens | LOC Produção | LOC Testes | Arquivos | Status | Relatório Markdown |
 |----|------------|---------------|-----------|--------------|------------|----------|--------|--------------------|
-| 01 | `root` | `.` | `go` | 9890 | 8878 | 158 | `verified` | [root.md](./root.md) |
+| 01 | `root` | `.` | `go, shell` | 9925 | 8903 | 160 | `verified` | [root.md](./root.md) |
 
 ## Assessments Consolidados & Governança Global
 

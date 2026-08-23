@@ -73,6 +73,14 @@
       "digest": "sha256:9ac910e91c2352fc5dc8bbde1356994b22ac45a97fe0e17380419a333da49ec1"
     },
     {
+      "spec": "reliability-observability-compatibility",
+      "category": "added",
+      "breaking": false,
+      "body": "`codinho doctor` agora diagnostica de verdade: catálogo, estado local\ngravável, lock órfão de uma execução anterior encerrada abruptamente,\nevidência e toolchain necessária — sempre sem expor ambiente completo,\ncódigo ou segredos. Toda chamada de tool MCP passa a gerar uma linha de\nlog estruturada (ferramenta, duração, status, tamanho) em stderr.\nStartup e busca no catálogo têm orçamentos de desempenho documentados e\ncomprovados.",
+      "path": "reliability-observability-compatibility.md",
+      "digest": "sha256:26402b020691d8d2e6960784a02b6cfec6a6782feb70e2fdefe7bc82cba80ece"
+    },
+    {
       "spec": "safe-check-executor",
       "category": "added",
       "breaking": false,

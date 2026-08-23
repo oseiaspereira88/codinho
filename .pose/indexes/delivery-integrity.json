@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "input_digest": "sha256:ddb17147d20cdd5c08ad76ccbf2e3d7719f7724a281e9f5a38d698460bf44f54",
-  "provenance_digest": "sha256:7b590efc8dd07c9dee3c4a541f7b488d2b88d77495e332fa544d2f2d5c48c764",
+  "input_digest": "sha256:a187e551638a44f7de3761bab9421c07adfaf89ae621f4cbfbd9dd64977fb079",
+  "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
   "nodes": [
     {
       "id": "artifact:.agents/skills/codinho/SKILL.md",
@@ -197,6 +197,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/changelogs/unreleased/mcp-stdio-foundation.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/changelogs/unreleased/reliability-observability-compatibility.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/changelogs/unreleased/reliability-observability-compatibility.md"
       }
     },
     {
@@ -536,6 +543,13 @@
       }
     },
     {
+      "id": "artifact:.pose/review-attestations/rva-6e29ff49cd8298df.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-attestations/rva-6e29ff49cd8298df.json"
+      }
+    },
+    {
       "id": "artifact:.pose/review-attestations/rva-79dd6ac6a9aba5e2.json",
       "type": "artifact",
       "attributes": {
@@ -603,6 +617,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/review-bundles/rvb-0f6ad091dd284d2d.json"
+      }
+    },
+    {
+      "id": "artifact:.pose/review-bundles/rvb-1b825d24df311ff0.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-bundles/rvb-1b825d24df311ff0.json"
       }
     },
     {
@@ -991,6 +1012,13 @@
       }
     },
     {
+      "id": "artifact:cmd/codinho/smoke_test.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "cmd/codinho/smoke_test.go"
+      }
+    },
+    {
       "id": "artifact:docs/acceptance/v1-pilot-report.md",
       "type": "artifact",
       "attributes": {
@@ -1009,13 +1037,6 @@
       "type": "artifact",
       "attributes": {
         "path": "docs/acceptance/v1-requirement-matrix.md"
-      }
-    },
-    {
-      "id": "artifact:docs/catalog-authoring.md",
-      "type": "artifact",
-      "attributes": {
-        "path": "docs/catalog-authoring.md"
       }
     },
     {
@@ -2630,14 +2651,6 @@
       }
     },
     {
-      "id": "change-set:cs-0d2d90c5c402",
-      "type": "change-set",
-      "attributes": {
-        "diff_digest": "sha256:fd7de5682cdcaea0cb5826004e917560879768b29fba6d4326f217b250e59d5b",
-        "selector": "trailers:reliability-observability-compatibility"
-      }
-    },
-    {
       "id": "change-set:cs-15b6a229ef87",
       "type": "change-set",
       "attributes": {
@@ -2782,6 +2795,22 @@
       }
     },
     {
+      "id": "change-set:cs-cd2ac178ff4e",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:23a990919015bd18bc6d6a5356076c5d035ac06db3d9598447ce60a67e4a76e9",
+        "selector": "trailers:reliability-observability-compatibility"
+      }
+    },
+    {
+      "id": "change-set:cs-f123337dd62b",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:5a71c3ef973b9b89e0aaeca57f893f968120a57a22265c4be33890e3af7c5bc1",
+        "selector": "trailers:installation-documentation-ci"
+      }
+    },
+    {
       "id": "delivery:capability:codinho-tutor",
       "type": "capability",
       "attributes": {
@@ -2798,6 +2827,22 @@
       }
     },
     {
+      "id": "delivery:governance:codinho-ci",
+      "type": "governance",
+      "attributes": {
+        "module": ".github/workflows",
+        "profile": "release-governance"
+      }
+    },
+    {
+      "id": "delivery:infrastructure:codinho-local-distribution",
+      "type": "infrastructure",
+      "attributes": {
+        "module": "cmd/codinho",
+        "profile": "local-distribution"
+      }
+    },
+    {
       "id": "delivery:surface:codinho-cli",
       "type": "surface",
       "attributes": {
@@ -2810,6 +2855,13 @@
       "type": "entrypoint",
       "attributes": {
         "path": ".agents/skills/codinho/SKILL.md"
+      }
+    },
+    {
+      "id": "entrypoint:.github/workflows/ci.yml",
+      "type": "entrypoint",
+      "attributes": {
+        "path": ".github/workflows/ci.yml"
       }
     },
     {
@@ -2914,7 +2966,7 @@
       "id": "spec:installation-documentation-ci",
       "type": "spec",
       "attributes": {
-        "status": "draft"
+        "status": "in-progress"
       }
     },
     {
@@ -2963,7 +3015,7 @@
       "id": "spec:reliability-observability-compatibility",
       "type": "spec",
       "attributes": {
-        "status": "in-progress"
+        "status": "done"
       }
     },
     {
@@ -3045,6 +3097,15 @@
       }
     },
     {
+      "id": "validation-result:./go/smoke-install",
+      "type": "validation-result",
+      "attributes": {
+        "check": "smoke-install",
+        "evidence_class": "integration",
+        "outcome": "pass"
+      }
+    },
+    {
       "id": "validation-result:./go/startup-budget",
       "type": "validation-result",
       "attributes": {
@@ -3112,6 +3173,16 @@
       "type": "implemented-by"
     },
     {
+      "from": "artifact:.agents/skills/codinho/references/codex-configuration.md",
+      "to": "delivery:governance:codinho-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.agents/skills/codinho/references/codex-configuration.md",
+      "to": "delivery:infrastructure:codinho-local-distribution",
+      "type": "implemented-by"
+    },
+    {
       "from": "artifact:.agents/skills/codinho/references/feedback-rubric.md",
       "to": "delivery:capability:codinho-tutor",
       "type": "implemented-by"
@@ -3132,6 +3203,26 @@
       "type": "implemented-by"
     },
     {
+      "from": "artifact:.github/workflows/ci.yml",
+      "to": "delivery:governance:codinho-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.github/workflows/ci.yml",
+      "to": "delivery:infrastructure:codinho-local-distribution",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.github/workflows/release.yml",
+      "to": "delivery:governance:codinho-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.github/workflows/release.yml",
+      "to": "delivery:infrastructure:codinho-local-distribution",
+      "type": "implemented-by"
+    },
+    {
       "from": "artifact:.pose/indexes/validation-matrix.json",
       "to": "delivery:capability:codinho-tutor",
       "type": "implemented-by"
@@ -3143,7 +3234,37 @@
     },
     {
       "from": "artifact:.pose/indexes/validation-matrix.json",
+      "to": "delivery:governance:codinho-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.pose/indexes/validation-matrix.json",
+      "to": "delivery:infrastructure:codinho-local-distribution",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.pose/indexes/validation-matrix.json",
       "to": "delivery:surface:codinho-cli",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:Makefile",
+      "to": "delivery:governance:codinho-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:Makefile",
+      "to": "delivery:infrastructure:codinho-local-distribution",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:README.md",
+      "to": "delivery:governance:codinho-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:README.md",
+      "to": "delivery:infrastructure:codinho-local-distribution",
       "type": "implemented-by"
     },
     {
@@ -3154,6 +3275,66 @@
     {
       "from": "artifact:cmd/codinho/integration_test.go",
       "to": "delivery:capability:codinho-tutor",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:cmd/codinho/smoke_test.go",
+      "to": "delivery:governance:codinho-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:cmd/codinho/smoke_test.go",
+      "to": "delivery:infrastructure:codinho-local-distribution",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/compatibility.md",
+      "to": "delivery:governance:codinho-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/compatibility.md",
+      "to": "delivery:infrastructure:codinho-local-distribution",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/configuration.md",
+      "to": "delivery:governance:codinho-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/configuration.md",
+      "to": "delivery:infrastructure:codinho-local-distribution",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/install.md",
+      "to": "delivery:governance:codinho-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/install.md",
+      "to": "delivery:infrastructure:codinho-local-distribution",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/quickstart.md",
+      "to": "delivery:governance:codinho-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/quickstart.md",
+      "to": "delivery:infrastructure:codinho-local-distribution",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/troubleshooting.md",
+      "to": "delivery:governance:codinho-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/troubleshooting.md",
+      "to": "delivery:infrastructure:codinho-local-distribution",
       "type": "implemented-by"
     },
     {
@@ -3289,6 +3470,16 @@
     {
       "from": "artifact:internal/mcpserver/session_tools.go",
       "to": "delivery:contract:codinho-mcp-v1",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:scripts/smoke-install.sh",
+      "to": "delivery:governance:codinho-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:scripts/smoke-install.sh",
+      "to": "delivery:infrastructure:codinho-local-distribution",
       "type": "implemented-by"
     },
     {
@@ -3524,86 +3715,6 @@
     {
       "from": "change-set:cs-0d0cb05af47c",
       "to": "artifact:internal/session/service.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-0d2d90c5c402",
-      "to": "artifact:.pose/indexes/validation-matrix.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-0d2d90c5c402",
-      "to": "artifact:.pose/results/delivery-validation.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-0d2d90c5c402",
-      "to": "artifact:.pose/specs/2026-08-22-reliability-observability-compatibility.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-0d2d90c5c402",
-      "to": "artifact:cmd/codinho/reliability_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-0d2d90c5c402",
-      "to": "artifact:docs/compatibility.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-0d2d90c5c402",
-      "to": "artifact:docs/troubleshooting.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-0d2d90c5c402",
-      "to": "artifact:internal/cli/doctor.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-0d2d90c5c402",
-      "to": "artifact:internal/cli/root.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-0d2d90c5c402",
-      "to": "artifact:internal/cli/root_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-0d2d90c5c402",
-      "to": "artifact:internal/diagnostics/doctor.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-0d2d90c5c402",
-      "to": "artifact:internal/diagnostics/doctor_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-0d2d90c5c402",
-      "to": "artifact:internal/diagnostics/process_unix.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-0d2d90c5c402",
-      "to": "artifact:internal/diagnostics/process_windows.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-0d2d90c5c402",
-      "to": "artifact:internal/mcpserver/logging.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-0d2d90c5c402",
-      "to": "artifact:internal/mcpserver/logging_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-0d2d90c5c402",
-      "to": "artifact:internal/mcpserver/server.go",
       "type": "changes"
     },
     {
@@ -6212,6 +6323,211 @@
       "type": "changes"
     },
     {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:.pose/assessments/README.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:.pose/assessments/consolidated.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:.pose/assessments/root.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:.pose/changelogs/unreleased/reliability-observability-compatibility.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:.pose/indexes/delivery-integrity.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:.pose/indexes/releases.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:.pose/indexes/spec-graph.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:.pose/indexes/validation-matrix.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:.pose/results/delivery-validation.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:.pose/review-attestations/rva-6e29ff49cd8298df.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:.pose/review-bundles/rvb-1b825d24df311ff0.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:.pose/specs/2026-08-22-reliability-observability-compatibility.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:.pose/state/components/root.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:.pose/state/project-state.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:cmd/codinho/reliability_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:docs/compatibility.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:docs/troubleshooting.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:internal/cli/doctor.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:internal/cli/root.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:internal/cli/root_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:internal/diagnostics/doctor.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:internal/diagnostics/doctor_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:internal/diagnostics/process_unix.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:internal/diagnostics/process_windows.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:internal/mcpserver/logging.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:internal/mcpserver/logging_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-cd2ac178ff4e",
+      "to": "artifact:internal/mcpserver/server.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f123337dd62b",
+      "to": "artifact:.agents/skills/codinho/references/codex-configuration.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f123337dd62b",
+      "to": "artifact:.github/workflows/ci.yml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f123337dd62b",
+      "to": "artifact:.github/workflows/release.yml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f123337dd62b",
+      "to": "artifact:.pose/indexes/validation-matrix.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f123337dd62b",
+      "to": "artifact:.pose/specs/2026-08-22-installation-documentation-ci.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f123337dd62b",
+      "to": "artifact:Makefile",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f123337dd62b",
+      "to": "artifact:README.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f123337dd62b",
+      "to": "artifact:cmd/codinho/smoke_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f123337dd62b",
+      "to": "artifact:docs/compatibility.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f123337dd62b",
+      "to": "artifact:docs/configuration.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f123337dd62b",
+      "to": "artifact:docs/install.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f123337dd62b",
+      "to": "artifact:docs/quickstart.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f123337dd62b",
+      "to": "artifact:docs/troubleshooting.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f123337dd62b",
+      "to": "artifact:scripts/smoke-install.sh",
+      "type": "changes"
+    },
+    {
       "from": "delivery:capability:codinho-tutor",
       "to": "entrypoint:.agents/skills/codinho/SKILL.md",
       "type": "composes"
@@ -6219,6 +6535,11 @@
     {
       "from": "delivery:capability:codinho-tutor",
       "to": "validation-result:./go/mcp-contract",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:codinho-tutor",
+      "to": "validation-result:./go/smoke-install",
       "type": "validated-by"
     },
     {
@@ -6248,6 +6569,11 @@
     },
     {
       "from": "delivery:contract:codinho-mcp-v1",
+      "to": "validation-result:./go/smoke-install",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:contract:codinho-mcp-v1",
       "to": "validation-result:./go/startup-budget",
       "type": "validated-by"
     },
@@ -6258,6 +6584,66 @@
     },
     {
       "from": "delivery:contract:codinho-mcp-v1",
+      "to": "validation-result:./go/tutor-skill-routing",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:governance:codinho-ci",
+      "to": "entrypoint:.github/workflows/ci.yml",
+      "type": "composes"
+    },
+    {
+      "from": "delivery:governance:codinho-ci",
+      "to": "validation-result:./go/mcp-contract",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:governance:codinho-ci",
+      "to": "validation-result:./go/smoke-install",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:governance:codinho-ci",
+      "to": "validation-result:./go/startup-budget",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:governance:codinho-ci",
+      "to": "validation-result:./go/stdout-purity",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:governance:codinho-ci",
+      "to": "validation-result:./go/tutor-skill-routing",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:infrastructure:codinho-local-distribution",
+      "to": "entrypoint:cmd/codinho/main.go",
+      "type": "composes"
+    },
+    {
+      "from": "delivery:infrastructure:codinho-local-distribution",
+      "to": "validation-result:./go/mcp-contract",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:infrastructure:codinho-local-distribution",
+      "to": "validation-result:./go/smoke-install",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:infrastructure:codinho-local-distribution",
+      "to": "validation-result:./go/startup-budget",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:infrastructure:codinho-local-distribution",
+      "to": "validation-result:./go/stdout-purity",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:infrastructure:codinho-local-distribution",
       "to": "validation-result:./go/tutor-skill-routing",
       "type": "validated-by"
     },
@@ -6278,6 +6664,11 @@
     },
     {
       "from": "entrypoint:.agents/skills/codinho/SKILL.md",
+      "to": "validation-result:./go/smoke-install",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:.agents/skills/codinho/SKILL.md",
       "to": "validation-result:./go/startup-budget",
       "type": "validated-by"
     },
@@ -6288,6 +6679,31 @@
     },
     {
       "from": "entrypoint:.agents/skills/codinho/SKILL.md",
+      "to": "validation-result:./go/tutor-skill-routing",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:.github/workflows/ci.yml",
+      "to": "validation-result:./go/mcp-contract",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:.github/workflows/ci.yml",
+      "to": "validation-result:./go/smoke-install",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:.github/workflows/ci.yml",
+      "to": "validation-result:./go/startup-budget",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:.github/workflows/ci.yml",
+      "to": "validation-result:./go/stdout-purity",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:.github/workflows/ci.yml",
       "to": "validation-result:./go/tutor-skill-routing",
       "type": "validated-by"
     },
@@ -6303,12 +6719,42 @@
     },
     {
       "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/mcp-contract",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/smoke-install",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/smoke-install",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/startup-budget",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
       "to": "validation-result:./go/startup-budget",
       "type": "validated-by"
     },
     {
       "from": "entrypoint:cmd/codinho/main.go",
       "to": "validation-result:./go/stdout-purity",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/stdout-purity",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/tutor-skill-routing",
       "type": "validated-by"
     },
     {
@@ -7208,6 +7654,11 @@
     },
     {
       "from": "spec:installation-documentation-ci",
+      "to": "artifact:.pose/indexes/validation-matrix.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:installation-documentation-ci",
       "to": "artifact:Makefile",
       "type": "declares"
     },
@@ -7218,7 +7669,7 @@
     },
     {
       "from": "spec:installation-documentation-ci",
-      "to": "artifact:docs/catalog-authoring.md",
+      "to": "artifact:cmd/codinho/smoke_test.go",
       "type": "declares"
     },
     {
@@ -7250,6 +7701,21 @@
       "from": "spec:installation-documentation-ci",
       "to": "artifact:scripts/smoke-install.sh",
       "type": "declares"
+    },
+    {
+      "from": "spec:installation-documentation-ci",
+      "to": "delivery:governance:codinho-ci",
+      "type": "delivers"
+    },
+    {
+      "from": "spec:installation-documentation-ci",
+      "to": "delivery:infrastructure:codinho-local-distribution",
+      "type": "delivers"
+    },
+    {
+      "from": "spec:installation-documentation-ci",
+      "to": "change-set:cs-f123337dd62b",
+      "type": "observed-by"
     },
     {
       "from": "spec:interview-mode",
@@ -7783,7 +8249,7 @@
     },
     {
       "from": "spec:reliability-observability-compatibility",
-      "to": "change-set:cs-0d2d90c5c402",
+      "to": "change-set:cs-cd2ac178ff4e",
       "type": "observed-by"
     },
     {
@@ -9161,7 +9627,7 @@
     {
       "spec": "installation-documentation-ci",
       "action": "created",
-      "path": "docs/catalog-authoring.md"
+      "path": "cmd/codinho/smoke_test.go"
     },
     {
       "spec": "installation-documentation-ci",
@@ -9187,6 +9653,11 @@
       "spec": "installation-documentation-ci",
       "action": "modified",
       "path": ".agents/skills/codinho/references/codex-configuration.md"
+    },
+    {
+      "spec": "installation-documentation-ci",
+      "action": "modified",
+      "path": ".pose/indexes/validation-matrix.json"
     },
     {
       "spec": "installation-documentation-ci",
@@ -10386,85 +10857,6 @@
         }
       ],
       "diff_digest": "sha256:c3a01733b1073e2758add9a03faf7b5eeb36228354a0b7e52c8f680d2d8fc5a8"
-    },
-    {
-      "id": "cs-0d2d90c5c402",
-      "spec": "reliability-observability-compatibility",
-      "selector": "trailers:reliability-observability-compatibility",
-      "base": "3c947c5514a77af6260e920bddd8df6715e8b096^",
-      "head": "3c947c5514a77af6260e920bddd8df6715e8b096",
-      "resolved_base": "1fb241eebad020bb249f9a142d6dc9bf4e2169e0",
-      "resolved_head": "3c947c5514a77af6260e920bddd8df6715e8b096",
-      "commits": [
-        "3c947c5514a77af6260e920bddd8df6715e8b096"
-      ],
-      "paths": [
-        {
-          "action": "created",
-          "path": "cmd/codinho/reliability_test.go"
-        },
-        {
-          "action": "created",
-          "path": "docs/compatibility.md"
-        },
-        {
-          "action": "created",
-          "path": "docs/troubleshooting.md"
-        },
-        {
-          "action": "created",
-          "path": "internal/diagnostics/doctor.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/diagnostics/doctor_test.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/diagnostics/process_unix.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/diagnostics/process_windows.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/mcpserver/logging.go"
-        },
-        {
-          "action": "created",
-          "path": "internal/mcpserver/logging_test.go"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/indexes/validation-matrix.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/results/delivery-validation.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-reliability-observability-compatibility.md"
-        },
-        {
-          "action": "modified",
-          "path": "internal/cli/doctor.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/cli/root.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/cli/root_test.go"
-        },
-        {
-          "action": "modified",
-          "path": "internal/mcpserver/server.go"
-        }
-      ],
-      "diff_digest": "sha256:fd7de5682cdcaea0cb5826004e917560879768b29fba6d4326f217b250e59d5b"
     },
     {
       "id": "cs-15b6a229ef87",
@@ -12855,6 +13247,202 @@
         }
       ],
       "diff_digest": "sha256:2630eee8e51bc2f84b881e57051a437ef05c9a358a72e39d1fcb27700a30c975"
+    },
+    {
+      "id": "cs-cd2ac178ff4e",
+      "spec": "reliability-observability-compatibility",
+      "selector": "trailers:reliability-observability-compatibility",
+      "base": "3c947c5514a77af6260e920bddd8df6715e8b096^",
+      "head": "3e9eaea3d8bc1dff136c4d01cd334ff950a02449",
+      "resolved_base": "1fb241eebad020bb249f9a142d6dc9bf4e2169e0",
+      "resolved_head": "3e9eaea3d8bc1dff136c4d01cd334ff950a02449",
+      "commits": [
+        "3c947c5514a77af6260e920bddd8df6715e8b096",
+        "3e9eaea3d8bc1dff136c4d01cd334ff950a02449"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": ".pose/changelogs/unreleased/reliability-observability-compatibility.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/review-attestations/rva-6e29ff49cd8298df.json"
+        },
+        {
+          "action": "created",
+          "path": ".pose/review-bundles/rvb-1b825d24df311ff0.json"
+        },
+        {
+          "action": "created",
+          "path": "cmd/codinho/reliability_test.go"
+        },
+        {
+          "action": "created",
+          "path": "docs/compatibility.md"
+        },
+        {
+          "action": "created",
+          "path": "docs/troubleshooting.md"
+        },
+        {
+          "action": "created",
+          "path": "internal/diagnostics/doctor.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/diagnostics/doctor_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/diagnostics/process_unix.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/diagnostics/process_windows.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/mcpserver/logging.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/mcpserver/logging_test.go"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/README.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/consolidated.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/root.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/delivery-integrity.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/releases.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/spec-graph.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/validation-matrix.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/results/delivery-validation.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-reliability-observability-compatibility.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/root.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/project-state.md"
+        },
+        {
+          "action": "modified",
+          "path": "internal/cli/doctor.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/cli/root.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/cli/root_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/server.go"
+        }
+      ],
+      "diff_digest": "sha256:23a990919015bd18bc6d6a5356076c5d035ac06db3d9598447ce60a67e4a76e9"
+    },
+    {
+      "id": "cs-f123337dd62b",
+      "spec": "installation-documentation-ci",
+      "selector": "trailers:installation-documentation-ci",
+      "base": "ddcda09a745a345f5ec5cedae790395dafbde2a9^",
+      "head": "004351e6d9f518781828533cb02d1beb10b0c911",
+      "resolved_base": "3e9eaea3d8bc1dff136c4d01cd334ff950a02449",
+      "resolved_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+      "commits": [
+        "ddcda09a745a345f5ec5cedae790395dafbde2a9",
+        "004351e6d9f518781828533cb02d1beb10b0c911"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": ".github/workflows/ci.yml"
+        },
+        {
+          "action": "created",
+          "path": ".github/workflows/release.yml"
+        },
+        {
+          "action": "created",
+          "path": "Makefile"
+        },
+        {
+          "action": "created",
+          "path": "cmd/codinho/smoke_test.go"
+        },
+        {
+          "action": "created",
+          "path": "docs/configuration.md"
+        },
+        {
+          "action": "created",
+          "path": "docs/install.md"
+        },
+        {
+          "action": "created",
+          "path": "docs/quickstart.md"
+        },
+        {
+          "action": "created",
+          "path": "scripts/smoke-install.sh"
+        },
+        {
+          "action": "modified",
+          "path": ".agents/skills/codinho/references/codex-configuration.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/validation-matrix.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-installation-documentation-ci.md"
+        },
+        {
+          "action": "modified",
+          "path": "README.md"
+        },
+        {
+          "action": "modified",
+          "path": "docs/compatibility.md"
+        },
+        {
+          "action": "modified",
+          "path": "docs/troubleshooting.md"
+        }
+      ],
+      "diff_digest": "sha256:5a71c3ef973b9b89e0aaeca57f893f968120a57a22265c4be33890e3af7c5bc1"
     }
   ],
   "reverse": {
@@ -12917,6 +13505,7 @@
     ".pose/indexes/validation-matrix.json": [
       "administrative-cli-fixtures",
       "go-runtime-foundation",
+      "installation-documentation-ci",
       "mcp-stdio-foundation",
       "reliability-observability-compatibility",
       "security-privacy-hardening",
@@ -12949,6 +13538,9 @@
     "cmd/codinho/reliability_test.go": [
       "reliability-observability-compatibility"
     ],
+    "cmd/codinho/smoke_test.go": [
+      "installation-documentation-ci"
+    ],
     "docs/acceptance/v1-pilot-report.md": [
       "v1-integrated-acceptance"
     ],
@@ -12957,9 +13549,6 @@
     ],
     "docs/acceptance/v1-requirement-matrix.md": [
       "v1-integrated-acceptance"
-    ],
-    "docs/catalog-authoring.md": [
-      "installation-documentation-ci"
     ],
     "docs/catalog/go-backend.md": [
       "go-backend-packs"
@@ -13848,24 +14437,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-176dc242bcea",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": ".agents/skills/codinho/references/codex-configuration.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-193e03bba500",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": "docs/compatibility.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-1be10b05ee2e",
       "code": "action-mismatch",
       "severity": "error",
@@ -13902,24 +14473,6 @@
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-2450befb20e7",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": "docs/catalog-authoring.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-2517b4441d2c",
-      "code": "existence",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": "Makefile",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-25869805728c",
       "code": "existence",
       "severity": "error",
@@ -13954,15 +14507,6 @@
       "path": "docs/acceptance/v1-requirement-matrix.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-2ddf5696313e",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": "scripts/smoke-install.sh",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
     },
     {
       "id": "dif-2f2ea862eeeb",
@@ -14028,15 +14572,6 @@
       "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-45da748cc3ce",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": ".github/workflows/ci.yml",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-45f6d391b15e",
       "code": "action-mismatch",
       "severity": "error",
@@ -14044,24 +14579,6 @@
       "path": "cmd/codinho/main.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "correct the action or record the exact attributed revisions"
-    },
-    {
-      "id": "dif-4741ec5345bc",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": "docs/quickstart.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-4e30eae5e246",
-      "code": "existence",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": "scripts/smoke-install.sh",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-506d9516a1ea",
@@ -14136,15 +14653,6 @@
       "remediation": "no Git change sets are attributed to spec go-interviews-pack (ensure commits carry 'POSE-Spec: go-interviews-pack' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-753eb10898d1",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": ".github/workflows/release.yml",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-78e3468ca9ce",
       "code": "action-mismatch",
       "severity": "error",
@@ -14161,15 +14669,6 @@
       "path": "tests/e2e/session-guided",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-7bcffebfc20d",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": "docs/install.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
     },
     {
       "id": "dif-7e564edb1121",
@@ -14262,15 +14761,6 @@
       "remediation": "no Git change sets are attributed to spec go-production-architecture-packs (ensure commits carry 'POSE-Spec: go-production-architecture-packs' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-9d98af273492",
-      "code": "existence",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": "docs/catalog-authoring.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-a351218dabec",
       "code": "existence",
       "severity": "error",
@@ -14289,24 +14779,6 @@
       "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-a707d7bc8a7f",
-      "code": "existence",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": "docs/quickstart.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-a8c10de9734b",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": "docs/configuration.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-a9b01103bf7a",
       "code": "action-mismatch",
       "severity": "error",
@@ -14314,15 +14786,6 @@
       "path": "packs/go-errors",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec go-foundations-packs (ensure commits carry 'POSE-Spec: go-foundations-packs' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-ad742df21080",
-      "code": "existence",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": ".github/workflows/release.yml",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-adabbf82bd6e",
@@ -14370,15 +14833,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-c1ae9ee55ca5",
-      "code": "existence",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": ".github/workflows/ci.yml",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-c3eb68d6226b",
       "code": "action-mismatch",
       "severity": "error",
@@ -14386,15 +14840,6 @@
       "path": "docs/catalog/go-production-architecture.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec go-production-architecture-packs (ensure commits carry 'POSE-Spec: go-production-architecture-packs' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-c4118d31e2a3",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": "docs/troubleshooting.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
     },
     {
       "id": "dif-c648ae6d8fca",
@@ -14478,33 +14923,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-e270eea0fa9d",
-      "code": "existence",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": "docs/configuration.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-e38a35acbe99",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": "README.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-e440b38bca16",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": "Makefile",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec installation-documentation-ci (ensure commits carry 'POSE-Spec: installation-documentation-ci' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-e79fc1d4805f",
       "code": "existence",
       "severity": "error",
@@ -14530,15 +14948,6 @@
       "path": "tests/e2e/installation",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-f7996239c3bc",
-      "code": "existence",
-      "severity": "error",
-      "spec": "installation-documentation-ci",
-      "path": "docs/install.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
     }
   ],
   "deliveries": [
@@ -14561,6 +14970,24 @@
       "entrypoint": "cmd/codinho/main.go"
     },
     {
+      "spec": "installation-documentation-ci",
+      "ref": "governance:codinho-ci",
+      "kind": "governance",
+      "id": "codinho-ci",
+      "module": ".github/workflows",
+      "profile": "release-governance",
+      "entrypoint": ".github/workflows/ci.yml"
+    },
+    {
+      "spec": "installation-documentation-ci",
+      "ref": "infrastructure:codinho-local-distribution",
+      "kind": "infrastructure",
+      "id": "codinho-local-distribution",
+      "module": "cmd/codinho",
+      "profile": "local-distribution",
+      "entrypoint": "cmd/codinho/main.go"
+    },
+    {
       "spec": "administrative-cli-fixtures",
       "ref": "surface:codinho-cli",
       "kind": "surface",
@@ -14578,9 +15005,9 @@
       "evidence_class": "build",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "3c947c5514a77af6260e920bddd8df6715e8b096",
-      "generated_at": "2026-08-23T14:17:43Z",
-      "provenance_digest": "sha256:7b590efc8dd07c9dee3c4a541f7b488d2b88d77495e332fa544d2f2d5c48c764",
+      "git_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+      "generated_at": "2026-08-23T14:27:32Z",
+      "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -14591,13 +15018,14 @@
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
+        "installation-documentation-ci": "sha256:97107887a6124da47131b1823eeaf554e8ac881f917eed0f450979d22f78aea4",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
-        "reliability-observability-compatibility": "sha256:bf2ab85cca94c577f971a01302ab64aeb915647404895b388a798457bc2ffba5",
+        "reliability-observability-compatibility": "sha256:19c11511b2a732584f4787c35bcd3d39e3a0ba209b3588c42cbc8f187a5172e0",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
@@ -14612,9 +15040,9 @@
       "evidence_class": "e2e",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "3c947c5514a77af6260e920bddd8df6715e8b096",
-      "generated_at": "2026-08-23T14:17:43Z",
-      "provenance_digest": "sha256:7b590efc8dd07c9dee3c4a541f7b488d2b88d77495e332fa544d2f2d5c48c764",
+      "git_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+      "generated_at": "2026-08-23T14:27:32Z",
+      "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -14625,13 +15053,14 @@
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
+        "installation-documentation-ci": "sha256:97107887a6124da47131b1823eeaf554e8ac881f917eed0f450979d22f78aea4",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
-        "reliability-observability-compatibility": "sha256:bf2ab85cca94c577f971a01302ab64aeb915647404895b388a798457bc2ffba5",
+        "reliability-observability-compatibility": "sha256:19c11511b2a732584f4787c35bcd3d39e3a0ba209b3588c42cbc8f187a5172e0",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
@@ -14646,9 +15075,9 @@
       "evidence_class": "reachability",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "3c947c5514a77af6260e920bddd8df6715e8b096",
-      "generated_at": "2026-08-23T14:17:43Z",
-      "provenance_digest": "sha256:7b590efc8dd07c9dee3c4a541f7b488d2b88d77495e332fa544d2f2d5c48c764",
+      "git_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+      "generated_at": "2026-08-23T14:27:32Z",
+      "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -14659,13 +15088,14 @@
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
+        "installation-documentation-ci": "sha256:97107887a6124da47131b1823eeaf554e8ac881f917eed0f450979d22f78aea4",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
-        "reliability-observability-compatibility": "sha256:bf2ab85cca94c577f971a01302ab64aeb915647404895b388a798457bc2ffba5",
+        "reliability-observability-compatibility": "sha256:19c11511b2a732584f4787c35bcd3d39e3a0ba209b3588c42cbc8f187a5172e0",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
@@ -14680,9 +15110,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "3c947c5514a77af6260e920bddd8df6715e8b096",
-      "generated_at": "2026-08-23T14:17:43Z",
-      "provenance_digest": "sha256:7b590efc8dd07c9dee3c4a541f7b488d2b88d77495e332fa544d2f2d5c48c764",
+      "git_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+      "generated_at": "2026-08-23T14:27:32Z",
+      "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -14693,13 +15123,49 @@
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
+        "installation-documentation-ci": "sha256:97107887a6124da47131b1823eeaf554e8ac881f917eed0f450979d22f78aea4",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
-        "reliability-observability-compatibility": "sha256:bf2ab85cca94c577f971a01302ab64aeb915647404895b388a798457bc2ffba5",
+        "reliability-observability-compatibility": "sha256:19c11511b2a732584f4787c35bcd3d39e3a0ba209b3588c42cbc8f187a5172e0",
+        "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
+        "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
+        "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
+        "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
+        "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
+      }
+    },
+    {
+      "id": "./go/smoke-install",
+      "module": ".",
+      "check": "smoke-install",
+      "evidence_class": "integration",
+      "severity": "required",
+      "outcome": "pass",
+      "git_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+      "generated_at": "2026-08-23T14:27:32Z",
+      "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
+      "report": ".pose/results/delivery-validation.json",
+      "scope_provenance": {
+        "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
+        "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
+        "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
+        "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
+        "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
+        "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+        "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
+        "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
+        "installation-documentation-ci": "sha256:97107887a6124da47131b1823eeaf554e8ac881f917eed0f450979d22f78aea4",
+        "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
+        "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
+        "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
+        "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
+        "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
+        "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
+        "reliability-observability-compatibility": "sha256:19c11511b2a732584f4787c35bcd3d39e3a0ba209b3588c42cbc8f187a5172e0",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
@@ -14714,9 +15180,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "3c947c5514a77af6260e920bddd8df6715e8b096",
-      "generated_at": "2026-08-23T14:17:43Z",
-      "provenance_digest": "sha256:7b590efc8dd07c9dee3c4a541f7b488d2b88d77495e332fa544d2f2d5c48c764",
+      "git_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+      "generated_at": "2026-08-23T14:27:32Z",
+      "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -14727,13 +15193,14 @@
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
+        "installation-documentation-ci": "sha256:97107887a6124da47131b1823eeaf554e8ac881f917eed0f450979d22f78aea4",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
-        "reliability-observability-compatibility": "sha256:bf2ab85cca94c577f971a01302ab64aeb915647404895b388a798457bc2ffba5",
+        "reliability-observability-compatibility": "sha256:19c11511b2a732584f4787c35bcd3d39e3a0ba209b3588c42cbc8f187a5172e0",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
@@ -14748,9 +15215,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "3c947c5514a77af6260e920bddd8df6715e8b096",
-      "generated_at": "2026-08-23T14:17:43Z",
-      "provenance_digest": "sha256:7b590efc8dd07c9dee3c4a541f7b488d2b88d77495e332fa544d2f2d5c48c764",
+      "git_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+      "generated_at": "2026-08-23T14:27:32Z",
+      "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -14761,13 +15228,14 @@
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
+        "installation-documentation-ci": "sha256:97107887a6124da47131b1823eeaf554e8ac881f917eed0f450979d22f78aea4",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
-        "reliability-observability-compatibility": "sha256:bf2ab85cca94c577f971a01302ab64aeb915647404895b388a798457bc2ffba5",
+        "reliability-observability-compatibility": "sha256:19c11511b2a732584f4787c35bcd3d39e3a0ba209b3588c42cbc8f187a5172e0",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
@@ -14782,9 +15250,9 @@
       "evidence_class": "unit",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "3c947c5514a77af6260e920bddd8df6715e8b096",
-      "generated_at": "2026-08-23T14:17:43Z",
-      "provenance_digest": "sha256:7b590efc8dd07c9dee3c4a541f7b488d2b88d77495e332fa544d2f2d5c48c764",
+      "git_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+      "generated_at": "2026-08-23T14:27:32Z",
+      "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -14795,13 +15263,14 @@
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
+        "installation-documentation-ci": "sha256:97107887a6124da47131b1823eeaf554e8ac881f917eed0f450979d22f78aea4",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
-        "reliability-observability-compatibility": "sha256:bf2ab85cca94c577f971a01302ab64aeb915647404895b388a798457bc2ffba5",
+        "reliability-observability-compatibility": "sha256:19c11511b2a732584f4787c35bcd3d39e3a0ba209b3588c42cbc8f187a5172e0",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
@@ -14816,9 +15285,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "3c947c5514a77af6260e920bddd8df6715e8b096",
-      "generated_at": "2026-08-23T14:17:43Z",
-      "provenance_digest": "sha256:7b590efc8dd07c9dee3c4a541f7b488d2b88d77495e332fa544d2f2d5c48c764",
+      "git_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+      "generated_at": "2026-08-23T14:27:32Z",
+      "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -14829,13 +15298,14 @@
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
+        "installation-documentation-ci": "sha256:97107887a6124da47131b1823eeaf554e8ac881f917eed0f450979d22f78aea4",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
-        "reliability-observability-compatibility": "sha256:bf2ab85cca94c577f971a01302ab64aeb915647404895b388a798457bc2ffba5",
+        "reliability-observability-compatibility": "sha256:19c11511b2a732584f4787c35bcd3d39e3a0ba209b3588c42cbc8f187a5172e0",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
@@ -14850,9 +15320,9 @@
       "evidence_class": "build",
       "severity": "optional",
       "outcome": "pass",
-      "git_head": "3c947c5514a77af6260e920bddd8df6715e8b096",
-      "generated_at": "2026-08-23T14:17:43Z",
-      "provenance_digest": "sha256:7b590efc8dd07c9dee3c4a541f7b488d2b88d77495e332fa544d2f2d5c48c764",
+      "git_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+      "generated_at": "2026-08-23T14:27:32Z",
+      "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -14863,13 +15333,14 @@
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
+        "installation-documentation-ci": "sha256:97107887a6124da47131b1823eeaf554e8ac881f917eed0f450979d22f78aea4",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
         "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
         "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
         "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
         "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
         "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
-        "reliability-observability-compatibility": "sha256:bf2ab85cca94c577f971a01302ab64aeb915647404895b388a798457bc2ffba5",
+        "reliability-observability-compatibility": "sha256:19c11511b2a732584f4787c35bcd3d39e3a0ba209b3588c42cbc8f187a5172e0",
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
@@ -14897,6 +15368,7 @@
       "delivery:capability:codinho-tutor",
       "entrypoint:.agents/skills/codinho/SKILL.md",
       "validation-result:./go/mcp-contract",
+      "validation-result:./go/smoke-install",
       "validation-result:./go/startup-budget",
       "validation-result:./go/stdout-purity",
       "validation-result:./go/tutor-skill-routing"
@@ -14920,6 +15392,53 @@
       "delivery:contract:codinho-mcp-v1",
       "entrypoint:cmd/codinho/main.go",
       "validation-result:./go/mcp-contract",
+      "validation-result:./go/smoke-install",
+      "validation-result:./go/startup-budget",
+      "validation-result:./go/stdout-purity",
+      "validation-result:./go/tutor-skill-routing"
+    ],
+    "governance:codinho-ci": [
+      "spec:installation-documentation-ci",
+      "artifact:.github/workflows/ci.yml",
+      "artifact:.github/workflows/release.yml",
+      "artifact:Makefile",
+      "artifact:cmd/codinho/smoke_test.go",
+      "artifact:docs/configuration.md",
+      "artifact:docs/install.md",
+      "artifact:docs/quickstart.md",
+      "artifact:scripts/smoke-install.sh",
+      "artifact:.agents/skills/codinho/references/codex-configuration.md",
+      "artifact:.pose/indexes/validation-matrix.json",
+      "artifact:README.md",
+      "artifact:docs/compatibility.md",
+      "artifact:docs/troubleshooting.md",
+      "delivery:governance:codinho-ci",
+      "entrypoint:.github/workflows/ci.yml",
+      "validation-result:./go/mcp-contract",
+      "validation-result:./go/smoke-install",
+      "validation-result:./go/startup-budget",
+      "validation-result:./go/stdout-purity",
+      "validation-result:./go/tutor-skill-routing"
+    ],
+    "infrastructure:codinho-local-distribution": [
+      "spec:installation-documentation-ci",
+      "artifact:.github/workflows/ci.yml",
+      "artifact:.github/workflows/release.yml",
+      "artifact:Makefile",
+      "artifact:cmd/codinho/smoke_test.go",
+      "artifact:docs/configuration.md",
+      "artifact:docs/install.md",
+      "artifact:docs/quickstart.md",
+      "artifact:scripts/smoke-install.sh",
+      "artifact:.agents/skills/codinho/references/codex-configuration.md",
+      "artifact:.pose/indexes/validation-matrix.json",
+      "artifact:README.md",
+      "artifact:docs/compatibility.md",
+      "artifact:docs/troubleshooting.md",
+      "delivery:infrastructure:codinho-local-distribution",
+      "entrypoint:cmd/codinho/main.go",
+      "validation-result:./go/mcp-contract",
+      "validation-result:./go/smoke-install",
       "validation-result:./go/startup-budget",
       "validation-result:./go/stdout-purity",
       "validation-result:./go/tutor-skill-routing"

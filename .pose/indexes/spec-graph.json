@@ -566,7 +566,7 @@
       ],
       "path": ".pose/specs/2026-08-22-installation-documentation-ci.md",
       "priority": 240,
-      "status": "draft"
+      "status": "in-progress"
     },
     "interview-mode": {
       "depends_on": [
@@ -641,7 +641,7 @@
       ],
       "path": ".pose/specs/2026-08-22-reliability-observability-compatibility.md",
       "priority": 230,
-      "status": "in-progress"
+      "status": "done"
     },
     "safe-check-executor": {
       "depends_on": [

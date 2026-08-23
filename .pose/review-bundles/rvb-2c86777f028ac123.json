@@ -1,0 +1,677 @@
+{
+  "schema_version": 1,
+  "bundle_id": "rvb-2c86777f028ac123",
+  "bundle_digest": "sha256:2c86777f028ac123362db148073bfcaabc27e12cec4f9ddbace400a03b72d81f",
+  "state": "sealed",
+  "sealed_at": "2026-08-23T14:27:40Z",
+  "payload": {
+    "scope": {
+      "ref": "spec:installation-documentation-ci",
+      "kind": "spec",
+      "slug": "installation-documentation-ci",
+      "depends_on": [
+        "administrative-cli-fixtures",
+        "catalog-authoring-quality",
+        "reliability-observability-compatibility",
+        "security-privacy-hardening",
+        "tutor-skill-host-integration"
+      ],
+      "components": [
+        "ci",
+        "distribution",
+        "documentation"
+      ],
+      "deliveries": [
+        "governance:codinho-ci",
+        "infrastructure:codinho-local-distribution"
+      ],
+      "sections": [
+        {
+          "kind": "semantic-section",
+          "path": "decisions",
+          "digest": "sha256:1783c6ff92e26e7b09814bb301cecfb7cc420e5ad2d1f096ec016b89620b02ca",
+          "reason": "governed semantic review input"
+        },
+        {
+          "kind": "semantic-section",
+          "path": "intent",
+          "digest": "sha256:020997ebc76941eaa14da50807b2adcaabb9beeff299b29daa91e5ea57e4d288",
+          "reason": "governed semantic review input"
+        },
+        {
+          "kind": "semantic-section",
+          "path": "requirements",
+          "digest": "sha256:529aee391bfabe6dcab32cff0635e151b98ebaa646b8c468b7792098b1d08259",
+          "reason": "governed semantic review input"
+        },
+        {
+          "kind": "semantic-section",
+          "path": "technical plan",
+          "digest": "sha256:540a8fa55a42db3fd5842dae3377edef98bbfab2be164671085832b6d6ed0caf",
+          "reason": "governed semantic review input"
+        }
+      ]
+    },
+    "subject": {
+      "change_sets": [
+        "cs-f123337dd62b"
+      ],
+      "base": "3e9eaea3d8bc1dff136c4d01cd334ff950a02449",
+      "head": "004351e6d9f518781828533cb02d1beb10b0c911",
+      "patch_digest": "sha256:d02d9a592e48da2a3847d4bebfb748b6dd68592be73658c4ab3b648571493f18",
+      "tree_digest": "sha256:2114be7b358355f5cc2c17341b065f9756775cdf52ff9b7558824aaef0025907",
+      "entries": [
+        {
+          "action": "created",
+          "path": ".github/workflows/ci.yml",
+          "class": "implementation",
+          "digest": "sha256:7f8795c47e49fe0f61cf210de2e7f64895db1b4acce0fc2e4faac1d1b931e731",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": ".github/workflows/release.yml",
+          "class": "implementation",
+          "digest": "sha256:7a76de76c30e20e4b4b88ec823b25e3af4c304e26063ca756b864bb9bf0e5e5e",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "Makefile",
+          "class": "governance",
+          "digest": "sha256:75e528d02ae85f761a7468176f8f22651379649a5b208615cac7f140aafd6638",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "cmd/codinho/smoke_test.go",
+          "class": "implementation",
+          "digest": "sha256:934ec4733069f70f70eadb072aa33b8f8b0ec0b7db96960f513d3d613a5cbdcc",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "docs/configuration.md",
+          "class": "documentation",
+          "digest": "sha256:5e10b1e9761d892cd4ceffad4ee063dce9c8dc268391141ddb6dd3da72cf30d2",
+          "reason": "attributed documentation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "docs/install.md",
+          "class": "documentation",
+          "digest": "sha256:97caf5cfd89f1cbbd072c6a347b219fc7f247a08cc24be98b517424b2916a319",
+          "reason": "attributed documentation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "docs/quickstart.md",
+          "class": "documentation",
+          "digest": "sha256:03ad31b0622244eae3caaae1706fb8dd785d54e052fa75979d7ac814887db19e",
+          "reason": "attributed documentation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "scripts/smoke-install.sh",
+          "class": "implementation",
+          "digest": "sha256:a6732398de421710793908ae28b09982210972d6821fb4486ef07b9d88cec3c0",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": ".agents/skills/codinho/references/codex-configuration.md",
+          "class": "governance",
+          "digest": "sha256:b9005381df1bc804f500a5a7470a357521bfd7253d20744c37495153c3df86ad",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/validation-matrix.json",
+          "class": "governance",
+          "digest": "sha256:a31d7c948f1e11c66a77abf202ae9b103ec09832f44d5dc33aeba21443df564b",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "README.md",
+          "class": "documentation",
+          "digest": "sha256:4afb5d9b3a573182281cbea68615596004e7d55ab3d4ea9bdf2faad4b17c3445",
+          "reason": "attributed documentation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "docs/compatibility.md",
+          "class": "documentation",
+          "digest": "sha256:edea709c840420411e5b165857ac773ecca2b4dcaf445d8dd3fbbbe12dd81689",
+          "reason": "attributed documentation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "docs/troubleshooting.md",
+          "class": "documentation",
+          "digest": "sha256:afc26b633994854c419ec61adf38d511d9400cd166d05ac409ad229c3b9f4dbf",
+          "reason": "attributed documentation path in the immutable change set"
+        }
+      ]
+    },
+    "plan": {
+      "plan_digest": "sha256:9629772835aeea1da5f07a119586d41f0d89c512496aa1bbe3791878949f0455",
+      "independence": "same-actor-separate-execution",
+      "components": [
+        {
+          "id": "cmd",
+          "path": "cmd",
+          "kind": "directory",
+          "sources": [
+            "artifact:installation-documentation-ci:cmd/codinho/smoke_test.go",
+            "delivery:infrastructure:codinho-local-distribution:cmd/codinho",
+            "delivery:infrastructure:codinho-local-distribution:cmd/codinho/main.go",
+            "observed:installation-documentation-ci:cmd/codinho/smoke_test.go"
+          ]
+        },
+        {
+          "id": "scripts",
+          "path": "scripts",
+          "kind": "directory",
+          "sources": [
+            "artifact:installation-documentation-ci:scripts/smoke-install.sh",
+            "observed:installation-documentation-ci:scripts/smoke-install.sh"
+          ]
+        }
+      ],
+      "criteria": [
+        {
+          "id": "compatibility",
+          "description": "Public CLI, file and MCP contracts are compatible or explicitly migrated.",
+          "required": true,
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "correctness",
+          "description": "Functional and negative behavior is correct.",
+          "required": true,
+          "evidence_classes": [
+            "test",
+            "validation"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "cross-component-integration",
+          "description": "Observed component boundaries and contracts are integrated and covered by current evidence.",
+          "required": true,
+          "evidence_classes": [
+            "integration"
+          ],
+          "profiles": [
+            "synthetic:cross-component"
+          ]
+        },
+        {
+          "id": "documentation",
+          "description": "Operational docs, templates and scaffold match runtime behavior.",
+          "required": true,
+          "rules": [
+            "documentation-style"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "operability",
+          "description": "Errors, explanations and remediation are actionable.",
+          "required": true,
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "requirements",
+          "description": "Every requirement has current, relevant evidence.",
+          "required": true,
+          "evidence_classes": [
+            "requirement-trace",
+            "test"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "scope",
+          "description": "The implementation matches the approved spec scope.",
+          "required": true,
+          "rules": [
+            "documentation-style"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "security",
+          "description": "Inputs, paths, evidence and authority boundaries are safe.",
+          "required": true,
+          "rules": [
+            "security"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        }
+      ],
+      "tools": [
+        {
+          "id": "artifact-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "artifact-check",
+            "--spec",
+            "installation-documentation-ci",
+            "--strict"
+          ],
+          "rationale": "reconcile declared artifacts with Git-observed provenance",
+          "criteria": [
+            "requirements",
+            "scope"
+          ],
+          "preconditions": [
+            "artifacts-attributed"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            "cmd"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": "cmd",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            "scripts"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": "scripts",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-integrate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "assess",
+            "integrate"
+          ],
+          "rationale": "inspect providers, consumers and inter-component contract gaps",
+          "evidence_classes": [
+            "integration"
+          ],
+          "criteria": [
+            "cross-component-integration"
+          ],
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-tech-debt",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "tech-debt"
+          ],
+          "rationale": "inspect unresolved TODO, FIXME, panic and stub findings",
+          "criteria": [
+            "correctness"
+          ],
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "closeout-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "closeout-check",
+            "spec:installation-documentation-ci"
+          ],
+          "rationale": "verify remaining hierarchical closeout blockers",
+          "preconditions": [
+            "review-complete"
+          ]
+        },
+        {
+          "id": "review-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "review-check",
+            "spec:installation-documentation-ci"
+          ],
+          "rationale": "verify exact review-plan coverage and freshness",
+          "preconditions": [
+            "review-complete"
+          ]
+        },
+        {
+          "id": "skills-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "skills-check",
+            "--strict"
+          ],
+          "rationale": "verify distributed skill and workflow conformance",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            "cmd"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": "cmd",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            "scripts"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": "scripts",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "validation"
+          ],
+          "criteria": [
+            "correctness",
+            "requirements"
+          ],
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            "cmd"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "validation"
+          ],
+          "component": "cmd",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            "scripts"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "validation"
+          ],
+          "component": "scripts",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        }
+      ]
+    },
+    "evidence": [
+      {
+        "id": "./go/build",
+        "module": ".",
+        "check": "build",
+        "evidence_class": "build",
+        "outcome": "pass",
+        "git_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+        "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/cli-e2e",
+        "module": ".",
+        "check": "cli-e2e",
+        "evidence_class": "e2e",
+        "outcome": "pass",
+        "git_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+        "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/cli-reachability",
+        "module": ".",
+        "check": "cli-reachability",
+        "evidence_class": "reachability",
+        "outcome": "pass",
+        "git_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+        "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/mcp-contract",
+        "module": ".",
+        "check": "mcp-contract",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+        "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/smoke-install",
+        "module": ".",
+        "check": "smoke-install",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+        "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/startup-budget",
+        "module": ".",
+        "check": "startup-budget",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+        "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/stdout-purity",
+        "module": ".",
+        "check": "stdout-purity",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+        "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/test",
+        "module": ".",
+        "check": "test",
+        "evidence_class": "unit",
+        "outcome": "pass",
+        "git_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+        "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/tutor-skill-routing",
+        "module": ".",
+        "check": "tutor-skill-routing",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "004351e6d9f518781828533cb02d1beb10b0c911",
+        "provenance_digest": "sha256:0db271b46c0aea287fe1e22917e719cdc16325f77e31e6d5f224c60f104f5fe8",
+        "report": ".pose/results/delivery-validation.json"
+      }
+    ],
+    "consumed_inputs": [
+      {
+        "kind": "governed-config",
+        "path": ".pose/indexes/validation-matrix.json",
+        "digest": "sha256:a31d7c948f1e11c66a77abf202ae9b103ec09832f44d5dc33aeba21443df564b",
+        "reason": "consumed review policy or validation contract"
+      },
+      {
+        "kind": "governed-config",
+        "path": ".pose/policy/review.json",
+        "digest": "sha256:89a78e6ec6e1806414c669e66239831b593c08b9a182e36fae119bccecd28b5e",
+        "reason": "consumed review policy or validation contract"
+      },
+      {
+        "kind": "review-plan",
+        "path": "spec-closeout@1",
+        "digest": "sha256:9629772835aeea1da5f07a119586d41f0d89c512496aa1bbe3791878949f0455",
+        "reason": "effective component-aware plan contract"
+      },
+      {
+        "kind": "review-profile",
+        "path": ".pose/review-profiles/spec-closeout.json",
+        "digest": "sha256:de13c1d59e485aaf4cb474a8c2836507447c44dc7090cbdc2de589fa75c6cc92",
+        "reason": "selected by effective review plan"
+      },
+      {
+        "kind": "rule",
+        "path": ".pose/rules/documentation-style.md",
+        "digest": "sha256:5c5c666fc6c796cf9ae3876d25d3fd4fa523d121892459dc0d681d73da1d60ae",
+        "reason": "selected by effective review criterion"
+      },
+      {
+        "kind": "rule",
+        "path": ".pose/rules/security.md",
+        "digest": "sha256:1cbf29c12d09cad0799e2d8715e94f84a49ee8fa09867bb5f12a544f8df43774",
+        "reason": "selected by effective review criterion"
+      },
+      {
+        "kind": "schema",
+        "path": "review-bundle@1",
+        "digest": "sha256:e7c9643ec88eccb2a6dea3ee3291c351983d78e1d2fa44b61399514c5021bcb0",
+        "reason": "canonical bundle and attestation schema identity"
+      },
+      {
+        "kind": "tool-catalog",
+        "path": "native-review-tools@1",
+        "digest": "sha256:9629772835aeea1da5f07a119586d41f0d89c512496aa1bbe3791878949f0455",
+        "reason": "closed resolved native tool contract"
+      }
+    ]
+  },
+  "excluded_inputs": [
+    {
+      "kind": "derived-section",
+      "path": "final report",
+      "digest": "sha256:a6ebd91d5ebb004e995f12b440ef20b38de36ce77246884f6eccb603d1c4e032",
+      "reason": "operational closeout content is verified by its own gate"
+    },
+    {
+      "kind": "derived-section",
+      "path": "tasks",
+      "digest": "sha256:4453340f4ed31065653b290f874db3ecacf3182b20f74a890dc917392a6daab8",
+      "reason": "operational closeout content is verified by its own gate"
+    },
+    {
+      "kind": "derived-section",
+      "path": "validation",
+      "digest": "sha256:96538187f465c9364b8a29b7b5dacdb9a09119d73c9ed01b1815091f8fbb7d82",
+      "reason": "operational closeout content is verified by its own gate"
+    },
+    {
+      "kind": "lifecycle",
+      "path": "/home/go/GolandProjects/ai-code-micro-learning/.pose/specs/2026-08-22-installation-documentation-ci.md",
+      "reason": "status and completed_at do not define the reviewed semantic subject"
+    },
+    {
+      "kind": "semantic-scope",
+      "path": ".pose/specs/2026-08-22-installation-documentation-ci.md",
+      "reason": "attributed path is outside the semantic review subject"
+    }
+  ],
+  "warnings": [
+    "unmapped review component explicit:ci",
+    "unmapped review component explicit:distribution",
+    "unmapped review component explicit:documentation",
+    "unmapped review component path:.agents/skills/codinho/references/codex-configuration.md",
+    "unmapped review component path:.github/workflows",
+    "unmapped review component path:.github/workflows/ci.yml",
+    "unmapped review component path:.github/workflows/release.yml",
+    "unmapped review component path:.pose/indexes/validation-matrix.json",
+    "unmapped review component path:Makefile",
+    "unmapped review component path:README.md",
+    "unmapped review component path:docs/compatibility.md",
+    "unmapped review component path:docs/configuration.md",
+    "unmapped review component path:docs/install.md",
+    "unmapped review component path:docs/quickstart.md",
+    "unmapped review component path:docs/troubleshooting.md"
+  ],
+  "path": ".pose/review-bundles/rvb-2c86777f028ac123.json"
+}

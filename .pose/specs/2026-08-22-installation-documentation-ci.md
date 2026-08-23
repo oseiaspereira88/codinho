@@ -1,8 +1,8 @@
 ---
 slug: installation-documentation-ci
-status: in-progress
+status: done
 created_at: 2026-08-22
-completed_at:
+completed_at: 2026-08-23
 supersedes:
 depends_on: tutor-skill-host-integration, administrative-cli-fixtures, catalog-authoring-quality, security-privacy-hardening, reliability-observability-compatibility
 priority: 240

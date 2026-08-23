@@ -2,19 +2,27 @@
   "schema_version": 1,
   "component_slug": "root",
   "path": ".",
-  "discovered_at": "2026-08-22T06:23:49Z",
-  "baseline_commit": "b904fa917a77",
+  "discovered_at": "2026-08-23T04:00:17Z",
+  "baseline_commit": "c1e10cedb432",
   "metrics": {
-    "loc_production": 0,
-    "loc_tests": 0,
-    "total_files": 0,
-    "languages": null
+    "loc_production": 4310,
+    "loc_tests": 3491,
+    "total_files": 67,
+    "languages": [
+      "go"
+    ]
   },
   "technical_debt": {
     "todos": 0,
     "fixmes": 0,
     "panics": 0,
     "stubs": 0
+  },
+  "metadata": {
+    "criticality": "high",
+    "domain": "runtime",
+    "owner": "@oseiaspereira",
+    "validationProfile": "baseline"
   },
   "status": "verified",
   "completeness_score": 1

@@ -1,6 +1,14 @@
 {
   "pending": [
     {
+      "spec": "assistance-hints-detours",
+      "category": "added",
+      "breaking": false,
+      "body": "`codinho serve` now supports the assistance ladder and conceptual detours:\n`hint_request` delivers progressively deeper hints (up to a commented\nsolution, which requires explicit confirmation), `syntax_recall_get`\noffers a lighter-cost syntax reminder, `concept_content_get` returns\ncanonical concept records, and `learning_detour_start`/\n`learning_detour_finish` let the learner ask a side question without\nlosing their place.",
+      "path": "assistance-hints-detours.md",
+      "digest": "sha256:5a54ef2fa2d73da9883b1d77e094366987522cdaa2fd231a078b17e4dd77590c"
+    },
+    {
       "spec": "mcp-stdio-foundation",
       "category": "added",
       "breaking": false,

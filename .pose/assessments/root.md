@@ -1,9 +1,9 @@
 # Component Assessment: root (`.`)
 
 > **Mapeamento de Módulo POSE**: `.`
-> **Data de Avaliação**: 2026-08-22T06:23:49Z | **Baseline Commit**: b904fa917a77
-> **Métricas**: 0 LOC Produção | 0 LOC Testes | 0 Arquivos Totais
-> **Linguagens**: n/a
+> **Data de Avaliação**: 2026-08-23T04:00:17Z | **Baseline Commit**: c1e10cedb432
+> **Métricas**: 4310 LOC Produção | 3491 LOC Testes | 67 Arquivos Totais
+> **Linguagens**: go
 > **Saúde de Código**: 0 TODOs | 0 FIXMEs | 0 Panics | 0 Stubs
 
 ---

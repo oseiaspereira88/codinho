@@ -4,3 +4,4 @@
 {"at":"2026-08-22T19:52:21Z","trigger":"spec_closeout","target":"architecture-decision-baseline","dedup_key":"95ee1075af7821c4","consumer":"state-refresh","result":"ok","duration_ms":5,"changed_sections":["Specs \u0026 Roadmaps","Validação \u0026 Evidência"]}
 {"at":"2026-08-22T19:52:46Z","trigger":"spec_closeout","target":"architecture-decision-baseline","dedup_key":"95ee1075af7821c4","consumer":"state-refresh","result":"skipped","duration_ms":0}
 {"at":"2026-08-23T01:04:46Z","trigger":"spec_closeout","target":"mcp-stdio-foundation","dedup_key":"b255cfcc0bbc4fe2","consumer":"state-refresh","result":"ok","duration_ms":5,"changed_sections":["Specs \u0026 Roadmaps","Validação \u0026 Evidência"]}
+{"at":"2026-08-23T04:01:25Z","trigger":"spec_closeout","target":"feedback-evaluation-progression","dedup_key":"d4b276ccbbea5fd1","consumer":"state-refresh","result":"ok","duration_ms":4,"changed_sections":["Specs \u0026 Roadmaps","Validação \u0026 Evidência"]}

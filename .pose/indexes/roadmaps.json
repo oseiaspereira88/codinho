@@ -20,6 +20,7 @@
             "learning-domain-model",
             "catalog-schema-loader",
             "local-event-store",
+            "eventstore-idempotency-scope",
             "mcp-stdio-foundation"
           ]
         },

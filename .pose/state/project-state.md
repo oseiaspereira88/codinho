@@ -1,7 +1,7 @@
 ---
 schema_version: 1
-generated_at: 2026-08-23T01:04:46Z
-baseline_commit: 5f6aeba6793b851d5b1726df28c2483d3bb10742
+generated_at: 2026-08-23T04:01:25Z
+baseline_commit: c1e10cedb4324ecafbefd5083feb14c2a0c9537a
 staleness_policy: max_age_days=7,max_commits=20
 refresh_pending: 
 ---
@@ -26,17 +26,17 @@ hardening e aceite final condicionados aos gates definidos pelas respectivas
 specs.
 
 ## Specs & Roadmaps
-<!-- state:derived hash:f25a4f0a2a06 -->
+<!-- state:derived hash:63e702e33686 -->
 
-- specs: total=26 draft=20 in-progress=0 blocked=0 done=6 superseded=0 abandoned=0
+- specs: total=27 draft=18 in-progress=0 blocked=0 done=9 superseded=0 abandoned=0
 - roadmaps: total=1 active=1 done=0
 - últimos closeouts:
+  - spec:assistance-hints-detours (2026-08-23)
+  - spec:feedback-evaluation-progression (2026-08-23)
   - spec:local-event-store (2026-08-23)
   - spec:mcp-stdio-foundation (2026-08-23)
-  - spec:architecture-decision-baseline (2026-08-22)
-  - spec:catalog-schema-loader (2026-08-22)
-  - spec:go-runtime-foundation (2026-08-22)
-  - ... e mais 1 (ver `pose_list_specs status:done`)
+  - spec:session-orchestration-disclosure (2026-08-23)
+  - ... e mais 4 (ver `pose_list_specs status:done`)
 
 ## Follow-ups
 <!-- state:derived hash:8acb74144df3 -->
@@ -57,21 +57,25 @@ specs.
 - knowledge: total=0 ativo=0 expirado=0
 
 ## Validação & Evidência
-<!-- state:derived hash:955dff733a6c -->
+<!-- state:derived hash:d453798f36e8 -->
 
-- último registro: task=fundacao-go-executavel-do-codinho outcome=pass (2026-08-22T23:18:45Z)
-- últimos 30 dias: total=11 outcome_ok=10 outcome_outro=1
-- reports revisados (.md): total=6
-  - report:2026-08-22-standard-fundacao-go-executavel-do-codinho.md
-  - report:2026-08-22-standard-validate-native.md
-  - report:2026-08-22-standard-registrar-baseline-de-decis-es-arquiteturais-4-adrs.md
-  - report:2026-08-22-standard-create-complete-codinho-v1-spec-portfolio.md
-  - report:2026-08-22-codinho-v1-spec-coverage.md
+- último registro: task=validate-native outcome=pass (2026-08-23T03:58:17Z)
+- últimos 30 dias: total=14 outcome_ok=13 outcome_outro=1
+- reports revisados (.md): total=8
+  - report:2026-08-23-standard-validate-native.md
+  - report:2026-08-23-standard-fechar-feedback-evaluation-progression.md
+  - report:2026-08-22-doc-audit-initialize-pose-governance-for-ailearn.md
+  - report:2026-08-22-standard-fundacao-go-executavel-do-ailearn.md
+  - report:2026-08-22-standard-create-complete-ailearn-v1-spec-portfolio.md
 
 ## Arquitetura
-<!-- state:derived hash:26bc9a5cafff status:unavailable -->
+<!-- state:derived hash:86312984933d status:active -->
 
-GraphForge export local ainda não é publicado por nenhum produtor neste repositório; seção indisponível nesta versão (spec pose-project-state-artifact, Não-objetivos e Compatibilidade).
+- componentes: total=1 verificados=1 completude=100.0%
+- linhas_de_codigo: producao=4310 testes=3491 total=7801
+- linguagens: go
+- saude_de_codigo: TODOs=0 FIXMEs=0 panics=0 stubs=0
+- ultimos_assessments: ver artefatos em .pose/assessments/ e .pose/state/
 
 ## Docs
 <!-- state:derived hash:d5892e1cac69 -->

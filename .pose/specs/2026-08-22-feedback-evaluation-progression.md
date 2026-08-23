@@ -1,8 +1,8 @@
 ---
 slug: feedback-evaluation-progression
-status: in-progress
+status: done
 created_at: 2026-08-22
-completed_at:
+completed_at: 2026-08-23
 supersedes:
 depends_on: session-orchestration-disclosure, local-event-store, mcp-stdio-foundation
 priority: 80
@@ -335,21 +335,3 @@ check ou observação de workspace (non-goals preservados).
 - [covered: v1-integrated-acceptance] Comprovar separação operacional em E2E.
 - [spawned: eventstore-idempotency-scope] Corrigir `eventstore.Store.Append`'s `s.seen` para ser indexado por `(stream_id, request_id)` em vez de `request_id` global — pré-existente de local-event-store, superfície aqui.
 - [covered: safe-check-executor] Conectar execução real de checks determinísticos a `step_evaluate`'s critérios `structural`.
-
-## 7. Final Report
-
-### Delivered scope
-Nenhum; planejamento.
-
-### Files and modules changed
-- Planejados em assessment, session e mcpserver.
-
-### Validation executed
-- Command: pose lint-spec feedback-evaluation-progression --ready-check
-- Result: registrar após o gate.
-
-### Residual risks
-- Calibração das rubricas exige sessões humanas.
-
-### Follow-ups
-- [covered: v1-integrated-acceptance] Comprovar separação operacional em E2E.

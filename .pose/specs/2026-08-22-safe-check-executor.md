@@ -4,7 +4,7 @@ status: draft
 created_at: 2026-08-22
 completed_at:
 supersedes:
-depends_on: catalog-schema-loader, workspace-observation-baselines
+depends_on: catalog-schema-loader, workspace-observation-baselines, feedback-evaluation-progression
 priority: 100
 components: checks, workspace, mcp-server
 delivers:
@@ -41,6 +41,7 @@ Gerar evidência objetiva sem oferecer ao agente uma ferramenta de shell arbitr�
 - R7: Vincular resultado à revisão do workspace e marcar evidência obsoleta quando necessário.
 - R8: Retornar pass, fail, error ou skipped sem confundir falha de infra com falha do aluno.
 - R9: Expor check_run sem parâmetro de comando livre.
+- R10: Alimentar o critério `structural` de `step_evaluate` (feedback-evaluation-progression) com o resultado real do check (pass/fail/error/skipped), substituindo a derivação por mera presença de evidência (Decision 2 de feedback-evaluation-progression) por um verdict determinístico baseado na execução.
 
 ### Non-functional
 - Um check cancelado não pode deixar processo filho.
@@ -96,6 +97,7 @@ Nenhum novo; amplia o contrato MCP V1 planejado.
 - [ ] Implementar process-group cancellation.
 - [ ] Implementar política de rede e ambiente.
 - [ ] Expor check_run e eventos.
+- [ ] Conectar resultado do check ao critério `structural` de `step_evaluate` (R10).
 
 ### Validation
 - [ ] Executar testes adversariais em todos os inputs.
@@ -131,7 +133,7 @@ Usar binaries de fixture controlados para simular ataques e estados de processo.
 - Nenhum executor entregue.
 
 ### Requirement trace
-- Mapear R1–R9 a checks de segurança, lifecycle e contrato.
+- Mapear R1–R10 a checks de segurança, lifecycle e contrato.
 
 ### Known gaps
 - Isolamento forte para código adversarial está fora da V1.

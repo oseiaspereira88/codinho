@@ -1,0 +1,54 @@
+# POSE Report - 2026-08-23
+
+## Report Type
+- standard
+
+## Task
+- validate-native
+- Task slug: validate-native
+
+## Outcome
+- Outcome: pass (source: manual)
+
+## Rules Applied
+- _Not provided_
+
+## Files Changed
+- pose/indexes/delivery-integrity.json
+- .pose/reports/history/standard-fechar-feedback-evaluation-progression.jsonl
+- .pose/reports/history/standard-validate-native.jsonl
+- .pose/specs/2026-08-22-feedback-evaluation-progression.md
+- .pose/specs/2026-08-22-safe-check-executor.md
+- .pose/specs/2026-08-22-v1-integrated-acceptance.md
+- .pose/reports/2026-08-23-standard-fechar-feedback-evaluation-progression.md
+- .pose/reports/2026-08-23-standard-validate-native.md
+
+## Validation Commands
+- _Fill manually_
+
+## Results
+- _No validation output detected_
+
+## Execution Metadata
+- Generated at (UTC): 2026-08-23T03:58:17Z
+- Context: auto-validate
+- Validation profile: strict
+- Sequence for task/spec: 8
+- Stable comparison hash: 5b47855e60f64e73728abd99582eb01357a94f0c289ad7fa9125d680a322e54f
+
+## Historical Comparison
+- Previous execution: 2026-08-23T03:57:21Z
+- Status: stable
+- Stable field diffs:
+- _No changes in stable fields_
+
+## Risks
+- _No risks provided_
+
+## Follow-ups
+- _Add next steps if needed._
+
+## Human Review Needed
+- [ ] Review functional impact
+- [ ] Review validation coverage
+- [ ] Approve merge

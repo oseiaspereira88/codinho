@@ -57,6 +57,10 @@
       "to": "mastery-review-scheduling"
     },
     {
+      "from": "eventstore-idempotency-scope",
+      "to": "local-event-store"
+    },
+    {
       "from": "feedback-evaluation-progression",
       "to": "session-orchestration-disclosure"
     },
@@ -253,6 +257,10 @@
       "to": "workspace-observation-baselines"
     },
     {
+      "from": "safe-check-executor",
+      "to": "feedback-evaluation-progression"
+    },
+    {
       "from": "security-privacy-hardening",
       "to": "mcp-stdio-foundation"
     },
@@ -447,7 +455,7 @@
       ],
       "path": ".pose/specs/2026-08-22-assistance-hints-detours.md",
       "priority": 70,
-      "status": "in-progress"
+      "status": "done"
     },
     "catalog-authoring-quality": {
       "depends_on": [
@@ -478,6 +486,14 @@
       "priority": 120,
       "status": "draft"
     },
+    "eventstore-idempotency-scope": {
+      "depends_on": [
+        "local-event-store"
+      ],
+      "path": ".pose/specs/2026-08-23-eventstore-idempotency-scope.md",
+      "priority": 15,
+      "status": "draft"
+    },
     "feedback-evaluation-progression": {
       "depends_on": [
         "session-orchestration-disclosure",
@@ -486,7 +502,7 @@
       ],
       "path": ".pose/specs/2026-08-22-feedback-evaluation-progression.md",
       "priority": 80,
-      "status": "draft"
+      "status": "in-progress"
     },
     "go-backend-packs": {
       "depends_on": [
@@ -626,7 +642,8 @@
     "safe-check-executor": {
       "depends_on": [
         "catalog-schema-loader",
-        "workspace-observation-baselines"
+        "workspace-observation-baselines",
+        "feedback-evaluation-progression"
       ],
       "path": ".pose/specs/2026-08-22-safe-check-executor.md",
       "priority": 100,

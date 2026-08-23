@@ -44,6 +44,7 @@ Evitar declarar conclusão com componentes isolados, conteúdo contado ou docume
 - R10: Reconciliar todos os critérios de aceite e Definition of Done da seção 30 e 37 de PROJECT.md.
 - R11: Produzir relatório de piloto com sessões reais e limitações, sem dados pessoais.
 - R12: Preparar bundle de revisão, attestation independente, surface checks, roadmap check e plano de release.
+- R13: Comprovar em E2E a separação operacional entre feedback/avaliação (feedback-evaluation-progression) e execução de checks/observação de workspace (safe-check-executor, workspace-observation-baselines) — nenhuma avaliação deve depender de execução implícita de código do aluno, e nenhum check deve concluir ou avançar um passo por conta própria.
 
 ### Non-functional
 - Todas as evidências devem ser atuais, reproduzíveis e ligadas a commit.
@@ -137,7 +138,7 @@ Executar matriz bidirecional requisito versus evidência em candidato imutável,
 - Nenhum aceite executado e nenhuma prontidão declarada.
 
 ### Requirement trace
-- Mapear R1–R12 e cada critério de PROJECT.md a check, test, report, surface e commit.
+- Mapear R1–R13 e cada critério de PROJECT.md a check, test, report, surface e commit.
 
 ### Known gaps
 - Retenção de 30 dias pode exigir janela real; se ausente, a V1 não deve alegar esse resultado.

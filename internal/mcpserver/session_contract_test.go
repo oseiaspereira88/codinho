@@ -286,6 +286,116 @@ func TestContractLearnerNextStepProposeRejectsUnknownStep(t *testing.T) {
 	}
 }
 
+func TestContractInterviewStatusAndTimeout(t *testing.T) {
+	cs := newNestedContractClient(t)
+	ctx := context.Background()
+
+	res, err := cs.CallTool(ctx, &mcp.CallToolParams{Name: "session_start", Arguments: map[string]any{
+		"challenge_id": fixtureChallengeID, "mode": "interview", "time_limit_seconds": 1,
+	}})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	start := decodeEnvelope(t, res)
+	if start.Status != "ok" {
+		t.Fatalf("session_start failed: %+v", start)
+	}
+
+	statusRes, err := cs.CallTool(ctx, &mcp.CallToolParams{Name: "interview_status", Arguments: map[string]any{"session_id": start.SessionID}})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	status := decodeEnvelope(t, statusRes)
+	if status.Status != "ok" {
+		t.Fatalf("interview_status failed: %+v", status)
+	}
+	data, ok := status.Data.(map[string]any)
+	if !ok {
+		t.Fatalf("interview_status data is not an object: %+v", status.Data)
+	}
+	if _, ok := data["time_limit_seconds"]; !ok {
+		t.Fatalf("interview_status did not echo time_limit_seconds: %+v", data)
+	}
+}
+
+func TestContractSessionFinishAcceptsReasonAndInterviewReportReadsItBack(t *testing.T) {
+	cs := newNestedContractClient(t)
+	ctx := context.Background()
+	start := startFixtureSession(t, cs)
+	rev := revisionOf(t, start)
+
+	finishRes, err := cs.CallTool(ctx, &mcp.CallToolParams{Name: "session_finish", Arguments: map[string]any{
+		"session_id": start.SessionID, "reason": "timeout", "expected_revision": rev,
+	}})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	finished := decodeEnvelope(t, finishRes)
+	if finished.Status != "ok" {
+		t.Fatalf("session_finish failed: %+v", finished)
+	}
+
+	reportRes, err := cs.CallTool(ctx, &mcp.CallToolParams{Name: "interview_report", Arguments: map[string]any{"session_id": start.SessionID}})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	report := decodeEnvelope(t, reportRes)
+	if report.Status != "ok" {
+		t.Fatalf("interview_report failed: %+v", report)
+	}
+	data, ok := report.Data.(map[string]any)
+	if !ok {
+		t.Fatalf("interview_report data is not an object: %+v", report.Data)
+	}
+	if data["finish_reason"] != "timeout" {
+		t.Fatalf("finish_reason = %v, want timeout", data["finish_reason"])
+	}
+	if note, _ := data["integrity_note"].(string); note == "" {
+		t.Fatal("expected a non-empty integrity_note")
+	}
+}
+
+func TestContractHintRequestBlockedByPolicyIsRecorded(t *testing.T) {
+	cs := newNestedContractClient(t)
+	ctx := context.Background()
+
+	res, err := cs.CallTool(ctx, &mcp.CallToolParams{Name: "session_start", Arguments: map[string]any{
+		"challenge_id": fixtureChallengeID, "mode": "interview",
+	}})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	start := decodeEnvelope(t, res)
+	rev := revisionOf(t, start)
+
+	hintRes, err := cs.CallTool(ctx, &mcp.CallToolParams{Name: "hint_request", Arguments: map[string]any{
+		"session_id": start.SessionID, "expected_revision": rev,
+	}})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if !hintRes.IsError {
+		t.Fatal("interview mode's default help policy (no_hints) should block hint_request")
+	}
+
+	reportRes, err := cs.CallTool(ctx, &mcp.CallToolParams{Name: "interview_report", Arguments: map[string]any{"session_id": start.SessionID}})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	report := decodeEnvelope(t, reportRes)
+	data, ok := report.Data.(map[string]any)
+	if !ok {
+		t.Fatalf("interview_report data is not an object: %+v", report.Data)
+	}
+	hints, ok := data["hints"].(map[string]any)
+	if !ok {
+		t.Fatalf("interview_report hints is not an object: %+v", data)
+	}
+	if blocked, _ := hints["Blocked"].(float64); blocked != 1 {
+		t.Fatalf("hints.Blocked = %v, want 1", hints["Blocked"])
+	}
+}
+
 func TestContractGranularityAdjustRequiresDepth(t *testing.T) {
 	cs := newNestedContractClient(t)
 	ctx := context.Background()

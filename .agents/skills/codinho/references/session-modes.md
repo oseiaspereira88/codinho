@@ -13,7 +13,7 @@ um iniciante pode pedir `exploration` num desafio inteiro.
 | `review` | Revisar algo já dominado, possivelmente citado por `review_due` | `meso` / `limited` / 1 / `on_step_complete` | Menos explicação, mais avaliação direta; boa hora para citar `mastery_evidence_record` com `dimension: retention`. |
 | `debug` | "Meu código não funciona, me ajuda a achar o erro" | `macro` / `progressive` / 3 (estrutura lógica, nunca pseudocódigo) / `on_demand` | Nunca corrija diretamente (regra 3) nem revele a causa antes do aluno formular uma hipótese (PROJECT.md §8.2). Siga o protocolo de 6 estágios abaixo e use `check_run` real — o aluno encontra o bug, não você. Boa hora para `dimension: debugging` em `mastery_evidence_record`. |
 | `exploration` | Explorar um desafio inteiro sem compromisso com conclusão | `layer` / `free` / 3 / `on_demand` | Sem obrigação de tentativa ou avanço (PROJECT.md §8.2) — feedback livre, menos pressão por `step_complete`. |
-| `interview` | Simular uma entrevista técnica | `challenge` / `no_hints` / 0 / `only_at_end` | Comportamento específico de interview-mode (spec futura); estes são só os defaults de dimensão que a sessão usa até aquela spec configurar o protocolo completo (briefing, cronômetro, rubrica). |
+| `interview` | Simular uma entrevista técnica | `challenge` / `no_hints` (ou `limited`, se a política escolhida permitir pistas registradas) / 0 / `only_at_end` | Ver protocolo completo abaixo. |
 
 Cada `session_start` pode sobrescrever qualquer campo explicitamente —
 o modo só fornece o ponto de partida (PROJECT.md §8.3: as sete
@@ -40,6 +40,35 @@ Um desafio `kind: debug` traz seu código inicial (com o bug) declarado
 em `fixture` (administrative-cli-fixtures); use `codinho workspace
 prepare <challenge-id> --dest <path>` para materializá-lo antes de
 iniciar a sessão — nunca escreva esse código você mesmo.
+
+### Protocolo de entrevista (`mode: interview`)
+
+PROJECT.md §9.5. Ordem obrigatória:
+
+1. **Briefing**: apresente o desafio e os critérios públicos (`brief`,
+   `acceptance`) por inteiro — é a única vez que tanta informação é
+   revelada de uma vez, exatamente porque é o briefing.
+2. **Cronômetro opcional**: se a sessão tem `time_limit`, informe a
+   duração ao aluno. Consulte `interview_status` periodicamente
+   (`elapsed_seconds`/`timed_out`), nunca calcule tempo você mesmo.
+3. **Sem decomposição durante a execução**: não ofereça `hint_request`
+   proativamente nem quebre o desafio em passos menores — a política de
+   auxílio (`no_hints` ou `limited`) já decide o que é permitido; se o
+   aluno pedir e a política bloquear, o pedido é registrado
+   automaticamente como bloqueado (nunca revele o motivo detalhado do
+   bloqueio além de "sua política de entrevista não permite pistas
+   agora").
+4. **Somente checks previstos**: só rode `check_run` para checks já
+   declarados no desafio, como em qualquer sessão.
+5. **Encerramento**: aluno encerra explicitamente (`session_finish` com
+   `reason: "explicit"`) ou por timeout (`interview_status.timed_out`
+   → `session_finish` com `reason: "timeout"`).
+6. **Relatório ao final**: chame `interview_report` — código, raciocínio,
+   testes, complexidade e comunicação avaliados de forma descritiva
+   (nunca um score único). Sempre repasse `integrity_note` ao aluno:
+   esta é uma simulação local, sem vigilância e sem vínculo com processo
+   seletivo ou banco de questões real (PROJECT.md §22, Constraint desta
+   spec).
 
 ### Granularidade adaptativa e explicação obrigatória
 

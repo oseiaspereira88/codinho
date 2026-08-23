@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"sync"
 	"sync/atomic"
+	"time"
 
 	"github.com/oseiaspereira88/codinho/internal/assessment"
 	"github.com/oseiaspereira88/codinho/internal/assistance"
@@ -139,7 +140,11 @@ type StartInput struct {
 	Help          learning.HelpPolicyKind
 	DisclosureMax learning.DisclosureLevel
 	Evaluation    learning.EvaluationPolicyKind
-	RequestID     string // idempotency key for retries (requirement R7, R8)
+	// TimeLimit fixes an optional duration at session start (interview-mode
+	// requirement R1: "duração"); nil means off, matching
+	// learning.SessionPolicy.TimeLimit's own zero value.
+	TimeLimit *time.Duration
+	RequestID string // idempotency key for retries (requirement R7, R8)
 }
 
 // StartResult is what Start returns on success.
@@ -198,7 +203,7 @@ func (s *Service) Start(in StartInput) (StartResult, error) {
 	if evaluation == "" {
 		evaluation = defaults.Evaluation
 	}
-	policy, err := learning.NewSessionPolicy(mode, depth, help, disclosureMax, evaluation, learning.AdvanceExplicit, nil)
+	policy, err := learning.NewSessionPolicy(mode, depth, help, disclosureMax, evaluation, learning.AdvanceExplicit, in.TimeLimit)
 	if err != nil {
 		return StartResult{}, err
 	}
@@ -409,9 +414,11 @@ func (s *Service) Resume(id learning.SessionID, expectedRevision uint64, request
 }
 
 // Finish transitions an active session to completed without inferring
-// completion from step state (requirement R5).
+// completion from step state (requirement R5). It always records an
+// empty reason; call FinishWithReason directly to record why (e.g.
+// interview-mode's explicit-vs-timeout distinction).
 func (s *Service) Finish(id learning.SessionID, expectedRevision uint64, requestID string) (LifecycleResult, error) {
-	return s.transitionLifecycle(id, expectedRevision, requestID, eventstore.EventSessionFinished, learning.SessionStateCompleted)
+	return s.FinishWithReason(id, "", expectedRevision, requestID)
 }
 
 func (s *Service) transitionLifecycle(id learning.SessionID, expectedRevision uint64, requestID string, eventType eventstore.EventType, to learning.SessionState) (LifecycleResult, error) {

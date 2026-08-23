@@ -81,7 +81,7 @@ por muitas mensagens.
 
 - `references/tutor-contract.md` — as 16 regras expandidas com
   exemplos corretos/incorretos e defesa contra prompt injection.
-- `references/mcp-tool-routing.md` — quando chamar cada uma das 30
+- `references/mcp-tool-routing.md` — quando chamar cada uma das 32
   tools do contrato MCP v1, em que ordem, e o que fazer com cada
   `progress_effect`.
 - `references/feedback-rubric.md` — critérios de `rubric://idiomatic-go`
@@ -95,3 +95,5 @@ por muitas mensagens.
 - `assets/session-summary-template.md` — modelo para resumir uma
   sessão ao final (competências praticadas, evidências, próxima
   revisão vencida).
+- `assets/interview-report-template.md` — modelo para o relatório de
+  uma sessão `mode: interview`, a partir de `interview_report`.

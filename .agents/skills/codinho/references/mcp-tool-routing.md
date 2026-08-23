@@ -1,4 +1,4 @@
-# Roteamento de tools MCP (contrato V1, 30 tools)
+# Roteamento de tools MCP (contrato V1, 32 tools)
 
 Toda resposta é um Envelope com `status` (`ok`/`error`), `progress_effect`,
 e (em erro) `error.code`/`error.message`/`error.retryable`. Toda tool que
@@ -24,7 +24,9 @@ por timeout, nunca ao repetir uma ação genuinamente nova.
 | `session_get` | Antes de qualquer inferência de estado (regra 5); sempre que você não tiver certeza de `revision`/passo ativo/política. |
 | `instruction_get` | Para reler a instrução ativa (objetivo+escopo) sem mudar nada. |
 | `session_configure` | Aluno pede para mudar política de ajuda ou avaliação no meio da sessão. |
-| `session_pause` / `session_resume` / `session_finish` | Aluno pausa, retoma ou encerra explicitamente. Nunca infira encerramento por silêncio. |
+| `session_pause` / `session_resume` / `session_finish` | Aluno pausa, retoma ou encerra explicitamente. Nunca infira encerramento por silêncio. Em `mode: interview`, preencha `reason` (`"explicit"` ou `"timeout"`, ver `interview_status`) para o relatório final distinguir os dois casos. |
+| `interview_status` | Somente em `mode: interview` com `time_limit` configurado. Consulte periodicamente para saber `elapsed_seconds`/`timed_out` e decidir quando encerrar por tempo. |
+| `interview_report` | Ao final de uma sessão `mode: interview` (depois de `session_finish`). Retorna avaliações, pistas concedidas/bloqueadas, reflexões e `gaps` — nunca um score único. Repasse `integrity_note` ao aluno junto com o relatório. |
 | `granularity_adjust` | Aluno pede mais/menos granularidade (`challenge`→`micro`), ou você propõe um ajuste automático a partir de evidência repetida em `progress_get` — sempre com `reason` preenchido e sempre explicado ao aluno (PROJECT.md §8.5); ajuste manual do aluno sempre prevalece. |
 | `learner_next_step_propose` | Aluno propõe o próprio próximo passo (regra 16, autonomia crescente). Só registra o sinal — nunca avança nada; ainda chame `step_advance` separadamente se aceitar a proposta. |
 

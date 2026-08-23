@@ -2,6 +2,7 @@ package mcpserver
 
 import (
 	"context"
+	"errors"
 
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 	"github.com/oseiaspereira88/codinho/internal/application"
@@ -71,6 +72,12 @@ func registerAssistanceTools(server *mcp.Server, sessions *application.SessionSe
 		}
 		result, err := sessions.HintRequest(learning.SessionID(args.SessionID), args.ConfirmSolution, args.ExpectedRevision, args.RequestID)
 		if err != nil {
+			if errors.Is(err, application.ErrHelpDisabled) {
+				// Record the blocked attempt without revealing anything
+				// (PROJECT.md §9.5, interview-mode requirement R4); the
+				// caller still sees the same error either way.
+				_ = sessions.RecordBlockedHintAttempt(learning.SessionID(args.SessionID))
+			}
 			code, msg, retryable := mapError(err)
 			return errorResult(), errorEnvelope(requestID, code, msg, retryable, nil), nil
 		}

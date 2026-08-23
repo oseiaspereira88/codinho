@@ -109,6 +109,20 @@ type ChallengeAuthoring struct {
 	// Variants hold alternate phrasings reserved for reuse (e.g. interview
 	// mode) and are excluded from default catalog queries (requirement R6).
 	Variants []string `yaml:"variants"`
+	// Fixture lists starter files this challenge ships (e.g. buggy code for
+	// a debug challenge). It is authored inline, like every other field, so
+	// it is versioned and reviewed the same way as the rest of the
+	// challenge; the administrative CLI's workspace-prepare command is the
+	// only thing that ever materializes it onto disk (administrative-cli-
+	// fixtures requirement R6).
+	Fixture []FixtureFileAuthoring `yaml:"fixture"`
+}
+
+// FixtureFileAuthoring is one file a workspace-prepare command materializes
+// verbatim into the learner's chosen destination.
+type FixtureFileAuthoring struct {
+	Path    string `yaml:"path"`
+	Content string `yaml:"content"`
 }
 
 // CompetencyRefs distinguishes the competency a challenge primarily

@@ -1,6 +1,8 @@
 package curriculum
 
 import (
+	"path"
+	"path/filepath"
 	"sort"
 	"strings"
 )
@@ -20,6 +22,8 @@ const (
 	DiagCriteriaWithoutEvidence   DiagnosticCode = "criteria_without_evidence"
 	DiagUnknownRelationKind       DiagnosticCode = "unknown_relation_kind"
 	DiagRelationCycle             DiagnosticCode = "relation_cycle"
+	DiagInvalidFixturePath        DiagnosticCode = "invalid_fixture_path"
+	DiagDuplicateFixturePath      DiagnosticCode = "duplicate_fixture_path"
 )
 
 // Diagnostic reports one finding with the file, item and field it came
@@ -125,6 +129,7 @@ func Validate(packs []Pack) []Diagnostic {
 			for _, layer := range ch.Layers {
 				validateSteps(p.File, ch.ID, layer.MacroSteps, concepts, &diags)
 			}
+			diags = append(diags, validateFixture(p.File, ch)...)
 		}
 	}
 
@@ -169,6 +174,30 @@ func validateRelations(packs []Pack, themes, concepts, competencies, challenges 
 		}
 	}
 	diags = append(diags, detectRelationCycles(deps)...)
+	return diags
+}
+
+// validateFixture rejects any fixture file whose authored path is empty,
+// absolute, or escapes the destination via ".." (administrative-cli-
+// fixtures requirement R5: the same guarantee the CLI's workspace-prepare
+// command re-checks at materialization time, caught here at author time
+// too so a bad pack never even loads) and any duplicate path within one
+// challenge.
+func validateFixture(file string, ch ChallengeAuthoring) []Diagnostic {
+	var diags []Diagnostic
+	seen := map[string]bool{}
+	for _, f := range ch.Fixture {
+		clean := path.Clean(filepath.ToSlash(f.Path))
+		if f.Path == "" || path.IsAbs(clean) || clean == "." || clean == ".." || strings.HasPrefix(clean, "../") {
+			diags = append(diags, Diagnostic{File: file, Item: ch.ID, Field: "fixture", Code: DiagInvalidFixturePath, Detail: f.Path, Blocking: true})
+			continue
+		}
+		if seen[clean] {
+			diags = append(diags, Diagnostic{File: file, Item: ch.ID, Field: "fixture", Code: DiagDuplicateFixturePath, Detail: clean, Blocking: true})
+			continue
+		}
+		seen[clean] = true
+	}
 	return diags
 }
 

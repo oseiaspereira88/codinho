@@ -20,9 +20,15 @@ Usage:
   codinho <command>
 
 Commands:
-  version   Print version and build information
-  doctor    Diagnose the local installation
-  help      Show this help message
+  serve      Start the MCP server over stdio
+  init       Scaffold an empty workspace (packs/manifest.yaml)
+  doctor     Diagnose the local installation
+  version    Print version and build information
+  catalog    Validate, list and show curriculum items
+  session    Inspect a session's recorded event history
+  progress   Show and export recomputed mastery projections
+  workspace  Materialize a challenge's starter fixture (prepare)
+  help       Show this help message
 `
 
 // Run dispatches args to the matching command and returns the process exit
@@ -41,10 +47,30 @@ func Run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 	}
 
 	switch args[0] {
+	case "serve":
+		// The real entry point (cmd/codinho) intercepts "serve" before
+		// calling Run, because the MCP stdio transport must own the
+		// process's real stdout/stderr directly rather than the writers
+		// passed here (main.go: "reserving stdout exclusively for the
+		// protocol"). This case only exists so Run never reports "serve"
+		// as an unknown command when a caller other than main.go passes
+		// it here.
+		fmt.Fprintln(stderr, "codinho: serve must be launched by the codinho binary directly (codinho serve), not through this dispatcher")
+		return exitError
+	case "init":
+		return runInit(args[1:], stdout, stderr)
 	case "version":
 		return runVersion(stdout)
 	case "doctor":
 		return runDoctor(stdout)
+	case "catalog":
+		return runCatalog(args[1:], stdout, stderr)
+	case "session":
+		return runSession(args[1:], stdout, stderr)
+	case "progress":
+		return runProgress(args[1:], stdout, stderr)
+	case "workspace":
+		return runWorkspace(args[1:], stdout, stderr)
 	case "help", "-h", "--help":
 		fmt.Fprint(stdout, usage)
 		return exitOK

@@ -41,6 +41,9 @@ Permitir que a mesma árvore curricular atenda perfis e intenções diferentes s
 - R7: Na exploração, permitir feedback livre sem obrigação de tentativa ou avanço.
 - R8: Adaptar granularidade por evidência repetida e explicar toda mudança.
 - R9: Permitir que o aluno proponha o próximo passo e registrar a autonomia.
+- R10: Autorar ao menos um desafio `kind: debug` com `fixture` (campo
+  entregue por administrative-cli-fixtures) e validar `workspace
+  prepare` de ponta a ponta com o conteúdo real desse desafio.
 
 ### Non-functional
 - Políticas devem ser versionadas e testáveis por matriz.
@@ -65,6 +68,7 @@ Permitir que a mesma árvore curricular atenda perfis e intenções diferentes s
 - modified: internal/mastery/scheduler.go
 - modified: .agents/skills/codinho/references/session-modes.md
 - created: testdata/host/mode-transcripts/
+- created: packs/go-debugging.yaml (desafio(s) `kind: debug` com `fixture`, requirement R10)
 
 ### Delivery targets
 Nenhum novo; amplia a capability de tutoria planejada.

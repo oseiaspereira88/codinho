@@ -17,6 +17,7 @@ const (
 	ErrCodeStepNotCompletable       ErrorCode = "step_not_completable"
 	ErrCodeAdvanceNotAllowed        ErrorCode = "advance_not_allowed"
 	ErrCodeDisclosureExceeded       ErrorCode = "disclosure_exceeded"
+	ErrCodeHintLevelSkipped         ErrorCode = "hint_level_skipped"
 )
 
 // DomainError is a typed, comparable error. Two DomainError values are equal

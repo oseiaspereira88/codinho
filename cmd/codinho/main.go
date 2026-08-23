@@ -74,7 +74,8 @@ func runServe(ctx context.Context, stderr *os.File) error {
 
 	catalogService := application.NewCatalogService(catalog)
 	sessionService := application.NewSessionService(catalogService, store)
+	assistanceService := application.NewAssistanceService(catalogService)
 
-	server := mcpserver.New(mcpserver.Deps{Catalog: catalogService, Session: sessionService}, stderr)
+	server := mcpserver.New(mcpserver.Deps{Catalog: catalogService, Session: sessionService, Assistance: assistanceService}, stderr)
 	return mcpserver.Run(ctx, server, &mcp.StdioTransport{})
 }

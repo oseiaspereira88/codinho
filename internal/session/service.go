@@ -11,6 +11,7 @@ import (
 	"sync"
 	"sync/atomic"
 
+	"github.com/oseiaspereira88/codinho/internal/assistance"
 	"github.com/oseiaspereira88/codinho/internal/curriculum"
 	"github.com/oseiaspereira88/codinho/internal/eventstore"
 	"github.com/oseiaspereira88/codinho/internal/learning"
@@ -32,6 +33,14 @@ var ErrChallengeHasNoSteps = errors.New("session: challenge has no steps")
 // node at the requested depth (e.g. the challenge authored no layers).
 var ErrNoWindowAtDepth = errors.New("session: no window available at that depth")
 
+// ErrNoActiveStep is returned when a session exists but currently has no
+// active instructional step to grant a hint against.
+var ErrNoActiveStep = errors.New("session: no active instructional step")
+
+// ErrNoOpenDetour is returned when DetourFinish is called and the session
+// has never opened a detour.
+var ErrNoOpenDetour = errors.New("session: no open detour for this session")
+
 type record struct {
 	session     *learning.LearningSession
 	challengeID string
@@ -46,19 +55,30 @@ type Service struct {
 	catalog *curriculum.Catalog
 	store   *eventstore.Store
 
-	mu           sync.Mutex
-	sessions     map[learning.SessionID]*record
-	startResults map[string]StartResult
-	nextID       atomic.Uint64
+	mu            sync.Mutex
+	sessions      map[learning.SessionID]*record
+	startResults  map[string]StartResult
+	hintResults   map[string]HintResult
+	detourResults map[string]DetourResult
+	nextID        atomic.Uint64
+}
+
+// idempotencyKey scopes a request_id to its session, matching the
+// eventstore's own (streamID, requestID) scoping, so two sessions reusing
+// the same client-chosen request_id never collide.
+func idempotencyKey(id learning.SessionID, requestID string) string {
+	return string(id) + "\x00" + requestID
 }
 
 // New wires a Service to its catalog and event store.
 func New(catalog *curriculum.Catalog, store *eventstore.Store) *Service {
 	return &Service{
-		catalog:      catalog,
-		store:        store,
-		sessions:     map[learning.SessionID]*record{},
-		startResults: map[string]StartResult{},
+		catalog:       catalog,
+		store:         store,
+		sessions:      map[learning.SessionID]*record{},
+		startResults:  map[string]StartResult{},
+		hintResults:   map[string]HintResult{},
+		detourResults: map[string]DetourResult{},
 	}
 }
 
@@ -418,4 +438,211 @@ func (s *Service) GranularityAdjust(id learning.SessionID, depth learning.Depth,
 		rec.depth = depth
 	}
 	return GranularityResult{StepID: window.StepID, Kind: window.Kind, Revision: ev.Revision}, nil
+}
+
+// HintResult is what HintRequest and SyntaxRecallGet return: enough
+// structured context (level, kind, objective, scope, concepts) for the
+// calling tutor agent to author the actual pista text within the
+// authorized envelope, without this server writing prose itself
+// (non-goal: "redigir explicações abertas dentro do MCP").
+type HintResult struct {
+	StepID    learning.StepID
+	Level     learning.DisclosureLevel
+	Kind      string
+	Objective string
+	Scope     string
+	Concepts  []string
+	Revision  uint64
+}
+
+// activeWindow resolves id's active step and its authored content. Callers
+// must already hold s.mu.
+func (s *Service) activeWindow(id learning.SessionID) (*record, *learning.StepProgress, curriculum.StepAuthoring, error) {
+	rec, ok := s.sessions[id]
+	if !ok {
+		return nil, nil, curriculum.StepAuthoring{}, ErrSessionNotFound
+	}
+	active := rec.session.ActiveStep()
+	if active == nil {
+		return nil, nil, curriculum.StepAuthoring{}, ErrNoActiveStep
+	}
+	challenge, err := s.challenge(rec.challengeID)
+	if err != nil {
+		return nil, nil, curriculum.StepAuthoring{}, err
+	}
+	step, ok := findStep(challenge, string(active.StepID))
+	if !ok {
+		return nil, nil, curriculum.StepAuthoring{}, ErrNotFound
+	}
+	return rec, active, step, nil
+}
+
+// HintRequest grants the next disclosure rung for id's active step,
+// climbing the ladder by at most one level per call and enforcing the
+// session's disclosure cap and the explicit confirmation reaching the
+// solution requires (requirement R1, R2, R3, R7; PROJECT.md §8.4).
+func (s *Service) HintRequest(id learning.SessionID, confirmSolution bool, expectedRevision uint64, requestID string) (HintResult, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	if requestID != "" {
+		if cached, ok := s.hintResults[idempotencyKey(id, requestID)]; ok {
+			return cached, nil
+		}
+	}
+
+	rec, active, step, err := s.activeWindow(id)
+	if err != nil {
+		return HintResult{}, err
+	}
+	next, kind, err := assistance.NextHint(step, active.HintLevel, rec.session.Policy.Help.Kind, confirmSolution)
+	if err != nil {
+		return HintResult{}, err
+	}
+	result, err := s.grantDisclosure(id, rec, active, step, next, kind, false, false, expectedRevision, requestID)
+	if err != nil {
+		return HintResult{}, err
+	}
+	if requestID != "" {
+		s.hintResults[idempotencyKey(id, requestID)] = result
+	}
+	return result, nil
+}
+
+// SyntaxRecallGet returns the step's authored syntax-recall rung, if any
+// (RF-022). In teaching mode it is free: it does not climb the ladder or
+// count as a consumed hint, only recording usage for audit (PROJECT.md
+// §8.4 "custo menor no modo ensino"); in every other mode it consumes the
+// ladder up to that rung like a targeted hint grant.
+func (s *Service) SyntaxRecallGet(id learning.SessionID, expectedRevision uint64, requestID string) (HintResult, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	if requestID != "" {
+		if cached, ok := s.hintResults[idempotencyKey(id, requestID)]; ok {
+			return cached, nil
+		}
+	}
+
+	rec, active, step, err := s.activeWindow(id)
+	if err != nil {
+		return HintResult{}, err
+	}
+	if rec.session.Policy.Help.Kind == learning.HelpNoHints {
+		return HintResult{}, assistance.ErrHelpDisabled
+	}
+	level, ok := assistance.SyntaxRecallLevel(step)
+	if !ok {
+		return HintResult{}, assistance.ErrNoHintAuthored
+	}
+	free := rec.session.Policy.Mode == learning.ModeTeaching
+	result, err := s.grantDisclosure(id, rec, active, step, level, assistance.KindSyntaxRecall, true, free, expectedRevision, requestID)
+	if err != nil {
+		return HintResult{}, err
+	}
+	if requestID != "" {
+		s.hintResults[idempotencyKey(id, requestID)] = result
+	}
+	return result, nil
+}
+
+// grantDisclosure appends the hint/solution event and, on a fresh (non-
+// replay) call, applies the ladder mutation in memory. direct selects
+// GrantDirect (syntax_recall_get, which targets a specific rung out of
+// ladder order) over GrantHint (hint_request's one-rung-at-a-time climb).
+// Callers must already hold s.mu.
+func (s *Service) grantDisclosure(id learning.SessionID, rec *record, active *learning.StepProgress, step curriculum.StepAuthoring, level learning.DisclosureLevel, kind string, direct, free bool, expectedRevision uint64, requestID string) (HintResult, error) {
+	eventType := eventstore.EventHintRequested
+	payload := map[string]any{"step_id": string(active.StepID), "level": int(level), "kind": kind, "free": free}
+	if level == learning.DisclosureSolution {
+		eventType = eventstore.EventSolutionRevealed
+		payload["needs_variant"] = true
+	}
+
+	ev, fresh, err := s.mutate(id, expectedRevision, requestID, eventType, payload)
+	if err != nil {
+		return HintResult{}, err
+	}
+	if fresh && !free {
+		var grantErr error
+		if direct {
+			grantErr = active.GrantDirect(level, rec.session.Policy.Disclosure)
+		} else {
+			grantErr = active.GrantHint(level, rec.session.Policy.Disclosure)
+		}
+		if grantErr != nil {
+			return HintResult{}, grantErr
+		}
+		if level == learning.DisclosureSolution {
+			active.RevealSolution()
+		}
+	}
+	return HintResult{
+		StepID:    active.StepID,
+		Level:     level,
+		Kind:      kind,
+		Objective: step.Instruction.Objective,
+		Scope:     step.Instruction.Scope,
+		Concepts:  step.Concepts,
+		Revision:  ev.Revision,
+	}, nil
+}
+
+// DetourResult is what DetourStart and DetourFinish return.
+type DetourResult struct {
+	State    learning.DetourState
+	Revision uint64
+}
+
+// DetourStart opens a conceptual detour without changing the session's
+// active step (requirement R6; PROJECT.md §8.8).
+func (s *Service) DetourStart(id learning.SessionID, reason string, expectedRevision uint64, requestID string) (DetourResult, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	rec, ok := s.sessions[id]
+	if !ok {
+		return DetourResult{}, ErrSessionNotFound
+	}
+	ev, fresh, err := s.mutate(id, expectedRevision, requestID, eventstore.EventDetourStarted, map[string]string{"reason": reason})
+	if err != nil {
+		return DetourResult{}, err
+	}
+	if fresh {
+		if _, err := assistance.StartDetour(rec.session, reason); err != nil {
+			return DetourResult{}, err
+		}
+	}
+	d := rec.session.Detour()
+	if d == nil {
+		return DetourResult{}, ErrNoOpenDetour
+	}
+	return DetourResult{State: d.State, Revision: ev.Revision}, nil
+}
+
+// DetourFinish closes the session's open detour with outcome ("resolved"
+// or "abandoned") and returns to the same active step without altering it
+// (requirement R6).
+func (s *Service) DetourFinish(id learning.SessionID, outcome assistance.DetourOutcome, expectedRevision uint64, requestID string) (DetourResult, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	rec, ok := s.sessions[id]
+	if !ok {
+		return DetourResult{}, ErrSessionNotFound
+	}
+	ev, fresh, err := s.mutate(id, expectedRevision, requestID, eventstore.EventDetourFinished, map[string]string{"outcome": string(outcome)})
+	if err != nil {
+		return DetourResult{}, err
+	}
+	d := rec.session.Detour()
+	if d == nil {
+		return DetourResult{}, ErrNoOpenDetour
+	}
+	if fresh {
+		if err := assistance.FinishDetour(d, outcome); err != nil {
+			return DetourResult{}, err
+		}
+	}
+	return DetourResult{State: d.State, Revision: ev.Revision}, nil
 }

@@ -38,6 +38,18 @@ func mapError(err error) (ErrorCode, string, bool) {
 		return ErrCodeInvalidInput, "the challenge has no authored steps to start from", false
 	case errors.Is(err, application.ErrNoWindowAtDepth):
 		return ErrCodeInvalidInput, "no instructional window exists at that depth for this challenge", false
+	case errors.Is(err, application.ErrNoActiveStep):
+		return ErrCodeSessionNotActive, "the session has no active instructional step", false
+	case errors.Is(err, application.ErrNoOpenDetour):
+		return ErrCodeInvalidInput, "there is no open detour to finish for this session", false
+	case errors.Is(err, application.ErrNoHintAuthored):
+		return ErrCodeInvalidInput, "this step has no authored syntax-recall hint", false
+	case errors.Is(err, application.ErrHelpDisabled):
+		return ErrCodeInvalidInput, "the session's help policy disallows hints", false
+	case errors.Is(err, application.ErrSolutionRequiresConfirmation):
+		return ErrCodeInvalidInput, "revealing the solution requires explicit confirmation", false
+	case errors.Is(err, application.ErrConceptNotFound):
+		return ErrCodeItemNotFound, "the requested concept does not exist in the catalog", false
 	default:
 		var domainErr learning.DomainError
 		if errors.As(err, &domainErr) {

@@ -1,5 +1,7 @@
 package learning
 
+import "fmt"
+
 // StepState is the lifecycle of a single StepNode instance within a session
 // (PROJECT.md §13.2).
 type StepState string
@@ -41,6 +43,11 @@ type StepProgress struct {
 	StepID           StepID
 	State            StepState
 	SolutionRevealed bool
+	// HintLevel is the highest assistance-ladder rung granted so far for
+	// this step instance (PROJECT.md §8.4). Zero (DisclosureNone) means no
+	// hint has been granted yet; objective, scope and criteria are level 0
+	// and never touch this field (requirement R2).
+	HintLevel DisclosureLevel
 }
 
 // NewStepProgress starts a step at StepStateLocked.
@@ -83,4 +90,32 @@ func (p *StepProgress) Complete(override bool) error {
 // autonomy evidence (see Attempt.CountsAsAutonomyEvidence).
 func (p *StepProgress) RevealSolution() {
 	p.SolutionRevealed = true
+}
+
+// GrantDirect records level as consumed for this step, bypassing the
+// one-rung-per-call ordering GrantHint enforces. It exists for
+// syntax_recall_get, which targets a specific authored rung directly
+// rather than climbing the ladder sequentially (PROJECT.md §8.4, RF-022).
+// The session's disclosure cap still applies.
+func (p *StepProgress) GrantDirect(level DisclosureLevel, policy DisclosurePolicy) error {
+	if !level.valid() {
+		return newDomainError(ErrCodeInvalidValue, "disclosure level out of range")
+	}
+	if level > policy.MaxLevel {
+		return newDomainError(ErrCodeDisclosureExceeded, "level exceeds session policy")
+	}
+	if level > p.HintLevel {
+		p.HintLevel = level
+	}
+	return nil
+}
+
+// GrantHint climbs the assistance ladder by at most one rung per call
+// (PROJECT.md §8.4 "o tutor não sobe mais de um nível por solicitação",
+// requirement R3), on top of the same disclosure cap GrantDirect enforces.
+func (p *StepProgress) GrantHint(level DisclosureLevel, policy DisclosurePolicy) error {
+	if level > p.HintLevel+1 {
+		return newDomainError(ErrCodeHintLevelSkipped, fmt.Sprintf("%d -> %d", p.HintLevel, level))
+	}
+	return p.GrantDirect(level, policy)
 }

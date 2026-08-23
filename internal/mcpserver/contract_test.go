@@ -88,7 +88,8 @@ func newContractClient(t *testing.T) *mcp.ClientSession {
 
 	catalogService := application.NewCatalogService(catalog)
 	sessionService := application.NewSessionService(catalogService, store)
-	server := New(Deps{Catalog: catalogService, Session: sessionService}, io.Discard)
+	assistanceService := application.NewAssistanceService(catalogService)
+	server := New(Deps{Catalog: catalogService, Session: sessionService, Assistance: assistanceService}, io.Discard)
 
 	clientTransport, serverTransport := mcp.NewInMemoryTransports()
 
@@ -145,6 +146,8 @@ func TestContractListsExactlyTheMinimalToolSlice(t *testing.T) {
 		"session_start": false, "session_get": false, "instruction_get": false,
 		"session_configure": false, "session_pause": false, "session_resume": false,
 		"session_finish": false, "granularity_adjust": false,
+		"hint_request": false, "syntax_recall_get": false, "concept_content_get": false,
+		"learning_detour_start": false, "learning_detour_finish": false,
 	}
 	for _, tool := range res.Tools {
 		if _, known := want[tool.Name]; !known {

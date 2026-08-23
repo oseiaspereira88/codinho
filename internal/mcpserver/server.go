@@ -16,8 +16,9 @@ import (
 // acquiring the workspace lock, and closing/releasing them after Run
 // returns.
 type Deps struct {
-	Catalog *application.CatalogService
-	Session *application.SessionService
+	Catalog    *application.CatalogService
+	Session    *application.SessionService
+	Assistance *application.AssistanceService
 }
 
 // New builds an MCP server exposing the minimal vertical slice of tools
@@ -34,6 +35,7 @@ func New(deps Deps, stderr io.Writer) *mcp.Server {
 
 	registerCatalogTools(server, deps.Catalog)
 	registerSessionTools(server, deps.Session)
+	registerAssistanceTools(server, deps.Session, deps.Assistance)
 
 	return server
 }

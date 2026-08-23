@@ -105,6 +105,13 @@ func (c *Catalog) List(kind ItemKind, theme string) []Item {
 	return out
 }
 
+// Concept returns the authoring record for id, or false when id is not a
+// concept (assistance-hints-detours requirement R5).
+func (c *Catalog) Concept(id string) (ConceptAuthoring, bool) {
+	cn, ok := c.concepts[id]
+	return cn, ok
+}
+
 // Challenge returns the full authoring record for id with reserved fields
 // cleared, or false when id is not a challenge (requirement R6).
 func (c *Catalog) Challenge(id string) (ChallengeAuthoring, bool) {

@@ -69,7 +69,8 @@ challenges:
 
 	catalogService := application.NewCatalogService(catalog)
 	sessionService := application.NewSessionService(catalogService, store)
-	server := New(Deps{Catalog: catalogService, Session: sessionService}, io.Discard)
+	assistanceService := application.NewAssistanceService(catalogService)
+	server := New(Deps{Catalog: catalogService, Session: sessionService, Assistance: assistanceService}, io.Discard)
 
 	clientTransport, serverTransport := mcp.NewInMemoryTransports()
 	ctx, cancel := context.WithCancel(context.Background())

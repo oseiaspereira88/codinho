@@ -28,6 +28,7 @@ Commands:
   session    Inspect a session's recorded event history
   progress   Show and export recomputed mastery projections
   workspace  Materialize a challenge's starter fixture (prepare)
+  privacy    Export or purge local state (event log and evidence)
   help       Show this help message
 `
 
@@ -71,6 +72,8 @@ func Run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 		return runProgress(args[1:], stdout, stderr)
 	case "workspace":
 		return runWorkspace(args[1:], stdout, stderr)
+	case "privacy":
+		return runPrivacy(args[1:], stdout, stderr)
 	case "help", "-h", "--help":
 		fmt.Fprint(stdout, usage)
 		return exitOK

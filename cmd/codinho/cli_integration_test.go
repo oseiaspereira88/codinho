@@ -90,6 +90,7 @@ func TestCLIEntrypointReachesEveryCommand(t *testing.T) {
 		{"session"},
 		{"progress"},
 		{"workspace"},
+		{"privacy"},
 	} {
 		_, stderr, _ := runCodinho(t, bin, dir, args...)
 		if strings.Contains(stderr, "unknown command") {

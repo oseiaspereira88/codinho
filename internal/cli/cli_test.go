@@ -383,6 +383,52 @@ func TestProgressShowAndExportReflectRecordedEvidence(t *testing.T) {
 	}
 }
 
+func TestPrivacyExportAndPurge(t *testing.T) {
+	root := setupWorkspace(t)
+	t.Chdir(root)
+
+	store, err := openEventStore(config.Config{WorkspaceRoot: root})
+	if err != nil {
+		t.Fatalf("openEventStore: %v", err)
+	}
+	if _, err := store.Append("ses_1", 0, "", "session_started", map[string]string{"challenge_id": "test.filter-slice"}); err != nil {
+		t.Fatalf("seeding event: %v", err)
+	}
+	store.Close()
+
+	dest := filepath.Join(t.TempDir(), "export")
+	stdout, stderr, code := run(t, "privacy", "export", "--dest", dest)
+	if code != exitOK {
+		t.Fatalf("code = %d, stderr = %q", code, stderr)
+	}
+	if _, err := os.Stat(filepath.Join(dest, "events.jsonl")); err != nil {
+		t.Fatalf("exported events.jsonl missing: %v", err)
+	}
+	if !strings.Contains(stdout, dest) {
+		t.Fatalf("stdout = %q", stdout)
+	}
+
+	// Purge without --confirm must refuse and leave state intact.
+	_, stderr, code = run(t, "privacy", "purge")
+	if code != exitError {
+		t.Fatalf("code = %d, want exitError without --confirm", code)
+	}
+	if _, err := os.Stat(filepath.Join(root, ".codinho", "state", "events.jsonl")); err != nil {
+		t.Fatalf("state was removed despite missing --confirm: %v", err)
+	}
+
+	_, stderr, code = run(t, "privacy", "purge", "--confirm")
+	if code != exitOK {
+		t.Fatalf("code = %d, stderr = %q", code, stderr)
+	}
+	if _, err := os.Stat(filepath.Join(root, ".codinho", "state")); !os.IsNotExist(err) {
+		t.Fatalf("state directory still exists after purge: %v", err)
+	}
+	if _, err := os.Stat(filepath.Join(root, "packs", "manifest.yaml")); err != nil {
+		t.Fatalf("purge touched the workspace's packs: %v", err)
+	}
+}
+
 func TestInitScaffoldsManifestAndRefusesOverwrite(t *testing.T) {
 	root := t.TempDir()
 	t.Chdir(root)
@@ -428,7 +474,7 @@ func TestHelpListsAllCommands(t *testing.T) {
 	if code != exitOK {
 		t.Fatalf("code = %d", code)
 	}
-	for _, cmd := range []string{"serve", "init", "catalog", "session", "progress", "workspace"} {
+	for _, cmd := range []string{"serve", "init", "catalog", "session", "progress", "workspace", "privacy"} {
 		if !strings.Contains(stdout, cmd) {
 			t.Fatalf("help missing command %q: %q", cmd, stdout)
 		}

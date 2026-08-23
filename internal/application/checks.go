@@ -30,6 +30,12 @@ type checkPayload struct {
 	Stdout      string `json:"stdout,omitempty"`
 	Stderr      string `json:"stderr,omitempty"`
 	Fingerprint string `json:"fingerprint"`
+	// NetworkApproved records whether this run had network access,
+	// decided only by the challenge's own authored Network field — never
+	// a caller-supplied override — so the durable record makes an
+	// otherwise invisible decision auditable (security-privacy-hardening
+	// requirement R7: "exigir aprovação visível quando necessária").
+	NetworkApproved bool `json:"network_approved"`
 }
 
 // ChecksService orchestrates safe-check-executor: resolving check_id
@@ -63,10 +69,11 @@ type CheckRunInput struct {
 
 // CheckRunResult is what check_run reports.
 type CheckRunResult struct {
-	Outcome     string
-	EvidenceID  string
-	Fingerprint string
-	Revision    uint64
+	Outcome         string
+	EvidenceID      string
+	Fingerprint     string
+	Revision        uint64
+	NetworkApproved bool
 }
 
 // Run resolves CheckID against the session's active challenge, executes
@@ -119,6 +126,7 @@ func (c *ChecksService) Run(in CheckRunInput) (CheckRunResult, error) {
 	payload := checkPayload{
 		Kind: "check", CheckID: found.ID, Outcome: string(result.Outcome), ExitCode: result.ExitCode,
 		Stdout: string(result.Stdout), Stderr: string(result.Stderr), Fingerprint: fingerprint,
+		NetworkApproved: found.Network,
 	}
 	raw, err := json.Marshal(payload)
 	if err != nil {
@@ -141,5 +149,8 @@ func (c *ChecksService) Run(in CheckRunInput) (CheckRunResult, error) {
 	}
 	c.workspace.RecordEvidence(in.SessionID, evidenceID)
 
-	return CheckRunResult{Outcome: string(result.Outcome), EvidenceID: evidenceID, Fingerprint: fingerprint, Revision: ev.Revision}, nil
+	return CheckRunResult{
+		Outcome: string(result.Outcome), EvidenceID: evidenceID, Fingerprint: fingerprint, Revision: ev.Revision,
+		NetworkApproved: found.Network,
+	}, nil
 }

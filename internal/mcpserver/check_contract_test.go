@@ -133,6 +133,9 @@ func TestContractCheckRunEndToEndAfterWorkspaceObserve(t *testing.T) {
 	if runData["outcome"] != "pass" {
 		t.Fatalf("expected outcome=pass, got %+v", runData)
 	}
+	if _, ok := runData["network_approved"].(bool); !ok {
+		t.Fatalf("expected a boolean network_approved field (security-privacy-hardening R7: visible approval), got %+v", runData)
+	}
 	evidenceID, _ := runData["evidence_id"].(string)
 	if evidenceID == "" {
 		t.Fatal("expected a non-empty evidence_id")

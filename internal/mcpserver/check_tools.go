@@ -36,10 +36,11 @@ func registerCheckTools(server *mcp.Server, checksSvc *application.ChecksService
 			return errorResult(), errorEnvelope(requestID, code, msg, retryable, nil), nil
 		}
 		env := okEnvelope(requestID, ProgressEffectNone, map[string]any{
-			"outcome":     result.Outcome,
-			"evidence_id": result.EvidenceID,
-			"fingerprint": result.Fingerprint,
-			"revision":    result.Revision,
+			"outcome":          result.Outcome,
+			"evidence_id":      result.EvidenceID,
+			"fingerprint":      result.Fingerprint,
+			"revision":         result.Revision,
+			"network_approved": result.NetworkApproved,
 		})
 		env.SessionID = args.SessionID
 		return nil, env, nil

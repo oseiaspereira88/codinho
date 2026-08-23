@@ -2,10 +2,32 @@ package workspace
 
 import (
 	"os"
+	"os/exec"
 	"path/filepath"
 	"runtime"
+	"strings"
 	"testing"
 )
+
+func runGitCmdOutput(t *testing.T, dir string, args ...string) string {
+	t.Helper()
+	cmd := exec.Command("git", args...)
+	cmd.Dir = dir
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		t.Fatalf("git %v failed: %v\n%s", args, err, out)
+	}
+	return strings.TrimSpace(string(out))
+}
+
+func readFile(t *testing.T, dir, rel string) string {
+	t.Helper()
+	data, err := os.ReadFile(filepath.Join(dir, rel))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	return string(data)
+}
 
 func TestRootResolveRejectsSymlinkEscape(t *testing.T) {
 	if runtime.GOOS == "windows" {
@@ -124,5 +146,57 @@ func TestPromptInjectionInFileContentIsInertData(t *testing.T) {
 	// carried as data alongside a structural fact (the declared func).
 	if !decl.HasFunc("main") {
 		t.Fatal("expected the main func to still be parsed despite adversarial comment content")
+	}
+}
+
+// TestObservationNeverMutatesGitOrOutOfScopeFiles proves security-privacy-
+// hardening requirement R9: a dirty repo, its Git index, and files
+// outside a challenge's declared globs are all byte-for-byte preserved
+// by Capture and Observe — this package only ever reads.
+func TestObservationNeverMutatesGitOrOutOfScopeFiles(t *testing.T) {
+	requireGit(t)
+	dir := t.TempDir()
+	runGitCmd(t, dir, "init", "-q")
+	writeFile(t, dir, "tracked.go", "package main\n")
+	runGitCmd(t, dir, "add", ".")
+	runGitCmd(t, dir, "commit", "-q", "-m", "initial")
+
+	// Leave the repo dirty: a staged change and an untracked file, plus a
+	// file outside the challenge's declared globs.
+	writeFile(t, dir, "tracked.go", "package main\n\nfunc main() {}\n")
+	runGitCmd(t, dir, "add", "tracked.go")
+	writeFile(t, dir, "untracked.txt", "scratch notes")
+	writeFile(t, dir, "out-of-scope.go", "package outofscope\n")
+
+	statusBefore := runGitCmdOutput(t, dir, "status", "--porcelain")
+	headBefore := runGitCmdOutput(t, dir, "rev-parse", "HEAD")
+	beforeContents := map[string]string{
+		"tracked.go":      readFile(t, dir, "tracked.go"),
+		"untracked.txt":   readFile(t, dir, "untracked.txt"),
+		"out-of-scope.go": readFile(t, dir, "out-of-scope.go"),
+	}
+
+	root, err := AuthorizeRoot(dir)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	baseline, err := Capture(root, []string{"tracked.go"})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if _, err := Observe(root, []string{"tracked.go"}, baseline); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	if got := runGitCmdOutput(t, dir, "status", "--porcelain"); got != statusBefore {
+		t.Fatalf("git status changed:\nbefore: %q\nafter:  %q", statusBefore, got)
+	}
+	if got := runGitCmdOutput(t, dir, "rev-parse", "HEAD"); got != headBefore {
+		t.Fatalf("HEAD moved: before=%q after=%q", headBefore, got)
+	}
+	for name, want := range beforeContents {
+		if got := readFile(t, dir, name); got != want {
+			t.Fatalf("%s changed:\nbefore: %q\nafter:  %q", name, want, got)
+		}
 	}
 }

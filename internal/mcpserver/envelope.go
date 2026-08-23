@@ -17,6 +17,7 @@ const (
 	ProgressEffectStepCompleted      ProgressEffect = "step_completed"
 	ProgressEffectStepAdvanced       ProgressEffect = "step_advanced"
 	ProgressEffectSolutionReveal     ProgressEffect = "solution_revealed"
+	ProgressEffectMasteryProjected   ProgressEffect = "mastery_projected"
 )
 
 // ActiveNode identifies the session's current instructional node.

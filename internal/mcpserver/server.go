@@ -21,6 +21,7 @@ type Deps struct {
 	Assistance *application.AssistanceService
 	Workspace  *application.WorkspaceService
 	Checks     *application.ChecksService
+	Progress   *application.ProgressService
 }
 
 // New builds an MCP server exposing the minimal vertical slice of tools
@@ -41,6 +42,7 @@ func New(deps Deps, stderr io.Writer) *mcp.Server {
 	registerAssessmentTools(server, deps.Session)
 	registerWorkspaceTools(server, deps.Workspace)
 	registerCheckTools(server, deps.Checks)
+	registerProgressTools(server, deps.Progress)
 
 	return server
 }

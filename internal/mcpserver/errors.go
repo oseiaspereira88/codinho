@@ -60,6 +60,10 @@ func mapError(err error) (ErrorCode, string, bool) {
 		return ErrCodeItemNotFound, "no check with that ID is declared by this session's challenge", false
 	case errors.Is(err, application.ErrNoWorkspaceBaseline):
 		return ErrCodeInvalidInput, "call workspace_observe for the active step before running a check", false
+	case errors.Is(err, application.ErrInvalidDimension):
+		return ErrCodeInvalidInput, "dimension must be one of the eight declared mastery dimensions", false
+	case errors.Is(err, application.ErrInvalidCompetency):
+		return ErrCodeInvalidInput, "competency_id and evidence_id are required", false
 	case errors.Is(err, evidence.ErrInvalidID), errors.Is(err, evidence.ErrIntegrityMismatch), errors.Is(err, os.ErrNotExist):
 		return ErrCodeItemNotFound, "no evidence with that ID exists for this session", false
 	default:

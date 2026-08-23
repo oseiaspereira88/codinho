@@ -83,6 +83,7 @@ func runServe(ctx context.Context, stderr *os.File) error {
 	assistanceService := application.NewAssistanceService(catalogService)
 	workspaceService := application.NewWorkspaceService(store, evidenceStore)
 	checksService := application.NewChecksService(store, sessionService, workspaceService)
+	progressService := application.NewProgressService(store)
 
 	server := mcpserver.New(mcpserver.Deps{
 		Catalog:    catalogService,
@@ -90,6 +91,7 @@ func runServe(ctx context.Context, stderr *os.File) error {
 		Assistance: assistanceService,
 		Workspace:  workspaceService,
 		Checks:     checksService,
+		Progress:   progressService,
 	}, stderr)
 	return mcpserver.Run(ctx, server, &mcp.StdioTransport{})
 }

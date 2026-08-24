@@ -117,7 +117,7 @@ challenges:
     themes: [declarations-and-types]
     competencies:
       primary: [model-enumeration-with-iota]
-      secondary: [convert-numeric-types-safely]
+      secondary: []
     prerequisites: []
     brief: >
       Modele um conjunto fechado de dias da semana sem espalhar strings
@@ -134,23 +134,45 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
-          - id: model.declare-weekday-type-and-constants
+          - id: model.declare-weekday-type
             kind: micro
             action: declare
             target: named_type
-            title: Declarar o tipo Weekday e suas constantes com iota
+            title: Declarar o tipo Weekday
             instruction:
-              objective: Declarar o tipo Weekday e as constantes Monday a Sunday usando iota, na ordem correta.
-              scope: Somente a declaração do tipo e do bloco de constantes.
+              objective: Declarar o tipo Weekday como um tipo nomeado inteiro.
+              scope: Somente a declaração do tipo.
               constraints:
-                - Não implementar métodos ainda.
-                - Não atribuir valores literais explícitos às constantes.
-            concepts: [named-types, constant-declaration, iota-sequence]
+                - Não declarar as constantes ainda.
+                - Não implementar métodos.
+            concepts: [named-types]
             evidence:
               strategies: [source_inspection, compile]
             criteria:
               - id: type-exists
                 kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.declare-weekday-constants
+            kind: micro
+            action: declare
+            target: constant_block
+            title: Declarar as constantes Monday a Sunday com iota
+            instruction:
+              objective: Declarar as constantes Monday a Sunday do tipo Weekday usando iota, na ordem correta.
+              scope: Somente o bloco de constantes.
+              constraints:
+                - Não atribuir valores literais explícitos às constantes.
+            concepts: [constant-declaration, iota-sequence]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
               - id: constants-sequential-from-monday
                 kind: structural
             completion:
@@ -216,7 +238,7 @@ challenges:
     acceptance:
       - CelsiusToFahrenheit(0) retorna 32.
       - CelsiusToFahrenheit(100) retorna 212.
-      - Uma entrada com casas decimais preserva precisão no resultado.
+      - CelsiusToFahrenheit(36.6) retorna um valor entre 97.87 e 97.89.
     publication:
       author: claude
     layers:
@@ -228,7 +250,7 @@ challenges:
             target: named_type
             title: Declarar o tipo Celsius
             instruction:
-              objective: Declarar type Celsius float64 como tipo nomeado.
+              objective: Declarar um tipo nomeado para representar uma temperatura em graus Celsius, com um tipo subjacente que suporte casas decimais.
               scope: Somente a declaração do tipo.
               constraints:
                 - Não usar float32.
@@ -258,12 +280,12 @@ challenges:
             target: function
             title: Implementar CelsiusToFahrenheit
             instruction:
-              objective: Implementar CelsiusToFahrenheit(c Celsius) float64 aplicando c*9/5+32 sem truncar antes da divisão.
-              scope: Somente o corpo da função CelsiusToFahrenheit.
+              objective: Implementar a função que converte a temperatura armazenada em Celsius para a escala Fahrenheit, aplicando a fórmula de conversão padrão entre as duas escalas.
+              scope: Somente o corpo da função de conversão.
               constraints:
                 - Não converter para int em nenhum passo intermediário.
                 - Não usar float32.
-            concepts: [type-conversion, short-variable-declaration]
+            concepts: [type-conversion]
             evidence:
               strategies: [source_inspection, compile]
             criteria:

@@ -5,6 +5,22 @@ Para quem revisa um desafio antes de `publication.status: published`.
 catalog-authoring-quality) — `published_same_reviewer` bloqueia a
 publicação se `reviewed_by` repetir `author`.
 
+## Pré-revisão automatizada (Codex)
+
+Antes da revisão humana, cada lote de `go-foundations-packs` (e specs de
+pack irmãs que adotarem o mesmo processo, ver Decision 3 dessas specs)
+passa por uma pré-revisão automatizada com `codex exec -s workspace-write
+--skip-git-repo-check`, um agente independente do autor, em modo
+não-interativo e sem editar arquivos. Ela aplica os mesmos itens deste
+checklist por leitura estática e roda `codinho catalog validate`,
+achando cedo vazamentos de solução no texto disclosado, micropassos com
+mais de uma intenção e critérios de aceite não verificáveis.
+
+Isso **não substitui nada abaixo**: o veredito do Codex nunca preenche
+`reviewed_by` nem `playtested` — só reduz o que sobra para o revisor
+humano avaliar. Os itens de "Playtest" abaixo continuam exigindo uma
+pessoa real, sempre.
+
 ## Antes de revisar
 
 - [ ] `codinho catalog validate` roda sem erro bloqueante para o pack.

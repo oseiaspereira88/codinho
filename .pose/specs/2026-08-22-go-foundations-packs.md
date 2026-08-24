@@ -150,6 +150,42 @@ conceitos / ≥60 competências / ≥300 step nodes (R1's threshold em
   lote. Ver `.pose/adr/2026-08-23-agent-generated-catalog-content-as-a-first-class-mode.md`
   para o modelo mais amplo de autoria assistida por agente.
 
+### Decision 3
+- Date: 2026-08-23
+- Context: sem efetivo de autoria, cada lote precisava do usuário revisando
+  tudo em detalhe antes de qualquer outra evidência de qualidade existir;
+  o usuário pediu explicitamente uma pré-revisão automatizada por um
+  agente diferente (Codex CLI, `codex exec`, sandbox `workspace-write`,
+  não-interativo) como padrão, ficando ele como segundo revisor mais fora
+  do fluxo de criação.
+- Options considered: (a) usuário revisa cada lote sozinho, em detalhe;
+  (b) Codex como pré-revisor padrão (adversarial, independente do autor
+  por ser outro fornecedor/modelo), usuário como revisor humano final,
+  mais leve; (c) Codex substituindo `reviewed_by`/`playtested` (rejeitada
+  sem chegar a ser implementada).
+- Decision: (b).
+- Rationale: `catalog-authoring-quality` Decision 1 já fixou que
+  "automação não deve fingir compreender pedagogia" — isso não muda. Uma
+  pré-revisão automatizada por um agente independente do autor pode achar
+  problemas objetivos (vazamento de solução no texto disclosado,
+  micropasso com duas intenções, critério de aceite não verificável)
+  antes do humano gastar tempo nisso, mas não pode atestar honestidade de
+  playtest nem substituir julgamento pedagógico humano. Validado nesta
+  própria sessão: rodada 1 do Codex rejeitou
+  `go-first-steps.convert-celsius-to-fahrenheit` por vazar `type Celsius
+  float64` e a fórmula de conversão no `objective` (texto sempre
+  disclosado ao aluno) e por um critério de aceite vago; rodada 2 pegou
+  um vazamento semântico residual na correção; rodada 3 aprovou após o
+  ajuste final.
+- Consequences: todo lote futuro desta spec passa por `codex exec -s
+  workspace-write --skip-git-repo-check` com um prompt de revisão
+  referenciando `docs/content-review-checklist.md`/
+  `docs/content-authoring.md` antes de ser proposto ao usuário. O veredito
+  do Codex nunca preenche `publication.reviewed_by`/`playtested` — só o
+  usuário faz isso, após playtest real via `workspace prepare` + sessão
+  MCP. Nenhum arquivo é alterado pela pré-revisão (papel só de leitura +
+  comandos de validação).
+
 ## 6. Validation
 
 ### Strategy
@@ -175,13 +211,32 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
   seguindo o mesmo padrão já presente no pack).
 - `go build ./...`, `gofmt -l .`, `go vet ./...`,
   `go test ./internal/curriculum/... ./internal/cli/... -race` → todos ok.
+- Pré-revisão Codex rodada 1 (`codex exec -s workspace-write`): **rejeitou**
+  `convert-celsius-to-fahrenheit` (vazamento literal de `type Celsius
+  float64` e da fórmula `c*9/5+32` no `objective`; critério de aceite
+  "preserva precisão" não verificável) e aprovou `enumerate-weekdays-with-
+  iota` com ressalva menor (micropasso com duas intenções).
+- Correções aplicadas: micropasso de weekdays separado em dois; objectives
+  de Celsius reescritos sem tipo/fórmula literal; critério trocado por
+  `CelsiusToFahrenheit(36.6)` com faixa numérica concreta.
+- Pré-revisão Codex rodada 2: achou vazamento semântico residual
+  ("ponto flutuante de 64 bits" ainda entregava `float64` combinado ao
+  nome `Celsius`); `enumerate-weekdays-with-iota` **aprovado sem
+  ressalvas**.
+- Correção final: objective trocado para "tipo subjacente que suporte
+  casas decimais", deixando a restrição "não usar float32" já existente
+  fazer a inferência.
+- Pré-revisão Codex rodada 3: **aprovado sem ressalvas** os dois
+  desafios. `go run ./cmd/codinho catalog validate` → exit 0 em todas as
+  rodadas.
 
 ### Results summary
 Spec destravada. Primeiro lote de conteúdo real autorado (2 de 44
-desafios, pack go-first-steps) como checkpoint 1, aguardando revisão e
-playtest do usuário antes de continuar os próximos lotes. Nenhum desafio
-está `status: published` — `author: claude` já preenchido,
-`reviewed_by`/`playtested` pendentes do playtest real.
+desafios, pack go-first-steps) como checkpoint 1, com pré-revisão
+automatizada do Codex aprovada sem ressalvas (Decision 3), aguardando
+revisão humana final e playtest do usuário antes de continuar os próximos
+lotes. Nenhum desafio está `status: published` — `author: claude` já
+preenchido, `reviewed_by`/`playtested` pendentes do playtest real.
 
 ### Requirement trace
 Pendente — spec em progresso (checkpoint 1 de N; ver Execution log e

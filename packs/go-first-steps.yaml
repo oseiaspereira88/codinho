@@ -4,6 +4,8 @@ version: 1.0.0
 themes:
   - id: slices
     title: Slices e arrays
+  - id: declarations-and-types
+    title: Declarações e tipos
 concepts:
   - id: slice-declaration
     title: Declaração de slice
@@ -17,6 +19,14 @@ concepts:
     title: Tipos de campo
   - id: zero-values
     title: Valores zero
+  - id: short-variable-declaration
+    title: Declaração curta de variável (:=)
+  - id: constant-declaration
+    title: Declaração de constantes
+  - id: iota-sequence
+    title: Sequência com iota
+  - id: type-conversion
+    title: Conversão de tipo explícita
 competencies:
   - id: slice-filter
     title: Filtrar um slice
@@ -24,10 +34,14 @@ competencies:
     title: Preservar a entrada
   - id: slice-allocation
     title: Alocação de slice
+  - id: model-enumeration-with-iota
+    title: Modelar um conjunto fechado de valores com iota
+  - id: convert-numeric-types-safely
+    title: Converter tipos numéricos com segurança
 tracks:
   - id: go-from-zero
     title: Go do zero
-    themes: [slices]
+    themes: [slices, declarations-and-types]
 challenges:
   - schema_version: 1
     id: go-data.slice-filter-preserve-input
@@ -92,3 +106,192 @@ challenges:
         test_pattern: ^TestFilter$
         timeout: 20s
     variants: []
+
+  - schema_version: 1
+    id: go-first-steps.enumerate-weekdays-with-iota
+    version: 1.0.0
+    title: Modelar os dias da semana com iota
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [declarations-and-types]
+    competencies:
+      primary: [model-enumeration-with-iota]
+      secondary: [convert-numeric-types-safely]
+    prerequisites: []
+    brief: >
+      Modele um conjunto fechado de dias da semana sem espalhar strings
+      mágicas pelo código, e decida quais deles contam como dia útil.
+    constraints:
+      - Não usar uma struct ou interface para representar os dias.
+      - Não comparar dias usando string literal.
+    acceptance:
+      - As constantes formam uma sequência contígua começando em Monday.
+      - IsWeekday retorna true apenas para Monday a Friday.
+      - Nenhuma comparação usa string literal.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.declare-weekday-type-and-constants
+            kind: micro
+            action: declare
+            target: named_type
+            title: Declarar o tipo Weekday e suas constantes com iota
+            instruction:
+              objective: Declarar o tipo Weekday e as constantes Monday a Sunday usando iota, na ordem correta.
+              scope: Somente a declaração do tipo e do bloco de constantes.
+              constraints:
+                - Não implementar métodos ainda.
+                - Não atribuir valores literais explícitos às constantes.
+            concepts: [named-types, constant-declaration, iota-sequence]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: type-exists
+                kind: structural
+              - id: constants-sequential-from-monday
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+            reflection:
+              optional:
+                - Por que iota evita reatribuir valores manualmente quando só a ordem relativa importa?
+          - id: model.implement-is-weekday
+            kind: micro
+            action: implement
+            target: function
+            title: Implementar IsWeekday
+            instruction:
+              objective: Implementar IsWeekday(d Weekday) bool retornando true apenas para Monday a Friday.
+              scope: Somente o corpo da função IsWeekday.
+              constraints:
+                - Não usar comparação de string.
+                - Não usar um mapa auxiliar para a checagem.
+            concepts: [named-types, constant-declaration]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: returns-true-for-weekdays
+                kind: structural
+              - id: returns-false-for-weekend
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+    variants: []
+
+  - schema_version: 1
+    id: go-first-steps.convert-celsius-to-fahrenheit
+    version: 1.0.0
+    title: Converter Celsius para Fahrenheit sem truncar
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [declarations-and-types]
+    competencies:
+      primary: [convert-numeric-types-safely]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Declare um tipo nomeado para Celsius e implemente a conversão para
+      Fahrenheit sem perder precisão em nenhum passo intermediário.
+    constraints:
+      - Não usar float32 em nenhum ponto da conversão.
+      - Não converter para um tipo inteiro em nenhum passo intermediário.
+    acceptance:
+      - CelsiusToFahrenheit(0) retorna 32.
+      - CelsiusToFahrenheit(100) retorna 212.
+      - Uma entrada com casas decimais preserva precisão no resultado.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.declare-celsius-type
+            kind: micro
+            action: declare
+            target: named_type
+            title: Declarar o tipo Celsius
+            instruction:
+              objective: Declarar type Celsius float64 como tipo nomeado.
+              scope: Somente a declaração do tipo.
+              constraints:
+                - Não usar float32.
+                - Não implementar a conversão ainda.
+            concepts: [named-types, type-conversion]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: type-exists
+                kind: structural
+              - id: underlying-type-is-float64
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+            reflection:
+              optional:
+                - Por que declarar um tipo nomeado Celsius em vez de usar float64 diretamente na assinatura?
+          - id: model.implement-celsius-to-fahrenheit
+            kind: micro
+            action: implement
+            target: function
+            title: Implementar CelsiusToFahrenheit
+            instruction:
+              objective: Implementar CelsiusToFahrenheit(c Celsius) float64 aplicando c*9/5+32 sem truncar antes da divisão.
+              scope: Somente o corpo da função CelsiusToFahrenheit.
+              constraints:
+                - Não converter para int em nenhum passo intermediário.
+                - Não usar float32.
+            concepts: [type-conversion, short-variable-declaration]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: formula-correct
+                kind: structural
+              - id: no-intermediate-truncation
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+    variants: []
+relations:
+  - from: go-first-steps.enumerate-weekdays-with-iota
+    to: go-first-steps.convert-celsius-to-fahrenheit
+    kind: relates_to
+  - from: go-first-steps.convert-celsius-to-fahrenheit
+    to: go-first-steps.enumerate-weekdays-with-iota
+    kind: relates_to
+  - from: model-enumeration-with-iota
+    to: convert-numeric-types-safely
+    kind: relates_to
+  - from: convert-numeric-types-safely
+    to: model-enumeration-with-iota
+    kind: relates_to

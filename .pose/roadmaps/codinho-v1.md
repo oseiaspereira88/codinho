@@ -38,8 +38,12 @@ host e cumprimento dos gates editoriais do catálogo.
 - after: pedagogical-core
 - specs: tutor-skill-host-integration, administrative-cli-fixtures, learning-practice-debug-modes, interview-mode
 
-## Milestone: curriculum-v1
+## Milestone: adaptive-content-and-selection
 - after: tutor-surfaces-and-modes
+- specs: learning-track-composition, agent-authored-catalog-drafts
+
+## Milestone: curriculum-v1
+- after: adaptive-content-and-selection
 - specs: catalog-authoring-quality, go-foundations-packs, go-backend-packs, go-production-architecture-packs, go-interviews-pack
 
 ## Milestone: production-hardening

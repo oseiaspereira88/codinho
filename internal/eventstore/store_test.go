@@ -75,6 +75,38 @@ func TestAppendIsIdempotentByRequestID(t *testing.T) {
 	}
 }
 
+func TestAppendIdempotencyIsScopedPerStream(t *testing.T) {
+	s, _ := openTestStore(t)
+
+	first, err := s.Append("ses_1", 0, "shared-req", EventSessionStarted, map[string]string{"owner": "ses_1"})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	second, err := s.Append("ses_2", 0, "shared-req", EventSessionStarted, map[string]string{"owner": "ses_2"})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	if first.StreamID == second.StreamID {
+		t.Fatalf("test setup error: expected distinct streams, got %s twice", first.StreamID)
+	}
+	if first.ID == second.ID {
+		t.Fatalf("two different streams reusing the same request_id must never collapse into one event: %+v vs %+v", first, second)
+	}
+	if s.Revision("ses_2") != 1 {
+		t.Fatalf("ses_2's own append must not be swallowed by ses_1's cached request_id, got revision %d", s.Revision("ses_2"))
+	}
+
+	// A real retry within ses_2 (same stream, same request_id) must still be idempotent.
+	retry, err := s.Append("ses_2", 0, "shared-req", EventSessionStarted, map[string]string{"owner": "ses_2"})
+	if err != nil {
+		t.Fatalf("unexpected error on retry: %v", err)
+	}
+	if retry.ID != second.ID {
+		t.Fatalf("retry with the same (stream_id, request_id) produced a different event: %+v vs %+v", retry, second)
+	}
+}
+
 func TestReplayAndReplayAll(t *testing.T) {
 	s, _ := openTestStore(t)
 	mustAppend(t, s, "ses_1", 0, EventSessionStarted)

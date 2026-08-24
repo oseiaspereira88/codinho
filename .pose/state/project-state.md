@@ -1,7 +1,7 @@
 ---
 schema_version: 1
-generated_at: 2026-08-23T04:01:25Z
-baseline_commit: c1e10cedb4324ecafbefd5083feb14c2a0c9537a
+generated_at: 2026-08-24T01:05:18Z
+baseline_commit: d46d2a36482c161bf4a4ec9f300112aa45e8ea2e
 staleness_policy: max_age_days=7,max_commits=20
 refresh_pending: 
 ---
@@ -26,23 +26,23 @@ hardening e aceite final condicionados aos gates definidos pelas respectivas
 specs.
 
 ## Specs & Roadmaps
-<!-- state:derived hash:63e702e33686 -->
+<!-- state:derived hash:e3e40e6505c4 -->
 
-- specs: total=27 draft=18 in-progress=0 blocked=0 done=9 superseded=0 abandoned=0
+- specs: total=29 draft=7 in-progress=0 blocked=0 done=22 superseded=0 abandoned=0
 - roadmaps: total=1 active=1 done=0
 - últimos closeouts:
+  - spec:interview-mode (2026-08-23)
+  - spec:reliability-observability-compatibility (2026-08-23)
   - spec:assistance-hints-detours (2026-08-23)
-  - spec:feedback-evaluation-progression (2026-08-23)
-  - spec:local-event-store (2026-08-23)
-  - spec:mcp-stdio-foundation (2026-08-23)
-  - spec:session-orchestration-disclosure (2026-08-23)
-  - ... e mais 4 (ver `pose_list_specs status:done`)
+  - spec:catalog-authoring-quality (2026-08-23)
+  - spec:workspace-observation-baselines (2026-08-23)
+  - ... e mais 17 (ver `pose_list_specs status:done`)
 
 ## Follow-ups
-<!-- state:derived hash:8acb74144df3 -->
+<!-- state:derived hash:0afbfb87d94d -->
 
-- abertos: 0
-- por criticidade: high=0 medium=0 low=0 sem-classificação=0
+- abertos: 6
+- por criticidade: high=0 medium=0 low=0 sem-classificação=6
 - vencidos (review < hoje): 0
 
 ## Capabilities
@@ -57,16 +57,16 @@ specs.
 - knowledge: total=0 ativo=0 expirado=0
 
 ## Validação & Evidência
-<!-- state:derived hash:d453798f36e8 -->
+<!-- state:derived hash:f374377a0212 -->
 
-- último registro: task=validate-native outcome=pass (2026-08-23T03:58:17Z)
-- últimos 30 dias: total=14 outcome_ok=13 outcome_outro=1
-- reports revisados (.md): total=8
+- último registro: task=fechar-workspace-observation-baselines outcome=pass (2026-08-23T04:32:07Z)
+- últimos 30 dias: total=16 outcome_ok=15 outcome_outro=1
+- reports revisados (.md): total=9
+  - report:2026-08-23-standard-fechar-workspace-observation-baselines.md
   - report:2026-08-23-standard-validate-native.md
   - report:2026-08-23-standard-fechar-feedback-evaluation-progression.md
   - report:2026-08-22-doc-audit-initialize-pose-governance-for-ailearn.md
   - report:2026-08-22-standard-fundacao-go-executavel-do-ailearn.md
-  - report:2026-08-22-standard-create-complete-ailearn-v1-spec-portfolio.md
 
 ## Arquitetura
 <!-- state:derived hash:6dd7053e596d status:active -->

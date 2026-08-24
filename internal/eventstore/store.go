@@ -15,6 +15,13 @@ import (
 // R4).
 var ErrRevisionConflict = errors.New("eventstore: revision conflict")
 
+// seenKey scopes the idempotency cache to one stream: request_id is only
+// unique per stream, never globally, so two streams reusing the same
+// request_id must never collide (eventstore-idempotency-scope R1/R3).
+func seenKey(streamID, requestID string) string {
+	return streamID + "\x00" + requestID
+}
+
 // Store is a durable, append-only event log for one workspace. It is safe
 // for concurrent use by multiple goroutines within one process; exclusive
 // access across processes is the caller's responsibility via AcquireLock
@@ -56,7 +63,7 @@ func Open(path string, registry *UpcasterRegistry) (*Store, error) {
 	for _, ev := range result.Events {
 		s.revisions[ev.StreamID] = ev.Revision
 		if ev.RequestID != "" {
-			s.seen[ev.RequestID] = ev
+			s.seen[seenKey(ev.StreamID, ev.RequestID)] = ev
 		}
 	}
 	return s, nil
@@ -96,7 +103,7 @@ func (s *Store) Append(streamID string, expectedRevision uint64, requestID strin
 	defer s.mu.Unlock()
 
 	if requestID != "" {
-		if existing, ok := s.seen[requestID]; ok {
+		if existing, ok := s.seen[seenKey(streamID, requestID)]; ok {
 			return existing, nil
 		}
 	}
@@ -137,7 +144,7 @@ func (s *Store) Append(streamID string, expectedRevision uint64, requestID strin
 
 	s.revisions[streamID] = revision
 	if requestID != "" {
-		s.seen[requestID] = ev
+		s.seen[seenKey(streamID, requestID)] = ev
 	}
 	s.events = append(s.events, ev)
 	return ev, nil

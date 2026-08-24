@@ -1,8 +1,8 @@
 ---
 slug: eventstore-idempotency-scope
-status: draft
+status: done
 created_at: 2026-08-23
-completed_at:
+completed_at: 2026-08-23
 supersedes:
 depends_on: local-event-store
 priority: 15
@@ -75,15 +75,15 @@ Nenhuma no formato persistido; apenas o índice em memória (`s.seen`) muda de c
 ## 4. Tasks
 
 ### Planning
-- [ ] Confirmar que nenhum consumidor atual depende do comportamento cross-stream (grep por reuse de request_id entre sessões).
+- [x] Confirmar que nenhum consumidor atual depende do comportamento cross-stream (grep por reuse de request_id entre sessões) — todo chamador em `internal/mcpserver` passa `request_id` por chamada já escopada a um `session_id`/stream; nenhum reusa deliberadamente entre streams.
 
 ### Implementation
-- [ ] Trocar a chave de `s.seen` para `streamID + "\x00" + requestID` (ou struct composta).
-- [ ] Atualizar `Open`/`ReadEvents`'s reconstrução do cache para usar a mesma chave composta.
+- [x] Trocar a chave de `s.seen` para `streamID + "\x00" + requestID` (ou struct composta) — helper `seenKey`.
+- [x] Atualizar `Open`/`ReadEvents`'s reconstrução do cache para usar a mesma chave composta.
 
 ### Validation
-- [ ] Teste replicando o cenário de colisão (duas streams, mesmo request_id) confirmando isolamento.
-- [ ] Suíte completa de internal/eventstore, internal/session, internal/assistance, internal/assessment sem regressão.
+- [x] Teste replicando o cenário de colisão (duas streams, mesmo request_id) confirmando isolamento.
+- [x] Suíte completa de internal/eventstore, internal/session, internal/assistance, internal/assessment sem regressão.
 
 ## 5. Decisions
 
@@ -107,31 +107,54 @@ Teste unitário reproduzindo a colisão antes da correção (deve falhar) e conf
 - Build: go build ./...
 
 ### Execution log
-- Pendente.
+- `go test ./internal/eventstore/... -run TestAppendIdempotencyIsScopedPerStream -v` antes da correção → FAIL, reproduzindo a colisão exatamente como descrita (2026-08-23).
+- Correção aplicada em `internal/eventstore/store.go` (helper `seenKey`, três pontos de uso: replay em `Open`, checagem em `Append`, gravação em `Append`).
+- `go build ./...` → ok (2026-08-23).
+- `gofmt -l internal/eventstore` → sem saída (2026-08-23).
+- `go vet ./internal/eventstore/...` → sem diagnósticos (2026-08-23).
+- `go test ./internal/eventstore/... ./internal/session/... ./internal/assistance/... ./internal/assessment/... -race -v` → `ok` em todos os pacotes, sem data races (2026-08-23).
+- `govulncheck ./...` → "No vulnerabilities found." (2026-08-23).
 
 ### Results summary
-- Nenhuma correção aplicada ainda; spec criada para sequenciar o trabalho.
+Cache de idempotência de `Append` corrigido para ser indexado por
+`(stream_id, request_id)` via `seenKey(streamID, requestID)` em vez de
+`request_id` global. Teste de regressão
+`TestAppendIdempotencyIsScopedPerStream` reproduz a colisão (falhava antes,
+passa depois) e confirma que uma retentativa real dentro da mesma stream
+continua idempotente. Nenhuma mudança de formato persistido; `Open`/
+`ReadEvents` reconstroem o cache corrigido a partir de logs já gravados sem
+migração.
 
 ### Requirement trace
-- Mapear R1–R4 a testes de colisão cross-stream e replay.
+- R1 [satisfied] internal/eventstore/store.go (seenKey usado em Append) + test:TestAppendIdempotencyIsScopedPerStream.
+- R2 [satisfied] internal/eventstore/store.go (Append) + test:TestAppendIsIdempotentByRequestID, test:TestAppendIdempotencyIsScopedPerStream (retry dentro de ses_2).
+- R3 [satisfied] test:TestAppendIdempotencyIsScopedPerStream (duas streams, mesmo request_id, IDs de evento distintos).
+- R4 [satisfied] internal/eventstore/store.go (Open) + test:TestOpenRecoversRevisionsAndIdempotencyFromExistingLog (não alterado, continua passando com a chave composta).
 
 ### Known gaps
-- Nenhum até a implementação começar.
+- Nenhum.
 
 ## 7. Final Report
 
 ### Delivered scope
-Nenhum; spec draft aguardando implementação.
+Correção do cache de idempotência de `eventstore.Store.Append`, agora
+escopado por `(stream_id, request_id)`. Nenhuma mudança de contrato público
+nem de formato persistido.
 
 ### Files and modules changed
-- Planejados em internal/eventstore.
+- internal/eventstore/store.go (helper `seenKey`, três pontos de uso).
+- internal/eventstore/store_test.go (teste de regressão `TestAppendIdempotencyIsScopedPerStream`).
 
 ### Validation executed
-- Command: pose lint-spec eventstore-idempotency-scope --ready-check
-- Result: registrar após validação.
+- Command: go test ./internal/eventstore/... ./internal/session/... ./internal/assistance/... ./internal/assessment/... -race
+- Result: ok em todos os pacotes.
+- Command: go build ./... && gofmt -l internal/eventstore && go vet ./internal/eventstore/...
+- Result: sem erros/diagnósticos.
+- Command: govulncheck ./...
+- Result: No vulnerabilities found.
 
 ### Residual risks
 - Nenhum adicional além do já descrito em Technical risks.
 
 ### Follow-ups
-- [open]
+- [wont-do: correção completa e coberta por regressão; nenhum trabalho residual identificado]

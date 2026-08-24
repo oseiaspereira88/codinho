@@ -1,7 +1,7 @@
 ---
 schema_version: 1
-generated_at: 2026-08-24T01:05:18Z
-baseline_commit: d46d2a36482c161bf4a4ec9f300112aa45e8ea2e
+generated_at: 2026-08-24T01:06:18Z
+baseline_commit: c5edd1644af1062a42132ef24ff0404ccce168df
 staleness_policy: max_age_days=7,max_commits=20
 refresh_pending: 
 ---
@@ -26,14 +26,14 @@ hardening e aceite final condicionados aos gates definidos pelas respectivas
 specs.
 
 ## Specs & Roadmaps
-<!-- state:derived hash:e3e40e6505c4 -->
+<!-- state:derived hash:5a13bc110da6 -->
 
 - specs: total=29 draft=7 in-progress=0 blocked=0 done=22 superseded=0 abandoned=0
 - roadmaps: total=1 active=1 done=0
 - últimos closeouts:
+  - spec:eventstore-idempotency-scope (2026-08-24)
   - spec:interview-mode (2026-08-23)
-  - spec:reliability-observability-compatibility (2026-08-23)
-  - spec:assistance-hints-detours (2026-08-23)
+  - spec:learning-practice-debug-modes (2026-08-23)
   - spec:catalog-authoring-quality (2026-08-23)
   - spec:workspace-observation-baselines (2026-08-23)
   - ... e mais 17 (ver `pose_list_specs status:done`)
@@ -69,10 +69,10 @@ specs.
   - report:2026-08-22-standard-fundacao-go-executavel-do-ailearn.md
 
 ## Arquitetura
-<!-- state:derived hash:6dd7053e596d status:active -->
+<!-- state:derived hash:5f7899382068 status:active -->
 
 - componentes: total=1 verificados=1 completude=100.0%
-- linhas_de_codigo: producao=9925 testes=8903 total=18828
+- linhas_de_codigo: producao=9931 testes=8931 total=18862
 - linguagens: go, shell
 - saude_de_codigo: TODOs=0 FIXMEs=0 panics=0 stubs=0
 - integracoes: contratos=0 ativos=0 gaps=0

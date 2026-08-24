@@ -2,7 +2,7 @@
 slug: eventstore-idempotency-scope
 status: done
 created_at: 2026-08-23
-completed_at: 2026-08-23
+completed_at: 2026-08-24
 supersedes:
 depends_on: local-event-store
 priority: 15

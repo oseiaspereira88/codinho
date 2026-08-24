@@ -5,21 +5,27 @@ Para quem revisa um desafio antes de `publication.status: published`.
 catalog-authoring-quality) — `published_same_reviewer` bloqueia a
 publicação se `reviewed_by` repetir `author`.
 
-## Pré-revisão automatizada (Codex)
+## Pré-revisão automatizada por outro agente
 
 Antes da revisão humana, cada lote de `go-foundations-packs` (e specs de
 pack irmãs que adotarem o mesmo processo, ver Decision 3 dessas specs)
-passa por uma pré-revisão automatizada com `codex exec -s workspace-write
---skip-git-repo-check`, um agente independente do autor, em modo
-não-interativo e sem editar arquivos. Ela aplica os mesmos itens deste
-checklist por leitura estática e roda `codinho catalog validate`,
-achando cedo vazamentos de solução no texto disclosado, micropassos com
-mais de uma intenção e critérios de aceite não verificáveis.
+passa por uma pré-revisão automatizada de um agente independente do
+autor, em modo não-interativo, sandboxed e sem editar arquivos. Ela
+aplica os mesmos itens deste checklist por leitura estática e roda
+`codinho catalog validate`, achando cedo vazamentos de solução no texto
+disclosado, micropassos com mais de uma intenção, critérios de aceite não
+verificáveis e checks sem evidência executável real por trás.
 
-Isso **não substitui nada abaixo**: o veredito do Codex nunca preenche
-`reviewed_by` nem `playtested` — só reduz o que sobra para o revisor
-humano avaliar. Os itens de "Playtest" abaixo continuam exigindo uma
-pessoa real, sempre.
+Como invocar (papéis, template de prompt, por que retomar sessão em vez
+de recomeçar a cada rodada): ver
+[`docs/agent-review-workflow.md`](agent-review-workflow.md) e a skill
+`agent-batch-review`. Mecânica de invocação:
+[`scripts/agent-review.sh`](../scripts/agent-review.sh).
+
+Isso **não substitui nada abaixo**: o veredito da pré-revisão nunca
+preenche `reviewed_by` nem `playtested` — só reduz o que sobra para o
+revisor humano avaliar. Os itens de "Playtest" abaixo continuam exigindo
+uma pessoa real, sempre.
 
 ## Antes de revisar
 

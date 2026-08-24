@@ -1,0 +1,112 @@
+# Fluxo de autor/revisor entre agentes
+
+Padrão para quando dois processos de IA independentes colaboram na autoria
+de conteúdo do catálogo (ou em qualquer outra tarefa que se beneficie de
+uma segunda opinião automatizada antes da revisão humana): um agente
+autora, outro revisa de forma adversarial, sem editar nada. Nasceu em
+`go-foundations-packs` Decision 3 (Codex como pré-revisor padrão de
+`catalog-authoring-quality`) mas é agnóstico ao par de agentes e à tarefa —
+documentado aqui para não se perder entre sessões.
+
+## Papéis são posições, não identidades fixas
+
+Nada aqui amarra "Claude autora, Codex revisa". Os papéis são:
+
+- **Autor**: produz ou modifica arquivos. Sandbox com escrita liberada
+  (`workspace-write`), permissão explícita do que pode editar.
+- **Revisor**: só lê e roda comandos de validação (build, test, lint,
+  `catalog validate`). Sandbox também pode ser `workspace-write` (porque
+  rodar testes exige escrever em cache/tmp), mas a restrição de "não editar
+  nada versionado" é feita **no prompt**, não no sandbox — e verificada
+  depois com `git status --short` (deve continuar limpo).
+
+Qualquer CLI de agente não-interativa pode ocupar qualquer papel:
+Codex autora e Claude revisa, duas instâncias de Codex, duas instâncias de
+Claude (uma delas via este mesmo Claude Code em modo headless, se
+disponível), uma futura CLI da Antigravity (`agy`) etc. Trocar quem ocupa
+qual papel é só trocar qual comando o script invoca — ver
+[`scripts/agent-review.sh`](../scripts/agent-review.sh).
+
+## O script
+
+`scripts/agent-review.sh <new|resume> <agent> <output-file> <prompt|@arquivo>`
+é a primitiva de invocação: não sabe o que é "autor" ou "revisor", só sabe
+iniciar ou retomar uma sessão não-interativa e sandboxed de um backend
+(hoje: `codex`, via `codex exec`). Adicionar outro backend é um `case` novo
+no script, sem tocar quem o chama.
+
+## Por que retomar sessão em vez de começar do zero a cada rodada
+
+Uma chamada nova (`codex exec ...`) sem contexto prévio precisa reler os
+arquivos relevantes (checklist, docs de autoria, o pack inteiro) toda vez —
+isso apareceu nesta própria sessão: cada rodada nova de revisão consumiu
+~60–100 mil tokens, a maior parte só relendo arquivo que a rodada anterior
+já tinha lido. `codex exec resume --last "<o que mudou>"` continua a mesma
+sessão: o agente já tem os arquivos e o veredito anterior em contexto, e só
+precisa avaliar o diff/a mudança relatada — muito mais barato e mais rápido
+por rodada, e reduz o risco do revisor "esquecer" um achado da rodada
+anterior que ele mesmo levantou.
+
+Regra prática: use `new` na primeira rodada de um lote; use `resume` em
+toda rodada seguinte do mesmo lote, descrevendo só o que mudou desde o
+veredito anterior — nunca colando de novo o conteúdo dos arquivos que o
+agente já leu.
+
+## Template de prompt — revisor
+
+```
+Você é um revisor de conteúdo independente do autor, no repositório
+<repo>. NÃO edite nenhum arquivo — comandos read-only (leitura, build,
+test, lint, validate) são permitidos. Não faça perguntas, produza só o
+relatório final.
+
+Contexto: <o que foi adicionado/mudado e onde>.
+
+Faça, nesta ordem:
+1. Leia <checklist/guia de autoria relevante>.
+2. Leia <os arquivos/trechos específicos a revisar>.
+3. Rode <comando de validação determinística> e reporte o resultado.
+4. Avalie <critérios do checklist>, marcando o que exige uma pessoa real
+   (playtest, julgamento pedagógico) que você não pode substituir.
+5. Aponte vazamento de solução, critério não verificável, instrução com
+   mais de uma intenção, e qualquer inconsistência entre constraints e a
+   solução esperada.
+6. Dê um veredito final por item revisado: aprovado sem ressalvas /
+   aprovado com ressalvas menores (liste) / rejeitado (liste motivos
+   bloqueantes), deixando claro que é uma pré-revisão automatizada e não
+   substitui revisão/evidência humana exigida pelo gate do projeto.
+```
+
+Rodadas seguintes (`resume`): repita só os itens 3–6 focados no que mudou,
+citando exatamente o que foi corrigido desde o veredito anterior.
+
+## Template de prompt — autor
+
+```
+Você é o autor de <o que precisa ser criado/corrigido>, no repositório
+<repo>. Siga <guia de autoria relevante>. Pode editar somente
+<arquivos/paths explicitamente liberados>. Ao final, rode <validação
+determinística> e reporte o resultado; não afirme sucesso sem rodar.
+```
+
+## O que isso não substitui
+
+Pré-revisão automatizada (por qualquer agente) nunca preenche metadados de
+revisão humana exigidos por gates de qualidade do projeto (ex.:
+`publication.reviewed_by`/`playtested` em `catalog-authoring-quality`) —
+ela só reduz o que sobra para a pessoa avaliar. Ver Decision 1 de
+`catalog-authoring-quality`: "automação não deve fingir compreender
+pedagogia".
+
+## Sobre A2A (Agent2Agent)
+
+O protocolo A2A resolve um problema diferente do nosso: descoberta e
+delegação de tarefas entre agentes de organizações/redes diferentes, via
+HTTP/JSON-RPC, Agent Cards e ciclo de vida de task remoto. Aqui os dois
+agentes rodam como subprocessos locais na mesma máquina, no mesmo
+repositório, sem fronteira de rede ou de confiança entre eles — não há
+descoberta a fazer nem identidade a negociar. Adotar A2A agora seria
+construir um servidor/cliente A2A só para invocar um binário que já está
+no PATH da própria máquina. Vale reconsiderar se este padrão precisar
+orquestrar um revisor remoto/de outra organização (não mais um subprocesso
+local) — até lá, `scripts/agent-review.sh` é a camada certa.

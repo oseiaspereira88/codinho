@@ -89,6 +89,31 @@ Você é o autor de <o que precisa ser criado/corrigido>, no repositório
 determinística> e reporte o resultado; não afirme sucesso sem rodar.
 ```
 
+## Cache do Go dentro do sandbox do revisor
+
+Se o revisor precisar rodar `go test`/`go build` de verdade (para provar
+um `checks:` real, não só ler o YAML), o sandbox `workspace-write` do
+Codex só permite escrita em `workdir`, `/tmp` e `$TMPDIR` — `GOCACHE`
+aponta por padrão para `~/.cache/go-build`, fora dessa allowlist, e o
+comando falha com `read-only file system` antes mesmo de chegar ao teste.
+Peça explicitamente no prompt para redirecionar: `GOCACHE=/tmp/<algo>
+GOFLAGS=-mod=readonly GOPROXY=off go test ...`. Validado nesta sessão:
+sem isso o revisor não conseguia confirmar evidência executável nenhuma;
+com isso, rodou e confirmou o teste real em segundos.
+
+## Ganho real medido de retomar sessão
+
+Nesta sessão, quatro rodadas de revisão do mesmo lote (`go-foundations-
+packs` checkpoint 2): as duas primeiras foram `new` (sem contexto prévio)
+e consumiram ~60–100 mil tokens cada, relendo os mesmos arquivos. Uma
+terceira rodada `new` (pedindo pro revisor materializar e rodar teste do
+zero) ficou presa mais de 1h30 sem concluir e precisou ser morta. Ao
+`resume`-la e pedir só o passo específico que faltava (rodar dois
+comandos com o GOCACHE corrigido), a rodada final custou ~6,6 mil tokens
+e terminou em segundos. `resume` não é só mais barato — para uma tarefa
+que trava, resumir e pedir algo mais específico também é como se
+recupera sem perder o trabalho já feito na sessão travada.
+
 ## O que isso não substitui
 
 Pré-revisão automatizada (por qualquer agente) nunca preenche metadados de

@@ -185,6 +185,12 @@ conceitos / ≥60 competências / ≥300 step nodes (R1's threshold em
   usuário faz isso, após playtest real via `workspace prepare` + sessão
   MCP. Nenhum arquivo é alterado pela pré-revisão (papel só de leitura +
   comandos de validação).
+- Follow-up (2026-08-23): o padrão foi extraído para artefatos
+  reutilizáveis entre sessões e independentes de par de agentes —
+  `scripts/agent-review.sh` (primitiva new/resume), `docs/agent-review-
+  workflow.md` (papéis, templates de prompt, por que retomar sessão em vez
+  de recomeçar do zero a cada rodada) e a skill `agent-batch-review`. Ver
+  `.pose/knowledge/2026-08-24-note-agent-batch-review-pattern.md`.
 
 ## 6. Validation
 
@@ -229,14 +235,62 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
 - Pré-revisão Codex rodada 3: **aprovado sem ressalvas** os dois
   desafios. `go run ./cmd/codinho catalog validate` → exit 0 em todas as
   rodadas.
+- 2026-08-24: checkpoint 2 autorado em `packs/go-first-steps.yaml` — 2
+  desafios atômicos novos (`declare-a-minimal-module`, tema `tooling`;
+  `clamp-int-to-byte`, tema `declarations-and-types`), 3 conceitos e 1
+  competência novos, fixture real (`go.mod`/`clamp.go`/`clamp_test.go`)
+  com check `go_test` executável para `clamp-int-to-byte`.
+- Pré-revisão Codex rodada 1 (`new`): **rejeitou os dois** —
+  `declare-a-minimal-module` por acceptance vago ("module path específico
+  ao exercício", "go 1.25 ou superior" sem versão exata); `clamp-int-to-
+  byte` por objective vazando o algoritmo completo (intervalo 0-255,
+  substituição pelo limite mais próximo, ordem clamp-antes-de-converter) e
+  por um micropasso com duas intenções (clamp + conversão juntos).
+- Correções: valores exatos e concretos no `declare-a-minimal-module`
+  (`module codinho-practice/declare-a-minimal-module`, `go 1.25.0`);
+  micropasso de clamp dividido em dois, objective generalizado sem citar
+  0-255 explicitamente, acceptance ganhou os casos de borda 0/255.
+- Pré-revisão Codex rodada 2 (`new`): `declare-a-minimal-module`
+  **aprovado**; `clamp-int-to-byte` **rejeitado** — os critérios
+  comportamentais eram `kind: structural` sem nenhum check real por trás
+  (achado técnico correto: `internal/cli/editorial.go` só executa checks
+  quando há `fixture` + `checks` juntos; sem fixture, o check nem roda).
+- Correção: adicionado fixture real (go.mod, stub com `panic("not
+  implemented")`, `clamp_test.go` com os cinco casos do acceptance) mais
+  o bloco `checks` apontando para `TestClampToByte`. Verificado
+  manualmente antes de qualquer nova rodada: `workspace prepare` +
+  `go test` reproduz panic contra o stub e passa contra uma implementação
+  correta de referência.
+- Pré-revisão Codex rodada 3 (`new`, pedindo pra ele mesmo materializar e
+  rodar o teste): travou mais de 1h30 sem concluir — morta
+  (`TaskStop`). **Lição que já entrou em `docs/agent-review-workflow.md`**:
+  a partir daqui, toda rodada seguinte do mesmo lote usa `codex exec
+  resume --last` em vez de `new`.
+- Pré-revisão Codex rodada 4 (`resume --last`, salvando a sessão travada):
+  confirmou `declare-a-minimal-module` aprovado; para `clamp-int-to-byte`
+  achou que seu próprio sandbox tinha `GOCACHE` apontando para
+  `~/.cache/go-build` (read-only fora de `workdir`/`/tmp`/`$TMPDIR`) — não
+  um problema do conteúdo.
+- Pré-revisão Codex rodada 5 (`resume --last`, pedindo `GOCACHE=/tmp/...`):
+  rodou `workspace prepare` + `go test` de verdade, confirmou panic contra
+  o stub, **aprovado sem ressalvas** `clamp-int-to-byte`. Custo: ~6,6 mil
+  tokens, segundos de execução — contra ~60-100 mil tokens e minutos das
+  rodadas `new`.
+- `go run ./cmd/codinho catalog validate` e `catalog validate --checks` →
+  exit 0 em todas as rodadas do checkpoint 2. `go build ./...`, `gofmt -l
+  .`, `go vet ./...` → ok.
 
 ### Results summary
-Spec destravada. Primeiro lote de conteúdo real autorado (2 de 44
-desafios, pack go-first-steps) como checkpoint 1, com pré-revisão
-automatizada do Codex aprovada sem ressalvas (Decision 3), aguardando
-revisão humana final e playtest do usuário antes de continuar os próximos
-lotes. Nenhum desafio está `status: published` — `author: claude` já
-preenchido, `reviewed_by`/`playtested` pendentes do playtest real.
+Spec destravada. Dois checkpoints de conteúdo real autorado (4 de 44
+desafios, pack go-first-steps): checkpoint 1 (declarações/tipos) e
+checkpoint 2 (tooling + conversão numérica com fixture/check executável
+real), ambos com pré-revisão automatizada aprovada sem ressalvas (Decision
+3), aguardando revisão humana final e playtest do usuário antes de
+continuar os próximos lotes. Nenhum desafio está `status: published` —
+`author: claude` já preenchido, `reviewed_by`/`playtested` pendentes do
+playtest real. O checkpoint 2 também validou ao vivo o padrão de retomar
+sessão (`agent-batch-review`, `docs/agent-review-workflow.md`) como
+alternativa real e muito mais barata a `codex exec` novo a cada rodada.
 
 ### Requirement trace
 Pendente — spec em progresso (checkpoint 1 de N; ver Execution log e

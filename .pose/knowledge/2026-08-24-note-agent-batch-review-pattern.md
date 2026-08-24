@@ -38,10 +38,20 @@ sessões futuras sem redescobrir os flags corretos.
 
 ## Next checks
 
-- Validar `codex exec resume --last` de verdade (rodada 3 do checkpoint 2
-  de `go-foundations-packs` foi a primeira tentativa real de resume desta
-  sessão; confirmar que o ganho de custo/tempo por rodada é real, não só
-  teórico).
+- [feito] `codex exec resume --last` validado de verdade no checkpoint 2
+  de `go-foundations-packs`: rodada `resume` final custou ~6,6 mil tokens
+  e segundos, contra ~60-100 mil tokens e minutos de cada rodada `new`
+  anterior. Ganho confirmado, não só teórico.
+- [achado] uma rodada `new` pedindo tarefa grande (materializar workspace
+  + rodar teste do zero) travou mais de 1h30 sem concluir; matar
+  (`TaskStop`) e retomar com `resume` pedindo só o passo específico
+  faltante salvou o trabalho já feito na sessão em vez de perdê-lo.
+- [achado] sandbox `workspace-write` do Codex só permite escrita em
+  `workdir`/`/tmp`/`$TMPDIR` — `GOCACHE` (`~/.cache/go-build` por padrão)
+  fica de fora e quebra `go test` com "read-only file system"; sempre
+  pedir `GOCACHE=/tmp/...` no prompt quando o revisor precisar rodar
+  build/test de verdade. Já documentado em `docs/agent-review-
+  workflow.md`.
 - Quando outro backend (segunda instância de Claude, uma CLI de
   Antigravity/`agy` etc.) for usado pela primeira vez, adicionar o `case`
   correspondente em `scripts/agent-review.sh` e registrar aqui o que

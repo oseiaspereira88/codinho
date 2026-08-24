@@ -6,6 +6,8 @@ themes:
     title: Slices e arrays
   - id: declarations-and-types
     title: Declarações e tipos
+  - id: tooling
+    title: Ambiente e tooling
 concepts:
   - id: slice-declaration
     title: Declaração de slice
@@ -27,6 +29,12 @@ concepts:
     title: Sequência com iota
   - id: type-conversion
     title: Conversão de tipo explícita
+  - id: go-modules
+    title: Módulos Go (go.mod)
+  - id: go-version-directive
+    title: Diretiva de versão mínima de Go
+  - id: narrowing-conversion-overflow
+    title: Overflow em conversão numérica estreitante
 competencies:
   - id: slice-filter
     title: Filtrar um slice
@@ -38,10 +46,12 @@ competencies:
     title: Modelar um conjunto fechado de valores com iota
   - id: convert-numeric-types-safely
     title: Converter tipos numéricos com segurança
+  - id: initialize-a-go-module
+    title: Inicializar um módulo Go corretamente
 tracks:
   - id: go-from-zero
     title: Go do zero
-    themes: [slices, declarations-and-types]
+    themes: [slices, declarations-and-types, tooling]
 challenges:
   - schema_version: 1
     id: go-data.slice-filter-preserve-input
@@ -304,12 +314,286 @@ challenges:
               - level: 3
                 kind: logical_prose
     variants: []
+
+  - schema_version: 1
+    id: go-first-steps.declare-a-minimal-module
+    version: 1.0.0
+    title: Inicializar um módulo Go mínimo
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 10
+    themes: [tooling]
+    competencies:
+      primary: [initialize-a-go-module]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Inicialize corretamente o módulo Go deste exercício, sem depender de
+      configuração externa nem de dependências desnecessárias.
+    constraints:
+      - Não declarar dependências externas.
+    acceptance:
+      - go.mod declara "module codinho-practice/declare-a-minimal-module".
+      - go.mod declara "go 1.25.0".
+      - Nenhuma dependência externa é declarada.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.declare-module-path
+            kind: micro
+            action: declare
+            target: module
+            title: Declarar o module path em go.mod
+            instruction:
+              objective: Declarar em go.mod o module path "codinho-practice/declare-a-minimal-module".
+              scope: Somente a linha module.
+              constraints:
+                - Não adicionar dependências.
+            concepts: [go-modules]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: module-line-present
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+            reflection:
+              optional:
+                - Por que o module path importa mesmo em um exercício pequeno e local?
+          - id: model.declare-go-version-directive
+            kind: micro
+            action: declare
+            target: module
+            title: Declarar a diretiva go com a versão mínima
+            instruction:
+              objective: Declarar em go.mod a diretiva "go 1.25.0".
+              scope: Somente a linha go.
+              constraints:
+                - Não declarar uma versão diferente da exigida.
+            concepts: [go-version-directive]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: go-directive-present
+                kind: structural
+              - id: go-directive-meets-minimum
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+    variants: []
+
+  - schema_version: 1
+    id: go-first-steps.clamp-int-to-byte
+    version: 1.0.0
+    title: Converter int para byte sem wraparound silencioso
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [declarations-and-types]
+    competencies:
+      primary: [convert-numeric-types-safely]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente uma conversão de int para byte que nunca sofre wraparound
+      silencioso para valores fora do intervalo representável.
+    constraints:
+      - Não usar bibliotecas externas.
+      - Não deixar valores fora do intervalo estourarem silenciosamente.
+    acceptance:
+      - ClampToByte(-10) retorna 0.
+      - ClampToByte(300) retorna 255.
+      - ClampToByte(120) retorna 120.
+      - ClampToByte(0) retorna 0.
+      - ClampToByte(255) retorna 255.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.declare-clamp-signature
+            kind: micro
+            action: declare
+            target: function
+            title: Declarar a assinatura de ClampToByte
+            instruction:
+              objective: Declarar a função ClampToByte com um parâmetro int e retorno byte, sem implementar o corpo ainda.
+              scope: Somente a assinatura da função.
+              constraints:
+                - Não implementar a lógica de conversão ainda.
+            concepts: [type-conversion]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: signature-matches
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.clamp-int-to-valid-byte-range
+            kind: micro
+            action: implement
+            target: function
+            title: Ajustar o valor de entrada para o intervalo válido de um byte
+            instruction:
+              objective: Garantir que o valor de entrada seja ajustado para dentro do intervalo válido de um byte antes de qualquer conversão, sem alterar valores que já estejam dentro do intervalo.
+              scope: Somente a lógica de ajuste, antes da conversão de tipo.
+              constraints:
+                - Não realizar a conversão de tipo neste passo.
+                - Não usar bibliotecas externas.
+            concepts: [narrowing-conversion-overflow]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: clamp-precedes-conversion
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+          - id: model.convert-clamped-value-to-byte
+            kind: micro
+            action: implement
+            target: function
+            title: Converter o valor já ajustado para byte
+            instruction:
+              objective: Converter o valor já ajustado ao intervalo válido para o tipo byte e retorná-lo.
+              scope: Somente a conversão de tipo final e o retorno.
+              constraints:
+                - Não deixar a conversão de tipo fazer o ajuste sozinha.
+            concepts: [type-conversion]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: clamps-below-range
+                kind: structural
+              - id: clamps-above-range
+                kind: structural
+              - id: preserves-in-range-values
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+            reflection:
+              optional:
+                - O que aconteceria com o resultado se a conversão para byte fosse feita antes do ajuste, e não depois?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/clamp-int-to-byte
+
+          go 1.25.0
+      - path: clamp.go
+        content: |
+          package clamp
+
+          // ClampToByte converts n to a byte, clamping to the valid byte
+          // range instead of allowing it to wrap around silently.
+          func ClampToByte(n int) byte {
+              panic("not implemented")
+          }
+      - path: clamp_test.go
+        content: |
+          package clamp
+
+          import "testing"
+
+          func TestClampToByte(t *testing.T) {
+              cases := []struct {
+                  name string
+                  in   int
+                  want byte
+              }{
+                  {"below range", -10, 0},
+                  {"above range", 300, 255},
+                  {"within range", 120, 120},
+                  {"lower bound", 0, 0},
+                  {"upper bound", 255, 255},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      got := ClampToByte(c.in)
+                      if got != c.want {
+                          t.Errorf("ClampToByte(%d) = %d, want %d", c.in, got, c.want)
+                      }
+                  })
+              }
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestClampToByte$
+        timeout: 20s
+    variants: []
 relations:
   - from: go-first-steps.enumerate-weekdays-with-iota
     to: go-first-steps.convert-celsius-to-fahrenheit
     kind: relates_to
   - from: go-first-steps.convert-celsius-to-fahrenheit
     to: go-first-steps.enumerate-weekdays-with-iota
+    kind: relates_to
+  - from: go-first-steps.declare-a-minimal-module
+    to: go-first-steps.clamp-int-to-byte
+    kind: relates_to
+  - from: go-first-steps.clamp-int-to-byte
+    to: go-first-steps.declare-a-minimal-module
+    kind: relates_to
+  - from: go-first-steps.convert-celsius-to-fahrenheit
+    to: go-first-steps.clamp-int-to-byte
+    kind: relates_to
+  - from: go-first-steps.clamp-int-to-byte
+    to: go-first-steps.convert-celsius-to-fahrenheit
+    kind: relates_to
+  - from: initialize-a-go-module
+    to: go-modules
+    kind: relates_to
+  - from: go-modules
+    to: initialize-a-go-module
+    kind: relates_to
+  - from: go-version-directive
+    to: go-modules
+    kind: relates_to
+  - from: go-modules
+    to: go-version-directive
+    kind: relates_to
+  - from: narrowing-conversion-overflow
+    to: type-conversion
+    kind: relates_to
+  - from: type-conversion
+    to: narrowing-conversion-overflow
     kind: relates_to
   - from: model-enumeration-with-iota
     to: convert-numeric-types-safely

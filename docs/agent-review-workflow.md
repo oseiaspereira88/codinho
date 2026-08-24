@@ -89,6 +89,24 @@ Você é o autor de <o que precisa ser criado/corrigido>, no repositório
 determinística> e reporte o resultado; não afirme sucesso sem rodar.
 ```
 
+## Matar de verdade uma rodada travada antes de tentar de novo
+
+`TaskStop` (ou o equivalente do seu harness) mata o wrapper de shell que
+lançou `codex exec`, **não necessariamente o processo `codex` em si** —
+ele pode continuar rodando, órfão, escrevendo na mesma sessão. Sintoma
+observado nesta sessão: depois de matar uma rodada `new` travada há mais
+de 1h30, uma nova rodada `new` no mesmo diretório ficou parada por mais
+de 30 minutos sem produzir nada — o processo órfão anterior (confirmado
+com `ps aux | grep codex`, ainda consumindo CPU) estava disputando lock
+de sessão com a tentativa nova. Matar o PID do `codex` diretamente (`kill
+<pid>` nos processos `node /usr/bin/codex` e o binário `codex` filho)
+resolveu na hora.
+
+Antes de iniciar uma rodada `new`/`resume` depois de matar uma travada,
+confirme com `ps aux | grep -i "codex exec"` que não sobrou nada rodando
+no mesmo diretório — senão a rodada nova pode travar por disputa de lock,
+não por estar de fato processando algo.
+
 ## Cache do Go dentro do sandbox do revisor
 
 Se o revisor precisar rodar `go test`/`go build` de verdade (para provar

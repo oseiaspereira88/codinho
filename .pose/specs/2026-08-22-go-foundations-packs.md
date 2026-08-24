@@ -279,18 +279,67 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
 - `go run ./cmd/codinho catalog validate` e `catalog validate --checks` →
   exit 0 em todas as rodadas do checkpoint 2. `go build ./...`, `gofmt -l
   .`, `go vet ./...` → ok.
+- 2026-08-24: checkpoint 3 autorado em `packs/go-first-steps.yaml` — 2
+  desafios atômicos novos (`format-rate-limit-message`, tema `tooling`,
+  fixture + checks `go_test`+`go_vet`; `avoid-shadowing-named-returns`,
+  tema `declarations-and-types`, fixture + check `go_test` reproduzindo
+  um bug real de shadowing de retorno nomeado dentro de bloco condicional
+  — verificado manualmente: versão com `:=` no bloco falha 2 dos 3 casos
+  silenciosamente, versão com `=` passa todos).
+- Antes da pré-revisão: uma rodada `new` travou (>1h30, morta) e o
+  processo `codex` ficou **órfão** — `TaskStop` matou só o wrapper, não o
+  processo real. A rodada seguinte travou de novo (>30min) por disputa de
+  lock de sessão com o órfão. Matar o PID do `codex` direto resolveu.
+  Lição registrada em `docs/agent-review-workflow.md` e na nota de
+  knowledge.
+- Pré-revisão Codex rodada 1 (`new`, só estática): achou um **bug real**
+  — `packs/go-first-steps.yaml` linha 1 estava corrompida para
+  `/schema_version: 1` (barra a mais), fazendo `catalog validate` falhar
+  com exit 1 (schema_version lido como 0). Corrigido para `schema_version:
+  1`. Também: (a) `format-rate-limit-message` aprovado com ressalvas
+  menores — escopo não cobria imports, e o check permitia passar por
+  concatenação/hardcode sem exercitar `fmt.Sprintf`; (b) `avoid-shadowing-
+  named-returns` rejeitado — a constraint entregava a correção exata ("use
+  ="), a ausência de shadowing não era um critério observável (só um
+  efeito colateral do teste), micropasso com 3 intenções, escopo sem
+  imports; (c) ambos tinham um micropasso redundante de "declarar
+  assinatura" já satisfeito pela fixture.
+- Correções: constraint reescrita para vetar `:=` sem prescrever `=`;
+  critério novo `no-redeclaration-in-conditional` (structural,
+  source_inspection) tornando shadowing observável; micropasso de
+  implementação dividido em dois (validar vazio; converter e atribuir);
+  micropassos redundantes de assinatura removidos nos dois desafios;
+  escopos passaram a incluir "os imports necessários"; constraint +
+  critério `uses-sprintf` adicionados em `format-rate-limit-message`
+  fechando a brecha do check. Reverificado manualmente: stub falha, versão
+  com bug de shadowing falha 2/3 casos, versão correta passa 4/4 (com o
+  caso de borda novo).
+- Pré-revisão Codex rodada 2 (`resume --last`): `format-rate-limit-
+  message` **aprovado sem ressalvas**; `avoid-shadowing-named-returns`
+  **aprovado com ressalvas menores** — primeiro micropasso (validar vazio)
+  ainda sem "imports necessários" no escopo, e sugeriu caso de teste para
+  string só com espaços.
+- Correções finais: escopo do primeiro micropasso ajustado; caso
+  `ParseAge("   ")` adicionado ao acceptance e ao `parseage_test.go`.
+  Reverificado manualmente: passa com implementação correta.
+- Pré-revisão Codex rodada 3 (`resume --last`): **aprovado sem
+  ressalvas** os dois desafios. Custo da rodada final: ~8,4 mil tokens.
+- `go run ./cmd/codinho catalog validate` e `catalog validate --checks` →
+  exit 0. `go build ./...`, `gofmt -l .`, `go vet ./...` → ok.
 
 ### Results summary
-Spec destravada. Dois checkpoints de conteúdo real autorado (4 de 44
-desafios, pack go-first-steps): checkpoint 1 (declarações/tipos) e
-checkpoint 2 (tooling + conversão numérica com fixture/check executável
-real), ambos com pré-revisão automatizada aprovada sem ressalvas (Decision
-3), aguardando revisão humana final e playtest do usuário antes de
-continuar os próximos lotes. Nenhum desafio está `status: published` —
-`author: claude` já preenchido, `reviewed_by`/`playtested` pendentes do
-playtest real. O checkpoint 2 também validou ao vivo o padrão de retomar
-sessão (`agent-batch-review`, `docs/agent-review-workflow.md`) como
-alternativa real e muito mais barata a `codex exec` novo a cada rodada.
+Spec destravada. Três checkpoints de conteúdo real autorado (6 de 44
+desafios, pack go-first-steps): checkpoint 1 (declarações/tipos),
+checkpoint 2 (tooling + conversão numérica) e checkpoint 3 (tooling +
+shadowing, ambos com fixture/checks executáveis reais), todos com
+pré-revisão automatizada aprovada sem ressalvas (Decision 3), aguardando
+revisão humana final e playtest do usuário antes de continuar os próximos
+lotes. Nenhum desafio está `status: published` — `author: claude` já
+preenchido, `reviewed_by`/`playtested` pendentes do playtest real. O
+checkpoint 3 também validou o padrão de retomar sessão sob condições reais
+adversas (rodada travada, processo órfão) e achou um bug estrutural real
+no pack (schema_version corrompido) — evidência de que a pré-revisão
+compensa mesmo quando a mudança parece só de conteúdo.
 
 ### Requirement trace
 Pendente — spec em progresso (checkpoint 1 de N; ver Execution log e
@@ -300,6 +349,10 @@ os sete packs, as cinco trilhas e o playtest real estiverem completos
 
 ### Known gaps
 - Retenção e transferência serão comprovadas no aceite integrado.
+- `go-first-steps.clamp-int-to-byte` (checkpoint 2, já aprovado/comitado)
+  tem o mesmo micropasso redundante de "declarar assinatura" identificado
+  e corrigido no checkpoint 3 — não foi revisitado; considerar corrigir
+  num lote futuro antes do playtest humano.
 
 ## 7. Final Report
 

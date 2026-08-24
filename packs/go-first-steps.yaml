@@ -35,6 +35,14 @@ concepts:
     title: Diretiva de versão mínima de Go
   - id: narrowing-conversion-overflow
     title: Overflow em conversão numérica estreitante
+  - id: printf-verb-matching
+    title: Correspondência entre verbo de formatação e tipo
+  - id: named-return-values
+    title: Retornos nomeados
+  - id: variable-shadowing
+    title: Shadowing de variável
+  - id: block-scope
+    title: Escopo de bloco
 competencies:
   - id: slice-filter
     title: Filtrar um slice
@@ -48,6 +56,10 @@ competencies:
     title: Converter tipos numéricos com segurança
   - id: initialize-a-go-module
     title: Inicializar um módulo Go corretamente
+  - id: catch-format-verb-mismatches-with-vet
+    title: Detectar verbos de formatação incompatíveis com go vet
+  - id: avoid-variable-shadowing
+    title: Evitar shadowing de variável
 tracks:
   - id: go-from-zero
     title: Go do zero
@@ -558,6 +570,248 @@ challenges:
         test_pattern: ^TestClampToByte$
         timeout: 20s
     variants: []
+
+  - schema_version: 1
+    id: go-first-steps.format-rate-limit-message
+    version: 1.0.0
+    title: Formatar uma mensagem com os verbos corretos
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 10
+    themes: [tooling]
+    competencies:
+      primary: [catch-format-verb-mismatches-with-vet]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente uma função que formata uma mensagem de limite de taxa
+      combinando um nome de recurso e um número de tentativas, sem
+      introduzir um verbo de formatação incompatível com o tipo do
+      argumento.
+    constraints:
+      - Não usar bibliotecas externas.
+      - Deve usar fmt.Sprintf para montar a mensagem.
+      - Cada verbo de formatação deve corresponder ao tipo do argumento correspondente.
+    acceptance:
+      - RateLimitMessage("checkout", 3) retorna "checkout exceeded rate limit after 3 attempts".
+      - go vet não aponta nenhum problema de formatação no pacote.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.implement-ratelimit-formatting
+            kind: micro
+            action: implement
+            target: function
+            title: Implementar a formatação da mensagem
+            instruction:
+              objective: Implementar o corpo de RateLimitMessage combinando os dois parâmetros em uma única mensagem com fmt.Sprintf, com cada verbo de formatação correspondendo ao tipo do argumento.
+              scope: O corpo da função e os imports necessários.
+              constraints:
+                - Não usar bibliotecas externas.
+                - Deve usar fmt.Sprintf para montar a mensagem.
+            concepts: [printf-verb-matching]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: uses-sprintf
+                kind: structural
+              - id: message-format-correct
+                kind: structural
+              - id: verb-types-match
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - O que go vet reportaria se você usasse %s para o número de tentativas?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/format-rate-limit-message
+
+          go 1.25.0
+      - path: ratelimit.go
+        content: |
+          package ratelimit
+
+          // RateLimitMessage formats a rate-limit notice for resource,
+          // after the given number of attempts.
+          func RateLimitMessage(resource string, attempts int) string {
+              panic("not implemented")
+          }
+      - path: ratelimit_test.go
+        content: |
+          package ratelimit
+
+          import "testing"
+
+          func TestRateLimitMessage(t *testing.T) {
+              got := RateLimitMessage("checkout", 3)
+              want := "checkout exceeded rate limit after 3 attempts"
+              if got != want {
+                  t.Errorf("RateLimitMessage(...) = %q, want %q", got, want)
+              }
+          }
+    checks:
+      - id: message-content
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestRateLimitMessage$
+        timeout: 20s
+      - id: format-safety
+        runner: go_vet
+        package: ./...
+        timeout: 20s
+    variants: []
+
+  - schema_version: 1
+    id: go-first-steps.avoid-shadowing-named-returns
+    version: 1.0.0
+    title: Evitar shadowing de retornos nomeados em bloco aninhado
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [declarations-and-types]
+    competencies:
+      primary: [avoid-variable-shadowing]
+      secondary: []
+    prerequisites: [short-variable-declaration]
+    brief: >
+      Implemente uma função que analisa uma idade em texto, atualizando os
+      retornos nomeados corretamente mesmo dentro de um bloco condicional
+      aninhado.
+    constraints:
+      - Não usar bibliotecas externas além da biblioteca padrão.
+      - Não redeclarar age/err dentro do bloco condicional.
+    acceptance:
+      - ParseAge("25") retorna age 25 e err nil.
+      - ParseAge("") retorna err não-nil.
+      - ParseAge("   ") retorna err não-nil.
+      - ParseAge("abc") retorna err não-nil.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.validate-empty-input
+            kind: micro
+            action: implement
+            target: function
+            title: Tratar entrada vazia como erro
+            instruction:
+              objective: Implementar a checagem de que raw (após remover espaços) não é vazio, definindo err quando for o caso.
+              scope: A checagem de entrada vazia, dentro do corpo da função, e os imports necessários.
+              constraints:
+                - Não implementar a conversão numérica ainda.
+            concepts: [named-return-values]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: rejects-empty-input
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.parse-and-assign-without-shadowing
+            kind: micro
+            action: implement
+            target: function
+            title: Converter e atribuir sem redeclarar dentro do bloco
+            instruction:
+              objective: Implementar a conversão do texto restante para age dentro do bloco condicional, atualizando os retornos nomeados age e err sem redeclará-los.
+              scope: A conversão numérica e os imports necessários.
+              constraints:
+                - Não redeclarar age/err dentro do bloco condicional.
+            concepts: [variable-shadowing, block-scope]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: parses-valid-input
+                kind: structural
+              - id: rejects-non-numeric-input
+                kind: structural
+              - id: no-redeclaration-in-conditional
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - O que aconteceria com age e err se você tivesse redeclarado os dois dentro do bloco condicional em vez de atualizá-los?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/avoid-shadowing-named-returns
+
+          go 1.25.0
+      - path: parseage.go
+        content: |
+          package parseage
+
+          // ParseAge parses raw as an age, validating it is non-empty and
+          // numeric.
+          func ParseAge(raw string) (age int, err error) {
+              panic("not implemented")
+          }
+      - path: parseage_test.go
+        content: |
+          package parseage
+
+          import "testing"
+
+          func TestParseAge(t *testing.T) {
+              cases := []struct {
+                  name    string
+                  in      string
+                  wantAge int
+                  wantErr bool
+              }{
+                  {"valid", "25", 25, false},
+                  {"empty", "", 0, true},
+                  {"whitespace only", "   ", 0, true},
+                  {"not a number", "abc", 0, true},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      age, err := ParseAge(c.in)
+                      if age != c.wantAge {
+                          t.Errorf("ParseAge(%q) age = %d, want %d", c.in, age, c.wantAge)
+                      }
+                      if (err != nil) != c.wantErr {
+                          t.Errorf("ParseAge(%q) err = %v, wantErr %v", c.in, err, c.wantErr)
+                      }
+                  })
+              }
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestParseAge$
+        timeout: 20s
+    variants: []
 relations:
   - from: go-first-steps.enumerate-weekdays-with-iota
     to: go-first-steps.convert-celsius-to-fahrenheit
@@ -594,6 +848,48 @@ relations:
     kind: relates_to
   - from: type-conversion
     to: narrowing-conversion-overflow
+    kind: relates_to
+  - from: go-first-steps.format-rate-limit-message
+    to: go-first-steps.avoid-shadowing-named-returns
+    kind: relates_to
+  - from: go-first-steps.avoid-shadowing-named-returns
+    to: go-first-steps.format-rate-limit-message
+    kind: relates_to
+  - from: go-first-steps.declare-a-minimal-module
+    to: go-first-steps.format-rate-limit-message
+    kind: relates_to
+  - from: go-first-steps.format-rate-limit-message
+    to: go-first-steps.declare-a-minimal-module
+    kind: relates_to
+  - from: go-first-steps.clamp-int-to-byte
+    to: go-first-steps.avoid-shadowing-named-returns
+    kind: relates_to
+  - from: go-first-steps.avoid-shadowing-named-returns
+    to: go-first-steps.clamp-int-to-byte
+    kind: relates_to
+  - from: catch-format-verb-mismatches-with-vet
+    to: printf-verb-matching
+    kind: relates_to
+  - from: printf-verb-matching
+    to: catch-format-verb-mismatches-with-vet
+    kind: relates_to
+  - from: avoid-variable-shadowing
+    to: variable-shadowing
+    kind: relates_to
+  - from: variable-shadowing
+    to: avoid-variable-shadowing
+    kind: relates_to
+  - from: variable-shadowing
+    to: block-scope
+    kind: relates_to
+  - from: block-scope
+    to: variable-shadowing
+    kind: relates_to
+  - from: named-return-values
+    to: variable-shadowing
+    kind: relates_to
+  - from: variable-shadowing
+    to: named-return-values
     kind: relates_to
   - from: model-enumeration-with-iota
     to: convert-numeric-types-safely

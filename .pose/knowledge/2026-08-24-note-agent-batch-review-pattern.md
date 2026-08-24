@@ -56,12 +56,31 @@ sessões futuras sem redescobrir os flags corretos.
   Antigravity/`agy` etc.) for usado pela primeira vez, adicionar o `case`
   correspondente em `scripts/agent-review.sh` e registrar aqui o que
   funcionou.
+- [achado, checkpoint 3] matar uma rodada travada (`TaskStop`) não mata
+  necessariamente o processo `codex` — pode ficar órfão, ainda
+  processando, e disputar lock de sessão com a próxima rodada `new` no
+  mesmo diretório, fazendo a nova travar por até 30+ minutos sem estar
+  de fato presa. Confirmar com `ps aux | grep -i "codex exec"` e matar o
+  PID direto antes de tentar de novo. Documentado em
+  `docs/agent-review-workflow.md`.
+- [achado, checkpoint 3] a pré-revisão pegou um bug estrutural real
+  (`schema_version` do pack corrompido para `/schema_version`, quebrando
+  `catalog validate`) — prova que vale a pena mandar o revisor rodar
+  `catalog validate` mesmo quando a mudança parece só de conteúdo.
+- [achado, checkpoint 3] quando a fixture já declara a assinatura da
+  função no stub, um micropasso separado de "declarar assinatura" fica
+  redundante (a assinatura já existe) — removido nos dois desafios novos.
+  `clamp-int-to-byte` (checkpoint 2, já aprovado/comitado) tem o mesmo
+  padrão e não foi revisitado; considerar corrigir num lote futuro.
 
 ## Risks
 
 - `codex exec resume --last` depende do cwd e de ser a sessão mais
   recente — rodadas paralelas/concorrentes na mesma máquina podem resolver
-  para a sessão errada; hoje o padrão assume rodadas sequenciais.
+  para a sessão errada; hoje o padrão assume rodadas sequenciais. Também
+  observado: uma sessão ainda em execução (não finalizada) pode fazer
+  `--last` pular ela e resolver para a sessão anterior — outro motivo pra
+  confirmar que nada ficou rodando antes de usar `resume`.
 - O padrão só reduz o que sobra para revisão humana; nunca preenche
   `reviewed_by`/`playtested` nem qualquer gate humano equivalente de outro
   projeto que reusar este padrão — repetir esse aviso em todo prompt de

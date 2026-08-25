@@ -495,28 +495,71 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
   `Counter` (não o tipo concreto) continua dependendo de
   `source_inspection` da assinatura, mesma limitação sistêmica já aceita
   para critérios estruturais neste pack.
+- 2026-08-25: checkpoint 5 autorado em `packs/go-core.yaml` — os 2
+  desafios `kind: combined` previstos na matriz de distribuição,
+  completando os 10 desafios de go-core (8 atômicos + 2 combinados).
+  `go-core.run-commands-with-cleanup-and-recovery` (temas control-flow +
+  functions-and-methods) integra switch+break rotulado, defer e recover
+  reaproveitando os concepts já existentes dos checkpoints 1–3, sem
+  concepts novos. `go-core.configure-server-with-functional-options`
+  (temas functions-and-methods + packages-and-apis) integra parâmetros
+  variádicos com validação de invariante via campo não exportado
+  (padrão de opções funcionais), reaproveitando as competências já
+  existentes `use-variadic-parameters`/`guard-invariant-with-unexported-
+  field` e introduzindo um único concept novo (`functional-options-
+  pattern`) para nomear o padrão em si — nenhuma competência nova foi
+  criada, conforme a definição de "combinado" da taxonomia do projeto.
+  Verificado manualmente: stub de cada fixture falha, referência passa;
+  para `RunCommands`, a ordem exata de report (start/ok-ou-failed/closed
+  por comando) foi conferida contra a implementação de referência.
+- O validador determinístico (`catalog validate --checks`) pegou sozinho
+  um `compound_micro_instruction` real antes mesmo da pré-revisão do
+  Codex — um macro_step de `run-commands-with-cleanup-and-recovery`
+  reunia "recuperar panic" e "registrar sucesso" na mesma instruction
+  (separadas por `;`); dividido em dois macro_steps antes de enviar para
+  revisão.
+- Pré-revisão Codex rodada 1 (`new`): **aprovado com ressalvas menores**
+  os dois. Único ponto acionável: o subteste de parada de
+  `RunCommands` só conferia o `report` final, sem provar
+  comportamentalmente que `run` nunca era chamado para "stop"/"c" depois
+  da parada.
+- Correção: subteste reescrito com um `spy` que registra cada comando com
+  que `run` foi chamado, falhando se a lista não for exatamente `["a"]`
+  no caso de parada — prova comportamental direta, não só inferida do
+  report.
+- Pré-revisão Codex rodada 2 (`resume --last`): **aprovado sem
+  ressalvas** `run-commands-with-cleanup-and-recovery`; **aprovado com
+  ressalvas menores não bloqueantes, já cobertas pelo precedente**
+  `configure-server-with-functional-options` — parte da forma pública
+  (assinatura variádica, campos não exportados) já vem scaffoldada na
+  fixture, e os critérios estruturais continuam dependendo de
+  `source_inspection`.
+- `go run ./cmd/codinho catalog validate --checks` → exit 0 em todas as
+  rodadas, sem `compound_micro_instruction` residual. `go build ./...`,
+  `gofmt -l .`, `go vet ./...` → ok.
 
 ### Results summary
-Spec destravada. Sete checkpoints de conteúdo real autorado (14 de 44
+Spec destravada. Nove checkpoints de conteúdo real autorado (18 de 44
 desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
 checkpoint 2 tooling + conversão numérica, checkpoint 3 tooling +
-shadowing) e quatro em go-core (checkpoint 1 defer + parâmetros
+shadowing) e cinco em go-core (checkpoint 1 defer + parâmetros
 variádicos, checkpoint 2 labeled break + receptor de ponteiro, checkpoint
 3 panic/recover + invariante com campo não exportado, checkpoint 4
-curto-circuito + construtor de interface — completando os 8 atômicos
-previstos para go-core, faltando só os 2 combinados) — todos com
+curto-circuito + construtor de interface, checkpoint 5 os 2 desafios
+combinados — **go-core está completo**: 10/10 desafios previstos na
+matriz de distribuição, 8 atômicos + 2 combinados) — todos com
 fixture/checks executáveis reais e pré-revisão automatizada aprovada sem
-ressalvas (Decision 3), aguardando revisão humana final e playtest do
-usuário antes de continuar os próximos lotes. Nenhum desafio está
-`status: published` — `author: claude` já preenchido, `reviewed_by`/
-`playtested` pendentes do playtest real. O checkpoint 3 de go-first-steps
-também validou o padrão de retomar sessão sob condições reais adversas
-(rodada travada, processo órfão) e achou um bug estrutural real no pack
-(schema_version corrompido) — evidência de que a pré-revisão compensa
-mesmo quando a mudança parece só de conteúdo. O checkpoint 1 de go-core
-achou e corrigiu um vazamento de solução real (objective prescrevendo a
-técnica de implementação completa) e deixou registrado um limite
-sistêmico do motor (nenhum runner allowlisted verifica presença de
+ressalvas ou só com ressalvas menores não bloqueantes (Decision 3),
+aguardando revisão humana final e playtest do usuário antes de publicar.
+Nenhum desafio está `status: published` — `author: claude` já preenchido,
+`reviewed_by`/`playtested` pendentes do playtest real. O checkpoint 3 de
+go-first-steps também validou o padrão de retomar sessão sob condições
+reais adversas (rodada travada, processo órfão) e achou um bug estrutural
+real no pack (schema_version corrompido) — evidência de que a pré-revisão
+compensa mesmo quando a mudança parece só de conteúdo. O checkpoint 1 de
+go-core achou e corrigiu um vazamento de solução real (objective
+prescrevendo a técnica de implementação completa) e deixou registrado um
+limite sistêmico do motor (nenhum runner allowlisted verifica presença de
 palavra-chave como `defer`; critérios sintáticos ficam por
 `source_inspection`, mesmo padrão já aceito alhures). O checkpoint 2 achou
 uma inconsistência real entre técnica ensinada e contrato verificável
@@ -527,9 +570,13 @@ reaprovados. O checkpoint 3 fixou o modelo padrão do revisor
 (`gpt-5.6-luna`/`high`) explicitamente no script em vez de depender do
 config global, achou cobertura de teste insuficiente para "qualquer
 panic" e um teste que não provava proteção via API pública (corrigido com
-pacote de teste externo) — mesma classe de achado que os checkpoints
-anteriores, reforçando que a pré-revisão continua encontrando problemas
-reais mesmo com o padrão de conteúdo já maduro.
+pacote de teste externo). O checkpoint 5 (primeiros desafios `kind:
+combined` do projeto) validou que o validador determinístico já pega
+`compound_micro_instruction` sozinho, sem precisar da pré-revisão do
+Codex para isso, e teve um achado real sobre profundidade de evidência
+(teste de parada só provava o report final, não que `run` de fato não era
+chamado — corrigido com um `spy`) — reforçando que a pré-revisão continua
+encontrando problemas reais mesmo com o padrão de conteúdo já maduro.
 
 ### Requirement trace
 Pendente — spec em progresso (checkpoint 1 de N; ver Execution log e

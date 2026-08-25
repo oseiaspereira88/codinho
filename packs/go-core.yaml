@@ -25,6 +25,8 @@ concepts:
     title: Curto-circuito para evitar acesso a valor nil
   - id: constructor-returns-interface
     title: Construtor retornando tipo de interface
+  - id: functional-options-pattern
+    title: Padrão de opções funcionais
 competencies:
   - id: sequence-cleanup-with-defer
     title: Sequenciar limpeza de recursos com defer
@@ -1142,6 +1144,455 @@ challenges:
         test_pattern: ^TestCounter$
         timeout: 20s
     variants: []
+
+  - schema_version: 1
+    id: go-core.run-commands-with-cleanup-and-recovery
+    version: 1.0.0
+    title: Rodar comandos com limpeza garantida, recuperação de panic e parada segura
+    kind: combined
+    difficulty: intermediate
+    estimated_minutes: 35
+    themes: [control-flow, functions-and-methods]
+    competencies:
+      primary: [sequence-cleanup-with-defer, escape-loop-from-switch-with-label, recover-from-panic-at-boundary]
+      secondary: []
+    prerequisites: [defer-execution-order, labeled-break-scope, panic-recover-boundary]
+    brief: >
+      Implemente uma função que roda uma lista de comandos em ordem,
+      registrando cada execução, sempre fechando (limpando) cada comando
+      que começa a rodar mesmo se ele panicar, e parando imediatamente ao
+      encontrar o comando "stop", sem tocar nos comandos restantes.
+    constraints:
+      - Não usar bibliotecas externas além da biblioteca padrão.
+      - Usar switch e break rotulado para parar o laço externo ao encontrar "stop".
+      - Usar defer para garantir o registro de fechamento de cada comando, mesmo com panic.
+      - Usar recover para converter um panic de run em uma entrada de falha, sem interromper os comandos seguintes.
+    acceptance:
+      - 'RunCommands(["a", "boom", "bb"], run) retorna ["start:a", "ok:a:1", "closed:a", "start:boom", "failed:boom:kaboom", "closed:boom", "start:bb", "ok:bb:2", "closed:bb"], onde run panica com "kaboom" para "boom" e retorna len(cmd) para os demais.'
+      - 'RunCommands(["a", "stop", "c"], run) retorna ["start:a", "ok:a:1", "closed:a"], sem nenhuma entrada para "stop" ou "c".'
+      - RunCommands(nil, run) retorna vazio.
+      - 'RunCommands(["stop", "a"], run) retorna vazio.'
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.stop-on-stop-command
+            kind: micro
+            action: implement
+            target: function
+            title: Parar o laço externo ao encontrar stop
+            instruction:
+              objective: Percorrer commands usando um switch que identifica o comando "stop" e, com break rotulado, interrompe o laço externo imediatamente ao encontrá-lo, sem processar esse comando nem os seguintes. Para os demais comandos, só identificar o caso default por enquanto, sem processá-los ainda.
+              scope: O laço externo e o switch, sem processar ainda os comandos que não são "stop".
+              constraints:
+                - Usar switch e break rotulado para parar o laço externo ao encontrar "stop".
+                - Não processar ainda os comandos que não são "stop".
+            concepts: [labeled-break-scope]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: stops-on-stop-command
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.schedule-closed-entry-with-defer
+            kind: micro
+            action: implement
+            target: function
+            title: Agendar o fechamento de cada comando com defer
+            instruction:
+              objective: Para cada comando que não é "stop", agendar com defer o registro de uma entrada "closed:<comando>" antes de rodá-lo, garantindo que ela seja registrada mesmo que rodar o comando panique.
+              scope: A função responsável por processar um único comando, antes de chamar run.
+              constraints:
+                - Usar defer para garantir o registro de fechamento de cada comando, mesmo com panic.
+            concepts: [defer-execution-order]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: schedules-closed-entry-with-defer
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.recover-panic-per-command
+            kind: micro
+            action: implement
+            target: function
+            title: Recuperar o panic de run por comando
+            instruction:
+              objective: Envolver a chamada a run com recover, convertendo um panic em uma entrada "failed:<comando>:<mensagem>" em vez de deixar o panic propagar e interromper os comandos seguintes.
+              scope: O tratamento do panic ao redor da chamada a run.
+              constraints:
+                - Usar recover para converter um panic de run em uma entrada de falha, sem interromper os comandos seguintes.
+            concepts: [panic-recover-boundary]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: recovers-panic-per-command
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que o recover precisa estar em uma função separada chamada uma vez por comando, e não só uma vez no início de RunCommands?
+          - id: model.record-ok-on-success
+            kind: micro
+            action: implement
+            target: function
+            title: Registrar sucesso quando run não panica
+            instruction:
+              objective: Quando run não panica, registrar "ok:<comando>:<resultado>" com o valor devolvido por run.
+              scope: O caminho de sucesso da chamada a run, sem alterar o tratamento de panic do passo anterior.
+              constraints:
+                - Registrar o resultado de run só quando ele não panicar.
+            concepts: [panic-recover-boundary]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: records-ok-on-success
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/run-commands-with-cleanup-and-recovery
+
+          go 1.25.0
+      - path: batch.go
+        content: |
+          package batch
+
+          // RunCommands runs each command in order using run, appending a report
+          // line for each one, and closing (cleaning up) every command it starts
+          // -- even when run panics. It stops immediately, without running or
+          // closing any further commands, as soon as it reaches "stop".
+          func RunCommands(commands []string, run func(string) int) (report []string) {
+              panic("not implemented")
+          }
+      - path: batch_test.go
+        content: |
+          package batch
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          func TestRunCommands(t *testing.T) {
+              run := func(cmd string) int {
+                  if cmd == "boom" {
+                      panic("kaboom")
+                  }
+                  return len(cmd)
+              }
+
+              t.Run("runs, recovers panic, and cleans up in order", func(t *testing.T) {
+                  got := RunCommands([]string{"a", "boom", "bb"}, run)
+                  want := []string{
+                      "start:a", "ok:a:1", "closed:a",
+                      "start:boom", "failed:boom:kaboom", "closed:boom",
+                      "start:bb", "ok:bb:2", "closed:bb",
+                  }
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("RunCommands(...) = %v, want %v", got, want)
+                  }
+              })
+
+              t.Run("stops immediately at stop, without touching remaining commands", func(t *testing.T) {
+                  var called []string
+                  spy := func(cmd string) int {
+                      called = append(called, cmd)
+                      return run(cmd)
+                  }
+                  got := RunCommands([]string{"a", "stop", "c"}, spy)
+                  want := []string{"start:a", "ok:a:1", "closed:a"}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("RunCommands(...) = %v, want %v", got, want)
+                  }
+                  if wantCalled := []string{"a"}; !reflect.DeepEqual(called, wantCalled) {
+                      t.Errorf("run was called with %v, want %v (never for stop or c)", called, wantCalled)
+                  }
+              })
+
+              t.Run("empty input", func(t *testing.T) {
+                  got := RunCommands(nil, run)
+                  if len(got) != 0 {
+                      t.Errorf("RunCommands(nil, run) = %v, want empty", got)
+                  }
+              })
+
+              t.Run("stop as first command runs nothing", func(t *testing.T) {
+                  got := RunCommands([]string{"stop", "a"}, run)
+                  if len(got) != 0 {
+                      t.Errorf("RunCommands([stop, a], run) = %v, want empty", got)
+                  }
+              })
+
+              t.Run("panic value is stringified", func(t *testing.T) {
+                  got := RunCommands([]string{"boom"}, run)
+                  want := []string{"start:boom", "failed:boom:kaboom", "closed:boom"}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("RunCommands([boom], run) = %v, want %v", got, want)
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestRunCommands$
+        timeout: 20s
+    variants: []
+
+  - schema_version: 1
+    id: go-core.configure-server-with-functional-options
+    version: 1.0.0
+    title: Configurar um servidor com opções funcionais validadas
+    kind: combined
+    difficulty: intermediate
+    estimated_minutes: 30
+    themes: [functions-and-methods, packages-and-apis]
+    competencies:
+      primary: [use-variadic-parameters, guard-invariant-with-unexported-field]
+      secondary: []
+    prerequisites: [variadic-parameters, unexported-field-invariant]
+    brief: >
+      Implemente a configuração de um Server usando o padrão de opções
+      funcionais: funções que devolvem uma Option mutando o Server através
+      de um ponteiro, aplicadas em ordem sobre valores padrão, com o
+      resultado final validado antes de ser devolvido.
+    constraints:
+      - Não usar bibliotecas externas além da biblioteca padrão.
+      - Os campos de Server não podem ser exportados.
+      - NewServer deve aplicar os opts recebidos, na ordem, sobre os valores padrão.
+      - NewServer deve validar a porta final antes de retornar, com erro se estiver fora de 1-65535.
+    acceptance:
+      - NewServer() retorna host "localhost" e port 8080, err nil.
+      - NewServer(WithHost("example.com")) retorna host "example.com", port 8080, err nil.
+      - NewServer(WithPort(80), WithPort(443)) retorna port 443 (a opção posterior prevalece sobre a anterior).
+      - NewServer(WithPort(0)) retorna err não nil.
+      - NewServer(WithPort(70000)) retorna err não nil.
+      - NewServer(WithPort(65535)) retorna port 65535, err nil.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.declare-options-mutating-by-pointer
+            kind: micro
+            action: implement
+            target: function
+            title: Declarar WithHost e WithPort mutando o Server via ponteiro
+            instruction:
+              objective: Implementar WithHost e WithPort para devolver uma Option que, quando aplicada, muta o campo correspondente do Server recebido por ponteiro.
+              scope: O corpo de WithHost e WithPort.
+              constraints:
+                - Os campos de Server não podem ser exportados.
+            concepts: [functional-options-pattern]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: options-mutate-via-pointer
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.apply-options-over-defaults
+            kind: micro
+            action: implement
+            target: function
+            title: Aplicar as opções em ordem sobre os valores padrão
+            instruction:
+              objective: Implementar NewServer para partir dos valores padrão (host "localhost", port 8080) e aplicar cada opt recebido em opts, na ordem, sobre o Server, sem validar ainda o resultado.
+              scope: A criação do Server com os padrões e o laço que aplica opts.
+              constraints:
+                - NewServer deve aplicar os opts recebidos, na ordem, sobre os valores padrão.
+                - Não validar ainda o resultado.
+            concepts: [functional-options-pattern, variadic-parameters]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: applies-options-in-order-over-defaults
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.validate-final-port
+            kind: micro
+            action: implement
+            target: function
+            title: Validar a porta final antes de retornar
+            instruction:
+              objective: Depois de aplicar os opts, validar que a porta final está entre 1 e 65535 (inclusive), retornando erro caso contrário, e o Server válido caso contrário.
+              scope: Somente a validação final e o retorno de NewServer.
+              constraints:
+                - NewServer deve validar a porta final antes de retornar, com erro se estiver fora de 1-65535.
+            concepts: [unexported-field-invariant]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: validates-final-port-range
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que validar só depois de aplicar todos os opts, em vez de validar dentro de cada WithPort individualmente?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/configure-server-with-functional-options
+
+          go 1.25.0
+      - path: server.go
+        content: |
+          package server
+
+          // Option configures a Server during construction.
+          type Option func(*Server)
+
+          // Server holds validated configuration.
+          type Server struct {
+              host string
+              port int
+          }
+
+          func (s *Server) Host() string { return s.host }
+          func (s *Server) Port() int    { return s.port }
+
+          // WithHost sets the server's host.
+          func WithHost(host string) Option {
+              panic("not implemented")
+          }
+
+          // WithPort sets the server's port.
+          func WithPort(port int) Option {
+              panic("not implemented")
+          }
+
+          // NewServer applies opts in order over sensible defaults
+          // (host "localhost", port 8080), validating the result before
+          // returning it.
+          func NewServer(opts ...Option) (*Server, error) {
+              panic("not implemented")
+          }
+      - path: server_test.go
+        content: |
+          package server_test
+
+          import (
+              "testing"
+
+              server "codinho-practice/configure-server-with-functional-options"
+          )
+
+          func TestNewServer(t *testing.T) {
+              t.Run("defaults with no options", func(t *testing.T) {
+                  s, err := server.NewServer()
+                  if err != nil {
+                      t.Fatalf("NewServer() err = %v, want nil", err)
+                  }
+                  if s.Host() != "localhost" || s.Port() != 8080 {
+                      t.Fatalf("NewServer() = (%q, %d), want (localhost, 8080)", s.Host(), s.Port())
+                  }
+              })
+
+              t.Run("applies host option", func(t *testing.T) {
+                  s, err := server.NewServer(server.WithHost("example.com"))
+                  if err != nil {
+                      t.Fatalf("err = %v, want nil", err)
+                  }
+                  if s.Host() != "example.com" || s.Port() != 8080 {
+                      t.Fatalf("got (%q, %d), want (example.com, 8080)", s.Host(), s.Port())
+                  }
+              })
+
+              t.Run("later option wins over earlier one", func(t *testing.T) {
+                  s, err := server.NewServer(server.WithPort(80), server.WithPort(443))
+                  if err != nil {
+                      t.Fatalf("err = %v, want nil", err)
+                  }
+                  if s.Port() != 443 {
+                      t.Fatalf("Port() = %d, want 443", s.Port())
+                  }
+              })
+
+              t.Run("rejects port zero", func(t *testing.T) {
+                  _, err := server.NewServer(server.WithPort(0))
+                  if err == nil {
+                      t.Fatal("err = nil, want error for port 0")
+                  }
+              })
+
+              t.Run("rejects port above valid range", func(t *testing.T) {
+                  _, err := server.NewServer(server.WithPort(70000))
+                  if err == nil {
+                      t.Fatal("err = nil, want error for port 70000")
+                  }
+              })
+
+              t.Run("accepts port at upper bound", func(t *testing.T) {
+                  s, err := server.NewServer(server.WithPort(65535))
+                  if err != nil {
+                      t.Fatalf("err = %v, want nil", err)
+                  }
+                  if s.Port() != 65535 {
+                      t.Fatalf("Port() = %d, want 65535", s.Port())
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestNewServer$
+        timeout: 20s
+    variants: []
 relations:
   - from: go-core.close-resources-in-defer-order
     to: go-core.sum-variadic-numbers
@@ -1220,4 +1671,25 @@ relations:
     kind: relates_to
   - from: go-core.hide-counter-type-behind-interface
     to: go-core.guard-invariant-with-unexported-field
+    kind: relates_to
+  - from: go-core.run-commands-with-cleanup-and-recovery
+    to: go-core.close-resources-in-defer-order
+    kind: deepens_into
+  - from: go-core.run-commands-with-cleanup-and-recovery
+    to: go-core.stop-processing-commands-with-labeled-break
+    kind: deepens_into
+  - from: go-core.run-commands-with-cleanup-and-recovery
+    to: go-core.recover-from-panic-in-safe-call
+    kind: deepens_into
+  - from: go-core.configure-server-with-functional-options
+    to: go-core.sum-variadic-numbers
+    kind: deepens_into
+  - from: go-core.configure-server-with-functional-options
+    to: go-core.guard-invariant-with-unexported-field
+    kind: deepens_into
+  - from: functional-options-pattern
+    to: variadic-parameters
+    kind: relates_to
+  - from: functional-options-pattern
+    to: unexported-field-invariant
     kind: relates_to

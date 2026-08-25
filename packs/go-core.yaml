@@ -1,0 +1,297 @@
+schema_version: 1
+id: go-core
+version: 1.0.0
+themes:
+  - id: control-flow
+    title: Controle de fluxo
+  - id: functions-and-methods
+    title: Funções e métodos
+concepts:
+  - id: defer-execution-order
+    title: Ordem de execução de defer
+  - id: variadic-parameters
+    title: Parâmetros variádicos
+competencies:
+  - id: sequence-cleanup-with-defer
+    title: Sequenciar limpeza de recursos com defer
+  - id: use-variadic-parameters
+    title: Usar parâmetros variádicos
+tracks: []
+challenges:
+  - schema_version: 1
+    id: go-core.close-resources-in-defer-order
+    version: 1.0.0
+    title: Fechar recursos na ordem correta com defer
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [control-flow]
+    competencies:
+      primary: [sequence-cleanup-with-defer]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente uma função que registra o fechamento de vários recursos
+      usando defer, preservando a ordem real em que o Go executa defers
+      empilhados.
+    constraints:
+      - Não usar bibliotecas externas.
+      - Usar defer para registrar o fechamento de cada recurso.
+    acceptance:
+      - 'ClosingOrder(["db", "cache", "file"]) retorna ["file", "cache", "db"].'
+      - 'ClosingOrder(["a"]) retorna ["a"].'
+      - ClosingOrder(nil) retorna nil.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.register-deferred-action-per-resource
+            kind: micro
+            action: implement
+            target: function
+            title: Agendar uma ação com defer para cada recurso
+            instruction:
+              objective: Percorrer os recursos recebidos e, para cada um, usar defer para agendar uma ação referenciando o recurso correto, sem se preocupar ainda com o valor de retorno.
+              scope: O corpo da função, sem tratar ainda o retorno.
+              constraints:
+                - Usar defer dentro do laço, um agendamento por recurso.
+                - Não implementar ainda o valor de retorno.
+            concepts: [defer-execution-order]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: uses-defer
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.build-order-from-defer-execution
+            kind: micro
+            action: implement
+            target: function
+            title: Formar o retorno a partir da execução real dos defers
+            instruction:
+              objective: Completar a função para que o retorno nomeado order reflita a ordem em que os defers agendados no passo anterior realmente executam, e devolver esse resultado.
+              scope: O corpo da função e o valor de retorno.
+              constraints:
+                - Usar defer para registrar o fechamento de cada recurso.
+            concepts: [defer-execution-order]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: order-is-lifo
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que a ordem final é o inverso da ordem em que os recursos foram recebidos?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/close-resources-in-defer-order
+
+          go 1.25.0
+      - path: closer.go
+        content: |
+          package closer
+
+          // ClosingOrder returns the order resources would be closed in,
+          // registering each closure with defer.
+          func ClosingOrder(resources []string) (order []string) {
+              panic("not implemented")
+          }
+      - path: closer_test.go
+        content: |
+          package closer
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          func TestClosingOrder(t *testing.T) {
+              cases := []struct {
+                  name      string
+                  resources []string
+                  want      []string
+              }{
+                  {"multiple", []string{"db", "cache", "file"}, []string{"file", "cache", "db"}},
+                  {"single", []string{"a"}, []string{"a"}},
+                  {"empty", nil, nil},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      got := ClosingOrder(c.resources)
+                      if !reflect.DeepEqual(got, c.want) {
+                          t.Errorf("ClosingOrder(%v) = %v, want %v", c.resources, got, c.want)
+                      }
+                  })
+              }
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestClosingOrder$
+        timeout: 20s
+    variants: []
+
+  - schema_version: 1
+    id: go-core.sum-variadic-numbers
+    version: 1.0.0
+    title: Somar uma quantidade variável de números
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 10
+    themes: [functions-and-methods]
+    competencies:
+      primary: [use-variadic-parameters]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente uma função que soma uma quantidade variável de números
+      inteiros, incluindo quando nenhum argumento é passado.
+    constraints:
+      - Não usar bibliotecas externas.
+      - O parâmetro deve ser variádico, não um slice explícito obrigatório.
+    acceptance:
+      - Sum() retorna 0.
+      - Sum(5) retorna 5.
+      - Sum(1, 2, 3) retorna 6.
+      - Sum(-1, 5, -4) retorna 0.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.declare-sum-signature
+            kind: micro
+            action: declare
+            target: function
+            title: Declarar a assinatura variádica de Sum
+            instruction:
+              objective: Declarar a função Sum com um parâmetro variádico de inteiros, retornando int, sem implementar a soma ainda.
+              scope: A assinatura da função e um corpo mínimo que compile.
+              constraints:
+                - Não implementar a soma ainda.
+            concepts: [variadic-parameters]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: signature-is-variadic
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.implement-sum-logic
+            kind: micro
+            action: implement
+            target: function
+            title: Implementar a soma dos números recebidos
+            instruction:
+              objective: Implementar a soma de todos os números recebidos, incluindo quando nenhum argumento é passado.
+              scope: Somente o corpo da função.
+              constraints:
+                - Não usar bibliotecas externas.
+            concepts: [variadic-parameters]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: sum-correct
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que Sum() sem nenhum argumento naturalmente retorna 0, mesmo sem tratar esse caso separadamente?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/sum-variadic-numbers
+
+          go 1.25.0
+      - path: sum.go
+        content: |
+          package sumvariadic
+
+          // TODO: declare and implement Sum.
+      - path: sum_test.go
+        content: |
+          package sumvariadic
+
+          import "testing"
+
+          func TestSum(t *testing.T) {
+              cases := []struct {
+                  name string
+                  nums []int
+                  want int
+              }{
+                  {"no arguments", nil, 0},
+                  {"one argument", []int{5}, 5},
+                  {"multiple arguments", []int{1, 2, 3}, 6},
+                  {"mixed signs", []int{-1, 5, -4}, 0},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      got := Sum(c.nums...)
+                      if got != c.want {
+                          t.Errorf("Sum(%v...) = %d, want %d", c.nums, got, c.want)
+                      }
+                  })
+              }
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestSum$
+        timeout: 20s
+    variants: []
+relations:
+  - from: go-core.close-resources-in-defer-order
+    to: go-core.sum-variadic-numbers
+    kind: relates_to
+  - from: go-core.sum-variadic-numbers
+    to: go-core.close-resources-in-defer-order
+    kind: relates_to
+  - from: sequence-cleanup-with-defer
+    to: defer-execution-order
+    kind: relates_to
+  - from: defer-execution-order
+    to: sequence-cleanup-with-defer
+    kind: relates_to
+  - from: use-variadic-parameters
+    to: variadic-parameters
+    kind: relates_to
+  - from: variadic-parameters
+    to: use-variadic-parameters
+    kind: relates_to

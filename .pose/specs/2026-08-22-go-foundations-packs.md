@@ -326,12 +326,54 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
   ressalvas** os dois desafios. Custo da rodada final: ~8,4 mil tokens.
 - `go run ./cmd/codinho catalog validate` e `catalog validate --checks` →
   exit 0. `go build ./...`, `gofmt -l .`, `go vet ./...` → ok.
+- 2026-08-25: primeiro lote autorado em `packs/go-core.yaml` (pack novo) —
+  2 desafios atômicos novos (`close-resources-in-defer-order`, tema
+  `control-flow`; `sum-variadic-numbers`, tema `functions-and-methods`), 2
+  conceitos e 2 competências novos, fixture + check `go_test` executável
+  para cada um. Verificado manualmente antes da pré-revisão: stub de cada
+  fixture falha (panic / erro de compilação), implementação de referência
+  passa em todos os casos.
+- Pré-revisão Codex rodada 1 (`new`): **rejeitou**
+  `close-resources-in-defer-order` — `objective` do único macro_step
+  vazava a técnica de implementação inteira ("registrar com defer que
+  será acrescentado ao retorno nomeado order"), o mesmo passo reunia 5
+  intenções (percorrer, agendar closure, capturar recurso correto,
+  acumular, retornar), e o critério `uses-defer` (`kind: structural`) não
+  tinha nenhuma evidência executável por trás — um slice invertido sem
+  qualquer defer passaria no `TestClosingOrder`. `sum-variadic-numbers`
+  **aprovado com ressalvas menores**: reflexão pedia "o quê" em vez de
+  "por quê", e a cobertura de teste não incluía sinais mistos/negativos.
+- Correções: `close-resources-in-defer-order` dividido em dois
+  macro_steps — agendar a ação diferida por recurso (critério
+  `uses-defer`, sem tratar retorno ainda) e formar o retorno a partir da
+  execução real dos defers (critério `order-is-lifo`, com evidência
+  comportamental real); nenhum dos dois objectives cita `append` na
+  closure. Verificado em `internal/checks/model.go` e
+  `internal/checks/executor.go` que o único runner estrutural
+  (`internal_ast`) só valida parse válido, sem inspeção de palavra-chave
+  — não existe hoje um jeito de dar evidência executável dedicada a "usa
+  defer" sem mudar o motor (fora do escopo desta spec de conteúdo);
+  `uses-defer` manteve `source_inspection`, mesmo padrão já usado em
+  `uses-sprintf`/`signature-is-variadic`. `sum-variadic-numbers`: reflexão
+  reescrita para "por que Sum() sem argumentos retorna 0 naturalmente",
+  caso `Sum(-1, 5, -4)` (sinais mistos) adicionado ao acceptance e ao
+  `sum_test.go`, reverificado manualmente (passa).
+- Pré-revisão Codex rodada 2 (`resume --last`): **aprovado sem
+  ressalvas** os dois desafios, incluindo concordância explícita com o
+  argumento de que `uses-defer` via `source_inspection` segue o mesmo
+  contrato já aceito para `uses-sprintf`/`signature-is-variadic` — a
+  ausência de um runner dedicado a palavras-chave é uma limitação
+  sistêmica do motor, não um bloqueio deste conteúdo.
+- `go run ./cmd/codinho catalog validate` e `catalog validate --checks` →
+  exit 0 nas duas rodadas. `go build ./...`, `gofmt -l .`, `go vet ./...`
+  → ok.
 
 ### Results summary
-Spec destravada. Três checkpoints de conteúdo real autorado (6 de 44
-desafios, pack go-first-steps): checkpoint 1 (declarações/tipos),
-checkpoint 2 (tooling + conversão numérica) e checkpoint 3 (tooling +
-shadowing, ambos com fixture/checks executáveis reais), todos com
+Spec destravada. Quatro checkpoints de conteúdo real autorado (8 de 44
+desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
+checkpoint 2 tooling + conversão numérica, checkpoint 3 tooling +
+shadowing) e o primeiro checkpoint de um segundo pack, go-core (defer +
+parâmetros variádicos) — todos com fixture/checks executáveis reais e
 pré-revisão automatizada aprovada sem ressalvas (Decision 3), aguardando
 revisão humana final e playtest do usuário antes de continuar os próximos
 lotes. Nenhum desafio está `status: published` — `author: claude` já
@@ -339,7 +381,12 @@ preenchido, `reviewed_by`/`playtested` pendentes do playtest real. O
 checkpoint 3 também validou o padrão de retomar sessão sob condições reais
 adversas (rodada travada, processo órfão) e achou um bug estrutural real
 no pack (schema_version corrompido) — evidência de que a pré-revisão
-compensa mesmo quando a mudança parece só de conteúdo.
+compensa mesmo quando a mudança parece só de conteúdo. O checkpoint 1 de
+go-core achou e corrigiu um vazamento de solução real (objective
+prescrevendo a técnica de implementação completa) e deixou registrado um
+limite sistêmico do motor (nenhum runner allowlisted verifica presença de
+palavra-chave como `defer`; critérios sintáticos ficam por
+`source_inspection`, mesmo padrão já aceito alhures).
 
 ### Requirement trace
 Pendente — spec em progresso (checkpoint 1 de N; ver Execution log e

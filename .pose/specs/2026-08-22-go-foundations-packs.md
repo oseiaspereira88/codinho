@@ -705,9 +705,52 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
   slice-with-zero-length` (a lacuna de `cap <= n`); rodada 3 (`resume
   --last`) aprovou `preallocate-slice-with-zero-length` sem ressalvas
   após a correção para `cap == n` exato.
+- 2026-08-25: checkpoint 5 (ÚLTIMO de go-data-text) autorado — os 2
+  desafios `kind: combined`, completando o pack em 10/10 desafios (8
+  atômicos + 2 combinados). `go-data-text.build-scores-from-entries`
+  (temas text-and-binary-data + slices-arrays-maps) integra
+  parse-integers-with-error-handling + distinguish-zero-value-from-
+  absence + dedupe-preserving-first-occurrence, sem competências novas.
+  `go-data-text.format-names-as-csv-fields` (temas slices-arrays-maps +
+  text-and-binary-data) integra preallocate-slice-with-zero-length +
+  title-first-letters-preserving-spacing + quote-csv-field-when-needed,
+  também sem competências novas.
+- Pré-revisão Codex rodada 1 (`new`): **rejeitou os dois**, achando
+  lacunas de teste reais análogas às dos checkpoints 3-4.
+  `build-scores-from-entries`: faltava o caso de uma entrada inválida
+  seguida de uma válida para o mesmo nome — um mutante que marca o nome
+  como "já visto" antes de validar o placar (em vez de só depois da
+  conversão ter sucesso) passava no teste publicado, mas descartaria
+  incorretamente um placar válido que vem depois de uma tentativa
+  inválida. `format-names-as-csv-fields`: faltavam casos de espaçamento
+  múltiplo/pontas, nome só de espaços, e aspas internas após capitalizar
+  — o mutante `strings.Fields`+`strings.Join` (já usado no checkpoint 4)
+  passava de novo por não ter cobertura suficiente neste novo contexto
+  combinado; o primeiro macro_step também combinava pré-alocar e ignorar
+  nomes vazios.
+- Correções: `build-scores-from-entries` ganhou o caso `["bob:not-an-
+  int","bob:5"]` → `scores["bob"]==(5,true)`, e uma constraint explícita
+  proibindo que uma entrada inválida marque o nome como já tendo placar.
+  `format-names-as-csv-fields` ganhou os três casos que faltavam, uma
+  constraint explícita definindo que só a string vazia "" é ignorada (um
+  nome só de espaços não), e o primeiro macro_step foi dividido em dois
+  (pré-alocar / ignorar só string vazia), totalizando 4 macro_steps.
+  Reverificado manualmente com -count=1 (10x): os mutantes relevantes de
+  cada desafio agora falham de forma consistente.
+- `go run ./cmd/codinho catalog validate --checks` → exit 0 após as
+  correções, sem avisos novos. `go build ./...`, `gofmt -l .`,
+  `go vet ./...` → ok.
+- Pré-revisão Codex rodada 2 (`resume --last`): **aprovado sem
+  ressalvas** `build-scores-from-entries`; **aprovado com ressalva menor
+  não bloqueante** `format-names-as-csv-fields` (comentário da fixture
+  ainda dizia "skipping blanks", desalinhado com o contrato final de só
+  ignorar a string vazia) — corrigido o comentário.
+- **go-data-text.yaml está completo: 10/10 desafios da matriz de
+  distribuição** (8 atômicos + 2 combinados), mesmo padrão de rigor de
+  go-core.
 
 ### Results summary
-Spec destravada. Treze checkpoints de conteúdo real autorado (26 de 44
+Spec destravada. Catorze checkpoints de conteúdo real autorado (28 de 44
 desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
 checkpoint 2 tooling + conversão numérica, checkpoint 3 tooling +
 shadowing), cinco em go-core (checkpoint 1 defer + parâmetros
@@ -715,14 +758,14 @@ variádicos, checkpoint 2 labeled break + receptor de ponteiro, checkpoint
 3 panic/recover + invariante com campo não exportado, checkpoint 4
 curto-circuito + construtor de interface, checkpoint 5 os 2 desafios
 combinados — **go-core está completo**: 10/10 desafios previstos na
-matriz de distribuição, 8 atômicos + 2 combinados) e quatro checkpoints
-em go-data-text (pack novo, criado nesta sessão: checkpoint 1 filtro de
+matriz de distribuição, 8 atômicos + 2 combinados) e cinco checkpoints em
+go-data-text (pack novo, criado nesta sessão: checkpoint 1 filtro de
 slice sem aliasing + truncamento de string em fronteira de rune UTF-8,
 checkpoint 2 comma-ok em map + citação de campo CSV, checkpoint 3
 deduplicação com set + soma segura de inteiros, checkpoint 4 pré-alocação
-de slice + capitalização preservando espaçamento — **completa os 8
-atômicos previstos**, faltando só os 2 combinados; 8/10 desafios
-previstos) — todos com
+de slice + capitalização preservando espaçamento, checkpoint 5 os 2
+desafios combinados — **go-data-text está completo**: 10/10 desafios
+previstos, 8 atômicos + 2 combinados) — todos com
 fixture/checks executáveis reais e pré-revisão automatizada aprovada sem
 ressalvas ou só com ressalvas menores não bloqueantes (Decision 3),
 aguardando revisão humana final e playtest do usuário antes de publicar.

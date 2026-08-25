@@ -1181,6 +1181,410 @@ challenges:
         test_pattern: ^TestTitleFirstLetters$
         timeout: 20s
     variants: []
+
+  - schema_version: 1
+    id: go-data-text.build-scores-from-entries
+    version: 1.0.0
+    title: Construir um placar a partir de entradas de texto, mantendo o primeiro placar válido
+    kind: combined
+    difficulty: intermediate
+    estimated_minutes: 30
+    themes: [text-and-binary-data, slices-arrays-maps]
+    competencies:
+      primary: [parse-integers-with-error-handling, distinguish-zero-value-from-absence, dedupe-preserving-first-occurrence]
+      secondary: []
+    prerequisites: [strconv-error-handling, map-comma-ok-lookup]
+    brief: >
+      Implemente a construção de um placar a partir de entradas no
+      formato "nome:placar": placares que não convertem para inteiro
+      contam como inválidos, e apenas o primeiro placar válido de cada
+      nome é mantido -- mesmo quando esse primeiro placar é exatamente 0.
+    constraints:
+      - Não usar bibliotecas externas além da biblioteca padrão.
+      - Uma entrada sem o separador ":" ou cujo placar não converte para inteiro conta como inválida.
+      - Verificar com comma-ok se um nome já tem um placar registrado antes de gravar, nunca comparando o placar existente com zero.
+      - Uma entrada inválida nunca pode impedir que uma entrada válida posterior do mesmo nome seja registrada.
+    acceptance:
+      - 'BuildScores(["alice:10","bob:x","alice:99","carol:0","dave:abc","noformat"]) retorna scores {"alice":10,"carol":0} e invalidEntries ["bob:x","dave:abc","noformat"], nessa ordem.'
+      - 'BuildScores(["alice:0","alice:50"]) mantém scores["alice"] igual a (0, true) via comma-ok -- a duplicata não sobrescreve o primeiro placar, mesmo sendo 0.'
+      - Um nome nunca mencionado em nenhuma entrada válida está ausente do map (comma-ok retorna false), não presente com valor 0.
+      - 'BuildScores(["bob:not-an-int","bob:5"]) retorna scores["bob"] igual a (5, true) -- a entrada inválida não impede a válida seguinte de ser registrada.'
+      - BuildScores(nil) retorna scores e invalidEntries vazios.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.parse-entry-into-name-and-score
+            kind: micro
+            action: implement
+            target: function
+            title: Separar nome e placar de cada entrada, tratando falhas como inválidas
+            instruction:
+              objective: Para cada entrada, separar o nome do placar pelo separador ":" e tentar converter o placar para inteiro, registrando a entrada original em invalidEntries sempre que o formato ou a conversão falhar.
+              scope: O laço sobre entries e a separação/conversão de cada uma.
+              constraints:
+                - Uma entrada sem o separador ":" ou cujo placar não converte para inteiro conta como inválida.
+            concepts: [strconv-error-handling]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: parses-name-and-score-tracking-invalid
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.record-first-valid-score-with-comma-ok
+            kind: micro
+            action: implement
+            target: function
+            title: Registrar só o primeiro placar válido de cada nome
+            instruction:
+              objective: Para cada entrada que converteu com sucesso, verificar com comma-ok se o nome já tem um placar registrado e, se não tiver, gravar o novo placar.
+              scope: A gravação em scores a partir do resultado do passo anterior.
+              constraints:
+                - Verificar com comma-ok se um nome já tem um placar registrado antes de gravar, nunca comparando o placar existente com zero.
+                - Uma entrada que falhou na conversão não pode marcar o nome como já tendo um placar.
+            concepts: [map-comma-ok-lookup]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: keeps-first-valid-score-via-comma-ok
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que comparar scores[name] com 0 para decidir se o nome já tem um placar quebraria justamente o caso em que o primeiro placar válido é 0?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/build-scores-from-entries
+
+          go 1.25.0
+      - path: leaderboard.go
+        content: |
+          package leaderboard
+
+          // BuildScores parses "name:score" entries, keeping only the first valid
+          // score seen for each name -- including when that first score is
+          // exactly 0 -- and collecting the raw entries whose score failed to
+          // parse as an int, in the order they were seen.
+          func BuildScores(entries []string) (scores map[string]int, invalidEntries []string) {
+              panic("not implemented")
+          }
+      - path: leaderboard_test.go
+        content: |
+          package leaderboard
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          func TestBuildScores(t *testing.T) {
+              t.Run("mixed valid, invalid, and duplicate entries", func(t *testing.T) {
+                  entries := []string{"alice:10", "bob:x", "alice:99", "carol:0", "dave:abc", "noformat"}
+                  scores, invalidEntries := BuildScores(entries)
+
+                  wantScores := map[string]int{"alice": 10, "carol": 0}
+                  if !reflect.DeepEqual(scores, wantScores) {
+                      t.Errorf("scores = %v, want %v", scores, wantScores)
+                  }
+                  wantInvalid := []string{"bob:x", "dave:abc", "noformat"}
+                  if !reflect.DeepEqual(invalidEntries, wantInvalid) {
+                      t.Errorf("invalidEntries = %v, want %v", invalidEntries, wantInvalid)
+                  }
+              })
+
+              t.Run("first score of zero is kept, not treated as absent", func(t *testing.T) {
+                  scores, _ := BuildScores([]string{"alice:0", "alice:50"})
+                  v, ok := scores["alice"]
+                  if !ok || v != 0 {
+                      t.Errorf(`scores["alice"] = (%d, %v), want (0, true)`, v, ok)
+                  }
+              })
+
+              t.Run("name never mentioned is absent, not zero", func(t *testing.T) {
+                  scores, _ := BuildScores([]string{"alice:10"})
+                  _, ok := scores["nobody"]
+                  if ok {
+                      t.Error(`scores["nobody"] should be absent (ok=false)`)
+                  }
+              })
+
+              t.Run("empty input", func(t *testing.T) {
+                  scores, invalidEntries := BuildScores(nil)
+                  if len(scores) != 0 || len(invalidEntries) != 0 {
+                      t.Errorf("BuildScores(nil) = (%v, %v), want both empty", scores, invalidEntries)
+                  }
+              })
+
+              t.Run("invalid entry does not claim the dedup slot for a later valid one", func(t *testing.T) {
+                  scores, invalidEntries := BuildScores([]string{"bob:not-an-int", "bob:5"})
+                  v, ok := scores["bob"]
+                  if !ok || v != 5 {
+                      t.Errorf(`scores["bob"] = (%d, %v), want (5, true)`, v, ok)
+                  }
+                  wantInvalid := []string{"bob:not-an-int"}
+                  if !reflect.DeepEqual(invalidEntries, wantInvalid) {
+                      t.Errorf("invalidEntries = %v, want %v", invalidEntries, wantInvalid)
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestBuildScores$
+        timeout: 20s
+    variants: []
+
+  - schema_version: 1
+    id: go-data-text.format-names-as-csv-fields
+    version: 1.0.0
+    title: Formatar uma lista de nomes como campos CSV capitalizados
+    kind: combined
+    difficulty: intermediate
+    estimated_minutes: 30
+    themes: [slices-arrays-maps, text-and-binary-data]
+    competencies:
+      primary: [preallocate-slice-with-zero-length, title-first-letters-preserving-spacing, quote-csv-field-when-needed]
+      secondary: []
+    prerequisites: [slice-preallocation-length-vs-capacity, rune-aware-whitespace-preservation, csv-field-quoting]
+    brief: >
+      Implemente a formatação de uma lista de nomes para um relatório
+      CSV: cada nome não vazio é capitalizado e citado quando necessário,
+      nomes vazios são ignorados, e a saída é pré-alocada com a
+      capacidade da lista de entrada.
+    constraints:
+      - Não usar bibliotecas externas além da biblioteca padrão.
+      - Pré-alocar a saída com make usando comprimento 0 e capacidade len(names).
+      - Apenas a string vazia "" é ignorada -- um nome composto só de espaços não é ignorado.
+      - Preservar exatamente o espaçamento original de cada nome ao capitalizá-lo.
+    acceptance:
+      - 'FormatNames(["", "alice smith", "o''brien, jane", ""]) retorna ["Alice Smith", "\"O''brien, Jane\""], nessa ordem.'
+      - A capacidade da slice retornada é exatamente len(names), mesmo quando nomes vazios são ignorados.
+      - 'FormatNames(["  bob   smith  "]) retorna ["  Bob   Smith  "], preservando os espaços internos e das pontas.'
+      - 'FormatNames(["   "]) retorna ["   "] -- um nome só de espaços não é ignorado.'
+      - 'FormatNames([`say "hi" john`]) retorna [`"Say ""hi"" John"`] -- aspas internas são dobradas depois de capitalizar.'
+      - FormatNames(nil) retorna uma slice vazia.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.preallocate-output-with-capacity
+            kind: micro
+            action: declare
+            target: function
+            title: Pré-alocar a saída com capacidade len(names)
+            instruction:
+              objective: Declarar a slice de saída de forma que ela já reserve espaço para até len(names) elementos, mas comece sem nenhum elemento.
+              scope: Somente a criação da slice de saída.
+              constraints:
+                - Pré-alocar a saída com make usando comprimento 0 e capacidade len(names).
+            concepts: [slice-preallocation-length-vs-capacity]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: preallocates-output-with-capacity
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.skip-only-empty-string-names
+            kind: micro
+            action: implement
+            target: function
+            title: Percorrer names ignorando só a string vazia
+            instruction:
+              objective: Percorrer names, ignorando um nome sem gerar entrada na saída somente quando ele for exatamente a string vazia -- um nome composto só de espaços deve continuar sendo processado normalmente.
+              scope: O laço sobre names e a decisão de ignorar ou não cada nome.
+              constraints:
+                - Apenas a string vazia "" é ignorada -- um nome composto só de espaços não é ignorado.
+            concepts: [slice-preallocation-length-vs-capacity]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: skips-only-empty-string-names
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.title-case-each-name
+            kind: micro
+            action: implement
+            target: function
+            title: Capitalizar cada nome não vazio preservando espaçamento
+            instruction:
+              objective: Para cada nome não vazio, capitalizar a primeira letra de cada palavra, preservando exatamente o espaçamento original.
+              scope: A transformação de cada nome antes de acrescentá-lo à saída.
+              constraints:
+                - Preservar exatamente o espaçamento original de cada nome.
+            concepts: [rune-aware-whitespace-preservation]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: title-cases-each-name
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.quote-as-csv-field
+            kind: micro
+            action: implement
+            target: function
+            title: Citar o nome capitalizado como campo CSV quando necessário
+            instruction:
+              objective: Formatar cada nome já capitalizado como um campo CSV, citando-o e escapando aspas internas apenas quando ele contém vírgula, aspas ou quebra de linha.
+              scope: A formatação final de cada nome antes de acrescentá-lo à saída.
+              constraints:
+                - Um nome sem vírgula, aspas ou quebra de linha deve permanecer sem alterações.
+            concepts: [csv-field-quoting]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: quotes-csv-field-when-needed
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que citar antes de capitalizar produziria um resultado diferente de capitalizar antes de citar, mesmo levando ao mesmo campo final neste caso?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/format-names-as-csv-fields
+
+          go 1.25.0
+      - path: rows.go
+        content: |
+          package rows
+
+          // FormatNames returns a title-cased, CSV-quoted version of each name
+          // in names that is not the empty string, skipping empty strings, and
+          // pre-allocating its result with capacity exactly len(names) even
+          // though some entries are skipped.
+          func FormatNames(names []string) []string {
+              panic("not implemented")
+          }
+      - path: rows_test.go
+        content: |
+          package rows
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          func TestFormatNames(t *testing.T) {
+              names := []string{"", "alice smith", "o'brien, jane", ""}
+
+              got := FormatNames(names)
+              want := []string{"Alice Smith", `"O'brien, Jane"`}
+              if !reflect.DeepEqual(got, want) {
+                  t.Errorf("FormatNames(%v) = %v, want %v", names, got, want)
+              }
+
+              t.Run("capacity is preallocated to exactly len(names)", func(t *testing.T) {
+                  if cap(got) != len(names) {
+                      t.Errorf("cap(FormatNames(...)) = %d, want exactly %d", cap(got), len(names))
+                  }
+              })
+
+              t.Run("no blanks, no quoting needed", func(t *testing.T) {
+                  got := FormatNames([]string{"bob", "carol jones"})
+                  want := []string{"Bob", "Carol Jones"}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("FormatNames(...) = %v, want %v", got, want)
+                  }
+                  if cap(got) != 2 {
+                      t.Errorf("cap = %d, want 2", cap(got))
+                  }
+              })
+
+              t.Run("all blank", func(t *testing.T) {
+                  got := FormatNames([]string{"", ""})
+                  if len(got) != 0 {
+                      t.Errorf("FormatNames(all blank) = %v, want empty", got)
+                  }
+              })
+
+              t.Run("empty input", func(t *testing.T) {
+                  got := FormatNames(nil)
+                  if len(got) != 0 {
+                      t.Errorf("FormatNames(nil) = %v, want empty", got)
+                  }
+              })
+
+              t.Run("original spacing preserved through title-casing", func(t *testing.T) {
+                  got := FormatNames([]string{"  bob   smith  "})
+                  want := []string{"  Bob   Smith  "}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("FormatNames(...) = %v, want %v", got, want)
+                  }
+              })
+
+              t.Run("whitespace-only name is not treated as blank", func(t *testing.T) {
+                  got := FormatNames([]string{"   "})
+                  want := []string{"   "}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("FormatNames(...) = %v, want %v", got, want)
+                  }
+              })
+
+              t.Run("internal quotes are doubled after title-casing", func(t *testing.T) {
+                  got := FormatNames([]string{`say "hi" john`})
+                  want := []string{`"Say ""hi"" John"`}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("FormatNames(...) = %v, want %v", got, want)
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestFormatNames$
+        timeout: 20s
+    variants: []
 relations:
   - from: go-data-text.filter-without-mutating-input
     to: go-data-text.truncate-bytes-at-rune-boundary
@@ -1253,4 +1657,28 @@ relations:
     kind: relates_to
   - from: rune-aware-whitespace-preservation
     to: title-first-letters-preserving-spacing
+    kind: relates_to
+  - from: go-data-text.build-scores-from-entries
+    to: go-data-text.sum-valid-integers-safely
+    kind: deepens_into
+  - from: go-data-text.build-scores-from-entries
+    to: go-data-text.lookup-map-value-with-comma-ok
+    kind: deepens_into
+  - from: go-data-text.build-scores-from-entries
+    to: go-data-text.dedupe-preserving-first-occurrence
+    kind: deepens_into
+  - from: go-data-text.format-names-as-csv-fields
+    to: go-data-text.preallocate-slice-with-zero-length
+    kind: deepens_into
+  - from: go-data-text.format-names-as-csv-fields
+    to: go-data-text.title-first-letters-preserving-spacing
+    kind: deepens_into
+  - from: go-data-text.format-names-as-csv-fields
+    to: go-data-text.quote-csv-field-when-needed
+    kind: deepens_into
+  - from: go-data-text.build-scores-from-entries
+    to: go-data-text.format-names-as-csv-fields
+    kind: relates_to
+  - from: go-data-text.format-names-as-csv-fields
+    to: go-data-text.build-scores-from-entries
     kind: relates_to

@@ -927,10 +927,43 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
   `go vet ./...` → ok.
 - Pré-revisão Codex rodada 2 (`resume --last`): **aprovado sem
   ressalvas** os dois desafios.
+- 2026-08-25: checkpoint 2 autorado em `packs/go-errors.yaml` — 2
+  desafios atômicos novos, completando os 4 atômicos previstos para o
+  pack. `go-errors.validate-user-joining-all-errors` (agrega todas as
+  violações de validação com errors.Join, não só a primeira) e
+  `go-errors.translate-error-at-boundary` (traduz uma falha interna
+  simulada em um erro público de domínio, sem deixar o erro interno
+  detectável nem por errors.Is nem textualmente na mensagem).
+- Pré-revisão Codex rodada 1 (`new`): **aprovado com ressalva menor não
+  bloqueante** `validate-user-joining-all-errors` — uma implementação
+  sem errors.Join, usando dois %w (`fmt.Errorf("%w: %w", ...)`), produz
+  o mesmo resultado observável; a exigência de usar especificamente
+  errors.Join continua dependendo de source_inspection, mesma limitação
+  sistêmica já aceita no projeto para outras técnicas (uses-defer,
+  errors.As vs asserção direta, etc.) — mantido sem alteração.
+  **Rejeitado** `translate-error-at-boundary`: o teste só verificava
+  ausência de vazamento via errors.Is; um mutante que troca %w por %v
+  (`fmt.Errorf("%w: %v", ErrServiceUnavailable, errDeadlineExceeded)`)
+  escapa de errors.Is mas ainda expõe o texto "i/o timeout" na mensagem
+  do erro — uma fronteira de tradução real precisa impedir os dois tipos
+  de vazamento, não só o estrutural.
+- Correção: `translate-error-at-boundary` ganhou uma verificação de
+  vazamento textual (`strings.Contains(err.Error(), errDeadlineExceeded.
+  Error())`) além da checagem via errors.Is, e a constraint/acceptance
+  foram reforçadas para exigir explicitamente os dois tipos de proteção.
+  Reverificado manualmente com -count=1: o mutante %v agora falha.
+- `go run ./cmd/codinho catalog validate --checks` → exit 0 após a
+  correção, sem avisos novos. `go build ./...`, `gofmt -l .`,
+  `go vet ./...` → ok.
+- Pré-revisão Codex rodada 2 (`resume --last`): **aprovado sem
+  ressalvas** `translate-error-at-boundary`.
+- **Os 4 desafios atômicos de go-errors.yaml estão completos**, faltando
+  o checkpoint com os 2 combinados e a fatia funcional (3 desafios
+  restantes de 7).
 
 ### Results summary
-Spec destravada. Dezenove checkpoints de conteúdo real autorado (38 de
-44 desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
+Spec destravada. Vinte checkpoints de conteúdo real autorado (40 de 44
+desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
 checkpoint 2 tooling + conversão numérica, checkpoint 3 tooling +
 shadowing), cinco em go-core (checkpoint 1 defer + parâmetros
 variádicos, checkpoint 2 labeled break + receptor de ponteiro, checkpoint
@@ -952,10 +985,12 @@ exigiu cinco rodadas de pré-revisão, a mais trabalhosa da sessão, até
 fechar todas as classes de mutante "processa só um subconjunto da
 coleção", checkpoint 3 type assertion segura + Map genérico, checkpoint 4
 os 2 desafios combinados — **go-type-design está completo**: 8/8
-desafios previstos, 6 atômicos + 2 combinados) e um checkpoint inicial em
+desafios previstos, 6 atômicos + 2 combinados) e dois checkpoints em
 go-errors (pack novo, criado nesta sessão: checkpoint 1 wrapping com %w +
-errors.Is/errors.As; 2/7 desafios previstos, 4 atômicos + 2 combinados +
-1 fatia funcional) — todos com
+errors.Is/errors.As, checkpoint 2 agregação com errors.Join + tradução de
+erro em fronteira sem vazamento textual — **completa os 4 atômicos
+previstos**, faltando os 2 combinados e a fatia funcional; 4/7 desafios
+previstos) — todos com
 fixture/checks executáveis reais e pré-revisão automatizada aprovada sem
 ressalvas ou só com ressalvas menores não bloqueantes (Decision 3),
 aguardando revisão humana final e playtest do usuário antes de publicar.

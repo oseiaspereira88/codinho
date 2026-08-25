@@ -9,11 +9,19 @@ concepts:
     title: Encadeamento de erro com %w
   - id: errors-as-type-extraction
     title: Extração de tipo com errors.As
+  - id: errors-join-aggregation
+    title: Agregação de erros com errors.Join
+  - id: error-translation-at-boundary
+    title: Tradução de erro em uma fronteira
 competencies:
   - id: wrap-sentinel-with-context
     title: Encadear um erro sentinela preservando o contexto
   - id: extract-wrapped-error-type
     title: Extrair um tipo de erro encadeado
+  - id: aggregate-errors-without-losing-any
+    title: Agregar erros sem perder nenhum
+  - id: translate-error-without-leaking-internals
+    title: Traduzir um erro sem vazar detalhes internos
 tracks: []
 challenges:
   - schema_version: 1
@@ -337,6 +345,319 @@ challenges:
         test_pattern: ^TestFieldFromError$
         timeout: 20s
     variants: []
+
+  - schema_version: 1
+    id: go-errors.validate-user-joining-all-errors
+    version: 1.0.0
+    title: Validar um usuário agregando todos os erros com errors.Join
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [errors]
+    competencies:
+      primary: [aggregate-errors-without-losing-any]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente a validação de um usuário que agrega todas as
+      violações encontradas em um único erro com errors.Join, em vez de
+      parar na primeira violação.
+    constraints:
+      - Não usar bibliotecas externas além da biblioteca padrão.
+      - Usar errors.Join para agregar todas as violações encontradas, não retornar só a primeira.
+    acceptance:
+      - ValidateUser("bob", 5) retorna nil.
+      - 'ValidateUser("", 5) retorna um erro para o qual errors.Is(err, ErrNameRequired) é true e errors.Is(err, ErrAgeNegative) é false.'
+      - 'ValidateUser("bob", -1) retorna um erro para o qual errors.Is(err, ErrAgeNegative) é true e errors.Is(err, ErrNameRequired) é false.'
+      - 'ValidateUser("", -1) retorna um erro para o qual errors.Is(err, ErrNameRequired) e errors.Is(err, ErrAgeNegative) são ambos true -- as duas violações, não só a primeira.'
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.collect-violated-rules
+            kind: micro
+            action: implement
+            target: function
+            title: Coletar as regras violadas
+            instruction:
+              objective: Verificar cada regra de validação e acumular o erro sentinela correspondente para cada uma que for violada, sem retornar ainda.
+              scope: A verificação de cada regra e o acúmulo dos erros violados.
+              constraints:
+                - Verificar todas as regras, mesmo quando uma anterior já foi violada.
+            concepts: [errors-join-aggregation]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: collects-all-violated-rules
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.join-collected-errors
+            kind: micro
+            action: implement
+            target: function
+            title: Agregar os erros coletados com errors.Join
+            instruction:
+              objective: Devolver os erros coletados agregados em um único erro, de forma que cada um continue detectável individualmente com errors.Is.
+              scope: O retorno da função a partir dos erros coletados.
+              constraints:
+                - Usar errors.Join para agregar todas as violações encontradas, não retornar só a primeira.
+            concepts: [errors-join-aggregation]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: joins-collected-errors
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que retornar só o primeiro erro encontrado perderia informação útil quando várias regras são violadas ao mesmo tempo?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/validate-user-joining-all-errors
+
+          go 1.25.0
+      - path: validate.go
+        content: |
+          package user
+
+          import "errors"
+
+          // ErrNameRequired means name was empty.
+          var ErrNameRequired = errors.New("name is required")
+
+          // ErrAgeNegative means age was negative.
+          var ErrAgeNegative = errors.New("age cannot be negative")
+
+          // ValidateUser returns nil when name and age are both valid, or a
+          // single error aggregating every violated rule -- not just the first
+          // one found.
+          func ValidateUser(name string, age int) error {
+              panic("not implemented")
+          }
+      - path: validate_test.go
+        content: |
+          package user
+
+          import (
+              "errors"
+              "testing"
+          )
+
+          func TestValidateUser(t *testing.T) {
+              t.Run("both valid", func(t *testing.T) {
+                  if err := ValidateUser("bob", 5); err != nil {
+                      t.Errorf("ValidateUser(\"bob\", 5) = %v, want nil", err)
+                  }
+              })
+
+              t.Run("only name invalid", func(t *testing.T) {
+                  err := ValidateUser("", 5)
+                  if !errors.Is(err, ErrNameRequired) {
+                      t.Error("expected ErrNameRequired")
+                  }
+                  if errors.Is(err, ErrAgeNegative) {
+                      t.Error("did not expect ErrAgeNegative")
+                  }
+              })
+
+              t.Run("only age invalid", func(t *testing.T) {
+                  err := ValidateUser("bob", -1)
+                  if !errors.Is(err, ErrAgeNegative) {
+                      t.Error("expected ErrAgeNegative")
+                  }
+                  if errors.Is(err, ErrNameRequired) {
+                      t.Error("did not expect ErrNameRequired")
+                  }
+              })
+
+              t.Run("both invalid: both errors are present, not just the first", func(t *testing.T) {
+                  err := ValidateUser("", -1)
+                  if !errors.Is(err, ErrNameRequired) {
+                      t.Error("expected ErrNameRequired to be present")
+                  }
+                  if !errors.Is(err, ErrAgeNegative) {
+                      t.Error("expected ErrAgeNegative to also be present, not just the first violation")
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestValidateUser$
+        timeout: 20s
+    variants: []
+
+  - schema_version: 1
+    id: go-errors.translate-error-at-boundary
+    version: 1.0.0
+    title: Traduzir um erro interno em uma fronteira sem vazar detalhes
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [errors]
+    competencies:
+      primary: [translate-error-without-leaking-internals]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente uma chamada simulada a um serviço externo que, ao
+      falhar, traduz a falha interna para um erro público de domínio,
+      sem nunca deixar o erro interno detectável por quem chama.
+    constraints:
+      - Não usar bibliotecas externas além da biblioteca padrão.
+      - Nunca encadear errDeadlineExceeded no erro devolvido -- ele deve ser substituído, não envolvido.
+    acceptance:
+      - CallService(false) retorna nil.
+      - 'CallService(true) retorna um erro para o qual errors.Is(err, ErrServiceUnavailable) é true.'
+      - 'CallService(true) retorna um erro para o qual errors.Is(err, errDeadlineExceeded) é false -- o erro interno nunca é detectável por quem chama.'
+      - A mensagem do erro devolvido por CallService(true) nunca contém o texto do erro interno, mesmo quando errors.Is não o detecta.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.return-nil-on-success
+            kind: micro
+            action: implement
+            target: function
+            title: Devolver nil quando a chamada simulada não falha
+            instruction:
+              objective: Devolver nil quando simulateTimeout é false.
+              scope: O caminho em que simulateTimeout é false.
+              constraints:
+                - Não tratar ainda o caso de falha simulada.
+            concepts: [error-translation-at-boundary]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: returns-nil-on-success
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.translate-failure-without-leaking
+            kind: micro
+            action: implement
+            target: function
+            title: Traduzir a falha simulada sem vazar o erro interno
+            instruction:
+              objective: Quando simulateTimeout é true, devolver ErrServiceUnavailable, sem encadear errDeadlineExceeded no erro devolvido.
+              scope: O caminho em que simulateTimeout é true.
+              constraints:
+                - Nunca encadear errDeadlineExceeded no erro devolvido, nem incluir o texto da sua mensagem -- ele deve ser substituído, não envolvido nem citado.
+            concepts: [error-translation-at-boundary]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: translates-failure-without-leaking
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que encadear errDeadlineExceeded com %w junto de ErrServiceUnavailable violaria o propósito de uma fronteira de tradução, mesmo que errors.Is(err, ErrServiceUnavailable) continuasse funcionando?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/translate-error-at-boundary
+
+          go 1.25.0
+      - path: service.go
+        content: |
+          package svc
+
+          import "errors"
+
+          // errDeadlineExceeded simulates a low-level networking failure. It is
+          // unexported: callers of CallService must never be able to detect it
+          // directly.
+          var errDeadlineExceeded = errors.New("i/o timeout")
+
+          // ErrServiceUnavailable is the public sentinel CallService returns when
+          // the simulated call fails, translating the low-level failure into a
+          // domain-appropriate one instead of relaying it as-is.
+          var ErrServiceUnavailable = errors.New("service unavailable")
+
+          // CallService simulates calling a flaky downstream service. When
+          // simulateTimeout is true, it translates the internal timeout into
+          // ErrServiceUnavailable, without leaking errDeadlineExceeded to the
+          // caller.
+          func CallService(simulateTimeout bool) error {
+              panic("not implemented")
+          }
+      - path: service_test.go
+        content: |
+          package svc
+
+          import (
+              "errors"
+              "strings"
+              "testing"
+          )
+
+          func TestCallService(t *testing.T) {
+              t.Run("success", func(t *testing.T) {
+                  if err := CallService(false); err != nil {
+                      t.Errorf("CallService(false) = %v, want nil", err)
+                  }
+              })
+
+              t.Run("timeout translates to the public sentinel", func(t *testing.T) {
+                  err := CallService(true)
+                  if !errors.Is(err, ErrServiceUnavailable) {
+                      t.Errorf("errors.Is(err, ErrServiceUnavailable) = false, want true (err = %v)", err)
+                  }
+              })
+
+              t.Run("the internal low-level error is never leaked to the caller", func(t *testing.T) {
+                  err := CallService(true)
+                  if errors.Is(err, errDeadlineExceeded) {
+                      t.Error("errors.Is(err, errDeadlineExceeded) = true, want false -- internal error leaked across the boundary")
+                  }
+                  if strings.Contains(err.Error(), errDeadlineExceeded.Error()) {
+                      t.Errorf("err.Error() = %q, contains the internal error message %q -- leaked textually even without errors.Is", err.Error(), errDeadlineExceeded.Error())
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestCallService$
+        timeout: 20s
+    variants: []
 relations:
   - from: go-errors.wrap-sentinel-error-with-context
     to: go-errors.extract-field-with-errors-as
@@ -355,4 +676,25 @@ relations:
     kind: relates_to
   - from: errors-as-type-extraction
     to: extract-wrapped-error-type
+    kind: relates_to
+  - from: go-errors.validate-user-joining-all-errors
+    to: go-errors.translate-error-at-boundary
+    kind: relates_to
+  - from: go-errors.translate-error-at-boundary
+    to: go-errors.validate-user-joining-all-errors
+    kind: relates_to
+  - from: go-errors.validate-user-joining-all-errors
+    to: go-errors.wrap-sentinel-error-with-context
+    kind: relates_to
+  - from: aggregate-errors-without-losing-any
+    to: errors-join-aggregation
+    kind: relates_to
+  - from: errors-join-aggregation
+    to: aggregate-errors-without-losing-any
+    kind: relates_to
+  - from: translate-error-without-leaking-internals
+    to: error-translation-at-boundary
+    kind: relates_to
+  - from: error-translation-at-boundary
+    to: translate-error-without-leaking-internals
     kind: relates_to

@@ -13,11 +13,19 @@ concepts:
     title: Aliasing em cópia rasa de struct
   - id: typed-nil-interface-trap
     title: Armadilha do nil tipado dentro de uma interface
+  - id: nil-safe-pointer-receiver
+    title: Receptor de ponteiro seguro para nil
+  - id: generic-comparable-constraint
+    title: Constraint comparable em funções genéricas
 competencies:
   - id: clone-struct-with-independent-slice
     title: Clonar uma struct com slice de forma independente
   - id: return-true-nil-interface
     title: Retornar um nil de interface verdadeiro
+  - id: handle-nil-receiver-safely
+    title: Tratar um receptor nil com segurança
+  - id: implement-generic-membership-check
+    title: Implementar uma checagem de pertencimento genérica
 tracks: []
 challenges:
   - schema_version: 1
@@ -344,6 +352,328 @@ challenges:
         test_pattern: ^TestSelectValidator$
         timeout: 20s
     variants: []
+
+  - schema_version: 1
+    id: go-type-design.sum-list-with-nil-safe-receiver
+    version: 1.0.0
+    title: Somar uma lista encadeada com receptor seguro para nil
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [structs-and-pointers]
+    competencies:
+      primary: [handle-nil-receiver-safely]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente a soma dos valores de uma lista encadeada de nós, de
+      forma que o método funcione corretamente mesmo quando chamado em
+      um *Node nil, representando uma lista vazia.
+    constraints:
+      - Não usar bibliotecas externas.
+      - Chamar Sum em um *Node nil não pode panicar.
+    acceptance:
+      - Chamar Sum em um *Node nil retorna 0, sem panicar.
+      - Um nó único retorna seu próprio Value.
+      - Uma cadeia de nós retorna a soma de todos os Value, seguindo Next, incluindo valores negativos, valores repetidos (cada nó conta uma vez) e cadeias longas (a soma não pode parar em um prefixo fixo).
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.handle-nil-receiver-first
+            kind: micro
+            action: implement
+            target: function
+            title: Garantir que um receptor nil nunca cause panic
+            instruction:
+              objective: Garantir que chamar Sum em um receptor nil não acesse nenhum campo e retorne 0.
+              scope: Somente o tratamento do receptor nil.
+              constraints:
+                - Chamar Sum em um *Node nil não pode panicar.
+            concepts: [nil-safe-pointer-receiver]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: handles-nil-receiver-first
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.sum-across-the-whole-chain
+            kind: micro
+            action: implement
+            target: function
+            title: Somar Value de n e de todos os nós alcançáveis a partir de Next
+            instruction:
+              objective: Quando n não é nil, incluir Value de n e de todos os nós alcançáveis a partir de Next no resultado.
+              scope: O caso em que n não é nil.
+              constraints:
+                - Incluir Value de todos os nós da cadeia, seguindo Next até o fim.
+            concepts: [nil-safe-pointer-receiver]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: sums-across-the-whole-chain
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que tratar o receptor nil já no início da função evita repetir essa checagem para cada nó restante da cadeia, seja a solução recursiva ou iterativa?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/sum-list-with-nil-safe-receiver
+
+          go 1.25.0
+      - path: node.go
+        content: |
+          package list
+
+          // Node is one element of a singly linked list of ints.
+          type Node struct {
+              Value int
+              Next  *Node
+          }
+
+          // Sum returns the sum of Value across n and all of its Next nodes. It
+          // works correctly even when called on a nil *Node, returning 0 in that
+          // case.
+          func (n *Node) Sum() int {
+              panic("not implemented")
+          }
+      - path: node_test.go
+        content: |
+          package list
+
+          import "testing"
+
+          func TestNodeSum(t *testing.T) {
+              t.Run("nil receiver returns 0 without panicking", func(t *testing.T) {
+                  var n *Node
+                  if got := n.Sum(); got != 0 {
+                      t.Errorf("nil.Sum() = %d, want 0", got)
+                  }
+              })
+
+              t.Run("single node", func(t *testing.T) {
+                  n := &Node{Value: 5}
+                  if got := n.Sum(); got != 5 {
+                      t.Errorf("Sum() = %d, want 5", got)
+                  }
+              })
+
+              t.Run("chain of nodes", func(t *testing.T) {
+                  n := &Node{Value: 1, Next: &Node{Value: 2, Next: &Node{Value: 3}}}
+                  if got := n.Sum(); got != 6 {
+                      t.Errorf("Sum() = %d, want 6", got)
+                  }
+              })
+
+              t.Run("chain with a negative value", func(t *testing.T) {
+                  n := &Node{Value: -3, Next: &Node{Value: 5}}
+                  if got := n.Sum(); got != 2 {
+                      t.Errorf("Sum() = %d, want 2", got)
+                  }
+              })
+
+              t.Run("chain with repeated values counts each node", func(t *testing.T) {
+                  n := &Node{Value: 2, Next: &Node{Value: 2}}
+                  if got := n.Sum(); got != 4 {
+                      t.Errorf("Sum() = %d, want 4", got)
+                  }
+              })
+
+              t.Run("long chain includes every node, not just a fixed prefix", func(t *testing.T) {
+                  const length = 20
+                  var head *Node
+                  want := 0
+                  for i := length; i >= 1; i-- {
+                      head = &Node{Value: i, Next: head}
+                      want += i
+                  }
+                  if got := head.Sum(); got != want {
+                      t.Errorf("Sum() over a %d-node chain = %d, want %d", length, got, want)
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestNodeSum$
+        timeout: 20s
+    variants: []
+
+  - schema_version: 1
+    id: go-type-design.contains-generic-comparable
+    version: 1.0.0
+    title: Implementar uma checagem de pertencimento genérica
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 10
+    themes: [generics]
+    competencies:
+      primary: [implement-generic-membership-check]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente uma função genérica que verifica se um valor está
+      presente em uma slice, funcionando para qualquer tipo comparável.
+    constraints:
+      - Não usar bibliotecas externas.
+      - O parâmetro de tipo deve ter a constraint comparable.
+    acceptance:
+      - 'Contains([2,1,3], 2) retorna true, incluindo quando o valor procurado está no primeiro índice.'
+      - 'Contains([1,2,3,4], 4) retorna true, mesmo quando o valor procurado não está entre os primeiros elementos.'
+      - Contains funciona para qualquer índice de uma slice longa (20 elementos), não apenas para um prefixo fixo ou um subconjunto esparso de posições.
+      - Contains([1,2,3], 5) retorna false.
+      - 'Contains(["a","b"], "b") retorna true, funcionando também para string.'
+      - 'Contains funciona para qualquer tipo comparable, incluindo bool e structs comparáveis -- não apenas int e string.'
+      - Contains de uma slice vazia sempre retorna false.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.search-for-target-value
+            kind: micro
+            action: implement
+            target: function
+            title: Verificar se target aparece em items
+            instruction:
+              objective: Verificar se target aparece em items, comparando os elementos até encontrar uma correspondência ou concluir que nenhum corresponde.
+              scope: O corpo da função.
+              constraints:
+                - Comparar cada elemento a target usando igualdade, não apenas verificar o comprimento de items.
+            concepts: [generic-comparable-constraint]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: searches-for-target-value
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que a constraint any não seria suficiente para comparar elementos com == dentro de Contains?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/contains-generic-comparable
+
+          go 1.25.0
+      - path: contains.go
+        content: |
+          package genset
+
+          // Contains reports whether target appears in items, for any comparable
+          // type T.
+          func Contains[T comparable](items []T, target T) bool {
+              panic("not implemented")
+          }
+      - path: contains_test.go
+        content: |
+          package genset
+
+          import "testing"
+
+          type point struct {
+              X, Y int
+          }
+
+          func TestContains(t *testing.T) {
+              t.Run("ints", func(t *testing.T) {
+                  if !Contains([]int{2, 1, 3}, 2) {
+                      t.Error("Contains([2,1,3], 2) = false, want true (target at index 0)")
+                  }
+                  if !Contains([]int{1, 2, 3}, 2) {
+                      t.Error("Contains([1,2,3], 2) = false, want true")
+                  }
+                  if !Contains([]int{1, 2, 3, 4}, 4) {
+                      t.Error("Contains([1,2,3,4], 4) = false, want true (target beyond the first few elements)")
+                  }
+                  if Contains([]int{1, 2, 3}, 5) {
+                      t.Error("Contains([1,2,3], 5) = true, want false")
+                  }
+              })
+
+              t.Run("strings", func(t *testing.T) {
+                  if !Contains([]string{"a", "b"}, "b") {
+                      t.Error(`Contains(["a","b"], "b") = false, want true`)
+                  }
+                  if Contains([]string{"a", "b"}, "c") {
+                      t.Error(`Contains(["a","b"], "c") = true, want false`)
+                  }
+              })
+
+              t.Run("bools", func(t *testing.T) {
+                  if !Contains([]bool{false, false}, false) {
+                      t.Error("Contains([false,false], false) = false, want true")
+                  }
+                  if Contains([]bool{false, false}, true) {
+                      t.Error("Contains([false,false], true) = true, want false")
+                  }
+              })
+
+              t.Run("comparable struct", func(t *testing.T) {
+                  pts := []point{{1, 2}, {3, 4}}
+                  if !Contains(pts, point{3, 4}) {
+                      t.Error("Contains(pts, {3,4}) = false, want true")
+                  }
+                  if Contains(pts, point{9, 9}) {
+                      t.Error("Contains(pts, {9,9}) = true, want false")
+                  }
+              })
+
+              t.Run("empty slice", func(t *testing.T) {
+                  if Contains([]int{}, 1) {
+                      t.Error("Contains([], 1) = true, want false")
+                  }
+              })
+
+              t.Run("every index of a long slice is actually compared", func(t *testing.T) {
+                  const length = 20
+                  items := make([]int, length)
+                  for i := range items {
+                      items[i] = i
+                  }
+                  for target := 0; target < length; target++ {
+                      if !Contains(items, target) {
+                          t.Fatalf("Contains(items, %d) = false, want true (index %d must be compared, not just a fixed subset)", target, target)
+                      }
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestContains$
+        timeout: 20s
+    variants: []
 relations:
   - from: go-type-design.clone-inventory-independently
     to: go-type-design.select-validator-true-nil
@@ -362,4 +692,28 @@ relations:
     kind: relates_to
   - from: typed-nil-interface-trap
     to: return-true-nil-interface
+    kind: relates_to
+  - from: go-type-design.sum-list-with-nil-safe-receiver
+    to: go-type-design.contains-generic-comparable
+    kind: relates_to
+  - from: go-type-design.contains-generic-comparable
+    to: go-type-design.sum-list-with-nil-safe-receiver
+    kind: relates_to
+  - from: handle-nil-receiver-safely
+    to: nil-safe-pointer-receiver
+    kind: relates_to
+  - from: nil-safe-pointer-receiver
+    to: handle-nil-receiver-safely
+    kind: relates_to
+  - from: implement-generic-membership-check
+    to: generic-comparable-constraint
+    kind: relates_to
+  - from: generic-comparable-constraint
+    to: implement-generic-membership-check
+    kind: relates_to
+  - from: go-type-design.sum-list-with-nil-safe-receiver
+    to: go-type-design.select-validator-true-nil
+    kind: relates_to
+  - from: go-type-design.select-validator-true-nil
+    to: go-type-design.sum-list-with-nil-safe-receiver
     kind: relates_to

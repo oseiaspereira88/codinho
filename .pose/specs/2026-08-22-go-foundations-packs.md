@@ -786,10 +786,45 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
   `go vet ./...` → ok.
 - Pré-revisão Codex rodada 2 (`resume --last`): **aprovado sem
   ressalvas** os dois desafios.
+- 2026-08-25: checkpoint 2 autorado em `packs/go-type-design.yaml` — 2
+  desafios atômicos novos: `go-type-design.sum-list-with-nil-safe-
+  receiver` (tema structs-and-pointers, soma valores de uma lista
+  encadeada com método que funciona corretamente em um *Node nil) e
+  `go-type-design.contains-generic-comparable` (tema generics, função
+  genérica Contains[T comparable]). Verificado manualmente com -count=1
+  antes da pré-revisão: stub falha, referência passa, mutante plausível
+  falha.
+- Pré-revisão Codex: cinco rodadas até aprovação final, a mais
+  trabalhosa desta sessão. Rodada 1 (`new`) rejeitou os dois — faltava
+  caso de valor negativo em Sum e caso de alvo no índice 0/tipos além de
+  int-string em Contains, além de objectives vazando técnica. Rodada 2
+  achou lacunas novas em cada correção: Sum aceitava um mutante que
+  deduplicava valores repetidos (cadeia "2 → 2" somava 2 em vez de 4);
+  Contains aceitava um mutante que só examinava os dois primeiros
+  elementos. Rodada 3 achou mais uma classe de mutante "processa só um
+  prefixo de tamanho fixo" em cada um (cadeia/slice de 3-4 elementos) —
+  nesse ponto, em vez de continuar caçando um tamanho por rodada, troquei
+  a estratégia para um caso de 20 elementos construído em loop; isso
+  fechou de vez a classe de prefixos fixos em Sum (aprovado sem
+  ressalvas na rodada 4) mas Contains ainda tinha um mutante esparso
+  (só índices 0, 1 e o último) que só a checagem de um alvo (o último
+  índice) não pegava. Rodada 5: generalizado para testar TODOS os 20
+  índices como alvo em loop, fechando também a classe de subconjuntos
+  esparsos — aprovado sem ressalvas.
+- Lição de processo mais importante desta sessão: para bugs do tipo
+  "processa só um subconjunto da coleção" (prefixo fixo, índices
+  esparsos, etc.), testar exaustivamente TODOS os elementos/índices de
+  uma coleção razoavelmente grande (ex.: 20) construída em loop fecha a
+  classe inteira de uma vez — muito mais robusto que adicionar um caso
+  pontual a cada mutante que a pré-revisão encontra, o que vira caça ao
+  gato-e-rato. Vale aplicar preventivamente em qualquer desafio futuro
+  que itere uma coleção.
+- `go run ./cmd/codinho catalog validate --checks` → exit 0 em todas as
+  rodadas. `go build ./...`, `gofmt -l .`, `go vet ./...` → ok.
 
 ### Results summary
-Spec destravada. Quinze checkpoints de conteúdo real autorado (30 de 44
-desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
+Spec destravada. Dezesseis checkpoints de conteúdo real autorado (32 de
+44 desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
 checkpoint 2 tooling + conversão numérica, checkpoint 3 tooling +
 shadowing), cinco em go-core (checkpoint 1 defer + parâmetros
 variádicos, checkpoint 2 labeled break + receptor de ponteiro, checkpoint
@@ -803,10 +838,13 @@ checkpoint 2 comma-ok em map + citação de campo CSV, checkpoint 3
 deduplicação com set + soma segura de inteiros, checkpoint 4 pré-alocação
 de slice + capitalização preservando espaçamento, checkpoint 5 os 2
 desafios combinados — **go-data-text está completo**: 10/10 desafios
-previstos, 8 atômicos + 2 combinados) e um checkpoint inicial em
-go-type-design (pack novo, criado nesta sessão: checkpoint 1 clonagem de
-struct sem aliasing + armadilha do typed-nil em interface; 2/8 desafios
-previstos, 6 atômicos + 2 combinados) — todos com
+previstos, 8 atômicos + 2 combinados) e dois checkpoints em go-type-design
+(pack novo, criado nesta sessão: checkpoint 1 clonagem de struct sem
+aliasing + armadilha do typed-nil em interface, checkpoint 2 receptor
+nil-safe em lista encadeada + Contains genérico — este último exigiu
+cinco rodadas de pré-revisão, a mais trabalhosa da sessão, até fechar
+todas as classes de mutante "processa só um subconjunto da coleção";
+4/8 desafios previstos, 6 atômicos + 2 combinados) — todos com
 fixture/checks executáveis reais e pré-revisão automatizada aprovada sem
 ressalvas ou só com ressalvas menores não bloqueantes (Decision 3),
 aguardando revisão humana final e playtest do usuário antes de publicar.

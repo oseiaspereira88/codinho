@@ -1005,6 +1005,439 @@ challenges:
         test_pattern: ^TestMap$
         timeout: 20s
     variants: []
+
+  - schema_version: 1
+    id: go-type-design.first-circle-clone
+    version: 1.0.0
+    title: Clonar um registro de formas e achar o primeiro Circle com segurança
+    kind: combined
+    difficulty: intermediate
+    estimated_minutes: 30
+    themes: [structs-and-pointers, interfaces]
+    competencies:
+      primary: [clone-struct-with-independent-slice, assert-type-without-panicking, return-true-nil-interface]
+      secondary: []
+    prerequisites: [struct-shallow-copy-aliasing, safe-type-assertion, typed-nil-interface-trap]
+    brief: >
+      Implemente uma função que clona um Registry de formas -- sem que o
+      clone compartilhe o backing array de Shapes com o original -- e
+      devolve, junto com o clone, o primeiro Circle encontrado entre as
+      formas, ou um nil de interface verdadeiro quando não há nenhum,
+      sem nunca panicar mesmo com outras implementações de Shape.
+    constraints:
+      - Não usar bibliotecas externas.
+      - Shapes do clone não pode compartilhar backing array com Shapes do original.
+      - Verificar o tipo concreto de cada forma sem panicar quando ela não for Circle.
+      - Quando nenhum Circle for encontrado, o retorno deve ser comparável a nil com ==, resultando true.
+    acceptance:
+      - 'FirstCircleClone com [Square, Circle, Square] devolve o Circle e um clone com Shapes independente do original.'
+      - Mutar Shapes do clone nunca altera Shapes do original, mesmo quando o original tem capacidade excedente.
+      - Um Registry sem nenhum Circle devolve um Shape que é == nil, sem panicar.
+      - FirstCircleClone encontra um Circle em qualquer posição de um Registry com muitas formas, não apenas em um prefixo ou subconjunto fixo de posições.
+      - Quando há mais de um Circle, FirstCircleClone devolve o primeiro, não o último.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.clone-shapes-independently
+            kind: micro
+            action: implement
+            target: function
+            title: Clonar Shapes de forma independente
+            instruction:
+              objective: Construir o Registry clonado de forma que sua slice Shapes nunca compartilhe o backing array da slice Shapes de reg.
+              scope: A construção do Registry retornado.
+              constraints:
+                - Shapes do clone não pode compartilhar backing array com Shapes do original.
+            concepts: [struct-shallow-copy-aliasing]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: clones-shapes-independently
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.find-first-circle-without-panicking
+            kind: micro
+            action: implement
+            target: function
+            title: Encontrar o primeiro Circle sem panicar em outras formas
+            instruction:
+              objective: Percorrer as formas de reg e devolver o primeiro Circle encontrado, verificando o tipo concreto de cada forma sem panicar quando ela não for Circle.
+              scope: A busca pelo primeiro Circle.
+              constraints:
+                - Verificar o tipo concreto de cada forma sem panicar quando ela não for Circle.
+            concepts: [safe-type-assertion]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: finds-first-circle-without-panicking
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.return-true-nil-when-no-circle
+            kind: micro
+            action: implement
+            target: function
+            title: Devolver um nil de interface verdadeiro quando não há Circle
+            instruction:
+              objective: Quando nenhum Circle for encontrado, garantir que o Shape devolvido seja comparável a nil com ==, resultando true.
+              scope: O caso em que nenhuma forma de reg é um Circle.
+              constraints:
+                - Quando nenhum Circle for encontrado, o retorno deve ser comparável a nil com ==, resultando true.
+            concepts: [typed-nil-interface-trap]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: returns-true-nil-when-no-circle
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que capturar um *Circle nil em uma variável e devolvê-lo como Shape produziria uma interface diferente de nil, mesmo quando nenhum Circle foi de fato encontrado?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/first-circle-clone
+
+          go 1.25.0
+      - path: registry.go
+        content: |
+          package registry
+
+          // Shape is anything with an area.
+          type Shape interface {
+              Area() float64
+          }
+
+          // Circle is a Shape with a radius.
+          type Circle struct {
+              Radius float64
+          }
+
+          func (c Circle) Area() float64 { return 3.14159 * c.Radius * c.Radius }
+
+          // Square is a Shape with a side, used to represent a non-Circle Shape.
+          type Square struct {
+              Side float64
+          }
+
+          func (s Square) Area() float64 { return s.Side * s.Side }
+
+          // Registry holds a named collection of shapes.
+          type Registry struct {
+              Name   string
+              Shapes []Shape
+          }
+
+          // FirstCircleClone returns a deep copy of reg -- whose Shapes never
+          // shares storage with reg's Shapes -- together with the first Circle
+          // found among reg's Shapes, or a true nil Shape (not a nil pointer
+          // wrapped in a non-nil interface) if reg has none. It never panics,
+          // regardless of what other Shape implementations reg contains.
+          func FirstCircleClone(reg Registry) (clone Registry, firstCircle Shape) {
+              panic("not implemented")
+          }
+      - path: registry_test.go
+        content: |
+          package registry
+
+          import (
+              "reflect"
+              "testing"
+              "unsafe"
+          )
+
+          func TestFirstCircleClone(t *testing.T) {
+              t.Run("finds the first circle and clones independently", func(t *testing.T) {
+                  reg := Registry{Name: "r1", Shapes: make([]Shape, 3, 10)}
+                  reg.Shapes[0] = Square{Side: 1}
+                  reg.Shapes[1] = Circle{Radius: 2}
+                  reg.Shapes[2] = Square{Side: 3}
+                  original := reg.Shapes[1]
+
+                  clone, first := FirstCircleClone(reg)
+
+                  wantCircle := Circle{Radius: 2}
+                  if first != Shape(wantCircle) {
+                      t.Errorf("firstCircle = %#v, want %#v", first, wantCircle)
+                  }
+                  if !reflect.DeepEqual(clone.Shapes, reg.Shapes) {
+                      t.Fatalf("clone.Shapes = %v, want %v", clone.Shapes, reg.Shapes)
+                  }
+
+                  clone.Shapes[1] = Square{Side: 99}
+                  if reg.Shapes[1] != original {
+                      t.Errorf("reg.Shapes[1] changed after mutating clone: got %v, want unchanged %v", reg.Shapes[1], original)
+                  }
+
+                  inputStart := uintptr(unsafe.Pointer(unsafe.SliceData(reg.Shapes)))
+                  inputEnd := inputStart + uintptr(cap(reg.Shapes))*unsafe.Sizeof(reg.Shapes[0])
+                  cloneStart := uintptr(unsafe.Pointer(unsafe.SliceData(clone.Shapes)))
+                  if cloneStart >= inputStart && cloneStart < inputEnd {
+                      t.Error("clone.Shapes shares backing array with reg.Shapes")
+                  }
+              })
+
+              t.Run("no circle present returns a true nil Shape, without panicking", func(t *testing.T) {
+                  reg := Registry{Name: "r2", Shapes: []Shape{Square{Side: 1}, Square{Side: 2}}}
+                  _, first := FirstCircleClone(reg)
+                  if first != nil {
+                      t.Errorf("firstCircle = %#v, want nil interface", first)
+                  }
+              })
+
+              t.Run("empty shapes", func(t *testing.T) {
+                  reg := Registry{Name: "empty"}
+                  clone, first := FirstCircleClone(reg)
+                  if first != nil {
+                      t.Errorf("firstCircle = %#v, want nil", first)
+                  }
+                  if len(clone.Shapes) != 0 {
+                      t.Errorf("clone.Shapes = %v, want empty", clone.Shapes)
+                  }
+              })
+
+              t.Run("returns the first circle, not the last, when multiple are present", func(t *testing.T) {
+                  reg := Registry{Shapes: []Shape{Square{Side: 1}, Circle{Radius: 2}, Square{Side: 3}, Circle{Radius: 5}}}
+                  _, first := FirstCircleClone(reg)
+                  want := Shape(Circle{Radius: 2})
+                  if first != want {
+                      t.Errorf("firstCircle = %#v, want %#v (the first one, not the last)", first, want)
+                  }
+              })
+
+              t.Run("finds a circle at every possible index, not just a fixed subset", func(t *testing.T) {
+                  const length = 20
+                  for circleAt := 0; circleAt < length; circleAt++ {
+                      shapes := make([]Shape, length)
+                      for i := range shapes {
+                          shapes[i] = Square{Side: float64(i)}
+                      }
+                      shapes[circleAt] = Circle{Radius: float64(circleAt)}
+                      reg := Registry{Shapes: shapes}
+                      _, first := FirstCircleClone(reg)
+                      want := Shape(Circle{Radius: float64(circleAt)})
+                      if first != want {
+                          t.Fatalf("circle at index %d: firstCircle = %#v, want %#v", circleAt, first, want)
+                      }
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestFirstCircleClone$
+        timeout: 20s
+    variants: []
+
+  - schema_version: 1
+    id: go-type-design.generic-node-values-nil-safe
+    version: 1.0.0
+    title: Coletar os valores de uma lista genérica com receptor seguro para nil
+    kind: combined
+    difficulty: intermediate
+    estimated_minutes: 25
+    themes: [structs-and-pointers, generics]
+    competencies:
+      primary: [handle-nil-receiver-safely, implement-generic-transform]
+      secondary: []
+    prerequisites: [nil-safe-pointer-receiver, generic-two-type-parameters]
+    brief: >
+      Implemente um método em uma lista encadeada genérica que coleta os
+      valores de todos os nós em uma nova slice, funcionando para
+      qualquer tipo e mesmo quando chamado em um receptor nil.
+    constraints:
+      - Não usar bibliotecas externas.
+      - Chamar Values em um *Node[T] nil não pode panicar.
+      - Incluir Value de todos os nós da cadeia, seguindo Next até o fim.
+    acceptance:
+      - Chamar Values em um *Node[int] nil retorna uma slice vazia, sem panicar.
+      - Values funciona para qualquer tipo de elemento, incluindo um struct definido pelo usuário, não só int/string.
+      - Values preserva a ordem dos nós, incluindo cadeias longas (a coleta não pode parar em um prefixo fixo).
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.handle-nil-receiver-first
+            kind: micro
+            action: implement
+            target: function
+            title: Garantir que um receptor nil nunca cause panic
+            instruction:
+              objective: Garantir que chamar Values em um receptor nil não acesse nenhum campo e retorne uma slice vazia.
+              scope: Somente o tratamento do receptor nil.
+              constraints:
+                - Chamar Values em um *Node[T] nil não pode panicar.
+            concepts: [nil-safe-pointer-receiver]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: handles-nil-receiver-first
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.collect-values-across-the-whole-chain
+            kind: micro
+            action: implement
+            target: function
+            title: Coletar Value de n e de todos os nós alcançáveis a partir de Next
+            instruction:
+              objective: Quando n não é nil, incluir Value de n e de todos os nós alcançáveis a partir de Next na slice devolvida, preservando a ordem.
+              scope: O caso em que n não é nil.
+              constraints:
+                - Incluir Value de todos os nós da cadeia, seguindo Next até o fim.
+            concepts: [generic-two-type-parameters]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: collects-values-across-the-whole-chain
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que Node[T] genérico permite reaproveitar Values para uma lista de qualquer tipo, em vez de duplicar a mesma lógica para int, string etc.?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/generic-node-values-nil-safe
+
+          go 1.25.0
+      - path: gnode.go
+        content: |
+          package gnode
+
+          // Node is one element of a singly linked list holding a value of any
+          // type.
+          type Node[T any] struct {
+              Value T
+              Next  *Node[T]
+          }
+
+          // Values returns a new slice with the Value field of n and every node
+          // reachable via Next, in order. It works correctly even when n is nil,
+          // returning an empty slice in that case, and never mutates the list.
+          func (n *Node[T]) Values() []T {
+              panic("not implemented")
+          }
+      - path: gnode_test.go
+        content: |
+          package gnode
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          type item struct {
+              ID   int
+              Name string
+          }
+
+          func TestNodeValues(t *testing.T) {
+              t.Run("nil receiver returns an empty slice without panicking", func(t *testing.T) {
+                  var n *Node[int]
+                  got := n.Values()
+                  if len(got) != 0 {
+                      t.Errorf("nil.Values() = %v, want empty", got)
+                  }
+              })
+
+              t.Run("single node", func(t *testing.T) {
+                  n := &Node[string]{Value: "a"}
+                  got := n.Values()
+                  want := []string{"a"}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("Values() = %v, want %v", got, want)
+                  }
+              })
+
+              t.Run("chain of nodes, order preserved", func(t *testing.T) {
+                  n := &Node[int]{Value: 1, Next: &Node[int]{Value: 2, Next: &Node[int]{Value: 3}}}
+                  got := n.Values()
+                  want := []int{1, 2, 3}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("Values() = %v, want %v", got, want)
+                  }
+              })
+
+              t.Run("works for a user-defined struct type, not just int/string", func(t *testing.T) {
+                  n := &Node[item]{
+                      Value: item{ID: 1, Name: "a"},
+                      Next: &Node[item]{
+                          Value: item{ID: 2, Name: "b"},
+                          Next: &Node[item]{
+                              Value: item{ID: 3, Name: "c"},
+                          },
+                      },
+                  }
+                  got := n.Values()
+                  want := []item{{1, "a"}, {2, "b"}, {3, "c"}}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("Values() = %v, want %v", got, want)
+                  }
+              })
+
+              t.Run("long chain includes every node, not just a fixed prefix", func(t *testing.T) {
+                  const length = 20
+                  var head *Node[int]
+                  want := make([]int, length)
+                  for i := length - 1; i >= 0; i-- {
+                      head = &Node[int]{Value: i, Next: head}
+                      want[i] = i
+                  }
+                  got := head.Values()
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("Values() over a %d-node chain = %v, want %v", length, got, want)
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestNodeValues$
+        timeout: 20s
+    variants: []
 relations:
   - from: go-type-design.clone-inventory-independently
     to: go-type-design.select-validator-true-nil
@@ -1077,4 +1510,25 @@ relations:
     kind: relates_to
   - from: generic-two-type-parameters
     to: implement-generic-transform
+    kind: relates_to
+  - from: go-type-design.first-circle-clone
+    to: go-type-design.clone-inventory-independently
+    kind: deepens_into
+  - from: go-type-design.first-circle-clone
+    to: go-type-design.select-validator-true-nil
+    kind: deepens_into
+  - from: go-type-design.first-circle-clone
+    to: go-type-design.describe-if-circle-safely
+    kind: deepens_into
+  - from: go-type-design.generic-node-values-nil-safe
+    to: go-type-design.sum-list-with-nil-safe-receiver
+    kind: deepens_into
+  - from: go-type-design.generic-node-values-nil-safe
+    to: go-type-design.map-generic-transform
+    kind: deepens_into
+  - from: go-type-design.first-circle-clone
+    to: go-type-design.generic-node-values-nil-safe
+    kind: relates_to
+  - from: go-type-design.generic-node-values-nil-safe
+    to: go-type-design.first-circle-clone
     kind: relates_to

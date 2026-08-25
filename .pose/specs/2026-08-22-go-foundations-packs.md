@@ -856,10 +856,54 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
   bloqueante** `describe-if-circle-safely` — a reflexão continha uma
   afirmação factualmente incorreta sobre type switch sem default
   panicar (não panica, só não executa nenhum case) — corrigida.
+- 2026-08-25: checkpoint 4 (ÚLTIMO) autorado em `packs/go-type-
+  design.yaml` — os 2 desafios `kind: combined`, completando o pack em
+  8/8 (6 atômicos + 2 combinados). `go-type-design.first-circle-clone`
+  (temas structs-and-pointers + interfaces) integra clone-struct-with-
+  independent-slice + assert-type-without-panicking + return-true-nil-
+  interface, sem competências novas. `go-type-design.generic-node-
+  values-nil-safe` (temas structs-and-pointers + generics) integra
+  handle-nil-receiver-safely + implement-generic-transform, também sem
+  competências novas.
+- Pré-revisão Codex rodada 1 (`new`): **rejeitou os dois**, aplicando a
+  lição do checkpoint 2 de forma proativa (o autor já tinha incluído
+  casos de 20 elementos desde a primeira versão, mas incompletos).
+  `first-circle-clone`: um mutante que retorna o ÚLTIMO Circle (não o
+  primeiro) passava, porque o caso de 20 elementos só tinha um Circle
+  por vez, nunca provando "primeiro" vs "último"; um mutante que só
+  inspeciona os índices 0, 1 e o último também passava, porque o caso de
+  20 só testava o Circle no último índice, não em todos.
+  `generic-node-values-nil-safe`: um mutante que só coleta valores para
+  os tipos concretos presentes nos testes (int, string, via type switch
+  em tempo de execução) passava, porque a fixture nunca testava um tipo
+  definido pelo usuário.
+- Correções: `first-circle-clone` ganhou um caso com dois Circles (radius
+  2 antes de radius 5), provando que o primeiro é devolvido, e o loop de
+  20 elementos passou a colocar o Circle em CADA um dos 20 índices, um de
+  cada vez (não só no último), fechando de vez a classe de subconjuntos
+  esparsos. `generic-node-values-nil-safe` ganhou um caso com um tipo
+  struct definido no teste (`item{ID int; Name string}`).
+  Reverificado manualmente com -count=1: os mutantes "retorna o último",
+  "índices esparsos" e "só int/string" agora falham de forma consistente.
+- `go run ./cmd/codinho catalog validate --checks` → exit 0 após as
+  correções, sem avisos novos. `go build ./...`, `gofmt -l .`,
+  `go vet ./...` → ok.
+- Pré-revisão Codex rodada 2 (`resume --last`): **aprovado sem
+  ressalvas** os dois desafios.
+- **go-type-design.yaml está completo: 8/8 desafios da matriz de
+  distribuição** (6 atômicos + 2 combinados). Lição reforçada nesta
+  sessão: aplicar a técnica de "testar TODOS os índices/posições/tipos
+  representativos" desde a primeira versão de um desafio que itera uma
+  coleção ou é genérico reduz — mas não elimina — a chance de rejeição
+  na primeira rodada; ainda vale a pena a pré-revisão adversarial
+  específica, porque a primeira tentativa de aplicar a lição
+  (colocar o item-alvo em só uma posição por vez do loop de 20) ainda
+  deixou passar duas classes de mutante que só a iteração completa
+  fechou de fato.
 
 ### Results summary
-Spec destravada. Dezessete checkpoints de conteúdo real autorado (34 de
-44 desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
+Spec destravada. Dezoito checkpoints de conteúdo real autorado (36 de 44
+desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
 checkpoint 2 tooling + conversão numérica, checkpoint 3 tooling +
 shadowing), cinco em go-core (checkpoint 1 defer + parâmetros
 variádicos, checkpoint 2 labeled break + receptor de ponteiro, checkpoint
@@ -873,15 +917,15 @@ checkpoint 2 comma-ok em map + citação de campo CSV, checkpoint 3
 deduplicação com set + soma segura de inteiros, checkpoint 4 pré-alocação
 de slice + capitalização preservando espaçamento, checkpoint 5 os 2
 desafios combinados — **go-data-text está completo**: 10/10 desafios
-previstos, 8 atômicos + 2 combinados) e três checkpoints em go-type-design
-(pack novo, criado nesta sessão: checkpoint 1 clonagem de struct sem
-aliasing + armadilha do typed-nil em interface, checkpoint 2 receptor
-nil-safe em lista encadeada + Contains genérico — este último exigiu
-cinco rodadas de pré-revisão, a mais trabalhosa da sessão, até fechar
-todas as classes de mutante "processa só um subconjunto da coleção",
-checkpoint 3 type assertion segura + Map genérico — **completa os 6
-atômicos previstos**, faltando só os 2 combinados; 6/8 desafios
-previstos) — todos com
+previstos, 8 atômicos + 2 combinados) e quatro checkpoints em
+go-type-design (pack novo, criado nesta sessão: checkpoint 1 clonagem de
+struct sem aliasing + armadilha do typed-nil em interface, checkpoint 2
+receptor nil-safe em lista encadeada + Contains genérico — este último
+exigiu cinco rodadas de pré-revisão, a mais trabalhosa da sessão, até
+fechar todas as classes de mutante "processa só um subconjunto da
+coleção", checkpoint 3 type assertion segura + Map genérico, checkpoint 4
+os 2 desafios combinados — **go-type-design está completo**: 8/8
+desafios previstos, 6 atômicos + 2 combinados) — todos com
 fixture/checks executáveis reais e pré-revisão automatizada aprovada sem
 ressalvas ou só com ressalvas menores não bloqueantes (Decision 3),
 aguardando revisão humana final e playtest do usuário antes de publicar.

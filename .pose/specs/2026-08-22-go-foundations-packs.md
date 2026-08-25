@@ -367,26 +367,78 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
 - `go run ./cmd/codinho catalog validate` e `catalog validate --checks` →
   exit 0 nas duas rodadas. `go build ./...`, `gofmt -l .`, `go vet ./...`
   → ok.
+- 2026-08-25: checkpoint 2 autorado em `packs/go-core.yaml` — 2 desafios
+  atômicos novos (`stop-processing-commands-with-labeled-break`, tema
+  `control-flow`, ensina o gotcha real de que `break` dentro de um
+  `switch` aninhado em `for` só sai do switch, exigindo label;
+  `increment-counter-with-pointer-receiver`, tema `functions-and-methods`,
+  ensina receptor de ponteiro vs. valor para mutação de estado), 2
+  conceitos e 2 competências novos, fixture + check `go_test` executável
+  para cada um. Verificado manualmente antes da pré-revisão: stub de cada
+  fixture falha; para o primeiro, uma implementação com `break` não
+  rotulado também falha o teste (reproduz o bug real ensinado); para o
+  segundo, um receptor de valor também falha o teste (idem).
+- Tentativa de pré-revisão Codex rodada 1 (`new`): a primeira invocação
+  falhou silenciosamente — `codex exec` saiu lendo stdin vazio sem gerar
+  relatório, sem processo órfão. Reexecutada do zero.
+- Pré-revisão Codex rodada 1 (`new`, reexecutada): **rejeitou os dois**.
+  `stop-processing-commands-with-labeled-break`: as constraints exigiam
+  só que "stop" encerrasse o laço externo, sem exigir literalmente break
+  rotulado — uma implementação com `return` ou uma flag auxiliar passaria
+  no teste e nos critérios sem nunca usar label, quebrando a
+  correspondência entre a técnica ensinada e o contrato verificável.
+  `increment-counter-with-pointer-receiver`: o primeiro macro_step reunia
+  declarar o tipo Counter, o campo Count e a assinatura de Increment — a
+  forma de Counter já estava inteiramente decidida pelo teste, sem
+  decisão de modelagem real para o aluno; o critério
+  `increment-has-mutating-receiver` também era interpretativo demais
+  frente à competência (receptor de ponteiro).
+- Correções: `stop-processing-commands-with-labeled-break` ganhou a
+  constraint "usar break rotulado" e um critério novo
+  `uses-labeled-break` (`source_inspection`, mesmo padrão de
+  `uses-defer`/`uses-sprintf`) no segundo macro_step; primeiro macro_step
+  teve o objective levemente reformulado (ressalva menor). Em
+  `increment-counter-with-pointer-receiver`, `Counter` foi movido
+  inteiramente para o fixture (já com o campo `Count`), o primeiro
+  macro_step passou a exigir só a assinatura de `Increment` com receptor
+  de ponteiro (`increment-uses-pointer-receiver`), e a constraint do
+  desafio nomeia "receptor de ponteiro" objetivamente em vez de "receptor
+  que permita alterar". Reverificado manualmente: os dois stubs continuam
+  falhando (agora `Counter` compila mas `Increment` é undefined).
+- `go run ./cmd/codinho catalog validate --checks` → exit 0 após as
+  correções, sem novos avisos. `go build ./...`, `gofmt -l .`,
+  `go vet ./...` → ok.
+- Pré-revisão Codex rodada 2 (`resume --last`): **aprovado sem
+  ressalvas** os dois desafios — `uses-labeled-break` e
+  `increment-uses-pointer-receiver` aceitos como critérios objetivos e
+  verificáveis por `source_inspection`, coerentes com a técnica exigida
+  pelas constraints.
 
 ### Results summary
-Spec destravada. Quatro checkpoints de conteúdo real autorado (8 de 44
+Spec destravada. Cinco checkpoints de conteúdo real autorado (10 de 44
 desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
 checkpoint 2 tooling + conversão numérica, checkpoint 3 tooling +
-shadowing) e o primeiro checkpoint de um segundo pack, go-core (defer +
-parâmetros variádicos) — todos com fixture/checks executáveis reais e
-pré-revisão automatizada aprovada sem ressalvas (Decision 3), aguardando
-revisão humana final e playtest do usuário antes de continuar os próximos
-lotes. Nenhum desafio está `status: published` — `author: claude` já
-preenchido, `reviewed_by`/`playtested` pendentes do playtest real. O
-checkpoint 3 também validou o padrão de retomar sessão sob condições reais
-adversas (rodada travada, processo órfão) e achou um bug estrutural real
-no pack (schema_version corrompido) — evidência de que a pré-revisão
-compensa mesmo quando a mudança parece só de conteúdo. O checkpoint 1 de
-go-core achou e corrigiu um vazamento de solução real (objective
-prescrevendo a técnica de implementação completa) e deixou registrado um
-limite sistêmico do motor (nenhum runner allowlisted verifica presença de
+shadowing) e dois em go-core (checkpoint 1 defer + parâmetros variádicos,
+checkpoint 2 labeled break + receptor de ponteiro) — todos com
+fixture/checks executáveis reais e pré-revisão automatizada aprovada sem
+ressalvas (Decision 3), aguardando revisão humana final e playtest do
+usuário antes de continuar os próximos lotes. Nenhum desafio está
+`status: published` — `author: claude` já preenchido, `reviewed_by`/
+`playtested` pendentes do playtest real. O checkpoint 3 de go-first-steps
+também validou o padrão de retomar sessão sob condições reais adversas
+(rodada travada, processo órfão) e achou um bug estrutural real no pack
+(schema_version corrompido) — evidência de que a pré-revisão compensa
+mesmo quando a mudança parece só de conteúdo. O checkpoint 1 de go-core
+achou e corrigiu um vazamento de solução real (objective prescrevendo a
+técnica de implementação completa) e deixou registrado um limite
+sistêmico do motor (nenhum runner allowlisted verifica presença de
 palavra-chave como `defer`; critérios sintáticos ficam por
-`source_inspection`, mesmo padrão já aceito alhures).
+`source_inspection`, mesmo padrão já aceito alhures). O checkpoint 2 achou
+uma inconsistência real entre técnica ensinada e contrato verificável
+(constraint não exigia label, permitindo soluções alternativas sem a
+técnica-alvo) e um micropasso sem decisão de modelagem real para o aluno
+(struct já totalmente determinado pelo teste) — ambos corrigidos e
+reaprovados.
 
 ### Requirement trace
 Pendente — spec em progresso (checkpoint 1 de N; ver Execution log e

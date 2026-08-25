@@ -11,11 +11,19 @@ concepts:
     title: Ordem de execução de defer
   - id: variadic-parameters
     title: Parâmetros variádicos
+  - id: labeled-break-scope
+    title: Escopo de break rotulado
+  - id: pointer-vs-value-receiver
+    title: Receptor de ponteiro versus receptor de valor
 competencies:
   - id: sequence-cleanup-with-defer
     title: Sequenciar limpeza de recursos com defer
   - id: use-variadic-parameters
     title: Usar parâmetros variádicos
+  - id: escape-loop-from-switch-with-label
+    title: Interromper um laço a partir de um switch com label
+  - id: mutate-state-with-pointer-receiver
+    title: Mutar estado entre chamadas com receptor de ponteiro
 tracks: []
 challenges:
   - schema_version: 1
@@ -276,6 +284,274 @@ challenges:
         test_pattern: ^TestSum$
         timeout: 20s
     variants: []
+
+  - schema_version: 1
+    id: go-core.stop-processing-commands-with-labeled-break
+    version: 1.0.0
+    title: Parar o laço com label ao encontrar um comando de parada
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [control-flow]
+    competencies:
+      primary: [escape-loop-from-switch-with-label]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente uma função que processa uma lista de comandos usando
+      switch, interrompendo o laço externo assim que encontra o comando
+      "stop" — não apenas o switch.
+    constraints:
+      - Não usar bibliotecas externas.
+      - Usar switch para decidir o que fazer com cada comando.
+      - Usar break rotulado (labeled break) para sair do laço externo a partir do switch.
+    acceptance:
+      - 'ProcessUntilStop(["a", "b", "stop", "c"]) retorna ["a", "b"].'
+      - 'ProcessUntilStop(["stop"]) retorna nil.'
+      - 'ProcessUntilStop(["a", "b"]) retorna ["a", "b"].'
+      - ProcessUntilStop(nil) retorna nil.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.switch-per-command
+            kind: micro
+            action: implement
+            target: function
+            title: Decidir o que fazer com cada comando usando switch
+            instruction:
+              objective: Percorrer os comandos usando um switch que, por padrão, acrescenta o comando ao resultado, e identifica o caso do comando de parada sem ainda interromper o laço externo.
+              scope: O corpo da função, sem tratar ainda a interrupção do laço externo.
+              constraints:
+                - Usar switch para decidir o que fazer com cada comando.
+            concepts: [labeled-break-scope]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: uses-switch
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.escape-outer-loop-on-stop
+            kind: micro
+            action: implement
+            target: function
+            title: Garantir que o comando de parada interrompa o laço externo
+            instruction:
+              objective: Ajustar o laço e o caso de parada para que a interrupção realmente encerre o laço externo usando um break rotulado, não apenas o switch.
+              scope: O laço externo e o caso de parada dentro do switch.
+              constraints:
+                - Usar break rotulado (labeled break) para sair do laço externo a partir do switch.
+            concepts: [labeled-break-scope]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: uses-labeled-break
+                kind: structural
+              - id: stop-breaks-outer-loop
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que um break dentro do switch, sem label, não é suficiente para interromper o laço externo?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/stop-processing-commands-with-labeled-break
+
+          go 1.25.0
+      - path: commands.go
+        content: |
+          package commands
+
+          // ProcessUntilStop processes commands in order, stopping before
+          // the "stop" command and everything after it.
+          func ProcessUntilStop(commands []string) (processed []string) {
+              panic("not implemented")
+          }
+      - path: commands_test.go
+        content: |
+          package commands
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          func TestProcessUntilStop(t *testing.T) {
+              cases := []struct {
+                  name string
+                  in   []string
+                  want []string
+              }{
+                  {"stops mid list", []string{"a", "b", "stop", "c"}, []string{"a", "b"}},
+                  {"stops immediately", []string{"stop"}, nil},
+                  {"no stop", []string{"a", "b"}, []string{"a", "b"}},
+                  {"empty", nil, nil},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      got := ProcessUntilStop(c.in)
+                      if !reflect.DeepEqual(got, c.want) {
+                          t.Errorf("ProcessUntilStop(%v) = %v, want %v", c.in, got, c.want)
+                      }
+                  })
+              }
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestProcessUntilStop$
+        timeout: 20s
+    variants: []
+
+  - schema_version: 1
+    id: go-core.increment-counter-with-pointer-receiver
+    version: 1.0.0
+    title: Manter estado entre chamadas com receptor de ponteiro
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 10
+    themes: [functions-and-methods]
+    competencies:
+      primary: [mutate-state-with-pointer-receiver]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente um contador cujo método Increment precisa alterar o
+      estado entre chamadas sucessivas, sem interferir em outras
+      instâncias.
+    constraints:
+      - Não usar bibliotecas externas.
+      - Usar um receptor de ponteiro para Increment.
+      - Instâncias diferentes de Counter não podem compartilhar estado.
+    acceptance:
+      - Um Counter{} novo começa com Count 0.
+      - Após duas chamadas a Increment em um mesmo Counter, Count é 2.
+      - Duas instâncias de Counter incrementadas de forma independente mantêm contagens próprias, sem interferência entre si.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.declare-increment-with-pointer-receiver
+            kind: micro
+            action: declare
+            target: function
+            title: Declarar a assinatura de Increment com receptor de ponteiro
+            instruction:
+              objective: Declarar a assinatura do método Increment para o Counter já definido no fixture, usando um receptor de ponteiro, sem implementar a lógica de incremento ainda.
+              scope: Somente a assinatura do método.
+              constraints:
+                - Usar um receptor de ponteiro para Increment.
+                - Não implementar a lógica de incremento ainda.
+            concepts: [pointer-vs-value-receiver]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: increment-uses-pointer-receiver
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.implement-increment-logic
+            kind: micro
+            action: implement
+            target: function
+            title: Implementar o incremento de Count
+            instruction:
+              objective: Implementar Increment para que cada chamada aumente Count em um, persistindo entre chamadas na mesma instância.
+              scope: Somente o corpo do método.
+              constraints:
+                - Não usar bibliotecas externas.
+            concepts: [pointer-vs-value-receiver]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: increment-persists-across-calls
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que um receptor de valor não seria suficiente para o método Increment?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/increment-counter-with-pointer-receiver
+
+          go 1.25.0
+      - path: counter.go
+        content: |
+          package counter
+
+          type Counter struct {
+              Count int
+          }
+
+          // TODO: implement Increment so it increases Count by one and
+          // persists between calls, without sharing state across
+          // different Counter values.
+      - path: counter_test.go
+        content: |
+          package counter
+
+          import "testing"
+
+          func TestCounterIncrement(t *testing.T) {
+              c := Counter{}
+              c.Increment()
+              c.Increment()
+              if c.Count != 2 {
+                  t.Fatalf("c.Count = %d, want 2", c.Count)
+              }
+
+              other := Counter{}
+              other.Increment()
+              if other.Count != 1 {
+                  t.Fatalf("other.Count = %d, want 1", other.Count)
+              }
+              if c.Count != 2 {
+                  t.Fatalf("c.Count changed to %d after touching other, want 2", c.Count)
+              }
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestCounterIncrement$
+        timeout: 20s
+    variants: []
 relations:
   - from: go-core.close-resources-in-defer-order
     to: go-core.sum-variadic-numbers
@@ -294,4 +570,22 @@ relations:
     kind: relates_to
   - from: variadic-parameters
     to: use-variadic-parameters
+    kind: relates_to
+  - from: go-core.stop-processing-commands-with-labeled-break
+    to: go-core.increment-counter-with-pointer-receiver
+    kind: relates_to
+  - from: go-core.increment-counter-with-pointer-receiver
+    to: go-core.stop-processing-commands-with-labeled-break
+    kind: relates_to
+  - from: escape-loop-from-switch-with-label
+    to: labeled-break-scope
+    kind: relates_to
+  - from: labeled-break-scope
+    to: escape-loop-from-switch-with-label
+    kind: relates_to
+  - from: mutate-state-with-pointer-receiver
+    to: pointer-vs-value-receiver
+    kind: relates_to
+  - from: pointer-vs-value-receiver
+    to: mutate-state-with-pointer-receiver
     kind: relates_to

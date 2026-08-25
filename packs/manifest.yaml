@@ -3,5 +3,6 @@ packs:
   - go-core.yaml
   - go-data-text.yaml
   - go-debugging.yaml
+  - go-errors.yaml
   - go-first-steps.yaml
   - go-type-design.yaml

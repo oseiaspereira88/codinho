@@ -1,0 +1,358 @@
+schema_version: 1
+id: go-errors
+version: 1.0.0
+themes:
+  - id: errors
+    title: Erros
+concepts:
+  - id: error-wrapping-with-percent-w
+    title: Encadeamento de erro com %w
+  - id: errors-as-type-extraction
+    title: Extração de tipo com errors.As
+competencies:
+  - id: wrap-sentinel-with-context
+    title: Encadear um erro sentinela preservando o contexto
+  - id: extract-wrapped-error-type
+    title: Extrair um tipo de erro encadeado
+tracks: []
+challenges:
+  - schema_version: 1
+    id: go-errors.wrap-sentinel-error-with-context
+    version: 1.0.0
+    title: Encadear um erro sentinela preservando o contexto
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [errors]
+    competencies:
+      primary: [wrap-sentinel-with-context]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente a busca de um valor em um mapa, encadeando um erro
+      sentinela com o nome da chave quando ela não é encontrada, de
+      forma que errors.Is continue detectando a sentinela através do
+      encadeamento.
+    constraints:
+      - Não usar bibliotecas externas além da biblioteca padrão.
+      - Encadear ErrNotFound com %w, nunca %v ou %s, para que errors.Is continue funcionando.
+    acceptance:
+      - LoadValue retorna o valor correto e nil para qualquer chave presente no mapa, não apenas para uma chave específica.
+      - 'LoadValue de uma chave ausente retorna um erro cuja mensagem menciona exatamente essa chave, e para o qual errors.Is(err, ErrNotFound) é true.'
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.return-value-when-found
+            kind: micro
+            action: implement
+            target: function
+            title: Devolver o valor quando a chave existe
+            instruction:
+              objective: Devolver o valor de store[key] e nil quando a chave existe.
+              scope: O caminho em que a chave existe.
+              constraints:
+                - Não tratar ainda o caso de chave ausente.
+            concepts: []
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: returns-value-when-found
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.wrap-not-found-with-context
+            kind: micro
+            action: implement
+            target: function
+            title: Encadear ErrNotFound com o nome da chave
+            instruction:
+              objective: Quando a chave não existe, devolver um erro que mencione a chave e que ainda seja detectável como ErrNotFound por errors.Is.
+              scope: O caminho em que a chave não existe.
+              constraints:
+                - Encadear ErrNotFound com %w, nunca %v ou %s, para que errors.Is continue funcionando.
+            concepts: [error-wrapping-with-percent-w]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: wraps-not-found-preserving-is
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que fmt.Errorf com %v em vez de %w produz uma mensagem idêntica, mas quebra errors.Is?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/wrap-sentinel-error-with-context
+
+          go 1.25.0
+      - path: loadval.go
+        content: |
+          package config
+
+          import "errors"
+
+          // ErrNotFound is returned when a key is missing from the store.
+          var ErrNotFound = errors.New("not found")
+
+          // LoadValue returns the value for key, or an error wrapping ErrNotFound
+          // -- with the key included in the message -- when key is not in store.
+          func LoadValue(store map[string]string, key string) (string, error) {
+              panic("not implemented")
+          }
+      - path: loadval_test.go
+        content: |
+          package config
+
+          import (
+              "errors"
+              "strings"
+              "testing"
+          )
+
+          func TestLoadValue(t *testing.T) {
+              store := map[string]string{"a": "1", "b": "2", "c": "3", "d": "4", "e": "5"}
+
+              for key, want := range store {
+                  key, want := key, want
+                  t.Run("found key "+key, func(t *testing.T) {
+                      got, err := LoadValue(store, key)
+                      if err != nil || got != want {
+                          t.Fatalf("LoadValue(store, %q) = (%q, %v), want (%q, nil)", key, got, err, want)
+                      }
+                  })
+              }
+
+              t.Run("missing key wraps ErrNotFound and mentions the key", func(t *testing.T) {
+                  _, err := LoadValue(store, "missing")
+                  if err == nil {
+                      t.Fatal("err = nil, want non-nil")
+                  }
+                  if !errors.Is(err, ErrNotFound) {
+                      t.Errorf("errors.Is(err, ErrNotFound) = false, want true (err = %v)", err)
+                  }
+                  if !strings.Contains(err.Error(), "missing") {
+                      t.Errorf("err.Error() = %q, does not mention the key", err.Error())
+                  }
+              })
+
+              t.Run("different missing key is mentioned correctly, not hardcoded", func(t *testing.T) {
+                  _, err := LoadValue(store, "another-missing-key")
+                  if !errors.Is(err, ErrNotFound) {
+                      t.Errorf("errors.Is(err, ErrNotFound) = false, want true (err = %v)", err)
+                  }
+                  if !strings.Contains(err.Error(), "another-missing-key") {
+                      t.Errorf("err.Error() = %q, does not mention the key", err.Error())
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestLoadValue$
+        timeout: 20s
+    variants: []
+
+  - schema_version: 1
+    id: go-errors.extract-field-with-errors-as
+    version: 1.0.0
+    title: Extrair o campo inválido de um erro encadeado com errors.As
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [errors]
+    competencies:
+      primary: [extract-wrapped-error-type]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente a extração do campo de um *ValidationError encadeado
+      dentro de um erro, funcionando mesmo quando o erro foi envolvido
+      por outra camada de contexto.
+    constraints:
+      - Não usar bibliotecas externas além da biblioteca padrão.
+      - Usar errors.As para procurar um *ValidationError em qualquer profundidade do encadeamento, não uma asserção de tipo direta.
+    acceptance:
+      - 'FieldFromError(ValidateAge(-1)) retorna ("age", true).'
+      - FieldFromError encontra o *ValidationError mesmo quando ele foi encadeado por mais de uma camada externa de contexto.
+      - FieldFromError de um erro não relacionado retorna ("", false).
+      - FieldFromError(nil) retorna ("", false).
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.search-chain-for-validation-error
+            kind: micro
+            action: implement
+            target: function
+            title: Procurar um *ValidationError em qualquer profundidade do erro
+            instruction:
+              objective: Procurar um *ValidationError em err, em qualquer profundidade do encadeamento, não apenas no próprio err.
+              scope: A busca pelo *ValidationError.
+              constraints:
+                - Usar errors.As para procurar um *ValidationError em qualquer profundidade do encadeamento, não uma asserção de tipo direta.
+            concepts: [errors-as-type-extraction]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: searches-chain-with-errors-as
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.return-field-or-not-found
+            kind: micro
+            action: implement
+            target: function
+            title: Devolver o campo encontrado ou ok false
+            instruction:
+              objective: Devolver o Field do *ValidationError encontrado com ok true, ou "" com ok false quando nenhum for encontrado.
+              scope: O retorno da função a partir do resultado da busca.
+              constraints:
+                - Devolver ("", false) quando nenhum *ValidationError for encontrado no encadeamento.
+            concepts: [errors-as-type-extraction]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: returns-field-or-not-found
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - 'Por que err.(*ValidationError) falha quando err é o resultado de fmt.Errorf com %w, mesmo o *ValidationError estando presente no encadeamento?'
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/extract-field-with-errors-as
+
+          go 1.25.0
+      - path: validate.go
+        content: |
+          package validate
+
+          import "fmt"
+
+          // ValidationError reports which field failed validation.
+          type ValidationError struct {
+              Field string
+          }
+
+          func (e *ValidationError) Error() string {
+              return fmt.Sprintf("invalid field: %s", e.Field)
+          }
+
+          // ValidateAge returns an error wrapping a *ValidationError when age is
+          // negative.
+          func ValidateAge(age int) error {
+              if age < 0 {
+                  return fmt.Errorf("validating age: %w", &ValidationError{Field: "age"})
+              }
+              return nil
+          }
+
+          // FieldFromError returns the Field of the *ValidationError wrapped
+          // anywhere in err's chain, and whether one was found.
+          func FieldFromError(err error) (field string, ok bool) {
+              panic("not implemented")
+          }
+      - path: validate_test.go
+        content: |
+          package validate
+
+          import (
+              "errors"
+              "fmt"
+              "testing"
+          )
+
+          func TestFieldFromError(t *testing.T) {
+              t.Run("wrapped validation error", func(t *testing.T) {
+                  err := ValidateAge(-1)
+                  field, ok := FieldFromError(err)
+                  if !ok || field != "age" {
+                      t.Errorf("FieldFromError(err) = (%q, %v), want (\"age\", true)", field, ok)
+                  }
+              })
+
+              t.Run("deeply wrapped validation error", func(t *testing.T) {
+                  inner := ValidateAge(-1)
+                  wrapped := fmt.Errorf("handling request: %w", fmt.Errorf("processing user: %w", inner))
+                  field, ok := FieldFromError(wrapped)
+                  if !ok || field != "age" {
+                      t.Errorf("FieldFromError(wrapped) = (%q, %v), want (\"age\", true)", field, ok)
+                  }
+              })
+
+              t.Run("unrelated error", func(t *testing.T) {
+                  field, ok := FieldFromError(errors.New("something else went wrong"))
+                  if ok {
+                      t.Errorf("FieldFromError(unrelated) = (%q, true), want ok=false", field)
+                  }
+              })
+
+              t.Run("nil error", func(t *testing.T) {
+                  field, ok := FieldFromError(nil)
+                  if ok {
+                      t.Errorf("FieldFromError(nil) = (%q, true), want ok=false", field)
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestFieldFromError$
+        timeout: 20s
+    variants: []
+relations:
+  - from: go-errors.wrap-sentinel-error-with-context
+    to: go-errors.extract-field-with-errors-as
+    kind: relates_to
+  - from: go-errors.extract-field-with-errors-as
+    to: go-errors.wrap-sentinel-error-with-context
+    kind: relates_to
+  - from: wrap-sentinel-with-context
+    to: error-wrapping-with-percent-w
+    kind: relates_to
+  - from: error-wrapping-with-percent-w
+    to: wrap-sentinel-with-context
+    kind: relates_to
+  - from: extract-wrapped-error-type
+    to: errors-as-type-extraction
+    kind: relates_to
+  - from: errors-as-type-extraction
+    to: extract-wrapped-error-type
+    kind: relates_to

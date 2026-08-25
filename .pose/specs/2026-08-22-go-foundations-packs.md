@@ -900,10 +900,37 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
   (colocar o item-alvo em só uma posição por vez do loop de 20) ainda
   deixou passar duas classes de mutante que só a iteração completa
   fechou de fato.
+- 2026-08-25: pack novo `packs/go-errors.yaml` criado nesta sessão (tema
+  J erros) e registrado em `packs/manifest.yaml`. Checkpoint 1: 2
+  desafios atômicos — `go-errors.wrap-sentinel-error-with-context`
+  (encadeia um erro sentinela com fmt.Errorf %w, preservando errors.Is
+  através do encadeamento) e `go-errors.extract-field-with-errors-as`
+  (extrai um *ValidationError de um erro encadeado usando errors.As).
+- Pré-revisão Codex rodada 1 (`new`): **rejeitou os dois**.
+  `wrap-sentinel-error-with-context`: a fixture só testava uma chave
+  válida ("a"); um mutante hardcoded que só reconhece essa chave
+  específica passava integralmente. `extract-field-with-errors-as`: a
+  fixture só testava uma camada de wrapping; um mutante que faz só
+  `errors.Unwrap(err)` uma vez (em vez de errors.As, que percorre toda a
+  cadeia) passava nesse caso raso.
+- Correções: `wrap-sentinel-error-with-context` ganhou um mapa com 5
+  chaves válidas testadas em loop e uma segunda chave ausente diferente
+  da original (evitando qualquer hardcode); o `concepts` do macro_step de
+  caminho feliz (que não envolve wrapping) foi corrigido de
+  `error-wrapping-with-percent-w` para vazio. `extract-field-with-
+  errors-as` ganhou um caso com duas camadas externas de wrapping
+  (`fmt.Errorf("...: %w", fmt.Errorf("...: %w", ValidateAge(-1)))`).
+  Reverificado manualmente com -count=1: o mutante hardcoded falha nas
+  chaves não previstas; o mutante de unwrap único falha no caso profundo.
+- `go run ./cmd/codinho catalog validate --checks` → exit 0 após as
+  correções, sem avisos novos. `go build ./...`, `gofmt -l .`,
+  `go vet ./...` → ok.
+- Pré-revisão Codex rodada 2 (`resume --last`): **aprovado sem
+  ressalvas** os dois desafios.
 
 ### Results summary
-Spec destravada. Dezoito checkpoints de conteúdo real autorado (36 de 44
-desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
+Spec destravada. Dezenove checkpoints de conteúdo real autorado (38 de
+44 desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
 checkpoint 2 tooling + conversão numérica, checkpoint 3 tooling +
 shadowing), cinco em go-core (checkpoint 1 defer + parâmetros
 variádicos, checkpoint 2 labeled break + receptor de ponteiro, checkpoint
@@ -925,7 +952,10 @@ exigiu cinco rodadas de pré-revisão, a mais trabalhosa da sessão, até
 fechar todas as classes de mutante "processa só um subconjunto da
 coleção", checkpoint 3 type assertion segura + Map genérico, checkpoint 4
 os 2 desafios combinados — **go-type-design está completo**: 8/8
-desafios previstos, 6 atômicos + 2 combinados) — todos com
+desafios previstos, 6 atômicos + 2 combinados) e um checkpoint inicial em
+go-errors (pack novo, criado nesta sessão: checkpoint 1 wrapping com %w +
+errors.Is/errors.As; 2/7 desafios previstos, 4 atômicos + 2 combinados +
+1 fatia funcional) — todos com
 fixture/checks executáveis reais e pré-revisão automatizada aprovada sem
 ressalvas ou só com ressalvas menores não bloqueantes (Decision 3),
 aguardando revisão humana final e playtest do usuário antes de publicar.

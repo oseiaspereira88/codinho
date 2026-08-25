@@ -613,9 +613,58 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
   ressalvas** os dois desafios — confirmou que os mutantes relevantes
   (comparação por zero; citação sem escapar aspas no caminho com vírgula)
   falham nos testes novos.
+- 2026-08-25: checkpoint 3 autorado em `packs/go-data-text.yaml` — 2
+  desafios atômicos novos: `go-data-text.dedupe-preserving-first-
+  occurrence` (tema slices-arrays-maps, deduplica usando `map[string]
+  struct{}` como set, preservando ordem de primeira ocorrência) e
+  `go-data-text.sum-valid-integers-safely` (tema text-and-binary-data,
+  soma inteiros de strings tratando o erro de `strconv.Atoi` em vez de
+  ignorá-lo). Verificado manualmente com `-count=1` antes da
+  pré-revisão: stub falha, referência passa (5x), mutantes incorretos
+  plausíveis falham.
+- Pré-revisão Codex rodada 1 (`new`): **rejeitou os dois**, e achou algo
+  que minha própria verificação manual não tinha pego. `dedupe-
+  preserving-first-occurrence`: o mutante que monta a saída iterando um
+  map no final (perdendo a ordem original) só falhava intermitentemente
+  contra o teste original — o revisor rodou 30 vezes e mediu 19 falhas
+  contra 11 passagens, porque a ordem de iteração aleatória do map às
+  vezes coincidia por acaso com a ordem esperada. Minhas 5 repetições
+  manuais tinham, por sorte, sempre caído do lado da falha — evidência de
+  que 5 repetições não bastam para descartar não-determinismo por
+  iteração de map. `sum-valid-integers-safely`: faltava um caso de
+  inteiro válido igual a zero (`"0"`) no teste; uma implementação mutante
+  que trata `n == 0` como inválido (além do erro real de parsing) passava
+  integralmente.
+- Correções: teste de `dedupe-preserving-first-occurrence` reescrito para
+  chamar `Dedupe` com a mesma entrada 30 vezes DENTRO do mesmo subteste,
+  falhando na primeira chamada cuja ordem não bater exatamente — torna a
+  chance de um mutante baseado em iteração de map passar por coincidência
+  praticamente nula ((1/720)^30), em vez de depender de repetir o
+  processo de teste várias vezes por fora. `Dedupe(nil)` passou a
+  comparar explicitamente com `nil` (era "vazio", ambíguo). Caso
+  `SumValid(["0","5"])` → `(5, 0)` adicionado a `sum-valid-integers-
+  safely`. Reverificado manualmente com `-count=1`: mutante de dedupe
+  falha 5/5 execuções completas do processo (cada uma já contendo as 30
+  chamadas internas); mutante de zero-como-inválido falha 5/5.
+- `go run ./cmd/codinho catalog validate --checks` → exit 0 após as
+  correções, sem avisos novos. `go build ./...`, `gofmt -l .`,
+  `go vet ./...` → ok.
+- Pré-revisão Codex rodada 2 (`resume --last`): **aprovado com ressalva
+  menor não bloqueante** `dedupe-preserving-first-occurrence` (primeiro
+  macro_step ainda agrupa percorrer/consultar/registrar — não bloqueante);
+  **aprovado sem ressalvas** `sum-valid-integers-safely`. O revisor
+  confirmou o determinismo do novo teste rodando o processo 10 vezes
+  contra referência e mutante.
+- Achado de processo registrado em `docs/agent-review-workflow.md`: `go
+  test` sem `-count=1` pode devolver resultado em cache mesmo trocando o
+  arquivo de implementação entre execuções, mascarando um mutante
+  quebrado; e, mesmo com `-count=1`, poucas repetições (5) não bastam
+  para descartar flakiness por iteração de map — repetir a chamada dentro
+  do próprio subteste (N=30) é a forma barata e confiável de tornar esse
+  tipo de evidência comportamental verdadeiramente determinística.
 
 ### Results summary
-Spec destravada. Onze checkpoints de conteúdo real autorado (22 de 44
+Spec destravada. Doze checkpoints de conteúdo real autorado (24 de 44
 desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
 checkpoint 2 tooling + conversão numérica, checkpoint 3 tooling +
 shadowing), cinco em go-core (checkpoint 1 defer + parâmetros
@@ -623,11 +672,12 @@ variádicos, checkpoint 2 labeled break + receptor de ponteiro, checkpoint
 3 panic/recover + invariante com campo não exportado, checkpoint 4
 curto-circuito + construtor de interface, checkpoint 5 os 2 desafios
 combinados — **go-core está completo**: 10/10 desafios previstos na
-matriz de distribuição, 8 atômicos + 2 combinados) e dois checkpoints em
+matriz de distribuição, 8 atômicos + 2 combinados) e três checkpoints em
 go-data-text (pack novo, criado nesta sessão: checkpoint 1 filtro de
 slice sem aliasing + truncamento de string em fronteira de rune UTF-8,
-checkpoint 2 comma-ok em map + citação de campo CSV; 4/10 desafios
-previstos) — todos com
+checkpoint 2 comma-ok em map + citação de campo CSV, checkpoint 3
+deduplicação com set + soma segura de inteiros; 6/10 desafios previstos)
+— todos com
 fixture/checks executáveis reais e pré-revisão automatizada aprovada sem
 ressalvas ou só com ressalvas menores não bloqueantes (Decision 3),
 aguardando revisão humana final e playtest do usuário antes de publicar.

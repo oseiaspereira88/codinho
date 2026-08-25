@@ -128,6 +128,24 @@ GOFLAGS=-mod=readonly GOPROXY=off go test ...`. Validado nesta sessão:
 sem isso o revisor não conseguia confirmar evidência executável nenhuma;
 com isso, rodou e confirmou o teste real em segundos.
 
+## Cache de `go test` pode mascarar um mutante que deveria falhar
+
+Ao verificar manualmente que uma implementação incorreta ("mutante")
+realmente falha contra um teste — a técnica usada para dar evidência
+comportamental real a critérios que só têm `source_inspection` por trás —
+`go test ./...` sem `-count=1` pode devolver um resultado em cache mesmo
+depois de trocar o `.go` da implementação no mesmo diretório de trabalho
+(observado em `go-data-text` checkpoint 3: uma implementação de
+`Dedupe` deliberadamente quebrada, que perde a ordem original ao montar
+a saída iterando um map, "passou" na primeira rodada — só porque o
+resultado de uma execução anterior, com um arquivo diferente, ainda
+estava em cache). Rodar de novo com `-count=1` revelou a falha real, de
+forma consistente em 5 repetições. Sempre que verificar um mutante
+manualmente (autor ou revisor) contra um teste que envolve ordem de
+iteração de map ou qualquer outra fonte de não-determinismo, use `go test
+./... -count=1` (e rode algumas vezes) — nunca confie em uma passagem
+sem `-count=1` depois de trocar o arquivo de implementação.
+
 ## Ganho real medido de retomar sessão
 
 Nesta sessão, quatro rodadas de revisão do mesmo lote (`go-foundations-

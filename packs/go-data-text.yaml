@@ -15,6 +15,10 @@ concepts:
     title: Consulta a map com comma-ok
   - id: csv-field-quoting
     title: Regras de citação de campo CSV
+  - id: set-membership-with-empty-struct-map
+    title: Conjunto de pertencimento com map[T]struct{}
+  - id: strconv-error-handling
+    title: Tratamento do erro de strconv
 competencies:
   - id: filter-without-mutating-input
     title: Filtrar uma coleção sem mutar a entrada
@@ -24,6 +28,10 @@ competencies:
     title: Distinguir valor zero de ausência em um map
   - id: quote-csv-field-when-needed
     title: Citar um campo CSV apenas quando necessário
+  - id: dedupe-preserving-first-occurrence
+    title: Deduplicar preservando a primeira ocorrência
+  - id: parse-integers-with-error-handling
+    title: Fazer parsing de inteiros tratando erro
 tracks: []
 challenges:
   - schema_version: 1
@@ -594,6 +602,285 @@ challenges:
         test_pattern: ^TestCSVField$
         timeout: 20s
     variants: []
+
+  - schema_version: 1
+    id: go-data-text.dedupe-preserving-first-occurrence
+    version: 1.0.0
+    title: Deduplicar uma lista preservando a primeira ocorrência
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [slices-arrays-maps]
+    competencies:
+      primary: [dedupe-preserving-first-occurrence]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente a remoção de duplicatas de uma lista de strings,
+      mantendo apenas a primeira ocorrência de cada valor e preservando a
+      ordem original.
+    constraints:
+      - Não usar bibliotecas externas.
+      - Usar um map[string]struct{} para acompanhar quais valores já apareceram.
+      - A ordem do resultado deve seguir a primeira ocorrência de cada valor, não a ordem de iteração de um map.
+    acceptance:
+      - 'Dedupe(["a","b","a","c","b","d"]) retorna ["a","b","c","d"], de forma determinística — a ordem nunca pode depender da iteração de um map, mesmo em chamadas repetidas.'
+      - Dedupe com valores já únicos retorna a lista original, na mesma ordem.
+      - Dedupe(nil) retorna nil.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.track-seen-values-with-set
+            kind: micro
+            action: implement
+            target: function
+            title: Acompanhar valores já vistos com um set
+            instruction:
+              objective: Percorrer items e, para cada valor, verificar se ele já foi visto usando um map[string]struct{}, registrando os valores conforme são vistos pela primeira vez.
+              scope: A criação e a consulta do set de valores vistos.
+              constraints:
+                - Usar um map[string]struct{} para acompanhar quais valores já apareceram.
+            concepts: [set-membership-with-empty-struct-map]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: uses-set-to-track-seen-values
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.build-output-in-original-order
+            kind: micro
+            action: implement
+            target: function
+            title: Construir a saída na ordem da primeira ocorrência
+            instruction:
+              objective: Construir a saída acrescentando cada valor a primeira vez que ele é visto, preservando a ordem original de items -- nunca a ordem de iteração de um map.
+              scope: A construção da saída durante o mesmo laço sobre items.
+              constraints:
+                - A ordem do resultado deve seguir a primeira ocorrência de cada valor, não a ordem de iteração de um map.
+            concepts: [set-membership-with-empty-struct-map]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: preserves-first-occurrence-order
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que construir a saída percorrendo um map no final, em vez de durante o laço sobre items, arriscaria perder a ordem original?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/dedupe-preserving-first-occurrence
+
+          go 1.25.0
+      - path: dedupe.go
+        content: |
+          package dedupe
+
+          // Dedupe returns items with duplicates removed, keeping only each
+          // value's first occurrence and preserving the original order.
+          func Dedupe(items []string) []string {
+              panic("not implemented")
+          }
+      - path: dedupe_test.go
+        content: |
+          package dedupe
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          func TestDedupe(t *testing.T) {
+              cases := []struct {
+                  name string
+                  in   []string
+                  want []string
+              }{
+                  {"no duplicates", []string{"x", "y"}, []string{"x", "y"}},
+                  {"single element", []string{"x"}, []string{"x"}},
+                  {"empty", nil, nil},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      got := Dedupe(c.in)
+                      if !reflect.DeepEqual(got, c.want) {
+                          t.Errorf("Dedupe(%v) = %v, want %v", c.in, got, c.want)
+                      }
+                  })
+              }
+
+              t.Run("removes later duplicates, keeps first-occurrence order across repeated calls", func(t *testing.T) {
+                  in := []string{"a", "b", "a", "c", "b", "d", "e", "c", "f", "a"}
+                  want := []string{"a", "b", "c", "d", "e", "f"}
+                  for i := 0; i < 30; i++ {
+                      got := Dedupe(in)
+                      if !reflect.DeepEqual(got, want) {
+                          t.Fatalf("run %d: Dedupe(%v) = %v, want %v (order must not depend on map iteration)", i, in, got, want)
+                      }
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestDedupe$
+        timeout: 20s
+    variants: []
+
+  - schema_version: 1
+    id: go-data-text.sum-valid-integers-safely
+    version: 1.0.0
+    title: Somar inteiros válidos tratando erro de parsing
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [text-and-binary-data]
+    competencies:
+      primary: [parse-integers-with-error-handling]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente a soma dos valores de uma lista de strings que
+      representam inteiros, contando separadamente quantas não puderam
+      ser convertidas.
+    constraints:
+      - Não usar bibliotecas externas além da biblioteca padrão.
+      - Usar o erro retornado por strconv.Atoi para decidir se um campo é inválido, nunca ignorá-lo.
+    acceptance:
+      - 'SumValid(["1","2","x","4"]) retorna (7, 1).'
+      - 'SumValid(["10","20","30"]) retorna (60, 0).'
+      - 'SumValid(["abc","def"]) retorna (0, 2).'
+      - SumValid(nil) retorna (0, 0).
+      - 'SumValid(["0","5"]) retorna (5, 0) — "0" é um inteiro válido, não um campo inválido.'
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.parse-each-field-checking-error
+            kind: micro
+            action: implement
+            target: function
+            title: Fazer parsing de cada campo verificando o erro
+            instruction:
+              objective: Percorrer fields e, para cada um, usar strconv.Atoi para tentar convertê-lo, sem ainda decidir o que fazer com o resultado ou o erro.
+              scope: O laço e a chamada a strconv.Atoi para cada campo.
+              constraints:
+                - Usar o erro retornado por strconv.Atoi para decidir se um campo é inválido, nunca ignorá-lo.
+            concepts: [strconv-error-handling]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: checks-atoi-error
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.accumulate-sum-and-invalid-count
+            kind: micro
+            action: implement
+            target: function
+            title: Acumular soma e contagem de inválidos
+            instruction:
+              objective: Acumular em sum e invalid o resultado de cada parsing feito no passo anterior, de acordo com se ele funcionou ou falhou.
+              scope: O acúmulo de sum e invalid a partir do resultado de cada parsing.
+              constraints:
+                - Um campo inválido nunca deve contribuir para sum.
+            concepts: [strconv-error-handling]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: accumulates-sum-and-invalid-separately
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que ignorar o erro de strconv.Atoi e usar o valor retornado mesmo assim não causaria um panic, mas ainda seria um bug?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/sum-valid-integers-safely
+
+          go 1.25.0
+      - path: safeparse.go
+        content: |
+          package safeparse
+
+          // SumValid parses each string in fields as an integer and returns the
+          // sum of the ones that parse successfully, along with how many did not.
+          func SumValid(fields []string) (sum int, invalid int) {
+              panic("not implemented")
+          }
+      - path: safeparse_test.go
+        content: |
+          package safeparse
+
+          import "testing"
+
+          func TestSumValid(t *testing.T) {
+              cases := []struct {
+                  name        string
+                  fields      []string
+                  wantSum     int
+                  wantInvalid int
+              }{
+                  {"mixed valid and invalid", []string{"1", "2", "x", "4"}, 7, 1},
+                  {"all valid", []string{"10", "20", "30"}, 60, 0},
+                  {"all invalid", []string{"abc", "def"}, 0, 2},
+                  {"empty", nil, 0, 0},
+                  {"negative numbers parse", []string{"-3", "5"}, 2, 0},
+                  {"valid zero is not invalid", []string{"0", "5"}, 5, 0},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      gotSum, gotInvalid := SumValid(c.fields)
+                      if gotSum != c.wantSum || gotInvalid != c.wantInvalid {
+                          t.Errorf("SumValid(%v) = (%d, %d), want (%d, %d)", c.fields, gotSum, gotInvalid, c.wantSum, c.wantInvalid)
+                      }
+                  })
+              }
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestSumValid$
+        timeout: 20s
+    variants: []
 relations:
   - from: go-data-text.filter-without-mutating-input
     to: go-data-text.truncate-bytes-at-rune-boundary
@@ -630,4 +917,22 @@ relations:
     kind: relates_to
   - from: csv-field-quoting
     to: quote-csv-field-when-needed
+    kind: relates_to
+  - from: go-data-text.dedupe-preserving-first-occurrence
+    to: go-data-text.sum-valid-integers-safely
+    kind: relates_to
+  - from: go-data-text.sum-valid-integers-safely
+    to: go-data-text.dedupe-preserving-first-occurrence
+    kind: relates_to
+  - from: dedupe-preserving-first-occurrence
+    to: set-membership-with-empty-struct-map
+    kind: relates_to
+  - from: set-membership-with-empty-struct-map
+    to: dedupe-preserving-first-occurrence
+    kind: relates_to
+  - from: parse-integers-with-error-handling
+    to: strconv-error-handling
+    kind: relates_to
+  - from: strconv-error-handling
+    to: parse-integers-with-error-handling
     kind: relates_to

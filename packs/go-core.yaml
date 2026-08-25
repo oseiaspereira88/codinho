@@ -21,6 +21,10 @@ concepts:
     title: Fronteira de recuperação de panic
   - id: unexported-field-invariant
     title: Invariante protegido por campo não exportado
+  - id: short-circuit-nil-guard
+    title: Curto-circuito para evitar acesso a valor nil
+  - id: constructor-returns-interface
+    title: Construtor retornando tipo de interface
 competencies:
   - id: sequence-cleanup-with-defer
     title: Sequenciar limpeza de recursos com defer
@@ -34,6 +38,10 @@ competencies:
     title: Recuperar de um panic em uma fronteira de chamada
   - id: guard-invariant-with-unexported-field
     title: Proteger um invariante com campo não exportado
+  - id: guard-nil-access-with-short-circuit
+    title: Evitar acesso inválido com avaliação de curto-circuito
+  - id: hide-concrete-type-behind-constructor
+    title: Esconder o tipo concreto atrás de um construtor de interface
 tracks: []
 challenges:
   - schema_version: 1
@@ -849,6 +857,291 @@ challenges:
         test_pattern: ^TestNewPercentage$
         timeout: 20s
     variants: []
+
+  - schema_version: 1
+    id: go-core.find-first-value-at-least
+    version: 1.0.0
+    title: Encontrar o primeiro valor que atende a um mínimo, ignorando nós nulos
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [control-flow]
+    competencies:
+      primary: [guard-nil-access-with-short-circuit]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente uma função que percorre uma lista de nós, alguns deles
+      nulos, e retorna o primeiro valor que atende a um mínimo, sem nunca
+      acessar um campo de um nó nulo.
+    constraints:
+      - Não usar bibliotecas externas.
+      - Verificar nilidade e o valor mínimo em uma única condição, usando curto-circuito, sem acessar Value de um node nil.
+    acceptance:
+      - 'FindFirstAtLeast([nil, {Value: 3}, {Value: 10}], 5) retorna (10, true).'
+      - 'FindFirstAtLeast([nil, nil], 0) retorna (0, false), sem panic.'
+      - 'FindFirstAtLeast([{Value: 7}, {Value: 1}], 5) retorna (7, true).'
+      - FindFirstAtLeast(nil, 0) retorna (0, false).
+      - 'FindFirstAtLeast([{Value: 1}, {Value: 2}], 5) retorna (0, false).'
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.skip-nil-nodes
+            kind: micro
+            action: implement
+            target: function
+            title: Percorrer nodes ignorando elementos nil
+            instruction:
+              objective: Percorrer nodes ignorando elementos nil, sem nunca acessar Value de um node nil, e sem aplicar ainda o filtro de valor mínimo.
+              scope: O corpo da função, sem aplicar ainda o filtro min.
+              constraints:
+                - Não acessar Value de um node nil.
+                - Não aplicar ainda o filtro de valor mínimo.
+            concepts: [short-circuit-nil-guard]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: skips-nil-nodes
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.apply-minimum-filter
+            kind: micro
+            action: implement
+            target: function
+            title: Aplicar o filtro de valor mínimo
+            instruction:
+              objective: Aplicar o filtro de valor mínimo sobre os nodes não nulos e retornar o primeiro Value que atende, junto com found indicando se algum foi encontrado.
+              scope: O corpo da função e o valor de retorno.
+              constraints:
+                - Verificar nilidade e o valor mínimo em uma única condição, usando curto-circuito.
+            concepts: [short-circuit-nil-guard]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: returns-first-match-with-found
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que checar node != nil antes de node.Value >= min na mesma condição evita panic, mesmo quando algum node é nil?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/find-first-value-at-least
+
+          go 1.25.0
+      - path: finder.go
+        content: |
+          package finder
+
+          // Node holds a value that may or may not meet a threshold.
+          type Node struct {
+              Value int
+          }
+
+          // FindFirstAtLeast returns the first non-nil node's Value that is
+          // greater than or equal to min, and whether one was found.
+          func FindFirstAtLeast(nodes []*Node, min int) (value int, found bool) {
+              panic("not implemented")
+          }
+      - path: finder_test.go
+        content: |
+          package finder
+
+          import "testing"
+
+          func TestFindFirstAtLeast(t *testing.T) {
+              cases := []struct {
+                  name      string
+                  nodes     []*Node
+                  min       int
+                  wantValue int
+                  wantFound bool
+              }{
+                  {"skips nil and finds match", []*Node{nil, {Value: 3}, {Value: 10}}, 5, 10, true},
+                  {"all nil returns not found", []*Node{nil, nil}, 0, 0, false},
+                  {"first element already matches", []*Node{{Value: 7}, {Value: 1}}, 5, 7, true},
+                  {"empty slice", nil, 0, 0, false},
+                  {"no element meets minimum", []*Node{{Value: 1}, {Value: 2}}, 5, 0, false},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      gotValue, gotFound := FindFirstAtLeast(c.nodes, c.min)
+                      if gotValue != c.wantValue || gotFound != c.wantFound {
+                          t.Errorf("FindFirstAtLeast(%v, %d) = (%d, %v), want (%d, %v)", c.nodes, c.min, gotValue, gotFound, c.wantValue, c.wantFound)
+                      }
+                  })
+              }
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestFindFirstAtLeast$
+        timeout: 20s
+    variants: []
+
+  - schema_version: 1
+    id: go-core.hide-counter-type-behind-interface
+    version: 1.0.0
+    title: Esconder o tipo concreto de um contador atrás de uma interface
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [packages-and-apis]
+    competencies:
+      primary: [hide-concrete-type-behind-constructor]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente um contador cujo construtor exportado devolve uma
+      interface, sem nunca expor o tipo concreto que a implementa.
+    constraints:
+      - Não usar bibliotecas externas.
+      - NewCounter deve retornar o tipo Counter, não o tipo concreto.
+    acceptance:
+      - Após uma chamada a Increment em um Counter recém-criado por NewCounter(), o valor retornado é 1.
+      - Duas chamadas sucessivas a Increment no mesmo Counter retornam 1 e depois 2.
+      - Dois Counters distintos criados por NewCounter() mantêm contagens independentes.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.implement-increment
+            kind: micro
+            action: implement
+            target: function
+            title: Implementar Increment para mutar e devolver a nova contagem
+            instruction:
+              objective: Implementar Increment para aumentar a contagem interna em um e devolver o novo valor.
+              scope: Somente o corpo do método Increment.
+              constraints:
+                - Não usar bibliotecas externas.
+            concepts: [pointer-vs-value-receiver]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: increment-mutates-and-returns-new-count
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.implement-new-counter
+            kind: micro
+            action: implement
+            target: function
+            title: Implementar NewCounter devolvendo Counter
+            instruction:
+              objective: Implementar NewCounter para construir e devolver um novo contador, expondo-o apenas através do tipo Counter.
+              scope: Somente o corpo de NewCounter.
+              constraints:
+                - NewCounter deve retornar o tipo Counter, não o tipo concreto.
+            concepts: [constructor-returns-interface]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: new-counter-constructs-counter-impl
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que quem chama NewCounter nunca precisa conhecer o nome do tipo concreto para usar o Counter retornado?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/hide-counter-type-behind-interface
+
+          go 1.25.0
+      - path: counterapi.go
+        content: |
+          package counterapi
+
+          // Counter tracks a count that increases by one each time it is
+          // incremented.
+          type Counter interface {
+              Increment() int
+          }
+
+          type counterImpl struct {
+              count int
+          }
+
+          // Increment increases the count by one and returns the new count.
+          func (c *counterImpl) Increment() int {
+              panic("not implemented")
+          }
+
+          // NewCounter returns a new Counter.
+          func NewCounter() Counter {
+              panic("not implemented")
+          }
+      - path: counterapi_test.go
+        content: |
+          package counterapi_test
+
+          import (
+              "testing"
+
+              "codinho-practice/hide-counter-type-behind-interface"
+          )
+
+          func TestCounter(t *testing.T) {
+              c := counterapi.NewCounter()
+              if got := c.Increment(); got != 1 {
+                  t.Fatalf("first Increment() = %d, want 1", got)
+              }
+              if got := c.Increment(); got != 2 {
+                  t.Fatalf("second Increment() = %d, want 2", got)
+              }
+
+              other := counterapi.NewCounter()
+              if got := other.Increment(); got != 1 {
+                  t.Fatalf("other Increment() = %d, want 1", got)
+              }
+              if got := c.Increment(); got != 3 {
+                  t.Fatalf("c.Increment() after touching other = %d, want 3", got)
+              }
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestCounter$
+        timeout: 20s
+    variants: []
 relations:
   - from: go-core.close-resources-in-defer-order
     to: go-core.sum-variadic-numbers
@@ -903,4 +1196,28 @@ relations:
     kind: relates_to
   - from: unexported-field-invariant
     to: guard-invariant-with-unexported-field
+    kind: relates_to
+  - from: go-core.find-first-value-at-least
+    to: go-core.hide-counter-type-behind-interface
+    kind: relates_to
+  - from: go-core.hide-counter-type-behind-interface
+    to: go-core.find-first-value-at-least
+    kind: relates_to
+  - from: guard-nil-access-with-short-circuit
+    to: short-circuit-nil-guard
+    kind: relates_to
+  - from: short-circuit-nil-guard
+    to: guard-nil-access-with-short-circuit
+    kind: relates_to
+  - from: hide-concrete-type-behind-constructor
+    to: constructor-returns-interface
+    kind: relates_to
+  - from: constructor-returns-interface
+    to: hide-concrete-type-behind-constructor
+    kind: relates_to
+  - from: go-core.guard-invariant-with-unexported-field
+    to: go-core.hide-counter-type-behind-interface
+    kind: relates_to
+  - from: go-core.hide-counter-type-behind-interface
+    to: go-core.guard-invariant-with-unexported-field
     kind: relates_to

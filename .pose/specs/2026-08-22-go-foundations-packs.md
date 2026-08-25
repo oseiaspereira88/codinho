@@ -457,14 +457,54 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
   ponto residual anotado (não bloqueante) é que `go test` não consegue
   provar visibilidade de campo por si só, mesma limitação sistêmica já
   aceita.
+- 2026-08-25: checkpoint 4 autorado em `packs/go-core.yaml` — completa os
+  8 desafios atômicos previstos na matriz de distribuição para este pack.
+  2 desafios atômicos novos: `go-core.find-first-value-at-least` (tema
+  `control-flow`, curto-circuito `&&` para nunca acessar um campo de
+  ponteiro nil ao filtrar uma lista) e `go-core.hide-counter-type-behind-
+  interface` (tema `packages-and-apis`, construtor exportado retornando
+  um tipo de interface em vez do tipo concreto). 2 conceitos e 2
+  competências novos. Verificado manualmente: stub de cada fixture falha;
+  para `find-first-value-at-least`, verificado também que uma
+  implementação com a ordem da condição invertida (`node.Value >= min &&
+  node != nil`) falha de verdade com nil pointer dereference contra o
+  mesmo teste — evidência executável real por trás do critério
+  estrutural, não só sintática.
+- Pré-revisão Codex rodada 1 (`new`): **aprovado com ressalvas menores**
+  os dois. `find-first-value-at-least`: objective do primeiro macro_step
+  já nomeava "curto-circuito", reduzindo a descoberta esperada da técnica.
+  `hide-counter-type-behind-interface`: o primeiro macro_step (mutação via
+  receptor de ponteiro) estava com `concepts: [constructor-returns-
+  interface]`, inconsistente — esse conceito só se aplica ao segundo
+  passo (o construtor retornando a interface).
+- Correções: objective do primeiro passo de `find-first-value-at-least`
+  reescrito para descrever só o efeito observável, sem citar a técnica; a
+  técnica permanece explícita apenas na constraint do segundo passo, mesmo
+  padrão já usado no pack. Primeiro macro_step de `hide-counter-type-
+  behind-interface` passou a usar `concepts: [pointer-vs-value-receiver]`
+  (concept já existente no pack desde o checkpoint 2), refletindo o que
+  esse passo realmente ensina.
+- `go run ./cmd/codinho catalog validate --checks` → exit 0 após as
+  correções, sem novos avisos. `go build ./...`, `gofmt -l .`,
+  `go vet ./...` → ok.
+- Pré-revisão Codex rodada 2 (`resume --last`): **aprovado sem
+  ressalvas** `find-first-value-at-least`; **aprovado com uma ressalva
+  menor não bloqueante, já conhecida do precedente**
+  `hide-counter-type-behind-interface` — o teste externo prova uso sem
+  nomear o tipo concreto, mas a garantia de que `NewCounter` retorna
+  `Counter` (não o tipo concreto) continua dependendo de
+  `source_inspection` da assinatura, mesma limitação sistêmica já aceita
+  para critérios estruturais neste pack.
 
 ### Results summary
-Spec destravada. Seis checkpoints de conteúdo real autorado (12 de 44
+Spec destravada. Sete checkpoints de conteúdo real autorado (14 de 44
 desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
 checkpoint 2 tooling + conversão numérica, checkpoint 3 tooling +
-shadowing) e três em go-core (checkpoint 1 defer + parâmetros variádicos,
-checkpoint 2 labeled break + receptor de ponteiro, checkpoint 3
-panic/recover + invariante com campo não exportado) — todos com
+shadowing) e quatro em go-core (checkpoint 1 defer + parâmetros
+variádicos, checkpoint 2 labeled break + receptor de ponteiro, checkpoint
+3 panic/recover + invariante com campo não exportado, checkpoint 4
+curto-circuito + construtor de interface — completando os 8 atômicos
+previstos para go-core, faltando só os 2 combinados) — todos com
 fixture/checks executáveis reais e pré-revisão automatizada aprovada sem
 ressalvas (Decision 3), aguardando revisão humana final e playtest do
 usuário antes de continuar os próximos lotes. Nenhum desafio está

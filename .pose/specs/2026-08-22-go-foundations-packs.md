@@ -662,9 +662,52 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
   para descartar flakiness por iteração de map — repetir a chamada dentro
   do próprio subteste (N=30) é a forma barata e confiável de tornar esse
   tipo de evidência comportamental verdadeiramente determinística.
+- 2026-08-25: checkpoint 4 autorado em `packs/go-data-text.yaml` — 2
+  desafios atômicos novos, completando os 8 atômicos previstos para o
+  pack (faltam só os 2 combinados). `go-data-text.title-first-letters-
+  preserving-spacing` (tema text-and-binary-data, capitaliza a primeira
+  letra de cada palavra preservando exatamente o espaçamento original,
+  em contraste com strings.Fields+strings.Join que colapsaria espaços
+  múltiplos) aprovado sem ressalvas já na rodada 1, após reforçar o teste
+  com casos de espaço final/tabulação/letra Unicode e reescrever os
+  objectives para descrever efeito em vez de narrar o algoritmo passo a
+  passo. `go-data-text.preallocate-slice-with-zero-length` (tema
+  slices-arrays-maps) precisou de duas rodadas de correção real, não só
+  polimento — ver achado abaixo.
+- Achado de desenho de desafio (mais significativo que os anteriores): o
+  desafio original, `BuildSquares(n)` (soma dos quadrados de 0 a n-1,
+  sempre produzindo exatamente n elementos 1:1), tinha uma constraint
+  estruturalmente infalsificável — como toda entrada gera exatamente n
+  saídas, `make([]int, n)` seguido de escrita indexada produz o MESMO
+  resultado observável (valores, comprimento, capacidade) que
+  `make([]int, 0, n)` seguido de append; nenhum teste de caixa preta
+  poderia distinguir as duas técnicas. Verificação manual anterior não
+  pegou isso porque só testei a implementação óbvia (make(n)+append, que
+  de fato quebra), não a alternativa por indexação (que não quebra).
+  Redesenhado para `EvenSquares(n)` (só os quadrados dos números pares),
+  onde o comprimento final é variável/dependente dos dados — agora
+  make(n)+append produz um resultado genuinamente errado (zeros à
+  esquerda espúrios). Mesmo assim, a rodada 2 achou uma segunda lacuna:
+  o teste de capacidade exigia só `cap <= n`, que uma implementação SEM
+  pré-alocação nenhuma (`var out []int` + append) também satisfazia por
+  acidente, porque o crescimento amortizado do append para poucos
+  elementos frequentemente fica abaixo de n. Corrigido exigindo
+  `cap == n` exatamente (só pré-alocação deliberada garante isso).
+  Lição para desafios futuros: antes de escrever o teste, perguntar se
+  existe uma implementação mais simples ou sem a técnica exigida que
+  produziria o mesmo resultado observável — inclusive "sem a otimização
+  nenhuma", não só "com a técnica errada".
+- `go run ./cmd/codinho catalog validate --checks` → exit 0 em todas as
+  rodadas. `go build ./...`, `gofmt -l .`, `go vet ./...` → ok.
+- Pré-revisão Codex: rodada 1 (`new`) rejeitou os dois pelos motivos
+  acima; rodada 2 (`resume --last`) aprovou `title-first-letters-
+  preserving-spacing` sem ressalvas e rejeitou de novo `preallocate-
+  slice-with-zero-length` (a lacuna de `cap <= n`); rodada 3 (`resume
+  --last`) aprovou `preallocate-slice-with-zero-length` sem ressalvas
+  após a correção para `cap == n` exato.
 
 ### Results summary
-Spec destravada. Doze checkpoints de conteúdo real autorado (24 de 44
+Spec destravada. Treze checkpoints de conteúdo real autorado (26 de 44
 desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
 checkpoint 2 tooling + conversão numérica, checkpoint 3 tooling +
 shadowing), cinco em go-core (checkpoint 1 defer + parâmetros
@@ -672,12 +715,14 @@ variádicos, checkpoint 2 labeled break + receptor de ponteiro, checkpoint
 3 panic/recover + invariante com campo não exportado, checkpoint 4
 curto-circuito + construtor de interface, checkpoint 5 os 2 desafios
 combinados — **go-core está completo**: 10/10 desafios previstos na
-matriz de distribuição, 8 atômicos + 2 combinados) e três checkpoints em
-go-data-text (pack novo, criado nesta sessão: checkpoint 1 filtro de
+matriz de distribuição, 8 atômicos + 2 combinados) e quatro checkpoints
+em go-data-text (pack novo, criado nesta sessão: checkpoint 1 filtro de
 slice sem aliasing + truncamento de string em fronteira de rune UTF-8,
 checkpoint 2 comma-ok em map + citação de campo CSV, checkpoint 3
-deduplicação com set + soma segura de inteiros; 6/10 desafios previstos)
-— todos com
+deduplicação com set + soma segura de inteiros, checkpoint 4 pré-alocação
+de slice + capitalização preservando espaçamento — **completa os 8
+atômicos previstos**, faltando só os 2 combinados; 8/10 desafios
+previstos) — todos com
 fixture/checks executáveis reais e pré-revisão automatizada aprovada sem
 ressalvas ou só com ressalvas menores não bloqueantes (Decision 3),
 aguardando revisão humana final e playtest do usuário antes de publicar.

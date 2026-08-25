@@ -19,6 +19,10 @@ concepts:
     title: Conjunto de pertencimento com map[T]struct{}
   - id: strconv-error-handling
     title: Tratamento do erro de strconv
+  - id: slice-preallocation-length-vs-capacity
+    title: Pré-alocação de slice — comprimento versus capacidade
+  - id: rune-aware-whitespace-preservation
+    title: Preservação de espaçamento consciente de rune
 competencies:
   - id: filter-without-mutating-input
     title: Filtrar uma coleção sem mutar a entrada
@@ -32,6 +36,10 @@ competencies:
     title: Deduplicar preservando a primeira ocorrência
   - id: parse-integers-with-error-handling
     title: Fazer parsing de inteiros tratando erro
+  - id: preallocate-slice-with-zero-length
+    title: Pré-alocar uma slice com comprimento zero e capacidade definida
+  - id: title-first-letters-preserving-spacing
+    title: Capitalizar palavras preservando o espaçamento original
 tracks: []
 challenges:
   - schema_version: 1
@@ -881,6 +889,298 @@ challenges:
         test_pattern: ^TestSumValid$
         timeout: 20s
     variants: []
+
+  - schema_version: 1
+    id: go-data-text.preallocate-slice-with-zero-length
+    version: 1.0.0
+    title: Pré-alocar os quadrados dos números pares com comprimento zero
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 10
+    themes: [slices-arrays-maps]
+    competencies:
+      primary: [preallocate-slice-with-zero-length]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente uma função que constrói uma slice com os quadrados dos
+      números pares entre 0 e n-1, sem reservar espaço para os números
+      que acabam excluídos.
+    constraints:
+      - Não usar bibliotecas externas.
+      - Pré-alocar com make usando comprimento 0 e capacidade n.
+    acceptance:
+      - 'EvenSquares(6) retorna [0,4,16], com comprimento exatamente 3 (não 6).'
+      - EvenSquares(0) retorna uma slice de comprimento 0.
+      - A capacidade da slice retornada por EvenSquares(6) é exatamente 6, mesmo contendo só 3 elementos.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.preallocate-zero-length-capacity-n
+            kind: micro
+            action: declare
+            target: function
+            title: Pré-alocar com capacidade n e comprimento 0
+            instruction:
+              objective: Declarar a slice de saída de forma que ela já reserve espaço para até n elementos, mas comece sem nenhum elemento ainda.
+              scope: Somente a criação da slice de saída.
+              constraints:
+                - Pré-alocar com make usando comprimento 0 e capacidade n.
+                - Não preencher a slice ainda.
+            concepts: [slice-preallocation-length-vs-capacity]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: preallocates-zero-length-capacity-n
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.append-even-squares-in-order
+            kind: micro
+            action: implement
+            target: function
+            title: Acrescentar o quadrado de cada número par
+            instruction:
+              objective: Percorrer de 0 a n-1 e, para cada número par, acrescentar seu quadrado à saída.
+              scope: O laço que preenche a saída.
+              constraints:
+                - Números ímpares não podem gerar nenhuma entrada na saída.
+            concepts: [slice-preallocation-length-vs-capacity]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: appends-only-even-squares
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que make([]int, n) seguido de append produziria um resultado com comprimento errado aqui, já que nem todo número entra na saída?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/preallocate-slice-with-zero-length
+
+          go 1.25.0
+      - path: squares.go
+        content: |
+          package squares
+
+          // EvenSquares returns the squares of the even numbers from 0 to n-1, in
+          // order, pre-allocating its capacity to at most n without reserving
+          // space for numbers that end up excluded.
+          func EvenSquares(n int) []int {
+              panic("not implemented")
+          }
+      - path: squares_test.go
+        content: |
+          package squares
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          func TestEvenSquares(t *testing.T) {
+              cases := []struct {
+                  name string
+                  n    int
+                  want []int
+              }{
+                  {"six", 6, []int{0, 4, 16}},
+                  {"one", 1, []int{0}},
+                  {"two", 2, []int{0}},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      got := EvenSquares(c.n)
+                      if len(got) != len(c.want) {
+                          t.Fatalf("EvenSquares(%d) has length %d, want %d (got %v)", c.n, len(got), len(c.want), got)
+                      }
+                      if !reflect.DeepEqual(got, c.want) {
+                          t.Errorf("EvenSquares(%d) = %v, want %v", c.n, got, c.want)
+                      }
+                  })
+              }
+
+              t.Run("zero has length zero", func(t *testing.T) {
+                  got := EvenSquares(0)
+                  if len(got) != 0 {
+                      t.Errorf("EvenSquares(0) has length %d, want 0 (got %v)", len(got), got)
+                  }
+              })
+
+              t.Run("capacity is preallocated to exactly n", func(t *testing.T) {
+                  got := EvenSquares(6)
+                  if cap(got) != 6 {
+                      t.Errorf("cap(EvenSquares(6)) = %d, want exactly 6", cap(got))
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestEvenSquares$
+        timeout: 20s
+    variants: []
+
+  - schema_version: 1
+    id: go-data-text.title-first-letters-preserving-spacing
+    version: 1.0.0
+    title: Capitalizar palavras preservando o espaçamento original
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [text-and-binary-data]
+    competencies:
+      primary: [title-first-letters-preserving-spacing]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente a capitalização da primeira letra de cada palavra de uma
+      string, preservando exatamente o espaçamento original -- inclusive
+      espaços múltiplos e espaços nas pontas.
+    constraints:
+      - Não usar bibliotecas externas além da biblioteca padrão.
+      - Não usar strings.Fields seguido de strings.Join para reconstruir o resultado.
+    acceptance:
+      - 'TitleFirstLetters("go is fun") retorna "Go Is Fun".'
+      - 'TitleFirstLetters("hello   world") retorna "Hello   World", preservando os três espaços.'
+      - 'TitleFirstLetters(" go is fun") retorna " Go Is Fun", preservando o espaço inicial.'
+      - 'TitleFirstLetters("go   ") retorna "Go   ", preservando os espaços finais.'
+      - 'TitleFirstLetters("go\tis fun") retorna "Go\tIs Fun" -- tabulação também separa palavras e é preservada.'
+      - 'TitleFirstLetters("élan vital") retorna "Élan Vital" -- a capitalização funciona para letras não-ASCII.'
+      - 'TitleFirstLetters("") retorna "".'
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.track-word-start-across-whitespace
+            kind: micro
+            action: implement
+            target: function
+            title: Percorrer s marcando o início de cada palavra
+            instruction:
+              objective: Identificar, para cada caractere de s, se ele é o primeiro caractere não-espaço de uma palavra, tratando qualquer caractere de espaço em branco (inclusive tabulação) como separador, sem ainda transformar nenhum caractere.
+              scope: O laço sobre os caracteres de s e a identificação de início de palavra.
+              constraints:
+                - Não transformar nenhum caractere ainda.
+            concepts: [rune-aware-whitespace-preservation]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: tracks-word-start-across-whitespace
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.build-result-preserving-original-runes
+            kind: micro
+            action: implement
+            target: function
+            title: Construir o resultado capitalizando só o início de cada palavra
+            instruction:
+              objective: Construir o resultado mantendo cada caractere de s exatamente como está, exceto o início de cada palavra identificado no passo anterior, que deve ser convertido para maiúscula -- inclusive quando é uma letra não-ASCII.
+              scope: A construção do resultado a partir do laço do passo anterior.
+              constraints:
+                - Não usar strings.Fields seguido de strings.Join para reconstruir o resultado.
+                - Nenhum caractere pode ser removido ou reordenado, incluindo espaços nas pontas.
+            concepts: [rune-aware-whitespace-preservation]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: capitalizes-only-word-start
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que strings.Fields seguido de strings.Join com um único espaço destruiria espaçamento original com múltiplos espaços?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/title-first-letters-preserving-spacing
+
+          go 1.25.0
+      - path: titlecase.go
+        content: |
+          package titlecase
+
+          // TitleFirstLetters capitalizes the first letter of each word in s,
+          // leaving every other character -- including all original whitespace,
+          // exactly as it was.
+          func TitleFirstLetters(s string) string {
+              panic("not implemented")
+          }
+      - path: titlecase_test.go
+        content: |
+          package titlecase
+
+          import "testing"
+
+          func TestTitleFirstLetters(t *testing.T) {
+              cases := []struct {
+                  name string
+                  in   string
+                  want string
+              }{
+                  {"single word", "hello", "Hello"},
+                  {"simple sentence", "go is fun", "Go Is Fun"},
+                  {"empty", "", ""},
+                  {"single letter", "a", "A"},
+                  {"multiple spaces preserved", "hello   world", "Hello   World"},
+                  {"leading space preserved", " go is fun", " Go Is Fun"},
+                  {"trailing space preserved", "go   ", "Go   "},
+                  {"tab preserved", "go\tis fun", "Go\tIs Fun"},
+                  {"unicode letter capitalized", "élan vital", "Élan Vital"},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      got := TitleFirstLetters(c.in)
+                      if got != c.want {
+                          t.Errorf("TitleFirstLetters(%q) = %q, want %q", c.in, got, c.want)
+                      }
+                  })
+              }
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestTitleFirstLetters$
+        timeout: 20s
+    variants: []
 relations:
   - from: go-data-text.filter-without-mutating-input
     to: go-data-text.truncate-bytes-at-rune-boundary
@@ -935,4 +1235,22 @@ relations:
     kind: relates_to
   - from: strconv-error-handling
     to: parse-integers-with-error-handling
+    kind: relates_to
+  - from: go-data-text.preallocate-slice-with-zero-length
+    to: go-data-text.title-first-letters-preserving-spacing
+    kind: relates_to
+  - from: go-data-text.title-first-letters-preserving-spacing
+    to: go-data-text.preallocate-slice-with-zero-length
+    kind: relates_to
+  - from: preallocate-slice-with-zero-length
+    to: slice-preallocation-length-vs-capacity
+    kind: relates_to
+  - from: slice-preallocation-length-vs-capacity
+    to: preallocate-slice-with-zero-length
+    kind: relates_to
+  - from: title-first-letters-preserving-spacing
+    to: rune-aware-whitespace-preservation
+    kind: relates_to
+  - from: rune-aware-whitespace-preservation
+    to: title-first-letters-preserving-spacing
     kind: relates_to

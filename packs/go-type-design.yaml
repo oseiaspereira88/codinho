@@ -1,0 +1,365 @@
+schema_version: 1
+id: go-type-design
+version: 1.0.0
+themes:
+  - id: structs-and-pointers
+    title: Structs e ponteiros
+  - id: interfaces
+    title: Interfaces
+  - id: generics
+    title: Generics
+concepts:
+  - id: struct-shallow-copy-aliasing
+    title: Aliasing em cópia rasa de struct
+  - id: typed-nil-interface-trap
+    title: Armadilha do nil tipado dentro de uma interface
+competencies:
+  - id: clone-struct-with-independent-slice
+    title: Clonar uma struct com slice de forma independente
+  - id: return-true-nil-interface
+    title: Retornar um nil de interface verdadeiro
+tracks: []
+challenges:
+  - schema_version: 1
+    id: go-type-design.clone-inventory-independently
+    version: 1.0.0
+    title: Clonar um inventário sem compartilhar a lista de itens
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [structs-and-pointers]
+    competencies:
+      primary: [clone-struct-with-independent-slice]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente a clonagem de um Inventory cuja lista de itens nunca
+      compartilha armazenamento com o original -- copiar a struct por
+      valor não basta, porque o campo slice continuaria apontando para o
+      mesmo backing array.
+    constraints:
+      - Não usar bibliotecas externas.
+      - Items do clone não pode compartilhar backing array com Items do original.
+    acceptance:
+      - CloneInventory(inv) retorna uma Inventory com o mesmo Owner e os mesmos Items, na mesma ordem.
+      - Mutar Items do clone nunca altera Items do original, mesmo quando o original tem capacidade excedente.
+      - O isolamento vale mesmo quando Items do original está vazio mas tem capacidade excedente (make com comprimento 0 e capacidade maior que 0).
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.copy-items-into-independent-slice
+            kind: micro
+            action: implement
+            target: function
+            title: Copiar Items para uma slice independente
+            instruction:
+              objective: Construir a slice Items do clone de forma que ela nunca compartilhe o backing array de inv.Items.
+              scope: A construção do campo Items do valor retornado.
+              constraints:
+                - Items do clone não pode compartilhar backing array com Items do original.
+            concepts: [struct-shallow-copy-aliasing]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: items-copied-independently
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.copy-remaining-fields
+            kind: micro
+            action: implement
+            target: function
+            title: Copiar os demais campos da struct
+            instruction:
+              objective: Copiar Owner e os demais campos de inv para o valor retornado.
+              scope: Os campos de Inventory que não são Items.
+              constraints:
+                - Owner deve ser copiado com o mesmo valor de inv.Owner.
+            concepts: [struct-shallow-copy-aliasing]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: copies-remaining-fields
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que return inv (copiando a struct inteira por valor) não seria suficiente para isolar Items?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/clone-inventory-independently
+
+          go 1.25.0
+      - path: inventory.go
+        content: |
+          package inventory
+
+          // Inventory holds an owner and a list of item names.
+          type Inventory struct {
+              Owner string
+              Items []string
+          }
+
+          // CloneInventory returns a copy of inv whose Items slice never shares
+          // storage with inv's Items -- mutating one's Items must never affect
+          // the other's.
+          func CloneInventory(inv Inventory) Inventory {
+              panic("not implemented")
+          }
+      - path: inventory_test.go
+        content: |
+          package inventory
+
+          import (
+              "reflect"
+              "testing"
+              "unsafe"
+          )
+
+          func TestCloneInventory(t *testing.T) {
+              original := Inventory{Owner: "alice", Items: make([]string, 2, 10)}
+              copy(original.Items, []string{"sword", "shield"})
+
+              clone := CloneInventory(original)
+
+              if !reflect.DeepEqual(clone, original) {
+                  t.Fatalf("CloneInventory(...) = %+v, want %+v", clone, original)
+              }
+
+              t.Run("mutating the clone's items does not affect the original", func(t *testing.T) {
+                  clone := CloneInventory(original)
+                  clone.Items[0] = "bow"
+                  if original.Items[0] != "sword" {
+                      t.Errorf("original.Items[0] = %q after mutating clone, want unchanged %q", original.Items[0], "sword")
+                  }
+              })
+
+              t.Run("clone items never point into original's backing array", func(t *testing.T) {
+                  clone := CloneInventory(original)
+                  if len(clone.Items) == 0 {
+                      return
+                  }
+                  origStart := uintptr(unsafe.Pointer(unsafe.SliceData(original.Items)))
+                  origEnd := origStart + uintptr(cap(original.Items))*unsafe.Sizeof(original.Items[0])
+                  cloneStart := uintptr(unsafe.Pointer(unsafe.SliceData(clone.Items)))
+                  if cloneStart >= origStart && cloneStart < origEnd {
+                      t.Error("clone.Items shares backing array with original.Items")
+                  }
+              })
+
+              t.Run("owner is copied", func(t *testing.T) {
+                  clone := CloneInventory(original)
+                  if clone.Owner != original.Owner {
+                      t.Errorf("clone.Owner = %q, want %q", clone.Owner, original.Owner)
+                  }
+              })
+
+              t.Run("empty items with spare capacity are still independent", func(t *testing.T) {
+                  emptyWithCap := Inventory{Owner: "carol", Items: make([]string, 0, 5)}
+                  clone := CloneInventory(emptyWithCap)
+                  if len(clone.Items) != 0 {
+                      t.Fatalf("clone.Items = %v, want empty", clone.Items)
+                  }
+                  origData := unsafe.SliceData(emptyWithCap.Items)
+                  cloneData := unsafe.SliceData(clone.Items)
+                  if origData != nil && cloneData == origData {
+                      t.Error("clone.Items shares backing array with an empty-but-spare-capacity original")
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestCloneInventory$
+        timeout: 20s
+    variants: []
+
+  - schema_version: 1
+    id: go-type-design.select-validator-true-nil
+    version: 1.0.0
+    title: Devolver um nil de interface verdadeiro quando não há validador
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [interfaces]
+    competencies:
+      primary: [return-true-nil-interface]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente uma função que escolhe um Validator por modo, devolvendo
+      um nil de interface verdadeiro quando o modo é desconhecido -- não
+      um ponteiro nil embrulhado em uma interface não nil.
+    constraints:
+      - Não usar bibliotecas externas além da biblioteca padrão.
+      - Quando mode for desconhecido, o retorno deve ser comparável a nil com ==, resultando true.
+      - O validador devolvido para um modo conhecido precisa estar de fato configurado, não apenas ser um ponteiro não nulo qualquer.
+    acceptance:
+      - SelectValidator("strict") retorna um Validator não nil, de fato configurado, cujo Validate() retorna nil.
+      - SelectValidator("unknown") retorna um Validator que é == nil.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.return-configured-validator-for-known-mode
+            kind: micro
+            action: implement
+            target: function
+            title: Devolver um validador de fato configurado para o modo conhecido
+            instruction:
+              objective: Quando mode for "strict", devolver um Validator de fato configurado, capaz de validar sem erro.
+              scope: O caso em que mode é "strict".
+              constraints:
+                - Não tratar ainda o caso de modo desconhecido.
+            concepts: [typed-nil-interface-trap]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: returns-configured-validator-for-known-mode
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.return-true-nil-for-unknown-mode
+            kind: micro
+            action: implement
+            target: function
+            title: Devolver um nil de interface verdadeiro para modo desconhecido
+            instruction:
+              objective: Quando mode não for reconhecido, garantir que o Validator devolvido seja comparável a nil com ==, resultando true.
+              scope: O caso em que mode não é reconhecido.
+              constraints:
+                - Quando mode for desconhecido, o retorno deve ser comparável a nil com ==, resultando true.
+            concepts: [typed-nil-interface-trap]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: returns-true-nil-for-unknown-mode
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que devolver um *strictValidator nil como Validator (mesmo dentro do caso "strict") resulta em uma interface diferente de nil, mas que ainda pode falhar de forma inesperada ao ser usada?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/select-validator-true-nil
+
+          go 1.25.0
+      - path: validator.go
+        content: |
+          package validator
+
+          import "errors"
+
+          var errValidatorNotConfigured = errors.New("validator not configured")
+
+          // Validator validates something and reports an error if invalid.
+          type Validator interface {
+              Validate() error
+          }
+
+          // strictValidator only validates successfully once configured with a
+          // positive minLength -- a nil or zero-value strictValidator is not
+          // configured.
+          type strictValidator struct {
+              minLength int
+          }
+
+          func (v *strictValidator) Validate() error {
+              if v.minLength <= 0 {
+                  return errValidatorNotConfigured
+              }
+              return nil
+          }
+
+          // SelectValidator returns a Validator for the given mode, or a true nil
+          // interface (not a nil pointer wrapped in a non-nil interface) when
+          // mode is unknown.
+          func SelectValidator(mode string) Validator {
+              panic("not implemented")
+          }
+      - path: validator_test.go
+        content: |
+          package validator
+
+          import "testing"
+
+          func TestSelectValidator(t *testing.T) {
+              t.Run("known mode returns a usable, configured validator", func(t *testing.T) {
+                  v := SelectValidator("strict")
+                  if v == nil {
+                      t.Fatal("SelectValidator(\"strict\") = nil, want non-nil")
+                  }
+                  if err := v.Validate(); err != nil {
+                      t.Errorf("Validate() = %v, want nil (an unconfigured or nil-backed validator would fail here)", err)
+                  }
+              })
+
+              t.Run("unknown mode returns a true nil interface", func(t *testing.T) {
+                  v := SelectValidator("unknown")
+                  if v != nil {
+                      t.Errorf("SelectValidator(\"unknown\") = %#v, want nil interface", v)
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestSelectValidator$
+        timeout: 20s
+    variants: []
+relations:
+  - from: go-type-design.clone-inventory-independently
+    to: go-type-design.select-validator-true-nil
+    kind: relates_to
+  - from: go-type-design.select-validator-true-nil
+    to: go-type-design.clone-inventory-independently
+    kind: relates_to
+  - from: clone-struct-with-independent-slice
+    to: struct-shallow-copy-aliasing
+    kind: relates_to
+  - from: struct-shallow-copy-aliasing
+    to: clone-struct-with-independent-slice
+    kind: relates_to
+  - from: return-true-nil-interface
+    to: typed-nil-interface-trap
+    kind: relates_to
+  - from: typed-nil-interface-trap
+    to: return-true-nil-interface
+    kind: relates_to

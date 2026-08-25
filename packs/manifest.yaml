@@ -4,3 +4,4 @@ packs:
   - go-data-text.yaml
   - go-debugging.yaml
   - go-first-steps.yaml
+  - go-type-design.yaml

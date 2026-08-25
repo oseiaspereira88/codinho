@@ -748,9 +748,47 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
 - **go-data-text.yaml está completo: 10/10 desafios da matriz de
   distribuição** (8 atômicos + 2 combinados), mesmo padrão de rigor de
   go-core.
+- 2026-08-25: pack novo `packs/go-type-design.yaml` criado nesta sessão
+  (temas G structs/ponteiros, H interfaces, I generics) e registrado em
+  `packs/manifest.yaml`. Checkpoint 1: 2 desafios atômicos —
+  `go-type-design.clone-inventory-independently` (tema
+  structs-and-pointers, clona uma struct Inventory sem que o campo Items
+  compartilhe backing array com o original) e `go-type-design.select-
+  validator-true-nil` (tema interfaces, a armadilha clássica do "typed
+  nil": devolver um ponteiro nil embrulhado em uma interface produz uma
+  interface != nil).
+- Pré-revisão Codex rodada 1 (`new`): **rejeitou os dois**, achando
+  mutantes sutis reais. `clone-inventory-independently`: o teste só
+  verificava aliasing quando `len(Items) > 0` (saída antecipada no caso
+  vazio); um mutante `clone := inv; if len(inv.Items) > 0 { clone.Items =
+  append(...) }` compartilha o backing array quando Items está vazio mas
+  tem capacidade excedente, e passava despercebido. `select-validator-
+  true-nil`: o `strictValidator` original não tinha nenhum campo/estado,
+  então `Validate()` nunca dereferenciava o receptor — um mutante que
+  retorna um `*strictValidator` nil DENTRO do próprio caso "strict"
+  (variação do bug clássico, não só no caso desconhecido) produzia uma
+  interface não nil que "funcionava por acidente", sem nenhum teste capaz
+  de provar que o validador estava de fato configurado. Os objectives
+  também vazavam a técnica exata (`&strictValidator{}`, `return nil`
+  diretamente).
+- Correções: teste de `clone-inventory-independently` ganhou o caso
+  `Items: make([]string, 0, 5)` (vazio com capacidade excedente),
+  verificado via `unsafe.SliceData` sem saída antecipada.
+  `strictValidator` ganhou um campo real (`minLength int`) e `Validate()`
+  passou a retornar erro quando não configurado (`minLength <= 0`) — um
+  ponteiro nil ou zero-value agora falha de verdade (panic ou erro) ao
+  ser usado, não só "aceita por acaso". Objectives reescritos para
+  descrever efeito ("de fato configurado", "comparável a nil com ==") em
+  vez da técnica exata. Reverificado manualmente com -count=1: os dois
+  mutantes sutis agora falham de forma consistente (5/5).
+- `go run ./cmd/codinho catalog validate --checks` → exit 0 após as
+  correções, sem avisos novos. `go build ./...`, `gofmt -l .`,
+  `go vet ./...` → ok.
+- Pré-revisão Codex rodada 2 (`resume --last`): **aprovado sem
+  ressalvas** os dois desafios.
 
 ### Results summary
-Spec destravada. Catorze checkpoints de conteúdo real autorado (28 de 44
+Spec destravada. Quinze checkpoints de conteúdo real autorado (30 de 44
 desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
 checkpoint 2 tooling + conversão numérica, checkpoint 3 tooling +
 shadowing), cinco em go-core (checkpoint 1 defer + parâmetros
@@ -758,14 +796,17 @@ variádicos, checkpoint 2 labeled break + receptor de ponteiro, checkpoint
 3 panic/recover + invariante com campo não exportado, checkpoint 4
 curto-circuito + construtor de interface, checkpoint 5 os 2 desafios
 combinados — **go-core está completo**: 10/10 desafios previstos na
-matriz de distribuição, 8 atômicos + 2 combinados) e cinco checkpoints em
+matriz de distribuição, 8 atômicos + 2 combinados), cinco checkpoints em
 go-data-text (pack novo, criado nesta sessão: checkpoint 1 filtro de
 slice sem aliasing + truncamento de string em fronteira de rune UTF-8,
 checkpoint 2 comma-ok em map + citação de campo CSV, checkpoint 3
 deduplicação com set + soma segura de inteiros, checkpoint 4 pré-alocação
 de slice + capitalização preservando espaçamento, checkpoint 5 os 2
 desafios combinados — **go-data-text está completo**: 10/10 desafios
-previstos, 8 atômicos + 2 combinados) — todos com
+previstos, 8 atômicos + 2 combinados) e um checkpoint inicial em
+go-type-design (pack novo, criado nesta sessão: checkpoint 1 clonagem de
+struct sem aliasing + armadilha do typed-nil em interface; 2/8 desafios
+previstos, 6 atômicos + 2 combinados) — todos com
 fixture/checks executáveis reais e pré-revisão automatizada aprovada sem
 ressalvas ou só com ressalvas menores não bloqueantes (Decision 3),
 aguardando revisão humana final e playtest do usuário antes de publicar.

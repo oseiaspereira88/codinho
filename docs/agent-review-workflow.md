@@ -35,6 +35,15 @@ iniciar ou retomar uma sessão não-interativa e sandboxed de um backend
 (hoje: `codex`, via `codex exec`). Adicionar outro backend é um `case` novo
 no script, sem tocar quem o chama.
 
+O backend `codex` fixa explicitamente `model="gpt-5.6-luna"` e
+`model_reasoning_effort="high"` (via `-c` no `codex exec`) em vez de
+depender do default de `~/.codex/config.toml` — esse é o modelo padrão do
+revisor neste projeto. Fixar no script em vez de confiar no config global
+evita que a propriedade "modelo/fornecedor independente do autor" da
+revisão quebre silenciosamente se o config global mudar por outro motivo.
+Para usar outro modelo numa rodada pontual, edite o array `codex_model` no
+script (não há flag de override por chamada hoje).
+
 ## Por que retomar sessão em vez de começar do zero a cada rodada
 
 Uma chamada nova (`codex exec ...`) sem contexto prévio precisa reler os

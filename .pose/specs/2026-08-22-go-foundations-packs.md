@@ -413,13 +413,58 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
   `increment-uses-pointer-receiver` aceitos como critérios objetivos e
   verificáveis por `source_inspection`, coerentes com a técnica exigida
   pelas constraints.
+- 2026-08-25: checkpoint 3 autorado em `packs/go-core.yaml` — 2 desafios
+  atômicos novos (`recover-from-panic-in-safe-call`, tema
+  `functions-and-methods`, ensina converter panic em erro na fronteira de
+  uma chamada com defer+recover; `guard-invariant-with-unexported-field`,
+  tema novo `packages-and-apis`, ensina proteger um invariante com campo
+  não exportado e construtor validador), 2 conceitos e 2 competências
+  novos, fixture + check `go_test` executável para cada um. Verificado
+  manualmente antes da pré-revisão: stub de cada fixture falha (panic /
+  `undefined`), implementação de referência escrita à mão passa em todos
+  os casos. Reviewer padrão passou a ser fixado explicitamente em
+  `scripts/agent-review.sh` como `gpt-5.6-luna`/`model_reasoning_effort=
+  high` (antes dependia implicitamente do default de
+  `~/.codex/config.toml`) — ver `docs/agent-review-workflow.md`.
+- Pré-revisão Codex rodada 1 (`new`): **rejeitou os dois**.
+  `recover-from-panic-in-safe-call`: cobertura de "qualquer valor de
+  panic" insuficiente (só `string`/`int` testados) e o `objective` do
+  segundo macro_step nomeava a técnica inteira (`defer`+`recover`) além da
+  constraint, duplicando o vazamento. `guard-invariant-with-unexported-
+  field`: primeiro macro_step reunia quatro decisões (tipo, visibilidade
+  do campo, accessor, assinatura de `NewPercentage`) sob `target:
+  function` (incorreto para declaração de tipo) e o teste estava no mesmo
+  pacote do código, não provando proteção via API pública.
+- Correções: `recover-from-panic-in-safe-call` ganhou um quarto caso de
+  panic com `error` no acceptance/teste; objective reescrito para
+  descrever o efeito observável em vez da técnica literal (mesmo padrão de
+  `close-resources-in-defer-order`). `guard-invariant-with-unexported-
+  field` dividido em dois macro_steps de intenção única — tipo+accessor
+  (`target: named_type`, valor já usado em `go-first-steps.yaml`) e
+  `NewPercentage` declarado+implementado junto — e `percentage_test.go`
+  reescrito como `package percentage_test` externo, usando só a API
+  pública. Os critérios estruturais restantes (`source_inspection`/
+  `compile` sem runner dedicado a palavra-chave/visibilidade) foram
+  mantidos citando o precedente já aceito nos checkpoints 1–2 deste pack
+  (`uses-defer`, `uses-labeled-break`, `increment-uses-pointer-receiver`)
+  em vez de tratados como achado novo.
+- `go run ./cmd/codinho catalog validate --checks` → exit 0 após as
+  correções, sem novos avisos. `go build ./...`, `gofmt -l .`,
+  `go vet ./...` → ok.
+- Pré-revisão Codex rodada 2 (`resume --last`): **aprovado sem
+  ressalvas** os dois desafios — reconheceu explicitamente o precedente
+  citado para os critérios estruturais e o check único por desafio; único
+  ponto residual anotado (não bloqueante) é que `go test` não consegue
+  provar visibilidade de campo por si só, mesma limitação sistêmica já
+  aceita.
 
 ### Results summary
-Spec destravada. Cinco checkpoints de conteúdo real autorado (10 de 44
+Spec destravada. Seis checkpoints de conteúdo real autorado (12 de 44
 desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
 checkpoint 2 tooling + conversão numérica, checkpoint 3 tooling +
-shadowing) e dois em go-core (checkpoint 1 defer + parâmetros variádicos,
-checkpoint 2 labeled break + receptor de ponteiro) — todos com
+shadowing) e três em go-core (checkpoint 1 defer + parâmetros variádicos,
+checkpoint 2 labeled break + receptor de ponteiro, checkpoint 3
+panic/recover + invariante com campo não exportado) — todos com
 fixture/checks executáveis reais e pré-revisão automatizada aprovada sem
 ressalvas (Decision 3), aguardando revisão humana final e playtest do
 usuário antes de continuar os próximos lotes. Nenhum desafio está
@@ -438,7 +483,13 @@ uma inconsistência real entre técnica ensinada e contrato verificável
 (constraint não exigia label, permitindo soluções alternativas sem a
 técnica-alvo) e um micropasso sem decisão de modelagem real para o aluno
 (struct já totalmente determinado pelo teste) — ambos corrigidos e
-reaprovados.
+reaprovados. O checkpoint 3 fixou o modelo padrão do revisor
+(`gpt-5.6-luna`/`high`) explicitamente no script em vez de depender do
+config global, achou cobertura de teste insuficiente para "qualquer
+panic" e um teste que não provava proteção via API pública (corrigido com
+pacote de teste externo) — mesma classe de achado que os checkpoints
+anteriores, reforçando que a pré-revisão continua encontrando problemas
+reais mesmo com o padrão de conteúdo já maduro.
 
 ### Requirement trace
 Pendente — spec em progresso (checkpoint 1 de N; ver Execution log e

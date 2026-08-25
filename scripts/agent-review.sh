@@ -39,12 +39,18 @@ fi
 
 case "$agent" in
   codex)
+    # Model pinned explicitly rather than left to ~/.codex/config.toml's
+    # default: this backend is used as the project's reviewer, and an
+    # implicit dependency on whatever the local global config happens to
+    # say would make the "adversarial, independent model" property of the
+    # review silently fragile to unrelated config changes.
+    codex_model=(-c model="gpt-5.6-luna" -c model_reasoning_effort="high")
     case "$mode" in
       new)
         # -s workspace-write: lets the agent run build/test/validate commands.
         # --skip-git-repo-check: this script may run from a worktree/subdir.
         # Non-interactive by construction (codex exec never prompts).
-        codex exec -s workspace-write --skip-git-repo-check -o "$output" "$prompt"
+        codex exec "${codex_model[@]}" -s workspace-write --skip-git-repo-check -o "$output" "$prompt"
         ;;
       resume)
         # Resumes the most recent session for this cwd — no session id
@@ -52,7 +58,7 @@ case "$agent" in
         # same working directory. The resumed session already has every
         # file it read in earlier rounds in context: do not re-paste
         # file contents in $prompt, only describe what changed.
-        codex exec resume --last -o "$output" -- "$prompt"
+        codex exec "${codex_model[@]}" resume --last -o "$output" -- "$prompt"
         ;;
       *)
         echo "unknown mode: $mode (use new|resume)" >&2

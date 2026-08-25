@@ -6,6 +6,8 @@ themes:
     title: Controle de fluxo
   - id: functions-and-methods
     title: Funções e métodos
+  - id: packages-and-apis
+    title: Packages e APIs
 concepts:
   - id: defer-execution-order
     title: Ordem de execução de defer
@@ -15,6 +17,10 @@ concepts:
     title: Escopo de break rotulado
   - id: pointer-vs-value-receiver
     title: Receptor de ponteiro versus receptor de valor
+  - id: panic-recover-boundary
+    title: Fronteira de recuperação de panic
+  - id: unexported-field-invariant
+    title: Invariante protegido por campo não exportado
 competencies:
   - id: sequence-cleanup-with-defer
     title: Sequenciar limpeza de recursos com defer
@@ -24,6 +30,10 @@ competencies:
     title: Interromper um laço a partir de um switch com label
   - id: mutate-state-with-pointer-receiver
     title: Mutar estado entre chamadas com receptor de ponteiro
+  - id: recover-from-panic-at-boundary
+    title: Recuperar de um panic em uma fronteira de chamada
+  - id: guard-invariant-with-unexported-field
+    title: Proteger um invariante com campo não exportado
 tracks: []
 challenges:
   - schema_version: 1
@@ -552,6 +562,293 @@ challenges:
         test_pattern: ^TestCounterIncrement$
         timeout: 20s
     variants: []
+
+  - schema_version: 1
+    id: go-core.recover-from-panic-in-safe-call
+    version: 1.0.0
+    title: Recuperar de um panic em uma chamada segura
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [functions-and-methods]
+    competencies:
+      primary: [recover-from-panic-at-boundary]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente uma função que executa outra função com segurança,
+      convertendo um panic em um erro em vez de deixar o programa
+      quebrar.
+    constraints:
+      - Não usar bibliotecas externas além da biblioteca padrão.
+      - Usar defer e recover para capturar o panic.
+    acceptance:
+      - 'SafeCall(func() int { return 42 }) retorna 42 e err nil.'
+      - 'SafeCall(func() int { panic("boom") }) retorna err não nil cuja mensagem contém "boom".'
+      - 'SafeCall(func() int { panic(42) }) retorna err não nil, mesmo com um valor de panic que não é string.'
+      - 'SafeCall(func() int { panic(errors.New("boom error")) }) retorna err não nil cuja mensagem contém "boom error", mesmo com um valor de panic que já é um error.'
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.call-fn-and-return-result
+            kind: micro
+            action: implement
+            target: function
+            title: Chamar fn e devolver seu resultado
+            instruction:
+              objective: Implementar SafeCall para chamar fn e devolver seu resultado, sem tratar panic ainda.
+              scope: O corpo da função, sem tratar panic ainda.
+              constraints:
+                - Não tratar panic ainda.
+            concepts: [panic-recover-boundary]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: calls-fn-directly
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.recover-panic-into-error
+            kind: micro
+            action: implement
+            target: function
+            title: Converter um panic de fn em erro
+            instruction:
+              objective: Converter qualquer panic que fn produza durante sua execução em um erro retornado por SafeCall, sem deixar o panic se propagar para quem chamou SafeCall.
+              scope: Um defer envolvendo a chamada a fn.
+              constraints:
+                - Usar defer e recover para capturar o panic.
+            concepts: [panic-recover-boundary]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: recovers-any-panic-value
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que recover só funciona quando chamado dentro de uma função diferida com defer?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/recover-from-panic-in-safe-call
+
+          go 1.25.0
+      - path: safecall.go
+        content: |
+          package safecall
+
+          // SafeCall runs fn, converting any panic into an error instead
+          // of letting it crash the caller.
+          func SafeCall(fn func() int) (result int, err error) {
+              panic("not implemented")
+          }
+      - path: safecall_test.go
+        content: |
+          package safecall
+
+          import (
+              "errors"
+              "strings"
+              "testing"
+          )
+
+          func TestSafeCall(t *testing.T) {
+              t.Run("returns normal result", func(t *testing.T) {
+                  got, err := SafeCall(func() int { return 42 })
+                  if err != nil || got != 42 {
+                      t.Fatalf("SafeCall(...) = (%d, %v), want (42, nil)", got, err)
+                  }
+              })
+              t.Run("recovers string panic", func(t *testing.T) {
+                  _, err := SafeCall(func() int { panic("boom") })
+                  if err == nil || !strings.Contains(err.Error(), "boom") {
+                      t.Fatalf("SafeCall(...) err = %v, want error containing %q", err, "boom")
+                  }
+              })
+              t.Run("recovers int panic", func(t *testing.T) {
+                  _, err := SafeCall(func() int { panic(42) })
+                  if err == nil {
+                      t.Fatal("SafeCall(...) err = nil, want non-nil error")
+                  }
+              })
+              t.Run("recovers error panic", func(t *testing.T) {
+                  _, err := SafeCall(func() int { panic(errors.New("boom error")) })
+                  if err == nil || !strings.Contains(err.Error(), "boom error") {
+                      t.Fatalf("SafeCall(...) err = %v, want error containing %q", err, "boom error")
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestSafeCall$
+        timeout: 20s
+    variants: []
+
+  - schema_version: 1
+    id: go-core.guard-invariant-with-unexported-field
+    version: 1.0.0
+    title: Proteger um invariante com campo não exportado
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [packages-and-apis]
+    competencies:
+      primary: [guard-invariant-with-unexported-field]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente um tipo Percentage cujo valor só pode ser criado dentro
+      de um intervalo válido, impedindo a criação direta com um valor
+      fora desse intervalo.
+    constraints:
+      - Não usar bibliotecas externas além da biblioteca padrão.
+      - O campo que guarda o valor não pode ser exportado.
+      - NewPercentage deve validar o intervalo antes de criar o valor.
+    acceptance:
+      - NewPercentage(50) retorna um Percentage com Value() 50 e err nil.
+      - NewPercentage(0) e NewPercentage(100) são válidos.
+      - NewPercentage(-1) e NewPercentage(101) retornam err não nil.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.declare-percentage-with-unexported-field
+            kind: micro
+            action: declare
+            target: named_type
+            title: Declarar Percentage com campo não exportado e acessor
+            instruction:
+              objective: Declarar o tipo Percentage com um campo não exportado guardando o valor e um método Value que o expõe, sem declarar NewPercentage ainda.
+              scope: A declaração do tipo Percentage e do método Value.
+              constraints:
+                - O campo que guarda o valor não pode ser exportado.
+                - Não declarar NewPercentage ainda.
+            concepts: [unexported-field-invariant]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: value-field-is-unexported
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.validate-percentage-range
+            kind: micro
+            action: implement
+            target: function
+            title: Declarar e validar o intervalo em NewPercentage
+            instruction:
+              objective: Declarar e implementar NewPercentage para validar que v está entre 0 e 100 (inclusive), retornando erro caso contrário, e criando o Percentage através do campo não exportado quando válido.
+              scope: A assinatura e o corpo de NewPercentage.
+              constraints:
+                - NewPercentage deve validar o intervalo antes de criar o valor.
+            concepts: [unexported-field-invariant]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: validates-percentage-range
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que impedir a criação de um Percentage inválido depende do campo não ser exportado?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/guard-invariant-with-unexported-field
+
+          go 1.25.0
+      - path: percentage.go
+        content: |
+          package percentage
+
+          // TODO: declare Percentage with an unexported field holding its
+          // value, a Value method that exposes it, and
+          // NewPercentage(v int) (Percentage, error) validating
+          // 0 <= v <= 100.
+      - path: percentage_test.go
+        content: |
+          package percentage_test
+
+          import (
+              "testing"
+
+              "codinho-practice/guard-invariant-with-unexported-field"
+          )
+
+          func TestNewPercentage(t *testing.T) {
+              cases := []struct {
+                  name    string
+                  in      int
+                  wantErr bool
+                  want    int
+              }{
+                  {"valid middle", 50, false, 50},
+                  {"valid lower bound", 0, false, 0},
+                  {"valid upper bound", 100, false, 100},
+                  {"invalid too low", -1, true, 0},
+                  {"invalid too high", 101, true, 0},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      p, err := percentage.NewPercentage(c.in)
+                      if c.wantErr {
+                          if err == nil {
+                              t.Fatalf("NewPercentage(%d) err = nil, want error", c.in)
+                          }
+                          return
+                      }
+                      if err != nil {
+                          t.Fatalf("NewPercentage(%d) err = %v, want nil", c.in, err)
+                      }
+                      if p.Value() != c.want {
+                          t.Fatalf("NewPercentage(%d).Value() = %d, want %d", c.in, p.Value(), c.want)
+                      }
+                  })
+              }
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestNewPercentage$
+        timeout: 20s
+    variants: []
 relations:
   - from: go-core.close-resources-in-defer-order
     to: go-core.sum-variadic-numbers
@@ -588,4 +885,22 @@ relations:
     kind: relates_to
   - from: pointer-vs-value-receiver
     to: mutate-state-with-pointer-receiver
+    kind: relates_to
+  - from: go-core.recover-from-panic-in-safe-call
+    to: go-core.guard-invariant-with-unexported-field
+    kind: relates_to
+  - from: go-core.guard-invariant-with-unexported-field
+    to: go-core.recover-from-panic-in-safe-call
+    kind: relates_to
+  - from: recover-from-panic-at-boundary
+    to: panic-recover-boundary
+    kind: relates_to
+  - from: panic-recover-boundary
+    to: recover-from-panic-at-boundary
+    kind: relates_to
+  - from: guard-invariant-with-unexported-field
+    to: unexported-field-invariant
+    kind: relates_to
+  - from: unexported-field-invariant
+    to: guard-invariant-with-unexported-field
     kind: relates_to

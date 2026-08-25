@@ -26,8 +26,10 @@ has the prompt templates and the reasoning this skill assumes.
    after fixes (`resume`). Never `new` twice for the same batch — that
    throws away context and re-reads files unnecessarily (see the doc's
    "why resume" section).
-2. Pick the backend agent (`codex` today; extend `scripts/agent-review.sh`
-   for another CLI before picking it here).
+2. Pick the backend agent (`codex` today — pinned by default to
+   `gpt-5.6-luna` with `model_reasoning_effort=high` inside
+   `scripts/agent-review.sh`, see the doc's "O script" section; extend
+   `scripts/agent-review.sh` for another CLI before picking it here).
 3. Write the prompt from the doc's reviewer (or author) template, filling
    in: repo context, exactly which files/IDs changed, what to read first,
    which deterministic command proves structural validity, and — for a

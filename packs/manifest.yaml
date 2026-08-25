@@ -1,5 +1,6 @@
 schema_version: 1
 packs:
   - go-core.yaml
+  - go-data-text.yaml
   - go-debugging.yaml
   - go-first-steps.yaml

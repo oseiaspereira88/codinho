@@ -537,17 +537,64 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
 - `go run ./cmd/codinho catalog validate --checks` → exit 0 em todas as
   rodadas, sem `compound_micro_instruction` residual. `go build ./...`,
   `gofmt -l .`, `go vet ./...` → ok.
+- 2026-08-25: pack novo `packs/go-data-text.yaml` criado (temas E
+  slices/arrays/maps e F texto/dados binários) e registrado em
+  `packs/manifest.yaml`. Checkpoint 1: 2 desafios atômicos —
+  `go-data-text.filter-without-mutating-input` (filtra uma slice sem
+  reaproveitar o backing array da entrada, um bug real de compactação
+  in-place) e `go-data-text.truncate-bytes-at-rune-boundary` (trunca uma
+  string por bytes recuando até a fronteira de rune UTF-8 mais próxima).
+  Achado incidental fora do escopo: `go-first-steps.yaml` tem um item
+  pré-existente quebrado (`go-data.slice-filter-preserve-input`, cópia
+  literal do exemplo de PROJECT.md §14.8, sem fixture e com macro_step
+  sobre um assunto completamente diferente) — registrado em Known gaps,
+  não corrigido (fora do escopo deste checkpoint).
+- Verificado manualmente antes da pré-revisão: para os dois desafios,
+  stub falha e referência passa; adicionalmente, para cada um, uma
+  implementação incorreta plausível foi escrita e confirmada como
+  reprovada pelo teste real (compactação in-place para o filtro; corte
+  ingênuo `s[:maxBytes]` para o truncamento).
+- Pré-revisão Codex rodada 1 (`new`): **aprovado sem ressalvas**
+  `truncate-bytes-at-rune-boundary`. **Rejeitado**
+  `filter-without-mutating-input` por dois motivos reais: (1) objective
+  do primeiro macro_step vazava a técnica ("partindo de nil"); (2) o
+  teste só verificava que os valores visíveis da entrada não mudavam, sem
+  provar ausência de aliasing — o revisor escreveu uma implementação
+  "esperta" que reaproveita a capacidade excedente da entrada
+  (`nums[len(nums):len(nums)]` seguido de append) sem mutar nenhum valor
+  visível, e ela passava no teste original.
+- Correções: objective reescrito para descrever só o efeito, técnica só
+  na constraint. Teste reescrito para materializar a entrada com
+  capacidade excedente deliberada (`make([]int, 6, 20)`) e verificar,
+  via `unsafe.SliceData`/aritmética de ponteiro, se o endereço inicial da
+  slice retornada cai dentro do intervalo completo do backing array da
+  entrada (não só igualdade de ponteiro — uma checagem de igualdade
+  simples não pegava a implementação esperta do revisor, porque o
+  `append` nela desloca o ponteiro inicial para dentro da região de
+  capacidade excedente). Reverificado manualmente contra três
+  implementações: referência (passa), compactação in-place (falha) e a
+  implementação esperta de capacidade excedente (falha).
+- `go run ./cmd/codinho catalog validate --checks` → exit 0 após as
+  correções, sem avisos novos. `go build ./...`, `gofmt -l .`,
+  `go vet ./...` → ok.
+- Pré-revisão Codex rodada 2 (`resume --last`): **aprovado sem
+  ressalvas** `filter-without-mutating-input` — confirmou que as duas
+  implementações incorretas (in-place e capacidade excedente) falham no
+  teste novo.
 
 ### Results summary
-Spec destravada. Nove checkpoints de conteúdo real autorado (18 de 44
+Spec destravada. Dez checkpoints de conteúdo real autorado (20 de 44
 desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
 checkpoint 2 tooling + conversão numérica, checkpoint 3 tooling +
-shadowing) e cinco em go-core (checkpoint 1 defer + parâmetros
+shadowing), cinco em go-core (checkpoint 1 defer + parâmetros
 variádicos, checkpoint 2 labeled break + receptor de ponteiro, checkpoint
 3 panic/recover + invariante com campo não exportado, checkpoint 4
 curto-circuito + construtor de interface, checkpoint 5 os 2 desafios
 combinados — **go-core está completo**: 10/10 desafios previstos na
-matriz de distribuição, 8 atômicos + 2 combinados) — todos com
+matriz de distribuição, 8 atômicos + 2 combinados) e um checkpoint inicial
+em go-data-text (pack novo, criado nesta sessão: filtro de slice sem
+aliasing + truncamento de string em fronteira de rune UTF-8; 2/10
+desafios previstos) — todos com
 fixture/checks executáveis reais e pré-revisão automatizada aprovada sem
 ressalvas ou só com ressalvas menores não bloqueantes (Decision 3),
 aguardando revisão humana final e playtest do usuário antes de publicar.
@@ -590,6 +637,20 @@ os sete packs, as cinco trilhas e o playtest real estiverem completos
   tem o mesmo micropasso redundante de "declarar assinatura" identificado
   e corrigido no checkpoint 3 — não foi revisitado; considerar corrigir
   num lote futuro antes do playtest humano.
+- Achado ao iniciar o pack go-data-text (2026-08-25): `packs/go-first-
+  steps.yaml` tem um item pré-existente, `go-data.slice-filter-preserve-
+  input` (tema `slices`, fora do escopo A/B deste pack pela matriz de
+  distribuição), que é um resquício quebrado — parece cópia literal do
+  exemplo ilustrativo de PROJECT.md §14.8: o único macro_step
+  (`model.declare-user-struct`) é sobre declarar uma struct `User`, sem
+  nenhuma relação com filtrar slices, e o desafio não tem `fixture:`
+  apesar do `checks` apontar para `TestFilter`. Não foi tocado nesta
+  sessão (fora do escopo do checkpoint corrente, e não é um problema
+  introduzido por este trabalho) — considerar removê-lo ou reautorá-lo
+  corretamente antes do playtest humano; `packs/go-data-text.yaml` já
+  cobre o mesmo conceito de forma real e correta, com ids distintos
+  (`go-data-text.filter-without-mutating-input`), então não há
+  dependência de conteúdo bloqueada por este gap.
 
 ## 7. Final Report
 

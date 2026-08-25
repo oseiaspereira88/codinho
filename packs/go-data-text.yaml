@@ -1,0 +1,334 @@
+schema_version: 1
+id: go-data-text
+version: 1.0.0
+themes:
+  - id: slices-arrays-maps
+    title: Slices, arrays e maps
+  - id: text-and-binary-data
+    title: Texto e dados binários
+concepts:
+  - id: slice-backing-array-aliasing
+    title: Aliasing do backing array de uma slice
+  - id: utf8-rune-boundary
+    title: Fronteira de rune em UTF-8
+competencies:
+  - id: filter-without-mutating-input
+    title: Filtrar uma coleção sem mutar a entrada
+  - id: truncate-string-at-rune-boundary
+    title: Truncar uma string sem quebrar um rune
+tracks: []
+challenges:
+  - schema_version: 1
+    id: go-data-text.filter-without-mutating-input
+    version: 1.0.0
+    title: Filtrar uma slice sem mutar a entrada
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [slices-arrays-maps]
+    competencies:
+      primary: [filter-without-mutating-input]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente uma função que filtra uma slice de inteiros, preservando
+      a ordem dos valores aceitos, sem nunca alterar a slice recebida.
+    constraints:
+      - Não usar bibliotecas externas.
+      - A slice de retorno não pode reaproveitar o backing array de nums.
+    acceptance:
+      - 'Filter([1,2,3,4,5,6], par) retorna [2,4,6], preservando a ordem.'
+      - Após a chamada, a slice recebida permanece com os mesmos valores, na mesma ordem.
+      - A slice retornada não aponta para nenhuma posição do backing array da entrada, mesmo quando a entrada tem capacidade excedente.
+      - Filter com nenhum valor aceito retorna uma slice vazia.
+      - Filter(nil, keep) retorna uma slice vazia.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.declare-independent-output-slice
+            kind: micro
+            action: declare
+            target: function
+            title: Declarar a saída independente do backing array de nums
+            instruction:
+              objective: Declarar a slice de saída de forma que ela nunca reaproveite o backing array de nums, sem ainda percorrer os elementos de nums.
+              scope: Somente a declaração da variável de saída.
+              constraints:
+                - A slice de retorno não pode reaproveitar o backing array de nums.
+                - Não percorrer nums ainda.
+            concepts: [slice-backing-array-aliasing]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: output-independent-of-input-backing-array
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.append-accepted-values-in-order
+            kind: micro
+            action: implement
+            target: function
+            title: Percorrer nums e acrescentar os valores aceitos
+            instruction:
+              objective: Percorrer nums e, para cada elemento aceito por keep, acrescentá-lo à saída, preservando a ordem original.
+              scope: O laço sobre nums e a construção da saída.
+              constraints:
+                - Preservar a ordem original dos elementos aceitos.
+            concepts: [slice-backing-array-aliasing]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: filter-preserves-order
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que escrever o resultado de volta em nums[i], mesmo devolvendo nums[:n], mutaria a slice que o chamador ainda enxerga?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/filter-without-mutating-input
+
+          go 1.25.0
+      - path: filter.go
+        content: |
+          package datafilter
+
+          // Filter returns a new slice containing only the values from nums for
+          // which keep returns true, preserving their original order, without
+          // modifying nums or sharing its backing array.
+          func Filter(nums []int, keep func(int) bool) []int {
+              panic("not implemented")
+          }
+      - path: filter_test.go
+        content: |
+          package datafilter
+
+          import (
+              "reflect"
+              "testing"
+              "unsafe"
+          )
+
+          func TestFilter(t *testing.T) {
+              t.Run("keeps order and value, does not mutate or alias input", func(t *testing.T) {
+                  input := make([]int, 6, 20)
+                  copy(input, []int{1, 2, 3, 4, 5, 6})
+                  original := append([]int(nil), input...)
+
+                  got := Filter(input, func(n int) bool { return n%2 == 0 })
+
+                  want := []int{2, 4, 6}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("Filter(...) = %v, want %v", got, want)
+                  }
+                  if !reflect.DeepEqual(input, original) {
+                      t.Errorf("input mutated: got %v, want unchanged %v", input, original)
+                  }
+                  if len(got) > 0 {
+                      inputStart := uintptr(unsafe.Pointer(unsafe.SliceData(input)))
+                      inputEnd := inputStart + uintptr(cap(input))*unsafe.Sizeof(input[0])
+                      gotStart := uintptr(unsafe.Pointer(unsafe.SliceData(got)))
+                      if gotStart >= inputStart && gotStart < inputEnd {
+                          t.Error("Filter(...) output shares backing array with input")
+                      }
+                  }
+              })
+
+              t.Run("empty result", func(t *testing.T) {
+                  got := Filter([]int{1, 3, 5}, func(n int) bool { return n%2 == 0 })
+                  if len(got) != 0 {
+                      t.Errorf("Filter(...) = %v, want empty", got)
+                  }
+              })
+
+              t.Run("nil input", func(t *testing.T) {
+                  got := Filter(nil, func(n int) bool { return true })
+                  if len(got) != 0 {
+                      t.Errorf("Filter(nil, ...) = %v, want empty", got)
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestFilter$
+        timeout: 20s
+    variants: []
+
+  - schema_version: 1
+    id: go-data-text.truncate-bytes-at-rune-boundary
+    version: 1.0.0
+    title: Truncar uma string por bytes sem quebrar um rune
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [text-and-binary-data]
+    competencies:
+      primary: [truncate-string-at-rune-boundary]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente uma função que trunca uma string para no máximo um dado
+      número de bytes, recuando até a fronteira de rune mais próxima
+      quando o corte ingênuo cairia no meio de um caractere multibyte.
+    constraints:
+      - Não usar bibliotecas externas além da biblioteca padrão.
+      - O resultado nunca pode terminar no meio de um rune multibyte.
+    acceptance:
+      - 'TruncateBytes("hello", 10) retorna "hello".'
+      - 'TruncateBytes("café", 4) retorna "caf" (não "caf" seguido de um byte inválido).'
+      - 'TruncateBytes("日本語", 4) retorna "日".'
+      - 'TruncateBytes("", 5) retorna "".'
+      - 'TruncateBytes("ab", 0) retorna "".'
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.return-unchanged-when-within-limit
+            kind: micro
+            action: implement
+            target: function
+            title: Retornar s sem alterações quando já cabe no limite
+            instruction:
+              objective: Implementar o caso em que s já cabe em maxBytes (len(s) <= maxBytes), retornando s sem alterações.
+              scope: Somente a verificação de que s já cabe no limite.
+              constraints:
+                - Não implementar ainda o truncamento em si.
+            concepts: [utf8-rune-boundary]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: returns-unchanged-when-already-within-limit
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.truncate-at-rune-boundary
+            kind: micro
+            action: implement
+            target: function
+            title: Truncar recuando até a fronteira de rune mais próxima
+            instruction:
+              objective: Quando s não cabe em maxBytes, truncar em maxBytes e, se isso cair no meio de um rune multibyte, recuar até o início do rune mais próximo, garantindo que o resultado nunca quebre um rune.
+              scope: O corte em maxBytes e o recuo até uma fronteira de rune válida.
+              constraints:
+                - O resultado nunca pode terminar no meio de um rune multibyte.
+            concepts: [utf8-rune-boundary]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: truncates-at-rune-boundary
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que um corte ingênuo em s[:maxBytes] pode produzir uma string com bytes UTF-8 inválidos no final?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/truncate-bytes-at-rune-boundary
+
+          go 1.25.0
+      - path: truncate.go
+        content: |
+          package trunc
+
+          // TruncateBytes returns a prefix of s with at most maxBytes bytes,
+          // backing off to the nearest earlier rune boundary if the naive cut
+          // would split a multi-byte rune.
+          func TruncateBytes(s string, maxBytes int) string {
+              panic("not implemented")
+          }
+      - path: truncate_test.go
+        content: |
+          package trunc
+
+          import "testing"
+
+          func TestTruncateBytes(t *testing.T) {
+              cases := []struct {
+                  name     string
+                  s        string
+                  maxBytes int
+                  want     string
+              }{
+                  {"already short enough", "hello", 10, "hello"},
+                  {"exact fit", "hello", 5, "hello"},
+                  {"backs off mid-rune, 2-byte char", "café", 4, "caf"},
+                  {"backs off mid-rune, 3-byte char", "日本語", 4, "日"},
+                  {"empty string", "", 5, ""},
+                  {"zero budget", "ab", 0, ""},
+                  {"ascii truncation, no rune issue", "hello world", 5, "hello"},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      got := TruncateBytes(c.s, c.maxBytes)
+                      if got != c.want {
+                          t.Errorf("TruncateBytes(%q, %d) = %q, want %q", c.s, c.maxBytes, got, c.want)
+                      }
+                      if len(got) > c.maxBytes {
+                          t.Errorf("TruncateBytes(%q, %d) = %q with %d bytes, want at most %d", c.s, c.maxBytes, got, len(got), c.maxBytes)
+                      }
+                  })
+              }
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestTruncateBytes$
+        timeout: 20s
+    variants: []
+relations:
+  - from: go-data-text.filter-without-mutating-input
+    to: go-data-text.truncate-bytes-at-rune-boundary
+    kind: relates_to
+  - from: go-data-text.truncate-bytes-at-rune-boundary
+    to: go-data-text.filter-without-mutating-input
+    kind: relates_to
+  - from: filter-without-mutating-input
+    to: slice-backing-array-aliasing
+    kind: relates_to
+  - from: slice-backing-array-aliasing
+    to: filter-without-mutating-input
+    kind: relates_to
+  - from: truncate-string-at-rune-boundary
+    to: utf8-rune-boundary
+    kind: relates_to
+  - from: utf8-rune-boundary
+    to: truncate-string-at-rune-boundary
+    kind: relates_to

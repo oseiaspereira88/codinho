@@ -17,6 +17,10 @@ concepts:
     title: Receptor de ponteiro seguro para nil
   - id: generic-comparable-constraint
     title: Constraint comparable em funções genéricas
+  - id: safe-type-assertion
+    title: Type assertion segura com comma-ok
+  - id: generic-two-type-parameters
+    title: Função genérica com dois parâmetros de tipo
 competencies:
   - id: clone-struct-with-independent-slice
     title: Clonar uma struct com slice de forma independente
@@ -26,6 +30,10 @@ competencies:
     title: Tratar um receptor nil com segurança
   - id: implement-generic-membership-check
     title: Implementar uma checagem de pertencimento genérica
+  - id: assert-type-without-panicking
+    title: Verificar um tipo concreto sem panicar
+  - id: implement-generic-transform
+    title: Implementar uma transformação genérica
 tracks: []
 challenges:
   - schema_version: 1
@@ -674,6 +682,329 @@ challenges:
         test_pattern: ^TestContains$
         timeout: 20s
     variants: []
+
+  - schema_version: 1
+    id: go-type-design.describe-if-circle-safely
+    version: 1.0.0
+    title: Descrever um Shape como Circle sem panicar em outros tipos
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [interfaces]
+    competencies:
+      primary: [assert-type-without-panicking]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente uma função que descreve um Shape quando ele é um
+      Circle, e reporta que não é sem panicar quando ele é qualquer
+      outro tipo que satisfaça Shape.
+    constraints:
+      - Não usar bibliotecas externas além da biblioteca padrão.
+      - Verificar o tipo concreto de shape sem panicar quando ele não for Circle.
+    acceptance:
+      - 'DescribeIfCircle(Circle{Radius: 10}) retorna a descrição exata "circle with radius 10" e ok true (não uma descrição da área).'
+      - 'DescribeIfCircle(Square{Side: 3}) retorna "" e ok false, sem panicar.'
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.check-concrete-type-without-panicking
+            kind: micro
+            action: implement
+            target: function
+            title: Verificar se shape é um Circle sem panicar quando não for
+            instruction:
+              objective: Verificar se shape é um Circle, obtendo o valor concreto quando for e ok false sem panicar quando não for.
+              scope: A verificação do tipo concreto de shape.
+              constraints:
+                - Verificar o tipo concreto de shape sem panicar quando ele não for Circle.
+            concepts: [safe-type-assertion]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: checks-concrete-type-without-panicking
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.build-description-when-circle
+            kind: micro
+            action: implement
+            target: function
+            title: Construir a descrição quando shape é um Circle
+            instruction:
+              objective: Quando shape é um Circle, construir uma descrição que mencione o raio e devolvê-la com ok true.
+              scope: O caminho em que shape é um Circle.
+              constraints:
+                - A descrição deve mencionar o raio do Circle.
+            concepts: [safe-type-assertion]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: builds-description-mentioning-radius
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que shape.(Circle) sem a forma comma-ok panicaria justamente no caso em que shape é um Square, e não no caso em que é um Circle -- e por que um type switch com um caso default evita esse problema sem precisar de comma-ok?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/describe-if-circle-safely
+
+          go 1.25.0
+      - path: shape.go
+        content: |
+          package shapes
+
+          // Shape is anything with an area.
+          type Shape interface {
+              Area() float64
+          }
+
+          // Circle is a Shape with a radius.
+          type Circle struct {
+              Radius float64
+          }
+
+          func (c Circle) Area() float64 { return 3.14159 * c.Radius * c.Radius }
+
+          // Square is a Shape with a side, used in tests to represent a non-Circle
+          // Shape.
+          type Square struct {
+              Side float64
+          }
+
+          func (s Square) Area() float64 { return s.Side * s.Side }
+
+          // DescribeIfCircle returns a description of shape and true if shape is a
+          // Circle, or "" and false for any other Shape -- without panicking.
+          func DescribeIfCircle(shape Shape) (description string, ok bool) {
+              panic("not implemented")
+          }
+      - path: shape_test.go
+        content: |
+          package shapes
+
+          import "testing"
+
+          func TestDescribeIfCircle(t *testing.T) {
+              t.Run("circle produces an exact description of its radius", func(t *testing.T) {
+                  desc, ok := DescribeIfCircle(Circle{Radius: 10})
+                  if !ok {
+                      t.Fatal("DescribeIfCircle(Circle{...}) ok = false, want true")
+                  }
+                  want := "circle with radius 10"
+                  if desc != want {
+                      t.Errorf("description = %q, want %q", desc, want)
+                  }
+              })
+
+              t.Run("non-circle shape returns ok=false without panicking", func(t *testing.T) {
+                  desc, ok := DescribeIfCircle(Square{Side: 3})
+                  if ok {
+                      t.Errorf("DescribeIfCircle(Square{...}) ok = true, want false")
+                  }
+                  if desc != "" {
+                      t.Errorf("description = %q, want empty", desc)
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestDescribeIfCircle$
+        timeout: 20s
+    variants: []
+
+  - schema_version: 1
+    id: go-type-design.map-generic-transform
+    version: 1.0.0
+    title: Transformar uma slice genericamente preservando ordem
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 15
+    themes: [generics]
+    competencies:
+      primary: [implement-generic-transform]
+      secondary: []
+    prerequisites: []
+    brief: >
+      Implemente uma função genérica que aplica uma transformação a cada
+      elemento de uma slice, produzindo uma nova slice de um tipo
+      possivelmente diferente, sem mutar a entrada.
+    constraints:
+      - Não usar bibliotecas externas.
+      - Não mutar items.
+    acceptance:
+      - Map([1,2,3], strconv.Itoa) retorna ["1","2","3"], na mesma ordem.
+      - Mutar o resultado de Map nunca altera a slice de entrada, mesmo quando a entrada tem capacidade excedente.
+      - Map aplica transform a todos os elementos de uma slice longa, não apenas a um prefixo.
+      - Map de uma slice vazia retorna uma slice vazia.
+    publication:
+      author: claude
+    layers:
+      - id: understanding
+        macro_steps:
+          - id: model.declare-independent-output-slice
+            kind: micro
+            action: declare
+            target: function
+            title: Declarar a saída independente da entrada
+            instruction:
+              objective: Declarar a slice de saída de forma que ela nunca reaproveite o backing array de items, sem ainda percorrer items.
+              scope: Somente a criação da slice de saída.
+              constraints:
+                - Não mutar items.
+            concepts: [generic-two-type-parameters]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: declares-independent-output
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+          - id: model.apply-transform-to-every-element
+            kind: micro
+            action: implement
+            target: function
+            title: Aplicar transform a cada elemento, preservando ordem
+            instruction:
+              objective: Aplicar transform a cada elemento de items, preservando a ordem original na saída.
+              scope: O laço sobre items.
+              constraints:
+                - Aplicar transform a todos os elementos de items, preservando a ordem.
+            concepts: [generic-two-type-parameters]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: applies-transform-to-every-element
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+            reflection:
+              optional:
+                - Por que Map precisa de dois parâmetros de tipo (T e U), em vez de só um?
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/map-generic-transform
+
+          go 1.25.0
+      - path: mapgen.go
+        content: |
+          package gentransform
+
+          // Map returns a new slice with transform applied to each element of
+          // items, in order, preserving length and not mutating items.
+          func Map[T, U any](items []T, transform func(T) U) []U {
+              panic("not implemented")
+          }
+      - path: mapgen_test.go
+        content: |
+          package gentransform
+
+          import (
+              "reflect"
+              "strconv"
+              "testing"
+              "unsafe"
+          )
+
+          func TestMap(t *testing.T) {
+              t.Run("int to string, preserves order and length", func(t *testing.T) {
+                  got := Map([]int{1, 2, 3}, strconv.Itoa)
+                  want := []string{"1", "2", "3"}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("Map(...) = %v, want %v", got, want)
+                  }
+              })
+
+              t.Run("mutating the result never affects the input, even with spare capacity", func(t *testing.T) {
+                  input := make([]int, 3, 10)
+                  copy(input, []int{1, 2, 3})
+                  original := append([]int(nil), input...)
+
+                  got := Map(input, func(n int) int { return n * 100 })
+                  if len(got) > 0 {
+                      got[0] = -1
+                  }
+                  if !reflect.DeepEqual(input, original) {
+                      t.Errorf("input mutated after touching result: got %v, want unchanged %v", input, original)
+                  }
+
+                  if len(got) > 0 {
+                      inputStart := uintptr(unsafe.Pointer(unsafe.SliceData(input)))
+                      inputEnd := inputStart + uintptr(cap(input))*unsafe.Sizeof(input[0])
+                      gotStart := uintptr(unsafe.Pointer(unsafe.SliceData(got)))
+                      if gotStart >= inputStart && gotStart < inputEnd {
+                          t.Error("Map(...) result shares backing array with input")
+                      }
+                  }
+              })
+
+              t.Run("every element is transformed, not just a fixed prefix", func(t *testing.T) {
+                  const length = 20
+                  items := make([]int, length)
+                  for i := range items {
+                      items[i] = i
+                  }
+                  got := Map(items, func(n int) int { return n * 2 })
+                  if len(got) != length {
+                      t.Fatalf("len(Map(...)) = %d, want %d", len(got), length)
+                  }
+                  for i, v := range got {
+                      if v != i*2 {
+                          t.Fatalf("Map(...)[%d] = %d, want %d", i, v, i*2)
+                      }
+                  }
+              })
+
+              t.Run("empty input", func(t *testing.T) {
+                  got := Map([]int{}, func(n int) int { return n })
+                  if len(got) != 0 {
+                      t.Errorf("Map([], ...) = %v, want empty", got)
+                  }
+              })
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestMap$
+        timeout: 20s
+    variants: []
 relations:
   - from: go-type-design.clone-inventory-independently
     to: go-type-design.select-validator-true-nil
@@ -716,4 +1047,34 @@ relations:
     kind: relates_to
   - from: go-type-design.select-validator-true-nil
     to: go-type-design.sum-list-with-nil-safe-receiver
+    kind: relates_to
+  - from: go-type-design.describe-if-circle-safely
+    to: go-type-design.map-generic-transform
+    kind: relates_to
+  - from: go-type-design.map-generic-transform
+    to: go-type-design.describe-if-circle-safely
+    kind: relates_to
+  - from: go-type-design.describe-if-circle-safely
+    to: go-type-design.select-validator-true-nil
+    kind: relates_to
+  - from: go-type-design.select-validator-true-nil
+    to: go-type-design.describe-if-circle-safely
+    kind: relates_to
+  - from: go-type-design.map-generic-transform
+    to: go-type-design.contains-generic-comparable
+    kind: relates_to
+  - from: go-type-design.contains-generic-comparable
+    to: go-type-design.map-generic-transform
+    kind: relates_to
+  - from: assert-type-without-panicking
+    to: safe-type-assertion
+    kind: relates_to
+  - from: safe-type-assertion
+    to: assert-type-without-panicking
+    kind: relates_to
+  - from: implement-generic-transform
+    to: generic-two-type-parameters
+    kind: relates_to
+  - from: generic-two-type-parameters
+    to: implement-generic-transform
     kind: relates_to

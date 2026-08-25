@@ -821,9 +821,44 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
   que itere uma coleção.
 - `go run ./cmd/codinho catalog validate --checks` → exit 0 em todas as
   rodadas. `go build ./...`, `gofmt -l .`, `go vet ./...` → ok.
+- 2026-08-25: checkpoint 3 (último atômico) autorado em `packs/go-type-
+  design.yaml` — 2 desafios atômicos novos, completando os 6 atômicos
+  previstos para o pack. `go-type-design.describe-if-circle-safely`
+  (tema interfaces, type assertion segura via comma-ok ou type switch,
+  sem panicar quando o Shape não é um Circle) e `go-type-design.map-
+  generic-transform` (tema generics, função genérica Map[T,U any],
+  aplicando a lição do checkpoint 2: caso de 20 elementos já incluído
+  desde a primeira versão).
+- Pré-revisão Codex rodada 1 (`new`): **rejeitou os dois**.
+  `describe-if-circle-safely`: o teste checava só `strings.Contains(desc,
+  "2")` para o raio 2 — um mutante que descreve a ÁREA em vez do raio
+  (área = 12.566 para raio 2) também contém "2" e passava por
+  coincidência. `map-generic-transform`: o teste "não muta a entrada" só
+  verificava igualdade sem nunca mutar o resultado nem checar
+  compartilhamento de backing array — um mutante que reaproveita a
+  capacidade excedente da entrada passava; o objective do segundo
+  macro_step também prescrevia "acrescentar" (vazando append como única
+  técnica válida, quando escrita indexada é igualmente correta).
+- Correções: `describe-if-circle-safely` passou a comparar a descrição
+  EXATA ("circle with radius 10", raio escolhido para não coincidir com
+  a área) em vez de checar um dígito por coincidência; confirmado que
+  type switch sem comma-ok é uma técnica alternativa igualmente válida
+  (não é bug), e a constraint/reflexão foram ajustadas para não excluir
+  essa alternativa. `map-generic-transform` ganhou o mesmo padrão de
+  teste de aliasing já usado em outros packs (entrada com capacidade
+  excedente, mutação do resultado, checagem via unsafe.SliceData) e o
+  objective deixou de mencionar "acrescentar", descrevendo só o efeito.
+- `go run ./cmd/codinho catalog validate --checks` → exit 0 após as
+  correções, sem avisos novos. `go build ./...`, `gofmt -l .`,
+  `go vet ./...` → ok.
+- Pré-revisão Codex rodada 2 (`resume --last`): **aprovado sem
+  ressalvas** `map-generic-transform`; **aprovado com ressalva menor não
+  bloqueante** `describe-if-circle-safely` — a reflexão continha uma
+  afirmação factualmente incorreta sobre type switch sem default
+  panicar (não panica, só não executa nenhum case) — corrigida.
 
 ### Results summary
-Spec destravada. Dezesseis checkpoints de conteúdo real autorado (32 de
+Spec destravada. Dezessete checkpoints de conteúdo real autorado (34 de
 44 desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
 checkpoint 2 tooling + conversão numérica, checkpoint 3 tooling +
 shadowing), cinco em go-core (checkpoint 1 defer + parâmetros
@@ -838,13 +873,15 @@ checkpoint 2 comma-ok em map + citação de campo CSV, checkpoint 3
 deduplicação com set + soma segura de inteiros, checkpoint 4 pré-alocação
 de slice + capitalização preservando espaçamento, checkpoint 5 os 2
 desafios combinados — **go-data-text está completo**: 10/10 desafios
-previstos, 8 atômicos + 2 combinados) e dois checkpoints em go-type-design
+previstos, 8 atômicos + 2 combinados) e três checkpoints em go-type-design
 (pack novo, criado nesta sessão: checkpoint 1 clonagem de struct sem
 aliasing + armadilha do typed-nil em interface, checkpoint 2 receptor
 nil-safe em lista encadeada + Contains genérico — este último exigiu
 cinco rodadas de pré-revisão, a mais trabalhosa da sessão, até fechar
-todas as classes de mutante "processa só um subconjunto da coleção";
-4/8 desafios previstos, 6 atômicos + 2 combinados) — todos com
+todas as classes de mutante "processa só um subconjunto da coleção",
+checkpoint 3 type assertion segura + Map genérico — **completa os 6
+atômicos previstos**, faltando só os 2 combinados; 6/8 desafios
+previstos) — todos com
 fixture/checks executáveis reais e pré-revisão automatizada aprovada sem
 ressalvas ou só com ressalvas menores não bloqueantes (Decision 3),
 aguardando revisão humana final e playtest do usuário antes de publicar.

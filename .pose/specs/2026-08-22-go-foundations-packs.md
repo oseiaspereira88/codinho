@@ -581,9 +581,41 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
   ressalvas** `filter-without-mutating-input` — confirmou que as duas
   implementações incorretas (in-place e capacidade excedente) falham no
   teste novo.
+- 2026-08-25: checkpoint 2 autorado em `packs/go-data-text.yaml` — 2
+  desafios atômicos novos: `go-data-text.lookup-map-value-with-comma-ok`
+  (tema slices-arrays-maps, distingue pontuação zero de nunca pontuado
+  via comma-ok) e `go-data-text.quote-csv-field-when-needed` (tema
+  text-and-binary-data, citação de campo CSV estilo RFC 4180
+  simplificada). Verificado manualmente antes da pré-revisão: stub falha,
+  referência passa, e uma implementação incorreta plausível para cada um
+  falha (comparação com zero em vez de comma-ok; esquecer de dobrar
+  aspas internas).
+- Pré-revisão Codex rodada 1 (`new`): **aprovado com ressalva menor**
+  `lookup-map-value-with-comma-ok` (acceptance não cobria chave vazia).
+  **Rejeitado** `quote-csv-field-when-needed`: o teste cobria cada
+  caractere especial isoladamente, mas não a combinação vírgula+aspas —
+  o revisor escreveu uma implementação sutil que cita corretamente
+  quando há vírgula/quebra de linha mas esquece de escapar aspas internas
+  nesse mesmo caminho, e ela passava no teste original.
+- Correções: caso de chave vazia adicionado ao teste de
+  `lookup-map-value-with-comma-ok` (confirmado que a implementação com
+  comparação por zero falha nesse caso). Para `quote-csv-field-when-
+  needed`, adicionado um caso combinando vírgula e aspas internas
+  (`a,"b"` → `"a,""b"""`) e um caso de retorno de carro (`\r`), já
+  sinalizado como lacuna relacionada pelo revisor — a detecção de
+  caracteres especiais na fixture e no macro_step passou a incluir `\r`
+  explicitamente. Reverificado manualmente: a implementação sutil descrita
+  pelo revisor agora falha no caso combinado.
+- `go run ./cmd/codinho catalog validate --checks` → exit 0 após as
+  correções, sem avisos novos. `go build ./...`, `gofmt -l .`,
+  `go vet ./...` → ok.
+- Pré-revisão Codex rodada 2 (`resume --last`): **aprovado sem
+  ressalvas** os dois desafios — confirmou que os mutantes relevantes
+  (comparação por zero; citação sem escapar aspas no caminho com vírgula)
+  falham nos testes novos.
 
 ### Results summary
-Spec destravada. Dez checkpoints de conteúdo real autorado (20 de 44
+Spec destravada. Onze checkpoints de conteúdo real autorado (22 de 44
 desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
 checkpoint 2 tooling + conversão numérica, checkpoint 3 tooling +
 shadowing), cinco em go-core (checkpoint 1 defer + parâmetros
@@ -591,10 +623,11 @@ variádicos, checkpoint 2 labeled break + receptor de ponteiro, checkpoint
 3 panic/recover + invariante com campo não exportado, checkpoint 4
 curto-circuito + construtor de interface, checkpoint 5 os 2 desafios
 combinados — **go-core está completo**: 10/10 desafios previstos na
-matriz de distribuição, 8 atômicos + 2 combinados) e um checkpoint inicial
-em go-data-text (pack novo, criado nesta sessão: filtro de slice sem
-aliasing + truncamento de string em fronteira de rune UTF-8; 2/10
-desafios previstos) — todos com
+matriz de distribuição, 8 atômicos + 2 combinados) e dois checkpoints em
+go-data-text (pack novo, criado nesta sessão: checkpoint 1 filtro de
+slice sem aliasing + truncamento de string em fronteira de rune UTF-8,
+checkpoint 2 comma-ok em map + citação de campo CSV; 4/10 desafios
+previstos) — todos com
 fixture/checks executáveis reais e pré-revisão automatizada aprovada sem
 ressalvas ou só com ressalvas menores não bloqueantes (Decision 3),
 aguardando revisão humana final e playtest do usuário antes de publicar.

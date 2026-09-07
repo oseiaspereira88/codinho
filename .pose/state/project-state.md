@@ -79,9 +79,15 @@ aceite final; status históricos done não demonstram composição atual.
   - report:2026-08-23-standard-fechar-feedback-evaluation-progression.md
 
 ## Arquitetura
-<!-- state:derived hash:26bc9a5cafff status:unavailable -->
+<!-- state:derived hash:8380653d9c8a status:active -->
 
-GraphForge export local ainda não é publicado por nenhum produtor neste repositório; seção indisponível nesta versão (spec pose-project-state-artifact, Não-objetivos e Compatibilidade).
+- componentes: total=1 verificados=1 completude=100.0%
+- linhas_de_codigo: producao=10998 testes=10104 total=21102
+- linguagens: go, shell
+- saude_de_codigo: TODOs=0 FIXMEs=0 panics=0 stubs=0
+- integracoes: contratos=0 ativos=0 gaps=0
+- divida_tecnica: total=0 coberta=0 descoberta=0
+- ultimos_assessments: ver artefatos em .pose/assessments/ e .pose/state/
 
 ## Docs
 <!-- state:derived hash:d5892e1cac69 -->

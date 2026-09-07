@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "input_digest": "sha256:cc25d8d2d36b0961f6d11fd8a2f11a3970f115e4f48eb4060bf12b01598e09e6",
-  "provenance_digest": "sha256:ac6c128cef6be3eb912abea2ed9a232b1cfe53c4b7e7bb4b6ad65d33d7b8d821",
+  "input_digest": "sha256:689a795e072e3618b6462dbac48febe7466b088d04e3dbf44393311cb9c911fc",
+  "provenance_digest": "sha256:9eb0cad2a84205c52387b017e854ea6bd02ea813879e3bda42ded78f5ea2f31f",
   "nodes": [
     {
       "id": "artifact:.agents/skills/codinho/SKILL.md",
@@ -116,6 +116,13 @@
       }
     },
     {
+      "id": "artifact:.pose/adr/2026-09-07-scoped-evaluation-evidence-and-qualitative-registration.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/adr/2026-09-07-scoped-evaluation-evidence-and-qualitative-registration.md"
+      }
+    },
+    {
       "id": "artifact:.pose/assessments/README.md",
       "type": "artifact",
       "attributes": {
@@ -176,6 +183,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/changelogs/unreleased/curriculum-graph-path-recommendation.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/changelogs/unreleased/evaluation-evidence-lineage.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/changelogs/unreleased/evaluation-evidence-lineage.md"
       }
     },
     {
@@ -442,6 +456,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/knowledge/2026-09-07-decision-log-adr-durable-session-replay-review.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/knowledge/2026-09-07-decision-log-adr-scoped-evaluation-evidence-review.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/knowledge/2026-09-07-decision-log-adr-scoped-evaluation-evidence-review.md"
       }
     },
     {
@@ -1436,6 +1457,13 @@
       "type": "artifact",
       "attributes": {
         "path": "internal/application/checks_test.go"
+      }
+    },
+    {
+      "id": "artifact:internal/application/evaluation_evidence.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/application/evaluation_evidence.go"
       }
     },
     {
@@ -2510,6 +2538,13 @@
       }
     },
     {
+      "id": "artifact:internal/session/evaluation_evidence.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/session/evaluation_evidence.go"
+      }
+    },
+    {
       "id": "artifact:internal/session/granularity.go",
       "type": "artifact",
       "attributes": {
@@ -3120,6 +3155,14 @@
       }
     },
     {
+      "id": "change-set:cs-b5515c811fa5",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:ec71d9da278f9f4e6d9985d69b6579d25255ef07067dabbbfa87c02be635b912",
+        "selector": "trailers:evaluation-evidence-lineage"
+      }
+    },
+    {
       "id": "change-set:cs-bda0527a0177",
       "type": "change-set",
       "attributes": {
@@ -3382,7 +3425,7 @@
       "id": "spec:evaluation-evidence-lineage",
       "type": "spec",
       "attributes": {
-        "status": "draft"
+        "status": "done"
       }
     },
     {
@@ -3588,6 +3631,15 @@
       }
     },
     {
+      "id": "validation-result:./go/evaluation-evidence",
+      "type": "validation-result",
+      "attributes": {
+        "check": "evaluation-evidence",
+        "evidence_class": "integration",
+        "outcome": "pass"
+      }
+    },
+    {
       "id": "validation-result:./go/mcp-contract",
       "type": "validation-result",
       "attributes": {
@@ -3737,6 +3789,16 @@
       "type": "implemented-by"
     },
     {
+      "from": "artifact:.pose/adr/2026-09-07-scoped-evaluation-evidence-and-qualitative-registration.md",
+      "to": "delivery:capability:evaluation-evidence-lineage",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.pose/changelogs/unreleased/evaluation-evidence-lineage.md",
+      "to": "delivery:capability:evaluation-evidence-lineage",
+      "type": "implemented-by"
+    },
+    {
       "from": "artifact:.pose/changelogs/unreleased/session-recovery-version-pinning.md",
       "to": "delivery:capability:session-recovery",
       "type": "implemented-by"
@@ -3744,6 +3806,11 @@
     {
       "from": "artifact:.pose/indexes/validation-matrix.json",
       "to": "delivery:capability:codinho-tutor",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.pose/indexes/validation-matrix.json",
+      "to": "delivery:capability:evaluation-evidence-lineage",
       "type": "implemented-by"
     },
     {
@@ -3774,6 +3841,11 @@
     {
       "from": "artifact:.pose/knowledge/2026-09-07-decision-log-adr-durable-session-replay-review.md",
       "to": "delivery:capability:session-recovery",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.pose/knowledge/2026-09-07-decision-log-adr-scoped-evaluation-evidence-review.md",
+      "to": "delivery:capability:evaluation-evidence-lineage",
       "type": "implemented-by"
     },
     {
@@ -3822,8 +3894,18 @@
       "type": "implemented-by"
     },
     {
+      "from": "artifact:cmd/codinho/evaluation_evidence_integration_test.go",
+      "to": "delivery:capability:evaluation-evidence-lineage",
+      "type": "implemented-by"
+    },
+    {
       "from": "artifact:cmd/codinho/integration_test.go",
       "to": "delivery:capability:codinho-tutor",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:cmd/codinho/integration_test.go",
+      "to": "delivery:capability:evaluation-evidence-lineage",
       "type": "implemented-by"
     },
     {
@@ -3839,6 +3921,11 @@
     {
       "from": "artifact:cmd/codinho/smoke_test.go",
       "to": "delivery:infrastructure:codinho-local-distribution",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/compatibility.md",
+      "to": "delivery:capability:evaluation-evidence-lineage",
       "type": "implemented-by"
     },
     {
@@ -3907,13 +3994,43 @@
       "type": "implemented-by"
     },
     {
+      "from": "artifact:internal/application/assessment.go",
+      "to": "delivery:capability:evaluation-evidence-lineage",
+      "type": "implemented-by"
+    },
+    {
       "from": "artifact:internal/application/catalog.go",
       "to": "delivery:contract:codinho-mcp-v1",
       "type": "implemented-by"
     },
     {
       "from": "artifact:internal/application/checks.go",
+      "to": "delivery:capability:evaluation-evidence-lineage",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:internal/application/checks.go",
       "to": "delivery:capability:session-recovery",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:internal/application/checks_test.go",
+      "to": "delivery:capability:evaluation-evidence-lineage",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:internal/application/evaluation_evidence.go",
+      "to": "delivery:capability:evaluation-evidence-lineage",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:internal/application/evaluation_evidence_test.go",
+      "to": "delivery:capability:evaluation-evidence-lineage",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:internal/application/session.go",
+      "to": "delivery:capability:evaluation-evidence-lineage",
       "type": "implemented-by"
     },
     {
@@ -3933,12 +4050,22 @@
     },
     {
       "from": "artifact:internal/application/workspace.go",
+      "to": "delivery:capability:evaluation-evidence-lineage",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:internal/application/workspace.go",
       "to": "delivery:capability:session-recovery",
       "type": "implemented-by"
     },
     {
       "from": "artifact:internal/application/workspace_recovery_test.go",
       "to": "delivery:capability:session-recovery",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:internal/assessment/criteria.go",
+      "to": "delivery:capability:evaluation-evidence-lineage",
       "type": "implemented-by"
     },
     {
@@ -4007,6 +4134,11 @@
       "type": "implemented-by"
     },
     {
+      "from": "artifact:internal/eventstore/event.go",
+      "to": "delivery:capability:evaluation-evidence-lineage",
+      "type": "implemented-by"
+    },
+    {
       "from": "artifact:internal/eventstore/recovery.go",
       "to": "delivery:capability:session-recovery",
       "type": "implemented-by"
@@ -4042,8 +4174,18 @@
       "type": "implemented-by"
     },
     {
+      "from": "artifact:internal/mcpserver/assessment_tools.go",
+      "to": "delivery:capability:evaluation-evidence-lineage",
+      "type": "implemented-by"
+    },
+    {
       "from": "artifact:internal/mcpserver/catalog_tools.go",
       "to": "delivery:contract:codinho-mcp-v1",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:internal/mcpserver/contract_test.go",
+      "to": "delivery:capability:evaluation-evidence-lineage",
       "type": "implemented-by"
     },
     {
@@ -4058,12 +4200,22 @@
     },
     {
       "from": "artifact:internal/mcpserver/errors.go",
+      "to": "delivery:capability:evaluation-evidence-lineage",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:internal/mcpserver/errors.go",
       "to": "delivery:capability:session-recovery",
       "type": "implemented-by"
     },
     {
       "from": "artifact:internal/mcpserver/errors.go",
       "to": "delivery:contract:codinho-mcp-v1",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:internal/mcpserver/instructions.go",
+      "to": "delivery:capability:evaluation-evidence-lineage",
       "type": "implemented-by"
     },
     {
@@ -4087,8 +4239,23 @@
       "type": "implemented-by"
     },
     {
+      "from": "artifact:internal/session/checks_override_test.go",
+      "to": "delivery:capability:evaluation-evidence-lineage",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:internal/session/evaluation_evidence.go",
+      "to": "delivery:capability:evaluation-evidence-lineage",
+      "type": "implemented-by"
+    },
+    {
       "from": "artifact:internal/session/interview.go",
       "to": "delivery:capability:session-recovery",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:internal/session/recovery.go",
+      "to": "delivery:capability:evaluation-evidence-lineage",
       "type": "implemented-by"
     },
     {
@@ -4099,6 +4266,11 @@
     {
       "from": "artifact:internal/session/recovery_test.go",
       "to": "delivery:capability:session-recovery",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:internal/session/service.go",
+      "to": "delivery:capability:evaluation-evidence-lineage",
       "type": "implemented-by"
     },
     {
@@ -7237,6 +7409,131 @@
       "type": "changes"
     },
     {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:.pose/adr/2026-09-07-scoped-evaluation-evidence-and-qualitative-registration.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:.pose/changelogs/unreleased/evaluation-evidence-lineage.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:.pose/indexes/validation-matrix.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:.pose/knowledge/2026-09-07-decision-log-adr-scoped-evaluation-evidence-review.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:.pose/specs/2026-09-07-evaluation-evidence-lineage.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:cmd/codinho/evaluation_evidence_integration_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:cmd/codinho/integration_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:docs/compatibility.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:internal/application/assessment.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:internal/application/checks.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:internal/application/checks_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:internal/application/evaluation_evidence.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:internal/application/evaluation_evidence_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:internal/application/session.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:internal/application/workspace.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:internal/assessment/criteria.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:internal/eventstore/event.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:internal/mcpserver/assessment_tools.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:internal/mcpserver/contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:internal/mcpserver/errors.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:internal/mcpserver/instructions.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:internal/session/checks_override_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:internal/session/evaluation_evidence.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:internal/session/recovery.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-b5515c811fa5",
+      "to": "artifact:internal/session/service.go",
+      "type": "changes"
+    },
+    {
       "from": "change-set:cs-bda0527a0177",
       "to": "artifact:.pose/assessments/README.md",
       "type": "changes"
@@ -7658,6 +7955,11 @@
     },
     {
       "from": "delivery:capability:codinho-tutor",
+      "to": "validation-result:./go/evaluation-evidence",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:codinho-tutor",
       "to": "validation-result:./go/mcp-contract",
       "type": "validated-by"
     },
@@ -7692,9 +7994,49 @@
       "type": "composes"
     },
     {
+      "from": "delivery:capability:evaluation-evidence-lineage",
+      "to": "validation-result:./go/evaluation-evidence",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:evaluation-evidence-lineage",
+      "to": "validation-result:./go/mcp-contract",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:evaluation-evidence-lineage",
+      "to": "validation-result:./go/session-recovery",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:evaluation-evidence-lineage",
+      "to": "validation-result:./go/smoke-install",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:evaluation-evidence-lineage",
+      "to": "validation-result:./go/startup-budget",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:evaluation-evidence-lineage",
+      "to": "validation-result:./go/stdout-purity",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:evaluation-evidence-lineage",
+      "to": "validation-result:./go/tutor-skill-routing",
+      "type": "validated-by"
+    },
+    {
       "from": "delivery:capability:session-recovery",
       "to": "entrypoint:cmd/codinho/main.go",
       "type": "composes"
+    },
+    {
+      "from": "delivery:capability:session-recovery",
+      "to": "validation-result:./go/evaluation-evidence",
+      "type": "validated-by"
     },
     {
       "from": "delivery:capability:session-recovery",
@@ -7738,6 +8080,11 @@
     },
     {
       "from": "delivery:contract:codinho-mcp-v1",
+      "to": "validation-result:./go/evaluation-evidence",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:contract:codinho-mcp-v1",
       "to": "validation-result:./go/mcp-contract",
       "type": "validated-by"
     },
@@ -7770,6 +8117,11 @@
       "from": "delivery:governance:codinho-ci",
       "to": "entrypoint:.github/workflows/ci.yml",
       "type": "composes"
+    },
+    {
+      "from": "delivery:governance:codinho-ci",
+      "to": "validation-result:./go/evaluation-evidence",
+      "type": "validated-by"
     },
     {
       "from": "delivery:governance:codinho-ci",
@@ -7805,6 +8157,11 @@
       "from": "delivery:governance:v1-delivery-ci",
       "to": "entrypoint:.github/workflows/ci.yml",
       "type": "composes"
+    },
+    {
+      "from": "delivery:governance:v1-delivery-ci",
+      "to": "validation-result:./go/evaluation-evidence",
+      "type": "validated-by"
     },
     {
       "from": "delivery:governance:v1-delivery-ci",
@@ -7840,6 +8197,11 @@
       "from": "delivery:infrastructure:codinho-local-distribution",
       "to": "entrypoint:cmd/codinho/main.go",
       "type": "composes"
+    },
+    {
+      "from": "delivery:infrastructure:codinho-local-distribution",
+      "to": "validation-result:./go/evaluation-evidence",
+      "type": "validated-by"
     },
     {
       "from": "delivery:infrastructure:codinho-local-distribution",
@@ -7883,6 +8245,11 @@
     },
     {
       "from": "entrypoint:.agents/skills/codinho/SKILL.md",
+      "to": "validation-result:./go/evaluation-evidence",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:.agents/skills/codinho/SKILL.md",
       "to": "validation-result:./go/mcp-contract",
       "type": "validated-by"
     },
@@ -7909,6 +8276,16 @@
     {
       "from": "entrypoint:.agents/skills/codinho/SKILL.md",
       "to": "validation-result:./go/tutor-skill-routing",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:.github/workflows/ci.yml",
+      "to": "validation-result:./go/evaluation-evidence",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:.github/workflows/ci.yml",
+      "to": "validation-result:./go/evaluation-evidence",
       "type": "validated-by"
     },
     {
@@ -7978,6 +8355,31 @@
     },
     {
       "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/evaluation-evidence",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/evaluation-evidence",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/evaluation-evidence",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/evaluation-evidence",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/mcp-contract",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
       "to": "validation-result:./go/mcp-contract",
       "type": "validated-by"
     },
@@ -7989,6 +8391,11 @@
     {
       "from": "entrypoint:cmd/codinho/main.go",
       "to": "validation-result:./go/mcp-contract",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/session-recovery",
       "type": "validated-by"
     },
     {
@@ -8023,6 +8430,16 @@
     },
     {
       "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/smoke-install",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/startup-budget",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
       "to": "validation-result:./go/startup-budget",
       "type": "validated-by"
     },
@@ -8049,6 +8466,16 @@
     {
       "from": "entrypoint:cmd/codinho/main.go",
       "to": "validation-result:./go/stdout-purity",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/stdout-purity",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/tutor-skill-routing",
       "type": "validated-by"
     },
     {
@@ -8978,7 +9405,22 @@
     },
     {
       "from": "spec:evaluation-evidence-lineage",
+      "to": "artifact:.pose/adr/2026-09-07-scoped-evaluation-evidence-and-qualitative-registration.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:evaluation-evidence-lineage",
+      "to": "artifact:.pose/changelogs/unreleased/evaluation-evidence-lineage.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:evaluation-evidence-lineage",
       "to": "artifact:.pose/indexes/validation-matrix.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:evaluation-evidence-lineage",
+      "to": "artifact:.pose/knowledge/2026-09-07-decision-log-adr-scoped-evaluation-evidence-review.md",
       "type": "declares"
     },
     {
@@ -8988,7 +9430,7 @@
     },
     {
       "from": "spec:evaluation-evidence-lineage",
-      "to": "artifact:cmd/codinho/main.go",
+      "to": "artifact:cmd/codinho/integration_test.go",
       "type": "declares"
     },
     {
@@ -8999,6 +9441,21 @@
     {
       "from": "spec:evaluation-evidence-lineage",
       "to": "artifact:internal/application/assessment.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:evaluation-evidence-lineage",
+      "to": "artifact:internal/application/checks.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:evaluation-evidence-lineage",
+      "to": "artifact:internal/application/checks_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:evaluation-evidence-lineage",
+      "to": "artifact:internal/application/evaluation_evidence.go",
       "type": "declares"
     },
     {
@@ -9018,7 +9475,47 @@
     },
     {
       "from": "spec:evaluation-evidence-lineage",
+      "to": "artifact:internal/assessment/criteria.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:evaluation-evidence-lineage",
+      "to": "artifact:internal/eventstore/event.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:evaluation-evidence-lineage",
+      "to": "artifact:internal/mcpserver/assessment_tools.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:evaluation-evidence-lineage",
+      "to": "artifact:internal/mcpserver/contract_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:evaluation-evidence-lineage",
       "to": "artifact:internal/mcpserver/errors.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:evaluation-evidence-lineage",
+      "to": "artifact:internal/mcpserver/instructions.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:evaluation-evidence-lineage",
+      "to": "artifact:internal/session/checks_override_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:evaluation-evidence-lineage",
+      "to": "artifact:internal/session/evaluation_evidence.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:evaluation-evidence-lineage",
+      "to": "artifact:internal/session/recovery.go",
       "type": "declares"
     },
     {
@@ -9030,6 +9527,11 @@
       "from": "spec:evaluation-evidence-lineage",
       "to": "delivery:capability:evaluation-evidence-lineage",
       "type": "delivers"
+    },
+    {
+      "from": "spec:evaluation-evidence-lineage",
+      "to": "change-set:cs-b5515c811fa5",
+      "type": "observed-by"
     },
     {
       "from": "spec:eventstore-idempotency-scope",
@@ -11571,12 +12073,37 @@
     {
       "spec": "evaluation-evidence-lineage",
       "action": "created",
+      "path": ".pose/adr/2026-09-07-scoped-evaluation-evidence-and-qualitative-registration.md"
+    },
+    {
+      "spec": "evaluation-evidence-lineage",
+      "action": "created",
+      "path": ".pose/changelogs/unreleased/evaluation-evidence-lineage.md"
+    },
+    {
+      "spec": "evaluation-evidence-lineage",
+      "action": "created",
+      "path": ".pose/knowledge/2026-09-07-decision-log-adr-scoped-evaluation-evidence-review.md"
+    },
+    {
+      "spec": "evaluation-evidence-lineage",
+      "action": "created",
       "path": "cmd/codinho/evaluation_evidence_integration_test.go"
     },
     {
       "spec": "evaluation-evidence-lineage",
       "action": "created",
+      "path": "internal/application/evaluation_evidence.go"
+    },
+    {
+      "spec": "evaluation-evidence-lineage",
+      "action": "created",
       "path": "internal/application/evaluation_evidence_test.go"
+    },
+    {
+      "spec": "evaluation-evidence-lineage",
+      "action": "created",
+      "path": "internal/session/evaluation_evidence.go"
     },
     {
       "spec": "evaluation-evidence-lineage",
@@ -11586,7 +12113,7 @@
     {
       "spec": "evaluation-evidence-lineage",
       "action": "modified",
-      "path": "cmd/codinho/main.go"
+      "path": "cmd/codinho/integration_test.go"
     },
     {
       "spec": "evaluation-evidence-lineage",
@@ -11601,6 +12128,16 @@
     {
       "spec": "evaluation-evidence-lineage",
       "action": "modified",
+      "path": "internal/application/checks.go"
+    },
+    {
+      "spec": "evaluation-evidence-lineage",
+      "action": "modified",
+      "path": "internal/application/checks_test.go"
+    },
+    {
+      "spec": "evaluation-evidence-lineage",
+      "action": "modified",
       "path": "internal/application/session.go"
     },
     {
@@ -11611,7 +12148,42 @@
     {
       "spec": "evaluation-evidence-lineage",
       "action": "modified",
+      "path": "internal/assessment/criteria.go"
+    },
+    {
+      "spec": "evaluation-evidence-lineage",
+      "action": "modified",
+      "path": "internal/eventstore/event.go"
+    },
+    {
+      "spec": "evaluation-evidence-lineage",
+      "action": "modified",
+      "path": "internal/mcpserver/assessment_tools.go"
+    },
+    {
+      "spec": "evaluation-evidence-lineage",
+      "action": "modified",
+      "path": "internal/mcpserver/contract_test.go"
+    },
+    {
+      "spec": "evaluation-evidence-lineage",
+      "action": "modified",
       "path": "internal/mcpserver/errors.go"
+    },
+    {
+      "spec": "evaluation-evidence-lineage",
+      "action": "modified",
+      "path": "internal/mcpserver/instructions.go"
+    },
+    {
+      "spec": "evaluation-evidence-lineage",
+      "action": "modified",
+      "path": "internal/session/checks_override_test.go"
+    },
+    {
+      "spec": "evaluation-evidence-lineage",
+      "action": "modified",
+      "path": "internal/session/recovery.go"
     },
     {
       "spec": "evaluation-evidence-lineage",
@@ -16123,6 +16695,122 @@
       "diff_digest": "sha256:2630eee8e51bc2f84b881e57051a437ef05c9a358a72e39d1fcb27700a30c975"
     },
     {
+      "id": "cs-b5515c811fa5",
+      "spec": "evaluation-evidence-lineage",
+      "selector": "trailers:evaluation-evidence-lineage",
+      "base": "ff21fb015d6b7c98c3a197aa50e27b4a55e42461^",
+      "head": "cf6d772d91665ca7b48551675e53407ffc58e82d",
+      "resolved_base": "1e1558c1cfc44aa686e5f310304a496009d04d0a",
+      "resolved_head": "cf6d772d91665ca7b48551675e53407ffc58e82d",
+      "commits": [
+        "ff21fb015d6b7c98c3a197aa50e27b4a55e42461",
+        "cf6d772d91665ca7b48551675e53407ffc58e82d"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": ".pose/adr/2026-09-07-scoped-evaluation-evidence-and-qualitative-registration.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/changelogs/unreleased/evaluation-evidence-lineage.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/knowledge/2026-09-07-decision-log-adr-scoped-evaluation-evidence-review.md"
+        },
+        {
+          "action": "created",
+          "path": "cmd/codinho/evaluation_evidence_integration_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/application/evaluation_evidence.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/application/evaluation_evidence_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/session/evaluation_evidence.go"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/validation-matrix.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-09-07-evaluation-evidence-lineage.md"
+        },
+        {
+          "action": "modified",
+          "path": "cmd/codinho/integration_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "docs/compatibility.md"
+        },
+        {
+          "action": "modified",
+          "path": "internal/application/assessment.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/application/checks.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/application/checks_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/application/session.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/application/workspace.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/assessment/criteria.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/eventstore/event.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/assessment_tools.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/contract_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/errors.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/instructions.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/session/checks_override_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/session/recovery.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/session/service.go"
+        }
+      ],
+      "diff_digest": "sha256:ec71d9da278f9f4e6d9985d69b6579d25255ef07067dabbbfa87c02be635b912"
+    },
+    {
       "id": "cs-bda0527a0177",
       "spec": "eventstore-idempotency-scope",
       "selector": "trailers:eventstore-idempotency-scope",
@@ -16555,6 +17243,12 @@
     ".pose/adr/2026-09-06-durable-session-replay-with-pinned-content.md": [
       "session-recovery-version-pinning"
     ],
+    ".pose/adr/2026-09-07-scoped-evaluation-evidence-and-qualitative-registration.md": [
+      "evaluation-evidence-lineage"
+    ],
+    ".pose/changelogs/unreleased/evaluation-evidence-lineage.md": [
+      "evaluation-evidence-lineage"
+    ],
     ".pose/changelogs/unreleased/session-recovery-version-pinning.md": [
       "session-recovery-version-pinning"
     ],
@@ -16579,6 +17273,9 @@
     ],
     ".pose/knowledge/2026-09-07-decision-log-adr-durable-session-replay-review.md": [
       "session-recovery-version-pinning"
+    ],
+    ".pose/knowledge/2026-09-07-decision-log-adr-scoped-evaluation-evidence-review.md": [
+      "evaluation-evidence-lineage"
     ],
     ".pose/policy/artifacts.json": [
       "v1-delivery-ci-assurance"
@@ -16616,12 +17313,12 @@
       "evaluation-evidence-lineage"
     ],
     "cmd/codinho/integration_test.go": [
+      "evaluation-evidence-lineage",
       "tutor-skill-host-integration"
     ],
     "cmd/codinho/main.go": [
       "assistance-hints-detours",
       "curriculum-graph-path-recommendation",
-      "evaluation-evidence-lineage",
       "go-runtime-foundation",
       "mastery-review-scheduling",
       "mcp-stdio-foundation",
@@ -16725,12 +17422,17 @@
       "session-orchestration-disclosure"
     ],
     "internal/application/checks.go": [
+      "evaluation-evidence-lineage",
       "safe-check-executor",
       "security-privacy-hardening",
       "session-recovery-version-pinning"
     ],
     "internal/application/checks_test.go": [
+      "evaluation-evidence-lineage",
       "safe-check-executor"
+    ],
+    "internal/application/evaluation_evidence.go": [
+      "evaluation-evidence-lineage"
     ],
     "internal/application/evaluation_evidence_test.go": [
       "evaluation-evidence-lineage"
@@ -16777,6 +17479,7 @@
       "workspace-observation-baselines"
     ],
     "internal/assessment/criteria.go": [
+      "evaluation-evidence-lineage",
       "feedback-evaluation-progression"
     ],
     "internal/assessment/criteria_test.go": [
@@ -17042,6 +17745,7 @@
     ],
     "internal/eventstore/event.go": [
       "agent-authored-catalog-drafts",
+      "evaluation-evidence-lineage",
       "learning-practice-debug-modes",
       "local-event-store",
       "session-orchestration-disclosure"
@@ -17156,6 +17860,7 @@
       "safe-check-executor"
     ],
     "internal/mcpserver/assessment_tools.go": [
+      "evaluation-evidence-lineage",
       "feedback-evaluation-progression",
       "session-tree-progression"
     ],
@@ -17191,6 +17896,7 @@
     "internal/mcpserver/contract_test.go": [
       "assistance-hints-detours",
       "curriculum-graph-path-recommendation",
+      "evaluation-evidence-lineage",
       "feedback-evaluation-progression",
       "interview-mode",
       "learning-practice-debug-modes",
@@ -17218,6 +17924,7 @@
       "workspace-observation-baselines"
     ],
     "internal/mcpserver/instructions.go": [
+      "evaluation-evidence-lineage",
       "mcp-stdio-foundation"
     ],
     "internal/mcpserver/logging.go": [
@@ -17312,6 +18019,7 @@
       "safe-check-executor"
     ],
     "internal/session/checks_override_test.go": [
+      "evaluation-evidence-lineage",
       "safe-check-executor"
     ],
     "internal/session/disclosure.go": [
@@ -17320,6 +18028,9 @@
     "internal/session/disclosure_test.go": [
       "session-orchestration-disclosure",
       "session-tree-progression"
+    ],
+    "internal/session/evaluation_evidence.go": [
+      "evaluation-evidence-lineage"
     ],
     "internal/session/granularity.go": [
       "session-orchestration-disclosure",
@@ -17347,6 +18058,7 @@
       "session-tree-progression"
     ],
     "internal/session/recovery.go": [
+      "evaluation-evidence-lineage",
       "session-recovery-version-pinning"
     ],
     "internal/session/recovery_test.go": [
@@ -17809,15 +18521,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-258c78bac2ba",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "evaluation-evidence-lineage",
-      "path": "internal/mcpserver/errors.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec evaluation-evidence-lineage (ensure commits carry 'POSE-Spec: evaluation-evidence-lineage' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-25c76024e395",
       "code": "action-mismatch",
       "severity": "error",
@@ -17870,25 +18573,6 @@
       "path": "docs/acceptance/v1-requirement-matrix.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-2c067932c297",
-      "code": "stale-evidence",
-      "severity": "error",
-      "spec": "concept-content-authoring",
-      "path": "capability:canonical-concept-content",
-      "change_set": "./go/mcp-contract",
-      "message": "passed integration evidence is bound to a different scoped provenance digest",
-      "remediation": "rerun the registered validation check for this delivery scope"
-    },
-    {
-      "id": "dif-2d7509338f45",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "evaluation-evidence-lineage",
-      "path": "docs/compatibility.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec evaluation-evidence-lineage (ensure commits carry 'POSE-Spec: evaluation-evidence-lineage' trailer or generate report with pose report)"
     },
     {
       "id": "dif-2fbbda6142e2",
@@ -17952,16 +18636,6 @@
       "path": "internal/curriculum/schema_contract_test.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec catalog-publication-integrity (ensure commits carry 'POSE-Spec: catalog-publication-integrity' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-3db64c66fc4f",
-      "code": "stale-evidence",
-      "severity": "error",
-      "spec": "session-tree-progression",
-      "path": "capability:session-tree-progression",
-      "change_set": "./go/mcp-contract",
-      "message": "passed integration evidence is bound to a different scoped provenance digest",
-      "remediation": "rerun the registered validation check for this delivery scope"
     },
     {
       "id": "dif-3fdc1ce77a20",
@@ -18090,15 +18764,6 @@
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-530343234b21",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "evaluation-evidence-lineage",
-      "path": "internal/application/evaluation_evidence_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec evaluation-evidence-lineage (ensure commits carry 'POSE-Spec: evaluation-evidence-lineage' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-54986fb18d52",
       "code": "existence",
       "severity": "error",
@@ -18106,6 +18771,16 @@
       "path": "testdata/packs/interviews",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-5500182b53f7",
+      "code": "stale-evidence",
+      "severity": "error",
+      "spec": "catalog-publication-integrity",
+      "path": "capability:catalog-publication-integrity",
+      "change_set": "./go/evaluation-evidence",
+      "message": "passed integration evidence is bound to a different scoped provenance digest",
+      "remediation": "rerun the registered validation check for this delivery scope"
     },
     {
       "id": "dif-56aa8c83b302",
@@ -18162,6 +18837,16 @@
       "remediation": "no Git change sets are attributed to spec agent-authored-catalog-drafts (ensure commits carry 'POSE-Spec: agent-authored-catalog-drafts' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-5dec403fc9ee",
+      "code": "stale-evidence",
+      "severity": "error",
+      "spec": "concept-content-authoring",
+      "path": "capability:canonical-concept-content",
+      "change_set": "./go/evaluation-evidence",
+      "message": "passed integration evidence is bound to a different scoped provenance digest",
+      "remediation": "rerun the registered validation check for this delivery scope"
+    },
+    {
       "id": "dif-5df5048ce2b4",
       "code": "action-mismatch",
       "severity": "error",
@@ -18196,15 +18881,6 @@
       "path": "internal/curriculum/model.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec agent-authored-catalog-drafts (ensure commits carry 'POSE-Spec: agent-authored-catalog-drafts' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-637d154232fe",
-      "code": "unconnected-artifact",
-      "severity": "error",
-      "spec": "evaluation-evidence-lineage",
-      "path": "capability:evaluation-evidence-lineage",
-      "message": "delivery target has no structured artifact provenance",
-      "remediation": "declare and reconcile exact artifacts before asserting delivery"
     },
     {
       "id": "dif-648fe4d4393c",
@@ -18522,15 +19198,6 @@
       "remediation": "no Git change sets are attributed to spec session-tree-progression (ensure commits carry 'POSE-Spec: session-tree-progression' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-a04dec2669e1",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "evaluation-evidence-lineage",
-      "path": "cmd/codinho/main.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec evaluation-evidence-lineage (ensure commits carry 'POSE-Spec: evaluation-evidence-lineage' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-a0e65682e8b4",
       "code": "action-mismatch",
       "severity": "error",
@@ -18549,15 +19216,6 @@
       "remediation": "no Git change sets are attributed to spec session-tree-progression (ensure commits carry 'POSE-Spec: session-tree-progression' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-a30ab42ea76f",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "evaluation-evidence-lineage",
-      "path": "internal/application/workspace.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec evaluation-evidence-lineage (ensure commits carry 'POSE-Spec: evaluation-evidence-lineage' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-a351218dabec",
       "code": "existence",
       "severity": "error",
@@ -18565,15 +19223,6 @@
       "path": "docs/catalog/go-backend.md",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-a48a6bfee2c8",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "evaluation-evidence-lineage",
-      "path": "internal/application/assessment.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec evaluation-evidence-lineage (ensure commits carry 'POSE-Spec: evaluation-evidence-lineage' trailer or generate report with pose report)"
     },
     {
       "id": "dif-a4fd68553827",
@@ -18594,15 +19243,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-aa68add9fd20",
-      "code": "existence",
-      "severity": "error",
-      "spec": "evaluation-evidence-lineage",
-      "path": "internal/application/evaluation_evidence_test.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-aa6ac150c254",
       "code": "action-mismatch",
       "severity": "error",
@@ -18610,25 +19250,6 @@
       "path": "internal/mcpserver/recommendation_tools.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-ad99872afdf2",
-      "code": "unconsumed-capability",
-      "severity": "error",
-      "spec": "evaluation-evidence-lineage",
-      "path": "capability:evaluation-evidence-lineage",
-      "message": "required current evidence is missing: integration",
-      "remediation": "run registered checks with the required evidenceClass against the current provenance digest"
-    },
-    {
-      "id": "dif-adb7279365f8",
-      "code": "stale-evidence",
-      "severity": "error",
-      "spec": "evaluation-evidence-lineage",
-      "path": "capability:evaluation-evidence-lineage",
-      "change_set": "./go/mcp-contract",
-      "message": "passed integration evidence is bound to a different scoped provenance digest",
-      "remediation": "rerun the registered validation check for this delivery scope"
     },
     {
       "id": "dif-b23410d342f3",
@@ -18683,16 +19304,6 @@
       "path": "internal/cli/catalog.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-ba7156e38ba9",
-      "code": "stale-evidence",
-      "severity": "error",
-      "spec": "catalog-publication-integrity",
-      "path": "capability:catalog-publication-integrity",
-      "change_set": "./go/mcp-contract",
-      "message": "passed integration evidence is bound to a different scoped provenance digest",
-      "remediation": "rerun the registered validation check for this delivery scope"
     },
     {
       "id": "dif-bb68a58b10c4",
@@ -18812,15 +19423,6 @@
       "remediation": "correct the action or record the exact attributed revisions"
     },
     {
-      "id": "dif-cbc9e5efae3f",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "evaluation-evidence-lineage",
-      "path": ".pose/indexes/validation-matrix.json",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec evaluation-evidence-lineage (ensure commits carry 'POSE-Spec: evaluation-evidence-lineage' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-cc5caa9f1634",
       "code": "action-mismatch",
       "severity": "error",
@@ -18929,15 +19531,6 @@
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-e70b12bcfbcb",
-      "code": "existence",
-      "severity": "error",
-      "spec": "evaluation-evidence-lineage",
-      "path": "cmd/codinho/evaluation_evidence_integration_test.go",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-e9b13b7b19cd",
       "code": "existence",
       "severity": "error",
@@ -18974,13 +19567,14 @@
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-f05e4ebc507b",
-      "code": "action-mismatch",
+      "id": "dif-efefe0c690d1",
+      "code": "stale-evidence",
       "severity": "error",
-      "spec": "evaluation-evidence-lineage",
-      "path": "internal/session/service.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec evaluation-evidence-lineage (ensure commits carry 'POSE-Spec: evaluation-evidence-lineage' trailer or generate report with pose report)"
+      "spec": "session-tree-progression",
+      "path": "capability:session-tree-progression",
+      "change_set": "./go/evaluation-evidence",
+      "message": "passed integration evidence is bound to a different scoped provenance digest",
+      "remediation": "rerun the registered validation check for this delivery scope"
     },
     {
       "id": "dif-f2d565e96e5b",
@@ -18999,15 +19593,6 @@
       "path": "docs/content-authoring.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec concept-content-authoring (ensure commits carry 'POSE-Spec: concept-content-authoring' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-f39545808ee7",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "evaluation-evidence-lineage",
-      "path": "cmd/codinho/evaluation_evidence_integration_test.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec evaluation-evidence-lineage (ensure commits carry 'POSE-Spec: evaluation-evidence-lineage' trailer or generate report with pose report)"
     },
     {
       "id": "dif-f7b381e0ea88",
@@ -19035,15 +19620,6 @@
       "path": "packs/go-type-design.yaml",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "correct the action or record the exact attributed revisions"
-    },
-    {
-      "id": "dif-fa2cc76bb0e3",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "evaluation-evidence-lineage",
-      "path": "internal/application/session.go",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec evaluation-evidence-lineage (ensure commits carry 'POSE-Spec: evaluation-evidence-lineage' trailer or generate report with pose report)"
     },
     {
       "id": "dif-fad2c861e6fe",
@@ -19173,9 +19749,9 @@
       "evidence_class": "build",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "8c2ee6e794bde10070666ac89dd58afe0af537a6",
-      "generated_at": "2026-09-07T14:35:10Z",
-      "provenance_digest": "sha256:7ce395e30f727d6852d4118ef0664a942a963f80c7bcc06e7a2c45ca3e34d7d8",
+      "git_head": "ff21fb015d6b7c98c3a197aa50e27b4a55e42461",
+      "generated_at": "2026-09-07T22:11:10Z",
+      "provenance_digest": "sha256:cebf919fb362aa555f1ffcc835b6ed4bcb789e74655de9bbeb183010e5f16ccd",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -19184,6 +19760,7 @@
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+        "evaluation-evidence-lineage": "sha256:ccb44a4eb2accf7dcea95ea0b09cc845fabeffb03eaaf1607d85acb7deedce85",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-foundations-packs": "sha256:6a88afb4b7f12ac93450e05b035eb3c941482da5f4028fc9960d7c1ae7bba9fa",
@@ -19199,7 +19776,7 @@
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "session-recovery-version-pinning": "sha256:f47bda40220d2d957d6a3baf023a67014b69fa206236d16fc2c554adf4eb246b",
+        "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
         "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
@@ -19212,9 +19789,9 @@
       "evidence_class": "e2e",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "8c2ee6e794bde10070666ac89dd58afe0af537a6",
-      "generated_at": "2026-09-07T14:35:10Z",
-      "provenance_digest": "sha256:7ce395e30f727d6852d4118ef0664a942a963f80c7bcc06e7a2c45ca3e34d7d8",
+      "git_head": "ff21fb015d6b7c98c3a197aa50e27b4a55e42461",
+      "generated_at": "2026-09-07T22:11:10Z",
+      "provenance_digest": "sha256:cebf919fb362aa555f1ffcc835b6ed4bcb789e74655de9bbeb183010e5f16ccd",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -19223,6 +19800,7 @@
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+        "evaluation-evidence-lineage": "sha256:ccb44a4eb2accf7dcea95ea0b09cc845fabeffb03eaaf1607d85acb7deedce85",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-foundations-packs": "sha256:6a88afb4b7f12ac93450e05b035eb3c941482da5f4028fc9960d7c1ae7bba9fa",
@@ -19238,7 +19816,7 @@
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "session-recovery-version-pinning": "sha256:f47bda40220d2d957d6a3baf023a67014b69fa206236d16fc2c554adf4eb246b",
+        "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
         "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
@@ -19251,9 +19829,9 @@
       "evidence_class": "reachability",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "8c2ee6e794bde10070666ac89dd58afe0af537a6",
-      "generated_at": "2026-09-07T14:35:10Z",
-      "provenance_digest": "sha256:7ce395e30f727d6852d4118ef0664a942a963f80c7bcc06e7a2c45ca3e34d7d8",
+      "git_head": "ff21fb015d6b7c98c3a197aa50e27b4a55e42461",
+      "generated_at": "2026-09-07T22:11:10Z",
+      "provenance_digest": "sha256:cebf919fb362aa555f1ffcc835b6ed4bcb789e74655de9bbeb183010e5f16ccd",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -19262,6 +19840,7 @@
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+        "evaluation-evidence-lineage": "sha256:ccb44a4eb2accf7dcea95ea0b09cc845fabeffb03eaaf1607d85acb7deedce85",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-foundations-packs": "sha256:6a88afb4b7f12ac93450e05b035eb3c941482da5f4028fc9960d7c1ae7bba9fa",
@@ -19277,7 +19856,47 @@
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "session-recovery-version-pinning": "sha256:f47bda40220d2d957d6a3baf023a67014b69fa206236d16fc2c554adf4eb246b",
+        "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
+        "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
+        "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
+        "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
+      }
+    },
+    {
+      "id": "./go/evaluation-evidence",
+      "module": ".",
+      "check": "evaluation-evidence",
+      "evidence_class": "integration",
+      "severity": "required",
+      "outcome": "pass",
+      "git_head": "ff21fb015d6b7c98c3a197aa50e27b4a55e42461",
+      "generated_at": "2026-09-07T22:11:10Z",
+      "provenance_digest": "sha256:cebf919fb362aa555f1ffcc835b6ed4bcb789e74655de9bbeb183010e5f16ccd",
+      "report": ".pose/results/delivery-validation.json",
+      "scope_provenance": {
+        "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
+        "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
+        "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
+        "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
+        "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
+        "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+        "evaluation-evidence-lineage": "sha256:ccb44a4eb2accf7dcea95ea0b09cc845fabeffb03eaaf1607d85acb7deedce85",
+        "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
+        "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
+        "go-foundations-packs": "sha256:6a88afb4b7f12ac93450e05b035eb3c941482da5f4028fc9960d7c1ae7bba9fa",
+        "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
+        "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
+        "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
+        "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
+        "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
+        "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
+        "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
+        "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
+        "reliability-observability-compatibility": "sha256:19c11511b2a732584f4787c35bcd3d39e3a0ba209b3588c42cbc8f187a5172e0",
+        "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
+        "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
+        "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
+        "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
         "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
@@ -19290,9 +19909,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "8c2ee6e794bde10070666ac89dd58afe0af537a6",
-      "generated_at": "2026-09-07T14:35:10Z",
-      "provenance_digest": "sha256:7ce395e30f727d6852d4118ef0664a942a963f80c7bcc06e7a2c45ca3e34d7d8",
+      "git_head": "ff21fb015d6b7c98c3a197aa50e27b4a55e42461",
+      "generated_at": "2026-09-07T22:11:10Z",
+      "provenance_digest": "sha256:cebf919fb362aa555f1ffcc835b6ed4bcb789e74655de9bbeb183010e5f16ccd",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -19301,6 +19920,7 @@
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+        "evaluation-evidence-lineage": "sha256:ccb44a4eb2accf7dcea95ea0b09cc845fabeffb03eaaf1607d85acb7deedce85",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-foundations-packs": "sha256:6a88afb4b7f12ac93450e05b035eb3c941482da5f4028fc9960d7c1ae7bba9fa",
@@ -19316,7 +19936,7 @@
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "session-recovery-version-pinning": "sha256:f47bda40220d2d957d6a3baf023a67014b69fa206236d16fc2c554adf4eb246b",
+        "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
         "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
@@ -19329,9 +19949,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "8c2ee6e794bde10070666ac89dd58afe0af537a6",
-      "generated_at": "2026-09-07T14:35:10Z",
-      "provenance_digest": "sha256:7ce395e30f727d6852d4118ef0664a942a963f80c7bcc06e7a2c45ca3e34d7d8",
+      "git_head": "ff21fb015d6b7c98c3a197aa50e27b4a55e42461",
+      "generated_at": "2026-09-07T22:11:10Z",
+      "provenance_digest": "sha256:cebf919fb362aa555f1ffcc835b6ed4bcb789e74655de9bbeb183010e5f16ccd",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -19340,6 +19960,7 @@
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+        "evaluation-evidence-lineage": "sha256:ccb44a4eb2accf7dcea95ea0b09cc845fabeffb03eaaf1607d85acb7deedce85",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-foundations-packs": "sha256:6a88afb4b7f12ac93450e05b035eb3c941482da5f4028fc9960d7c1ae7bba9fa",
@@ -19355,7 +19976,7 @@
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "session-recovery-version-pinning": "sha256:f47bda40220d2d957d6a3baf023a67014b69fa206236d16fc2c554adf4eb246b",
+        "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
         "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
@@ -19368,9 +19989,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "8c2ee6e794bde10070666ac89dd58afe0af537a6",
-      "generated_at": "2026-09-07T14:35:10Z",
-      "provenance_digest": "sha256:7ce395e30f727d6852d4118ef0664a942a963f80c7bcc06e7a2c45ca3e34d7d8",
+      "git_head": "ff21fb015d6b7c98c3a197aa50e27b4a55e42461",
+      "generated_at": "2026-09-07T22:11:10Z",
+      "provenance_digest": "sha256:cebf919fb362aa555f1ffcc835b6ed4bcb789e74655de9bbeb183010e5f16ccd",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -19379,6 +20000,7 @@
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+        "evaluation-evidence-lineage": "sha256:ccb44a4eb2accf7dcea95ea0b09cc845fabeffb03eaaf1607d85acb7deedce85",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-foundations-packs": "sha256:6a88afb4b7f12ac93450e05b035eb3c941482da5f4028fc9960d7c1ae7bba9fa",
@@ -19394,7 +20016,7 @@
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "session-recovery-version-pinning": "sha256:f47bda40220d2d957d6a3baf023a67014b69fa206236d16fc2c554adf4eb246b",
+        "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
         "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
@@ -19407,9 +20029,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "8c2ee6e794bde10070666ac89dd58afe0af537a6",
-      "generated_at": "2026-09-07T14:35:10Z",
-      "provenance_digest": "sha256:7ce395e30f727d6852d4118ef0664a942a963f80c7bcc06e7a2c45ca3e34d7d8",
+      "git_head": "ff21fb015d6b7c98c3a197aa50e27b4a55e42461",
+      "generated_at": "2026-09-07T22:11:10Z",
+      "provenance_digest": "sha256:cebf919fb362aa555f1ffcc835b6ed4bcb789e74655de9bbeb183010e5f16ccd",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -19418,6 +20040,7 @@
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+        "evaluation-evidence-lineage": "sha256:ccb44a4eb2accf7dcea95ea0b09cc845fabeffb03eaaf1607d85acb7deedce85",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-foundations-packs": "sha256:6a88afb4b7f12ac93450e05b035eb3c941482da5f4028fc9960d7c1ae7bba9fa",
@@ -19433,7 +20056,7 @@
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "session-recovery-version-pinning": "sha256:f47bda40220d2d957d6a3baf023a67014b69fa206236d16fc2c554adf4eb246b",
+        "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
         "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
@@ -19446,9 +20069,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "8c2ee6e794bde10070666ac89dd58afe0af537a6",
-      "generated_at": "2026-09-07T14:35:10Z",
-      "provenance_digest": "sha256:7ce395e30f727d6852d4118ef0664a942a963f80c7bcc06e7a2c45ca3e34d7d8",
+      "git_head": "ff21fb015d6b7c98c3a197aa50e27b4a55e42461",
+      "generated_at": "2026-09-07T22:11:10Z",
+      "provenance_digest": "sha256:cebf919fb362aa555f1ffcc835b6ed4bcb789e74655de9bbeb183010e5f16ccd",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -19457,6 +20080,7 @@
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+        "evaluation-evidence-lineage": "sha256:ccb44a4eb2accf7dcea95ea0b09cc845fabeffb03eaaf1607d85acb7deedce85",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-foundations-packs": "sha256:6a88afb4b7f12ac93450e05b035eb3c941482da5f4028fc9960d7c1ae7bba9fa",
@@ -19472,7 +20096,7 @@
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "session-recovery-version-pinning": "sha256:f47bda40220d2d957d6a3baf023a67014b69fa206236d16fc2c554adf4eb246b",
+        "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
         "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
@@ -19485,9 +20109,9 @@
       "evidence_class": "unit",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "8c2ee6e794bde10070666ac89dd58afe0af537a6",
-      "generated_at": "2026-09-07T14:35:10Z",
-      "provenance_digest": "sha256:7ce395e30f727d6852d4118ef0664a942a963f80c7bcc06e7a2c45ca3e34d7d8",
+      "git_head": "ff21fb015d6b7c98c3a197aa50e27b4a55e42461",
+      "generated_at": "2026-09-07T22:11:10Z",
+      "provenance_digest": "sha256:cebf919fb362aa555f1ffcc835b6ed4bcb789e74655de9bbeb183010e5f16ccd",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -19496,6 +20120,7 @@
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+        "evaluation-evidence-lineage": "sha256:ccb44a4eb2accf7dcea95ea0b09cc845fabeffb03eaaf1607d85acb7deedce85",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-foundations-packs": "sha256:6a88afb4b7f12ac93450e05b035eb3c941482da5f4028fc9960d7c1ae7bba9fa",
@@ -19511,7 +20136,7 @@
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "session-recovery-version-pinning": "sha256:f47bda40220d2d957d6a3baf023a67014b69fa206236d16fc2c554adf4eb246b",
+        "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
         "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
@@ -19524,9 +20149,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "8c2ee6e794bde10070666ac89dd58afe0af537a6",
-      "generated_at": "2026-09-07T14:35:10Z",
-      "provenance_digest": "sha256:7ce395e30f727d6852d4118ef0664a942a963f80c7bcc06e7a2c45ca3e34d7d8",
+      "git_head": "ff21fb015d6b7c98c3a197aa50e27b4a55e42461",
+      "generated_at": "2026-09-07T22:11:10Z",
+      "provenance_digest": "sha256:cebf919fb362aa555f1ffcc835b6ed4bcb789e74655de9bbeb183010e5f16ccd",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -19535,6 +20160,7 @@
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+        "evaluation-evidence-lineage": "sha256:ccb44a4eb2accf7dcea95ea0b09cc845fabeffb03eaaf1607d85acb7deedce85",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-foundations-packs": "sha256:6a88afb4b7f12ac93450e05b035eb3c941482da5f4028fc9960d7c1ae7bba9fa",
@@ -19550,7 +20176,7 @@
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "session-recovery-version-pinning": "sha256:f47bda40220d2d957d6a3baf023a67014b69fa206236d16fc2c554adf4eb246b",
+        "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
         "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
@@ -19563,9 +20189,9 @@
       "evidence_class": "build",
       "severity": "optional",
       "outcome": "pass",
-      "git_head": "8c2ee6e794bde10070666ac89dd58afe0af537a6",
-      "generated_at": "2026-09-07T14:35:10Z",
-      "provenance_digest": "sha256:7ce395e30f727d6852d4118ef0664a942a963f80c7bcc06e7a2c45ca3e34d7d8",
+      "git_head": "ff21fb015d6b7c98c3a197aa50e27b4a55e42461",
+      "generated_at": "2026-09-07T22:11:10Z",
+      "provenance_digest": "sha256:cebf919fb362aa555f1ffcc835b6ed4bcb789e74655de9bbeb183010e5f16ccd",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -19574,6 +20200,7 @@
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+        "evaluation-evidence-lineage": "sha256:ccb44a4eb2accf7dcea95ea0b09cc845fabeffb03eaaf1607d85acb7deedce85",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
         "go-foundations-packs": "sha256:6a88afb4b7f12ac93450e05b035eb3c941482da5f4028fc9960d7c1ae7bba9fa",
@@ -19589,7 +20216,7 @@
         "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
         "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
         "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
-        "session-recovery-version-pinning": "sha256:f47bda40220d2d957d6a3baf023a67014b69fa206236d16fc2c554adf4eb246b",
+        "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
         "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
@@ -19732,6 +20359,7 @@
       "artifact:.pose/indexes/validation-matrix.json",
       "delivery:capability:codinho-tutor",
       "entrypoint:.agents/skills/codinho/SKILL.md",
+      "validation-result:./go/evaluation-evidence",
       "validation-result:./go/mcp-contract",
       "validation-result:./go/session-recovery",
       "validation-result:./go/smoke-install",
@@ -19741,8 +20369,39 @@
     ],
     "capability:evaluation-evidence-lineage": [
       "spec:evaluation-evidence-lineage",
+      "artifact:.pose/adr/2026-09-07-scoped-evaluation-evidence-and-qualitative-registration.md",
+      "artifact:.pose/changelogs/unreleased/evaluation-evidence-lineage.md",
+      "artifact:.pose/knowledge/2026-09-07-decision-log-adr-scoped-evaluation-evidence-review.md",
+      "artifact:cmd/codinho/evaluation_evidence_integration_test.go",
+      "artifact:internal/application/evaluation_evidence.go",
+      "artifact:internal/application/evaluation_evidence_test.go",
+      "artifact:internal/session/evaluation_evidence.go",
+      "artifact:.pose/indexes/validation-matrix.json",
+      "artifact:cmd/codinho/integration_test.go",
+      "artifact:docs/compatibility.md",
+      "artifact:internal/application/assessment.go",
+      "artifact:internal/application/checks.go",
+      "artifact:internal/application/checks_test.go",
+      "artifact:internal/application/session.go",
+      "artifact:internal/application/workspace.go",
+      "artifact:internal/assessment/criteria.go",
+      "artifact:internal/eventstore/event.go",
+      "artifact:internal/mcpserver/assessment_tools.go",
+      "artifact:internal/mcpserver/contract_test.go",
+      "artifact:internal/mcpserver/errors.go",
+      "artifact:internal/mcpserver/instructions.go",
+      "artifact:internal/session/checks_override_test.go",
+      "artifact:internal/session/recovery.go",
+      "artifact:internal/session/service.go",
       "delivery:capability:evaluation-evidence-lineage",
-      "entrypoint:cmd/codinho/main.go"
+      "entrypoint:cmd/codinho/main.go",
+      "validation-result:./go/evaluation-evidence",
+      "validation-result:./go/mcp-contract",
+      "validation-result:./go/session-recovery",
+      "validation-result:./go/smoke-install",
+      "validation-result:./go/startup-budget",
+      "validation-result:./go/stdout-purity",
+      "validation-result:./go/tutor-skill-routing"
     ],
     "capability:session-recovery": [
       "spec:session-recovery-version-pinning",
@@ -19772,6 +20431,7 @@
       "artifact:internal/session/service.go",
       "delivery:capability:session-recovery",
       "entrypoint:cmd/codinho/main.go",
+      "validation-result:./go/evaluation-evidence",
       "validation-result:./go/mcp-contract",
       "validation-result:./go/session-recovery",
       "validation-result:./go/smoke-install",
@@ -19802,6 +20462,7 @@
       "artifact:go.sum",
       "delivery:contract:codinho-mcp-v1",
       "entrypoint:cmd/codinho/main.go",
+      "validation-result:./go/evaluation-evidence",
       "validation-result:./go/mcp-contract",
       "validation-result:./go/session-recovery",
       "validation-result:./go/smoke-install",
@@ -19826,6 +20487,7 @@
       "artifact:docs/troubleshooting.md",
       "delivery:governance:codinho-ci",
       "entrypoint:.github/workflows/ci.yml",
+      "validation-result:./go/evaluation-evidence",
       "validation-result:./go/mcp-contract",
       "validation-result:./go/session-recovery",
       "validation-result:./go/smoke-install",
@@ -19838,6 +20500,7 @@
       "artifact:.pose/roadmaps/codinho-v1.md",
       "delivery:governance:v1-delivery-ci",
       "entrypoint:.github/workflows/ci.yml",
+      "validation-result:./go/evaluation-evidence",
       "validation-result:./go/mcp-contract",
       "validation-result:./go/session-recovery",
       "validation-result:./go/smoke-install",
@@ -19862,6 +20525,7 @@
       "artifact:docs/troubleshooting.md",
       "delivery:infrastructure:codinho-local-distribution",
       "entrypoint:cmd/codinho/main.go",
+      "validation-result:./go/evaluation-evidence",
       "validation-result:./go/mcp-contract",
       "validation-result:./go/session-recovery",
       "validation-result:./go/smoke-install",

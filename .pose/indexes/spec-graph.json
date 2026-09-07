@@ -101,6 +101,18 @@
       "to": "mastery-review-scheduling"
     },
     {
+      "from": "evaluation-evidence-lineage",
+      "to": "session-recovery-version-pinning"
+    },
+    {
+      "from": "evaluation-evidence-lineage",
+      "to": "safe-check-executor"
+    },
+    {
+      "from": "evaluation-evidence-lineage",
+      "to": "feedback-evaluation-progression"
+    },
+    {
       "from": "eventstore-idempotency-scope",
       "to": "local-event-store"
     },
@@ -553,6 +565,10 @@
       "to": "v1-delivery-ci-assurance"
     },
     {
+      "from": "v1-integrated-acceptance",
+      "to": "evaluation-evidence-lineage"
+    },
+    {
       "from": "workspace-observation-baselines",
       "to": "go-runtime-foundation"
     },
@@ -652,6 +668,16 @@
       ],
       "path": ".pose/specs/2026-08-22-curriculum-graph-path-recommendation.md",
       "priority": 120,
+      "status": "done"
+    },
+    "evaluation-evidence-lineage": {
+      "depends_on": [
+        "session-recovery-version-pinning",
+        "safe-check-executor",
+        "feedback-evaluation-progression"
+      ],
+      "path": ".pose/specs/2026-09-07-evaluation-evidence-lineage.md",
+      "priority": 15,
       "status": "done"
     },
     "eventstore-idempotency-scope": {
@@ -862,7 +888,7 @@
       ],
       "path": ".pose/specs/2026-09-07-session-recovery-version-pinning.md",
       "priority": 10,
-      "status": "in-progress"
+      "status": "done"
     },
     "session-tree-progression": {
       "depends_on": [
@@ -929,7 +955,8 @@
         "session-tree-progression",
         "catalog-publication-integrity",
         "concept-content-authoring",
-        "v1-delivery-ci-assurance"
+        "v1-delivery-ci-assurance",
+        "evaluation-evidence-lineage"
       ],
       "path": ".pose/specs/2026-08-22-v1-integrated-acceptance.md",
       "priority": 250,

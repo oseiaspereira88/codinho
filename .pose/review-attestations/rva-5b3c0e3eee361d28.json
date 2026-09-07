@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "attestation_id": "rva-5b3c0e3eee361d28",
+  "bundle_id": "rvb-038af4d73b5652ca",
+  "bundle_digest": "sha256:038af4d73b5652ca459e078a5251522e2fffb299fe5972417fec255ab6383ded",
+  "reviewer": "agent:evidence_review",
+  "decision": "approved",
+  "criteria": [
+    {
+      "id": "compatibility",
+      "disposition": "passed",
+      "evidence": "integration:./go/evaluation-evidence"
+    },
+    {
+      "id": "correctness",
+      "disposition": "passed",
+      "evidence": "test:TestEvaluationEvidenceOverRealStdio"
+    },
+    {
+      "id": "cross-component-integration",
+      "disposition": "passed",
+      "evidence": "integration:./go/evaluation-evidence"
+    },
+    {
+      "id": "documentation",
+      "disposition": "passed",
+      "evidence": "integration:./go/evaluation-evidence"
+    },
+    {
+      "id": "operability",
+      "disposition": "passed",
+      "evidence": "integration:./go/evaluation-evidence"
+    },
+    {
+      "id": "requirements",
+      "disposition": "passed",
+      "evidence": "requirement-trace:evaluation-evidence-lineage"
+    },
+    {
+      "id": "scope",
+      "disposition": "passed",
+      "evidence": "integration:./go/evaluation-evidence"
+    },
+    {
+      "id": "security",
+      "disposition": "passed",
+      "evidence": "integration:./go/evaluation-evidence"
+    }
+  ],
+  "tools": [
+    {
+      "id": "artifact-check",
+      "disposition": "passed",
+      "evidence": "report:.pose/reports/2026-09-07-review-evaluation-evidence.md",
+      "rationale": "Executed successfully; details in review report"
+    },
+    {
+      "id": "assess-discover",
+      "component": "cmd",
+      "disposition": "not-used",
+      "evidence": "report:.pose/reports/2026-09-07-review-evaluation-evidence.md",
+      "rationale": "Global discovery covered cmd and internal in the single root Go module"
+    },
+    {
+      "id": "assess-discover",
+      "component": "internal",
+      "disposition": "not-used",
+      "evidence": "report:.pose/reports/2026-09-07-review-evaluation-evidence.md",
+      "rationale": "Global discovery covered cmd and internal in the single root Go module"
+    },
+    {
+      "id": "assess-integrate",
+      "disposition": "passed",
+      "evidence": "integration:./go/evaluation-evidence",
+      "rationale": "Real stdio integration passed; detector inventory limitation is documented"
+    },
+    {
+      "id": "assess-tech-debt",
+      "disposition": "passed",
+      "evidence": "report:.pose/reports/2026-09-07-review-evaluation-evidence.md",
+      "rationale": "Executed successfully; details in review report"
+    },
+    {
+      "id": "closeout-check",
+      "disposition": "deferred",
+      "rationale": "post-review gate"
+    },
+    {
+      "id": "knowledge-check",
+      "disposition": "passed",
+      "evidence": "report:.pose/reports/2026-09-07-review-evaluation-evidence.md",
+      "rationale": "Executed successfully; details in review report"
+    },
+    {
+      "id": "review-check",
+      "disposition": "deferred",
+      "rationale": "post-review gate"
+    },
+    {
+      "id": "suggest-review",
+      "component": "cmd",
+      "disposition": "passed",
+      "evidence": "report:.pose/reports/2026-09-07-review-evaluation-evidence.md",
+      "rationale": "Executed successfully; details in review report"
+    },
+    {
+      "id": "suggest-review",
+      "component": "internal",
+      "disposition": "passed",
+      "evidence": "report:.pose/reports/2026-09-07-review-evaluation-evidence.md",
+      "rationale": "Executed successfully; details in review report"
+    },
+    {
+      "id": "surface-check",
+      "disposition": "passed",
+      "evidence": "integration:./go/evaluation-evidence",
+      "rationale": "One composed target, zero surface findings, current stdio evidence"
+    },
+    {
+      "id": "validate",
+      "disposition": "passed",
+      "evidence": "validation:.pose/results/delivery-validation.json",
+      "rationale": "Full root Go module validation covers cmd and internal: 13 of 13 passed"
+    },
+    {
+      "id": "validate",
+      "component": "cmd",
+      "disposition": "passed",
+      "evidence": "validation:.pose/results/delivery-validation.json",
+      "rationale": "Full root Go module validation covers cmd and internal: 13 of 13 passed"
+    },
+    {
+      "id": "validate",
+      "component": "internal",
+      "disposition": "passed",
+      "evidence": "validation:.pose/results/delivery-validation.json",
+      "rationale": "Full root Go module validation covers cmd and internal: 13 of 13 passed"
+    }
+  ],
+  "evidence_refs": [
+    "integration:./go/evaluation-evidence",
+    "report:.pose/reports/2026-09-07-review-evaluation-evidence.md",
+    "requirement-trace:evaluation-evidence-lineage",
+    "test:TestEvaluationEvidenceOverRealStdio",
+    "validation:.pose/results/delivery-validation.json"
+  ],
+  "findings": [],
+  "attested_at": "2026-09-07T22:17:28Z",
+  "path": ".pose/review-attestations/rva-5b3c0e3eee361d28.json"
+}

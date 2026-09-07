@@ -33,6 +33,14 @@
       "digest": "sha256:a7b986e5c48a058456ce42c84d4e53187999d2136913fa4eabf0e05e2db2e4a1"
     },
     {
+      "spec": "evaluation-evidence-lineage",
+      "category": "security",
+      "breaking": true,
+      "body": "Avaliações verificam a sessão, o passo, o check e a atualidade das evidências\ncitadas antes de registrar resultados. Envie check_id para critérios estruturais\nbaseados em checks e registre observações qualitativas com evidence_record,\ninformando origem e rubrica. Retries já confirmados preservam o resultado original.",
+      "path": "evaluation-evidence-lineage.md",
+      "digest": "sha256:8d260bcb1a10d5a108a06762d0787d8f91971199da4150a902f1dfe07ba44eae"
+    },
+    {
       "spec": "eventstore-idempotency-scope",
       "category": "fixed",
       "breaking": false,
@@ -119,6 +127,14 @@
       "body": "`codinho serve` now supports the full session lifecycle: `session_configure`,\n`session_pause`, `session_resume`, `session_finish` and `granularity_adjust`\njoin `session_start`/`session_get`/`instruction_get`, letting an agent\npause, resume, finish and adjust the instructional depth of a running\nsession with optimistic-concurrency safety and idempotent retries.",
       "path": "session-orchestration-disclosure.md",
       "digest": "sha256:792f2673ede51ce52e04a7ab9e3f457db66f134affa998f84bc0d9eca86616d7"
+    },
+    {
+      "spec": "session-recovery-version-pinning",
+      "category": "fixed",
+      "breaking": false,
+      "body": "Retome sessões após reiniciar o servidor, preservando conteúdo, políticas,\nprogresso, baselines e repetições de requests já confirmados. Atualizações do\ncatálogo não alteram sessões existentes; históricos sem dados suficientes\nrecebem um diagnóstico explícito de recuperação indisponível.",
+      "path": "session-recovery-version-pinning.md",
+      "digest": "sha256:56189f9c528e1dc821e816f2caf555880fab1cb89a4392f35dc641973f808a49"
     },
     {
       "spec": "tutor-skill-host-integration",

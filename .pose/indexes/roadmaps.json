@@ -69,6 +69,7 @@
           ],
           "specs": [
             "session-recovery-version-pinning",
+            "evaluation-evidence-lineage",
             "session-tree-progression"
           ]
         },

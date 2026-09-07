@@ -424,15 +424,9 @@ as degraded and block functional expansion until it recovers.
 <!-- The operational backlog of POSE IN THIS repository (not product
      features). Each item with an owner and a done criterion. -->
 
-1. Create the governed V1 roadmap and its first eligible implementation spec.
-   Done when both pass their strict readiness checks.
-2. Re-run `pose init --wizard --yes` after creating `go.mod`, install the Go
-   backend rule extension, and register the module in
-   `.pose/indexes/module-metadata.json`.
-3. Add strict `pose check` and `pose validate` CI gates after the first
-   executable module exists.
-4. Activate knowledge governance only when the first reusable engineering
-   decision or cross-execution handoff is created.
+1. Fill `.pose/indexes/module-metadata.json` for critical modules.
+2. Enable strict `check`/`validate` in CI (see §7).
+3. Run knowledge housekeeping on a recurring cycle.
 
 ---
 

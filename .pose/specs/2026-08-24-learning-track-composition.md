@@ -4,7 +4,7 @@ status: draft
 created_at: 2026-08-24
 completed_at:
 supersedes:
-depends_on: curriculum-graph-path-recommendation, session-orchestration-disclosure, mastery-review-scheduling
+depends_on: curriculum-graph-path-recommendation, session-orchestration-disclosure, mastery-review-scheduling, session-recovery-version-pinning, session-tree-progression, catalog-publication-integrity
 priority: 65
 components: curriculum, recommendations, sessions, mcp-server
 delivers:
@@ -41,8 +41,8 @@ escolher.
 
 ### Non-goals
 - Gerar conteúdo novo (isso é `agent-authored-catalog-drafts`).
-- Mudar o formato de autoria de trilha (`Track`/relations) já validado por
-  `curriculum-graph-path-recommendation`.
+- Substituir o grafo/relações de `curriculum-graph-path-recommendation`;
+  estender membership de Track somente conforme R7 e revisão do ADR.
 
 ## 2. Requirements
 
@@ -62,6 +62,10 @@ escolher.
 - R5: `catalog_search` e `learning_path_recommend` documentam os três modos
   (trilha completa, N-assuntos, desafio único) na resposta, sem esconder
   nenhum atrás de heurística implícita.
+- R6: Persistir a sequência aceita, versões e cursor da trilha; retomar após restart e update de packs sem recompor silenciosamente o caminho.
+- R7: Definir membership ordenada de Track, hoje limitada a ID/Title/Themes, e um identificador estável para aceitar a composição ad hoc; rejeitar seletores conflitantes, IDs desconhecidos e conjuntos vazios/excessivos.
+- R8: Retornar assuntos cobertos e ausentes mesmo quando a união de todos os candidatos não cobre o pedido; nunca rotular uma trilha incompleta como cobertura total.
+- R9: Preservar os campos MCP singulares existentes com tradução para conjuntos; rejeitar combinações ambíguas. Atualizar também a CLI, que usa Query.Theme, e a skill.
 
 ### Non-functional
 - Consultas multi-assunto mantêm o mesmo orçamento de latência de
@@ -95,6 +99,14 @@ escolher.
 - modified: internal/mcpserver/session_tools.go
 - modified: internal/application/recommendation.go
 - modified: internal/application/catalog.go
+- modified: internal/cli/catalog.go
+- modified: internal/curriculum/graph.go
+- modified: internal/mcpserver/catalog_tools.go
+- modified: internal/mcpserver/recommendation_tools.go
+- modified: internal/learning/session.go
+- modified: schemas/catalog.schema.json
+- modified: internal/mcpserver/recommendation_contract_test.go
+- modified: .agents/skills/codinho/SKILL.md
 
 ### Delivery targets
 Nenhum novo; amplia o contrato MCP V1 já entregue por `mcp-stdio-foundation`.
@@ -105,8 +117,10 @@ Nenhum novo; amplia o contrato MCP V1 já entregue por `mcp-stdio-foundation`.
   `competency_ids` (conjunto) e campo `coverage` na resposta.
 
 ### Data/storage changes
-Nenhuma no formato persistido de packs; a trilha ad hoc de R4 não é
-autorada, é calculada em memória a cada chamada.
+A recomendação permanece consultiva e pode ser calculada em memória. Após
+aceite explícito, a sessão persiste a sequência e suas versões. Definir
+membership de Track e atualizar o ADR existente antes de implementar; o
+modelo atual contém apenas ID/Title/Themes e não codifica a sequência.
 
 ### Technical risks
 - Composição de trilha pode produzir sequências longas/pedagogicamente
@@ -115,8 +129,8 @@ autorada, é calculada em memória a cada chamada.
 ## 4. Tasks
 
 ### Planning
-- [ ] Confirmar que nenhum consumidor atual depende do formato singular de
-      `Query.Theme`/`Objective.ThemeID` fora de `internal/mcpserver`.
+- [ ] Mapear e migrar todos os consumidores singulares, incluindo
+      internal/cli/catalog.go, preservando o contrato MCP externo.
 
 ### Implementation
 - [ ] Trocar `Query.Theme`/`Query.Competency` por `ThemeIDs`/`CompetencyIDs`.
@@ -171,10 +185,11 @@ cobrindo os três valores de `coverage` e uma trilha autorada completa.
 Nenhuma implementação ainda; spec criada para sequenciar o trabalho.
 
 ### Requirement trace
-- Mapear R1–R5 a testes de cobertura e composição.
+- Mapear R1–R9 a testes de cobertura, composição, compatibilidade e retomada.
 
 ### Known gaps
-- Nenhum até a implementação começar.
+- A auditoria de 2026-09-07 identificou lacunas de membership, persistência,
+  cobertura impossível e consumidor CLI; R6–R9 tornam esses casos explícitos.
 
 ## 7. Final Report
 
@@ -192,4 +207,4 @@ Nenhum; spec draft aguardando implementação.
 - Nenhum adicional além do já descrito em Technical risks.
 
 ### Follow-ups
-- [open]
+- [covered: v1-integrated-acceptance] Provar seleção, execução e retomada de trilha autorada e composta nos dois hosts.

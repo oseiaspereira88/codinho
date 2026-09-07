@@ -4,7 +4,7 @@ status: draft
 created_at: 2026-08-22
 completed_at:
 supersedes:
-depends_on: architecture-decision-baseline, go-runtime-foundation, learning-domain-model, catalog-schema-loader, local-event-store, mcp-stdio-foundation, session-orchestration-disclosure, assistance-hints-detours, feedback-evaluation-progression, workspace-observation-baselines, safe-check-executor, mastery-review-scheduling, curriculum-graph-path-recommendation, tutor-skill-host-integration, administrative-cli-fixtures, learning-practice-debug-modes, interview-mode, catalog-authoring-quality, go-foundations-packs, go-backend-packs, go-production-architecture-packs, go-interviews-pack, security-privacy-hardening, reliability-observability-compatibility, installation-documentation-ci
+depends_on: architecture-decision-baseline, go-runtime-foundation, learning-domain-model, catalog-schema-loader, local-event-store, mcp-stdio-foundation, session-orchestration-disclosure, assistance-hints-detours, feedback-evaluation-progression, workspace-observation-baselines, safe-check-executor, mastery-review-scheduling, curriculum-graph-path-recommendation, tutor-skill-host-integration, administrative-cli-fixtures, learning-practice-debug-modes, interview-mode, catalog-authoring-quality, go-foundations-packs, go-backend-packs, go-production-architecture-packs, go-interviews-pack, security-privacy-hardening, reliability-observability-compatibility, installation-documentation-ci, eventstore-idempotency-scope, learning-track-composition, agent-authored-catalog-drafts, session-recovery-version-pinning, session-tree-progression, catalog-publication-integrity, concept-content-authoring, v1-delivery-ci-assurance
 priority: 250
 components: integration, acceptance
 delivers:
@@ -43,8 +43,12 @@ Evitar declarar conclusão com componentes isolados, conteúdo contado ou docume
 - R9: Executar instalação limpa, recuperação, compatibilidade e documentação.
 - R10: Reconciliar todos os critérios de aceite e Definition of Done da seção 30 e 37 de PROJECT.md.
 - R11: Produzir relatório de piloto com sessões reais e limitações, sem dados pessoais.
-- R12: Preparar bundle de revisão, attestation independente, surface checks, roadmap check e plano de release.
+- R12: Preparar bundle de revisão, attestation independente, surface checks e plano de release; executar roll-up terminal do roadmap após fechar esta spec e seus milestones, sem depender do próprio status done para produzir a evidência de aceite.
 - R13: Comprovar em E2E a separação operacional entre feedback/avaliação (feedback-evaluation-progression) e execução de checks/observação de workspace (safe-check-executor, workspace-observation-baselines) — nenhuma avaliação deve depender de execução implícita de código do aluno, e nenhum check deve concluir ou avançar um passo por conta própria.
+- R14: Exercitar trilha autorada, seleção multi-assunto, cobertura incompleta e trilha composta aceita, incluindo retomada por outro processo e progressão entre todas as camadas.
+- R15: Exercitar geração deliberada, submissão idempotente em quarentena, sessão consentida sobre draft, promoção humana e isolamento de mastery antes/depois da promoção.
+- R16: Provar que itens sem publicação, variantes duplicadas, checks não executados e tipos fora da distribuição não satisfazem os gates editoriais da V1.
+- R17: Demonstrar consulta de conteúdo canônico, exemplos fora da solução e ausência de mutação em desvio conceitual; verificar os follow-ups de assistência, calibração e revisão de segurança na matriz de aceite.
 
 ### Non-functional
 - Todas as evidências devem ser atuais, reproduzíveis e ligadas a commit.
@@ -138,10 +142,15 @@ Executar matriz bidirecional requisito versus evidência em candidato imutável,
 - Nenhum aceite executado e nenhuma prontidão declarada.
 
 ### Requirement trace
-- Mapear R1–R13 e cada critério de PROJECT.md a check, test, report, surface e commit.
+- Mapear R1–R17 e cada critério de PROJECT.md a check, test, report, surface e commit.
 
 ### Known gaps
 - Retenção de 30 dias pode exigir janela real; se ausente, a V1 não deve alegar esse resultado.
+- Planejar piloto incremental durante autoria e correções; o aceite final
+  consome a evidência e revalida o candidato. Não adiar toda experimentação
+  pedagógica até terminar os 84 desafios.
+- MacOS é requisito V1 (RNF-005), não mera oportunidade futura; Windows é
+  desejável. Requerer execução real por host/plataforma declarados.
 
 ## 7. Final Report
 

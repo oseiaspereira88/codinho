@@ -21,6 +21,30 @@
       "to": "safe-check-executor"
     },
     {
+      "from": "agent-authored-catalog-drafts",
+      "to": "catalog-authoring-quality"
+    },
+    {
+      "from": "agent-authored-catalog-drafts",
+      "to": "learning-track-composition"
+    },
+    {
+      "from": "agent-authored-catalog-drafts",
+      "to": "tutor-skill-host-integration"
+    },
+    {
+      "from": "agent-authored-catalog-drafts",
+      "to": "catalog-publication-integrity"
+    },
+    {
+      "from": "agent-authored-catalog-drafts",
+      "to": "concept-content-authoring"
+    },
+    {
+      "from": "agent-authored-catalog-drafts",
+      "to": "session-recovery-version-pinning"
+    },
+    {
       "from": "assistance-hints-detours",
       "to": "session-orchestration-disclosure"
     },
@@ -41,12 +65,32 @@
       "to": "curriculum-graph-path-recommendation"
     },
     {
+      "from": "catalog-publication-integrity",
+      "to": "catalog-authoring-quality"
+    },
+    {
+      "from": "catalog-publication-integrity",
+      "to": "catalog-schema-loader"
+    },
+    {
+      "from": "catalog-publication-integrity",
+      "to": "safe-check-executor"
+    },
+    {
       "from": "catalog-schema-loader",
       "to": "architecture-decision-baseline"
     },
     {
       "from": "catalog-schema-loader",
       "to": "go-runtime-foundation"
+    },
+    {
+      "from": "concept-content-authoring",
+      "to": "assistance-hints-detours"
+    },
+    {
+      "from": "concept-content-authoring",
+      "to": "catalog-authoring-quality"
     },
     {
       "from": "curriculum-graph-path-recommendation",
@@ -189,6 +233,30 @@
       "to": "tutor-skill-host-integration"
     },
     {
+      "from": "learning-track-composition",
+      "to": "curriculum-graph-path-recommendation"
+    },
+    {
+      "from": "learning-track-composition",
+      "to": "session-orchestration-disclosure"
+    },
+    {
+      "from": "learning-track-composition",
+      "to": "mastery-review-scheduling"
+    },
+    {
+      "from": "learning-track-composition",
+      "to": "session-recovery-version-pinning"
+    },
+    {
+      "from": "learning-track-composition",
+      "to": "session-tree-progression"
+    },
+    {
+      "from": "learning-track-composition",
+      "to": "catalog-publication-integrity"
+    },
+    {
       "from": "local-event-store",
       "to": "architecture-decision-baseline"
     },
@@ -297,6 +365,30 @@
       "to": "mcp-stdio-foundation"
     },
     {
+      "from": "session-recovery-version-pinning",
+      "to": "eventstore-idempotency-scope"
+    },
+    {
+      "from": "session-recovery-version-pinning",
+      "to": "session-orchestration-disclosure"
+    },
+    {
+      "from": "session-recovery-version-pinning",
+      "to": "workspace-observation-baselines"
+    },
+    {
+      "from": "session-recovery-version-pinning",
+      "to": "reliability-observability-compatibility"
+    },
+    {
+      "from": "session-tree-progression",
+      "to": "feedback-evaluation-progression"
+    },
+    {
+      "from": "session-tree-progression",
+      "to": "learning-practice-debug-modes"
+    },
+    {
       "from": "tutor-skill-host-integration",
       "to": "mcp-stdio-foundation"
     },
@@ -319,6 +411,14 @@
     {
       "from": "tutor-skill-host-integration",
       "to": "safe-check-executor"
+    },
+    {
+      "from": "v1-delivery-ci-assurance",
+      "to": "installation-documentation-ci"
+    },
+    {
+      "from": "v1-delivery-ci-assurance",
+      "to": "reliability-observability-compatibility"
     },
     {
       "from": "v1-integrated-acceptance",
@@ -421,6 +521,38 @@
       "to": "installation-documentation-ci"
     },
     {
+      "from": "v1-integrated-acceptance",
+      "to": "eventstore-idempotency-scope"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "learning-track-composition"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "agent-authored-catalog-drafts"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "session-recovery-version-pinning"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "session-tree-progression"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "catalog-publication-integrity"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "concept-content-authoring"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "v1-delivery-ci-assurance"
+    },
+    {
       "from": "workspace-observation-baselines",
       "to": "go-runtime-foundation"
     },
@@ -447,6 +579,19 @@
       "priority": 140,
       "status": "done"
     },
+    "agent-authored-catalog-drafts": {
+      "depends_on": [
+        "catalog-authoring-quality",
+        "learning-track-composition",
+        "tutor-skill-host-integration",
+        "catalog-publication-integrity",
+        "concept-content-authoring",
+        "session-recovery-version-pinning"
+      ],
+      "path": ".pose/specs/2026-08-24-agent-authored-catalog-drafts.md",
+      "priority": 75,
+      "status": "draft"
+    },
     "architecture-decision-baseline": {
       "depends_on": null,
       "path": ".pose/specs/2026-08-22-architecture-decision-baseline.md",
@@ -472,6 +617,16 @@
       "priority": 170,
       "status": "done"
     },
+    "catalog-publication-integrity": {
+      "depends_on": [
+        "catalog-authoring-quality",
+        "catalog-schema-loader",
+        "safe-check-executor"
+      ],
+      "path": ".pose/specs/2026-09-07-catalog-publication-integrity.md",
+      "priority": 30,
+      "status": "draft"
+    },
     "catalog-schema-loader": {
       "depends_on": [
         "architecture-decision-baseline",
@@ -480,6 +635,15 @@
       "path": ".pose/specs/2026-08-22-catalog-schema-loader.md",
       "priority": 30,
       "status": "done"
+    },
+    "concept-content-authoring": {
+      "depends_on": [
+        "assistance-hints-detours",
+        "catalog-authoring-quality"
+      ],
+      "path": ".pose/specs/2026-09-07-concept-content-authoring.md",
+      "priority": 40,
+      "status": "draft"
     },
     "curriculum-graph-path-recommendation": {
       "depends_on": [
@@ -496,7 +660,7 @@
       ],
       "path": ".pose/specs/2026-08-23-eventstore-idempotency-scope.md",
       "priority": 15,
-      "status": "draft"
+      "status": "done"
     },
     "feedback-evaluation-progression": {
       "depends_on": [
@@ -525,7 +689,7 @@
       ],
       "path": ".pose/specs/2026-08-22-go-foundations-packs.md",
       "priority": 180,
-      "status": "draft"
+      "status": "in-progress"
     },
     "go-interviews-pack": {
       "depends_on": [
@@ -566,7 +730,7 @@
       ],
       "path": ".pose/specs/2026-08-22-installation-documentation-ci.md",
       "priority": 240,
-      "status": "in-progress"
+      "status": "done"
     },
     "interview-mode": {
       "depends_on": [
@@ -599,6 +763,19 @@
       "path": ".pose/specs/2026-08-22-learning-practice-debug-modes.md",
       "priority": 150,
       "status": "done"
+    },
+    "learning-track-composition": {
+      "depends_on": [
+        "curriculum-graph-path-recommendation",
+        "session-orchestration-disclosure",
+        "mastery-review-scheduling",
+        "session-recovery-version-pinning",
+        "session-tree-progression",
+        "catalog-publication-integrity"
+      ],
+      "path": ".pose/specs/2026-08-24-learning-track-composition.md",
+      "priority": 65,
+      "status": "draft"
     },
     "local-event-store": {
       "depends_on": [
@@ -676,6 +853,26 @@
       "priority": 60,
       "status": "done"
     },
+    "session-recovery-version-pinning": {
+      "depends_on": [
+        "eventstore-idempotency-scope",
+        "session-orchestration-disclosure",
+        "workspace-observation-baselines",
+        "reliability-observability-compatibility"
+      ],
+      "path": ".pose/specs/2026-09-07-session-recovery-version-pinning.md",
+      "priority": 10,
+      "status": "draft"
+    },
+    "session-tree-progression": {
+      "depends_on": [
+        "feedback-evaluation-progression",
+        "learning-practice-debug-modes"
+      ],
+      "path": ".pose/specs/2026-09-07-session-tree-progression.md",
+      "priority": 20,
+      "status": "draft"
+    },
     "tutor-skill-host-integration": {
       "depends_on": [
         "mcp-stdio-foundation",
@@ -688,6 +885,15 @@
       "path": ".pose/specs/2026-08-22-tutor-skill-host-integration.md",
       "priority": 130,
       "status": "done"
+    },
+    "v1-delivery-ci-assurance": {
+      "depends_on": [
+        "installation-documentation-ci",
+        "reliability-observability-compatibility"
+      ],
+      "path": ".pose/specs/2026-09-07-v1-delivery-ci-assurance.md",
+      "priority": 35,
+      "status": "draft"
     },
     "v1-integrated-acceptance": {
       "depends_on": [
@@ -715,7 +921,15 @@
         "go-interviews-pack",
         "security-privacy-hardening",
         "reliability-observability-compatibility",
-        "installation-documentation-ci"
+        "installation-documentation-ci",
+        "eventstore-idempotency-scope",
+        "learning-track-composition",
+        "agent-authored-catalog-drafts",
+        "session-recovery-version-pinning",
+        "session-tree-progression",
+        "catalog-publication-integrity",
+        "concept-content-authoring",
+        "v1-delivery-ci-assurance"
       ],
       "path": ".pose/specs/2026-08-22-v1-integrated-acceptance.md",
       "priority": 250,

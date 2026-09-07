@@ -56,10 +56,11 @@ Permitir prática realista de live coding e discussão técnica sem associação
 ## 3. Technical Plan
 
 ### Affected areas
-- packs/go-interviews/, testdata/packs/interviews/, docs/catalog/
+- packs/go-interviews.yaml, testdata/packs/interviews/, docs/catalog/
 
 ### Artifacts
-- created: packs/go-interviews/
+- modified: packs/manifest.yaml
+- created: packs/go-interviews.yaml
 - created: testdata/packs/interviews/
 - created: docs/catalog/go-interviews.md
 - created: docs/catalog/interview-playtest-report.md
@@ -112,7 +113,7 @@ Combinar validação de catálogo, leak tests, checks e playtests cronometrados.
 
 ### Deterministic checks
 - Test: checks das quatro simulações e variantes.
-- Lint: codinho catalog validate packs/go-interviews
+- Lint: go run ./cmd/codinho catalog validate --json (executar na raiz; catálogo resolvido pelo manifest).
 - Typecheck: go vet ./...
 - Build: go build ./cmd/codinho
 - Security / Contract: disclosure tests, privacy review e synthetic-data scan.

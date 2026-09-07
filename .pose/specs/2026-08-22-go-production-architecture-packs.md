@@ -57,11 +57,12 @@ Praticar decisões seniores, investigação, operabilidade e evolução de siste
 ## 3. Technical Plan
 
 ### Affected areas
-- packs/go-production/, packs/go-architecture-debugging/
+- packs/go-production.yaml, packs/go-architecture-debugging.yaml
 
 ### Artifacts
-- created: packs/go-production/
-- created: packs/go-architecture-debugging/
+- modified: packs/manifest.yaml
+- created: packs/go-production.yaml
+- created: packs/go-architecture-debugging.yaml
 - created: testdata/packs/production/
 - created: docs/catalog/go-production-architecture.md
 
@@ -113,7 +114,7 @@ Combinar checks determinísticos, rubricas, fixtures de incidente e playtest ind
 
 ### Deterministic checks
 - Test: checks de todas as fixtures, race detector e benchmarks controlados.
-- Lint: codinho catalog validate packs/go-production packs/go-architecture-debugging
+- Lint: go run ./cmd/codinho catalog validate --json (executar na raiz; catálogo resolvido pelo manifest).
 - Typecheck: go vet ./...
 - Build: go build ./cmd/codinho
 - Security / Contract: threat cases, compatibility fixtures e secret scan.

@@ -233,4 +233,4 @@ troubleshooting.
 
 ### Follow-ups
 - [covered: installation-documentation-ci] Automatizar a matriz de compatibilidade.
-- [open] Executar a suíte real em macOS e Windows quando houver acesso a essas máquinas/CI.
+- [open] Executar a suíte real em macOS, obrigatório na V1; Windows desejável, após evidência. Encaminhamento em v1-delivery-ci-assurance, complementar ao smoke-install. (owner:@oseiaspereira crit:high review:2026-09-21)

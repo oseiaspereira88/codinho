@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "input_digest": "sha256:66751c41d64032c35a3ec09d0a49a09b4a485f0731590a005710c3e54ee43f3c",
-  "provenance_digest": "sha256:c1994529cc6be2a8f8968852dcdd39a1eb69aa7cbece3b0ce4a90e88d00378b1",
+  "input_digest": "sha256:6fbe73e8b4d68c70494fe32fc34c3ff1ae577f21012f4942a95e824c69eb7e65",
+  "provenance_digest": "sha256:7293f8eaa86cdeb03e3c517efee52cc3aa81f0a9f34de8846ece55db123ad918",
   "nodes": [
     {
       "id": "artifact:.agents/skills/codinho/SKILL.md",
@@ -403,6 +403,34 @@
       }
     },
     {
+      "id": "artifact:.pose/knowledge/2026-08-24-note-agent-batch-review-pattern.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/knowledge/2026-08-24-note-agent-batch-review-pattern.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/policy/artifacts.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/policy/artifacts.json"
+      }
+    },
+    {
+      "id": "artifact:.pose/policy/delivery.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/policy/delivery.json"
+      }
+    },
+    {
+      "id": "artifact:.pose/policy/docs.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/policy/docs.json"
+      }
+    },
+    {
       "id": "artifact:.pose/reports/2026-08-22-standard-fundacao-go-executavel-do-ailearn.md",
       "type": "artifact",
       "attributes": {
@@ -526,6 +554,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/review-attestations/rva-2fd79b1e333d66d8.json"
+      }
+    },
+    {
+      "id": "artifact:.pose/review-attestations/rva-33f07e7fd9579f5f.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-attestations/rva-33f07e7fd9579f5f.json"
       }
     },
     {
@@ -711,6 +746,13 @@
       }
     },
     {
+      "id": "artifact:.pose/review-bundles/rvb-73bda6d1e470fa22.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-bundles/rvb-73bda6d1e470fa22.json"
+      }
+    },
+    {
       "id": "artifact:.pose/review-bundles/rvb-78fd6f4bac4b7492.json",
       "type": "artifact",
       "attributes": {
@@ -834,6 +876,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/specs/2026-08-22-feedback-evaluation-progression.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/specs/2026-08-22-go-foundations-packs.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/specs/2026-08-22-go-foundations-packs.md"
       }
     },
     {
@@ -1033,6 +1082,13 @@
       }
     },
     {
+      "id": "artifact:cmd/codinho/recovery_integration_test.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "cmd/codinho/recovery_integration_test.go"
+      }
+    },
+    {
       "id": "artifact:cmd/codinho/reliability_test.go",
       "type": "artifact",
       "attributes": {
@@ -1065,6 +1121,13 @@
       "type": "artifact",
       "attributes": {
         "path": "docs/acceptance/v1-requirement-matrix.md"
+      }
+    },
+    {
+      "id": "artifact:docs/agent-review-workflow.md",
+      "type": "artifact",
+      "attributes": {
+        "path": "docs/agent-review-workflow.md"
       }
     },
     {
@@ -1621,6 +1684,13 @@
       }
     },
     {
+      "id": "artifact:internal/curriculum/schema_contract_test.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/curriculum/schema_contract_test.go"
+      }
+    },
+    {
       "id": "artifact:internal/curriculum/search.go",
       "type": "artifact",
       "attributes": {
@@ -2055,6 +2125,13 @@
       }
     },
     {
+      "id": "artifact:internal/mcpserver/content_draft_contract_test.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/mcpserver/content_draft_contract_test.go"
+      }
+    },
+    {
       "id": "artifact:internal/mcpserver/content_draft_tools.go",
       "type": "artifact",
       "attributes": {
@@ -2314,6 +2391,20 @@
       }
     },
     {
+      "id": "artifact:internal/session/recovery.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/session/recovery.go"
+      }
+    },
+    {
+      "id": "artifact:internal/session/recovery_test.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/session/recovery_test.go"
+      }
+    },
+    {
       "id": "artifact:internal/session/service.go",
       "type": "artifact",
       "attributes": {
@@ -2391,38 +2482,38 @@
       }
     },
     {
-      "id": "artifact:packs/go-architecture-debugging",
+      "id": "artifact:packs/go-architecture-debugging.yaml",
       "type": "artifact",
       "attributes": {
-        "path": "packs/go-architecture-debugging"
+        "path": "packs/go-architecture-debugging.yaml"
       }
     },
     {
-      "id": "artifact:packs/go-concurrency-context",
+      "id": "artifact:packs/go-concurrency-context.yaml",
       "type": "artifact",
       "attributes": {
-        "path": "packs/go-concurrency-context"
+        "path": "packs/go-concurrency-context.yaml"
       }
     },
     {
-      "id": "artifact:packs/go-core",
+      "id": "artifact:packs/go-core.yaml",
       "type": "artifact",
       "attributes": {
-        "path": "packs/go-core"
+        "path": "packs/go-core.yaml"
       }
     },
     {
-      "id": "artifact:packs/go-data-text",
+      "id": "artifact:packs/go-data-text.yaml",
       "type": "artifact",
       "attributes": {
-        "path": "packs/go-data-text"
+        "path": "packs/go-data-text.yaml"
       }
     },
     {
-      "id": "artifact:packs/go-database",
+      "id": "artifact:packs/go-database.yaml",
       "type": "artifact",
       "attributes": {
-        "path": "packs/go-database"
+        "path": "packs/go-database.yaml"
       }
     },
     {
@@ -2433,17 +2524,10 @@
       }
     },
     {
-      "id": "artifact:packs/go-errors",
+      "id": "artifact:packs/go-errors.yaml",
       "type": "artifact",
       "attributes": {
-        "path": "packs/go-errors"
-      }
-    },
-    {
-      "id": "artifact:packs/go-first-steps",
-      "type": "artifact",
-      "attributes": {
-        "path": "packs/go-first-steps"
+        "path": "packs/go-errors.yaml"
       }
     },
     {
@@ -2454,45 +2538,45 @@
       }
     },
     {
-      "id": "artifact:packs/go-http",
+      "id": "artifact:packs/go-http.yaml",
       "type": "artifact",
       "attributes": {
-        "path": "packs/go-http"
+        "path": "packs/go-http.yaml"
       }
     },
     {
-      "id": "artifact:packs/go-interviews",
+      "id": "artifact:packs/go-interviews.yaml",
       "type": "artifact",
       "attributes": {
-        "path": "packs/go-interviews"
+        "path": "packs/go-interviews.yaml"
       }
     },
     {
-      "id": "artifact:packs/go-io",
+      "id": "artifact:packs/go-io.yaml",
       "type": "artifact",
       "attributes": {
-        "path": "packs/go-io"
+        "path": "packs/go-io.yaml"
       }
     },
     {
-      "id": "artifact:packs/go-production",
+      "id": "artifact:packs/go-production.yaml",
       "type": "artifact",
       "attributes": {
-        "path": "packs/go-production"
+        "path": "packs/go-production.yaml"
       }
     },
     {
-      "id": "artifact:packs/go-testing",
+      "id": "artifact:packs/go-testing.yaml",
       "type": "artifact",
       "attributes": {
-        "path": "packs/go-testing"
+        "path": "packs/go-testing.yaml"
       }
     },
     {
-      "id": "artifact:packs/go-type-design",
+      "id": "artifact:packs/go-type-design.yaml",
       "type": "artifact",
       "attributes": {
-        "path": "packs/go-type-design"
+        "path": "packs/go-type-design.yaml"
       }
     },
     {
@@ -2524,6 +2608,13 @@
       }
     },
     {
+      "id": "artifact:schemas/event.schema.json",
+      "type": "artifact",
+      "attributes": {
+        "path": "schemas/event.schema.json"
+      }
+    },
+    {
       "id": "artifact:schemas/pack.schema.json",
       "type": "artifact",
       "attributes": {
@@ -2535,6 +2626,20 @@
       "type": "artifact",
       "attributes": {
         "path": "scripts/smoke-install.sh"
+      }
+    },
+    {
+      "id": "artifact:testdata/catalog-quality/concept-content.yaml",
+      "type": "artifact",
+      "attributes": {
+        "path": "testdata/catalog-quality/concept-content.yaml"
+      }
+    },
+    {
+      "id": "artifact:testdata/catalog-quality/distribution.json",
+      "type": "artifact",
+      "attributes": {
+        "path": "testdata/catalog-quality/distribution.json"
       }
     },
     {
@@ -2605,13 +2710,6 @@
       "type": "artifact",
       "attributes": {
         "path": "testdata/packs/backend"
-      }
-    },
-    {
-      "id": "artifact:testdata/packs/foundations",
-      "type": "artifact",
-      "attributes": {
-        "path": "testdata/packs/foundations"
       }
     },
     {
@@ -2806,6 +2904,14 @@
       }
     },
     {
+      "id": "change-set:cs-9a9e6414dc45",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:953ca06f516171ba2b1295050a6bccaae1e15766c610dd0816f24c17db3f93f5",
+        "selector": "trailers:go-foundations-packs"
+      }
+    },
+    {
       "id": "change-set:cs-9e3441c5b776",
       "type": "change-set",
       "attributes": {
@@ -2838,10 +2944,10 @@
       }
     },
     {
-      "id": "change-set:cs-adf8f4a9e341",
+      "id": "change-set:cs-bda0527a0177",
       "type": "change-set",
       "attributes": {
-        "diff_digest": "sha256:92b5eedb51ee20b06064ff4dcea941c87bac0c27c27fb2a3a5fb86446cf4690f",
+        "diff_digest": "sha256:68e8a3cee7b2258fcac74c866673137d4c2cd9a66c652d2ccfba3eadb25ba05e",
         "selector": "trailers:eventstore-idempotency-scope"
       }
     },
@@ -2854,10 +2960,42 @@
       }
     },
     {
+      "id": "delivery:capability:canonical-concept-content",
+      "type": "capability",
+      "attributes": {
+        "module": "cmd/codinho",
+        "profile": "composed-capability"
+      }
+    },
+    {
+      "id": "delivery:capability:catalog-publication-integrity",
+      "type": "capability",
+      "attributes": {
+        "module": "cmd/codinho",
+        "profile": "composed-capability"
+      }
+    },
+    {
       "id": "delivery:capability:codinho-tutor",
       "type": "capability",
       "attributes": {
         "module": ".agents/skills/codinho",
+        "profile": "composed-capability"
+      }
+    },
+    {
+      "id": "delivery:capability:session-recovery",
+      "type": "capability",
+      "attributes": {
+        "module": "cmd/codinho",
+        "profile": "composed-capability"
+      }
+    },
+    {
+      "id": "delivery:capability:session-tree-progression",
+      "type": "capability",
+      "attributes": {
+        "module": "cmd/codinho",
         "profile": "composed-capability"
       }
     },
@@ -2871,6 +3009,14 @@
     },
     {
       "id": "delivery:governance:codinho-ci",
+      "type": "governance",
+      "attributes": {
+        "module": ".github/workflows",
+        "profile": "release-governance"
+      }
+    },
+    {
+      "id": "delivery:governance:v1-delivery-ci",
       "type": "governance",
       "attributes": {
         "module": ".github/workflows",
@@ -2915,6 +3061,62 @@
       }
     },
     {
+      "id": "roadmap-criterion:codinho-v1/C1",
+      "type": "roadmap-criterion",
+      "attributes": {
+        "passed": "false"
+      }
+    },
+    {
+      "id": "roadmap-criterion:codinho-v1/C2",
+      "type": "roadmap-criterion",
+      "attributes": {
+        "passed": "true"
+      }
+    },
+    {
+      "id": "roadmap-criterion:codinho-v1/C3",
+      "type": "roadmap-criterion",
+      "attributes": {
+        "passed": "true"
+      }
+    },
+    {
+      "id": "roadmap-criterion:codinho-v1/C4",
+      "type": "roadmap-criterion",
+      "attributes": {
+        "passed": "false"
+      }
+    },
+    {
+      "id": "roadmap-criterion:codinho-v1/C5",
+      "type": "roadmap-criterion",
+      "attributes": {
+        "passed": "true"
+      }
+    },
+    {
+      "id": "roadmap-criterion:codinho-v1/C6",
+      "type": "roadmap-criterion",
+      "attributes": {
+        "passed": "true"
+      }
+    },
+    {
+      "id": "roadmap-criterion:codinho-v1/C7",
+      "type": "roadmap-criterion",
+      "attributes": {
+        "passed": "false"
+      }
+    },
+    {
+      "id": "roadmap-criterion:codinho-v1/C8",
+      "type": "roadmap-criterion",
+      "attributes": {
+        "passed": "true"
+      }
+    },
+    {
       "id": "spec:administrative-cli-fixtures",
       "type": "spec",
       "attributes": {
@@ -2950,10 +3152,24 @@
       }
     },
     {
+      "id": "spec:catalog-publication-integrity",
+      "type": "spec",
+      "attributes": {
+        "status": "draft"
+      }
+    },
+    {
       "id": "spec:catalog-schema-loader",
       "type": "spec",
       "attributes": {
         "status": "done"
+      }
+    },
+    {
+      "id": "spec:concept-content-authoring",
+      "type": "spec",
+      "attributes": {
+        "status": "draft"
       }
     },
     {
@@ -2988,7 +3204,7 @@
       "id": "spec:go-foundations-packs",
       "type": "spec",
       "attributes": {
-        "status": "draft"
+        "status": "in-progress"
       }
     },
     {
@@ -3097,10 +3313,31 @@
       }
     },
     {
+      "id": "spec:session-recovery-version-pinning",
+      "type": "spec",
+      "attributes": {
+        "status": "draft"
+      }
+    },
+    {
+      "id": "spec:session-tree-progression",
+      "type": "spec",
+      "attributes": {
+        "status": "draft"
+      }
+    },
+    {
       "id": "spec:tutor-skill-host-integration",
       "type": "spec",
       "attributes": {
         "status": "done"
+      }
+    },
+    {
+      "id": "spec:v1-delivery-ci-assurance",
+      "type": "spec",
+      "attributes": {
+        "status": "draft"
       }
     },
     {
@@ -6005,6 +6242,31 @@
       "type": "changes"
     },
     {
+      "from": "change-set:cs-9a9e6414dc45",
+      "to": "artifact:.pose/knowledge/2026-08-24-note-agent-batch-review-pattern.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-9a9e6414dc45",
+      "to": "artifact:.pose/specs/2026-08-22-go-foundations-packs.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-9a9e6414dc45",
+      "to": "artifact:docs/agent-review-workflow.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-9a9e6414dc45",
+      "to": "artifact:docs/content-review-checklist.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-9a9e6414dc45",
+      "to": "artifact:packs/go-first-steps.yaml",
+      "type": "changes"
+    },
+    {
       "from": "change-set:cs-9e3441c5b776",
       "to": "artifact:.pose/assessments/README.md",
       "type": "changes"
@@ -6510,37 +6772,72 @@
       "type": "changes"
     },
     {
-      "from": "change-set:cs-adf8f4a9e341",
+      "from": "change-set:cs-bda0527a0177",
+      "to": "artifact:.pose/assessments/README.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-bda0527a0177",
+      "to": "artifact:.pose/assessments/consolidated.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-bda0527a0177",
+      "to": "artifact:.pose/assessments/root.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-bda0527a0177",
       "to": "artifact:.pose/changelogs/unreleased/eventstore-idempotency-scope.md",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-adf8f4a9e341",
+      "from": "change-set:cs-bda0527a0177",
+      "to": "artifact:.pose/indexes/delivery-integrity.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-bda0527a0177",
+      "to": "artifact:.pose/review-attestations/rva-33f07e7fd9579f5f.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-bda0527a0177",
+      "to": "artifact:.pose/review-bundles/rvb-73bda6d1e470fa22.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-bda0527a0177",
       "to": "artifact:.pose/specs/2026-08-23-eventstore-idempotency-scope.md",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-adf8f4a9e341",
+      "from": "change-set:cs-bda0527a0177",
+      "to": "artifact:.pose/state/components/root.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-bda0527a0177",
       "to": "artifact:.pose/state/history.jsonl",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-adf8f4a9e341",
+      "from": "change-set:cs-bda0527a0177",
       "to": "artifact:.pose/state/project-state.md",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-adf8f4a9e341",
+      "from": "change-set:cs-bda0527a0177",
       "to": "artifact:.pose/state/refresh-log.jsonl",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-adf8f4a9e341",
+      "from": "change-set:cs-bda0527a0177",
       "to": "artifact:internal/eventstore/store.go",
       "type": "changes"
     },
     {
-      "from": "change-set:cs-adf8f4a9e341",
+      "from": "change-set:cs-bda0527a0177",
       "to": "artifact:internal/eventstore/store_test.go",
       "type": "changes"
     },
@@ -6680,6 +6977,16 @@
       "type": "changes"
     },
     {
+      "from": "delivery:capability:canonical-concept-content",
+      "to": "entrypoint:cmd/codinho/main.go",
+      "type": "composes"
+    },
+    {
+      "from": "delivery:capability:catalog-publication-integrity",
+      "to": "entrypoint:cmd/codinho/main.go",
+      "type": "composes"
+    },
+    {
       "from": "delivery:capability:codinho-tutor",
       "to": "entrypoint:.agents/skills/codinho/SKILL.md",
       "type": "composes"
@@ -6708,6 +7015,16 @@
       "from": "delivery:capability:codinho-tutor",
       "to": "validation-result:./go/tutor-skill-routing",
       "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:session-recovery",
+      "to": "entrypoint:cmd/codinho/main.go",
+      "type": "composes"
+    },
+    {
+      "from": "delivery:capability:session-tree-progression",
+      "to": "entrypoint:cmd/codinho/main.go",
+      "type": "composes"
     },
     {
       "from": "delivery:contract:codinho-mcp-v1",
@@ -6768,6 +7085,11 @@
       "from": "delivery:governance:codinho-ci",
       "to": "validation-result:./go/tutor-skill-routing",
       "type": "validated-by"
+    },
+    {
+      "from": "delivery:governance:v1-delivery-ci",
+      "to": "entrypoint:.github/workflows/ci.yml",
+      "type": "composes"
     },
     {
       "from": "delivery:infrastructure:codinho-local-distribution",
@@ -6915,6 +7237,106 @@
       "type": "validated-by"
     },
     {
+      "from": "roadmap-criterion:codinho-v1/C1",
+      "to": "delivery:surface:codinho-cli",
+      "type": "gates"
+    },
+    {
+      "from": "roadmap-criterion:codinho-v1/C1",
+      "to": "validation-check:cli-e2e",
+      "type": "gates"
+    },
+    {
+      "from": "roadmap-criterion:codinho-v1/C1",
+      "to": "validation-check:cli-reachability",
+      "type": "gates"
+    },
+    {
+      "from": "roadmap-criterion:codinho-v1/C2",
+      "to": "delivery:capability:session-recovery",
+      "type": "gates"
+    },
+    {
+      "from": "roadmap-criterion:codinho-v1/C2",
+      "to": "delivery:capability:session-tree-progression",
+      "type": "gates"
+    },
+    {
+      "from": "roadmap-criterion:codinho-v1/C3",
+      "to": "delivery:capability:catalog-publication-integrity",
+      "type": "gates"
+    },
+    {
+      "from": "roadmap-criterion:codinho-v1/C3",
+      "to": "manual-review:docs/acceptance/v1-requirement-matrix.md",
+      "type": "gates"
+    },
+    {
+      "from": "roadmap-criterion:codinho-v1/C4",
+      "to": "delivery:capability:canonical-concept-content",
+      "type": "gates"
+    },
+    {
+      "from": "roadmap-criterion:codinho-v1/C4",
+      "to": "delivery:capability:codinho-tutor",
+      "type": "gates"
+    },
+    {
+      "from": "roadmap-criterion:codinho-v1/C4",
+      "to": "validation-check:tutor-skill-routing",
+      "type": "gates"
+    },
+    {
+      "from": "roadmap-criterion:codinho-v1/C5",
+      "to": "manual-review:docs/acceptance/v1-pilot-report.md",
+      "type": "gates"
+    },
+    {
+      "from": "roadmap-criterion:codinho-v1/C6",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "gates"
+    },
+    {
+      "from": "roadmap-criterion:codinho-v1/C6",
+      "to": "manual-review:docs/acceptance/v1-release-readiness.md",
+      "type": "gates"
+    },
+    {
+      "from": "roadmap-criterion:codinho-v1/C7",
+      "to": "validation-check:mcp-contract",
+      "type": "gates"
+    },
+    {
+      "from": "roadmap-criterion:codinho-v1/C7",
+      "to": "validation-check:smoke-install",
+      "type": "gates"
+    },
+    {
+      "from": "roadmap-criterion:codinho-v1/C7",
+      "to": "validation-check:startup-budget",
+      "type": "gates"
+    },
+    {
+      "from": "roadmap-criterion:codinho-v1/C7",
+      "to": "validation-check:stdout-purity",
+      "type": "gates"
+    },
+    {
+      "from": "roadmap-criterion:codinho-v1/C8",
+      "to": "manual-review:docs/acceptance/v1-pilot-report.md",
+      "type": "gates"
+    },
+    {
+      "from": "roadmap-criterion:codinho-v1/C8",
+      "to": "manual-review:docs/acceptance/v1-release-readiness.md",
+      "type": "gates"
+    },
+    {
+      "from": "roadmap-criterion:codinho-v1/C8",
+      "to": "manual-review:docs/acceptance/v1-requirement-matrix.md",
+      "type": "gates"
+    },
+    {
       "from": "spec:administrative-cli-fixtures",
       "to": "artifact:.pose/indexes/validation-matrix.json",
       "type": "declares"
@@ -7011,12 +7433,27 @@
     },
     {
       "from": "spec:agent-authored-catalog-drafts",
+      "to": "artifact:internal/application/progress.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:agent-authored-catalog-drafts",
+      "to": "artifact:internal/cli/privacy.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:agent-authored-catalog-drafts",
       "to": "artifact:internal/curriculum/loader.go",
       "type": "declares"
     },
     {
       "from": "spec:agent-authored-catalog-drafts",
       "to": "artifact:internal/curriculum/model.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:agent-authored-catalog-drafts",
+      "to": "artifact:internal/eventstore/event.go",
       "type": "declares"
     },
     {
@@ -7031,12 +7468,27 @@
     },
     {
       "from": "spec:agent-authored-catalog-drafts",
+      "to": "artifact:internal/mcpserver/content_draft_contract_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:agent-authored-catalog-drafts",
       "to": "artifact:internal/mcpserver/content_draft_tools.go",
       "type": "declares"
     },
     {
       "from": "spec:agent-authored-catalog-drafts",
+      "to": "artifact:internal/security/policy.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:agent-authored-catalog-drafts",
       "to": "artifact:internal/session/service.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:agent-authored-catalog-drafts",
+      "to": "artifact:schemas/event.schema.json",
       "type": "declares"
     },
     {
@@ -7280,6 +7732,81 @@
       "type": "observed-by"
     },
     {
+      "from": "spec:catalog-publication-integrity",
+      "to": "artifact:.pose/indexes/validation-matrix.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-publication-integrity",
+      "to": "artifact:docs/content-authoring.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-publication-integrity",
+      "to": "artifact:internal/cli/catalog.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-publication-integrity",
+      "to": "artifact:internal/cli/editorial.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-publication-integrity",
+      "to": "artifact:internal/cli/editorial_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-publication-integrity",
+      "to": "artifact:internal/curriculum/coverage.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-publication-integrity",
+      "to": "artifact:internal/curriculum/coverage_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-publication-integrity",
+      "to": "artifact:internal/curriculum/editorial.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-publication-integrity",
+      "to": "artifact:internal/curriculum/index.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-publication-integrity",
+      "to": "artifact:internal/curriculum/loader.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-publication-integrity",
+      "to": "artifact:internal/curriculum/schema_contract_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-publication-integrity",
+      "to": "artifact:schemas/catalog.schema.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-publication-integrity",
+      "to": "artifact:schemas/challenge.schema.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-publication-integrity",
+      "to": "artifact:testdata/catalog-quality/distribution.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:catalog-publication-integrity",
+      "to": "delivery:capability:catalog-publication-integrity",
+      "type": "delivers"
+    },
+    {
       "from": "spec:catalog-schema-loader",
       "to": "artifact:go.mod",
       "type": "declares"
@@ -7408,6 +7935,61 @@
       "from": "spec:catalog-schema-loader",
       "to": "change-set:cs-89ad08ccd8e2",
       "type": "observed-by"
+    },
+    {
+      "from": "spec:concept-content-authoring",
+      "to": "artifact:.pose/indexes/validation-matrix.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:concept-content-authoring",
+      "to": "artifact:docs/content-authoring.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:concept-content-authoring",
+      "to": "artifact:internal/assistance/service.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:concept-content-authoring",
+      "to": "artifact:internal/assistance/service_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:concept-content-authoring",
+      "to": "artifact:internal/curriculum/model.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:concept-content-authoring",
+      "to": "artifact:internal/curriculum/validator.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:concept-content-authoring",
+      "to": "artifact:internal/mcpserver/assistance_contract_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:concept-content-authoring",
+      "to": "artifact:internal/mcpserver/assistance_tools.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:concept-content-authoring",
+      "to": "artifact:schemas/catalog.schema.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:concept-content-authoring",
+      "to": "artifact:testdata/catalog-quality/concept-content.yaml",
+      "type": "declares"
+    },
+    {
+      "from": "spec:concept-content-authoring",
+      "to": "delivery:capability:canonical-concept-content",
+      "type": "delivers"
     },
     {
       "from": "spec:curriculum-graph-path-recommendation",
@@ -7571,7 +8153,7 @@
     },
     {
       "from": "spec:eventstore-idempotency-scope",
-      "to": "change-set:cs-adf8f4a9e341",
+      "to": "change-set:cs-bda0527a0177",
       "type": "observed-by"
     },
     {
@@ -7676,17 +8258,22 @@
     },
     {
       "from": "spec:go-backend-packs",
-      "to": "artifact:packs/go-concurrency-context",
+      "to": "artifact:packs/go-concurrency-context.yaml",
       "type": "declares"
     },
     {
       "from": "spec:go-backend-packs",
-      "to": "artifact:packs/go-database",
+      "to": "artifact:packs/go-database.yaml",
       "type": "declares"
     },
     {
       "from": "spec:go-backend-packs",
-      "to": "artifact:packs/go-http",
+      "to": "artifact:packs/go-http.yaml",
+      "type": "declares"
+    },
+    {
+      "from": "spec:go-backend-packs",
+      "to": "artifact:packs/manifest.yaml",
       "type": "declares"
     },
     {
@@ -7701,43 +8288,48 @@
     },
     {
       "from": "spec:go-foundations-packs",
-      "to": "artifact:packs/go-core",
+      "to": "artifact:packs/go-core.yaml",
       "type": "declares"
     },
     {
       "from": "spec:go-foundations-packs",
-      "to": "artifact:packs/go-data-text",
+      "to": "artifact:packs/go-data-text.yaml",
       "type": "declares"
     },
     {
       "from": "spec:go-foundations-packs",
-      "to": "artifact:packs/go-errors",
+      "to": "artifact:packs/go-errors.yaml",
       "type": "declares"
     },
     {
       "from": "spec:go-foundations-packs",
-      "to": "artifact:packs/go-first-steps",
+      "to": "artifact:packs/go-first-steps.yaml",
       "type": "declares"
     },
     {
       "from": "spec:go-foundations-packs",
-      "to": "artifact:packs/go-io",
+      "to": "artifact:packs/go-io.yaml",
       "type": "declares"
     },
     {
       "from": "spec:go-foundations-packs",
-      "to": "artifact:packs/go-testing",
+      "to": "artifact:packs/go-testing.yaml",
       "type": "declares"
     },
     {
       "from": "spec:go-foundations-packs",
-      "to": "artifact:packs/go-type-design",
+      "to": "artifact:packs/go-type-design.yaml",
       "type": "declares"
     },
     {
       "from": "spec:go-foundations-packs",
-      "to": "artifact:testdata/packs/foundations",
+      "to": "artifact:packs/manifest.yaml",
       "type": "declares"
+    },
+    {
+      "from": "spec:go-foundations-packs",
+      "to": "change-set:cs-9a9e6414dc45",
+      "type": "observed-by"
     },
     {
       "from": "spec:go-interviews-pack",
@@ -7751,7 +8343,12 @@
     },
     {
       "from": "spec:go-interviews-pack",
-      "to": "artifact:packs/go-interviews",
+      "to": "artifact:packs/go-interviews.yaml",
+      "type": "declares"
+    },
+    {
+      "from": "spec:go-interviews-pack",
+      "to": "artifact:packs/manifest.yaml",
       "type": "declares"
     },
     {
@@ -7766,12 +8363,17 @@
     },
     {
       "from": "spec:go-production-architecture-packs",
-      "to": "artifact:packs/go-architecture-debugging",
+      "to": "artifact:packs/go-architecture-debugging.yaml",
       "type": "declares"
     },
     {
       "from": "spec:go-production-architecture-packs",
-      "to": "artifact:packs/go-production",
+      "to": "artifact:packs/go-production.yaml",
+      "type": "declares"
+    },
+    {
+      "from": "spec:go-production-architecture-packs",
+      "to": "artifact:packs/manifest.yaml",
       "type": "declares"
     },
     {
@@ -8151,6 +8753,11 @@
     },
     {
       "from": "spec:learning-track-composition",
+      "to": "artifact:.agents/skills/codinho/SKILL.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-track-composition",
       "to": "artifact:internal/application/catalog.go",
       "type": "declares"
     },
@@ -8161,12 +8768,42 @@
     },
     {
       "from": "spec:learning-track-composition",
+      "to": "artifact:internal/cli/catalog.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-track-composition",
+      "to": "artifact:internal/curriculum/graph.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-track-composition",
       "to": "artifact:internal/curriculum/model.go",
       "type": "declares"
     },
     {
       "from": "spec:learning-track-composition",
       "to": "artifact:internal/curriculum/search.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-track-composition",
+      "to": "artifact:internal/learning/session.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-track-composition",
+      "to": "artifact:internal/mcpserver/catalog_tools.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-track-composition",
+      "to": "artifact:internal/mcpserver/recommendation_contract_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-track-composition",
+      "to": "artifact:internal/mcpserver/recommendation_tools.go",
       "type": "declares"
     },
     {
@@ -8187,6 +8824,11 @@
     {
       "from": "spec:learning-track-composition",
       "to": "artifact:internal/session/service.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:learning-track-composition",
+      "to": "artifact:schemas/catalog.schema.json",
       "type": "declares"
     },
     {
@@ -8795,6 +9437,131 @@
       "type": "observed-by"
     },
     {
+      "from": "spec:session-recovery-version-pinning",
+      "to": "artifact:.pose/indexes/validation-matrix.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-recovery-version-pinning",
+      "to": "artifact:cmd/codinho/main.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-recovery-version-pinning",
+      "to": "artifact:cmd/codinho/recovery_integration_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-recovery-version-pinning",
+      "to": "artifact:docs/compatibility.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-recovery-version-pinning",
+      "to": "artifact:internal/application/session.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-recovery-version-pinning",
+      "to": "artifact:internal/application/workspace.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-recovery-version-pinning",
+      "to": "artifact:internal/curriculum/index.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-recovery-version-pinning",
+      "to": "artifact:internal/eventstore/event.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-recovery-version-pinning",
+      "to": "artifact:internal/session/recovery.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-recovery-version-pinning",
+      "to": "artifact:internal/session/recovery_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-recovery-version-pinning",
+      "to": "artifact:internal/session/service.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-recovery-version-pinning",
+      "to": "artifact:schemas/event.schema.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-recovery-version-pinning",
+      "to": "delivery:capability:session-recovery",
+      "type": "delivers"
+    },
+    {
+      "from": "spec:session-tree-progression",
+      "to": "artifact:.pose/indexes/validation-matrix.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-tree-progression",
+      "to": "artifact:internal/application/assessment.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-tree-progression",
+      "to": "artifact:internal/learning/session.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-tree-progression",
+      "to": "artifact:internal/mcpserver/assessment_tools.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-tree-progression",
+      "to": "artifact:internal/mcpserver/session_contract_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-tree-progression",
+      "to": "artifact:internal/mcpserver/session_tools.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-tree-progression",
+      "to": "artifact:internal/session/disclosure_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-tree-progression",
+      "to": "artifact:internal/session/granularity.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-tree-progression",
+      "to": "artifact:internal/session/progression.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-tree-progression",
+      "to": "artifact:internal/session/progression_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-tree-progression",
+      "to": "artifact:internal/session/service.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:session-tree-progression",
+      "to": "delivery:capability:session-tree-progression",
+      "type": "delivers"
+    },
+    {
       "from": "spec:tutor-skill-host-integration",
       "to": "artifact:.agents/skills/codinho/SKILL.md",
       "type": "declares"
@@ -8868,6 +9635,76 @@
       "from": "spec:tutor-skill-host-integration",
       "to": "change-set:cs-a0f614e5a11a",
       "type": "observed-by"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:.github/workflows/ci.yml",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:.github/workflows/release.yml",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:.pose/indexes/module-metadata.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:.pose/indexes/validation-matrix.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:.pose/policy/artifacts.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:.pose/policy/delivery.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:.pose/policy/docs.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:.pose/roadmaps/codinho-v1.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:Makefile",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:docs/acceptance/v1-release-readiness.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:docs/compatibility.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:docs/install.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:docs/quickstart.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "delivers"
     },
     {
       "from": "spec:v1-integrated-acceptance",
@@ -9094,12 +9931,27 @@
     {
       "spec": "agent-authored-catalog-drafts",
       "action": "created",
+      "path": "internal/mcpserver/content_draft_contract_test.go"
+    },
+    {
+      "spec": "agent-authored-catalog-drafts",
+      "action": "created",
       "path": "internal/mcpserver/content_draft_tools.go"
     },
     {
       "spec": "agent-authored-catalog-drafts",
       "action": "modified",
       "path": ".agents/skills/codinho/SKILL.md"
+    },
+    {
+      "spec": "agent-authored-catalog-drafts",
+      "action": "modified",
+      "path": "internal/application/progress.go"
+    },
+    {
+      "spec": "agent-authored-catalog-drafts",
+      "action": "modified",
+      "path": "internal/cli/privacy.go"
     },
     {
       "spec": "agent-authored-catalog-drafts",
@@ -9114,6 +9966,11 @@
     {
       "spec": "agent-authored-catalog-drafts",
       "action": "modified",
+      "path": "internal/eventstore/event.go"
+    },
+    {
+      "spec": "agent-authored-catalog-drafts",
+      "action": "modified",
       "path": "internal/mastery/model.go"
     },
     {
@@ -9124,7 +9981,17 @@
     {
       "spec": "agent-authored-catalog-drafts",
       "action": "modified",
+      "path": "internal/security/policy.go"
+    },
+    {
+      "spec": "agent-authored-catalog-drafts",
+      "action": "modified",
       "path": "internal/session/service.go"
+    },
+    {
+      "spec": "agent-authored-catalog-drafts",
+      "action": "modified",
+      "path": "schemas/event.schema.json"
     },
     {
       "spec": "architecture-decision-baseline",
@@ -9352,6 +10219,76 @@
       "path": "schemas/challenge.schema.json"
     },
     {
+      "spec": "catalog-publication-integrity",
+      "action": "created",
+      "path": "internal/curriculum/schema_contract_test.go"
+    },
+    {
+      "spec": "catalog-publication-integrity",
+      "action": "created",
+      "path": "testdata/catalog-quality/distribution.json"
+    },
+    {
+      "spec": "catalog-publication-integrity",
+      "action": "modified",
+      "path": ".pose/indexes/validation-matrix.json"
+    },
+    {
+      "spec": "catalog-publication-integrity",
+      "action": "modified",
+      "path": "docs/content-authoring.md"
+    },
+    {
+      "spec": "catalog-publication-integrity",
+      "action": "modified",
+      "path": "internal/cli/catalog.go"
+    },
+    {
+      "spec": "catalog-publication-integrity",
+      "action": "modified",
+      "path": "internal/cli/editorial.go"
+    },
+    {
+      "spec": "catalog-publication-integrity",
+      "action": "modified",
+      "path": "internal/cli/editorial_test.go"
+    },
+    {
+      "spec": "catalog-publication-integrity",
+      "action": "modified",
+      "path": "internal/curriculum/coverage.go"
+    },
+    {
+      "spec": "catalog-publication-integrity",
+      "action": "modified",
+      "path": "internal/curriculum/coverage_test.go"
+    },
+    {
+      "spec": "catalog-publication-integrity",
+      "action": "modified",
+      "path": "internal/curriculum/editorial.go"
+    },
+    {
+      "spec": "catalog-publication-integrity",
+      "action": "modified",
+      "path": "internal/curriculum/index.go"
+    },
+    {
+      "spec": "catalog-publication-integrity",
+      "action": "modified",
+      "path": "internal/curriculum/loader.go"
+    },
+    {
+      "spec": "catalog-publication-integrity",
+      "action": "modified",
+      "path": "schemas/catalog.schema.json"
+    },
+    {
+      "spec": "catalog-publication-integrity",
+      "action": "modified",
+      "path": "schemas/challenge.schema.json"
+    },
+    {
       "spec": "catalog-schema-loader",
       "action": "created",
       "path": "go.sum"
@@ -9475,6 +10412,56 @@
       "spec": "catalog-schema-loader",
       "action": "modified",
       "path": "go.mod"
+    },
+    {
+      "spec": "concept-content-authoring",
+      "action": "created",
+      "path": "testdata/catalog-quality/concept-content.yaml"
+    },
+    {
+      "spec": "concept-content-authoring",
+      "action": "modified",
+      "path": ".pose/indexes/validation-matrix.json"
+    },
+    {
+      "spec": "concept-content-authoring",
+      "action": "modified",
+      "path": "docs/content-authoring.md"
+    },
+    {
+      "spec": "concept-content-authoring",
+      "action": "modified",
+      "path": "internal/assistance/service.go"
+    },
+    {
+      "spec": "concept-content-authoring",
+      "action": "modified",
+      "path": "internal/assistance/service_test.go"
+    },
+    {
+      "spec": "concept-content-authoring",
+      "action": "modified",
+      "path": "internal/curriculum/model.go"
+    },
+    {
+      "spec": "concept-content-authoring",
+      "action": "modified",
+      "path": "internal/curriculum/validator.go"
+    },
+    {
+      "spec": "concept-content-authoring",
+      "action": "modified",
+      "path": "internal/mcpserver/assistance_contract_test.go"
+    },
+    {
+      "spec": "concept-content-authoring",
+      "action": "modified",
+      "path": "internal/mcpserver/assistance_tools.go"
+    },
+    {
+      "spec": "concept-content-authoring",
+      "action": "modified",
+      "path": "schemas/catalog.schema.json"
     },
     {
       "spec": "curriculum-graph-path-recommendation",
@@ -9729,22 +10716,27 @@
     {
       "spec": "go-backend-packs",
       "action": "created",
-      "path": "packs/go-concurrency-context"
+      "path": "packs/go-concurrency-context.yaml"
     },
     {
       "spec": "go-backend-packs",
       "action": "created",
-      "path": "packs/go-database"
+      "path": "packs/go-database.yaml"
     },
     {
       "spec": "go-backend-packs",
       "action": "created",
-      "path": "packs/go-http"
+      "path": "packs/go-http.yaml"
     },
     {
       "spec": "go-backend-packs",
       "action": "created",
       "path": "testdata/packs/backend"
+    },
+    {
+      "spec": "go-backend-packs",
+      "action": "modified",
+      "path": "packs/manifest.yaml"
     },
     {
       "spec": "go-foundations-packs",
@@ -9754,42 +10746,42 @@
     {
       "spec": "go-foundations-packs",
       "action": "created",
-      "path": "packs/go-core"
+      "path": "packs/go-core.yaml"
     },
     {
       "spec": "go-foundations-packs",
       "action": "created",
-      "path": "packs/go-data-text"
+      "path": "packs/go-data-text.yaml"
     },
     {
       "spec": "go-foundations-packs",
       "action": "created",
-      "path": "packs/go-errors"
+      "path": "packs/go-errors.yaml"
     },
     {
       "spec": "go-foundations-packs",
       "action": "created",
-      "path": "packs/go-first-steps"
+      "path": "packs/go-io.yaml"
     },
     {
       "spec": "go-foundations-packs",
       "action": "created",
-      "path": "packs/go-io"
+      "path": "packs/go-testing.yaml"
     },
     {
       "spec": "go-foundations-packs",
       "action": "created",
-      "path": "packs/go-testing"
+      "path": "packs/go-type-design.yaml"
     },
     {
       "spec": "go-foundations-packs",
-      "action": "created",
-      "path": "packs/go-type-design"
+      "action": "modified",
+      "path": "packs/go-first-steps.yaml"
     },
     {
       "spec": "go-foundations-packs",
-      "action": "created",
-      "path": "testdata/packs/foundations"
+      "action": "modified",
+      "path": "packs/manifest.yaml"
     },
     {
       "spec": "go-interviews-pack",
@@ -9804,12 +10796,17 @@
     {
       "spec": "go-interviews-pack",
       "action": "created",
-      "path": "packs/go-interviews"
+      "path": "packs/go-interviews.yaml"
     },
     {
       "spec": "go-interviews-pack",
       "action": "created",
       "path": "testdata/packs/interviews"
+    },
+    {
+      "spec": "go-interviews-pack",
+      "action": "modified",
+      "path": "packs/manifest.yaml"
     },
     {
       "spec": "go-production-architecture-packs",
@@ -9819,17 +10816,22 @@
     {
       "spec": "go-production-architecture-packs",
       "action": "created",
-      "path": "packs/go-architecture-debugging"
+      "path": "packs/go-architecture-debugging.yaml"
     },
     {
       "spec": "go-production-architecture-packs",
       "action": "created",
-      "path": "packs/go-production"
+      "path": "packs/go-production.yaml"
     },
     {
       "spec": "go-production-architecture-packs",
       "action": "created",
       "path": "testdata/packs/production"
+    },
+    {
+      "spec": "go-production-architecture-packs",
+      "action": "modified",
+      "path": "packs/manifest.yaml"
     },
     {
       "spec": "go-runtime-foundation",
@@ -10169,6 +11171,11 @@
     {
       "spec": "learning-track-composition",
       "action": "modified",
+      "path": ".agents/skills/codinho/SKILL.md"
+    },
+    {
+      "spec": "learning-track-composition",
+      "action": "modified",
       "path": "internal/application/catalog.go"
     },
     {
@@ -10179,12 +11186,42 @@
     {
       "spec": "learning-track-composition",
       "action": "modified",
+      "path": "internal/cli/catalog.go"
+    },
+    {
+      "spec": "learning-track-composition",
+      "action": "modified",
+      "path": "internal/curriculum/graph.go"
+    },
+    {
+      "spec": "learning-track-composition",
+      "action": "modified",
       "path": "internal/curriculum/model.go"
     },
     {
       "spec": "learning-track-composition",
       "action": "modified",
       "path": "internal/curriculum/search.go"
+    },
+    {
+      "spec": "learning-track-composition",
+      "action": "modified",
+      "path": "internal/learning/session.go"
+    },
+    {
+      "spec": "learning-track-composition",
+      "action": "modified",
+      "path": "internal/mcpserver/catalog_tools.go"
+    },
+    {
+      "spec": "learning-track-composition",
+      "action": "modified",
+      "path": "internal/mcpserver/recommendation_contract_test.go"
+    },
+    {
+      "spec": "learning-track-composition",
+      "action": "modified",
+      "path": "internal/mcpserver/recommendation_tools.go"
     },
     {
       "spec": "learning-track-composition",
@@ -10205,6 +11242,11 @@
       "spec": "learning-track-composition",
       "action": "modified",
       "path": "internal/session/service.go"
+    },
+    {
+      "spec": "learning-track-composition",
+      "action": "modified",
+      "path": "schemas/catalog.schema.json"
     },
     {
       "spec": "local-event-store",
@@ -10772,6 +11814,121 @@
       "path": "internal/mcpserver/session_tools.go"
     },
     {
+      "spec": "session-recovery-version-pinning",
+      "action": "created",
+      "path": "cmd/codinho/recovery_integration_test.go"
+    },
+    {
+      "spec": "session-recovery-version-pinning",
+      "action": "created",
+      "path": "internal/session/recovery.go"
+    },
+    {
+      "spec": "session-recovery-version-pinning",
+      "action": "created",
+      "path": "internal/session/recovery_test.go"
+    },
+    {
+      "spec": "session-recovery-version-pinning",
+      "action": "modified",
+      "path": ".pose/indexes/validation-matrix.json"
+    },
+    {
+      "spec": "session-recovery-version-pinning",
+      "action": "modified",
+      "path": "cmd/codinho/main.go"
+    },
+    {
+      "spec": "session-recovery-version-pinning",
+      "action": "modified",
+      "path": "docs/compatibility.md"
+    },
+    {
+      "spec": "session-recovery-version-pinning",
+      "action": "modified",
+      "path": "internal/application/session.go"
+    },
+    {
+      "spec": "session-recovery-version-pinning",
+      "action": "modified",
+      "path": "internal/application/workspace.go"
+    },
+    {
+      "spec": "session-recovery-version-pinning",
+      "action": "modified",
+      "path": "internal/curriculum/index.go"
+    },
+    {
+      "spec": "session-recovery-version-pinning",
+      "action": "modified",
+      "path": "internal/eventstore/event.go"
+    },
+    {
+      "spec": "session-recovery-version-pinning",
+      "action": "modified",
+      "path": "internal/session/service.go"
+    },
+    {
+      "spec": "session-recovery-version-pinning",
+      "action": "modified",
+      "path": "schemas/event.schema.json"
+    },
+    {
+      "spec": "session-tree-progression",
+      "action": "modified",
+      "path": ".pose/indexes/validation-matrix.json"
+    },
+    {
+      "spec": "session-tree-progression",
+      "action": "modified",
+      "path": "internal/application/assessment.go"
+    },
+    {
+      "spec": "session-tree-progression",
+      "action": "modified",
+      "path": "internal/learning/session.go"
+    },
+    {
+      "spec": "session-tree-progression",
+      "action": "modified",
+      "path": "internal/mcpserver/assessment_tools.go"
+    },
+    {
+      "spec": "session-tree-progression",
+      "action": "modified",
+      "path": "internal/mcpserver/session_contract_test.go"
+    },
+    {
+      "spec": "session-tree-progression",
+      "action": "modified",
+      "path": "internal/mcpserver/session_tools.go"
+    },
+    {
+      "spec": "session-tree-progression",
+      "action": "modified",
+      "path": "internal/session/disclosure_test.go"
+    },
+    {
+      "spec": "session-tree-progression",
+      "action": "modified",
+      "path": "internal/session/granularity.go"
+    },
+    {
+      "spec": "session-tree-progression",
+      "action": "modified",
+      "path": "internal/session/progression.go"
+    },
+    {
+      "spec": "session-tree-progression",
+      "action": "modified",
+      "path": "internal/session/progression_test.go"
+    },
+    {
+      "spec": "session-tree-progression",
+      "action": "modified",
+      "path": "internal/session/service.go"
+    },
+    {
       "spec": "tutor-skill-host-integration",
       "action": "created",
       "path": ".agents/skills/codinho/SKILL.md"
@@ -10835,6 +11992,71 @@
       "spec": "tutor-skill-host-integration",
       "action": "modified",
       "path": ".pose/indexes/validation-matrix.json"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
+      "path": "docs/acceptance/v1-release-readiness.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": ".github/workflows/ci.yml"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": ".github/workflows/release.yml"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": ".pose/indexes/module-metadata.json"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": ".pose/indexes/validation-matrix.json"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": ".pose/policy/artifacts.json"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": ".pose/policy/delivery.json"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": ".pose/policy/docs.json"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": ".pose/roadmaps/codinho-v1.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": "Makefile"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": "docs/compatibility.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": "docs/install.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": "docs/quickstart.md"
     },
     {
       "spec": "v1-integrated-acceptance",
@@ -13203,6 +14425,44 @@
       "diff_digest": "sha256:eb3909effe8bec49d13cf387c9e0e5e09fa862fa3a702874f785167fa6998351"
     },
     {
+      "id": "cs-9a9e6414dc45",
+      "spec": "go-foundations-packs",
+      "selector": "trailers:go-foundations-packs",
+      "base": "6518bebd03b709c5b6af23aaa88eab55d3088456^",
+      "head": "e8cd863e3da3a59f9d215790c499c45621e2af40",
+      "resolved_base": "de2d1229b23a853e0f268900da9a906926c99923",
+      "resolved_head": "e8cd863e3da3a59f9d215790c499c45621e2af40",
+      "commits": [
+        "6518bebd03b709c5b6af23aaa88eab55d3088456",
+        "348d9853d2172dfb7268b64f1a120a1bbb591ac0",
+        "edf3269378517d57ce0ad87f77145a11692c41da",
+        "e8cd863e3da3a59f9d215790c499c45621e2af40"
+      ],
+      "paths": [
+        {
+          "action": "modified",
+          "path": ".pose/knowledge/2026-08-24-note-agent-batch-review-pattern.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-go-foundations-packs.md"
+        },
+        {
+          "action": "modified",
+          "path": "docs/agent-review-workflow.md"
+        },
+        {
+          "action": "modified",
+          "path": "docs/content-review-checklist.md"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-first-steps.yaml"
+        }
+      ],
+      "diff_digest": "sha256:953ca06f516171ba2b1295050a6bccaae1e15766c610dd0816f24c17db3f93f5"
+    },
+    {
       "id": "cs-9e3441c5b776",
       "spec": "security-privacy-hardening",
       "selector": "trailers:security-privacy-hardening",
@@ -13677,15 +14937,16 @@
       "diff_digest": "sha256:2630eee8e51bc2f84b881e57051a437ef05c9a358a72e39d1fcb27700a30c975"
     },
     {
-      "id": "cs-adf8f4a9e341",
+      "id": "cs-bda0527a0177",
       "spec": "eventstore-idempotency-scope",
       "selector": "trailers:eventstore-idempotency-scope",
       "base": "c5edd1644af1062a42132ef24ff0404ccce168df^",
-      "head": "c5edd1644af1062a42132ef24ff0404ccce168df",
+      "head": "de2d1229b23a853e0f268900da9a906926c99923",
       "resolved_base": "d46d2a36482c161bf4a4ec9f300112aa45e8ea2e",
-      "resolved_head": "c5edd1644af1062a42132ef24ff0404ccce168df",
+      "resolved_head": "de2d1229b23a853e0f268900da9a906926c99923",
       "commits": [
-        "c5edd1644af1062a42132ef24ff0404ccce168df"
+        "c5edd1644af1062a42132ef24ff0404ccce168df",
+        "de2d1229b23a853e0f268900da9a906926c99923"
       ],
       "paths": [
         {
@@ -13693,8 +14954,36 @@
           "path": ".pose/changelogs/unreleased/eventstore-idempotency-scope.md"
         },
         {
+          "action": "created",
+          "path": ".pose/review-attestations/rva-33f07e7fd9579f5f.json"
+        },
+        {
+          "action": "created",
+          "path": ".pose/review-bundles/rvb-73bda6d1e470fa22.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/README.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/consolidated.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/root.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/delivery-integrity.json"
+        },
+        {
           "action": "modified",
           "path": ".pose/specs/2026-08-23-eventstore-idempotency-scope.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/root.json"
         },
         {
           "action": "modified",
@@ -13717,7 +15006,7 @@
           "path": "internal/eventstore/store_test.go"
         }
       ],
-      "diff_digest": "sha256:92b5eedb51ee20b06064ff4dcea941c87bac0c27c27fb2a3a5fb86446cf4690f"
+      "diff_digest": "sha256:68e8a3cee7b2258fcac74c866673137d4c2cd9a66c652d2ccfba3eadb25ba05e"
     },
     {
       "id": "cs-cd2ac178ff4e",
@@ -13849,6 +15138,7 @@
       "agent-authored-catalog-drafts",
       "interview-mode",
       "learning-practice-debug-modes",
+      "learning-track-composition",
       "tutor-skill-host-integration"
     ],
     ".agents/skills/codinho/agents/openai.yaml": [
@@ -13882,10 +15172,12 @@
       "tutor-skill-host-integration"
     ],
     ".github/workflows/ci.yml": [
-      "installation-documentation-ci"
+      "installation-documentation-ci",
+      "v1-delivery-ci-assurance"
     ],
     ".github/workflows/release.yml": [
-      "installation-documentation-ci"
+      "installation-documentation-ci",
+      "v1-delivery-ci-assurance"
     ],
     ".pose/adr/2026-08-22-agent-mcp-and-core-boundaries.md": [
       "architecture-decision-baseline"
@@ -13900,19 +15192,38 @@
       "architecture-decision-baseline"
     ],
     ".pose/indexes/module-metadata.json": [
-      "go-runtime-foundation"
+      "go-runtime-foundation",
+      "v1-delivery-ci-assurance"
     ],
     ".pose/indexes/validation-matrix.json": [
       "administrative-cli-fixtures",
+      "catalog-publication-integrity",
+      "concept-content-authoring",
       "go-runtime-foundation",
       "installation-documentation-ci",
       "mcp-stdio-foundation",
       "reliability-observability-compatibility",
       "security-privacy-hardening",
-      "tutor-skill-host-integration"
+      "session-recovery-version-pinning",
+      "session-tree-progression",
+      "tutor-skill-host-integration",
+      "v1-delivery-ci-assurance"
+    ],
+    ".pose/policy/artifacts.json": [
+      "v1-delivery-ci-assurance"
+    ],
+    ".pose/policy/delivery.json": [
+      "v1-delivery-ci-assurance"
+    ],
+    ".pose/policy/docs.json": [
+      "v1-delivery-ci-assurance"
+    ],
+    ".pose/roadmaps/codinho-v1.md": [
+      "v1-delivery-ci-assurance"
     ],
     "Makefile": [
-      "installation-documentation-ci"
+      "installation-documentation-ci",
+      "v1-delivery-ci-assurance"
     ],
     "README.md": [
       "installation-documentation-ci"
@@ -13933,7 +15244,11 @@
       "mastery-review-scheduling",
       "mcp-stdio-foundation",
       "safe-check-executor",
+      "session-recovery-version-pinning",
       "workspace-observation-baselines"
+    ],
+    "cmd/codinho/recovery_integration_test.go": [
+      "session-recovery-version-pinning"
     ],
     "cmd/codinho/reliability_test.go": [
       "reliability-observability-compatibility"
@@ -13945,6 +15260,7 @@
       "v1-integrated-acceptance"
     ],
     "docs/acceptance/v1-release-readiness.md": [
+      "v1-delivery-ci-assurance",
       "v1-integrated-acceptance"
     ],
     "docs/acceptance/v1-requirement-matrix.md": [
@@ -13967,22 +15283,28 @@
     ],
     "docs/compatibility.md": [
       "installation-documentation-ci",
-      "reliability-observability-compatibility"
+      "reliability-observability-compatibility",
+      "session-recovery-version-pinning",
+      "v1-delivery-ci-assurance"
     ],
     "docs/configuration.md": [
       "installation-documentation-ci"
     ],
     "docs/content-authoring.md": [
-      "catalog-authoring-quality"
+      "catalog-authoring-quality",
+      "catalog-publication-integrity",
+      "concept-content-authoring"
     ],
     "docs/content-review-checklist.md": [
       "catalog-authoring-quality"
     ],
     "docs/install.md": [
-      "installation-documentation-ci"
+      "installation-documentation-ci",
+      "v1-delivery-ci-assurance"
     ],
     "docs/quickstart.md": [
-      "installation-documentation-ci"
+      "installation-documentation-ci",
+      "v1-delivery-ci-assurance"
     ],
     "docs/security/executor-limitations.md": [
       "security-privacy-hardening"
@@ -14007,7 +15329,8 @@
       "mcp-stdio-foundation"
     ],
     "internal/application/assessment.go": [
-      "feedback-evaluation-progression"
+      "feedback-evaluation-progression",
+      "session-tree-progression"
     ],
     "internal/application/assistance.go": [
       "assistance-hints-detours"
@@ -14029,6 +15352,7 @@
       "interview-mode"
     ],
     "internal/application/progress.go": [
+      "agent-authored-catalog-drafts",
       "mastery-review-scheduling"
     ],
     "internal/application/progress_test.go": [
@@ -14045,7 +15369,8 @@
       "learning-practice-debug-modes",
       "mcp-stdio-foundation",
       "safe-check-executor",
-      "session-orchestration-disclosure"
+      "session-orchestration-disclosure",
+      "session-recovery-version-pinning"
     ],
     "internal/application/session_test.go": [
       "mcp-stdio-foundation",
@@ -14053,6 +15378,7 @@
     ],
     "internal/application/workspace.go": [
       "safe-check-executor",
+      "session-recovery-version-pinning",
       "workspace-observation-baselines"
     ],
     "internal/application/workspace_test.go": [
@@ -14086,10 +15412,12 @@
       "assistance-hints-detours"
     ],
     "internal/assistance/service.go": [
-      "assistance-hints-detours"
+      "assistance-hints-detours",
+      "concept-content-authoring"
     ],
     "internal/assistance/service_test.go": [
-      "assistance-hints-detours"
+      "assistance-hints-detours",
+      "concept-content-authoring"
     ],
     "internal/checks/executor.go": [
       "safe-check-executor"
@@ -14124,7 +15452,9 @@
     ],
     "internal/cli/catalog.go": [
       "administrative-cli-fixtures",
-      "catalog-authoring-quality"
+      "catalog-authoring-quality",
+      "catalog-publication-integrity",
+      "learning-track-composition"
     ],
     "internal/cli/cli_test.go": [
       "administrative-cli-fixtures",
@@ -14136,10 +15466,12 @@
       "reliability-observability-compatibility"
     ],
     "internal/cli/editorial.go": [
-      "catalog-authoring-quality"
+      "catalog-authoring-quality",
+      "catalog-publication-integrity"
     ],
     "internal/cli/editorial_test.go": [
-      "catalog-authoring-quality"
+      "catalog-authoring-quality",
+      "catalog-publication-integrity"
     ],
     "internal/cli/init.go": [
       "administrative-cli-fixtures"
@@ -14148,6 +15480,7 @@
       "administrative-cli-fixtures"
     ],
     "internal/cli/privacy.go": [
+      "agent-authored-catalog-drafts",
       "security-privacy-hardening"
     ],
     "internal/cli/progress.go": [
@@ -14179,19 +15512,23 @@
       "go-runtime-foundation"
     ],
     "internal/curriculum/coverage.go": [
-      "catalog-authoring-quality"
+      "catalog-authoring-quality",
+      "catalog-publication-integrity"
     ],
     "internal/curriculum/coverage_test.go": [
-      "catalog-authoring-quality"
+      "catalog-authoring-quality",
+      "catalog-publication-integrity"
     ],
     "internal/curriculum/editorial.go": [
-      "catalog-authoring-quality"
+      "catalog-authoring-quality",
+      "catalog-publication-integrity"
     ],
     "internal/curriculum/editorial_test.go": [
       "catalog-authoring-quality"
     ],
     "internal/curriculum/graph.go": [
-      "curriculum-graph-path-recommendation"
+      "curriculum-graph-path-recommendation",
+      "learning-track-composition"
     ],
     "internal/curriculum/graph_test.go": [
       "curriculum-graph-path-recommendation"
@@ -14199,12 +15536,15 @@
     "internal/curriculum/index.go": [
       "assistance-hints-detours",
       "catalog-authoring-quality",
+      "catalog-publication-integrity",
       "catalog-schema-loader",
-      "curriculum-graph-path-recommendation"
+      "curriculum-graph-path-recommendation",
+      "session-recovery-version-pinning"
     ],
     "internal/curriculum/loader.go": [
       "agent-authored-catalog-drafts",
       "catalog-authoring-quality",
+      "catalog-publication-integrity",
       "catalog-schema-loader"
     ],
     "internal/curriculum/loader_test.go": [
@@ -14215,12 +15555,16 @@
       "agent-authored-catalog-drafts",
       "catalog-authoring-quality",
       "catalog-schema-loader",
+      "concept-content-authoring",
       "curriculum-graph-path-recommendation",
       "learning-track-composition",
       "safe-check-executor"
     ],
     "internal/curriculum/playtest.go": [
       "catalog-authoring-quality"
+    ],
+    "internal/curriculum/schema_contract_test.go": [
+      "catalog-publication-integrity"
     ],
     "internal/curriculum/search.go": [
       "curriculum-graph-path-recommendation",
@@ -14288,6 +15632,7 @@
       "administrative-cli-fixtures",
       "catalog-authoring-quality",
       "catalog-schema-loader",
+      "concept-content-authoring",
       "curriculum-graph-path-recommendation"
     ],
     "internal/diagnostics/doctor.go": [
@@ -14303,9 +15648,11 @@
       "reliability-observability-compatibility"
     ],
     "internal/eventstore/event.go": [
+      "agent-authored-catalog-drafts",
       "learning-practice-debug-modes",
       "local-event-store",
-      "session-orchestration-disclosure"
+      "session-orchestration-disclosure",
+      "session-recovery-version-pinning"
     ],
     "internal/eventstore/lock.go": [
       "local-event-store"
@@ -14369,7 +15716,9 @@
       "learning-domain-model"
     ],
     "internal/learning/session.go": [
-      "learning-domain-model"
+      "learning-domain-model",
+      "learning-track-composition",
+      "session-tree-progression"
     ],
     "internal/learning/session_test.go": [
       "learning-domain-model"
@@ -14411,18 +15760,22 @@
       "safe-check-executor"
     ],
     "internal/mcpserver/assessment_tools.go": [
-      "feedback-evaluation-progression"
+      "feedback-evaluation-progression",
+      "session-tree-progression"
     ],
     "internal/mcpserver/assistance_contract_test.go": [
       "assistance-hints-detours",
+      "concept-content-authoring",
       "safe-check-executor"
     ],
     "internal/mcpserver/assistance_tools.go": [
       "assistance-hints-detours",
+      "concept-content-authoring",
       "interview-mode"
     ],
     "internal/mcpserver/catalog_tools.go": [
       "curriculum-graph-path-recommendation",
+      "learning-track-composition",
       "mcp-stdio-foundation"
     ],
     "internal/mcpserver/check_contract_test.go": [
@@ -14432,6 +15785,9 @@
     "internal/mcpserver/check_tools.go": [
       "safe-check-executor",
       "security-privacy-hardening"
+    ],
+    "internal/mcpserver/content_draft_contract_test.go": [
+      "agent-authored-catalog-drafts"
     ],
     "internal/mcpserver/content_draft_tools.go": [
       "agent-authored-catalog-drafts"
@@ -14479,10 +15835,12 @@
       "mastery-review-scheduling"
     ],
     "internal/mcpserver/recommendation_contract_test.go": [
-      "curriculum-graph-path-recommendation"
+      "curriculum-graph-path-recommendation",
+      "learning-track-composition"
     ],
     "internal/mcpserver/recommendation_tools.go": [
-      "curriculum-graph-path-recommendation"
+      "curriculum-graph-path-recommendation",
+      "learning-track-composition"
     ],
     "internal/mcpserver/server.go": [
       "assistance-hints-detours",
@@ -14503,14 +15861,16 @@
       "interview-mode",
       "learning-practice-debug-modes",
       "safe-check-executor",
-      "session-orchestration-disclosure"
+      "session-orchestration-disclosure",
+      "session-tree-progression"
     ],
     "internal/mcpserver/session_tools.go": [
       "interview-mode",
       "learning-practice-debug-modes",
       "learning-track-composition",
       "mcp-stdio-foundation",
-      "session-orchestration-disclosure"
+      "session-orchestration-disclosure",
+      "session-tree-progression"
     ],
     "internal/mcpserver/workspace_contract_test.go": [
       "workspace-observation-baselines"
@@ -14533,6 +15893,7 @@
       "curriculum-graph-path-recommendation"
     ],
     "internal/security/policy.go": [
+      "agent-authored-catalog-drafts",
       "security-privacy-hardening"
     ],
     "internal/security/policy_test.go": [
@@ -14559,10 +15920,12 @@
       "session-orchestration-disclosure"
     ],
     "internal/session/disclosure_test.go": [
-      "session-orchestration-disclosure"
+      "session-orchestration-disclosure",
+      "session-tree-progression"
     ],
     "internal/session/granularity.go": [
-      "session-orchestration-disclosure"
+      "session-orchestration-disclosure",
+      "session-tree-progression"
     ],
     "internal/session/interview.go": [
       "interview-mode"
@@ -14577,10 +15940,18 @@
       "learning-practice-debug-modes"
     ],
     "internal/session/progression.go": [
-      "feedback-evaluation-progression"
+      "feedback-evaluation-progression",
+      "session-tree-progression"
     ],
     "internal/session/progression_test.go": [
-      "feedback-evaluation-progression"
+      "feedback-evaluation-progression",
+      "session-tree-progression"
+    ],
+    "internal/session/recovery.go": [
+      "session-recovery-version-pinning"
+    ],
+    "internal/session/recovery_test.go": [
+      "session-recovery-version-pinning"
     ],
     "internal/session/service.go": [
       "agent-authored-catalog-drafts",
@@ -14590,7 +15961,9 @@
       "learning-practice-debug-modes",
       "learning-track-composition",
       "safe-check-executor",
-      "session-orchestration-disclosure"
+      "session-orchestration-disclosure",
+      "session-recovery-version-pinning",
+      "session-tree-progression"
     ],
     "internal/session/service_test.go": [
       "learning-practice-debug-modes",
@@ -14626,70 +15999,86 @@
     "internal/workspace/workspace_test.go": [
       "workspace-observation-baselines"
     ],
-    "packs/go-architecture-debugging": [
+    "packs/go-architecture-debugging.yaml": [
       "go-production-architecture-packs"
     ],
-    "packs/go-concurrency-context": [
+    "packs/go-concurrency-context.yaml": [
       "go-backend-packs"
     ],
-    "packs/go-core": [
+    "packs/go-core.yaml": [
       "go-foundations-packs"
     ],
-    "packs/go-data-text": [
+    "packs/go-data-text.yaml": [
       "go-foundations-packs"
     ],
-    "packs/go-database": [
+    "packs/go-database.yaml": [
       "go-backend-packs"
     ],
     "packs/go-debugging.yaml": [
       "learning-practice-debug-modes"
     ],
-    "packs/go-errors": [
-      "go-foundations-packs"
-    ],
-    "packs/go-first-steps": [
+    "packs/go-errors.yaml": [
       "go-foundations-packs"
     ],
     "packs/go-first-steps.yaml": [
-      "catalog-schema-loader"
+      "catalog-schema-loader",
+      "go-foundations-packs"
     ],
-    "packs/go-http": [
+    "packs/go-http.yaml": [
       "go-backend-packs"
     ],
-    "packs/go-interviews": [
+    "packs/go-interviews.yaml": [
       "go-interviews-pack"
     ],
-    "packs/go-io": [
+    "packs/go-io.yaml": [
       "go-foundations-packs"
     ],
-    "packs/go-production": [
+    "packs/go-production.yaml": [
       "go-production-architecture-packs"
     ],
-    "packs/go-testing": [
+    "packs/go-testing.yaml": [
       "go-foundations-packs"
     ],
-    "packs/go-type-design": [
+    "packs/go-type-design.yaml": [
       "go-foundations-packs"
     ],
     "packs/manifest.yaml": [
       "catalog-schema-loader",
+      "go-backend-packs",
+      "go-foundations-packs",
+      "go-interviews-pack",
+      "go-production-architecture-packs",
       "learning-practice-debug-modes"
     ],
     "schemas/catalog.schema.json": [
-      "catalog-schema-loader"
+      "catalog-publication-integrity",
+      "catalog-schema-loader",
+      "concept-content-authoring",
+      "learning-track-composition"
     ],
     "schemas/challenge.schema.json": [
       "catalog-authoring-quality",
+      "catalog-publication-integrity",
       "catalog-schema-loader"
     ],
     "schemas/editorial.schema.json": [
       "catalog-authoring-quality"
+    ],
+    "schemas/event.schema.json": [
+      "agent-authored-catalog-drafts",
+      "session-recovery-version-pinning"
     ],
     "schemas/pack.schema.json": [
       "catalog-schema-loader"
     ],
     "scripts/smoke-install.sh": [
       "installation-documentation-ci"
+    ],
+    "testdata/catalog-quality/concept-content.yaml": [
+      "concept-content-authoring"
+    ],
+    "testdata/catalog-quality/distribution.json": [
+      "catalog-publication-integrity"
     ],
     "testdata/catalog-quality/editorial/manifest.yaml": [
       "catalog-authoring-quality"
@@ -14721,9 +16110,6 @@
     "testdata/packs/backend": [
       "go-backend-packs"
     ],
-    "testdata/packs/foundations": [
-      "go-foundations-packs"
-    ],
     "testdata/packs/interviews": [
       "go-interviews-pack"
     ],
@@ -14754,6 +16140,33 @@
   },
   "findings": [
     {
+      "id": "dif-008551555176",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-tree-progression",
+      "path": "internal/session/progression.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-tree-progression (ensure commits carry 'POSE-Spec: session-tree-progression' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-00e49310e8e8",
+      "code": "existence",
+      "severity": "error",
+      "spec": "go-foundations-packs",
+      "path": "packs/go-testing.yaml",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-02209cff65ad",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "v1-delivery-ci-assurance",
+      "path": ".github/workflows/release.yml",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec v1-delivery-ci-assurance (ensure commits carry 'POSE-Spec: v1-delivery-ci-assurance' trailer or generate report with pose report)"
+    },
+    {
       "id": "dif-04804efdc00f",
       "code": "action-mismatch",
       "severity": "error",
@@ -14781,40 +16194,40 @@
       "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-07c9ad6dc187",
-      "code": "existence",
-      "severity": "error",
-      "spec": "go-foundations-packs",
-      "path": "packs/go-type-design",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-0864fe562a03",
-      "code": "existence",
-      "severity": "error",
-      "spec": "go-foundations-packs",
-      "path": "packs/go-data-text",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-098400541587",
+      "id": "dif-0876f81bbe97",
       "code": "action-mismatch",
       "severity": "error",
       "spec": "go-foundations-packs",
-      "path": "testdata/packs/foundations",
+      "path": "packs/go-testing.yaml",
       "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-foundations-packs (ensure commits carry 'POSE-Spec: go-foundations-packs' trailer or generate report with pose report)"
+      "remediation": "correct the action or record the exact attributed revisions"
     },
     {
-      "id": "dif-1094cd299934",
+      "id": "dif-08e97a065055",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-tree-progression",
+      "path": "internal/mcpserver/session_contract_test.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-tree-progression (ensure commits carry 'POSE-Spec: session-tree-progression' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-094363536afd",
       "code": "existence",
       "severity": "error",
-      "spec": "go-foundations-packs",
-      "path": "packs/go-first-steps",
+      "spec": "session-recovery-version-pinning",
+      "path": "schemas/event.schema.json",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-095de7d2d333",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "learning-track-composition",
+      "path": "internal/mcpserver/recommendation_contract_test.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
     },
     {
       "id": "dif-113524b1178d",
@@ -14835,13 +16248,22 @@
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-142068a7618d",
-      "code": "existence",
+      "id": "dif-1254013cb284",
+      "code": "action-mismatch",
       "severity": "error",
-      "spec": "go-production-architecture-packs",
-      "path": "packs/go-architecture-debugging",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
+      "spec": "concept-content-authoring",
+      "path": "testdata/catalog-quality/concept-content.yaml",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec concept-content-authoring (ensure commits carry 'POSE-Spec: concept-content-authoring' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-1573f8143098",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-tree-progression",
+      "path": ".pose/indexes/validation-matrix.json",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-tree-progression (ensure commits carry 'POSE-Spec: session-tree-progression' trailer or generate report with pose report)"
     },
     {
       "id": "dif-15ff0ddaa4ad",
@@ -14849,6 +16271,24 @@
       "severity": "error",
       "spec": "go-production-architecture-packs",
       "path": "docs/catalog/go-production-architecture.md",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-16865aa45d58",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-tree-progression",
+      "path": "internal/learning/session.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-tree-progression (ensure commits carry 'POSE-Spec: session-tree-progression' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-19584d33bd5b",
+      "code": "existence",
+      "severity": "error",
+      "spec": "go-backend-packs",
+      "path": "packs/go-database.yaml",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
@@ -14862,6 +16302,24 @@
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-1d0a4e5b44ff",
+      "code": "existence",
+      "severity": "error",
+      "spec": "go-backend-packs",
+      "path": "packs/go-http.yaml",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-1d1eaef047fe",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "v1-delivery-ci-assurance",
+      "path": ".pose/policy/delivery.json",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec v1-delivery-ci-assurance (ensure commits carry 'POSE-Spec: v1-delivery-ci-assurance' trailer or generate report with pose report)"
+    },
+    {
       "id": "dif-1d9829439284",
       "code": "existence",
       "severity": "error",
@@ -14871,6 +16329,33 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
+      "id": "dif-1e680d6e8af8",
+      "code": "existence",
+      "severity": "error",
+      "spec": "agent-authored-catalog-drafts",
+      "path": "internal/mcpserver/content_draft_contract_test.go",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-1fced50f5c95",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "catalog-publication-integrity",
+      "path": "internal/cli/editorial_test.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec catalog-publication-integrity (ensure commits carry 'POSE-Spec: catalog-publication-integrity' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-20187288f82a",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "concept-content-authoring",
+      "path": "schemas/catalog.schema.json",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec concept-content-authoring (ensure commits carry 'POSE-Spec: concept-content-authoring' trailer or generate report with pose report)"
+    },
+    {
       "id": "dif-20f2992f72b4",
       "code": "action-mismatch",
       "severity": "error",
@@ -14878,6 +16363,15 @@
       "path": "internal/curriculum/search.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-219141c3509b",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "catalog-publication-integrity",
+      "path": "internal/curriculum/index.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec catalog-publication-integrity (ensure commits carry 'POSE-Spec: catalog-publication-integrity' trailer or generate report with pose report)"
     },
     {
       "id": "dif-2231fb9618be",
@@ -14898,6 +16392,24 @@
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-2326cac6d901",
+      "code": "existence",
+      "severity": "error",
+      "spec": "go-interviews-pack",
+      "path": "packs/go-interviews.yaml",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-2363ce660767",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "v1-delivery-ci-assurance",
+      "path": ".pose/indexes/module-metadata.json",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec v1-delivery-ci-assurance (ensure commits carry 'POSE-Spec: v1-delivery-ci-assurance' trailer or generate report with pose report)"
+    },
+    {
       "id": "dif-25869805728c",
       "code": "existence",
       "severity": "error",
@@ -14916,13 +16428,40 @@
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-28376d6827ec",
+      "id": "dif-27428f552664",
       "code": "action-mismatch",
       "severity": "error",
       "spec": "go-foundations-packs",
-      "path": "packs/go-io",
+      "path": "packs/go-io.yaml",
       "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-foundations-packs (ensure commits carry 'POSE-Spec: go-foundations-packs' trailer or generate report with pose report)"
+      "remediation": "correct the action or record the exact attributed revisions"
+    },
+    {
+      "id": "dif-27a8538fb3d4",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "v1-delivery-ci-assurance",
+      "path": "docs/acceptance/v1-release-readiness.md",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec v1-delivery-ci-assurance (ensure commits carry 'POSE-Spec: v1-delivery-ci-assurance' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-29a35db8cbba",
+      "code": "existence",
+      "severity": "error",
+      "spec": "go-production-architecture-packs",
+      "path": "packs/go-production.yaml",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-2b018222876f",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "v1-delivery-ci-assurance",
+      "path": ".pose/policy/docs.json",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec v1-delivery-ci-assurance (ensure commits carry 'POSE-Spec: v1-delivery-ci-assurance' trailer or generate report with pose report)"
     },
     {
       "id": "dif-2bf7d79b5aeb",
@@ -14934,40 +16473,69 @@
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-2f2ea862eeeb",
-      "code": "existence",
+      "id": "dif-2c067932c297",
+      "code": "stale-evidence",
+      "severity": "error",
+      "spec": "concept-content-authoring",
+      "path": "capability:canonical-concept-content",
+      "change_set": "./go/mcp-contract",
+      "message": "passed integration evidence is bound to a different scoped provenance digest",
+      "remediation": "rerun the registered validation check for this delivery scope"
+    },
+    {
+      "id": "dif-2fbbda6142e2",
+      "code": "action-mismatch",
       "severity": "error",
       "spec": "go-backend-packs",
-      "path": "packs/go-concurrency-context",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
+      "path": "packs/go-http.yaml",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-2ff31d481d68",
-      "code": "existence",
+      "id": "dif-3020aefccc08",
+      "code": "unconnected-artifact",
       "severity": "error",
-      "spec": "go-foundations-packs",
-      "path": "packs/go-io",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
+      "spec": "catalog-publication-integrity",
+      "path": "capability:catalog-publication-integrity",
+      "message": "delivery target has no structured artifact provenance",
+      "remediation": "declare and reconcile exact artifacts before asserting delivery"
     },
     {
-      "id": "dif-3135e879e64f",
+      "id": "dif-30c1f3f81089",
       "code": "action-mismatch",
       "severity": "error",
-      "spec": "go-foundations-packs",
-      "path": "packs/go-type-design",
+      "spec": "concept-content-authoring",
+      "path": "internal/curriculum/model.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-foundations-packs (ensure commits carry 'POSE-Spec: go-foundations-packs' trailer or generate report with pose report)"
+      "remediation": "no Git change sets are attributed to spec concept-content-authoring (ensure commits carry 'POSE-Spec: concept-content-authoring' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-39f2e1d5cc43",
+      "id": "dif-30e387d80b5e",
+      "code": "stale-evidence",
+      "severity": "error",
+      "spec": "v1-delivery-ci-assurance",
+      "path": "governance:v1-delivery-ci",
+      "change_set": "./go/mcp-contract",
+      "message": "passed integration evidence is bound to a different scoped provenance digest",
+      "remediation": "rerun the registered validation check for this delivery scope"
+    },
+    {
+      "id": "dif-345b45011a1a",
       "code": "action-mismatch",
       "severity": "error",
-      "spec": "go-foundations-packs",
-      "path": "packs/go-core",
+      "spec": "agent-authored-catalog-drafts",
+      "path": "internal/cli/privacy.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-foundations-packs (ensure commits carry 'POSE-Spec: go-foundations-packs' trailer or generate report with pose report)"
+      "remediation": "no Git change sets are attributed to spec agent-authored-catalog-drafts (ensure commits carry 'POSE-Spec: agent-authored-catalog-drafts' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-34a9401648f7",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "go-backend-packs",
+      "path": "packs/go-concurrency-context.yaml",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
     },
     {
       "id": "dif-3cea106c54b8",
@@ -14979,13 +16547,59 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-40f67082a1ac",
-      "code": "existence",
+      "id": "dif-3cf727753183",
+      "code": "action-mismatch",
       "severity": "error",
-      "spec": "go-backend-packs",
-      "path": "packs/go-database",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
+      "spec": "catalog-publication-integrity",
+      "path": "internal/curriculum/schema_contract_test.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec catalog-publication-integrity (ensure commits carry 'POSE-Spec: catalog-publication-integrity' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-3db64c66fc4f",
+      "code": "stale-evidence",
+      "severity": "error",
+      "spec": "session-tree-progression",
+      "path": "capability:session-tree-progression",
+      "change_set": "./go/mcp-contract",
+      "message": "passed integration evidence is bound to a different scoped provenance digest",
+      "remediation": "rerun the registered validation check for this delivery scope"
+    },
+    {
+      "id": "dif-3fdc1ce77a20",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-tree-progression",
+      "path": "internal/session/service.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-tree-progression (ensure commits carry 'POSE-Spec: session-tree-progression' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-3ff365eabaca",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "go-foundations-packs",
+      "path": "packs/go-core.yaml",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "correct the action or record the exact attributed revisions"
+    },
+    {
+      "id": "dif-40e34c73b0ff",
+      "code": "unconsumed-capability",
+      "severity": "error",
+      "spec": "concept-content-authoring",
+      "path": "capability:canonical-concept-content",
+      "message": "required current evidence is missing: integration",
+      "remediation": "run registered checks with the required evidenceClass against the current provenance digest"
+    },
+    {
+      "id": "dif-41801a924bae",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-recovery-version-pinning",
+      "path": "internal/application/workspace.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-recovery-version-pinning (ensure commits carry 'POSE-Spec: session-recovery-version-pinning' trailer or generate report with pose report)"
     },
     {
       "id": "dif-424923f8beb5",
@@ -15004,6 +16618,24 @@
       "path": "internal/mcpserver/session_tools.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-439d998bb1b3",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "go-foundations-packs",
+      "path": "packs/go-data-text.yaml",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "correct the action or record the exact attributed revisions"
+    },
+    {
+      "id": "dif-4556e8876700",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "concept-content-authoring",
+      "path": "internal/assistance/service_test.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec concept-content-authoring (ensure commits carry 'POSE-Spec: concept-content-authoring' trailer or generate report with pose report)"
     },
     {
       "id": "dif-45f6d391b15e",
@@ -15033,6 +16665,15 @@
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-500fcba2c2f0",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-recovery-version-pinning",
+      "path": "internal/application/session.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-recovery-version-pinning (ensure commits carry 'POSE-Spec: session-recovery-version-pinning' trailer or generate report with pose report)"
+    },
+    {
       "id": "dif-506d9516a1ea",
       "code": "action-mismatch",
       "severity": "error",
@@ -15042,11 +16683,29 @@
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-510e3fb7f29a",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "agent-authored-catalog-drafts",
+      "path": "internal/security/policy.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec agent-authored-catalog-drafts (ensure commits carry 'POSE-Spec: agent-authored-catalog-drafts' trailer or generate report with pose report)"
+    },
+    {
       "id": "dif-51a49af605d5",
       "code": "action-mismatch",
       "severity": "error",
       "spec": "learning-track-composition",
       "path": "internal/recommendation/service.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-51cd8ee2c3a0",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "learning-track-composition",
+      "path": "internal/curriculum/graph.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
     },
@@ -15060,6 +16719,15 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
+      "id": "dif-54d94367196c",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-recovery-version-pinning",
+      "path": "cmd/codinho/recovery_integration_test.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-recovery-version-pinning (ensure commits carry 'POSE-Spec: session-recovery-version-pinning' trailer or generate report with pose report)"
+    },
+    {
       "id": "dif-56aa8c83b302",
       "code": "existence",
       "severity": "error",
@@ -15069,13 +16737,40 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-5a6fd396c325",
-      "code": "existence",
+      "id": "dif-596d3dbf8683",
+      "code": "unconsumed-capability",
       "severity": "error",
-      "spec": "go-production-architecture-packs",
-      "path": "packs/go-production",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
+      "spec": "session-tree-progression",
+      "path": "capability:session-tree-progression",
+      "message": "required current evidence is missing: integration",
+      "remediation": "run registered checks with the required evidenceClass against the current provenance digest"
+    },
+    {
+      "id": "dif-59d908b31f25",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "catalog-publication-integrity",
+      "path": "internal/cli/catalog.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec catalog-publication-integrity (ensure commits carry 'POSE-Spec: catalog-publication-integrity' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-5a51e10b5a24",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-tree-progression",
+      "path": "internal/mcpserver/assessment_tools.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-tree-progression (ensure commits carry 'POSE-Spec: session-tree-progression' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-5c016bcd9451",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "concept-content-authoring",
+      "path": "internal/mcpserver/assistance_tools.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec concept-content-authoring (ensure commits carry 'POSE-Spec: concept-content-authoring' trailer or generate report with pose report)"
     },
     {
       "id": "dif-5c4db57b844d",
@@ -15087,13 +16782,40 @@
       "remediation": "no Git change sets are attributed to spec agent-authored-catalog-drafts (ensure commits carry 'POSE-Spec: agent-authored-catalog-drafts' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-5cb2334ca177",
-      "code": "existence",
+      "id": "dif-5d8ed58bfa1b",
+      "code": "unconnected-artifact",
       "severity": "error",
-      "spec": "go-foundations-packs",
-      "path": "packs/go-core",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
+      "spec": "v1-delivery-ci-assurance",
+      "path": "governance:v1-delivery-ci",
+      "message": "delivery target has no structured artifact provenance",
+      "remediation": "declare and reconcile exact artifacts before asserting delivery"
+    },
+    {
+      "id": "dif-5df5048ce2b4",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "catalog-publication-integrity",
+      "path": "internal/curriculum/coverage_test.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec catalog-publication-integrity (ensure commits carry 'POSE-Spec: catalog-publication-integrity' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-5eb4dcafaeaf",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "go-backend-packs",
+      "path": "packs/go-database.yaml",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-5f673bb213ab",
+      "code": "unconnected-artifact",
+      "severity": "error",
+      "spec": "concept-content-authoring",
+      "path": "capability:canonical-concept-content",
+      "message": "delivery target has no structured artifact provenance",
+      "remediation": "declare and reconcile exact artifacts before asserting delivery"
     },
     {
       "id": "dif-60f78917c147",
@@ -15105,11 +16827,29 @@
       "remediation": "no Git change sets are attributed to spec agent-authored-catalog-drafts (ensure commits carry 'POSE-Spec: agent-authored-catalog-drafts' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-6cfc6eaad98b",
+      "id": "dif-6355d6c24f18",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-recovery-version-pinning",
+      "path": "internal/session/recovery.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-recovery-version-pinning (ensure commits carry 'POSE-Spec: session-recovery-version-pinning' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-648fe4d4393c",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "catalog-publication-integrity",
+      "path": "internal/curriculum/coverage.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec catalog-publication-integrity (ensure commits carry 'POSE-Spec: catalog-publication-integrity' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-6892f3dd9d3a",
       "code": "existence",
       "severity": "error",
-      "spec": "go-foundations-packs",
-      "path": "testdata/packs/foundations",
+      "spec": "session-recovery-version-pinning",
+      "path": "internal/session/recovery_test.go",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
@@ -15123,6 +16863,42 @@
       "remediation": "no Git change sets are attributed to spec go-interviews-pack (ensure commits carry 'POSE-Spec: go-interviews-pack' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-70b44a5ee1dd",
+      "code": "existence",
+      "severity": "error",
+      "spec": "catalog-publication-integrity",
+      "path": "testdata/catalog-quality/distribution.json",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-7393917305f8",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-tree-progression",
+      "path": "internal/application/assessment.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-tree-progression (ensure commits carry 'POSE-Spec: session-tree-progression' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-73deef78ad99",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "go-production-architecture-packs",
+      "path": "packs/manifest.yaml",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec go-production-architecture-packs (ensure commits carry 'POSE-Spec: go-production-architecture-packs' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-75d6df6866a6",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-recovery-version-pinning",
+      "path": "internal/session/service.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-recovery-version-pinning (ensure commits carry 'POSE-Spec: session-recovery-version-pinning' trailer or generate report with pose report)"
+    },
+    {
       "id": "dif-75df980a87df",
       "code": "action-mismatch",
       "severity": "error",
@@ -15130,6 +16906,15 @@
       "path": "internal/session/service.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec agent-authored-catalog-drafts (ensure commits carry 'POSE-Spec: agent-authored-catalog-drafts' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-77a47c1131a8",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "v1-delivery-ci-assurance",
+      "path": ".github/workflows/ci.yml",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec v1-delivery-ci-assurance (ensure commits carry 'POSE-Spec: v1-delivery-ci-assurance' trailer or generate report with pose report)"
     },
     {
       "id": "dif-786555fa9a90",
@@ -15150,6 +16935,15 @@
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-7b26753433e0",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "v1-delivery-ci-assurance",
+      "path": ".pose/roadmaps/codinho-v1.md",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec v1-delivery-ci-assurance (ensure commits carry 'POSE-Spec: v1-delivery-ci-assurance' trailer or generate report with pose report)"
+    },
+    {
       "id": "dif-7b533dec7be4",
       "code": "existence",
       "severity": "error",
@@ -15165,7 +16959,7 @@
       "spec": "go-foundations-packs",
       "path": "docs/catalog/go-foundations.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-foundations-packs (ensure commits carry 'POSE-Spec: go-foundations-packs' trailer or generate report with pose report)"
+      "remediation": "correct the action or record the exact attributed revisions"
     },
     {
       "id": "dif-81ba0f74659f",
@@ -15177,13 +16971,31 @@
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-8355e2f02155",
+      "id": "dif-83c3643fe653",
+      "code": "existence",
+      "severity": "error",
+      "spec": "agent-authored-catalog-drafts",
+      "path": "schemas/event.schema.json",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-84482456200c",
       "code": "action-mismatch",
       "severity": "error",
-      "spec": "go-foundations-packs",
-      "path": "packs/go-data-text",
+      "spec": "concept-content-authoring",
+      "path": ".pose/indexes/validation-matrix.json",
       "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-foundations-packs (ensure commits carry 'POSE-Spec: go-foundations-packs' trailer or generate report with pose report)"
+      "remediation": "no Git change sets are attributed to spec concept-content-authoring (ensure commits carry 'POSE-Spec: concept-content-authoring' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-8564824479c3",
+      "code": "unconsumed-capability",
+      "severity": "error",
+      "spec": "session-recovery-version-pinning",
+      "path": "capability:session-recovery",
+      "message": "required current evidence is missing: integration",
+      "remediation": "run registered checks with the required evidenceClass against the current provenance digest"
     },
     {
       "id": "dif-85a1054b811f",
@@ -15195,6 +17007,24 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
+      "id": "dif-865ac20e0f09",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "agent-authored-catalog-drafts",
+      "path": "internal/application/progress.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec agent-authored-catalog-drafts (ensure commits carry 'POSE-Spec: agent-authored-catalog-drafts' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-86bb07c7d347",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-recovery-version-pinning",
+      "path": "docs/compatibility.md",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-recovery-version-pinning (ensure commits carry 'POSE-Spec: session-recovery-version-pinning' trailer or generate report with pose report)"
+    },
+    {
       "id": "dif-87b37376d4ab",
       "code": "action-mismatch",
       "severity": "error",
@@ -15204,13 +17034,31 @@
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-87b72590c19f",
+      "id": "dif-8849ffcd7e8d",
       "code": "action-mismatch",
       "severity": "error",
-      "spec": "go-foundations-packs",
-      "path": "packs/go-testing",
+      "spec": "learning-track-composition",
+      "path": ".agents/skills/codinho/SKILL.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-foundations-packs (ensure commits carry 'POSE-Spec: go-foundations-packs' trailer or generate report with pose report)"
+      "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-88b557927e8f",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "agent-authored-catalog-drafts",
+      "path": "schemas/event.schema.json",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec agent-authored-catalog-drafts (ensure commits carry 'POSE-Spec: agent-authored-catalog-drafts' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-89ee461b0745",
+      "code": "existence",
+      "severity": "error",
+      "spec": "concept-content-authoring",
+      "path": "testdata/catalog-quality/concept-content.yaml",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-8a16a17033b1",
@@ -15222,6 +17070,15 @@
       "remediation": "no Git change sets are attributed to spec go-interviews-pack (ensure commits carry 'POSE-Spec: go-interviews-pack' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-8c04fced0911",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "go-foundations-packs",
+      "path": "packs/go-errors.yaml",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "correct the action or record the exact attributed revisions"
+    },
+    {
       "id": "dif-8db377654989",
       "code": "action-mismatch",
       "severity": "error",
@@ -15229,15 +17086,6 @@
       "path": "tests/e2e/session-resume",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-8e4a74ef30e4",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "go-production-architecture-packs",
-      "path": "packs/go-architecture-debugging",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-production-architecture-packs (ensure commits carry 'POSE-Spec: go-production-architecture-packs' trailer or generate report with pose report)"
     },
     {
       "id": "dif-8e4b8434d577",
@@ -15249,13 +17097,95 @@
       "remediation": "no Git change sets are attributed to spec go-interviews-pack (ensure commits carry 'POSE-Spec: go-interviews-pack' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-91598ebd3066",
+      "id": "dif-8f2106c79c26",
+      "code": "stale-evidence",
+      "severity": "error",
+      "spec": "session-recovery-version-pinning",
+      "path": "capability:session-recovery",
+      "change_set": "./go/mcp-contract",
+      "message": "passed integration evidence is bound to a different scoped provenance digest",
+      "remediation": "rerun the registered validation check for this delivery scope"
+    },
+    {
+      "id": "dif-8fa942de5653",
       "code": "action-mismatch",
       "severity": "error",
-      "spec": "go-interviews-pack",
-      "path": "packs/go-interviews",
+      "spec": "agent-authored-catalog-drafts",
+      "path": "internal/eventstore/event.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-interviews-pack (ensure commits carry 'POSE-Spec: go-interviews-pack' trailer or generate report with pose report)"
+      "remediation": "no Git change sets are attributed to spec agent-authored-catalog-drafts (ensure commits carry 'POSE-Spec: agent-authored-catalog-drafts' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-92c4e6cecd40",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-recovery-version-pinning",
+      "path": "internal/eventstore/event.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-recovery-version-pinning (ensure commits carry 'POSE-Spec: session-recovery-version-pinning' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-93a52efbabfa",
+      "code": "existence",
+      "severity": "error",
+      "spec": "go-foundations-packs",
+      "path": "packs/go-io.yaml",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-93f6470c4409",
+      "code": "existence",
+      "severity": "error",
+      "spec": "go-backend-packs",
+      "path": "packs/go-concurrency-context.yaml",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-947bc8cf409f",
+      "code": "unconnected-artifact",
+      "severity": "error",
+      "spec": "session-tree-progression",
+      "path": "capability:session-tree-progression",
+      "message": "delivery target has no structured artifact provenance",
+      "remediation": "declare and reconcile exact artifacts before asserting delivery"
+    },
+    {
+      "id": "dif-958037337820",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "go-foundations-packs",
+      "path": "packs/manifest.yaml",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "correct the action or record the exact attributed revisions"
+    },
+    {
+      "id": "dif-9792662ba963",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-tree-progression",
+      "path": "internal/session/progression_test.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-tree-progression (ensure commits carry 'POSE-Spec: session-tree-progression' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-983293eaa735",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-recovery-version-pinning",
+      "path": ".pose/indexes/validation-matrix.json",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-recovery-version-pinning (ensure commits carry 'POSE-Spec: session-recovery-version-pinning' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-98af7242bcee",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "catalog-publication-integrity",
+      "path": "docs/content-authoring.md",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec catalog-publication-integrity (ensure commits carry 'POSE-Spec: catalog-publication-integrity' trailer or generate report with pose report)"
     },
     {
       "id": "dif-98f12ec263b6",
@@ -15267,6 +17197,69 @@
       "remediation": "no Git change sets are attributed to spec go-production-architecture-packs (ensure commits carry 'POSE-Spec: go-production-architecture-packs' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-9d13817e0652",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "v1-delivery-ci-assurance",
+      "path": "docs/compatibility.md",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec v1-delivery-ci-assurance (ensure commits carry 'POSE-Spec: v1-delivery-ci-assurance' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-9d3c0540c8d0",
+      "code": "unconsumed-capability",
+      "severity": "error",
+      "spec": "v1-delivery-ci-assurance",
+      "path": "governance:v1-delivery-ci",
+      "message": "required current evidence is missing: integration",
+      "remediation": "run registered checks with the required evidenceClass against the current provenance digest"
+    },
+    {
+      "id": "dif-9dc8d4acc191",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "catalog-publication-integrity",
+      "path": "schemas/catalog.schema.json",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec catalog-publication-integrity (ensure commits carry 'POSE-Spec: catalog-publication-integrity' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-9de7fb8e9126",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-recovery-version-pinning",
+      "path": "internal/curriculum/index.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-recovery-version-pinning (ensure commits carry 'POSE-Spec: session-recovery-version-pinning' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-9e64986d535a",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-tree-progression",
+      "path": "internal/session/granularity.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-tree-progression (ensure commits carry 'POSE-Spec: session-tree-progression' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-a0e65682e8b4",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "v1-delivery-ci-assurance",
+      "path": ".pose/indexes/validation-matrix.json",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec v1-delivery-ci-assurance (ensure commits carry 'POSE-Spec: v1-delivery-ci-assurance' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-a20e5a18168f",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-tree-progression",
+      "path": "internal/session/disclosure_test.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-tree-progression (ensure commits carry 'POSE-Spec: session-tree-progression' trailer or generate report with pose report)"
+    },
+    {
       "id": "dif-a351218dabec",
       "code": "existence",
       "severity": "error",
@@ -15276,40 +17269,58 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-a6f76b3b47b6",
+      "id": "dif-a4fd68553827",
       "code": "action-mismatch",
       "severity": "error",
-      "spec": "go-backend-packs",
-      "path": "packs/go-database",
+      "spec": "agent-authored-catalog-drafts",
+      "path": "internal/mcpserver/content_draft_contract_test.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
+      "remediation": "no Git change sets are attributed to spec agent-authored-catalog-drafts (ensure commits carry 'POSE-Spec: agent-authored-catalog-drafts' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-a9b01103bf7a",
+      "id": "dif-a51dfc8d1d6b",
       "code": "action-mismatch",
       "severity": "error",
-      "spec": "go-foundations-packs",
-      "path": "packs/go-errors",
+      "spec": "session-recovery-version-pinning",
+      "path": "cmd/codinho/main.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-foundations-packs (ensure commits carry 'POSE-Spec: go-foundations-packs' trailer or generate report with pose report)"
+      "remediation": "no Git change sets are attributed to spec session-recovery-version-pinning (ensure commits carry 'POSE-Spec: session-recovery-version-pinning' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-adabbf82bd6e",
+      "id": "dif-a82be58534ec",
       "code": "existence",
       "severity": "error",
-      "spec": "go-interviews-pack",
-      "path": "packs/go-interviews",
+      "spec": "catalog-publication-integrity",
+      "path": "internal/curriculum/schema_contract_test.go",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-b1717d6838ce",
+      "id": "dif-aa6ac150c254",
       "code": "action-mismatch",
       "severity": "error",
-      "spec": "go-foundations-packs",
-      "path": "packs/go-first-steps",
+      "spec": "learning-track-composition",
+      "path": "internal/mcpserver/recommendation_tools.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-foundations-packs (ensure commits carry 'POSE-Spec: go-foundations-packs' trailer or generate report with pose report)"
+      "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-acf2585bad28",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-recovery-version-pinning",
+      "path": "schemas/event.schema.json",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-recovery-version-pinning (ensure commits carry 'POSE-Spec: session-recovery-version-pinning' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-b23410d342f3",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "catalog-publication-integrity",
+      "path": ".pose/indexes/validation-matrix.json",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec catalog-publication-integrity (ensure commits carry 'POSE-Spec: catalog-publication-integrity' trailer or generate report with pose report)"
     },
     {
       "id": "dif-b23fd0189738",
@@ -15321,15 +17332,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-b5ce26280085",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "go-backend-packs",
-      "path": "packs/go-concurrency-context",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-b61937d15c5f",
       "code": "action-mismatch",
       "severity": "error",
@@ -15339,13 +17341,104 @@
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-bc3055c9bb96",
+      "id": "dif-b6ef8b8875a0",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "go-interviews-pack",
+      "path": "packs/go-interviews.yaml",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec go-interviews-pack (ensure commits carry 'POSE-Spec: go-interviews-pack' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-b829bf4f422c",
+      "code": "unconnected-artifact",
+      "severity": "error",
+      "spec": "session-recovery-version-pinning",
+      "path": "capability:session-recovery",
+      "message": "delivery target has no structured artifact provenance",
+      "remediation": "declare and reconcile exact artifacts before asserting delivery"
+    },
+    {
+      "id": "dif-b9a00a1ef130",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "go-production-architecture-packs",
+      "path": "packs/go-architecture-debugging.yaml",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec go-production-architecture-packs (ensure commits carry 'POSE-Spec: go-production-architecture-packs' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-ba21484198f8",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "learning-track-composition",
+      "path": "internal/cli/catalog.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-ba7156e38ba9",
+      "code": "stale-evidence",
+      "severity": "error",
+      "spec": "catalog-publication-integrity",
+      "path": "capability:catalog-publication-integrity",
+      "change_set": "./go/mcp-contract",
+      "message": "passed integration evidence is bound to a different scoped provenance digest",
+      "remediation": "rerun the registered validation check for this delivery scope"
+    },
+    {
+      "id": "dif-bb68a58b10c4",
       "code": "existence",
       "severity": "error",
-      "spec": "go-foundations-packs",
-      "path": "packs/go-errors",
+      "spec": "go-production-architecture-packs",
+      "path": "packs/go-architecture-debugging.yaml",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-bb841a5c9e98",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "learning-track-composition",
+      "path": "internal/mcpserver/catalog_tools.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-be634d729556",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "catalog-publication-integrity",
+      "path": "testdata/catalog-quality/distribution.json",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec catalog-publication-integrity (ensure commits carry 'POSE-Spec: catalog-publication-integrity' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-bf535946655c",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "catalog-publication-integrity",
+      "path": "internal/curriculum/editorial.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec catalog-publication-integrity (ensure commits carry 'POSE-Spec: catalog-publication-integrity' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-c1b94587f617",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "catalog-publication-integrity",
+      "path": "internal/cli/editorial.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec catalog-publication-integrity (ensure commits carry 'POSE-Spec: catalog-publication-integrity' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-c1ce1e57eb89",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "v1-delivery-ci-assurance",
+      "path": ".pose/policy/artifacts.json",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec v1-delivery-ci-assurance (ensure commits carry 'POSE-Spec: v1-delivery-ci-assurance' trailer or generate report with pose report)"
     },
     {
       "id": "dif-c3eb68d6226b",
@@ -15355,6 +17448,15 @@
       "path": "docs/catalog/go-production-architecture.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec go-production-architecture-packs (ensure commits carry 'POSE-Spec: go-production-architecture-packs' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-c4600b2d8ac7",
+      "code": "existence",
+      "severity": "error",
+      "spec": "v1-delivery-ci-assurance",
+      "path": "docs/acceptance/v1-release-readiness.md",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-c4c3182343e5",
@@ -15375,22 +17477,40 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-c93f1f8682ec",
+      "id": "dif-c828772cbaf0",
       "code": "action-mismatch",
       "severity": "error",
-      "spec": "go-production-architecture-packs",
-      "path": "packs/go-production",
+      "spec": "concept-content-authoring",
+      "path": "internal/curriculum/validator.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-production-architecture-packs (ensure commits carry 'POSE-Spec: go-production-architecture-packs' trailer or generate report with pose report)"
+      "remediation": "no Git change sets are attributed to spec concept-content-authoring (ensure commits carry 'POSE-Spec: concept-content-authoring' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-cb43e72efe7b",
+      "id": "dif-c8bc2f2e82b9",
       "code": "action-mismatch",
       "severity": "error",
-      "spec": "go-backend-packs",
-      "path": "packs/go-http",
+      "spec": "catalog-publication-integrity",
+      "path": "schemas/challenge.schema.json",
       "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
+      "remediation": "no Git change sets are attributed to spec catalog-publication-integrity (ensure commits carry 'POSE-Spec: catalog-publication-integrity' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-c8db471605ed",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "v1-delivery-ci-assurance",
+      "path": "Makefile",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec v1-delivery-ci-assurance (ensure commits carry 'POSE-Spec: v1-delivery-ci-assurance' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-cc5caa9f1634",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "go-interviews-pack",
+      "path": "packs/manifest.yaml",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec go-interviews-pack (ensure commits carry 'POSE-Spec: go-interviews-pack' trailer or generate report with pose report)"
     },
     {
       "id": "dif-cfa689745438",
@@ -15411,13 +17531,22 @@
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-d532d68dd205",
-      "code": "existence",
+      "id": "dif-d20bcc26ddd9",
+      "code": "action-mismatch",
       "severity": "error",
-      "spec": "go-backend-packs",
-      "path": "packs/go-http",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
+      "spec": "session-recovery-version-pinning",
+      "path": "internal/session/recovery_test.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-recovery-version-pinning (ensure commits carry 'POSE-Spec: session-recovery-version-pinning' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-d48dd2ecf188",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "v1-delivery-ci-assurance",
+      "path": "docs/install.md",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec v1-delivery-ci-assurance (ensure commits carry 'POSE-Spec: v1-delivery-ci-assurance' trailer or generate report with pose report)"
     },
     {
       "id": "dif-d64fcc4b106f",
@@ -15427,6 +17556,24 @@
       "path": "tests/e2e/session-guided",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-d74a6687b65e",
+      "code": "unconsumed-capability",
+      "severity": "error",
+      "spec": "catalog-publication-integrity",
+      "path": "capability:catalog-publication-integrity",
+      "message": "required current evidence is missing: integration",
+      "remediation": "run registered checks with the required evidenceClass against the current provenance digest"
+    },
+    {
+      "id": "dif-d84fcf462cac",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "session-tree-progression",
+      "path": "internal/mcpserver/session_tools.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec session-tree-progression (ensure commits carry 'POSE-Spec: session-tree-progression' trailer or generate report with pose report)"
     },
     {
       "id": "dif-dbd9789545e4",
@@ -15447,6 +17594,24 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
+      "id": "dif-e09623117ad2",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "go-production-architecture-packs",
+      "path": "packs/go-production.yaml",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec go-production-architecture-packs (ensure commits carry 'POSE-Spec: go-production-architecture-packs' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-e2415bc7b810",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "concept-content-authoring",
+      "path": "internal/assistance/service.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec concept-content-authoring (ensure commits carry 'POSE-Spec: concept-content-authoring' trailer or generate report with pose report)"
+    },
+    {
       "id": "dif-e2d71ecb32ae",
       "code": "action-mismatch",
       "severity": "error",
@@ -15454,15 +17619,6 @@
       "path": "internal/application/catalog.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-e79fc1d4805f",
-      "code": "existence",
-      "severity": "error",
-      "spec": "go-foundations-packs",
-      "path": "packs/go-testing",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-e9b13b7b19cd",
@@ -15483,6 +17639,24 @@
       "remediation": "no Git change sets are attributed to spec agent-authored-catalog-drafts (ensure commits carry 'POSE-Spec: agent-authored-catalog-drafts' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-edf05599ac75",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "go-backend-packs",
+      "path": "packs/manifest.yaml",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-edfe6ca6074a",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "learning-track-composition",
+      "path": "internal/learning/session.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
+    },
+    {
       "id": "dif-f2d565e96e5b",
       "code": "existence",
       "severity": "error",
@@ -15490,9 +17664,99 @@
       "path": "tests/e2e/installation",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-f2effceba7d8",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "concept-content-authoring",
+      "path": "docs/content-authoring.md",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec concept-content-authoring (ensure commits carry 'POSE-Spec: concept-content-authoring' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-f7b381e0ea88",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "v1-delivery-ci-assurance",
+      "path": "docs/quickstart.md",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec v1-delivery-ci-assurance (ensure commits carry 'POSE-Spec: v1-delivery-ci-assurance' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-f7eb5dfab435",
+      "code": "existence",
+      "severity": "error",
+      "spec": "session-recovery-version-pinning",
+      "path": "cmd/codinho/recovery_integration_test.go",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-f8be44b55d80",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "catalog-publication-integrity",
+      "path": "internal/curriculum/loader.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec catalog-publication-integrity (ensure commits carry 'POSE-Spec: catalog-publication-integrity' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-f97759e5d10c",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "go-foundations-packs",
+      "path": "packs/go-type-design.yaml",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "correct the action or record the exact attributed revisions"
+    },
+    {
+      "id": "dif-fad2c861e6fe",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "concept-content-authoring",
+      "path": "internal/mcpserver/assistance_contract_test.go",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec concept-content-authoring (ensure commits carry 'POSE-Spec: concept-content-authoring' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-fb4452ee190d",
+      "code": "action-mismatch",
+      "severity": "error",
+      "spec": "learning-track-composition",
+      "path": "schemas/catalog.schema.json",
+      "message": "declared artifact action is absent from the attributed Git change sets",
+      "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-fc6912313d91",
+      "code": "existence",
+      "severity": "error",
+      "spec": "session-recovery-version-pinning",
+      "path": "internal/session/recovery.go",
+      "message": "declared current artifact is not tracked at the selected head",
+      "remediation": "correct the exact path or commit the artifact before closeout"
     }
   ],
   "deliveries": [
+    {
+      "spec": "concept-content-authoring",
+      "ref": "capability:canonical-concept-content",
+      "kind": "capability",
+      "id": "canonical-concept-content",
+      "module": "cmd/codinho",
+      "profile": "composed-capability",
+      "entrypoint": "cmd/codinho/main.go"
+    },
+    {
+      "spec": "catalog-publication-integrity",
+      "ref": "capability:catalog-publication-integrity",
+      "kind": "capability",
+      "id": "catalog-publication-integrity",
+      "module": "cmd/codinho",
+      "profile": "composed-capability",
+      "entrypoint": "cmd/codinho/main.go"
+    },
     {
       "spec": "tutor-skill-host-integration",
       "ref": "capability:codinho-tutor",
@@ -15501,6 +17765,24 @@
       "module": ".agents/skills/codinho",
       "profile": "composed-capability",
       "entrypoint": ".agents/skills/codinho/SKILL.md"
+    },
+    {
+      "spec": "session-recovery-version-pinning",
+      "ref": "capability:session-recovery",
+      "kind": "capability",
+      "id": "session-recovery",
+      "module": "cmd/codinho",
+      "profile": "composed-capability",
+      "entrypoint": "cmd/codinho/main.go"
+    },
+    {
+      "spec": "session-tree-progression",
+      "ref": "capability:session-tree-progression",
+      "kind": "capability",
+      "id": "session-tree-progression",
+      "module": "cmd/codinho",
+      "profile": "composed-capability",
+      "entrypoint": "cmd/codinho/main.go"
     },
     {
       "spec": "mcp-stdio-foundation",
@@ -15516,6 +17798,15 @@
       "ref": "governance:codinho-ci",
       "kind": "governance",
       "id": "codinho-ci",
+      "module": ".github/workflows",
+      "profile": "release-governance",
+      "entrypoint": ".github/workflows/ci.yml"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "ref": "governance:v1-delivery-ci",
+      "kind": "governance",
+      "id": "v1-delivery-ci",
       "module": ".github/workflows",
       "profile": "release-governance",
       "entrypoint": ".github/workflows/ci.yml"
@@ -15891,7 +18182,116 @@
       }
     }
   ],
+  "roadmap_criteria": [
+    {
+      "roadmap": "codinho-v1",
+      "id": "C1",
+      "refs": [
+        "surface:codinho-cli",
+        "check:cli-reachability",
+        "check:cli-e2e"
+      ],
+      "raw": "CLI alcançável e integrada: surface:codinho-cli check:cli-reachability check:cli-e2e",
+      "passed": false,
+      "reasons": [
+        "check is missing, failing or stale: cli-reachability",
+        "check is missing, failing or stale: cli-e2e"
+      ]
+    },
+    {
+      "roadmap": "codinho-v1",
+      "id": "C2",
+      "refs": [
+        "capability:session-recovery",
+        "capability:session-tree-progression"
+      ],
+      "raw": "Sessões recuperáveis e árvore completa: capability:session-recovery capability:session-tree-progression",
+      "passed": true
+    },
+    {
+      "roadmap": "codinho-v1",
+      "id": "C3",
+      "refs": [
+        "capability:catalog-publication-integrity",
+        "manual-review:docs/acceptance/v1-requirement-matrix.md"
+      ],
+      "raw": "Catálogo curado e distribuição verificada: capability:catalog-publication-integrity manual-review:docs/acceptance/v1-requirement-matrix.md",
+      "passed": true
+    },
+    {
+      "roadmap": "codinho-v1",
+      "id": "C4",
+      "refs": [
+        "capability:canonical-concept-content",
+        "capability:codinho-tutor",
+        "check:tutor-skill-routing"
+      ],
+      "raw": "Conteúdo canônico e tutor composto: capability:canonical-concept-content capability:codinho-tutor check:tutor-skill-routing",
+      "passed": false,
+      "reasons": [
+        "check is missing, failing or stale: tutor-skill-routing"
+      ]
+    },
+    {
+      "roadmap": "codinho-v1",
+      "id": "C5",
+      "refs": [
+        "manual-review:docs/acceptance/v1-pilot-report.md"
+      ],
+      "raw": "Integração de trilhas e rascunhos nos dois hosts: manual-review:docs/acceptance/v1-pilot-report.md",
+      "passed": true
+    },
+    {
+      "roadmap": "codinho-v1",
+      "id": "C6",
+      "refs": [
+        "governance:v1-delivery-ci",
+        "manual-review:docs/acceptance/v1-release-readiness.md"
+      ],
+      "raw": "Segurança e plataformas verificadas no candidato: governance:v1-delivery-ci manual-review:docs/acceptance/v1-release-readiness.md",
+      "passed": true
+    },
+    {
+      "roadmap": "codinho-v1",
+      "id": "C7",
+      "refs": [
+        "check:mcp-contract",
+        "check:stdout-purity",
+        "check:startup-budget",
+        "check:smoke-install"
+      ],
+      "raw": "Protocolo, inicialização e instalação: check:mcp-contract check:stdout-purity check:startup-budget check:smoke-install",
+      "passed": false,
+      "reasons": [
+        "check is missing, failing or stale: mcp-contract",
+        "check is missing, failing or stale: stdout-purity",
+        "check is missing, failing or stale: startup-budget",
+        "check is missing, failing or stale: smoke-install"
+      ]
+    },
+    {
+      "roadmap": "codinho-v1",
+      "id": "C8",
+      "refs": [
+        "manual-review:docs/acceptance/v1-requirement-matrix.md",
+        "manual-review:docs/acceptance/v1-pilot-report.md",
+        "manual-review:docs/acceptance/v1-release-readiness.md"
+      ],
+      "raw": "Aceite integral, revisão independente e limitações: manual-review:docs/acceptance/v1-requirement-matrix.md manual-review:docs/acceptance/v1-pilot-report.md manual-review:docs/acceptance/v1-release-readiness.md",
+      "passed": true
+    }
+  ],
   "paths": {
+    "capability:canonical-concept-content": [
+      "spec:concept-content-authoring",
+      "delivery:capability:canonical-concept-content",
+      "entrypoint:cmd/codinho/main.go"
+    ],
+    "capability:catalog-publication-integrity": [
+      "spec:catalog-publication-integrity",
+      "delivery:capability:catalog-publication-integrity",
+      "entrypoint:cmd/codinho/main.go"
+    ],
     "capability:codinho-tutor": [
       "spec:tutor-skill-host-integration",
       "artifact:.agents/skills/codinho/SKILL.md",
@@ -15914,6 +18314,16 @@
       "validation-result:./go/startup-budget",
       "validation-result:./go/stdout-purity",
       "validation-result:./go/tutor-skill-routing"
+    ],
+    "capability:session-recovery": [
+      "spec:session-recovery-version-pinning",
+      "delivery:capability:session-recovery",
+      "entrypoint:cmd/codinho/main.go"
+    ],
+    "capability:session-tree-progression": [
+      "spec:session-tree-progression",
+      "delivery:capability:session-tree-progression",
+      "entrypoint:cmd/codinho/main.go"
     ],
     "contract:codinho-mcp-v1": [
       "spec:mcp-stdio-foundation",
@@ -15961,6 +18371,11 @@
       "validation-result:./go/startup-budget",
       "validation-result:./go/stdout-purity",
       "validation-result:./go/tutor-skill-routing"
+    ],
+    "governance:v1-delivery-ci": [
+      "spec:v1-delivery-ci-assurance",
+      "delivery:governance:v1-delivery-ci",
+      "entrypoint:.github/workflows/ci.yml"
     ],
     "infrastructure:codinho-local-distribution": [
       "spec:installation-documentation-ci",

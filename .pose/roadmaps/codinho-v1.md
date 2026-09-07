@@ -22,6 +22,14 @@ host e cumprimento dos gates editoriais do catálogo.
 - Expanda conteúdo somente depois de validar autoria e checks seguros.
 - Encerre a V1 por composição e critérios de aceite, não por contagem de arquivos.
 
+## Revisão do planejamento — 2026-09-07 UTC
+
+Consulte o [diagnóstico e a ordem de execução](../reports/2026-09-07-doc-audit-auditoria-do-planejamento-v1.md).
+As specs históricas done conservam seu fechamento; as lacunas observadas no
+produto atual têm remediações próprias. Autoria curricular pode continuar
+em paralelo, mas publicação exige integridade editorial e playtest humano.
+Priorize recuperação, navegação completa e gates antes de ampliar o uso real.
+
 ## Milestone: architecture-baseline
 - after:
 - specs: architecture-decision-baseline
@@ -39,19 +47,31 @@ host e cumprimento dos gates editoriais do catálogo.
 - specs: tutor-skill-host-integration, administrative-cli-fixtures, learning-practice-debug-modes, interview-mode
 
 ## Milestone: adaptive-content-and-selection
-- after: tutor-surfaces-and-modes
+- after: session-continuity, editorial-integrity
 - specs: learning-track-composition, agent-authored-catalog-drafts
 
+## Milestone: session-continuity
+- after: tutor-surfaces-and-modes
+- specs: session-recovery-version-pinning, session-tree-progression
+
+## Milestone: editorial-integrity
+- after: tutor-surfaces-and-modes
+- specs: catalog-publication-integrity, concept-content-authoring
+
 ## Milestone: curriculum-v1
-- after: adaptive-content-and-selection
+- after: tutor-surfaces-and-modes
 - specs: catalog-authoring-quality, go-foundations-packs, go-backend-packs, go-production-architecture-packs, go-interviews-pack
 
 ## Milestone: production-hardening
-- after: curriculum-v1
+- after: tutor-surfaces-and-modes
 - specs: security-privacy-hardening, reliability-observability-compatibility, installation-documentation-ci
 
-## Milestone: v1-acceptance
+## Milestone: delivery-assurance
 - after: production-hardening
+- specs: v1-delivery-ci-assurance
+
+## Milestone: v1-acceptance
+- after: curriculum-v1, adaptive-content-and-selection, delivery-assurance
 - specs: v1-integrated-acceptance
 
 ## Critérios de conclusão
@@ -61,6 +81,21 @@ host e cumprimento dos gates editoriais do catálogo.
 - CLI, skill e MCP funcionam pelo Codex CLI e pela extensão da IDE.
 - Segurança, recuperação, privacidade, instalação e documentação cumprem `PROJECT.md`.
 - O aceite integrado comprova a progressão de microguiado até autonomia.
+
+## Cut criteria
+
+- C1: CLI alcançável e integrada: surface:codinho-cli check:cli-reachability check:cli-e2e
+- C2: Sessões recuperáveis e árvore completa: capability:session-recovery capability:session-tree-progression
+- C3: Catálogo curado e distribuição verificada: capability:catalog-publication-integrity manual-review:docs/acceptance/v1-requirement-matrix.md
+- C4: Conteúdo canônico e tutor composto: capability:canonical-concept-content capability:codinho-tutor check:tutor-skill-routing
+- C5: Integração de trilhas e rascunhos nos dois hosts: manual-review:docs/acceptance/v1-pilot-report.md
+- C6: Segurança e plataformas verificadas no candidato: governance:v1-delivery-ci manual-review:docs/acceptance/v1-release-readiness.md
+- C7: Protocolo, inicialização e instalação: check:mcp-contract check:stdout-purity check:startup-budget check:smoke-install
+- C8: Aceite integral, revisão independente e limitações: manual-review:docs/acceptance/v1-requirement-matrix.md manual-review:docs/acceptance/v1-pilot-report.md manual-review:docs/acceptance/v1-release-readiness.md
+
+Referências manuais exigem conteúdo revisado, commit e resultados; a existência
+do arquivo não comprova comportamento. O roll-up terminal acontece depois do
+fechamento da spec de aceite e dos milestones, sem dispensar seus gates prévios.
 
 ## Riscos do roadmap
 

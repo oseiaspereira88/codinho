@@ -224,4 +224,4 @@ primeiro desafio `kind: debug` real com fixture.
 
 ### Follow-ups
 - [covered: v1-integrated-acceptance] Medir progressão de granularidade no piloto.
-- [open] Calibrar `EvidenceThreshold` com dados reais de sessões (hoje fixo em 3, sem piloto).
+- [open] Calibrar `EvidenceThreshold` com dados reais de sessões (hoje fixo em 3, sem piloto); encaminhamento no piloto de v1-integrated-acceptance. (owner:@oseiaspereira crit:medium review:2026-09-21)

@@ -312,5 +312,5 @@ autorar o texto.
 
 ### Follow-ups
 - [covered: tutor-skill-host-integration] Validar adaptação das explicações pelo tutor.
-- [open] Relações/analogias/exemplos de conceito (PROJECT.md §15.7) exigem novos campos de autoria em ConceptAuthoring; avaliar em uma futura spec de qualidade de autoria de catálogo.
+- [open] Relações/analogias/exemplos de conceito (PROJECT.md §15.7) exigem novos campos de autoria em ConceptAuthoring; encaminhamento planejado em concept-content-authoring. (owner:@oseiaspereira crit:high review:2026-09-21)
 - [covered: mastery-review-scheduling] Consumir `needs_variant: true` do evento `solution_revealed` para de fato agendar uma variante futura do desafio.

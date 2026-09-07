@@ -33,12 +33,28 @@
       "digest": "sha256:a7b986e5c48a058456ce42c84d4e53187999d2136913fa4eabf0e05e2db2e4a1"
     },
     {
+      "spec": "eventstore-idempotency-scope",
+      "category": "fixed",
+      "breaking": false,
+      "body": "Corrigido um bug de idempotência no event store: uma retentativa com o\nmesmo `request_id` em duas sessões diferentes podia devolver o evento de\numa sessão para a outra, silenciosamente. Agora o `request_id` é único por\nsessão, não globalmente — retentativas continuam idempotentes dentro da\nmesma sessão, e sessões diferentes nunca mais colidem.",
+      "path": "eventstore-idempotency-scope.md",
+      "digest": "sha256:64186bcde8df60221331ddf42f5245e5a7c7e8d8c074eeab19e8056cced0293f"
+    },
+    {
       "spec": "feedback-evaluation-progression",
       "category": "added",
       "breaking": false,
       "body": "O tutor agora consegue preparar feedback consultivo, avaliar uma tentativa por\ncritérios determinísticos e qualitativos, registrar reflexão do aluno,\nconcluir um passo respeitando a política autoral e avançar para o próximo\npasso da árvore de um desafio — sem que o feedback sozinho conclua ou avance\nnada.",
       "path": "feedback-evaluation-progression.md",
       "digest": "sha256:8de7a65d124e2a60b5624dd49059320814161556d5675fa3b5af9efdf11dd25d"
+    },
+    {
+      "spec": "installation-documentation-ci",
+      "category": "added",
+      "breaking": false,
+      "body": "Documentação completa de instalação, quickstart e configuração de host\n(Codex CLI e extensão de IDE). CI real roda gofmt, vet, build, testes\ncom race detector, govulncheck, validação de catálogo e checagem de\nskills em cada pull request e push para main. Um script de\nsmoke-install verifica o onboarding de ponta a ponta em um diretório\nlimpo.",
+      "path": "installation-documentation-ci.md",
+      "digest": "sha256:0d5e6702619a9c02f84e0b88d774c9efdfa3104be02d598e4b32413ef249bf1b"
     },
     {
       "spec": "interview-mode",

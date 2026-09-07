@@ -57,12 +57,13 @@ Levar a fluência fundamental até comportamentos backend reais sem saltar diret
 ## 3. Technical Plan
 
 ### Affected areas
-- packs/go-concurrency-context/, packs/go-http/, packs/go-database/
+- packs/go-concurrency-context.yaml, packs/go-http.yaml, packs/go-database.yaml
 
 ### Artifacts
-- created: packs/go-concurrency-context/
-- created: packs/go-http/
-- created: packs/go-database/
+- modified: packs/manifest.yaml
+- created: packs/go-concurrency-context.yaml
+- created: packs/go-http.yaml
+- created: packs/go-database.yaml
 - created: testdata/packs/backend/
 - created: docs/catalog/go-backend.md
 
@@ -114,7 +115,7 @@ Executar checks herméticos, repetição para flake, race detector e revisão hu
 
 ### Deterministic checks
 - Test: checks de todas as fixtures e go test -race onde aplicável.
-- Lint: codinho catalog validate packs/go-concurrency-context packs/go-http packs/go-database
+- Lint: go run ./cmd/codinho catalog validate --json (executar na raiz; catálogo resolvido pelo manifest).
 - Typecheck: go vet ./...
 - Build: go build ./cmd/codinho
 - Security / Contract: HTTP negative suite, SQL injection cases e path confinement.

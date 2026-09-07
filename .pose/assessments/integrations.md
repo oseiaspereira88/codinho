@@ -1,8 +1,8 @@
-# Integration Assessment: ai-code-micro-learning
+# Integration Assessment: codinho
 
 > **Gerado por**: POSE Integration Engine (`pose assess integrate`)
-> **Data de Avaliação**: 2026-08-23T07:47:40Z
-> **Baseline Commit**: 8461aa7181f3
+> **Data de Avaliação**: 2026-09-07T00:29:43Z
+> **Baseline Commit**: d7587442bc9f
 
 ## 1. Resumo Executivo
 

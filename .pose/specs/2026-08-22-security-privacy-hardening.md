@@ -231,4 +231,4 @@ não-mutação de Git/workspace fora de escopo.
 
 ### Follow-ups
 - [covered: v1-integrated-acceptance] Reexecutar suite adversarial no candidato V1.
-- [open] Obter revisão humana independente do threat model e do diff desta spec antes do aceite V1.
+- [open] Obter revisão humana independente do threat model e do diff desta spec antes do aceite V1; rastrear evidência em v1-delivery-ci-assurance. (owner:@oseiaspereira crit:high review:2026-09-21)

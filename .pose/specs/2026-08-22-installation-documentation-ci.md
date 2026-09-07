@@ -234,5 +234,5 @@ workflow que builda mas nunca publica.
 
 ### Follow-ups
 - [covered: v1-integrated-acceptance] Executar onboarding e gates no candidato final.
-- [open] Pinar actions do GitHub por commit SHA verificado (hoje usa tags major).
-- [open] Executar smoke-install real em macOS e Windows quando houver acesso.
+- [open] Pinar actions do GitHub por commit SHA verificado (hoje usa tags major); encaminhamento em v1-delivery-ci-assurance. (owner:@oseiaspereira crit:medium review:2026-09-21)
+- [open] Executar smoke-install real em macOS, obrigatório na V1; Windows desejável, após evidência. Encaminhamento em v1-delivery-ci-assurance. (owner:@oseiaspereira crit:high review:2026-09-21)

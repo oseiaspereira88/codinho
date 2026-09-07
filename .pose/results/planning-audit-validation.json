@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-07T00:41:54Z",
+  "mode": "strict",
+  "git_head": "d7587442bc9f2f5ba0fd751a3586b35006a41803",
+  "matrix_sha256": "sha256:a31d7c948f1e11c66a77abf202ae9b103ec09832f44d5dc33aeba21443df564b",
+  "provenance_digest": "sha256:e3930432405ebf20d884504f504c8eaf25391f83347d49bcb8424a1ab5562182",
+  "scope_provenance": {
+    "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
+    "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
+    "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
+    "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
+    "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
+    "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+    "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
+    "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
+    "go-foundations-packs": "sha256:fe733b8d04e17eb44a133d7d32d245279f959c4b9bc7f8102d50056625a27dcf",
+    "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
+    "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
+    "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
+    "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
+    "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
+    "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
+    "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
+    "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
+    "reliability-observability-compatibility": "sha256:19c11511b2a732584f4787c35bcd3d39e3a0ba209b3588c42cbc8f187a5172e0",
+    "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
+    "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
+    "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
+    "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
+    "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
+  },
+  "outcome": "pass",
+  "counts": {
+    "executed": 11,
+    "passed": 11,
+    "failed": 0,
+    "optional_failed": 0,
+    "errored": 0,
+    "skipped": 0
+  },
+  "checks": [
+    {
+      "id": "./go/test",
+      "module": ".",
+      "stack": "go",
+      "name": "test",
+      "program": "go",
+      "args": [
+        "test",
+        "./..."
+      ],
+      "severity": "required",
+      "evidence_class": "unit",
+      "outcome": "pass",
+      "duration_seconds": 3.547122116,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t3.238s\nok  \tgithub.com/oseiaspereira88/codinho/internal/application\t0.585s\nok  \tgithub.com/oseiaspereira88/codinho/internal/assessment\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/assistance\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/checks\t2.048s\nok  \tgithub.com/oseiaspereira88/codinho/internal/cli\t0.011s\n?   \tgithub.com/oseiaspereira88/codinho/internal/config\t[no test files]\nok  \tgithub.com/oseiaspereira88/codinho/internal/curriculum\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/diagnostics\t0.003s\nok  \tgithub.com/oseiaspereira88/codinho/internal/eventstore\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/evidence\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/fixtures\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/learning\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/mastery\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/mcpserver\t0.837s\nok  \tgithub.com/oseiaspereira88/codinho/internal/recommendation\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/security\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/session\t(cached)\nok  \tgithub.com/oseiaspereira88/codinho/internal/workspace\t0.089s\n"
+    },
+    {
+      "id": "./go/vet",
+      "module": ".",
+      "stack": "go",
+      "name": "vet",
+      "program": "go",
+      "args": [
+        "vet",
+        "./..."
+      ],
+      "severity": "optional",
+      "evidence_class": "build",
+      "outcome": "pass",
+      "duration_seconds": 0.071851004
+    },
+    {
+      "id": "./go/build",
+      "module": ".",
+      "stack": "go",
+      "name": "build",
+      "program": "go",
+      "args": [
+        "build",
+        "./cmd/codinho"
+      ],
+      "severity": "required",
+      "evidence_class": "build",
+      "outcome": "pass",
+      "duration_seconds": 0.053819781
+    },
+    {
+      "id": "./go/mcp-contract",
+      "module": ".",
+      "stack": "go",
+      "name": "mcp-contract",
+      "program": "go",
+      "args": [
+        "test",
+        "./internal/mcpserver/...",
+        "-run",
+        "TestContract"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "pass",
+      "duration_seconds": 0.790029987,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/internal/mcpserver\t0.558s\n"
+    },
+    {
+      "id": "./go/tutor-skill-routing",
+      "module": ".",
+      "stack": "go",
+      "name": "tutor-skill-routing",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho/...",
+        "-run",
+        "TestTutorSkillFullSessionRoutingOverRealStdio"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "pass",
+      "duration_seconds": 0.730316953,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.440s\n"
+    },
+    {
+      "id": "./go/cli-reachability",
+      "module": ".",
+      "stack": "go",
+      "name": "cli-reachability",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho/...",
+        "-run",
+        "TestCLIEntrypointReachesEveryCommand"
+      ],
+      "severity": "required",
+      "evidence_class": "reachability",
+      "outcome": "pass",
+      "duration_seconds": 0.546770946,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.333s\n"
+    },
+    {
+      "id": "./go/cli-e2e",
+      "module": ".",
+      "stack": "go",
+      "name": "cli-e2e",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho/...",
+        "-run",
+        "TestCLIEndToEndWorkflow"
+      ],
+      "severity": "required",
+      "evidence_class": "e2e",
+      "outcome": "pass",
+      "duration_seconds": 0.532050878,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.324s\n"
+    },
+    {
+      "id": "./go/govulncheck",
+      "module": ".",
+      "stack": "go",
+      "name": "govulncheck",
+      "program": "govulncheck",
+      "args": [
+        "./..."
+      ],
+      "severity": "required",
+      "outcome": "pass",
+      "duration_seconds": 2.254030117,
+      "output": "No vulnerabilities found.\n"
+    },
+    {
+      "id": "./go/stdout-purity",
+      "module": ".",
+      "stack": "go",
+      "name": "stdout-purity",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho/...",
+        "-run",
+        "TestServeNeverWritesToStdoutOnStartupFailure|TestServeStdoutIsOnlyValidJSONFrames"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "pass",
+      "duration_seconds": 1.026247179,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.731s\n"
+    },
+    {
+      "id": "./go/startup-budget",
+      "module": ".",
+      "stack": "go",
+      "name": "startup-budget",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho/...",
+        "-run",
+        "TestServeStartupRespondsWithinOneSecond"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "pass",
+      "duration_seconds": 0.625654688,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.377s\n"
+    },
+    {
+      "id": "./go/smoke-install",
+      "module": ".",
+      "stack": "go",
+      "name": "smoke-install",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho/...",
+        "-run",
+        "TestSmokeInstallScript"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "pass",
+      "duration_seconds": 0.7412125,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.443s\n"
+    }
+  ]
+}

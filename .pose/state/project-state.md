@@ -1,7 +1,7 @@
 ---
 schema_version: 1
-generated_at: 2026-08-24T01:06:18Z
-baseline_commit: c5edd1644af1062a42132ef24ff0404ccce168df
+generated_at: 2026-09-07T00:53:58Z
+baseline_commit: d7587442bc9f2f5ba0fd751a3586b35006a41803
 staleness_policy: max_age_days=7,max_commits=20
 refresh_pending: 
 ---
@@ -13,22 +13,27 @@ refresh_pending:
 
 O codinho é um sistema local de prática deliberada assistida por agente,
 inicialmente especializado no desenvolvimento de fluência em Go. A visão e o
-escopo da V1 estão documentados em `PROJECT.md`; ainda não existe um módulo de
-aplicação nem comportamento funcional implementado.
+escopo da V1 estão documentados em `PROJECT.md`. Há CLI, servidor MCP stdio,
+domínio, catálogo e testes executáveis. A auditoria de 2026-09-07 UTC confirmou
+validação estrita e race verdes, mas reproduziu falha de retomada após restart.
+O catálogo do worktree contém 41 desafios autorados e zero publicados; a V1
+permanece em implementação. Consulte o relatório
+`.pose/reports/2026-09-07-doc-audit-auditoria-do-planejamento-v1.md`.
 
 ## Direção atual
 <!-- state:curated -->
 
-Execute o roadmap `codinho-v1` pelas dependências registradas nas 26 specs.
-Comece por `architecture-decision-baseline`; em seguida materialize a fundação
-executável e o primeiro fluxo MCP local de ponta a ponta. Mantenha catálogo,
-hardening e aceite final condicionados aos gates definidos pelas respectivas
-specs.
+Priorize `session-recovery-version-pinning`, `session-tree-progression` e
+`catalog-publication-integrity`. Prepare gates de CI e conteúdo canônico;
+depois execute composição de trilhas e quarentena de rascunhos. A autoria
+curricular pode continuar em paralelo, com revisão humana antes da publicação.
+Use as dependências e os oito critérios declarativos de `codinho-v1` para o
+aceite final; status históricos done não demonstram composição atual.
 
 ## Specs & Roadmaps
-<!-- state:derived hash:5a13bc110da6 -->
+<!-- state:derived hash:8b8897981bae -->
 
-- specs: total=29 draft=7 in-progress=0 blocked=0 done=22 superseded=0 abandoned=0
+- specs: total=34 draft=11 in-progress=1 blocked=0 done=22 superseded=0 abandoned=0
 - roadmaps: total=1 active=1 done=0
 - últimos closeouts:
   - spec:eventstore-idempotency-scope (2026-08-24)
@@ -39,10 +44,10 @@ specs.
   - ... e mais 17 (ver `pose_list_specs status:done`)
 
 ## Follow-ups
-<!-- state:derived hash:0afbfb87d94d -->
+<!-- state:derived hash:9b01ea69d647 -->
 
 - abertos: 6
-- por criticidade: high=0 medium=0 low=0 sem-classificação=6
+- por criticidade: high=4 medium=2 low=0 sem-classificação=0
 - vencidos (review < hoje): 0
 
 ## Capabilities
@@ -51,32 +56,32 @@ specs.
 - assessment: ausente (rode `pose assess init`)
 
 ## Decisões & Conhecimento
-<!-- state:derived hash:60637b078948 -->
+<!-- state:derived hash:0ab3afd5fafc -->
 
-- ADRs: total=0
-- knowledge: total=0 ativo=0 expirado=0
+- ADRs: total=6
+  - adr:2026-08-23-multi-subject-selection-and-path-composition.md
+  - adr:2026-08-23-agent-generated-catalog-content-as-a-first-class-mode.md
+  - adr:2026-08-22-local-versioned-catalog-and-event-state.md
+  - adr:2026-08-22-learner-code-ownership-and-safe-checks.md
+  - adr:2026-08-22-independent-pedagogical-transitions.md
+- knowledge: total=8 ativo=8 expirado=0
 
 ## Validação & Evidência
-<!-- state:derived hash:f374377a0212 -->
+<!-- state:derived hash:57eabb181e4c -->
 
-- último registro: task=fechar-workspace-observation-baselines outcome=pass (2026-08-23T04:32:07Z)
-- últimos 30 dias: total=16 outcome_ok=15 outcome_outro=1
-- reports revisados (.md): total=9
+- último registro: task=auditoria-do-planejamento-v1 outcome=partial (2026-09-07T00:43:12Z)
+- últimos 30 dias: total=17 outcome_ok=15 outcome_outro=2
+- reports revisados (.md): total=10
+  - report:2026-09-07-doc-audit-auditoria-do-planejamento-v1.md
   - report:2026-08-23-standard-fechar-workspace-observation-baselines.md
   - report:2026-08-23-standard-validate-native.md
   - report:2026-08-23-standard-fechar-feedback-evaluation-progression.md
   - report:2026-08-22-doc-audit-initialize-pose-governance-for-ailearn.md
-  - report:2026-08-22-standard-fundacao-go-executavel-do-ailearn.md
 
 ## Arquitetura
-<!-- state:derived hash:5f7899382068 status:active -->
+<!-- state:derived hash:26bc9a5cafff status:unavailable -->
 
-- componentes: total=1 verificados=1 completude=100.0%
-- linhas_de_codigo: producao=9931 testes=8931 total=18862
-- linguagens: go, shell
-- saude_de_codigo: TODOs=0 FIXMEs=0 panics=0 stubs=0
-- integracoes: contratos=0 ativos=0 gaps=0
-- ultimos_assessments: ver artefatos em .pose/assessments/ e .pose/state/
+GraphForge export local ainda não é publicado por nenhum produtor neste repositório; seção indisponível nesta versão (spec pose-project-state-artifact, Não-objetivos e Compatibilidade).
 
 ## Docs
 <!-- state:derived hash:d5892e1cac69 -->

@@ -56,17 +56,17 @@ Oferecer prática desde o primeiro contato até a base necessária para backend,
 ## 3. Technical Plan
 
 ### Affected areas
-- packs/go-first-steps/, packs/go-core/, packs/go-data-text/, packs/go-type-design/, packs/go-errors/, packs/go-io/, packs/go-testing/
+- packs/*.yaml, fixtures embutidas nos desafios e docs/catalog/go-foundations.md
 
 ### Artifacts
-- created: packs/go-first-steps/
-- created: packs/go-core/
-- created: packs/go-data-text/
-- created: packs/go-type-design/
-- created: packs/go-errors/
-- created: packs/go-io/
-- created: packs/go-testing/
-- created: testdata/packs/foundations/
+- modified: packs/go-first-steps.yaml
+- created: packs/go-core.yaml
+- created: packs/go-data-text.yaml
+- created: packs/go-type-design.yaml
+- created: packs/go-errors.yaml
+- created: packs/go-io.yaml
+- created: packs/go-testing.yaml
+- modified: packs/manifest.yaml
 - created: docs/catalog/go-foundations.md
 
 ### Delivery targets
@@ -97,10 +97,18 @@ Matriz de distribuição (temas A–M de `PROJECT.md` §14.2 por pack):
 | go-data-text | E (slices/arrays/maps), F (texto e dados binários) | 8 atômicos, 2 combinados |
 | go-type-design | G (structs/ponteiros), H (interfaces), I (generics) | 6 atômicos, 2 combinados |
 | go-errors | J (erros) | 4 atômicos, 2 combinados, 1 fatia funcional |
-| go-io | L (I/O e serialização) | 4 atômicos, 1 combinado, 1 fatia funcional |
-| go-testing | M (testes) | 4 atômicos, 1 combinado |
+| go-io | L (I/O e serialização) | 1 combinado, 1 fatia funcional; 4 variantes atômicas sem nova contagem |
+| go-testing | M (testes) | 1 combinado; 4 variantes atômicas sem nova contagem |
 
 Total: 32 atômicos + 10 combinados + 2 fatias funcionais = 44 (R3–R5).
+Correção de planejamento em 2026-09-07 UTC: a tabela anterior somava 40
+atômicos e 52 desafios, em contradição com R3 e com a distribuição global.
+Os 32 atômicos já previstos nos cinco primeiros packs são preservados;
+as oito práticas adicionais de I/O/testes passam a variantes contextualizadas,
+sem contar como desafios canônicos novos. Validar equivalência de competência
+e relações na matriz editorial antes de autorar; se precisarem ser desafios
+independentes, propor revisão explícita da distribuição, sem renomear tipos
+artificialmente nem apagar conteúdo existente.
 Conceitos/competências/step nodes seguem a mesma proporção por pack, sem
 prever menos de 8 conceitos e 5 competências por pack (piso para não
 deixar nenhum tema raso), ajustado durante a autoria para fechar em ≥100
@@ -113,6 +121,9 @@ conceitos / ≥60 competências / ≥300 step nodes (R1's threshold em
 - [ ] Autorar pistas, reflexões, variantes e checks.
 - [ ] Criar cinco trilhas.
 - [ ] Realizar revisão, playtest e correções.
+- [ ] Integrar conteúdo canônico de concept-content-authoring e gates de catalog-publication-integrity antes de publicar os sete packs.
+- [ ] Distinguir desafios canônicos, variantes e protótipos; decidir o destino dos dois exemplos históricos sem quebrar IDs de sessões.
+- [ ] Revisar cobertura real de macro/meso/micro e critérios observáveis, sem inflar a contagem de nodes com passos redundantes.
 
 ### Validation
 - [ ] Executar codinho catalog validate packs.
@@ -199,7 +210,7 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
 
 ### Deterministic checks
 - Test: go test ./internal/curriculum/... e checks de cada fixture.
-- Lint: codinho catalog validate packs/go-first-steps packs/go-core packs/go-data-text packs/go-type-design packs/go-errors packs/go-io packs/go-testing
+- Lint: go run ./cmd/codinho catalog validate --json (catálogo completo resolvido pelo manifest; a CLI atual não seleciona packs por argumentos posicionais).
 - Typecheck: go vet ./...
 - Build: go build ./cmd/codinho
 - Security / Contract: secret scan, path confinement e leak detector.
@@ -962,8 +973,15 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
   restantes de 7).
 
 ### Results summary
-Spec destravada. Vinte checkpoints de conteúdo real autorado (40 de 44
-desafios): três em go-first-steps (checkpoint 1 declarações/tipos,
+Baseline da auditoria de 2026-09-07 UTC: 38 desafios fundamentais no HEAD
+d758744, mais um combinado em go-errors no worktree do usuário, totalizando
+39 canônicos autorados de 44. Há ainda dois protótipos fora dessa contagem
+(go-data.slice-filter-preserve-input e go-debug.slice-off-by-one). Os 41 itens
+carregados no worktree têm zero publicação confirmada. Os checkpoints abaixo
+são histórico de autoria/pré-revisão, não comprovação de publicação ou do gate.
+
+Histórico de autoria: checkpoints de conteúdo real em cinco packs,
+com contagem reconciliada no baseline acima. Três em go-first-steps (checkpoint 1 declarações/tipos,
 checkpoint 2 tooling + conversão numérica, checkpoint 3 tooling +
 shadowing), cinco em go-core (checkpoint 1 defer + parâmetros
 variádicos, checkpoint 2 labeled break + receptor de ponteiro, checkpoint

@@ -4,7 +4,7 @@ status: draft
 created_at: 2026-08-24
 completed_at:
 supersedes:
-depends_on: catalog-authoring-quality, learning-track-composition, tutor-skill-host-integration
+depends_on: catalog-authoring-quality, learning-track-composition, tutor-skill-host-integration, catalog-publication-integrity, concept-content-authoring, session-recovery-version-pinning
 priority: 75
 components: curriculum, mcp-server, tutor-skill, mastery
 delivers:
@@ -65,6 +65,11 @@ real — puxado pelo próprio uso, não só por autoria offline dos packs
 - R6: Promoção de rascunho a `published` segue exatamente o funil de
   `author`/`reviewed_by`/`playtested` de `catalog-authoring-quality` — sem
   atalho novo.
+- R7: Persistir submissão idempotente, versão/digest e proveniência no servidor; o cliente não pode declarar conteúdo revisado, editar estado de sessão nem sobrescrever outro rascunho por colisão de ID.
+- R8: Separar validação estrutural de submissão dos requisitos exclusivos de publicação; aceitar draft sem reviewed_by/playtested, rejeitando a tentativa de enviar status published.
+- R9: Definir payload permitido para fixtures e checks: aceitar somente dados declarativos limitados; não executar código durante submissão, não materializar arquivos no workspace do aluno e não confundir runner allowlisted com isolamento de código adversarial.
+- R10: Manter proveniência imutável por tentativa; promoção do conteúdo não promove retroativamente mastery. Qualquer revalidação posterior exige operação explícita e novas evidências causais, após decisão no ADR.
+- R11: Incluir quarentena na política de quotas, retenção, export/remoção e retomada; provar isolamento entre sessões e exclusão do gate editorial V1 até publicação humana.
 
 ### Non-functional
 - Validação de rascunho é síncrona à submissão (mesmo orçamento de
@@ -73,13 +78,15 @@ real — puxado pelo próprio uso, não só por autoria offline dos packs
 ### Security
 - Rascunho gerado passa pelas mesmas regras de confinamento de fixture/path
   e scanner de secrets já aplicadas a conteúdo autorado normalmente.
-- Tool de submissão não aceita conteúdo executável nem paths fora do
-  workspace do aluno.
+- Tool de submissão não executa payloads. O contrato distingue texto de
+  fixture de comandos; persistência ocorre em quarentena controlada, sem
+  conceder escrita no workspace do aluno. Execução posterior exige autorização.
 
 ### Compatibility
-- `internal/mastery` ganha o campo de proveniência de forma aditiva —
-  eventos antigos sem o campo são tratados como proveniência revisada
-  (comportamento atual preservado).
+- Adicionar proveniência sem reescrever eventos. Eventos legados sem campo
+  não são automaticamente prova de publicação: o catálogo atual já permite
+  sessões sobre itens não publicados. Definir migração/classificação no ADR
+  e testar a projeção conservadora antes de implementar.
 
 ## 3. Technical Plan
 
@@ -98,6 +105,12 @@ real — puxado pelo próprio uso, não só por autoria offline dos packs
 - modified: internal/mastery/projector.go
 - modified: internal/session/service.go
 - modified: .agents/skills/codinho/SKILL.md
+- modified: internal/application/progress.go
+- modified: internal/eventstore/event.go
+- modified: internal/security/policy.go
+- modified: internal/cli/privacy.go
+- created: internal/mcpserver/content_draft_contract_test.go
+- modified: schemas/event.schema.json
 
 ### Delivery targets
 Nenhum novo; amplia o contrato MCP V1 já entregue.
@@ -172,10 +185,11 @@ verificando isolamento de evidência, e promoção ponta a ponta até
 Nenhuma implementação ainda; spec criada para sequenciar o trabalho.
 
 ### Requirement trace
-- Mapear R1–R6 a testes de submissão, quarentena, proveniência e promoção.
+- Mapear R1–R11 a testes de submissão, quarentena, proveniência, promoção, compatibilidade e privacidade.
 
 ### Known gaps
-- Nenhum até a implementação começar.
+- Resolver no ADR a semântica de evidência anterior à publicação e o
+  armazenamento de fixtures antes do primeiro incremento (R7–R11).
 
 ## 7. Final Report
 
@@ -193,4 +207,4 @@ Nenhum; spec draft aguardando implementação.
 - Nenhum adicional além do já descrito em Technical risks.
 
 ### Follow-ups
-- [open]
+- [covered: v1-integrated-acceptance] Exercitar submissão, consentimento, retomada, promoção humana e isolamento de mastery no candidato V1.

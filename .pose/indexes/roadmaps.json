@@ -52,6 +52,37 @@
           ]
         },
         {
+          "id": "adaptive-content-and-selection",
+          "after": [
+            "session-continuity",
+            "editorial-integrity"
+          ],
+          "specs": [
+            "learning-track-composition",
+            "agent-authored-catalog-drafts"
+          ]
+        },
+        {
+          "id": "session-continuity",
+          "after": [
+            "tutor-surfaces-and-modes"
+          ],
+          "specs": [
+            "session-recovery-version-pinning",
+            "session-tree-progression"
+          ]
+        },
+        {
+          "id": "editorial-integrity",
+          "after": [
+            "tutor-surfaces-and-modes"
+          ],
+          "specs": [
+            "catalog-publication-integrity",
+            "concept-content-authoring"
+          ]
+        },
+        {
           "id": "curriculum-v1",
           "after": [
             "tutor-surfaces-and-modes"
@@ -67,7 +98,7 @@
         {
           "id": "production-hardening",
           "after": [
-            "curriculum-v1"
+            "tutor-surfaces-and-modes"
           ],
           "specs": [
             "security-privacy-hardening",
@@ -76,9 +107,20 @@
           ]
         },
         {
-          "id": "v1-acceptance",
+          "id": "delivery-assurance",
           "after": [
             "production-hardening"
+          ],
+          "specs": [
+            "v1-delivery-ci-assurance"
+          ]
+        },
+        {
+          "id": "v1-acceptance",
+          "after": [
+            "curriculum-v1",
+            "adaptive-content-and-selection",
+            "delivery-assurance"
           ],
           "specs": [
             "v1-integrated-acceptance"

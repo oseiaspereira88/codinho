@@ -1,8 +1,8 @@
 ---
 slug: evaluation-evidence-lineage
-status: in-progress
+status: done
 created_at: 2026-09-07
-completed_at:
+completed_at: 2026-09-07
 supersedes:
 depends_on: session-recovery-version-pinning, safe-check-executor, feedback-evaluation-progression
 priority: 15
@@ -106,7 +106,7 @@ EvidenceGet protege leitura, mas não é chamado por StepEvaluate. CheckOutcomeO
 
 ### Validation
 - [x] Provar R1–R7 por unidades e processos MCP reais.
-- [ ] Registrar check permanente na matriz e obter revisão independente.
+- [x] Registrar check permanente na matriz e obter revisão independente.
 
 ## 5. Decisions
 
@@ -155,8 +155,11 @@ Timeout/erro de executor continua unverifiable; rede permanece controlada pelo c
 - 2026-09-07 UTC: revisor independente agent:evidence_review, modelo gpt-5.6-luna, aprovou inicialmente sem ressalvas após testes completos, E2E e vet. Aplicado o padrão de .claude/skills/agent-batch-review/SKILL.md por delegação nativa da sessão. Gates humanos não são substituídos.
 - 2026-09-07 UTC: assess tech-debt encontrou zero marcadores; recurrence-check zero recorrências. assess integrate reconheceu zero contratos (limitação conhecida de MCP Go); prova de integração vem do E2E real.
 
+- 2026-09-07 UTC: validação estruturada com 13/13 checks passou em ff21fb015d6b7c98c3a197aa50e27b4a55e42461; revisor confirmou go test -race ./... -count=1 e R1–R7, sem ressalvas.
+- 2026-09-07 UTC: POSE 1.7.11 selou rvb-038af4d73b5652ca com atestação rva-5b3c0e3eee361d28; review verify retornou fresh=true e approved=true.
+
 ### Results summary
-Implementação e testes focados passaram; gates estruturados, atribuição Git e revisão final condicionam o fechamento.
+Os 13 checks estruturados passaram no candidato ff21fb015d6b7c98c3a197aa50e27b4a55e42461, assim como a suíte race. Revisão independente final aprovada; artefatos reconciliados e evidência composta atual. Relatório: [review-evaluation-evidence](../reports/2026-09-07-review-evaluation-evidence.md).
 
 ### Requirement trace
 - R1 [satisfied] test:TestEvaluationEvidenceRejectsCrossSessionAndDrift test:TestEvaluationEvidenceRejectsInvalidScopeAndBlobs
@@ -173,13 +176,13 @@ Fingerprint amostra arquivos no escopo dos globs; não congela escritores extern
 ## 7. Final Report
 
 ### Delivered scope
-Autorização de evidências no consumo, registro qualitativo, replay/retry compatíveis, diagnóstico MCP seguro e regressões compostas. Implementado e testado; lifecycle aguarda gates finais.
+Autorização de evidências no consumo, registro qualitativo, replay/retry compatíveis, diagnóstico MCP seguro e regressões compostas. Implementado, validado e aprovado em revisão independente.
 
 ### Files and modules changed
 - Núcleo de sessão, adaptador de aplicação, workspace/checks, contrato MCP, testes e documentação declarados em Artifacts.
 
 ### Validation executed
-Testes focados de aplicação/sessão, contrato MCP, E2E real e go vet passaram na revisão independente inicial; suíte race e validação estruturada serão anexadas ao candidato.
+Testes de aplicação/sessão, contrato MCP, E2E real, suíte race, vet, build e govulncheck passaram; 13 checks estruturados aprovados. Atribuição Git, surface-check e revisão selada confirmaram o candidato. Consulte o relatório de revisão para os comandos e limites.
 
 ### Residual risks
 Limitações de amostragem e seleção de critérios estão explícitas no ADR e em docs/compatibility.md; nenhuma aprovação de catálogo ou aceite humano V1 é inferida.

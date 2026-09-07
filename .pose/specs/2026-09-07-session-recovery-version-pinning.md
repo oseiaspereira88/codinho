@@ -1,8 +1,8 @@
 ---
 slug: session-recovery-version-pinning
-status: in-progress
+status: done
 created_at: 2026-09-07
-completed_at:
+completed_at: 2026-09-07
 supersedes:
 depends_on: eventstore-idempotency-scope, session-orchestration-disclosure, workspace-observation-baselines, reliability-observability-compatibility
 priority: 10
@@ -111,8 +111,8 @@ Replay parcial pode perder consentimento, atribuir evidência incorretamente ou 
 
 ### Validation
 - [x] Executar os cenários de cada R-ID, incluindo negativos.
-- [ ] Executar pose assess integrate e validação estruturada no candidato.
-- [ ] Reconciliar artifacts, surface e revisão independente antes do closeout.
+- [x] Executar pose assess integrate e validação estruturada no candidato.
+- [x] Reconciliar artifacts, surface e revisão independente antes do closeout.
 
 ## 5. Decisions
 
@@ -159,9 +159,13 @@ Validar cada contrato com cenário positivo e negativo pela entrada de produçã
 - 2026-09-07 UTC: revisão independente corrigiu retry de checks, reserva legacy, freshness runtime, CLI somente leitura, integridade de revisões, conflito atômico de request_id e reparo conservador de tentativa interrompida.
 - 2026-09-07 UTC, retomada: go test -race ./... passou; pose check --strict, readiness, skills-check e recurrence-check passaram. assess discover encontrou um módulo; assess tech-debt encontrou zero marcadores. assess integrate retornou zero contratos reconhecidos (limitação conhecida em contributions/20260907-004842-detectar-contratos-mcp-go-e-distinguir-i.md); a integração é comprovada pelos testes MCP reais.
 - 2026-09-07 UTC, retomada: primeira validação estruturada executou 11 checks com sucesso e um erro de ambiente: govulncheck instalado em /home/go/go/bin estava ausente do PATH. Corrigir o PATH do processo de validação, preservando a matriz portátil.
+- 2026-09-07 UTC, candidato 8c2ee6e: validação estruturada passou os 12 checks após ajustar PATH e permitir cache Go/consulta de vulnerabilidades fora do sandbox. Artifact-check reconciliou 24 claims e 25 paths sem achados; surface-check passou sem achados.
+- 2026-09-07 UTC: revisão separada nesta retomada registrada em report:2026-09-07-review-session-recovery.md; bundle rvb-a431e6d8677f4837 e attestation rva-339a9f4375ed88a7. review verify retornou ready-to-close, fresh=true, approved=true. Usado /tmp/codinho-pose-current (checkout POSE limpo bc1b8b9), cuja regressão de associação módulo-raiz/alvo-subdiretório passou; o executável instalado conserva defeito já reportado. Não houve alteração de políticas ou resultados para satisfazer o gate.
 
 ### Results summary
-Implementação e regressões passaram; fechar somente após validação POSE estruturada, atribuição Git, superfície e revisão selada no candidato final.
+Implementação, 12 checks estruturados, atribuição Git e composição passaram.
+A revisão selada aprovou o candidato; consulte o [relatório](../reports/2026-09-07-review-session-recovery.md)
+e a [validação estruturada](../results/delivery-validation.json).
 
 ### Requirement trace
 - R1 [satisfied] test:TestRecoveryRestoresPoliciesHintsDetoursAndHistoricalRetries test:TestRecoveryRestoresGranularityEvaluationAndAdvance
@@ -178,17 +182,19 @@ Logs legados incompletos não admitem recuperação segura. Startup exige catál
 ## 7. Final Report
 
 ### Delivered scope
-Recuperação de sessões com conteúdo fixado, idempotência, baselines/evidências, reparo de cauda sob lock e CLI de inspeção somente leitura. Implementado e testado; lifecycle aguarda gates finais.
+Recuperação de sessões com conteúdo fixado, idempotência, baselines/evidências, reparo de cauda sob lock e CLI de inspeção somente leitura. Implementação validada e revisão selada aprovadas em 2026-09-07 no candidato 8c2ee6e.
 
 ### Files and modules changed
 - internal/session, learning, eventstore, application, cli e mcpserver; E2E real, compatibilidade, ADR e matriz de validação.
 
 ### Validation executed
-- go test -race ./...: passou em 2026-09-07; validação estruturada POSE e revisão final registradas no closeout.
+- go test -race ./...: passou em 2026-09-07.
+- pose validate --strict --json .pose/results/delivery-validation.json: 12 passed, zero falhas/skips.
+- artifact-check, surface-check, review verify e review-check: passaram; bundle rvb-a431e6d8677f4837, attestation rva-339a9f4375ed88a7.
 
 ### Residual risks
 Manter baseline de startup sob crescimento do log. Não usar binário anterior como writer do novo estado; não inferir autorização de consumo a partir da existência de uma evidência.
 
 ### Follow-ups
 - [covered: v1-integrated-acceptance] Reexecutar os requisitos desta spec no candidato composto da V1.
-- [open] Confirmar disposition do achado de consumo em evaluation-evidence-lineage com o responsável; owner: @oseiaspereira; due: 2026-09-14. A spec draft já bloqueia o aceite V1.
+- [open] Confirmar disposition do achado de consumo em evaluation-evidence-lineage com o responsável; a spec draft já bloqueia o aceite V1 (owner:@oseiaspereira crit:high review:2026-09-14)

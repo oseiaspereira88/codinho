@@ -96,7 +96,7 @@ func NewWorkspaceService(store *eventstore.Store, evidenceStore *evidence.Store)
 		evidenceRoots: map[learning.SessionID]map[string]baselineEntry{},
 	}
 	for _, ev := range store.ReplayAll() {
-		if ev.Type != eventstore.EventObservationRecorded && ev.Type != eventstore.EventCheckExecuted {
+		if ev.Type != eventstore.EventObservationRecorded && ev.Type != eventstore.EventCheckExecuted && ev.Type != eventstore.EventEvidenceRecorded {
 			continue
 		}
 		var p observationEvent
@@ -109,7 +109,7 @@ func NewWorkspaceService(store *eventstore.Store, evidenceStore *evidence.Store)
 			w.baselines[key] = baselineEntry{baseline: p.Baseline, root: p.Root, globs: p.Globs}
 		}
 		w.RecordEvidence(id, p.EvidenceID)
-		if entry, ok := w.baselines[key]; ok {
+		if entry, ok := w.baselines[key]; ok && ev.Type != eventstore.EventEvidenceRecorded {
 			if w.evidenceRoots[id] == nil {
 				w.evidenceRoots[id] = map[string]baselineEntry{}
 			}
@@ -290,6 +290,18 @@ func (w *WorkspaceService) EvidenceGet(in EvidenceGetInput) (EvidenceGetResult, 
 	known := w.scope[in.SessionID] != nil && w.scope[in.SessionID][in.EvidenceID]
 	entry, hasRoot := w.evidenceRoots[in.SessionID][in.EvidenceID]
 	w.mu.Unlock()
+	if !known {
+		for _, ev := range w.store.Replay(string(in.SessionID)) {
+			if ev.Type != eventstore.EventEvidenceRecorded {
+				continue
+			}
+			var p observationEvent
+			if json.Unmarshal(ev.Payload, &p) == nil && p.EvidenceID == in.EvidenceID {
+				known = true
+				break
+			}
+		}
+	}
 	if !known {
 		return EvidenceGetResult{}, ErrEvidenceOutOfScope
 	}

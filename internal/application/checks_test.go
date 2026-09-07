@@ -189,7 +189,7 @@ func TestChecksRunFeedsStepEvaluateStructuralVerdict(t *testing.T) {
 	eval, err := sessions.StepEvaluate(EvaluateInput{
 		SessionID: start.SessionID,
 		Criteria: []CriterionInput{
-			{Name: "tests-pass", Kind: learning.StructuralCriterionKind, Severity: learning.SeverityBlocking, EvidenceID: learning.EvidenceID(runResult.EvidenceID)},
+			{Name: "tests-pass", CheckID: "focused-tests", Kind: learning.StructuralCriterionKind, Severity: learning.SeverityBlocking, EvidenceID: learning.EvidenceID(runResult.EvidenceID)},
 		},
 		ExpectedRevision: runResult.Revision,
 	})

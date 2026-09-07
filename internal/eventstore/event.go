@@ -31,6 +31,7 @@ const (
 	EventAttemptSubmitted     EventType = "attempt_submitted"
 	EventCheckExecuted        EventType = "check_executed"
 	EventEvaluationRecorded   EventType = "evaluation_recorded"
+	EventEvidenceRecorded     EventType = "evidence_recorded"
 	EventReflectionRecorded   EventType = "reflection_recorded"
 	EventStepCompleted        EventType = "step_completed"
 	EventStepAdvanced         EventType = "step_advanced"

@@ -55,3 +55,14 @@ func (s *SessionService) StepComplete(id learning.SessionID, confirm, override b
 func (s *SessionService) StepAdvance(id learning.SessionID, override bool, expectedRevision uint64, requestID string) (AdvanceResult, error) {
 	return s.svc.StepAdvance(id, override, expectedRevision, requestID)
 }
+
+// RecordQualitativeEvidence registers a cited observation without evaluating it.
+func (s *SessionService) RecordQualitativeEvidence(in QualitativeEvidenceInput) (EvidenceRecordResult, error) {
+	return s.svc.RecordQualitativeEvidence(in)
+}
+
+type QualitativeEvidenceInput = session.QualitativeEvidenceInput
+type EvidenceRecordResult = session.EvidenceRecordResult
+
+var ErrEvaluationEvidenceInvalid = session.ErrEvaluationEvidenceInvalid
+var ErrEvaluationEvidenceStale = session.ErrEvaluationEvidenceStale

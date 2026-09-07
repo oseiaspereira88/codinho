@@ -170,7 +170,7 @@ func TestTutorSkillFullSessionRoutingOverRealStdio(t *testing.T) {
 	eval := callTool(ctx, t, cs, "step_evaluate", map[string]any{
 		"session_id": sid, "expected_revision": rev, "submission_intent": true,
 		"criteria": []map[string]any{
-			{"name": "tests-pass", "kind": "structural", "severity": "blocking", "evidence_id": evidenceID},
+			{"name": "tests-pass", "check_id": "focused-tests", "kind": "structural", "severity": "blocking", "evidence_id": evidenceID},
 		},
 	})
 	rev = revisionOf(t, eval)

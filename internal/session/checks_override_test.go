@@ -1,6 +1,10 @@
 package session
 
 import (
+	"crypto/sha256"
+	"encoding/json"
+	"errors"
+	"fmt"
 	"path/filepath"
 	"testing"
 
@@ -11,9 +15,8 @@ import (
 	"github.com/oseiaspereira88/codinho/internal/learning"
 )
 
-// newServiceWithEvidence is like newTestService, but wires a real
-// evidence.Store so StepEvaluate's check-outcome override (safe-check-
-// executor Decision 3, requirement R10) has something to look up.
+// newServiceWithEvidence supplies a real blob store without an authorization
+// adapter, so tests prove storage alone never grants consumption authority.
 func newServiceWithEvidence(t *testing.T) (*Service, *evidence.Store) {
 	t.Helper()
 	dir := t.TempDir()
@@ -57,100 +60,67 @@ challenges:
 	return New(catalog, store, evStore), evStore
 }
 
-func putCheckEvidence(t *testing.T, ev *evidence.Store, outcome string) learning.EvidenceID {
-	t.Helper()
-	id, err := ev.Put([]byte(`{"kind":"check","check_id":"go_test","outcome":"` + outcome + `","fingerprint":"sha256-x"}`))
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
-	return learning.EvidenceID(id)
-}
-
-func TestStepEvaluateStructuralCriterionUsesRealCheckOutcome(t *testing.T) {
-	cases := []struct {
-		outcome string
-		want    learning.EvaluationVerdict
-	}{
-		{"pass", learning.VerdictMet},
-		{"fail", learning.VerdictNotMet},
-		{"skipped", learning.VerdictNotApplicable},
-		{"error", learning.VerdictUnverifiable},
-	}
-	for _, c := range cases {
-		t.Run(c.outcome, func(t *testing.T) {
+func TestStepEvaluateWithoutValidatorRejectsCitations(t *testing.T) {
+	for _, kind := range []string{"check", "diff"} {
+		t.Run(kind, func(t *testing.T) {
 			svc, evStore := newServiceWithEvidence(t)
 			start, err := svc.Start(StartInput{ChallengeID: fixtureChallengeID})
 			if err != nil {
-				t.Fatalf("unexpected error: %v", err)
+				t.Fatal(err)
 			}
-			evidenceID := putCheckEvidence(t, evStore, c.outcome)
-
-			eval, err := svc.StepEvaluate(EvaluateInput{
-				SessionID: start.SessionID,
-				Criteria: []assessment.CriterionInput{
-					{Name: "tests-pass", Kind: learning.StructuralCriterionKind, Severity: learning.SeverityBlocking, EvidenceID: evidenceID},
-				},
-				ExpectedRevision: start.Revision,
-			})
+			id, err := evStore.Put([]byte(`{"kind":"` + kind + `","outcome":"pass"}`))
 			if err != nil {
-				t.Fatalf("unexpected error: %v", err)
+				t.Fatal(err)
 			}
-			if got := eval.Criteria[0].Verdict; got != c.want {
-				t.Fatalf("verdict = %s, want %s", got, c.want)
+			_, err = svc.StepEvaluate(EvaluateInput{SessionID: start.SessionID, ExpectedRevision: start.Revision, Criteria: []assessment.CriterionInput{{Name: "tests", Kind: "structural", Severity: learning.SeverityBlocking, EvidenceID: learning.EvidenceID(id)}}})
+			if !errors.Is(err, ErrEvaluationEvidenceInvalid) {
+				t.Fatalf("missing validator: %v", err)
+			}
+			if svc.store.Revision(string(start.SessionID)) != start.Revision {
+				t.Fatal("rejected citation appended")
 			}
 		})
 	}
 }
 
-func TestStepEvaluateFallsBackToPresenceForNonCheckEvidence(t *testing.T) {
-	svc, evStore := newServiceWithEvidence(t)
+func TestEvaluationEvidenceLegacyRetryPreservesInputIdentity(t *testing.T) {
+	svc := newTestService(t)
 	start, err := svc.Start(StartInput{ChallengeID: fixtureChallengeID})
 	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
+		t.Fatal(err)
 	}
-	// Evidence recognizably NOT from safe-check-executor (e.g. workspace-
-	// observation-baselines' own "diff" kind): the override must leave
-	// feedback-evaluation-progression's original behavior untouched.
-	workspaceEvidenceID, err := evStore.Put([]byte(`{"kind":"diff","fingerprint":"sha256-y"}`))
+	// Exact old JSON shape: the CheckID extension must remain omitted for old retries.
+	type oldCriterion struct {
+		Name, Kind string
+		Severity   learning.FindingSeverity
+		Verdict    learning.EvaluationVerdict
+		EvidenceID learning.EvidenceID
+		RubricRef  string
+	}
+	type oldInput struct {
+		SessionID        learning.SessionID
+		Criteria         []oldCriterion
+		SubmissionIntent bool
+		ExpectedRevision uint64
+		RequestID        string
+	}
+	legacy := oldInput{SessionID: start.SessionID, Criteria: []oldCriterion{{Name: "legacy", Kind: "structural", Severity: learning.SeverityBlocking, EvidenceID: "historical-id"}}, ExpectedRevision: start.Revision, RequestID: "legacy-evaluation"}
+	raw, _ := json.Marshal([]any{"StepEvaluate", legacy})
+	digest := fmt.Sprintf("%x", sha256.Sum256(raw))
+	result := learning.CriterionResult{Name: "legacy", Kind: "structural", Severity: learning.SeverityBlocking, Verdict: learning.VerdictMet, EvidenceID: "historical-id"}
+	ev, err := svc.store.Append(string(start.SessionID), start.Revision, legacy.RequestID, eventstore.EventEvaluationRecorded, map[string]any{"step_id": start.ActiveStep, "criteria": []learning.CriterionResult{result}, "request_digest": digest})
 	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
+		t.Fatal(err)
 	}
-
-	eval, err := svc.StepEvaluate(EvaluateInput{
-		SessionID: start.SessionID,
-		Criteria: []assessment.CriterionInput{
-			{Name: "tests-pass", Kind: learning.StructuralCriterionKind, Severity: learning.SeverityBlocking, EvidenceID: learning.EvidenceID(workspaceEvidenceID)},
-		},
-		ExpectedRevision: start.Revision,
-	})
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
+	recovered := New(nil, svc.store, nil)
+	input := EvaluateInput{SessionID: start.SessionID, Criteria: []assessment.CriterionInput{{Name: "legacy", Kind: "structural", Severity: learning.SeverityBlocking, EvidenceID: "historical-id"}}, ExpectedRevision: start.Revision, RequestID: legacy.RequestID}
+	got, err := recovered.StepEvaluate(input)
+	if err != nil || got.Revision != ev.Revision || len(got.Criteria) != 1 || got.Criteria[0] != result {
+		t.Fatalf("legacy retry: %+v %v", got, err)
 	}
-	if got := eval.Criteria[0].Verdict; got != learning.VerdictMet {
-		t.Fatalf("verdict = %s, want met (presence-based fallback)", got)
-	}
-}
-
-func TestStepEvaluateWithoutEvidenceStoreKeepsOriginalBehavior(t *testing.T) {
-	// newPolicyTestService wires no evidence.Store (nil) — the override
-	// must no-op entirely, matching feedback-evaluation-progression's
-	// sealed behavior exactly.
-	svc := newPolicyTestService(t)
-	start, err := svc.Start(StartInput{ChallengeID: fixtureChallengeID})
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
-	eval, err := svc.StepEvaluate(EvaluateInput{
-		SessionID: start.SessionID,
-		Criteria: []assessment.CriterionInput{
-			{Name: "tests-pass", Kind: learning.StructuralCriterionKind, Severity: learning.SeverityBlocking, EvidenceID: "sha256-doesnotexist"},
-		},
-		ExpectedRevision: start.Revision,
-	})
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
-	if got := eval.Criteria[0].Verdict; got != learning.VerdictMet {
-		t.Fatalf("verdict = %s, want met (presence-based, no evidence store wired)", got)
+	input.RequestID = "new-evaluation"
+	input.ExpectedRevision = ev.Revision
+	if _, err := recovered.StepEvaluate(input); !errors.Is(err, ErrEvaluationEvidenceInvalid) {
+		t.Fatalf("new legacy citation accepted: %v", err)
 	}
 }

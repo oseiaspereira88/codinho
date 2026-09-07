@@ -112,6 +112,14 @@ func (s *Service) eventResult(rec *record, ev eventstore.Event) (any, error) {
 		return nil, err
 	}
 	switch ev.Type {
+	case eventstore.EventEvidenceRecorded:
+		var p struct {
+			EvidenceID string `json:"evidence_id"`
+		}
+		if err := json.Unmarshal(ev.Payload, &p); err != nil {
+			return nil, err
+		}
+		return EvidenceRecordResult{EvidenceID: p.EvidenceID, Revision: ev.Revision}, nil
 	case eventstore.EventSessionPolicyChanged, eventstore.EventSessionPaused, eventstore.EventSessionResumed, eventstore.EventSessionFinished, eventstore.EventFeedbackRecorded, eventstore.EventReflectionRecorded, eventstore.EventStepCompleted:
 		return LifecycleResult{State: rec.session.State, Revision: ev.Revision}, nil
 	case eventstore.EventGranularityChanged:
@@ -411,7 +419,7 @@ func applyEvent(rec *record, ev eventstore.Event) error {
 			return ErrNoActiveStep
 		}
 		return active.Complete(p.Override)
-	case eventstore.EventObservationRecorded, eventstore.EventCheckExecuted, eventstore.EventFeedbackRecorded, eventstore.EventAttemptSubmitted, eventstore.EventReflectionRecorded, eventstore.EventLearnerNextStepProposed, eventstore.EventMasteryProjected, eventstore.EventReviewScheduled:
+	case eventstore.EventEvidenceRecorded, eventstore.EventObservationRecorded, eventstore.EventCheckExecuted, eventstore.EventFeedbackRecorded, eventstore.EventAttemptSubmitted, eventstore.EventReflectionRecorded, eventstore.EventLearnerNextStepProposed, eventstore.EventMasteryProjected, eventstore.EventReviewScheduled:
 		// These events carry evidence or projections, not session state mutations.
 	default:
 		return fmt.Errorf("%w: unsupported event %s", ErrSessionUnrecoverable, ev.Type)

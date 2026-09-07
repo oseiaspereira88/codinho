@@ -22,6 +22,8 @@ const (
 	ErrCodeItemNotFound               ErrorCode = "ITEM_NOT_FOUND"
 	ErrCodeSessionNotActive           ErrorCode = "SESSION_NOT_ACTIVE"
 	ErrCodeSessionRecoveryUnavailable ErrorCode = "SESSION_RECOVERY_UNAVAILABLE"
+	ErrCodeEvaluationEvidenceInvalid  ErrorCode = "EVALUATION_EVIDENCE_INVALID"
+	ErrCodeEvaluationEvidenceStale    ErrorCode = "EVALUATION_EVIDENCE_STALE"
 	ErrCodeStateConflict              ErrorCode = "STATE_CONFLICT"
 	ErrCodeInternalError              ErrorCode = "INTERNAL_ERROR"
 )
@@ -32,6 +34,10 @@ const (
 // value: those could leak internals (security requirement).
 func mapError(err error) (ErrorCode, string, bool) {
 	switch {
+	case errors.Is(err, application.ErrEvaluationEvidenceInvalid):
+		return ErrCodeEvaluationEvidenceInvalid, "evidence is unavailable or does not match this session, step, check or rubric", false
+	case errors.Is(err, application.ErrEvaluationEvidenceStale):
+		return ErrCodeEvaluationEvidenceStale, "workspace evidence is no longer current; observe and run the check again", false
 	case errors.Is(err, application.ErrNotFound):
 		return ErrCodeItemNotFound, "the requested item does not exist in the catalog", false
 	case errors.Is(err, application.ErrSessionNotFound):

@@ -135,6 +135,10 @@ func (c *ChecksService) Run(in CheckRunInput) (CheckRunResult, error) {
 		return CheckRunResult{}, err
 	}
 
+	beforeFingerprint, err := workspace.Fingerprint(root, globs)
+	if err != nil {
+		return CheckRunResult{}, err
+	}
 	result, err := c.executor.Execute(context.Background(), resolved, root)
 	if err != nil {
 		return CheckRunResult{}, err
@@ -145,6 +149,9 @@ func (c *ChecksService) Run(in CheckRunInput) (CheckRunResult, error) {
 		return CheckRunResult{}, err
 	}
 
+	if fingerprint != beforeFingerprint {
+		return CheckRunResult{}, ErrEvaluationEvidenceStale
+	}
 	payload := checkPayload{
 		Kind: "check", CheckID: found.ID, Outcome: string(result.Outcome), ExitCode: result.ExitCode,
 		Stdout: string(result.Stdout), Stderr: string(result.Stderr), Fingerprint: fingerprint,

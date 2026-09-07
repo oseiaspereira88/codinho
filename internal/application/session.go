@@ -37,11 +37,10 @@ type SessionService struct {
 }
 
 // NewSessionService wires a SessionService to its catalog and event
-// store. evidenceStore may be nil where a caller has no need for
-// safe-check-executor's check-outcome override (Decision 3); session.New
-// treats a nil store the same way.
+// store. Evidence consumption is always authorized by the application
+// adapter; a nil evidence store rejects any new citation.
 func NewSessionService(catalog *CatalogService, store *eventstore.Store, evidenceStore *evidence.Store) *SessionService {
-	return &SessionService{svc: session.New(catalog.catalog, store, evidenceStore)}
+	return &SessionService{svc: session.New(catalog.catalog, store, evidenceStore, &evaluationEvidenceValidator{store: store, evidence: evidenceStore})}
 }
 
 // ActiveChecks returns the checks declared by the session's fixed

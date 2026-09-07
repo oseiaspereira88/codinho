@@ -24,11 +24,21 @@ type feedbackRecordArgs struct {
 
 type criterionArg struct {
 	Name       string `json:"name" jsonschema:"criterion name"`
-	Kind       string `json:"kind,omitempty" jsonschema:"structural (server-derived from evidence presence) or a qualitative kind judged by the caller"`
+	Kind       string `json:"kind,omitempty" jsonschema:"structural (server-derived from an authorized check) or a qualitative kind judged by the caller"`
 	Severity   string `json:"severity" jsonschema:"blocking, important_non_blocking or advisory"`
 	Verdict    string `json:"verdict,omitempty" jsonschema:"met, partially_met, not_met, unverifiable or not_applicable; ignored for structural criteria"`
-	EvidenceID string `json:"evidence_id,omitempty" jsonschema:"required for qualitative criteria"`
+	EvidenceID string `json:"evidence_id,omitempty" jsonschema:"registered evidence from this session and active step; required for qualitative criteria"`
+	CheckID    string `json:"check_id,omitempty" jsonschema:"required when a structural criterion cites check evidence; must match the pinned catalog check"`
 	RubricRef  string `json:"rubric_ref,omitempty" jsonschema:"required for qualitative criteria, e.g. rubric://idiomatic-go"`
+}
+
+type evidenceRecordArgs struct {
+	SessionID        string `json:"session_id" jsonschema:"session ID returned by session_start"`
+	Source           string `json:"source" jsonschema:"learner_explanation, tutor_observation or external_artifact; a caller-provided observation, never proof of test execution"`
+	Text             string `json:"text" jsonschema:"observed content to register, up to 64 KiB; secrets are redacted; URLs are never fetched"`
+	RubricRef        string `json:"rubric_ref" jsonschema:"rubric used for later qualitative judgment; must match the cited criterion"`
+	ExpectedRevision uint64 `json:"expected_revision" jsonschema:"current session revision"`
+	RequestID        string `json:"request_id,omitempty" jsonschema:"idempotency key for retries"`
 }
 
 type stepEvaluateArgs struct {
@@ -65,6 +75,25 @@ type stepAdvanceArgs struct {
 }
 
 func registerAssessmentTools(server *mcp.Server, sessions *application.SessionService) {
+	mcp.AddTool(server, &mcp.Tool{
+		Name:        "evidence_record",
+		Description: "Register a qualitative observation with its source and rubric for this active step. Does not evaluate, execute or fetch external artifacts. Never serves as structural check proof.",
+		Annotations: &mcp.ToolAnnotations{ReadOnlyHint: false, IdempotentHint: true},
+	}, func(_ context.Context, req *mcp.CallToolRequest, args evidenceRecordArgs) (*mcp.CallToolResult, Envelope, error) {
+		requestID := requestIDFor(req)
+		if args.SessionID == "" {
+			return errorResult(), errorEnvelope(requestID, ErrCodeInvalidInput, "session_id is required", false, nil), nil
+		}
+		result, err := sessions.RecordQualitativeEvidence(application.QualitativeEvidenceInput{SessionID: learning.SessionID(args.SessionID), Source: args.Source, Text: args.Text, RubricRef: args.RubricRef, ExpectedRevision: args.ExpectedRevision, RequestID: args.RequestID})
+		if err != nil {
+			code, msg, retryable := mapError(err)
+			return errorResult(), errorEnvelope(requestID, code, msg, retryable, nil), nil
+		}
+		env := okEnvelope(requestID, ProgressEffectNone, map[string]any{"evidence_id": result.EvidenceID, "revision": result.Revision})
+		env.SessionID = args.SessionID
+		return nil, env, nil
+	})
+
 	mcp.AddTool(server, &mcp.Tool{
 		Name:        "feedback_prepare",
 		Description: "Assemble instruction, question, rubric references and scope for the caller to author feedback from. This server never drafts feedback itself.",
@@ -119,7 +148,7 @@ func registerAssessmentTools(server *mcp.Server, sessions *application.SessionSe
 		for i, c := range args.Criteria {
 			criteria[i] = application.CriterionInput{
 				Name: c.Name, Kind: c.Kind, Severity: learning.FindingSeverity(c.Severity),
-				Verdict: learning.EvaluationVerdict(c.Verdict), EvidenceID: learning.EvidenceID(c.EvidenceID), RubricRef: c.RubricRef,
+				Verdict: learning.EvaluationVerdict(c.Verdict), EvidenceID: learning.EvidenceID(c.EvidenceID), RubricRef: c.RubricRef, CheckID: c.CheckID,
 			}
 		}
 		result, err := sessions.StepEvaluate(application.EvaluateInput{

@@ -56,10 +56,8 @@ reservados. Sessões legadas sem política/conteúdo recuperável retornam
 Baselines, roots canônicas, globs e vínculo sessão–evidência sobrevivem ao
 reinício. `evidence_get` verifica atualidade no escopo persistido; root
 indisponível/substituída nunca demonstra freshness. Não troque root/globs
-de uma baseline existente. Isto **não** valida o consumo de evidência em
-`step_evaluate`: esse gate está planejado em
-[evaluation-evidence-lineage](../.pose/specs/2026-09-07-evaluation-evidence-lineage.md)
-e bloqueia o aceite V1.
+de uma baseline existente. `step_evaluate` também verifica a origem e
+atualidade no consumo, conforme o contrato abaixo.
 
 Use `codinho doctor` após interrupção abrupta. `SIGKILL` pode deixar lock
 órfão: confirme que nenhum servidor usa o workspace antes de removê-lo,
@@ -78,6 +76,46 @@ migração. Consulte o [ADR](../.pose/adr/2026-09-06-durable-session-replay-with
 Evidência de 2026-09-07: `go test ./cmd/codinho -run TestSessionRecoveryOverRealStdio`
 (update, remove, resposta perdida/cauda interrompida e legado/corrupção),
 além das regressões em `internal/session`, `internal/application` e `internal/eventstore`.
+
+## Evidência usada na avaliação
+
+Use o evidence_id produzido por workspace_observe, check_run ou evidence_record
+na mesma sessão e passo. Um blob existente em disco, um ID de outra sessão ou
+um produtor de outro passo não autoriza avaliação. Para critério estrutural
+baseado em check, envie também check_id, igual ao check executado do catálogo
+fixado. Sem check comprovado, evidência de baseline/diff/nota resulta em
+unverifiable; a presença de conteúdo não demonstra uma afirmação estrutural.
+
+Registre explicações e observações externas com evidence_record antes de citá-las:
+source deve ser learner_explanation, tutor_observation ou external_artifact;
+text e rubric_ref são obrigatórios. O registro preserva origem e rubrica,
+redige segredos reconhecidos e limita texto a 64 KiB. A avaliação qualitativa
+cita o ID retornado e a mesma rubrica. O registro contém uma declaração do tutor;
+não autentica uma origem externa, não acessa URLs e não substitui execução real.
+Registros qualitativos podem ser lidos por evidence_get no escopo da sessão.
+
+EVALUATION_EVIDENCE_INVALID indica blob ausente/corrompido, escopo ou check/rubrica
+incompatível. EVALUATION_EVIDENCE_STALE indica que o root/fingerprint não pode
+mais confirmar os arquivos observados; observe e execute novamente. Essas
+rejeições não registram avaliação/tentativa nem alteram revisão. Check que
+observe drift entre início/fim também rejeita seu resultado.
+
+A avaliação amostra fingerprints no escopo dos globs antes da resolução e
+imediatamente antes do append. Isso não congela escritores externos, cobre
+arquivos fora dos globs ou detecta alterações que ocorram e sejam revertidas
+entre amostragens. evidence_lineage no evento de avaliação identifica o produtor
+e o fingerprint usados; a cobertura completa dos critérios autorados continua
+sendo uma política distinta da autorização das evidências citadas.
+
+Retries confirmados mantêm entrada/resultado originais, inclusive os anteriores
+a check_id, sem reavaliar os arquivos atuais. Avaliações legadas permanecem
+no histórico; evidência antiga sem escopo recuperável não autoriza avaliações
+novas. O novo evento evidence_recorded exige este leitor; evite escritores
+anteriores no estado atualizado. Consulte o
+[ADR](../.pose/adr/2026-09-07-scoped-evaluation-evidence-and-qualitative-registration.md).
+
+Valide com go test ./cmd/codinho -run TestEvaluationEvidenceOverRealStdio e
+com os testes TestEvaluationEvidence de internal/application/internal/session.
 
 ## Limites de recursos aplicados
 

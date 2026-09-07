@@ -64,23 +64,18 @@ type record struct {
 type Service struct {
 	catalog *curriculum.Catalog
 	store   *eventstore.Store
-	// evidence is nil-safe: without it, step_evaluate falls back to
-	// feedback-evaluation-progression's original behavior (structural
-	// verdict from evidence presence alone). With it, a structural
-	// criterion citing check evidence (safe-check-executor) derives its
-	// verdict from the check's real outcome instead (Decision 3).
-	evidence *evidence.Store
 
-	mu            sync.Mutex
-	requestDigest string // current command, guarded by mu; persisted with its event
-	sessions      map[learning.SessionID]*record
-	startResults  map[string]StartResult
-	startInputs   map[string]string
-	startIDs      map[string]learning.SessionID
-	unrecoverable map[learning.SessionID]bool
-	hintResults   map[string]HintResult
-	detourResults map[string]DetourResult
-	nextID        atomic.Uint64
+	mu                sync.Mutex
+	evidenceValidator EvaluationEvidenceValidator
+	requestDigest     string // current command, guarded by mu; persisted with its event
+	sessions          map[learning.SessionID]*record
+	startResults      map[string]StartResult
+	startInputs       map[string]string
+	startIDs          map[string]learning.SessionID
+	unrecoverable     map[learning.SessionID]bool
+	hintResults       map[string]HintResult
+	detourResults     map[string]DetourResult
+	nextID            atomic.Uint64
 }
 
 // idempotencyKey scopes a request_id to its session, matching the
@@ -90,15 +85,13 @@ func idempotencyKey(id learning.SessionID, requestID string) string {
 	return string(id) + "\x00" + requestID
 }
 
-// New wires a Service to its catalog and event store. evidenceStore may be
-// nil: StepEvaluate's structural verdicts then fall back to feedback-
-// evaluation-progression's original evidence-presence behavior (Decision
-// 3, safe-check-executor).
-func New(catalog *curriculum.Catalog, store *eventstore.Store, evidenceStore *evidence.Store) *Service {
+// New wires a Service to its catalog and event store. The evidenceStore argument
+// is retained for source compatibility; only the injected validator authorizes
+// evidence consumption. Missing authorization always fails closed.
+func New(catalog *curriculum.Catalog, store *eventstore.Store, evidenceStore *evidence.Store, validators ...EvaluationEvidenceValidator) *Service {
 	s := &Service{
 		catalog:       catalog,
 		store:         store,
-		evidence:      evidenceStore,
 		sessions:      map[learning.SessionID]*record{},
 		startResults:  map[string]StartResult{},
 		startInputs:   map[string]string{},
@@ -106,6 +99,9 @@ func New(catalog *curriculum.Catalog, store *eventstore.Store, evidenceStore *ev
 		unrecoverable: map[learning.SessionID]bool{},
 		hintResults:   map[string]HintResult{},
 		detourResults: map[string]DetourResult{},
+	}
+	if len(validators) > 0 {
+		s.evidenceValidator = validators[0]
 	}
 	s.recover()
 	return s
@@ -894,19 +890,6 @@ type EvaluateResult struct {
 	Revision           uint64
 }
 
-// StepEvaluate resolves each criterion (deterministically for structural
-// ones, from the caller's cited judgment for qualitative ones), persists
-// the evaluation, and creates an attempt only when SubmissionIntent is
-// true. It never completes or advances the step (requirement R3, R5, R6,
-// R7; PROJECT.md §12.3 invariant 4).
-// checkEvidenceProbe reads only the two fields this override needs from an
-// evidence blob it does not otherwise interpret (learning-domain-model:
-// Evidence.ref stays opaque by design everywhere else).
-type checkEvidenceProbe struct {
-	Kind    string `json:"kind"`
-	Outcome string `json:"outcome"`
-}
-
 // verdictForCheckOutcome maps a safe-check-executor Outcome string to the
 // verdict step_evaluate reports (requirement R10).
 func verdictForCheckOutcome(outcome string) learning.EvaluationVerdict {
@@ -920,32 +903,6 @@ func verdictForCheckOutcome(outcome string) learning.EvaluationVerdict {
 	default: // "error" or anything unrecognized: infra failure proves nothing either way
 		return learning.VerdictUnverifiable
 	}
-}
-
-// checkOutcomeOverride reconstructs r with a verdict derived from a real
-// check's outcome, when r is a structural criterion citing evidence that
-// is recognizably safe-check-executor's (kind: "check") rather than
-// workspace-observation-baselines' own (kind: "baseline"/"diff") or
-// absent evidence. assessment.Resolve (feedback-evaluation-progression,
-// sealed) is never modified for this: it remains the sole authority for
-// every case this override does not recognize (Decision 3).
-func (s *Service) checkOutcomeOverride(r learning.CriterionResult) (learning.CriterionResult, bool) {
-	if s.evidence == nil || r.Kind != learning.StructuralCriterionKind || r.EvidenceID == "" {
-		return learning.CriterionResult{}, false
-	}
-	data, err := s.evidence.Get(string(r.EvidenceID))
-	if err != nil {
-		return learning.CriterionResult{}, false
-	}
-	var probe checkEvidenceProbe
-	if err := json.Unmarshal(data, &probe); err != nil || probe.Kind != "check" {
-		return learning.CriterionResult{}, false
-	}
-	overridden, err := learning.NewCriterionResult(r.Name, r.Kind, r.Severity, verdictForCheckOutcome(probe.Outcome), r.EvidenceID, r.RubricRef)
-	if err != nil {
-		return learning.CriterionResult{}, false
-	}
-	return overridden, true
 }
 
 func (s *Service) StepEvaluate(in EvaluateInput) (EvaluateResult, error) {
@@ -965,24 +922,49 @@ func (s *Service) StepEvaluate(in EvaluateInput) (EvaluateResult, error) {
 		return EvaluateResult{}, learning.DomainError{Code: learning.ErrCodeStepNotEvaluable, Detail: string(active.State)}
 	}
 
+	ctx := evidenceContext(in.SessionID, rec)
+	lineage := make([]EvidenceLineage, 0, len(in.Criteria))
 	results := make([]learning.CriterionResult, 0, len(in.Criteria))
 	for _, c := range in.Criteria {
 		r, err := assessment.Resolve(c)
 		if err != nil {
 			return EvaluateResult{}, err
 		}
-		if overridden, ok := s.checkOutcomeOverride(r); ok {
-			r = overridden
+		if c.EvidenceID != "" {
+			if s.evidenceValidator == nil {
+				return EvaluateResult{}, ErrEvaluationEvidenceInvalid
+			}
+			proof, err := s.evidenceValidator.Validate(ctx, c)
+			if err != nil {
+				return EvaluateResult{}, err
+			}
+			lineage = append(lineage, proof)
+			if r.Kind == learning.StructuralCriterionKind {
+				r.Verdict = learning.VerdictUnverifiable
+				if proof.Kind == "check" {
+					r.Verdict = verdictForCheckOutcome(proof.Outcome)
+				}
+			}
 		}
 		results = append(results, r)
 	}
 	blocking := (learning.Evaluation{StepID: active.StepID, Criteria: results}).HasBlockingFailure()
+	// Sample again immediately before append. The revision guard rejects
+	// concurrent event producers; external filesystem writers remain outside it.
+	for _, c := range in.Criteria {
+		if c.EvidenceID != "" {
+			if _, err := s.evidenceValidator.Validate(ctx, c); err != nil {
+				return EvaluateResult{}, err
+			}
+		}
+	}
 
 	ev, fresh, err := s.mutate(in.SessionID, in.ExpectedRevision, in.RequestID, eventstore.EventEvaluationRecorded, map[string]any{
 		"step_id":              string(active.StepID),
 		"criteria":             results,
 		"submission_intent":    in.SubmissionIntent,
 		"has_blocking_failure": blocking,
+		"evidence_lineage":     lineage,
 		"solution_revealed":    active.SolutionRevealed,
 	})
 	if err != nil {

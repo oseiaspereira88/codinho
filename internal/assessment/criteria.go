@@ -11,6 +11,7 @@ type CriterionInput struct {
 	Verdict    learning.EvaluationVerdict // ignored for structural criteria; the server derives it instead
 	EvidenceID learning.EvidenceID
 	RubricRef  string
+	CheckID    string `json:"CheckID,omitempty"`
 }
 
 // Resolve turns one CriterionInput into a domain CriterionResult. This

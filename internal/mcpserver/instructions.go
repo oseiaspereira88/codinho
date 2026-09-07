@@ -8,4 +8,4 @@ const coreInstructions = `Servidor de aprendizagem assistida. O aluno é o únic
 
 // Instructions is published to clients as the server's global instructions
 // (PROJECT.md §15.1, §15.2).
-var Instructions = coreInstructions
+var Instructions = coreInstructions + ` Antes de step_evaluate, cite evidências da mesma sessão e passo. Para checks estruturais informe check_id. Registre observações qualitativas com evidence_record (source, text, rubric_ref) antes de citá-las; o registro não comprova execução estrutural. Evidência obsoleta exige nova observação/check.`

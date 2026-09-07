@@ -28,7 +28,7 @@ Consulte o [diagnóstico e a ordem de execução](../reports/2026-09-07-doc-audi
 As specs históricas done conservam seu fechamento; as lacunas observadas no
 produto atual têm remediações próprias. Autoria curricular pode continuar
 em paralelo, mas publicação exige integridade editorial e playtest humano.
-Priorize recuperação, navegação completa e gates antes de ampliar o uso real.
+Priorize recuperação, validação de evidências no consumo, navegação completa e gates antes de ampliar o uso real.
 
 ## Milestone: architecture-baseline
 - after:
@@ -52,7 +52,7 @@ Priorize recuperação, navegação completa e gates antes de ampliar o uso real
 
 ## Milestone: session-continuity
 - after: tutor-surfaces-and-modes
-- specs: session-recovery-version-pinning, session-tree-progression
+- specs: session-recovery-version-pinning, evaluation-evidence-lineage, session-tree-progression
 
 ## Milestone: editorial-integrity
 - after: tutor-surfaces-and-modes
@@ -92,6 +92,7 @@ Priorize recuperação, navegação completa e gates antes de ampliar o uso real
 - C6: Segurança e plataformas verificadas no candidato: governance:v1-delivery-ci manual-review:docs/acceptance/v1-release-readiness.md
 - C7: Protocolo, inicialização e instalação: check:mcp-contract check:stdout-purity check:startup-budget check:smoke-install
 - C8: Aceite integral, revisão independente e limitações: manual-review:docs/acceptance/v1-requirement-matrix.md manual-review:docs/acceptance/v1-pilot-report.md manual-review:docs/acceptance/v1-release-readiness.md
+- C9: Origem e atualidade de evidência no consumo: capability:evaluation-evidence-lineage
 
 Referências manuais exigem conteúdo revisado, commit e resultados; a existência
 do arquivo não comprova comportamento. O roll-up terminal acontece depois do

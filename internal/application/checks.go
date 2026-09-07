@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"sync"
 
 	"github.com/oseiaspereira88/codinho/internal/checks"
 	"github.com/oseiaspereira88/codinho/internal/curriculum"
@@ -43,6 +44,7 @@ type checkPayload struct {
 // inside the workspace root already established by workspace_observe
 // (Decision 2), and recording the outcome as scoped, redacted evidence.
 type ChecksService struct {
+	mu        sync.Mutex
 	store     *eventstore.Store
 	sessions  *SessionService
 	workspace *WorkspaceService
@@ -81,6 +83,26 @@ type CheckRunResult struct {
 // step, and records a redacted, size-capped, fingerprinted evidence blob
 // scoped to this session (requirements R1, R6, R7, R8, R9).
 func (c *ChecksService) Run(in CheckRunInput) (CheckRunResult, error) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	if ev, ok := c.store.Request(string(in.SessionID), in.RequestID); ok {
+		var previous struct {
+			CheckID    string `json:"check_id"`
+			EvidenceID string `json:"evidence_id"`
+		}
+		if ev.Type != eventstore.EventCheckExecuted || json.Unmarshal(ev.Payload, &previous) != nil || previous.CheckID != in.CheckID {
+			return CheckRunResult{}, eventstore.ErrRevisionConflict
+		}
+		evidence, err := c.workspace.EvidenceGet(EvidenceGetInput{SessionID: in.SessionID, EvidenceID: previous.EvidenceID})
+		if err != nil {
+			return CheckRunResult{}, err
+		}
+		var payload checkPayload
+		if err := json.Unmarshal(evidence.Content, &payload); err != nil {
+			return CheckRunResult{}, err
+		}
+		return CheckRunResult{Outcome: payload.Outcome, EvidenceID: previous.EvidenceID, Fingerprint: payload.Fingerprint, Revision: ev.Revision, NetworkApproved: payload.NetworkApproved}, nil
+	}
 	authored, stepID, err := c.sessions.ActiveChecks(in.SessionID)
 	if err != nil {
 		return CheckRunResult{}, err

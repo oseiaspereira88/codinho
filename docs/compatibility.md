@@ -40,16 +40,44 @@ que rodam a cada pull request contra esta matriz (requirement R4/R5).
 
 ## Atualização de pack sem quebrar sessão fixada
 
-`codinho serve` carrega o catálogo **uma única vez**, na inicialização
-(`cmd/codinho/main.go:runServe`) — não há hot-reload. Uma sessão em
-andamento referencia esse mesmo ponteiro de catálogo durante toda a
-sua vida útil; editar `packs/*.yaml` em disco enquanto `codinho serve`
-está rodando não afeta nenhuma sessão ativa (nem cria inconsistência),
-porque não existe nenhum caminho de código que releia o catálogo depois
-do startup. Para que uma edição de pack tenha efeito, reinicie
-`codinho serve` — e como sessões já são apenas em memória (não
-sobrevivem a reinício de processo, ver session-orchestration-disclosure
-Decision 3), isso nunca mistura conteúdo antigo e novo na mesma sessão.
+Reinicie `codinho serve` para aplicar edições do catálogo a sessões novas;
+não há hot-reload. Sessões iniciadas com `recovery_version: 1` preservam
+política completa e cópia do desafio com SHA-256 no evento de início.
+O replay restaura estado, nó, pistas, detours, avaliação e revisão sem
+reconsultar o desafio atual. Remover o desafio de um catálogo válido não
+remove o conteúdo fixado de sessões existentes.
+
+Repita uma mutação confirmada com o mesmo `request_id` e entrada original
+para recuperar seu resultado, mesmo após reinício/progresso posterior.
+Reutilização incompatível retorna `STATE_CONFLICT`. IDs antigos permanecem
+reservados. Sessões legadas sem política/conteúdo recuperável retornam
+`SESSION_RECOVERY_UNAVAILABLE`; preserve o histórico e inicie outra sessão.
+
+Baselines, roots canônicas, globs e vínculo sessão–evidência sobrevivem ao
+reinício. `evidence_get` verifica atualidade no escopo persistido; root
+indisponível/substituída nunca demonstra freshness. Não troque root/globs
+de uma baseline existente. Isto **não** valida o consumo de evidência em
+`step_evaluate`: esse gate está planejado em
+[evaluation-evidence-lineage](../.pose/specs/2026-09-07-evaluation-evidence-lineage.md)
+e bloqueia o aceite V1.
+
+Use `codinho doctor` após interrupção abrupta. `SIGKILL` pode deixar lock
+órfão: confirme que nenhum servidor usa o workspace antes de removê-lo,
+conforme o diagnóstico. O writer com lock preserva bytes de cauda incompleta
+em `events.jsonl.recovery-*` (permissão 0600) antes de truncar somente essa
+cauda. Corrupção em linha terminada ou revisão inválida bloqueia startup;
+inspeções da CLI são somente leitura e nunca reparam o log. Inclua backups
+de recuperação na política de retenção/exclusão do estado.
+
+Mantenha manifest e catálogo válidos para iniciar o servidor. O mecanismo
+não migra payloads futuros nem corrige conteúdo corrompido por inferência.
+Rollback para binário anterior perde projeção de sessão e proteção contra
+colisões; não o execute como writer sobre estado novo sem estratégia de
+migração. Consulte o [ADR](../.pose/adr/2026-09-06-durable-session-replay-with-pinned-content.md).
+
+Evidência de 2026-09-07: `go test ./cmd/codinho -run TestSessionRecoveryOverRealStdio`
+(update, remove, resposta perdida/cauda interrompida e legado/corrupção),
+além das regressões em `internal/session`, `internal/application` e `internal/eventstore`.
 
 ## Limites de recursos aplicados
 

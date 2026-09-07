@@ -18,11 +18,12 @@ import (
 type ErrorCode string
 
 const (
-	ErrCodeInvalidInput     ErrorCode = "INVALID_INPUT"
-	ErrCodeItemNotFound     ErrorCode = "ITEM_NOT_FOUND"
-	ErrCodeSessionNotActive ErrorCode = "SESSION_NOT_ACTIVE"
-	ErrCodeStateConflict    ErrorCode = "STATE_CONFLICT"
-	ErrCodeInternalError    ErrorCode = "INTERNAL_ERROR"
+	ErrCodeInvalidInput               ErrorCode = "INVALID_INPUT"
+	ErrCodeItemNotFound               ErrorCode = "ITEM_NOT_FOUND"
+	ErrCodeSessionNotActive           ErrorCode = "SESSION_NOT_ACTIVE"
+	ErrCodeSessionRecoveryUnavailable ErrorCode = "SESSION_RECOVERY_UNAVAILABLE"
+	ErrCodeStateConflict              ErrorCode = "STATE_CONFLICT"
+	ErrCodeInternalError              ErrorCode = "INTERNAL_ERROR"
 )
 
 // mapError translates an internal error into a stable error code, a safe
@@ -35,6 +36,8 @@ func mapError(err error) (ErrorCode, string, bool) {
 		return ErrCodeItemNotFound, "the requested item does not exist in the catalog", false
 	case errors.Is(err, application.ErrSessionNotFound):
 		return ErrCodeSessionNotActive, "no active session with that ID", false
+	case errors.Is(err, application.ErrSessionUnrecoverable):
+		return ErrCodeSessionRecoveryUnavailable, "historical session cannot be safely restored; preserve its history and start a new session", false
 	case errors.Is(err, eventstore.ErrRevisionConflict):
 		return ErrCodeStateConflict, "the session changed since your last read; fetch it again", true
 	case errors.Is(err, application.ErrChallengeHasNoSteps):

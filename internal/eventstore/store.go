@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"reflect"
 	"sync"
 	"time"
 )
@@ -41,17 +42,83 @@ type Store struct {
 // is returned so the caller can decide how to proceed rather than silently
 // losing data.
 func Open(path string, registry *UpcasterRegistry) (*Store, error) {
-	if err := os.MkdirAll(filepath.Dir(path), 0o700); err != nil {
-		return nil, err
+	return open(path, registry, true)
+}
+
+// OpenReadOnly projects the log without creating, repairing or appending it.
+// It is safe for diagnostic readers that do not own the writer's lock.
+func OpenReadOnly(path string, registry *UpcasterRegistry) (*Store, error) {
+	return open(path, registry, false)
+}
+
+func open(path string, registry *UpcasterRegistry, writable bool) (*Store, error) {
+	if writable {
+		if err := os.MkdirAll(filepath.Dir(path), 0o700); err != nil {
+			return nil, err
+		}
 	}
 	result := ReadEvents(path, registry)
 	if result.Err != nil {
 		return nil, result.Err
 	}
 
-	f, err := os.OpenFile(path, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0o600)
+	flags := os.O_RDONLY
+	if writable {
+		flags = os.O_CREATE | os.O_APPEND | os.O_WRONLY
+	}
+	f, err := os.OpenFile(path, flags, 0o600)
+	if !writable && os.IsNotExist(err) {
+		return &Store{revisions: map[string]uint64{}, seen: map[string]Event{}}, nil
+	}
 	if err != nil {
 		return nil, err
+	}
+
+	if writable && result.Truncated {
+		// Preserve rejected bytes privately and durably before repairing only
+		// the incomplete tail. A failed backup must leave the log untouched.
+		backup, err := os.CreateTemp(filepath.Dir(path), filepath.Base(path)+".recovery-*")
+		if err != nil {
+			f.Close()
+			return nil, err
+		}
+		_, writeErr := backup.Write(result.tail)
+		if writeErr == nil {
+			writeErr = backup.Sync()
+		}
+		closeErr := backup.Close()
+		if writeErr == nil {
+			writeErr = closeErr
+		}
+		if writeErr == nil {
+			dir, dirErr := os.Open(filepath.Dir(path))
+			if dirErr != nil {
+				writeErr = dirErr
+			} else {
+				writeErr = dir.Sync()
+				dir.Close()
+			}
+		}
+		if writeErr != nil {
+			f.Close()
+			return nil, writeErr
+		}
+		if err := f.Truncate(result.validBytes); err != nil {
+			f.Close()
+			return nil, err
+		}
+	}
+	if writable && result.needsNewline {
+		if _, err := f.Write([]byte{'\n'}); err != nil {
+			f.Close()
+			return nil, err
+		}
+	}
+	if writable && (result.Truncated || result.needsNewline) {
+		if err := f.Sync(); err != nil {
+			f.Close()
+			return nil, err
+		}
 	}
 
 	s := &Store{
@@ -74,6 +141,9 @@ func Open(path string, registry *UpcasterRegistry) (*Store, error) {
 func (s *Store) Close() error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+	if s.file == nil {
+		return nil
+	}
 	return s.file.Close()
 }
 
@@ -83,6 +153,17 @@ func (s *Store) Revision(streamID string) uint64 {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	return s.revisions[streamID]
+}
+
+// Request finds a committed request without changing the log.
+func (s *Store) Request(streamID, requestID string) (Event, bool) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if requestID == "" {
+		return Event{}, false
+	}
+	ev, ok := s.seen[seenKey(streamID, requestID)]
+	return ev, ok
 }
 
 // Append durably appends one event to streamID and returns it.
@@ -101,9 +182,20 @@ func (s *Store) Revision(streamID string) uint64 {
 func (s *Store) Append(streamID string, expectedRevision uint64, requestID string, eventType EventType, payload any) (Event, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+	if s.file == nil || streamID == "" || eventType == "" {
+		return Event{}, fmt.Errorf("eventstore: invalid append target")
+	}
+	raw, err := json.Marshal(payload)
+	if err != nil {
+		return Event{}, fmt.Errorf("marshaling payload: %w", err)
+	}
 
 	if requestID != "" {
 		if existing, ok := s.seen[seenKey(streamID, requestID)]; ok {
+			var previous, current any
+			if existing.Type != eventType || json.Unmarshal(existing.Payload, &previous) != nil || json.Unmarshal(raw, &current) != nil || !reflect.DeepEqual(previous, current) {
+				return Event{}, fmt.Errorf("%w: request_id already belongs to a different event", ErrRevisionConflict)
+			}
 			return existing, nil
 		}
 	}
@@ -111,11 +203,6 @@ func (s *Store) Append(streamID string, expectedRevision uint64, requestID strin
 	current := s.revisions[streamID]
 	if expectedRevision != current {
 		return Event{}, fmt.Errorf("%w: stream %s at revision %d, expected %d", ErrRevisionConflict, streamID, current, expectedRevision)
-	}
-
-	raw, err := json.Marshal(payload)
-	if err != nil {
-		return Event{}, fmt.Errorf("marshaling payload: %w", err)
 	}
 
 	revision := current + 1
@@ -135,6 +222,9 @@ func (s *Store) Append(streamID string, expectedRevision uint64, requestID strin
 		return Event{}, fmt.Errorf("marshaling event: %w", err)
 	}
 	line = append(line, '\n')
+	if len(line) >= 1<<20 {
+		return Event{}, fmt.Errorf("eventstore: event exceeds 1 MiB recovery limit")
+	}
 	if _, err := s.file.Write(line); err != nil {
 		return Event{}, fmt.Errorf("writing event: %w", err)
 	}

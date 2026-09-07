@@ -15,5 +15,5 @@ import (
 // for the workspace lock.
 func openEventStore(cfg config.Config) (*eventstore.Store, error) {
 	stateDir := filepath.Join(cfg.WorkspaceRoot, ".codinho", "state")
-	return eventstore.Open(filepath.Join(stateDir, "events.jsonl"), nil)
+	return eventstore.OpenReadOnly(filepath.Join(stateDir, "events.jsonl"), nil)
 }

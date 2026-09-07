@@ -2,9 +2,11 @@ package eventstore
 
 import (
 	"bufio"
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"os"
 )
 
@@ -71,7 +73,10 @@ type RecoveryResult struct {
 	// Truncated is true when the last line of the log was incomplete
 	// (e.g. the process was killed mid-write). This is not an error: the
 	// valid prefix is intact and appending may safely resume.
-	Truncated bool
+	Truncated    bool
+	validBytes   int64
+	tail         []byte
+	needsNewline bool
 	// Err is non-nil only for a problem that is not a truncated final
 	// line: corruption in the middle of the log, or an event whose schema
 	// version has no path to CurrentEventSchemaVersion.
@@ -94,32 +99,57 @@ func ReadEvents(path string, registry *UpcasterRegistry) RecoveryResult {
 	}
 	defer f.Close()
 
-	var lines []string
-	scanner := bufio.NewScanner(f)
-	scanner.Buffer(make([]byte, 0, 64*1024), 1<<20)
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-	if err := scanner.Err(); err != nil {
-		return RecoveryResult{Err: err}
-	}
-
-	var events []Event
-	for i, line := range lines {
-		if line == "" {
+	reader := bufio.NewReaderSize(f, 1<<20)
+	result := RecoveryResult{}
+	revisions := map[string]uint64{}
+	ids := map[string]bool{}
+	requests := map[string]bool{}
+	for i := 1; ; i++ {
+		line, readErr := reader.ReadSlice('\n')
+		if readErr != nil && readErr != io.EOF {
+			result.Err = readErr
+			return result
+		}
+		if len(line) == 0 {
+			return result
+		}
+		if len(bytes.TrimSpace(line)) == 0 {
+			result.validBytes += int64(len(line))
+			if readErr == io.EOF {
+				result.needsNewline = true
+				return result
+			}
 			continue
 		}
 		var ev Event
-		if err := json.Unmarshal([]byte(line), &ev); err != nil {
-			if i == len(lines)-1 {
-				return RecoveryResult{Events: events, Truncated: true}
+		if err := json.Unmarshal(line, &ev); err != nil {
+			if readErr == io.EOF {
+				result.Truncated = true
+				result.tail = bytes.Clone(line)
+				return result
 			}
-			return RecoveryResult{Events: events, Err: fmt.Errorf("%w: line %d: %v", ErrCorruptedLog, i+1, err)}
+			result.Err = fmt.Errorf("%w: line %d: %v", ErrCorruptedLog, i, err)
+			return result
 		}
 		if err := registry.upcast(&ev); err != nil {
-			return RecoveryResult{Events: events, Err: err}
+			result.Err = err
+			return result
 		}
-		events = append(events, ev)
+		key := seenKey(ev.StreamID, ev.RequestID)
+		if ev.StreamID == "" || ev.ID == "" || ev.Type == "" || ev.Revision != revisions[ev.StreamID]+1 || ids[ev.ID] || (ev.RequestID != "" && requests[key]) {
+			result.Err = fmt.Errorf("%w: invalid envelope or revision at line %d", ErrCorruptedLog, i)
+			return result
+		}
+		revisions[ev.StreamID] = ev.Revision
+		ids[ev.ID] = true
+		if ev.RequestID != "" {
+			requests[key] = true
+		}
+		result.Events = append(result.Events, ev)
+		result.validBytes += int64(len(line))
+		if readErr == io.EOF {
+			result.needsNewline = true
+			return result
+		}
 	}
-	return RecoveryResult{Events: events}
 }

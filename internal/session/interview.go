@@ -45,11 +45,11 @@ func (s *Service) InterviewStatus(id learning.SessionID, now time.Time) (Intervi
 
 	rec, ok := s.sessions[id]
 	if !ok {
-		return InterviewStatus{}, ErrSessionNotFound
+		return InterviewStatus{}, s.lookupError(id)
 	}
 	events := s.store.Replay(string(id))
 	if len(events) == 0 {
-		return InterviewStatus{}, ErrSessionNotFound
+		return InterviewStatus{}, s.lookupError(id)
 	}
 	startedAt, err := time.Parse(time.RFC3339Nano, events[0].RecordedAt)
 	if err != nil {
@@ -76,7 +76,7 @@ func (s *Service) RecordBlockedHintAttempt(id learning.SessionID) error {
 	defer s.mu.Unlock()
 
 	if _, ok := s.sessions[id]; !ok {
-		return ErrSessionNotFound
+		return s.lookupError(id)
 	}
 	current := s.store.Revision(string(id))
 	_, err := s.store.Append(string(id), current, "", eventstore.EventHintRequested, map[string]any{"blocked": true})
@@ -90,10 +90,14 @@ func (s *Service) RecordBlockedHintAttempt(id learning.SessionID) error {
 func (s *Service) FinishWithReason(id learning.SessionID, reason string, expectedRevision uint64, requestID string) (LifecycleResult, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+	var prior LifecycleResult
+	if found, err := s.retryRequest(id, requestID, "FinishWithReason", []any{reason}, &prior); found || err != nil {
+		return prior, err
+	}
 
 	rec, ok := s.sessions[id]
 	if !ok {
-		return LifecycleResult{}, ErrSessionNotFound
+		return LifecycleResult{}, s.lookupError(id)
 	}
 	ev, fresh, err := s.mutate(id, expectedRevision, requestID, eventstore.EventSessionFinished, map[string]string{"reason": reason})
 	if err != nil {
@@ -118,7 +122,7 @@ func (s *Service) InterviewReport(id learning.SessionID, now time.Time, recommen
 	rec, ok := s.sessions[id]
 	if !ok {
 		s.mu.Unlock()
-		return assessment.InterviewReport{}, ErrSessionNotFound
+		return assessment.InterviewReport{}, s.lookupError(id)
 	}
 	challengeID := rec.challengeID
 	timeLimit := rec.session.Policy.TimeLimit
@@ -126,7 +130,7 @@ func (s *Service) InterviewReport(id learning.SessionID, now time.Time, recommen
 
 	events := s.store.Replay(string(id))
 	if len(events) == 0 {
-		return assessment.InterviewReport{}, ErrSessionNotFound
+		return assessment.InterviewReport{}, s.lookupError(id)
 	}
 	startedAt, err := time.Parse(time.RFC3339Nano, events[0].RecordedAt)
 	if err != nil {

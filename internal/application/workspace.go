@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"slices"
 	"strings"
 	"sync"
 	"time"
@@ -44,6 +45,17 @@ type baselineEntry struct {
 	globs    []string
 }
 
+type observationEvent struct {
+	RecoveryVersion int                `json:"recovery_version"`
+	StepID          string             `json:"step_id"`
+	EvidenceID      string             `json:"evidence_id"`
+	Kind            string             `json:"kind"`
+	Fingerprint     string             `json:"fingerprint"`
+	Baseline        workspace.Baseline `json:"baseline"`
+	Root            string             `json:"root"`
+	Globs           []string           `json:"globs"`
+}
+
 // observationPayload is what this package stores as evidence content: a
 // structured summary of what changed, never the raw before/after file
 // bytes (keeps evidence small and avoids re-exposing anything the
@@ -67,20 +79,44 @@ type WorkspaceService struct {
 	store    *eventstore.Store
 	evidence *evidence.Store
 
-	mu        sync.Mutex
-	baselines map[baselineKey]baselineEntry
-	scope     map[learning.SessionID]map[string]bool
+	mu            sync.Mutex
+	baselines     map[baselineKey]baselineEntry
+	scope         map[learning.SessionID]map[string]bool
+	evidenceRoots map[learning.SessionID]map[string]baselineEntry
 }
 
 // NewWorkspaceService wires a WorkspaceService to the shared event and
 // evidence stores.
 func NewWorkspaceService(store *eventstore.Store, evidenceStore *evidence.Store) *WorkspaceService {
-	return &WorkspaceService{
-		store:     store,
-		evidence:  evidenceStore,
-		baselines: map[baselineKey]baselineEntry{},
-		scope:     map[learning.SessionID]map[string]bool{},
+	w := &WorkspaceService{
+		store:         store,
+		evidence:      evidenceStore,
+		baselines:     map[baselineKey]baselineEntry{},
+		scope:         map[learning.SessionID]map[string]bool{},
+		evidenceRoots: map[learning.SessionID]map[string]baselineEntry{},
 	}
+	for _, ev := range store.ReplayAll() {
+		if ev.Type != eventstore.EventObservationRecorded && ev.Type != eventstore.EventCheckExecuted {
+			continue
+		}
+		var p observationEvent
+		if json.Unmarshal(ev.Payload, &p) != nil || p.EvidenceID == "" {
+			continue
+		}
+		id := learning.SessionID(ev.StreamID)
+		key := baselineKey{id, learning.StepID(p.StepID)}
+		if ev.Type == eventstore.EventObservationRecorded && p.RecoveryVersion == 1 && p.Root != "" {
+			w.baselines[key] = baselineEntry{baseline: p.Baseline, root: p.Root, globs: p.Globs}
+		}
+		w.RecordEvidence(id, p.EvidenceID)
+		if entry, ok := w.baselines[key]; ok {
+			if w.evidenceRoots[id] == nil {
+				w.evidenceRoots[id] = map[string]baselineEntry{}
+			}
+			w.evidenceRoots[id][p.EvidenceID] = entry
+		}
+	}
+	return w
 }
 
 // ObserveInput is one workspace_observe call.
@@ -111,15 +147,25 @@ type ObserveResult struct {
 // restricted to Globs, never attributing a change that predates the
 // baseline to this step (requirement R4).
 func (w *WorkspaceService) Observe(in ObserveInput) (ObserveResult, error) {
+	w.mu.Lock()
+	defer w.mu.Unlock()
 	root, err := workspace.AuthorizeRoot(in.Root)
 	if err != nil {
 		return ObserveResult{}, fmt.Errorf("%w: %w", ErrWorkspaceRootInvalid, err)
 	}
 
 	key := baselineKey{session: in.SessionID, step: in.StepID}
-	w.mu.Lock()
 	entry, hasBaseline := w.baselines[key]
-	w.mu.Unlock()
+	if hasBaseline && (entry.root != root.Path() || !slices.Equal(entry.globs, in.Globs)) {
+		return ObserveResult{}, ErrWorkspaceRootInvalid
+	}
+	if ev, ok := w.store.Request(string(in.SessionID), in.RequestID); ok {
+		var previous observationEvent
+		if ev.Type != eventstore.EventObservationRecorded || json.Unmarshal(ev.Payload, &previous) != nil || previous.RecoveryVersion != 1 || previous.Root != root.Path() || previous.StepID != string(in.StepID) || !slices.Equal(previous.Globs, in.Globs) {
+			return ObserveResult{}, eventstore.ErrRevisionConflict
+		}
+		return w.observationResult(ev, previous.EvidenceID, in.StepID)
+	}
 
 	var (
 		result      workspace.ObserveResult
@@ -165,45 +211,55 @@ func (w *WorkspaceService) Observe(in ObserveInput) (ObserveResult, error) {
 		return ObserveResult{}, err
 	}
 
-	ev, err := w.store.Append(string(in.SessionID), in.ExpectedRevision, in.RequestID, eventstore.EventObservationRecorded, map[string]any{
-		"step_id":     string(in.StepID),
-		"evidence_id": evidenceID,
-		"kind":        payload.Kind,
-		"fingerprint": payload.Fingerprint,
+	if isBaseline {
+		entry = baselineEntry{baseline: newBaseline, root: root.Path(), globs: slices.Clone(in.Globs)}
+	}
+	ev, err := w.store.Append(string(in.SessionID), in.ExpectedRevision, in.RequestID, eventstore.EventObservationRecorded, observationEvent{
+		RecoveryVersion: 1, StepID: string(in.StepID), EvidenceID: evidenceID, Kind: payload.Kind, Fingerprint: payload.Fingerprint,
+		Baseline: entry.baseline, Root: entry.root, Globs: entry.globs,
 	})
 	if err != nil {
 		return ObserveResult{}, err
 	}
 
-	w.mu.Lock()
-	if isBaseline {
-		w.baselines[key] = baselineEntry{baseline: newBaseline, root: in.Root, globs: in.Globs}
-	} else {
-		// Keep the root/globs a later check_run reuses in sync with the
-		// most recent call, even though the baseline hashes themselves
-		// only change when a new one is established.
-		entry.root, entry.globs = in.Root, in.Globs
-		w.baselines[key] = entry
-	}
+	w.baselines[key] = entry
 	if w.scope[in.SessionID] == nil {
 		w.scope[in.SessionID] = map[string]bool{}
 	}
 	w.scope[in.SessionID][evidenceID] = true
-	w.mu.Unlock()
+	if w.evidenceRoots[in.SessionID] == nil {
+		w.evidenceRoots[in.SessionID] = map[string]baselineEntry{}
+	}
+	w.evidenceRoots[in.SessionID][evidenceID] = entry
+	return w.observationResult(ev, evidenceID, in.StepID)
+}
 
+func (w *WorkspaceService) observationResult(ev eventstore.Event, evidenceID string, stepID learning.StepID) (ObserveResult, error) {
+	data, err := w.evidence.Get(evidenceID)
+	if err != nil {
+		return ObserveResult{}, err
+	}
+	var payload observationPayload
+	if err := json.Unmarshal(data, &payload); err != nil {
+		return ObserveResult{}, err
+	}
 	learningEvidence, err := learning.NewEvidence(learning.EvidenceID(evidenceID), learning.EvidenceKindDiff, evidenceID)
 	if err != nil {
 		return ObserveResult{}, err
 	}
-	observation := learning.Observation{StepID: in.StepID, Evidence: learningEvidence, Observed: time.Now().UTC()}
+	observed, err := time.Parse(time.RFC3339Nano, ev.RecordedAt)
+	if err != nil {
+		return ObserveResult{}, err
+	}
+	observation := learning.Observation{StepID: stepID, Evidence: learningEvidence, Observed: observed}
 
 	return ObserveResult{
 		Observation: observation,
 		EvidenceID:  evidenceID,
-		Baseline:    isBaseline,
-		Changes:     result.Changes,
-		FromGit:     result.Current.FromGit,
-		Dirty:       result.Current.Dirty,
+		Baseline:    payload.Kind == "baseline",
+		Changes:     payload.Changes,
+		FromGit:     payload.FromGit,
+		Dirty:       payload.Dirty,
 		Fingerprint: payload.Fingerprint,
 		Revision:    ev.Revision,
 	}, nil
@@ -232,6 +288,7 @@ type EvidenceGetResult struct {
 func (w *WorkspaceService) EvidenceGet(in EvidenceGetInput) (EvidenceGetResult, error) {
 	w.mu.Lock()
 	known := w.scope[in.SessionID] != nil && w.scope[in.SessionID][in.EvidenceID]
+	entry, hasRoot := w.evidenceRoots[in.SessionID][in.EvidenceID]
 	w.mu.Unlock()
 	if !known {
 		return EvidenceGetResult{}, ErrEvidenceOutOfScope
@@ -242,9 +299,19 @@ func (w *WorkspaceService) EvidenceGet(in EvidenceGetInput) (EvidenceGetResult, 
 		return EvidenceGetResult{}, err
 	}
 
+	if hasRoot {
+		if in.Root != "" {
+			root, err := workspace.AuthorizeRoot(in.Root)
+			if err != nil || root.Path() != entry.root || !slices.Equal(in.Globs, entry.globs) {
+				return EvidenceGetResult{}, ErrWorkspaceRootInvalid
+			}
+		}
+		in.Root, in.Globs = entry.root, entry.globs
+	}
 	var stale bool
 	if in.Root != "" {
-		if root, rerr := workspace.AuthorizeRoot(in.Root); rerr == nil {
+		stale = true // An unavailable/replaced root cannot establish freshness.
+		if root, rerr := workspace.AuthorizeRoot(in.Root); rerr == nil && (!hasRoot || root.Path() == entry.root) {
 			var payload observationPayload
 			if json.Unmarshal(data, &payload) == nil && payload.Fingerprint != "" {
 				if fp, ferr := workspace.Fingerprint(root, in.Globs); ferr == nil {
@@ -272,7 +339,11 @@ func (w *WorkspaceService) RootFor(sessionID learning.SessionID, stepID learning
 	if !ok {
 		return "", nil, ErrNoWorkspaceBaseline
 	}
-	return entry.root, entry.globs, nil
+	resolved, err := workspace.AuthorizeRoot(entry.root)
+	if err != nil || resolved.Path() != entry.root {
+		return "", nil, ErrWorkspaceRootInvalid
+	}
+	return entry.root, slices.Clone(entry.globs), nil
 }
 
 // PutEvidence stores raw content-addressed evidence and returns its ID,
@@ -292,6 +363,22 @@ func (w *WorkspaceService) RecordEvidence(sessionID learning.SessionID, evidence
 		w.scope[sessionID] = map[string]bool{}
 	}
 	w.scope[sessionID][evidenceID] = true
+	// Check evidence has the same root scope before and after replay.
+	for _, ev := range w.store.Replay(string(sessionID)) {
+		if ev.Type != eventstore.EventCheckExecuted {
+			continue
+		}
+		var p observationEvent
+		if json.Unmarshal(ev.Payload, &p) != nil || p.EvidenceID != evidenceID {
+			continue
+		}
+		if entry, ok := w.baselines[baselineKey{sessionID, learning.StepID(p.StepID)}]; ok {
+			if w.evidenceRoots[sessionID] == nil {
+				w.evidenceRoots[sessionID] = map[string]baselineEntry{}
+			}
+			w.evidenceRoots[sessionID][evidenceID] = entry
+		}
+	}
 }
 
 func observationKind(isBaseline bool) string {

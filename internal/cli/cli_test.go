@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/oseiaspereira88/codinho/internal/application"
-	"github.com/oseiaspereira88/codinho/internal/config"
+	"github.com/oseiaspereira88/codinho/internal/eventstore"
 	"github.com/oseiaspereira88/codinho/internal/mastery"
 )
 
@@ -322,7 +322,7 @@ func TestSessionInspectReportsRecordedEvents(t *testing.T) {
 	root := setupWorkspace(t)
 	t.Chdir(root)
 
-	store, err := openEventStore(config.Config{WorkspaceRoot: root})
+	store, err := eventstore.Open(filepath.Join(root, ".codinho", "state", "events.jsonl"), nil)
 	if err != nil {
 		t.Fatalf("openEventStore: %v", err)
 	}
@@ -346,7 +346,7 @@ func TestProgressShowAndExportReflectRecordedEvidence(t *testing.T) {
 	root := setupWorkspace(t)
 	t.Chdir(root)
 
-	store, err := openEventStore(config.Config{WorkspaceRoot: root})
+	store, err := eventstore.Open(filepath.Join(root, ".codinho", "state", "events.jsonl"), nil)
 	if err != nil {
 		t.Fatalf("openEventStore: %v", err)
 	}
@@ -387,7 +387,7 @@ func TestPrivacyExportAndPurge(t *testing.T) {
 	root := setupWorkspace(t)
 	t.Chdir(root)
 
-	store, err := openEventStore(config.Config{WorkspaceRoot: root})
+	store, err := eventstore.Open(filepath.Join(root, ".codinho", "state", "events.jsonl"), nil)
 	if err != nil {
 		t.Fatalf("openEventStore: %v", err)
 	}

@@ -1,10 +1,12 @@
 package eventstore
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"os"
 	"path/filepath"
+	"sync"
 	"testing"
 )
 
@@ -117,5 +119,122 @@ func TestReadEventsUpcastsRegisteredVersion(t *testing.T) {
 	}
 	if string(result.Events[0].Payload) != `{"mode":"legacy","upcasted":true}` {
 		t.Fatalf("payload not upcasted: %s", result.Events[0].Payload)
+	}
+}
+
+func TestRecoveryRepairsTailAfterReadOnlyInspection(t *testing.T) {
+	good := encodeEvent(t, "ses_1", 1, EventSessionStarted, 1, `{}`)
+	path := filepath.Join(t.TempDir(), "events.jsonl")
+	tail := []byte(`{"schema_version":1,"id":"partial`)
+	original := append([]byte(good+"\n"), tail...)
+	if err := os.WriteFile(path, original, 0o600); err != nil {
+		t.Fatal(err)
+	}
+	reader, err := OpenReadOnly(path, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(reader.ReplayAll()) != 1 {
+		t.Fatal("read-only prefix")
+	}
+	reader.Close()
+	data, err := os.ReadFile(path)
+	if err != nil || !bytes.Equal(data, original) {
+		t.Fatal("inspection modified log")
+	}
+	writer, err := Open(path, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := writer.Append("ses_1", 1, "new", EventSessionPaused, nil); err != nil {
+		t.Fatal(err)
+	}
+	writer.Close()
+	recovered := ReadEvents(path, nil)
+	if recovered.Err != nil || recovered.Truncated || len(recovered.Events) != 2 {
+		t.Fatalf("reopen: %+v", recovered)
+	}
+	backups, err := filepath.Glob(path + ".recovery-*")
+	if err != nil || len(backups) != 1 {
+		t.Fatalf("backup: %v %v", backups, err)
+	}
+	data, err = os.ReadFile(backups[0])
+	if err != nil || !bytes.Equal(data, tail) {
+		t.Fatal("rejected bytes not preserved")
+	}
+	info, err := os.Stat(backups[0])
+	if err != nil || info.Mode().Perm() != 0o600 {
+		t.Fatal("backup must be private")
+	}
+}
+
+func TestRecoveryPreservesValidFinalLineWithoutNewline(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "events.jsonl")
+	if err := os.WriteFile(path, []byte(encodeEvent(t, "ses_1", 1, EventSessionStarted, 1, `{}`)), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	store, err := Open(path, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := store.Append("ses_1", 1, "pause", EventSessionPaused, nil); err != nil {
+		t.Fatal(err)
+	}
+	store.Close()
+	if result := ReadEvents(path, nil); result.Err != nil || len(result.Events) != 2 {
+		t.Fatalf("valid final line lost: %+v", result)
+	}
+}
+
+func TestRecoveryRejectsCorruptEnvelopeAndTerminatedGarbage(t *testing.T) {
+	good := encodeEvent(t, "ses_1", 1, EventSessionStarted, 1, `{}`)
+	for _, bad := range []string{"invalid-json", encodeEvent(t, "ses_1", 1, EventSessionPaused, 1, `{}`), encodeEvent(t, "ses_1", 3, EventSessionPaused, 1, `{}`), encodeEvent(t, "", 1, EventSessionStarted, 1, `{}`)} {
+		path := writeLog(t, good, bad)
+		before, err := os.ReadFile(path)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if store, err := Open(path, nil); !errors.Is(err, ErrCorruptedLog) {
+			if store != nil {
+				store.Close()
+			}
+			t.Fatalf("bad entry accepted: %s %v", bad, err)
+		}
+		after, err := os.ReadFile(path)
+		if err != nil || !bytes.Equal(before, after) {
+			t.Fatal("corrupt log modified")
+		}
+	}
+}
+
+func TestRecoveryConcurrentRequestReuseIsRejectedAtomically(t *testing.T) {
+	store, _ := openTestStore(t)
+	ready := make(chan struct{})
+	results := make(chan error, 2)
+	var wg sync.WaitGroup
+	for _, kind := range []EventType{EventSessionPaused, EventObservationRecorded} {
+		wg.Add(1)
+		go func(kind EventType) {
+			defer wg.Done()
+			<-ready
+			_, err := store.Append("ses_1", 0, "same-request", kind, map[string]string{"source": string(kind)})
+			results <- err
+		}(kind)
+	}
+	close(ready)
+	wg.Wait()
+	close(results)
+	successes, conflicts := 0, 0
+	for err := range results {
+		if err == nil {
+			successes++
+		} else if errors.Is(err, ErrRevisionConflict) {
+			conflicts++
+		} else {
+			t.Fatal(err)
+		}
+	}
+	if successes != 1 || conflicts != 1 || store.Revision("ses_1") != 1 {
+		t.Fatalf("success=%d conflict=%d", successes, conflicts)
 	}
 }

@@ -47,6 +47,24 @@ type LearningSession struct {
 	detour  *LearningDetour
 }
 
+// Clone isolates mutable state for validation before a durable append.
+func (s *LearningSession) Clone() *LearningSession {
+	c := *s
+	if s.active != nil {
+		active := *s.active
+		c.active = &active
+	}
+	if s.detour != nil {
+		detour := *s.detour
+		c.detour = &detour
+	}
+	if s.Policy.TimeLimit != nil {
+		limit := *s.Policy.TimeLimit
+		c.Policy.TimeLimit = &limit
+	}
+	return &c
+}
+
 // CatalogRef pins the exact catalog version a session fixed at start
 // (PROJECT.md §12.3 invariant 1).
 type CatalogRef struct {

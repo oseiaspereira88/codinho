@@ -1,6 +1,6 @@
 ---
 slug: session-recovery-version-pinning
-status: draft
+status: in-progress
 created_at: 2026-09-07
 completed_at:
 supersedes:
@@ -35,7 +35,7 @@ Fechar uma lacuna verificável da V1 antes de ampliar a superfície que depende 
 - R1: Após fechar e reabrir codinho serve sobre o mesmo estado, restaurar sessão, política completa, profundidade, nó, avaliações, pistas, detours e revisão confirmados.
 - R2: Preservar IDs e idempotência após restart: retry retorna o resultado original; request novo cria sessão distinta; rejeitar reutilização incompatível sem anexar evento.
 - R3: Persistir identidade e conteúdo recuperável do catálogo fixado; atualização ou remoção de pack não troca silenciosamente instruções, checks ou critérios de sessões existentes.
-- R4: Restaurar baselines, roots autorizadas e vínculo sessão–evidência; evidência externa ou obsoleta continua bloqueada após restart.
+- R4: Restaurar baselines, roots autorizadas e vínculo sessão–evidência; evidence_get bloqueia leitura cross-session e informa obsolescência usando o escopo persistido após restart. A autorização no consumo por avaliação exige evaluation-evidence-lineage (Decision 2).
 - R5: Validar transições antes do append; falha de domínio não pode deixar evento confirmado que o replay não consegue aplicar. Testar crash entre append e aplicação.
 - R6: Ler logs legados sem inventar políticas/conteúdo ausentes; retornar diagnóstico explícito de sessão irrecuperável e permitir novas sessões sem apagar o histórico.
 - R7: Provar os cenários por dois processos MCP distintos, incluindo atualização de pack entre processos, corrupção/truncamento e retry após perda da resposta.
@@ -65,13 +65,25 @@ Documentar em ADR antes da implementação a extensão dos payloads, snapshot do
 - created: internal/session/recovery_test.go
 - modified: internal/application/workspace.go
 - modified: internal/application/session.go
-- modified: internal/eventstore/event.go
-- modified: internal/curriculum/index.go
-- modified: cmd/codinho/main.go
+- modified: internal/application/checks.go
+- modified: internal/cli/state.go
+- modified: internal/cli/cli_test.go
 - created: cmd/codinho/recovery_integration_test.go
-- modified: schemas/event.schema.json
+- modified: internal/learning/session.go
+- modified: internal/session/interview.go
+- modified: internal/eventstore/store.go
+- modified: internal/eventstore/recovery.go
+- modified: internal/eventstore/recovery_test.go
+- modified: internal/mcpserver/errors.go
+- created: internal/application/workspace_recovery_test.go
+- created: .pose/adr/2026-09-06-durable-session-replay-with-pinned-content.md
+- created: .pose/knowledge/2026-09-07-decision-log-adr-durable-session-replay-review.md
 - modified: docs/compatibility.md
 - modified: .pose/indexes/validation-matrix.json
+- modified: .pose/roadmaps/codinho-v1.md
+- modified: .pose/specs/2026-08-22-v1-integrated-acceptance.md
+- created: .pose/specs/2026-09-07-evaluation-evidence-lineage.md
+- created: .pose/changelogs/unreleased/session-recovery-version-pinning.md
 
 ### Delivery targets
 - capability:session-recovery module:cmd/codinho profile:composed-capability entrypoint:cmd/codinho/main.go
@@ -80,7 +92,7 @@ Documentar em ADR antes da implementação a extensão dos payloads, snapshot do
 Documentar em ADR antes da implementação a extensão dos payloads, snapshot do catálogo e política para eventos legados incompletos. Preservar JSONL e interfaces MCP existentes; nenhum banco novo.
 
 ### Data/storage changes
-Documentar os campos e migração exigidos pelos requisitos antes do primeiro incremento. Nenhuma migração é executada nesta rodada de planejamento.
+Aplicar o [ADR de replay durável](../adr/2026-09-06-durable-session-replay-with-pinned-content.md): início versionado com política/conteúdo fixados, replay de deltas, baselines persistidas e diagnóstico conservador para legado. Envelope JSONL permanece v1.
 
 ### Technical risks
 Replay parcial pode perder consentimento, atribuir evidência incorretamente ou reutilizar IDs. A ausência de dados em eventos antigos não admite recuperação perfeita por inferência.
@@ -88,17 +100,17 @@ Replay parcial pode perder consentimento, atribuir evidência incorretamente ou 
 ## 4. Tasks
 
 ### Planning
-- [ ] Reproduzir o achado e revisar contratos/ADRs aplicáveis.
-- [ ] Completar decisões de formato e plano de testes negativos antes de modificar código.
-- [ ] Reconciliar esta lista de artefatos com os arquivos efetivos; declarar arquivos adicionais antes de alterá-los.
+- [x] Reproduzir o achado e revisar contratos/ADRs aplicáveis.
+- [x] Completar decisões de formato e plano de testes negativos antes de modificar código.
+- [x] Reconciliar esta lista de artefatos com os arquivos efetivos; declarar arquivos adicionais antes de alterá-los.
 
 ### Implementation
-- [ ] Implementar primeiro o menor fluxo que fecha a lacuna.
-- [ ] Integrar entradas reais, persistência/compatibilidade e diagnósticos.
-- [ ] Atualizar documentação e checks declarativos junto com o contrato.
+- [x] Implementar primeiro o menor fluxo que fecha a lacuna.
+- [x] Integrar entradas reais, persistência/compatibilidade e diagnósticos.
+- [x] Atualizar documentação e checks declarativos junto com o contrato.
 
 ### Validation
-- [ ] Executar os cenários de cada R-ID, incluindo negativos.
+- [x] Executar os cenários de cada R-ID, incluindo negativos.
 - [ ] Executar pose assess integrate e validação estruturada no candidato.
 - [ ] Reconciliar artifacts, surface e revisão independente antes do closeout.
 
@@ -110,12 +122,28 @@ Replay parcial pode perder consentimento, atribuir evidência incorretamente ou 
 - Options considered: deixar implementação implícita no aceite; criar remediação focada.
 - Decision: planejar remediação própria e exigir sua entrega antes do aceite.
 - Rationale: v1-integrated-acceptance tem non-goal de adicionar features ou correções.
-- Consequences: esta spec permanece draft; decisões estruturais novas exigem ADR no início da implementação.
+- Consequences: iniciar por reprodução; o ADR de replay durável governa a implementação.
+
+### Decision 2
+- Date: 2026-09-07
+- Context: Revisão independente verificou que o R4 original pressupunha uma proteção inexistente: EvidenceGet isola leitura, mas StepEvaluate consulta evidências sem validar origem/freshness.
+- Options considered: ampliar recuperação para redefinir avaliação; explicitar retrieval e abrir remediação de consumo.
+- Decision: delimitar R4 ao contrato real de leitura/freshness e registrar evaluation-evidence-lineage, prioridade 15 e dependência bloqueante do aceite V1.
+- Rationale: autorização de evidência qualitativa/externa precisa de política própria; não alegar que persistência resolve consumo.
+- Consequences: produto não tem isolamento completo de avaliação; esta pendência continua visível no roadmap e no aceite. Consultar knowledge:adr-durable-session-replay-review.
 
 ## 6. Validation
 
 ### Strategy
 Validar cada contrato com cenário positivo e negativo pela entrada de produção; usar somente dados sintéticos.
+
+| Cenário | Comando obrigatório | Evidência esperada |
+|---|---|---|
+| Estado, IDs, retries, legado e append inválido | go test ./internal/session -run 'TestRecovery\|TestRejectedTransition\|TestLegacySession' | Estado restaurado; zero evento em chamada inválida |
+| Baseline e isolamento após restart | go test ./internal/application -run TestWorkspaceRecovery | Diff preservado, root trocado negado, evidência cross-session negada |
+| Cauda truncada seguida de append | go test ./internal/eventstore -run TestRecovery | Prefixo e novos eventos legíveis, backup da cauda |
+| Dois processos e pack atualizado | go test ./cmd/codinho -run TestSessionRecoveryOverRealStdio | Sessão antiga preservada e sessão nova usa catálogo novo |
+| Regressões concorrentes | go test -race ./... | Todos os pacotes passam |
 
 ### Deterministic checks
 - Test: go test -race ./internal/session/... ./internal/application/... ./internal/eventstore/... ./cmd/codinho/...
@@ -126,29 +154,41 @@ Validar cada contrato com cenário positivo e negativo pela entrada de produçã
 
 ### Execution log
 - 2026-09-07 UTC: criada em revisão de planejamento; implementação e gates de entrega não executados.
+- 2026-09-07 UTC: regressões iniciais falharam como esperado: sessão perdida, append de transição inválida e diagnóstico de legado ausente.
+- 2026-09-07 UTC: go test -race ./... passou em todos os pacotes; MCP real cobriu update, remoção do desafio, perda da resposta, cauda truncada e diagnóstico legado/corrupção.
+- 2026-09-07 UTC: revisão independente corrigiu retry de checks, reserva legacy, freshness runtime, CLI somente leitura, integridade de revisões, conflito atômico de request_id e reparo conservador de tentativa interrompida.
+- 2026-09-07 UTC, retomada: go test -race ./... passou; pose check --strict, readiness, skills-check e recurrence-check passaram. assess discover encontrou um módulo; assess tech-debt encontrou zero marcadores. assess integrate retornou zero contratos reconhecidos (limitação conhecida em contributions/20260907-004842-detectar-contratos-mcp-go-e-distinguir-i.md); a integração é comprovada pelos testes MCP reais.
+- 2026-09-07 UTC, retomada: primeira validação estruturada executou 11 checks com sucesso e um erro de ambiente: govulncheck instalado em /home/go/go/bin estava ausente do PATH. Corrigir o PATH do processo de validação, preservando a matriz portátil.
 
 ### Results summary
-Escopo proposto com requisitos verificáveis. A validação atual do produto está no relatório; não prova os novos requisitos.
+Implementação e regressões passaram; fechar somente após validação POSE estruturada, atribuição Git, superfície e revisão selada no candidato final.
 
 ### Requirement trace
-Preencher R1–R7 com evidência por cenário durante a implementação e no closeout.
+- R1 [satisfied] test:TestRecoveryRestoresPoliciesHintsDetoursAndHistoricalRetries test:TestRecoveryRestoresGranularityEvaluationAndAdvance
+- R2 [satisfied] test:TestRecoveryRestoresSessionAndStartRetry test:TestRecoveryConcurrentRequestReuseIsRejectedAtomically test:TestSessionRecoveryOverRealStdio
+- R3 [satisfied] capability:session-recovery evidence:integration check:session-recovery test:TestRecoveryRejectsDamagedPinnedContent
+- R4 [satisfied] test:TestWorkspaceRecoveryBaselineScopeAndRetry test:TestWorkspaceRecoveryRejectsReplacedRoot test:TestWorkspaceRecoveryCheckEvidenceAndRetry
+- R5 [satisfied] test:TestRejectedTransitionDoesNotAppend test:TestRecoveryCompletesInterruptedSubmission
+- R6 [satisfied] test:TestLegacySessionDoesNotBlockNewStarts test:TestRecoveryRejectsDamagedPinnedContent test:TestSessionRecoveryOverRealStdio
+- R7 [satisfied] capability:session-recovery evidence:integration check:session-recovery test:TestSessionRecoveryOverRealStdio
 
 ### Known gaps
-Replay parcial pode perder consentimento, atribuir evidência incorretamente ou reutilizar IDs. A ausência de dados em eventos antigos não admite recuperação perfeita por inferência.
+Logs legados incompletos não admitem recuperação segura. Startup exige catálogo/manifest válidos. Após SIGKILL, lock órfão continua sujeito a confirmação operacional antes de liberação; o E2E remove somente seu lock sintético após Wait. Consumo de evidências em avaliação depende de evaluation-evidence-lineage.
 
 ## 7. Final Report
 
 ### Delivered scope
-Somente planejamento; nenhuma funcionalidade desta spec foi entregue.
+Recuperação de sessões com conteúdo fixado, idempotência, baselines/evidências, reparo de cauda sob lock e CLI de inspeção somente leitura. Implementado e testado; lifecycle aguarda gates finais.
 
 ### Files and modules changed
-- Esta spec; dependências no roadmap e no aceite integrado.
+- internal/session, learning, eventstore, application, cli e mcpserver; E2E real, compatibilidade, ADR e matriz de validação.
 
 ### Validation executed
-- Planejamento sujeito a pose lint-spec --ready-check e pose check --strict nesta auditoria.
+- go test -race ./...: passou em 2026-09-07; validação estruturada POSE e revisão final registradas no closeout.
 
 ### Residual risks
-Validar o comportamento implementado em execução independente; não reutilizar resultado histórico como aprovação do código futuro.
+Manter baseline de startup sob crescimento do log. Não usar binário anterior como writer do novo estado; não inferir autorização de consumo a partir da existência de uma evidência.
 
 ### Follow-ups
 - [covered: v1-integrated-acceptance] Reexecutar os requisitos desta spec no candidato composto da V1.
+- [open] Confirmar disposition do achado de consumo em evaluation-evidence-lineage com o responsável; owner: @oseiaspereira; due: 2026-09-14. A spec draft já bloqueia o aceite V1.

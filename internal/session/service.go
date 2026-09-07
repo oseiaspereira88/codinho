@@ -48,6 +48,7 @@ var ErrNoOpenDetour = errors.New("session: no open detour for this session")
 type record struct {
 	session     *learning.LearningSession
 	challengeID string
+	pinned      curriculum.ChallengeAuthoring
 	depth       learning.Depth
 	// cleanEvaluation tracks whether the active step's most recent
 	// evaluation had no blocking failure, gating step_complete's
@@ -71,8 +72,12 @@ type Service struct {
 	evidence *evidence.Store
 
 	mu            sync.Mutex
+	requestDigest string // current command, guarded by mu; persisted with its event
 	sessions      map[learning.SessionID]*record
 	startResults  map[string]StartResult
+	startInputs   map[string]string
+	startIDs      map[string]learning.SessionID
+	unrecoverable map[learning.SessionID]bool
 	hintResults   map[string]HintResult
 	detourResults map[string]DetourResult
 	nextID        atomic.Uint64
@@ -90,15 +95,20 @@ func idempotencyKey(id learning.SessionID, requestID string) string {
 // evaluation-progression's original evidence-presence behavior (Decision
 // 3, safe-check-executor).
 func New(catalog *curriculum.Catalog, store *eventstore.Store, evidenceStore *evidence.Store) *Service {
-	return &Service{
+	s := &Service{
 		catalog:       catalog,
 		store:         store,
 		evidence:      evidenceStore,
 		sessions:      map[learning.SessionID]*record{},
 		startResults:  map[string]StartResult{},
+		startInputs:   map[string]string{},
+		startIDs:      map[string]learning.SessionID{},
+		unrecoverable: map[learning.SessionID]bool{},
 		hintResults:   map[string]HintResult{},
 		detourResults: map[string]DetourResult{},
 	}
+	s.recover()
+	return s
 }
 
 // ActiveChecks returns the checks declared by the session's fixed
@@ -111,9 +121,9 @@ func (s *Service) ActiveChecks(id learning.SessionID) ([]curriculum.CheckAuthori
 	defer s.mu.Unlock()
 	rec, ok := s.sessions[id]
 	if !ok {
-		return nil, "", ErrSessionNotFound
+		return nil, "", s.lookupError(id)
 	}
-	challenge, err := s.challenge(rec.challengeID)
+	challenge, err := pinnedChallenge(rec)
 	if err != nil {
 		return nil, "", err
 	}
@@ -165,7 +175,13 @@ func (s *Service) Start(in StartInput) (StartResult, error) {
 	defer s.mu.Unlock()
 
 	if in.RequestID != "" {
+		if id, ok := s.startIDs[in.RequestID]; ok && s.unrecoverable[id] {
+			return StartResult{}, ErrSessionUnrecoverable
+		}
 		if cached, ok := s.startResults[in.RequestID]; ok {
+			if s.startInputs[in.RequestID] != inputIdentity(in) {
+				return StartResult{}, eventstore.ErrRevisionConflict
+			}
 			return cached, nil
 		}
 	}
@@ -214,10 +230,8 @@ func (s *Service) Start(in StartInput) (StartResult, error) {
 	// Append first: the durable record of intent to start must exist
 	// before the in-memory session is exposed to callers (local-event-store
 	// R1/R3 ordering contract).
-	ev, err := s.store.Append(string(sessionID), 0, in.RequestID, eventstore.EventSessionStarted, map[string]string{
-		"challenge_id": in.ChallengeID,
-		"mode":         string(mode),
-	})
+	payload := startedPayload{RecoveryVersion: 1, ChallengeID: in.ChallengeID, Mode: string(mode), Input: in, Policy: policy, Challenge: challenge, Digest: contentDigest(challenge)}
+	ev, err := s.store.Append(string(sessionID), 0, in.RequestID, eventstore.EventSessionStarted, payload)
 	if err != nil {
 		return StartResult{}, err
 	}
@@ -237,7 +251,7 @@ func (s *Service) Start(in StartInput) (StartResult, error) {
 		return StartResult{}, err
 	}
 
-	s.sessions[sessionID] = &record{session: domainSession, challengeID: in.ChallengeID, depth: depth}
+	s.sessions[sessionID] = &record{session: domainSession, challengeID: in.ChallengeID, pinned: challenge, depth: depth}
 
 	result := StartResult{
 		SessionID:  sessionID,
@@ -248,6 +262,8 @@ func (s *Service) Start(in StartInput) (StartResult, error) {
 	}
 	if in.RequestID != "" {
 		s.startResults[in.RequestID] = result
+		s.startInputs[in.RequestID] = inputIdentity(in)
+		s.startIDs[in.RequestID] = sessionID
 	}
 	return result, nil
 }
@@ -272,7 +288,7 @@ func (s *Service) Get(id learning.SessionID) (GetResult, error) {
 func (s *Service) getLocked(id learning.SessionID) (GetResult, error) {
 	rec, ok := s.sessions[id]
 	if !ok {
-		return GetResult{}, ErrSessionNotFound
+		return GetResult{}, s.lookupError(id)
 	}
 	active := rec.session.ActiveStep()
 	var stepID learning.StepID
@@ -305,13 +321,13 @@ func (s *Service) Instruction(id learning.SessionID) (Instruction, error) {
 
 	rec, ok := s.sessions[id]
 	if !ok {
-		return Instruction{}, ErrSessionNotFound
+		return Instruction{}, s.lookupError(id)
 	}
 	active := rec.session.ActiveStep()
 	if active == nil {
-		return Instruction{}, ErrSessionNotFound
+		return Instruction{}, s.lookupError(id)
 	}
-	challenge, err := s.challenge(rec.challengeID)
+	challenge, err := pinnedChallenge(rec)
 	if err != nil {
 		return Instruction{}, err
 	}
@@ -341,6 +357,37 @@ func (s *Service) Instruction(id learning.SessionID) (Instruction, error) {
 // distinguishes them — it still equals expectedRevision on a truly fresh
 // call, and has already moved past it once the first call succeeded.
 func (s *Service) mutate(id learning.SessionID, expectedRevision uint64, requestID string, eventType eventstore.EventType, payload any) (ev eventstore.Event, fresh bool, err error) {
+	encoded, err := json.Marshal(payload)
+	if err != nil {
+		return ev, false, err
+	}
+	fields := map[string]any{}
+	if string(encoded) != "null" {
+		if err := json.Unmarshal(encoded, &fields); err != nil {
+			return ev, false, err
+		}
+	}
+	fields["request_digest"] = s.requestDigest
+	payload = fields
+	if existing, ok := s.store.Request(string(id), requestID); ok {
+		raw, marshalErr := json.Marshal(payload)
+		if marshalErr != nil {
+			return ev, false, marshalErr
+		}
+		if existing.Type != eventType || !jsonEqual(existing.Payload, raw) {
+			return ev, false, eventstore.ErrRevisionConflict
+		}
+		return existing, false, nil
+	}
+	raw, err := json.Marshal(payload)
+	if err != nil {
+		return ev, false, err
+	}
+	rec := *s.sessions[id]
+	rec.session = rec.session.Clone()
+	if err := applyEvent(&rec, eventstore.Event{Type: eventType, Payload: raw}); err != nil {
+		return ev, false, err
+	}
 	before := s.store.Revision(string(id))
 	ev, err = s.store.Append(string(id), expectedRevision, requestID, eventType, payload)
 	if err != nil {
@@ -372,9 +419,14 @@ func (s *Service) Configure(in ConfigureInput) (LifecycleResult, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
+	var prior LifecycleResult
+	if found, err := s.retryRequest(in.SessionID, in.RequestID, "Configure", in, &prior); found || err != nil {
+		return prior, err
+	}
+
 	rec, ok := s.sessions[in.SessionID]
 	if !ok {
-		return LifecycleResult{}, ErrSessionNotFound
+		return LifecycleResult{}, s.lookupError(in.SessionID)
 	}
 
 	next := rec.session.Policy
@@ -425,9 +477,14 @@ func (s *Service) transitionLifecycle(id learning.SessionID, expectedRevision ui
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
+	var prior LifecycleResult
+	if found, err := s.retryRequest(id, requestID, "transitionLifecycle", []any{eventType}, &prior); found || err != nil {
+		return prior, err
+	}
+
 	rec, ok := s.sessions[id]
 	if !ok {
-		return LifecycleResult{}, ErrSessionNotFound
+		return LifecycleResult{}, s.lookupError(id)
 	}
 
 	ev, fresh, err := s.mutate(id, expectedRevision, requestID, eventType, nil)
@@ -460,11 +517,16 @@ func (s *Service) GranularityAdjust(id learning.SessionID, depth learning.Depth,
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
+	var prior GranularityResult
+	if found, err := s.retryRequest(id, requestID, "GranularityAdjust", []any{depth, reason}, &prior); found || err != nil {
+		return prior, err
+	}
+
 	rec, ok := s.sessions[id]
 	if !ok {
-		return GranularityResult{}, ErrSessionNotFound
+		return GranularityResult{}, s.lookupError(id)
 	}
-	challenge, err := s.challenge(rec.challengeID)
+	challenge, err := pinnedChallenge(rec)
 	if err != nil {
 		return GranularityResult{}, err
 	}
@@ -518,11 +580,16 @@ func (s *Service) ProposeNextStep(id learning.SessionID, stepID learning.StepID,
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
+	var prior ProposeNextStepResult
+	if found, err := s.retryRequest(id, requestID, "ProposeNextStep", []any{stepID}, &prior); found || err != nil {
+		return prior, err
+	}
+
 	rec, ok := s.sessions[id]
 	if !ok {
-		return ProposeNextStepResult{}, ErrSessionNotFound
+		return ProposeNextStepResult{}, s.lookupError(id)
 	}
-	challenge, err := s.challenge(rec.challengeID)
+	challenge, err := pinnedChallenge(rec)
 	if err != nil {
 		return ProposeNextStepResult{}, err
 	}
@@ -559,13 +626,13 @@ type HintResult struct {
 func (s *Service) activeWindow(id learning.SessionID) (*record, *learning.StepProgress, curriculum.StepAuthoring, error) {
 	rec, ok := s.sessions[id]
 	if !ok {
-		return nil, nil, curriculum.StepAuthoring{}, ErrSessionNotFound
+		return nil, nil, curriculum.StepAuthoring{}, s.lookupError(id)
 	}
 	active := rec.session.ActiveStep()
 	if active == nil {
 		return nil, nil, curriculum.StepAuthoring{}, ErrNoActiveStep
 	}
-	challenge, err := s.challenge(rec.challengeID)
+	challenge, err := pinnedChallenge(rec)
 	if err != nil {
 		return nil, nil, curriculum.StepAuthoring{}, err
 	}
@@ -583,6 +650,11 @@ func (s *Service) activeWindow(id learning.SessionID) (*record, *learning.StepPr
 func (s *Service) HintRequest(id learning.SessionID, confirmSolution bool, expectedRevision uint64, requestID string) (HintResult, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+
+	var prior HintResult
+	if found, err := s.retryRequest(id, requestID, "HintRequest", []any{confirmSolution}, &prior); found || err != nil {
+		return prior, err
+	}
 
 	if requestID != "" {
 		if cached, ok := s.hintResults[idempotencyKey(id, requestID)]; ok {
@@ -616,6 +688,11 @@ func (s *Service) HintRequest(id learning.SessionID, confirmSolution bool, expec
 func (s *Service) SyntaxRecallGet(id learning.SessionID, expectedRevision uint64, requestID string) (HintResult, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+
+	var prior HintResult
+	if found, err := s.retryRequest(id, requestID, "SyntaxRecallGet", nil, &prior); found || err != nil {
+		return prior, err
+	}
 
 	if requestID != "" {
 		if cached, ok := s.hintResults[idempotencyKey(id, requestID)]; ok {
@@ -652,7 +729,7 @@ func (s *Service) SyntaxRecallGet(id learning.SessionID, expectedRevision uint64
 // Callers must already hold s.mu.
 func (s *Service) grantDisclosure(id learning.SessionID, rec *record, active *learning.StepProgress, step curriculum.StepAuthoring, level learning.DisclosureLevel, kind string, direct, free bool, expectedRevision uint64, requestID string) (HintResult, error) {
 	eventType := eventstore.EventHintRequested
-	payload := map[string]any{"step_id": string(active.StepID), "level": int(level), "kind": kind, "free": free}
+	payload := map[string]any{"step_id": string(active.StepID), "level": int(level), "kind": kind, "free": free, "direct": direct}
 	if level == learning.DisclosureSolution {
 		eventType = eventstore.EventSolutionRevealed
 		payload["needs_variant"] = true
@@ -699,9 +776,14 @@ func (s *Service) DetourStart(id learning.SessionID, reason string, expectedRevi
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
+	var prior DetourResult
+	if found, err := s.retryRequest(id, requestID, "DetourStart", []any{reason}, &prior); found || err != nil {
+		return prior, err
+	}
+
 	rec, ok := s.sessions[id]
 	if !ok {
-		return DetourResult{}, ErrSessionNotFound
+		return DetourResult{}, s.lookupError(id)
 	}
 	ev, fresh, err := s.mutate(id, expectedRevision, requestID, eventstore.EventDetourStarted, map[string]string{"reason": reason})
 	if err != nil {
@@ -726,9 +808,14 @@ func (s *Service) DetourFinish(id learning.SessionID, outcome assistance.DetourO
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
+	var prior DetourResult
+	if found, err := s.retryRequest(id, requestID, "DetourFinish", []any{outcome}, &prior); found || err != nil {
+		return prior, err
+	}
+
 	rec, ok := s.sessions[id]
 	if !ok {
-		return DetourResult{}, ErrSessionNotFound
+		return DetourResult{}, s.lookupError(id)
 	}
 	ev, fresh, err := s.mutate(id, expectedRevision, requestID, eventstore.EventDetourFinished, map[string]string{"outcome": string(outcome)})
 	if err != nil {
@@ -766,6 +853,11 @@ func (s *Service) FeedbackPrepare(id learning.SessionID, question string) (asses
 func (s *Service) FeedbackRecord(id learning.SessionID, feedbackType learning.FeedbackType, text string, blockingOverride *bool, expectedRevision uint64, requestID string) (LifecycleResult, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+
+	var prior LifecycleResult
+	if found, err := s.retryRequest(id, requestID, "FeedbackRecord", []any{feedbackType, text, blockingOverride}, &prior); found || err != nil {
+		return prior, err
+	}
 
 	rec, active, _, err := s.activeWindow(id)
 	if err != nil {
@@ -860,6 +952,11 @@ func (s *Service) StepEvaluate(in EvaluateInput) (EvaluateResult, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
+	var prior EvaluateResult
+	if found, err := s.retryRequest(in.SessionID, in.RequestID, "StepEvaluate", in, &prior); found || err != nil {
+		return prior, err
+	}
+
 	rec, active, _, err := s.activeWindow(in.SessionID)
 	if err != nil {
 		return EvaluateResult{}, err
@@ -886,6 +983,7 @@ func (s *Service) StepEvaluate(in EvaluateInput) (EvaluateResult, error) {
 		"criteria":             results,
 		"submission_intent":    in.SubmissionIntent,
 		"has_blocking_failure": blocking,
+		"solution_revealed":    active.SolutionRevealed,
 	})
 	if err != nil {
 		return EvaluateResult{}, err
@@ -899,28 +997,9 @@ func (s *Service) StepEvaluate(in EvaluateInput) (EvaluateResult, error) {
 		rec.cleanEvaluation = !blocking
 	}
 
-	if in.SubmissionIntent {
-		var evidenceIDs []string
-		for _, r := range results {
-			if r.EvidenceID != "" {
-				evidenceIDs = append(evidenceIDs, string(r.EvidenceID))
-			}
-		}
-		attemptRequestID := ""
-		if in.RequestID != "" {
-			attemptRequestID = in.RequestID + ":attempt"
-		}
-		// A distinct request_id keeps this second append independently
-		// idempotent: reusing in.RequestID would hit the eventstore's own
-		// (global-by-request_id) replay cache from the append above and
-		// silently skip this one.
-		if _, _, err := s.mutate(in.SessionID, ev.Revision, attemptRequestID, eventstore.EventAttemptSubmitted, map[string]any{
-			"step_id":           string(active.StepID),
-			"evidence_ids":      evidenceIDs,
-			"solution_revealed": active.SolutionRevealed,
-		}); err != nil {
-			return EvaluateResult{}, err
-		}
+	revision, err := s.ensureAttempt(ev)
+	if err != nil {
+		return EvaluateResult{}, err
 	}
 
 	return EvaluateResult{
@@ -928,7 +1007,7 @@ func (s *Service) StepEvaluate(in EvaluateInput) (EvaluateResult, error) {
 		Criteria:           results,
 		HasBlockingFailure: blocking,
 		AttemptRecorded:    in.SubmissionIntent,
-		Revision:           s.store.Revision(string(in.SessionID)),
+		Revision:           revision,
 	}, nil
 }
 
@@ -938,6 +1017,11 @@ func (s *Service) StepEvaluate(in EvaluateInput) (EvaluateResult, error) {
 func (s *Service) ReflectionRecord(id learning.SessionID, competencyID learning.CompetencyID, prompt, answer, assessmentText string, expectedRevision uint64, requestID string) (LifecycleResult, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+
+	var prior LifecycleResult
+	if found, err := s.retryRequest(id, requestID, "ReflectionRecord", []any{competencyID, prompt, answer, assessmentText}, &prior); found || err != nil {
+		return prior, err
+	}
 
 	rec, active, _, err := s.activeWindow(id)
 	if err != nil {
@@ -962,6 +1046,11 @@ func (s *Service) ReflectionRecord(id learning.SessionID, competencyID learning.
 func (s *Service) StepComplete(id learning.SessionID, confirm, override bool, expectedRevision uint64, requestID string) (LifecycleResult, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+
+	var prior LifecycleResult
+	if found, err := s.retryRequest(id, requestID, "StepComplete", []any{confirm, override}, &prior); found || err != nil {
+		return prior, err
+	}
 
 	rec, active, step, err := s.activeWindow(id)
 	if err != nil {
@@ -1018,15 +1107,20 @@ func (s *Service) StepAdvance(id learning.SessionID, override bool, expectedRevi
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
+	var prior AdvanceResult
+	if found, err := s.retryRequest(id, requestID, "StepAdvance", []any{override}, &prior); found || err != nil {
+		return prior, err
+	}
+
 	rec, ok := s.sessions[id]
 	if !ok {
-		return AdvanceResult{}, ErrSessionNotFound
+		return AdvanceResult{}, s.lookupError(id)
 	}
 	active := rec.session.ActiveStep()
 	if active == nil {
 		return AdvanceResult{}, ErrNoActiveStep
 	}
-	challenge, err := s.challenge(rec.challengeID)
+	challenge, err := pinnedChallenge(rec)
 	if err != nil {
 		return AdvanceResult{}, err
 	}
@@ -1049,8 +1143,8 @@ func (s *Service) StepAdvance(id learning.SessionID, override bool, expectedRevi
 		return AdvanceResult{Done: true, Revision: s.store.Revision(string(id))}, nil
 	}
 
-	ev, fresh, err := s.mutate(id, expectedRevision, requestID, eventstore.EventStepAdvanced, map[string]string{
-		"from": string(active.StepID), "to": next.ID,
+	ev, fresh, err := s.mutate(id, expectedRevision, requestID, eventstore.EventStepAdvanced, map[string]any{
+		"from": string(active.StepID), "to": next.ID, "override": override,
 	})
 	if err != nil {
 		return AdvanceResult{}, err

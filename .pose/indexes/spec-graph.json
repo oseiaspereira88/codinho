@@ -862,7 +862,7 @@
       ],
       "path": ".pose/specs/2026-09-07-session-recovery-version-pinning.md",
       "priority": 10,
-      "status": "draft"
+      "status": "in-progress"
     },
     "session-tree-progression": {
       "depends_on": [

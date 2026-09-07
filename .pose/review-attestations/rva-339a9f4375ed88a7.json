@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "attestation_id": "rva-339a9f4375ed88a7",
+  "bundle_id": "rvb-a431e6d8677f4837",
+  "bundle_digest": "sha256:a431e6d8677f48372ef8eb81cb0cbc8cb912b1bc592581e6fa6664d51a27b53b",
+  "reviewer": "agent:codex-root-resumed-review-20260907",
+  "decision": "approved",
+  "criteria": [
+    {
+      "id": "compatibility",
+      "disposition": "passed",
+      "evidence": "integration:./go/session-recovery"
+    },
+    {
+      "id": "correctness",
+      "disposition": "passed",
+      "evidence": "test:go-test-race-all"
+    },
+    {
+      "id": "cross-component-integration",
+      "disposition": "passed",
+      "evidence": "integration:./go/session-recovery"
+    },
+    {
+      "id": "documentation",
+      "disposition": "passed",
+      "evidence": "integration:./go/session-recovery"
+    },
+    {
+      "id": "operability",
+      "disposition": "passed",
+      "evidence": "integration:./go/session-recovery"
+    },
+    {
+      "id": "requirements",
+      "disposition": "passed",
+      "evidence": "requirement-trace:session-recovery-version-pinning"
+    },
+    {
+      "id": "scope",
+      "disposition": "passed",
+      "evidence": "integration:./go/session-recovery"
+    },
+    {
+      "id": "security",
+      "disposition": "passed",
+      "evidence": "integration:./go/session-recovery"
+    }
+  ],
+  "tools": [
+    {
+      "id": "artifact-check",
+      "disposition": "passed",
+      "evidence": "report:.pose/reports/2026-09-07-review-session-recovery.md"
+    },
+    {
+      "id": "assess-discover",
+      "component": "cmd",
+      "disposition": "not-used",
+      "rationale": "Global assess discover already covers the single root Go module"
+    },
+    {
+      "id": "assess-discover",
+      "component": "internal",
+      "disposition": "not-used",
+      "rationale": "Global assess discover already covers the single root Go module"
+    },
+    {
+      "id": "assess-integrate",
+      "disposition": "passed",
+      "evidence": "integration:./go/session-recovery",
+      "rationale": "Assessment executed; MCP inventory limitation documented in review report; real stdio integration passed"
+    },
+    {
+      "id": "assess-tech-debt",
+      "disposition": "passed",
+      "evidence": "report:.pose/reports/2026-09-07-review-session-recovery.md"
+    },
+    {
+      "id": "closeout-check",
+      "disposition": "deferred",
+      "rationale": "Post-review gate"
+    },
+    {
+      "id": "knowledge-check",
+      "disposition": "passed",
+      "evidence": "report:.pose/reports/2026-09-07-review-session-recovery.md"
+    },
+    {
+      "id": "review-check",
+      "disposition": "deferred",
+      "rationale": "Post-review gate"
+    },
+    {
+      "id": "suggest-review",
+      "component": "cmd",
+      "disposition": "passed",
+      "evidence": "report:.pose/reports/2026-09-07-review-session-recovery.md"
+    },
+    {
+      "id": "suggest-review",
+      "component": "internal",
+      "disposition": "passed",
+      "evidence": "report:.pose/reports/2026-09-07-review-session-recovery.md"
+    },
+    {
+      "id": "surface-check",
+      "disposition": "passed",
+      "evidence": "integration:./go/session-recovery",
+      "rationale": "Assessment executed; MCP inventory limitation documented in review report; real stdio integration passed"
+    },
+    {
+      "id": "validate",
+      "disposition": "passed",
+      "evidence": "validation:.pose/results/delivery-validation.json",
+      "rationale": "Full root go.mod validation includes cmd and internal"
+    },
+    {
+      "id": "validate",
+      "component": "cmd",
+      "disposition": "passed",
+      "evidence": "validation:.pose/results/delivery-validation.json",
+      "rationale": "Full root go.mod validation includes cmd and internal"
+    },
+    {
+      "id": "validate",
+      "component": "internal",
+      "disposition": "passed",
+      "evidence": "validation:.pose/results/delivery-validation.json",
+      "rationale": "Full root go.mod validation includes cmd and internal"
+    }
+  ],
+  "evidence_refs": [
+    "integration:./go/session-recovery",
+    "report:.pose/reports/2026-09-07-review-session-recovery.md",
+    "requirement-trace:session-recovery-version-pinning",
+    "test:go-test-race-all",
+    "validation:.pose/results/delivery-validation.json"
+  ],
+  "findings": [],
+  "attested_at": "2026-09-07T14:40:20Z",
+  "path": ".pose/review-attestations/rva-339a9f4375ed88a7.json"
+}

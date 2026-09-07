@@ -234,6 +234,7 @@ pose suggest-feedback | pose portfolio-projection | pose reconcile-evidence
 
 # Assessment and extensions
 pose assess <discover|integrate|tech-debt|stale|request|snapshot> [--json] [--update-state]
+pose public-claims [--strict|--tolerant] [--json]
 pose extension <install|list|remove|verify> [...]
 
 # Artifact generation and maintenance
@@ -273,6 +274,8 @@ pose release-notes --version vX.Y.Z  # compatibility alias for the immutable not
 ```
 
 ### Command reference
+
+- `public-claims` — validate governed public claims against their declared evidence.
 
 - `init` — ensures the minimal required `.pose` directory structure, policy files and indexes. Supports `--wizard` to auto-detect repository stacks and seed the initial validation matrix.
 - `check` — validates POSE structural integrity (required paths and references in `AGENTS.md`/`POSE.md`) **plus** the [`validation-matrix.json`](.pose/indexes/validation-matrix.json) schema, [`task-map.json`](.pose/indexes/task-map.json) sync, the native spec dependency graph and the schema-version gate. It fails in `--strict` and warns where permitted in `--tolerant`.

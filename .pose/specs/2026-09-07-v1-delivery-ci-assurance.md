@@ -60,6 +60,8 @@ Preservar a política de release sem publish. Definir roots e equivalência de c
 - distribution
 
 ### Artifacts
+- modified: .pose/review-profiles/spec-closeout.json
+- created: .pose/contributions/20260908-review-profile-evidence-classes.md
 - modified: internal/checks/editorial.go
 - modified: internal/checks/editorial_test.go
 - created: cmd/ci-assurance/main_test.go
@@ -142,6 +144,12 @@ Renames históricos e evidências de módulos divergentes bloqueiam roll-up. CI 
 
 ## 5. Decisions
 
+### Decision 4
+- Date: 2026-09-08
+- Decision: alinhar as classes do perfil spec-closeout à distribuição POSE disponível: requirements aceita unit/integration/e2e; correctness e validate aceitam build/unit/integration/e2e. Preservar todos os critérios e ferramentas obrigatórios.
+- Rationale: o perfil instalado exige test/validation, classes que nenhum check registrado emite. O perfil corrigido em pose-dist usa as classes reais; não alterar resultados nem marcar critérios como não aplicáveis.
+- Consequences: resselar a revisão com o perfil atualizado. Bundles históricos permanecem imutáveis; registrar reprodução sintética local para manutenção do POSE.
+
 ### Decision 3
 - Date: 2026-09-08
 - Decision: incluir provas privadas dos checks já declarados nos cinco packs existentes para satisfazer R2. Reutilizar os testes do desafio na referência e registrar a falha de baseline observada; o protótipo sem fixture usa baseline_fixture com justificativa.
@@ -190,6 +198,7 @@ sem declarar V1 pronta. Revisão independente cobre também threat model.
 - Security / Contract: pose assess integrate; pose validate --strict --json .pose/results/delivery-validation.json; pose surface-check --spec v1-delivery-ci-assurance --strict
 
 ### Execution log
+- 2026-09-08 UTC (revisão separada): CI run 34283684515, attempt 1, passou no b9b8868 em Linux/amd64 e macOS/arm64, Go 1.27.1, 19 checks por plataforma, source_modified=false. Artefatos, logs e relatórios baixados e conferidos; hashes no relatório de prontidão. Comparação YAML com dbd848e confirmou campos autorados idênticos após excluir validation nos cinco packs. Revisão do threat model e dos contratos registrada em report:.pose/reports/2026-09-08-standard-v1-delivery-ci-review.md, por mesmo ator em execução posterior conforme a política. Perfil de revisão corrigido para classes emitidas pela matriz. Não houve revisão humana ou aceite V1.
 - 2026-09-08 UTC (retomada do incremento): preservada a correção de benchmarks com saída JSON fragmentada por pacote/teste e o arquivamento dos logs de check/validate no CI. Adicionado `TestValidationLogsPreserveGateFailure`, que executa o script real em diretório isolado, força falha em cada gate, confere stdout/stderr no log e exige saída 23 sem emissão de relatório nativo. `PATH=/tmp/codinho-ci-tools:$PATH make check` passou 19/19 fora do sandbox; a tentativa inicial encontrou cache Go somente leitura. `pose assess integrate` continua avaliando zero contratos; `pose assess tech-debt` encontrou zero marcadores. Esta evidência é local e não substitui execução remota do novo candidato ou revisão independente.
 - 2026-09-08 UTC (CI nativa): run 34273134508 executou o commit 649725999449ebbdb77dea0a7880fb60fe471f54 com sucesso em Linux/amd64 e macOS/arm64. Artefatos baixados e conferidos: Go 1.27.1, host github-actions, 19 checks pass, source_modified=false. Relatório de prontidão inclui a matriz e o link do provider. Go 1.27.1 conferido em https://go.dev/VERSION (acesso 2026-09-08).
 - 2026-09-08 UTC (revisão local): threat model distingue controle de download de módulos de bloqueio de sockets, registra corrida residual de symlinks e explicita limites de subprocessos/CI. Mapeamento por paths reais eliminou contratos não classificados do bundle. Revisão independente solicitada, ainda não atestada.
@@ -208,34 +217,34 @@ sem declarar V1 pronta. Revisão independente cobre também threat model.
 - 2026-09-07 UTC: criada em revisão de planejamento; implementação e gates de entrega não executados.
 
 ### Results summary
-Matriz local passou 19/19 checks após completar as provas editoriais. Proveniência do primeiro incremento passou; evidências do candidato final e revisão independente ainda governam closeout.
+Matriz local e CI nativa do b9b8868 passaram 19/19 checks, com logs e relatórios conferidos. Artefatos e superfície foram reconciliados. A revisão separada está registrada; closeout exige bundle selado, atestação e gates válidos sobre a versão final da governança.
 
 ### Requirement trace
-- R1: ferramentas verificadas e gates obrigatórios implementados; make check passou localmente após completar as provas privadas.
-- R2: matriz compartilhada executa os checks; 38 checks editoriais verificados em 76 cenários.
-- R3: run 34273134508 passou em Linux/amd64 e macOS/arm64; veja matriz por commit no relatório de prontidão.
-- R4: labels inseguros rejeitados em teste; build local v0.0.0-ci gerou binário/checksum sem publicar.
-- R5: policies, metadados, inventário MCP e mapa histórico implementados/testados; reconciliação Git e gate de proveniência em andamento.
-- R6: negativos do validador passam; roadmap C1–C9 permanece não terminal.
-- R7: docs-check passa para 13 documentos; comandos e alegações de plataforma corrigidos.
-- R8: relatório de prontidão registra pendências; evidências remotas conferidas; revisão independente pendente.
+- R1 [satisfied] ferramentas verificadas, gates e logs obrigatórios; check:ci-assurance test:TestValidationLogsPreserveGateFailure report:docs/acceptance/v1-release-readiness.md.
+- R2 [satisfied] matriz compartilhada passou 19/19; 38 checks editoriais em 76 cenários; check:catalog check:test check:format check:vet.
+- R3 [satisfied] run 34283684515 passou em Linux/amd64 e macOS/arm64; commit:b9b886895023ffa4e831962c5620269c2b84dcdd report:docs/acceptance/v1-release-readiness.md.
+- R4 [satisfied] pins e labels inseguros verificados; build v0.0.0-ci sem publicação; test:TestWorkflowTrustBoundaries test:TestReleaseRejectsUnsafeLabelsBeforeBuild.
+- R5 [satisfied] policies, inventário MCP e rename conferidos; check:artifact-check check:surface-check test:TestContractGovernanceInventoryMatchesServer test:TestHistoricalRenameMatchesGit.
+- R6 [satisfied] C1–C9 mapeados no relatório, roadmap permanece não terminal; negativos de stale/skip/check desconhecido/relatório ausente passam; test:TestValidateEvidence report:docs/acceptance/v1-release-readiness.md.
+- R7 [satisfied] manifest cobre 13 documentos, comandos e suporte corrigidos; check:docs-check report:docs/acceptance/v1-release-readiness.md.
+- R8 [satisfied] matriz por commit/plataforma/host e threat model revisados em execução separada do mesmo ator conforme a política; report:.pose/reports/2026-09-08-standard-v1-delivery-ci-review.md. Exigir atestação válida antes de mudar status para done.
 
 ### Known gaps
-Renames históricos e evidências de módulos divergentes bloqueiam roll-up. CI remota e revisão humana precisam de evidência real, não de YAML existente.
+Sem aceite V1, piloto humano ou prova nativa de Windows/Linux arm64. Filtros por componente não encontram módulos Go independentes; a matriz da raiz fornece a cobertura executada. assess integrate não detecta MCP; o inventário é conferido por teste do servidor real. Avisos históricos de proveniência permanecem visíveis.
 
 ## 7. Final Report
 
 ### Delivered scope
-Workflows, instalação verificada, validação de evidência e manifest documental implementados no worktree. Testes negativos e checks locais registrados acima. Spec permanece in-progress: evidência final de proveniência, execução nativa remota e revisão independente pendentes.
+Workflows, instalação verificada, validação de evidência, provas editoriais privadas, manifest documental e relatórios nativos implementados. CI de Linux/macOS conferida e revisão separada registrada. O estado permanece in-progress até a validação e atestação da governança final.
 
 ### Files and modules changed
 - CI, scripts de ferramentas/validação/build, internal/ciassurance, cmd/ci-assurance, matriz, manifest e documentação declarados nos artefatos.
 
 ### Validation executed
-- Consulte Execution log: validação composta executada com falha editorial explícita, checks de docs/estrutura e testes negativos passando.
+- Consulte Execution log: matriz composta 19/19, CI nativa em duas plataformas, checks de docs/estrutura, testes negativos e revisão de segurança.
 
 ### Residual risks
 Validar o comportamento implementado em execução independente; não reutilizar resultado histórico como aprovação do código futuro.
 
 ### Follow-ups
-- [covered: v1-integrated-acceptance] Reexecutar os requisitos desta spec no candidato composto da V1.
+- [open] Reexecutar os requisitos no candidato composto, conforme a spec v1-integrated-acceptance; esta rodada não concede aceite V1. (owner:@pose-maintainers crit:medium review:2026-09-22)

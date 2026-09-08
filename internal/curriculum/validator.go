@@ -26,6 +26,7 @@ const (
 	DiagInvalidFixturePath        DiagnosticCode = "invalid_fixture_path"
 	DiagDuplicateFixturePath      DiagnosticCode = "duplicate_fixture_path"
 	DiagInvalidVersion            DiagnosticCode = "invalid_version"
+	DiagInvalidNavigation         DiagnosticCode = "invalid_navigation"
 )
 
 // semverPattern requires a plain major.minor.patch version (catalog-
@@ -147,6 +148,7 @@ func Validate(packs []Pack) []Diagnostic {
 				validateSteps(p.File, ch.ID, layer.MacroSteps, concepts, &diags)
 			}
 			diags = append(diags, validateFixture(p.File, ch)...)
+			diags = append(diags, validateNavigation(p.File, ch)...)
 		}
 	}
 
@@ -220,6 +222,9 @@ func validateFixture(file string, ch ChallengeAuthoring) []Diagnostic {
 
 func validateSteps(file, challengeID string, steps []StepAuthoring, concepts map[string]bool, diags *[]Diagnostic) {
 	for _, s := range steps {
+		if (s.ChildrenMode != "" && s.ChildrenMode != "sequence" && s.ChildrenMode != "choice") || (s.ChildrenMode == "choice" && len(s.Children) < 2) {
+			*diags = append(*diags, Diagnostic{File: file, Item: challengeID + "/" + s.ID, Field: "children_mode", Code: DiagInvalidNavigation, Blocking: true})
+		}
 		for _, id := range s.Concepts {
 			if !concepts[id] {
 				*diags = append(*diags, Diagnostic{File: file, Item: challengeID + "/" + s.ID, Field: "concepts", Code: DiagMissingReference, Detail: id})
@@ -281,4 +286,32 @@ func cyclePath(path []string, closing string) string {
 	}
 	out.WriteString(closing)
 	return out.String()
+}
+
+// Node IDs are session-local addresses: collisions would authorize the wrong
+// branch or apply one node's saved evaluation to a different instruction.
+func validateNavigation(file string, ch ChallengeAuthoring) []Diagnostic {
+	var diags []Diagnostic
+	seen := map[string]bool{ch.ID: true}
+	claim := func(id string) {
+		if id == "" || seen[id] {
+			diags = append(diags, Diagnostic{File: file, Item: ch.ID, Field: "node.id", Code: DiagInvalidNavigation, Detail: "node IDs must be nonempty and unique within the challenge", Blocking: true})
+		}
+		seen[id] = true
+	}
+	var walk func([]StepAuthoring)
+	walk = func(nodes []StepAuthoring) {
+		for _, n := range nodes {
+			claim(n.ID)
+			if n.Kind != "macro" && n.Kind != "meso" && n.Kind != "micro" {
+				diags = append(diags, Diagnostic{File: file, Item: ch.ID + "/" + n.ID, Field: "kind", Code: DiagInvalidNavigation, Blocking: true})
+			}
+			walk(n.Children)
+		}
+	}
+	for _, l := range ch.Layers {
+		claim(l.ID)
+		walk(l.MacroSteps)
+	}
+	return diags
 }

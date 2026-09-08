@@ -24,11 +24,13 @@ type (
 )
 
 var (
-	ErrSessionNotFound      = session.ErrSessionNotFound
-	ErrSessionUnrecoverable = session.ErrSessionUnrecoverable
-	ErrChallengeHasNoSteps  = session.ErrChallengeHasNoSteps
-	ErrNoWindowAtDepth      = session.ErrNoWindowAtDepth
-	ErrStepNotFound         = session.ErrStepNotFound
+	ErrSessionNotFound       = session.ErrSessionNotFound
+	ErrSessionUnrecoverable  = session.ErrSessionUnrecoverable
+	ErrChallengeHasNoSteps   = session.ErrChallengeHasNoSteps
+	ErrNoWindowAtDepth       = session.ErrNoWindowAtDepth
+	ErrStepNotFound          = session.ErrStepNotFound
+	ErrInvalidNextStep       = session.ErrInvalidNextStep
+	ErrNavigationUnavailable = session.ErrNavigationUnavailable
 )
 
 // SessionService adapts internal/session.Service for the MCP server.

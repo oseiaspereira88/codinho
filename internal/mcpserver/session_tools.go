@@ -111,7 +111,7 @@ func registerSessionTools(server *mcp.Server, sessions *application.SessionServi
 			"revision":  result.Revision,
 		})
 		env.SessionID = string(result.SessionID)
-		env.ActiveNode = &ActiveNode{ID: string(result.ActiveStep), Kind: "micro"}
+		env.ActiveNode = &ActiveNode{ID: string(result.ActiveStep), Kind: result.Kind}
 		env.Disclosure = toDisclosure(result.Disclosure)
 		env.AllowedActions = []string{"instruction_get", "session_get", "session_configure", "session_pause", "session_finish", "granularity_adjust", "learner_next_step_propose"}
 		return nil, env, nil
@@ -138,7 +138,7 @@ func registerSessionTools(server *mcp.Server, sessions *application.SessionServi
 		env.SessionID = string(result.SessionID)
 		env.Disclosure = toDisclosure(result.Disclosure)
 		if result.ActiveStep != "" {
-			env.ActiveNode = &ActiveNode{ID: string(result.ActiveStep), Kind: "micro"}
+			env.ActiveNode = &ActiveNode{ID: string(result.ActiveStep), Kind: result.Kind}
 		}
 		return nil, env, nil
 	})
@@ -162,7 +162,7 @@ func registerSessionTools(server *mcp.Server, sessions *application.SessionServi
 			"scope":     instruction.Scope,
 		})
 		env.SessionID = args.SessionID
-		env.ActiveNode = &ActiveNode{ID: string(instruction.StepID), Kind: "micro"}
+		env.ActiveNode = &ActiveNode{ID: string(instruction.StepID), Kind: instruction.Kind}
 		env.Disclosure = toDisclosure(instruction.Disclosure)
 		return nil, env, nil
 	})
@@ -223,7 +223,7 @@ func registerSessionTools(server *mcp.Server, sessions *application.SessionServi
 
 	mcp.AddTool(server, &mcp.Tool{
 		Name:        "granularity_adjust",
-		Description: "Move the session's instructional window to a new depth by walking the canonical step tree, without rewriting it.",
+		Description: "Show an ancestor or return to the current finer cursor, preserving each node's progress. Never advances to a sibling or rewrites the canonical tree.",
 		Annotations: &mcp.ToolAnnotations{ReadOnlyHint: false, IdempotentHint: true},
 	}, func(_ context.Context, req *mcp.CallToolRequest, args granularityAdjustArgs) (*mcp.CallToolResult, Envelope, error) {
 		requestID := requestIDFor(req)

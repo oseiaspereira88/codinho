@@ -72,14 +72,14 @@ challenges:
 	return New(catalog, store, nil)
 }
 
-func TestStartAssignsFirstMacroStep(t *testing.T) {
+func TestStartHonorsDefaultMicroDepth(t *testing.T) {
 	svc := newTestService(t)
 	result, err := svc.Start(StartInput{ChallengeID: fixtureChallengeID})
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	if result.ActiveStep != "fixture.macro-one" {
-		t.Fatalf("active step = %s, want fixture.macro-one", result.ActiveStep)
+	if result.ActiveStep != "fixture.micro-one" {
+		t.Fatalf("active step = %s, want fixture.micro-one", result.ActiveStep)
 	}
 	if result.Revision != 1 {
 		t.Fatalf("revision = %d, want 1", result.Revision)
@@ -147,7 +147,7 @@ func TestInstructionNeverExposesChildrenOrSolution(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	if instr.Objective != "Understand the fixture." || instr.Scope != "Read only." {
+	if instr.Objective != "Declare the fixture type." || instr.Scope != "Only the declaration." {
 		t.Fatalf("unexpected instruction: %+v", instr)
 	}
 }

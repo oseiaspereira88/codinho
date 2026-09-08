@@ -5,89 +5,109 @@ import (
 	"github.com/oseiaspereira88/codinho/internal/learning"
 )
 
-// Window is the node a session's instructional window currently resolves
-// to at a given depth. It never rewrites the canonical step tree
-// (PROJECT.md §8.5, requirement R6; session-orchestration-disclosure
-// Decision 1).
-type Window struct {
-	StepID string
-	Kind   string
+// Window identifies one instruction; the canonical tree is never rewritten.
+type Window struct{ StepID, Kind string }
+
+func challengeTree(ch curriculum.ChallengeAuthoring) curriculum.StepAuthoring {
+	root := curriculum.StepAuthoring{ID: ch.ID, Kind: "challenge", Instruction: curriculum.InstructionAuthoring{Objective: ch.Title, Scope: ch.Brief}}
+	for _, l := range ch.Layers {
+		root.Children = append(root.Children, curriculum.StepAuthoring{ID: l.ID, Kind: "layer", Instruction: curriculum.InstructionAuthoring{Objective: l.ID, Scope: ch.Title}, Children: l.MacroSteps})
+	}
+	return root
 }
 
-// deriveWindow walks challenge's authored tree to find the node at depth,
-// following the first child at each level. It degrades gracefully: asking
-// for a depth deeper than the content goes returns the deepest node
-// actually authored, rather than failing.
+func depthRank(kind string) int {
+	switch kind {
+	case "challenge":
+		return 0
+	case "layer":
+		return 1
+	case "macro":
+		return 2
+	case "meso":
+		return 3
+	case "micro":
+		return 4
+	}
+	return -1
+}
+
 func deriveWindow(ch curriculum.ChallengeAuthoring, depth learning.Depth) (Window, bool) {
-	switch depth {
-	case learning.DepthChallenge:
-		return Window{StepID: ch.ID, Kind: "challenge"}, true
-	case learning.DepthLayer:
-		if len(ch.Layers) == 0 {
-			return Window{}, false
-		}
-		return Window{StepID: ch.Layers[0].ID, Kind: "layer"}, true
-	case learning.DepthMacro:
-		step, ok := firstStep(ch)
-		if !ok {
-			return Window{}, false
-		}
-		return Window{StepID: step.ID, Kind: step.Kind}, true
-	case learning.DepthMeso:
-		step, ok := firstStep(ch)
-		if !ok {
-			return Window{}, false
-		}
-		target := descendTo(step, "meso")
-		return Window{StepID: target.ID, Kind: target.Kind}, true
-	case learning.DepthMicro:
-		step, ok := firstStep(ch)
-		if !ok {
-			return Window{}, false
-		}
-		target := descendTo(step, "micro")
-		return Window{StepID: target.ID, Kind: target.Kind}, true
-	default:
+	if depthRank(string(depth)) < 0 {
 		return Window{}, false
 	}
-}
-
-// descendTo follows the first child at each level until it reaches a step
-// of wantKind, or runs out of children — whichever comes first.
-func descendTo(step curriculum.StepAuthoring, wantKind string) curriculum.StepAuthoring {
-	current := step
-	for current.Kind != wantKind && len(current.Children) > 0 {
-		current = current.Children[0]
+	n := challengeTree(ch)
+	for depthRank(n.Kind) < depthRank(string(depth)) && len(n.Children) > 0 && n.ChildrenMode != "choice" {
+		n = n.Children[0]
 	}
-	return current
+	return Window{n.ID, n.Kind}, n.ID != ""
 }
 
 func firstStep(ch curriculum.ChallengeAuthoring) (curriculum.StepAuthoring, bool) {
-	for _, layer := range ch.Layers {
-		if len(layer.MacroSteps) > 0 {
-			return layer.MacroSteps[0], true
+	for _, l := range ch.Layers {
+		if len(l.MacroSteps) > 0 {
+			return l.MacroSteps[0], true
 		}
 	}
 	return curriculum.StepAuthoring{}, false
 }
 
 func findStep(ch curriculum.ChallengeAuthoring, id string) (curriculum.StepAuthoring, bool) {
-	for _, layer := range ch.Layers {
-		if step, ok := searchSteps(layer.MacroSteps, id); ok {
-			return step, true
+	return searchSteps([]curriculum.StepAuthoring{challengeTree(ch)}, id)
+}
+func searchSteps(steps []curriculum.StepAuthoring, id string) (curriculum.StepAuthoring, bool) {
+	for _, s := range steps {
+		if s.ID == id {
+			return s, true
+		}
+		if n, ok := searchSteps(s.Children, id); ok {
+			return n, true
 		}
 	}
 	return curriculum.StepAuthoring{}, false
 }
 
-func searchSteps(steps []curriculum.StepAuthoring, id string) (curriculum.StepAuthoring, bool) {
-	for _, step := range steps {
-		if step.ID == id {
-			return step, true
-		}
-		if found, ok := searchSteps(step.Children, id); ok {
-			return found, true
+func nodePath(node curriculum.StepAuthoring, id string) []curriculum.StepAuthoring {
+	if node.ID == id {
+		return []curriculum.StepAuthoring{node}
+	}
+	for _, c := range node.Children {
+		if p := nodePath(c, id); len(p) > 0 {
+			return append([]curriculum.StepAuthoring{node}, p...)
 		}
 	}
-	return curriculum.StepAuthoring{}, false
+	return nil
+}
+
+func (r *record) windowAt(depth learning.Depth) (Window, error) {
+	if depthRank(string(depth)) < 0 {
+		return Window{}, ErrNoWindowAtDepth
+	}
+	active := r.session.ActiveStep()
+	path := nodePath(challengeTree(r.pinned), r.cursor)
+	if len(path) == 0 && active != nil {
+		path = nodePath(challengeTree(r.pinned), string(active.StepID))
+	}
+	if len(path) == 0 {
+		return Window{}, ErrNoActiveStep
+	}
+	for _, n := range path {
+		if r.covered[n.ID] && depthRank(string(depth)) > depthRank(n.Kind) {
+			return Window{}, ErrNoWindowAtDepth
+		}
+		if depthRank(n.Kind) >= depthRank(string(depth)) {
+			return Window{n.ID, n.Kind}, nil
+		}
+	}
+	n := path[len(path)-1]
+	// Re-exposing an already completed cursor is not an implicit advance.
+	if !r.completed(n.ID) {
+		next := r.frontier(n, depth)
+		if next.node.ID != "" {
+			n = next.node
+		} else if next.parent.ID != "" {
+			n = next.parent
+		}
+	}
+	return Window{n.ID, n.Kind}, nil
 }

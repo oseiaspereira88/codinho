@@ -56,7 +56,8 @@ challenges:
             completion:
               requires_user_confirmation: true
           - id: fixture.step-branch
-            kind: micro
+            kind: meso
+            children_mode: choice
             title: Branches
             instruction:
               objective: Branch objective.

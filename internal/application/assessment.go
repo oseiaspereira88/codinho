@@ -52,8 +52,8 @@ func (s *SessionService) StepComplete(id learning.SessionID, confirm, override b
 
 // StepAdvance activates the next permitted node, or reports branch options
 // or exhaustion (requirement R7).
-func (s *SessionService) StepAdvance(id learning.SessionID, override bool, expectedRevision uint64, requestID string) (AdvanceResult, error) {
-	return s.svc.StepAdvance(id, override, expectedRevision, requestID)
+func (s *SessionService) StepAdvance(id learning.SessionID, override bool, expectedRevision uint64, requestID string, nextStepID ...string) (AdvanceResult, error) {
+	return s.svc.StepAdvance(id, override, expectedRevision, requestID, nextStepID...)
 }
 
 // RecordQualitativeEvidence registers a cited observation without evaluating it.

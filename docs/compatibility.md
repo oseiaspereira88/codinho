@@ -117,6 +117,44 @@ anteriores no estado atualizado. Consulte o
 Valide com go test ./cmd/codinho -run TestEvaluationEvidenceOverRealStdio e
 com os testes TestEvaluationEvidence de internal/application/internal/session.
 
+## Navegação da árvore da sessão
+
+Inicie com depth challenge, layer, macro, meso ou micro. session_start,
+session_get e instruction_get retornam o ID e kind da janela real. Quando
+não houver a profundidade pedida, use o nó mais profundo autorado. Challenge
+exibe title/brief; layer exibe seu ID e o título do desafio, sem expor filhos.
+
+Percorra todas as layers com step_complete e step_advance separados. Irmãos
+são obrigatórios em ordem; children_mode: choice declara alternativas exclusivas.
+Ao chegar a uma escolha numa profundidade mais fina, conclua o checkpoint
+exibido e consulte step_advance. Envie next_step_id igual a um dos IDs diretos
+retornados em branches. O servidor ativa a janela na profundidade pedida dentro
+desse ramo. Um ID descendente, de outro ramo ou fora da árvore é rejeitado.
+
+Ajuste a granularidade para exibir um ancestral ou retornar ao cursor mais fino.
+Avaliações, pistas e filhos concluídos permanecem associados aos seus nós;
+a troca de janela não avança para um irmão. Concluir uma janela ampla cobre
+sua subárvore para navegação, sem produzir eventos de conclusão dos filhos.
+Não refine uma janela já concluída para obter crédito novamente: avance.
+Repetir a conclusão do mesmo nó não cria outro evento. Retornar done em
+step_advance não encerra a sessão; use session_finish explicitamente. A primeira
+confirmação de done é registrada para preservar a auditoria de overrides.
+
+Use a revisão atual também ao consultar branches ou done. Overrides permitem
+pular a janela atual, ficam registrados e não criam evidência de conclusão.
+Navegação exige sessão ativa e nenhum desvio conceitual aberto. Hints continuam
+sujeitos à política da sessão, inclusive em entrevista e após reinício.
+
+Preserve logs antigos: inícios sem navigation_version mantêm o macro original,
+e retries recuperam os resultados da época. Novos eventos usam
+navigation_version: 1; versões desconhecidas falham com diagnóstico de
+recuperação. Não use escritores antigos num estado que já recebeu esses
+novos eventos: eles não preservam cursor, escolhas e progresso por nó.
+
+Valide com go test ./cmd/codinho -run TestTreeProgressionOverRealStdio.
+Consulte o [ADR do cursor](../.pose/adr/2026-09-07-depth-aware-session-cursor-and-explicit-branch-selection.md)
+para limites de agregação e integração futura com trilhas.
+
 ## Limites de recursos aplicados
 
 | Recurso | Limite | Onde |

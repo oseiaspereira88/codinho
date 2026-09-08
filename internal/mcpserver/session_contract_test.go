@@ -264,7 +264,7 @@ func TestContractLearnerNextStepProposeRecordsWithoutAdvancing(t *testing.T) {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	get := decodeEnvelope(t, getRes)
-	if get.ActiveNode == nil || get.ActiveNode.ID == "fixture.micro-one" {
+	if get.ActiveNode == nil || get.ActiveNode.ID != start.ActiveNode.ID {
 		t.Fatalf("proposing a step must never advance the active node: %+v", get)
 	}
 }

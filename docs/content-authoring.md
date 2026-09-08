@@ -79,3 +79,21 @@ os limiares do roadmap V1 (160 conceitos, 100 competências, 84 desafios,
 12 trilhas, 500 step nodes). Ele fica desligado por padrão porque um
 catálogo em progresso está, por definição, abaixo desses números — use-o
 apenas ao se aproximar do aceite V1.
+
+
+## Sequência e alternativas da árvore
+
+Use IDs não vazios e únicos dentro de cada desafio, incluindo suas layers.
+Declare kind macro, meso ou micro nos passos. Mantenha os filhos em ordem
+obrigatória; omitir children_mode equivale a sequence.
+
+Declare children_mode: choice somente quando os filhos forem alternativas
+exclusivas. Inclua ao menos duas alternativas com IDs distintos. Numa sessão
+mais detalhada que esse nó, sua instrução serve como checkpoint da decisão;
+a seleção ocorre por step_advance com next_step_id, depois da conclusão
+explícita do checkpoint. Não use choice para listar ações que precisam ser
+executadas em sequência.
+
+Uma sessão que conclua o próprio nó numa janela ampla cobre sua subárvore
+sem fabricar conclusões individuais. Consulte [compatibilidade](compatibility.md#navegação-da-árvore-da-sessão)
+para cursor, agrupamento e retomada.

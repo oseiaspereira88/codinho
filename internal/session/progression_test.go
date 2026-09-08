@@ -1,62 +1,31 @@
 package session
 
 import (
-	"testing"
-
 	"github.com/oseiaspereira88/codinho/internal/curriculum"
+	"github.com/oseiaspereira88/codinho/internal/learning"
+	"testing"
 )
 
-func linearTree() []curriculum.StepAuthoring {
-	return []curriculum.StepAuthoring{
-		{ID: "macro-1", Children: []curriculum.StepAuthoring{
-			{ID: "meso-1", Children: []curriculum.StepAuthoring{
-				{ID: "micro-1"},
-			}},
-		}},
-		{ID: "macro-2"},
+func TestTreeOrderedFrontierCrossesLayers(t *testing.T) {
+	svc := newTestService(t)
+	ch, _ := svc.catalog.Challenge(fixtureChallengeID)
+	ch.Layers = append(ch.Layers, curriculum.LayerAuthoring{ID: "second", MacroSteps: []curriculum.StepAuthoring{{ID: "macro-2", Kind: "macro", Children: []curriculum.StepAuthoring{{ID: "micro-2", Kind: "micro"}}}}})
+	start, err := svc.Start(StartInput{ChallengeID: fixtureChallengeID, Depth: learning.DepthMicro})
+	if err != nil {
+		t.Fatal(err)
 	}
-}
-
-func TestAdvanceFromDescendsIntoSingleChild(t *testing.T) {
-	next, branches, found, ok := advanceFrom(linearTree(), "macro-1", nil)
-	if !found || !ok || branches != nil || next.ID != "meso-1" {
-		t.Fatalf("next=%+v branches=%v found=%v ok=%v", next, branches, found, ok)
+	// Pin the synthetic second layer into this isolated domain fixture.
+	rec := svc.sessions[start.SessionID]
+	rec.pinned = ch
+	done, err := svc.StepComplete(start.SessionID, false, true, start.Revision, "")
+	if err != nil {
+		t.Fatal(err)
 	}
-}
-
-func TestAdvanceFromBubblesToNextSiblingAtLeaf(t *testing.T) {
-	next, branches, found, ok := advanceFrom(linearTree(), "micro-1", nil)
-	if !found || !ok || branches != nil || next.ID != "macro-2" {
-		t.Fatalf("next=%+v branches=%v found=%v ok=%v", next, branches, found, ok)
+	next, err := svc.StepAdvance(start.SessionID, false, done.Revision, "")
+	if err != nil {
+		t.Fatal(err)
 	}
-}
-
-func TestAdvanceFromReportsExhaustionAtLastStep(t *testing.T) {
-	_, branches, found, ok := advanceFrom(linearTree(), "macro-2", nil)
-	if !found || ok || branches != nil {
-		t.Fatalf("expected found=true ok=false branches=nil at the last step, got found=%v ok=%v branches=%v", found, ok, branches)
-	}
-}
-
-func TestAdvanceFromReportsBranchesWhenMultipleChildren(t *testing.T) {
-	tree := []curriculum.StepAuthoring{
-		{ID: "macro-1", Children: []curriculum.StepAuthoring{
-			{ID: "meso-a"},
-			{ID: "meso-b"},
-		}},
-	}
-	next, branches, found, ok := advanceFrom(tree, "macro-1", nil)
-	if !found || ok || next.ID != "" {
-		t.Fatalf("next=%+v found=%v ok=%v", next, found, ok)
-	}
-	if len(branches) != 2 || branches[0].ID != "meso-a" || branches[1].ID != "meso-b" {
-		t.Fatalf("unexpected branches: %+v", branches)
-	}
-}
-
-func TestAdvanceFromUnknownIDNotFound(t *testing.T) {
-	_, _, found, _ := advanceFrom(linearTree(), "does-not-exist", nil)
-	if found {
-		t.Fatal("expected found=false for an unknown step ID")
+	if next.Done || next.StepID != "micro-2" {
+		t.Fatalf("lost second layer: %+v", next)
 	}
 }

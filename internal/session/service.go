@@ -50,11 +50,16 @@ type record struct {
 	challengeID string
 	pinned      curriculum.ChallengeAuthoring
 	depth       learning.Depth
+	cursor      string
+	progress    map[string]savedProgress
+	covered     map[string]bool
+	choices     map[string]string
 	// cleanEvaluation tracks whether the active step's most recent
 	// evaluation had no blocking failure, gating step_complete's
 	// requires_positive_evaluation policy (requirement R7). It resets
 	// whenever the active step changes.
 	cleanEvaluation bool
+	exhausted       bool
 }
 
 // Service orchestrates sessions: lifecycle, single active instruction,
@@ -157,13 +162,14 @@ type StartInput struct {
 type StartResult struct {
 	SessionID  learning.SessionID
 	ActiveStep learning.StepID
+	Kind       string
 	Objective  string
 	Revision   uint64
 	Disclosure Disclosure
 }
 
 // Start fixes challengeID, creates a new session at its first authored
-// macro step, and durably records the session start. Calling Start again
+// window at the requested depth, and durably records the session start. Calling Start again
 // with the same RequestID returns the same result without creating a
 // second session (requirement R4, R7, R8: idempotent retry).
 func (s *Service) Start(in StartInput) (StartResult, error) {
@@ -186,7 +192,7 @@ func (s *Service) Start(in StartInput) (StartResult, error) {
 	if err != nil {
 		return StartResult{}, err
 	}
-	step, ok := firstStep(challenge)
+	_, ok := firstStep(challenge)
 	if !ok {
 		return StartResult{}, ErrChallengeHasNoSteps
 	}
@@ -220,13 +226,18 @@ func (s *Service) Start(in StartInput) (StartResult, error) {
 		return StartResult{}, err
 	}
 
+	window, ok := deriveWindow(challenge, depth)
+	if !ok {
+		return StartResult{}, ErrNoWindowAtDepth
+	}
+	step, _ := findStep(challenge, window.StepID)
 	id := s.nextID.Add(1)
 	sessionID := learning.SessionID(fmt.Sprintf("ses_%d", id))
 
 	// Append first: the durable record of intent to start must exist
 	// before the in-memory session is exposed to callers (local-event-store
 	// R1/R3 ordering contract).
-	payload := startedPayload{RecoveryVersion: 1, ChallengeID: in.ChallengeID, Mode: string(mode), Input: in, Policy: policy, Challenge: challenge, Digest: contentDigest(challenge)}
+	payload := startedPayload{RecoveryVersion: 1, NavigationVersion: 1, ChallengeID: in.ChallengeID, Mode: string(mode), Input: in, Policy: policy, Challenge: challenge, Digest: contentDigest(challenge)}
 	ev, err := s.store.Append(string(sessionID), 0, in.RequestID, eventstore.EventSessionStarted, payload)
 	if err != nil {
 		return StartResult{}, err
@@ -247,11 +258,12 @@ func (s *Service) Start(in StartInput) (StartResult, error) {
 		return StartResult{}, err
 	}
 
-	s.sessions[sessionID] = &record{session: domainSession, challengeID: in.ChallengeID, pinned: challenge, depth: depth}
+	s.sessions[sessionID] = &record{session: domainSession, challengeID: in.ChallengeID, pinned: challenge, depth: depth, cursor: step.ID, progress: map[string]savedProgress{}, covered: map[string]bool{}, choices: map[string]string{}}
 
 	result := StartResult{
 		SessionID:  sessionID,
 		ActiveStep: progress.StepID,
+		Kind:       step.Kind,
 		Objective:  step.Instruction.Objective,
 		Revision:   ev.Revision,
 		Disclosure: disclosureFor(policy.Disclosure, progress),
@@ -269,6 +281,7 @@ type GetResult struct {
 	SessionID  learning.SessionID
 	State      learning.SessionState
 	ActiveStep learning.StepID
+	Kind       string
 	Revision   uint64
 	Disclosure Disclosure
 }
@@ -291,10 +304,12 @@ func (s *Service) getLocked(id learning.SessionID) (GetResult, error) {
 	if active != nil {
 		stepID = active.StepID
 	}
+	node, _ := findStep(rec.pinned, string(stepID))
 	return GetResult{
 		SessionID:  id,
 		State:      rec.session.State,
 		ActiveStep: stepID,
+		Kind:       node.Kind,
 		Revision:   s.store.Revision(string(id)),
 		Disclosure: disclosureFor(rec.session.Policy.Disclosure, active),
 	}, nil
@@ -305,6 +320,7 @@ func (s *Service) getLocked(id learning.SessionID) (GetResult, error) {
 // solution (requirement R3; PROJECT.md §15.6 "instruction_get").
 type Instruction struct {
 	StepID     learning.StepID
+	Kind       string
 	Objective  string
 	Scope      string
 	Disclosure Disclosure
@@ -333,6 +349,7 @@ func (s *Service) Instruction(id learning.SessionID) (Instruction, error) {
 	}
 	return Instruction{
 		StepID:     active.StepID,
+		Kind:       step.Kind,
 		Objective:  step.Instruction.Objective,
 		Scope:      step.Instruction.Scope,
 		Disclosure: disclosureFor(rec.session.Policy.Disclosure, active),
@@ -379,9 +396,8 @@ func (s *Service) mutate(id learning.SessionID, expectedRevision uint64, request
 	if err != nil {
 		return ev, false, err
 	}
-	rec := *s.sessions[id]
-	rec.session = rec.session.Clone()
-	if err := applyEvent(&rec, eventstore.Event{Type: eventType, Payload: raw}); err != nil {
+	rec := s.sessions[id].clone()
+	if err := applyEvent(rec, eventstore.Event{Type: eventType, Payload: raw}); err != nil {
 		return ev, false, err
 	}
 	before := s.store.Revision(string(id))
@@ -522,38 +538,38 @@ func (s *Service) GranularityAdjust(id learning.SessionID, depth learning.Depth,
 	if !ok {
 		return GranularityResult{}, s.lookupError(id)
 	}
-	challenge, err := pinnedChallenge(rec)
+	if err := s.checkNavigationRevision(id, expectedRevision); err != nil {
+		return GranularityResult{}, err
+	}
+	if rec.exhausted {
+		return GranularityResult{}, ErrNavigationUnavailable
+	}
+	if err := rec.navigationAllowed(); err != nil {
+		return GranularityResult{}, err
+	}
+	window, err := rec.windowAt(depth)
 	if err != nil {
 		return GranularityResult{}, err
 	}
-	window, ok := deriveWindow(challenge, depth)
-	if !ok {
-		return GranularityResult{}, ErrNoWindowAtDepth
+	cursor := rec.cursor
+	if cursor == "" {
+		cursor = string(rec.session.ActiveStep().StepID)
 	}
-
-	ev, fresh, err := s.mutate(id, expectedRevision, requestID, eventstore.EventGranularityChanged, map[string]string{
-		"depth":   string(depth),
-		"step_id": window.StepID,
-		"reason":  reason,
+	if path := nodePath(challengeTree(rec.pinned), window.StepID); len(path) > len(nodePath(challengeTree(rec.pinned), cursor)) {
+		cursor = window.StepID
+	}
+	ev, fresh, err := s.mutate(id, expectedRevision, requestID, eventstore.EventGranularityChanged, map[string]any{
+		"navigation_version": 1, "depth": string(depth), "step_id": window.StepID, "cursor": cursor, "reason": reason,
 	})
 	if err != nil {
 		return GranularityResult{}, err
 	}
 	if fresh {
-		next := learning.NewStepProgress(learning.StepID(window.StepID))
-		if err := next.Transition(learning.StepStateAvailable, false); err != nil {
+		if err := applyEvent(rec, ev); err != nil {
 			return GranularityResult{}, err
 		}
-		if err := next.Transition(learning.StepStateActive, false); err != nil {
-			return GranularityResult{}, err
-		}
-		rec.session.ClearActiveInstruction()
-		if err := rec.session.SetActiveInstruction(next); err != nil {
-			return GranularityResult{}, err
-		}
-		rec.depth = depth
-		rec.cleanEvaluation = false
 	}
+
 	return GranularityResult{StepID: window.StepID, Kind: window.Kind, Revision: ev.Revision}, nil
 }
 
@@ -1038,6 +1054,18 @@ func (s *Service) StepComplete(id learning.SessionID, confirm, override bool, ex
 	if err != nil {
 		return LifecycleResult{}, err
 	}
+	if err := s.checkNavigationRevision(id, expectedRevision); err != nil {
+		return LifecycleResult{}, err
+	}
+	if rec.exhausted {
+		return LifecycleResult{}, ErrNavigationUnavailable
+	}
+	if err := rec.navigationAllowed(); err != nil {
+		return LifecycleResult{}, err
+	}
+	if active.State == learning.StepStateCompleted {
+		return LifecycleResult{State: rec.session.State, Revision: expectedRevision}, nil
+	}
 	if !override {
 		if step.Completion.RequiresPositiveEvaluation && !rec.cleanEvaluation {
 			return LifecycleResult{}, learning.DomainError{Code: learning.ErrCodeCompletionPolicyNotMet, Detail: "requires_positive_evaluation"}
@@ -1048,13 +1076,13 @@ func (s *Service) StepComplete(id learning.SessionID, confirm, override bool, ex
 	}
 
 	ev, fresh, err := s.mutate(id, expectedRevision, requestID, eventstore.EventStepCompleted, map[string]any{
-		"step_id": string(active.StepID), "override": override, "clean_evaluation": rec.cleanEvaluation, "confirmed": confirm,
+		"step_id": string(active.StepID), "override": override, "clean_evaluation": rec.cleanEvaluation, "confirmed": confirm, "navigation_version": 1, "covered": rec.coversWindow(step),
 	})
 	if err != nil {
 		return LifecycleResult{}, err
 	}
 	if fresh {
-		if err := active.Complete(override); err != nil {
+		if err := applyEvent(rec, ev); err != nil {
 			return LifecycleResult{}, err
 		}
 	}
@@ -1071,9 +1099,9 @@ type AdvanceOption struct {
 
 // AdvanceResult is what StepAdvance returns: either a single activated
 // next step, a list of branch options to choose from, or Done when the
-// challenge tree is exhausted. Branches and Done never mutate state or
-// consume expectedRevision/requestID — only activating a single next step
-// does.
+// challenge tree is exhausted. Branches never mutate state or
+// consume requestID. The first Done acknowledgment is durable, including an
+// override at the last window; subsequent exhaustion queries do not append.
 type AdvanceResult struct {
 	StepID   string
 	Kind     string
@@ -1085,64 +1113,66 @@ type AdvanceResult struct {
 // StepAdvance activates the next permitted node in the authored tree's
 // document order, requiring the current active step to be completed
 // unless override is set (requirement R7; PROJECT.md §8.6 "Avanço").
-func (s *Service) StepAdvance(id learning.SessionID, override bool, expectedRevision uint64, requestID string) (AdvanceResult, error) {
+func (s *Service) StepAdvance(id learning.SessionID, override bool, expectedRevision uint64, requestID string, nextStepID ...string) (AdvanceResult, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-
+	selected := ""
+	if len(nextStepID) > 0 {
+		selected = nextStepID[0]
+	}
+	input := []any{override}
+	if selected != "" {
+		input = append(input, selected)
+	}
 	var prior AdvanceResult
-	if found, err := s.retryRequest(id, requestID, "StepAdvance", []any{override}, &prior); found || err != nil {
+	if found, err := s.retryRequest(id, requestID, "StepAdvance", input, &prior); found || err != nil {
 		return prior, err
 	}
-
 	rec, ok := s.sessions[id]
 	if !ok {
 		return AdvanceResult{}, s.lookupError(id)
 	}
-	active := rec.session.ActiveStep()
-	if active == nil {
-		return AdvanceResult{}, ErrNoActiveStep
+	if err := s.checkNavigationRevision(id, expectedRevision); err != nil {
+		return AdvanceResult{}, err
 	}
-	challenge, err := pinnedChallenge(rec)
+	if rec.exhausted {
+		if err := rec.navigationAllowed(); err != nil {
+			return AdvanceResult{}, err
+		}
+		if selected != "" {
+			return AdvanceResult{}, ErrInvalidNextStep
+		}
+		return AdvanceResult{Done: true, Revision: expectedRevision}, nil
+	}
+	next, projected, err := rec.nextNavigation(override, selected)
 	if err != nil {
 		return AdvanceResult{}, err
 	}
-	roots, ok := rootSteps(challenge)
-	if !ok {
-		return AdvanceResult{}, ErrNoWindowAtDepth
-	}
-	next, branches, found, ok := advanceFrom(roots, string(active.StepID), nil)
-	if !found {
-		return AdvanceResult{}, ErrNotFound
-	}
-	if len(branches) > 0 {
-		opts := make([]AdvanceOption, len(branches))
-		for i, b := range branches {
-			opts[i] = AdvanceOption{StepID: b.ID, Kind: b.Kind}
+	if len(next.options) > 0 {
+		opts := make([]AdvanceOption, len(next.options))
+		for i, n := range next.options {
+			opts[i] = AdvanceOption{StepID: n.ID, Kind: n.Kind}
 		}
-		return AdvanceResult{Branches: opts, Revision: s.store.Revision(string(id))}, nil
-	}
-	if !ok {
-		return AdvanceResult{Done: true, Revision: s.store.Revision(string(id))}, nil
+		return AdvanceResult{Branches: opts, Revision: expectedRevision}, nil
 	}
 
+	active := rec.session.ActiveStep()
+	choiceParent := ""
+	for parent, child := range projected.choices {
+		if rec.choices[parent] != child {
+			choiceParent = parent
+		}
+	}
 	ev, fresh, err := s.mutate(id, expectedRevision, requestID, eventstore.EventStepAdvanced, map[string]any{
-		"from": string(active.StepID), "to": next.ID, "override": override,
+		"navigation_version": 1, "from": string(active.StepID), "to": next.node.ID, "override": override, "choice_parent": choiceParent, "choice_id": selected, "done": next.node.ID == "",
 	})
 	if err != nil {
 		return AdvanceResult{}, err
 	}
 	if fresh {
-		nextProgress := learning.NewStepProgress(learning.StepID(next.ID))
-		if err := nextProgress.Transition(learning.StepStateAvailable, false); err != nil {
+		if err := applyEvent(rec, ev); err != nil {
 			return AdvanceResult{}, err
 		}
-		if err := nextProgress.Transition(learning.StepStateActive, false); err != nil {
-			return AdvanceResult{}, err
-		}
-		if err := rec.session.Advance(nextProgress, override); err != nil {
-			return AdvanceResult{}, err
-		}
-		rec.cleanEvaluation = false
 	}
-	return AdvanceResult{StepID: next.ID, Kind: next.Kind, Revision: ev.Revision}, nil
+	return AdvanceResult{StepID: next.node.ID, Kind: next.node.Kind, Done: next.node.ID == "", Revision: ev.Revision}, nil
 }

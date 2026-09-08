@@ -68,6 +68,7 @@ type stepCompleteArgs struct {
 }
 
 type stepAdvanceArgs struct {
+	NextStepID       string `json:"next_step_id,omitempty" jsonschema:"choose one direct child ID offered by step_advance for an explicit choice; omit for ordered progression"`
 	SessionID        string `json:"session_id" jsonschema:"session ID returned by session_start"`
 	Override         bool   `json:"override,omitempty" jsonschema:"activate the next node even if the current one is not completed"`
 	ExpectedRevision uint64 `json:"expected_revision" jsonschema:"session revision this call expects, from session_get"`
@@ -212,14 +213,14 @@ func registerAssessmentTools(server *mcp.Server, sessions *application.SessionSe
 
 	mcp.AddTool(server, &mcp.Tool{
 		Name:        "step_advance",
-		Description: "Activate the next permitted node in document order, or report branch options when the step splits, or that the challenge is exhausted.",
+		Description: "Advance through every layer at the current depth. For an authored choice, report direct child options; pass next_step_id to select one. Completion and session finish remain separate.",
 		Annotations: &mcp.ToolAnnotations{ReadOnlyHint: false, IdempotentHint: true},
 	}, func(_ context.Context, req *mcp.CallToolRequest, args stepAdvanceArgs) (*mcp.CallToolResult, Envelope, error) {
 		requestID := requestIDFor(req)
 		if args.SessionID == "" {
 			return errorResult(), errorEnvelope(requestID, ErrCodeInvalidInput, "session_id is required", false, nil), nil
 		}
-		result, err := sessions.StepAdvance(learning.SessionID(args.SessionID), args.Override, args.ExpectedRevision, args.RequestID)
+		result, err := sessions.StepAdvance(learning.SessionID(args.SessionID), args.Override, args.ExpectedRevision, args.RequestID, args.NextStepID)
 		if err != nil {
 			code, msg, retryable := mapError(err)
 			return errorResult(), errorEnvelope(requestID, code, msg, retryable, nil), nil

@@ -147,7 +147,7 @@ func TestProposeNextStepRecordsSignalWithoutAdvancing(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	if get.ActiveStep != "fixture.macro-one" {
+	if get.ActiveStep != start.ActiveStep {
 		t.Fatalf("active step changed to %s; proposing a step must never advance it", get.ActiveStep)
 	}
 }

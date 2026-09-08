@@ -163,19 +163,20 @@ type LayerAuthoring struct {
 // StepAuthoring mirrors the micropasso anatomy of PROJECT.md §14.9. It is
 // recursive: a macro or meso step nests its children under the same shape.
 type StepAuthoring struct {
-	ID          string               `yaml:"id"`
-	Kind        string               `yaml:"kind"`
-	Action      string               `yaml:"action"`
-	Target      string               `yaml:"target"`
-	Title       string               `yaml:"title"`
-	Instruction InstructionAuthoring `yaml:"instruction"`
-	Concepts    []string             `yaml:"concepts"`
-	Evidence    EvidenceAuthoring    `yaml:"evidence"`
-	Criteria    []CriterionAuthoring `yaml:"criteria"`
-	Completion  CompletionAuthoring  `yaml:"completion"`
-	Hints       []HintAuthoring      `yaml:"hints"`
-	Reflection  ReflectionAuthoring  `yaml:"reflection"`
-	Children    []StepAuthoring      `yaml:"children"`
+	ID           string               `yaml:"id"`
+	Kind         string               `yaml:"kind"`
+	Action       string               `yaml:"action"`
+	Target       string               `yaml:"target"`
+	Title        string               `yaml:"title"`
+	Instruction  InstructionAuthoring `yaml:"instruction"`
+	Concepts     []string             `yaml:"concepts"`
+	Evidence     EvidenceAuthoring    `yaml:"evidence"`
+	Criteria     []CriterionAuthoring `yaml:"criteria"`
+	Completion   CompletionAuthoring  `yaml:"completion"`
+	Hints        []HintAuthoring      `yaml:"hints"`
+	Reflection   ReflectionAuthoring  `yaml:"reflection"`
+	Children     []StepAuthoring      `yaml:"children"`
+	ChildrenMode string               `yaml:"children_mode,omitempty" json:"ChildrenMode,omitempty"`
 }
 
 // InstructionAuthoring is the single instruction disclosed for a step.

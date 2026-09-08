@@ -20,13 +20,14 @@ import (
 var ErrSessionUnrecoverable = errors.New("session: recovery unavailable; historical state lacks a compatible projection")
 
 type startedPayload struct {
-	RecoveryVersion int                           `json:"recovery_version"`
-	ChallengeID     string                        `json:"challenge_id"`
-	Mode            string                        `json:"mode"`
-	Input           StartInput                    `json:"input"`
-	Policy          learning.SessionPolicy        `json:"policy"`
-	Challenge       curriculum.ChallengeAuthoring `json:"challenge"`
-	Digest          string                        `json:"content_sha256"`
+	NavigationVersion int                           `json:"navigation_version,omitempty"`
+	RecoveryVersion   int                           `json:"recovery_version"`
+	ChallengeID       string                        `json:"challenge_id"`
+	Mode              string                        `json:"mode"`
+	Input             StartInput                    `json:"input"`
+	Policy            learning.SessionPolicy        `json:"policy"`
+	Challenge         curriculum.ChallengeAuthoring `json:"challenge"`
+	Digest            string                        `json:"content_sha256"`
 }
 
 func inputIdentity(in StartInput) string { raw, _ := json.Marshal(in); return string(raw) }
@@ -129,6 +130,9 @@ func (s *Service) eventResult(rec *record, ev eventstore.Event) (any, error) {
 		}
 		return GranularityResult{StepID: p.StepID, Kind: step.Kind, Revision: ev.Revision}, nil
 	case eventstore.EventStepAdvanced:
+		if p.Done {
+			return AdvanceResult{Done: true, Revision: ev.Revision}, nil
+		}
 		step, ok := findStep(rec.pinned, p.To)
 		if !ok {
 			return nil, ErrStepNotFound
@@ -215,7 +219,7 @@ func restoreStart(ev eventstore.Event) (*record, startedPayload, error) {
 	if err := json.Unmarshal(ev.Payload, &p); err != nil {
 		return nil, p, err
 	}
-	if p.RecoveryVersion != 1 || p.ChallengeID == "" || p.Challenge.ID != p.ChallengeID || p.Digest != contentDigest(p.Challenge) {
+	if p.NavigationVersion < 0 || p.NavigationVersion > 1 || p.RecoveryVersion != 1 || p.ChallengeID == "" || p.Challenge.ID != p.ChallengeID || p.Digest != contentDigest(p.Challenge) {
 		return nil, p, ErrSessionUnrecoverable
 	}
 	policy, err := learning.NewSessionPolicy(p.Policy.Mode, p.Policy.InitialDepth, p.Policy.Help.Kind, p.Policy.Disclosure.MaxLevel, p.Policy.Evaluation, p.Policy.Advance, p.Policy.TimeLimit)
@@ -223,6 +227,11 @@ func restoreStart(ev eventstore.Event) (*record, startedPayload, error) {
 		return nil, p, err
 	}
 	step, ok := firstStep(p.Challenge)
+	if p.NavigationVersion == 1 {
+		w, found := deriveWindow(p.Challenge, policy.InitialDepth)
+		ok = found
+		step, _ = findStep(p.Challenge, w.StepID)
+	}
 	if !ok {
 		return nil, p, ErrChallengeHasNoSteps
 	}
@@ -237,7 +246,7 @@ func restoreStart(ev eventstore.Event) (*record, startedPayload, error) {
 	if err := domain.SetActiveInstruction(active); err != nil {
 		return nil, p, err
 	}
-	return &record{session: domain, challengeID: p.ChallengeID, pinned: p.Challenge, depth: policy.InitialDepth}, p, nil
+	return &record{session: domain, challengeID: p.ChallengeID, pinned: p.Challenge, depth: policy.InitialDepth, cursor: step.ID, progress: map[string]savedProgress{}, covered: map[string]bool{}, choices: map[string]string{}}, p, nil
 }
 
 // recover projects only persisted facts, never consulting today's catalog.
@@ -261,8 +270,8 @@ func (s *Service) recover() {
 			}
 			s.sessions[id] = rec
 			if ev.RequestID != "" {
-				step, _ := firstStep(p.Challenge)
-				s.startResults[ev.RequestID] = StartResult{SessionID: id, ActiveStep: rec.session.ActiveStep().StepID, Objective: step.Instruction.Objective, Revision: ev.Revision, Disclosure: disclosureFor(p.Policy.Disclosure, rec.session.ActiveStep())}
+				step, _ := findStep(p.Challenge, string(rec.session.ActiveStep().StepID))
+				s.startResults[ev.RequestID] = StartResult{SessionID: id, ActiveStep: rec.session.ActiveStep().StepID, Kind: step.Kind, Objective: step.Instruction.Objective, Revision: ev.Revision, Disclosure: disclosureFor(p.Policy.Disclosure, rec.session.ActiveStep())}
 				s.startInputs[ev.RequestID] = inputIdentity(p.Input)
 			}
 			continue
@@ -301,6 +310,12 @@ func (s *Service) recover() {
 }
 
 type deltaPayload struct {
+	Done               bool                          `json:"done"`
+	NavigationVersion  int                           `json:"navigation_version"`
+	Cursor             string                        `json:"cursor"`
+	Covered            bool                          `json:"covered"`
+	ChoiceParent       string                        `json:"choice_parent"`
+	ChoiceID           string                        `json:"choice_id"`
 	StepID             string                        `json:"step_id"`
 	From               string                        `json:"from"`
 	To                 string                        `json:"to"`
@@ -323,6 +338,9 @@ func applyEvent(rec *record, ev eventstore.Event) error {
 	var p deltaPayload
 	if err := json.Unmarshal(ev.Payload, &p); err != nil {
 		return err
+	}
+	if p.NavigationVersion < 0 || p.NavigationVersion > 1 {
+		return ErrSessionUnrecoverable
 	}
 	active := rec.session.ActiveStep()
 	if p.StepID != "" && ev.Type != eventstore.EventGranularityChanged && ev.Type != eventstore.EventLearnerNextStepProposed && ev.Type != eventstore.EventObservationRecorded && ev.Type != eventstore.EventCheckExecuted && ev.Type != eventstore.EventAttemptSubmitted {
@@ -351,6 +369,67 @@ func applyEvent(rec *record, ev eventstore.Event) error {
 		}
 		rec.session.Policy = validated
 	case eventstore.EventGranularityChanged, eventstore.EventStepAdvanced:
+		if p.NavigationVersion == 1 {
+			if err := rec.navigationAllowed(); err != nil {
+				return err
+			}
+			if ev.Type == eventstore.EventGranularityChanged {
+				if rec.exhausted {
+					return ErrNavigationUnavailable
+				}
+				w, err := rec.windowAt(p.Depth)
+				if err != nil {
+					return err
+				}
+				cursor := rec.cursor
+				if cursor == "" && active != nil {
+					cursor = string(active.StepID)
+				}
+				if len(nodePath(challengeTree(rec.pinned), w.StepID)) > len(nodePath(challengeTree(rec.pinned), cursor)) {
+					cursor = w.StepID
+				}
+				if w.StepID != p.StepID || cursor != p.Cursor {
+					return ErrSessionUnrecoverable
+				}
+				if err := rec.activate(p.StepID); err != nil {
+					return err
+				}
+				rec.depth = p.Depth
+				rec.cursor = cursor
+			} else {
+				if active == nil || string(active.StepID) != p.From {
+					return ErrNoActiveStep
+				}
+				next, projected, err := rec.nextNavigation(p.Override, p.ChoiceID)
+				if err != nil {
+					return err
+				}
+				if next.node.ID != p.To || p.Done != (p.To == "") || len(next.options) > 0 {
+					return ErrInvalidNextStep
+				}
+				parent := ""
+				for key, v := range projected.choices {
+					if rec.choices[key] != v {
+						parent = key
+					}
+				}
+				if parent != p.ChoiceParent {
+					return ErrInvalidNextStep
+				}
+				*rec = *projected
+				if p.Done {
+					rec.exhausted = true
+					return nil
+				}
+				if err := rec.activate(p.To); err != nil {
+					return err
+				}
+				rec.cursor = p.To
+			}
+			return nil
+		}
+		// Historical navigation resets its window exactly as originally recorded.
+		rec.saveWindow()
 		nextID := p.StepID
 		if ev.Type == eventstore.EventStepAdvanced {
 			nextID = p.To
@@ -377,6 +456,7 @@ func applyEvent(rec *record, ev eventstore.Event) error {
 			rec.depth = p.Depth
 		}
 		rec.cleanEvaluation = false
+		rec.cursor = nextID
 	case eventstore.EventHintRequested, eventstore.EventSolutionRevealed:
 		if p.Blocked || p.Free {
 			return nil
@@ -418,7 +498,25 @@ func applyEvent(rec *record, ev eventstore.Event) error {
 		if active == nil {
 			return ErrNoActiveStep
 		}
-		return active.Complete(p.Override)
+		if p.NavigationVersion == 1 {
+			if rec.exhausted {
+				return ErrNavigationUnavailable
+			}
+			if err := rec.navigationAllowed(); err != nil {
+				return err
+			}
+			node, _ := findStep(rec.pinned, p.StepID)
+			if p.Covered != rec.coversWindow(node) {
+				return ErrSessionUnrecoverable
+			}
+		}
+		if err := active.Complete(p.Override); err != nil {
+			return err
+		}
+		if p.NavigationVersion == 1 && p.Covered {
+			rec.covered[p.StepID] = true
+		}
+		return nil
 	case eventstore.EventEvidenceRecorded, eventstore.EventObservationRecorded, eventstore.EventCheckExecuted, eventstore.EventFeedbackRecorded, eventstore.EventAttemptSubmitted, eventstore.EventReflectionRecorded, eventstore.EventLearnerNextStepProposed, eventstore.EventMasteryProjected, eventstore.EventReviewScheduled:
 		// These events carry evidence or projections, not session state mutations.
 	default:

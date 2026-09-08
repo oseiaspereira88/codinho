@@ -1,8 +1,8 @@
 ---
 slug: catalog-publication-integrity
-status: in-progress
+status: done
 created_at: 2026-09-07
-completed_at:
+completed_at: 2026-09-08
 supersedes:
 depends_on: catalog-authoring-quality, catalog-schema-loader, safe-check-executor
 priority: 30
@@ -126,8 +126,8 @@ O catálogo real ainda não tem conteúdo publicado. Autoria usa serve --authori
 
 ### Validation
 - [x] Executar os cenários de cada R-ID, incluindo negativos.
-- [ ] Executar pose assess integrate e validação estruturada no candidato.
-- [ ] Reconciliar artifacts, surface e revisão independente antes do closeout.
+- [x] Executar pose assess integrate e validação estruturada no candidato.
+- [x] Reconciliar artifacts, surface e revisão independente antes do closeout.
 
 ## 5. Decisions
 
@@ -168,6 +168,8 @@ candidato final. Nenhum metadado humano real será criado pela automação.
 - Security / Contract: pose assess integrate; pose validate --strict --json .pose/results/delivery-validation.json; pose surface-check --spec catalog-publication-integrity --strict
 
 ### Execution log
+- 2026-09-08 UTC: revisão selada rvb-838a0d1e9391698a, atestação rva-f35c1de4d1992136; verify/check aprovados e fresh. pose close aplicado, closeout-check terminal=true/next_action=none. Discover --update-state:1módulo,12.127LOCprod/11.524LOCtest,zero marcadores; estado atualizado. Follow-up existente preservado em v1-integrated-acceptance.
+- 2026-09-08 UTC: candidato ef456ab aprovado sem ressalvas técnicas por publication_review após confirmar correções, race/count=1 dos componentes, vet/build e a evidência estruturada final. Matriz final gerada em 2026-09-08T12:55:02Z: 16/16 passaram, zero failures/errors/skips, govulncheck sem vulnerabilidades. Artifact-check:39claims/40observados/zeroachados; surface-check:1target/zeroachados. Relatório: .pose/reports/2026-09-08-review-catalog-publication-integrity.md.
 - 2026-09-08 UTC: rodada 1 da revisão publication_review rejeitou f9ca9c8 por V1 sem checks, timeout genérico, fail+skip e pack ausente com meta zero. Corrigidos com regressões reais; achado de variant_of retirado após distinguir derivado publicado de variants privado, esclarecido no ADR/doc e testado no MCP.
 - 2026-09-08 UTC: três casos adicionais do corpus reproduziram aceitação de publicação sem título, com tipo desconhecido ou schema futuro. Corrigida validação do desafio publicado sem bloquear rascunhos mínimos. go test -race ./internal/curriculum/... ./internal/checks/... ./internal/cli/... ./cmd/codinho/... -count=1 passou após todas as correções.
 - 2026-09-08 UTC: matriz POSE inicial passou 16/16 em f9ca9c8 (incluindo govulncheck). Execução do revisor sem PATH do govulncheck sobrescreveu o resultado com falha ambiental; o autor reexecutará a matriz no novo candidato. Nenhuma falha ambiental foi contada como sucesso.
@@ -178,7 +180,7 @@ candidato final. Nenhum metadado humano real será criado pela automação.
 - 2026-09-07 UTC: criada em revisão de planejamento; implementação e gates de entrega não executados.
 
 ### Results summary
-Implementação e testes compostos passam; validação estruturada no commit, reconciliação de artefatos e revisão independente ainda condicionam entrega.
+Implementação R1–R8 verificada no candidato ef456ab por 16 checks estruturados, suites de race e revisão independente aprovada. Ver relatório de revisão para proveniência e limites editoriais.
 
 ### Requirement trace
 - R1: TestPublicationCoverageVisibilityAndPrivateProof; TestPublicationIntegrityCLI/published-proof — inventário 2, publicado/elegível 1; variantes e protótipos excluídos.
@@ -196,13 +198,13 @@ O catálogo real ainda não tem conteúdo publicado. Autoria usa serve --authori
 ## 7. Final Report
 
 ### Delivered scope
-Implementados os caminhos R1–R8 e verificados por testes locais. Encerramento depende da validação estruturada e atestação independente no candidato.
+Implementados e verificados R1–R8: projeções de publicação, política de distribuição, prova executável por cenário, contratos e composição MCP/CLI/CI. [Relatório de revisão](../reports/2026-09-08-review-catalog-publication-integrity.md) registra gates e decisão independente.
 
 ### Files and modules changed
 - Curriculum, checks, CLI e composição MCP; schemas, corpus, política, CI, documentos e ADR declarados em Artifacts.
 
 ### Validation executed
-- Suites de módulo, CLI/MCP reais, go test -race ./..., pose lint-spec --ready-check e pose check --strict passaram; registro final seguirá a validação estruturada.
+- Matriz final16/16, govulncheck, suites de race, CLI/MCP reais, corpus compartilhado, artifact/surface e revisão independente aprovados no candidato ef456ab.
 
 ### Residual risks
 Validar o comportamento implementado em execução independente; não reutilizar resultado histórico como aprovação do código futuro.

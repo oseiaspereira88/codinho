@@ -1,16 +1,15 @@
 {
   "schema_version": 1,
-  "component_slug": "root",
-  "path": ".",
+  "component_slug": "cmd-ci-assurance",
+  "path": "cmd/ci-assurance",
   "discovered_at": "2026-09-08T22:46:06Z",
   "baseline_commit": "e737078ade6f",
   "metrics": {
-    "loc_production": 12388,
-    "loc_tests": 11945,
-    "total_files": 190,
+    "loc_production": 79,
+    "loc_tests": 53,
+    "total_files": 2,
     "languages": [
-      "go",
-      "shell"
+      "go"
     ]
   },
   "technical_debt": {
@@ -21,7 +20,7 @@
   },
   "metadata": {
     "criticality": "high",
-    "domain": "runtime",
+    "domain": "governance",
     "owner": "@oseiaspereira",
     "validationProfile": "baseline"
   },

@@ -16,3 +16,5 @@
 {"at":"2026-09-08T03:44:13Z","trigger":"spec_closeout","target":"session-tree-progression","dedup_key":"148c1cc51e6f103d","consumer":"state-refresh","result":"ok","duration_ms":5}
 {"at":"2026-09-08T13:00:23Z","trigger":"manual","dedup_key":"21ba92344ea5a19f","consumer":"state-refresh","result":"ok","duration_ms":8,"changed_sections":["Specs \u0026 Roadmaps","Decisões \u0026 Conhecimento","Validação \u0026 Evidência","Arquitetura"]}
 {"at":"2026-09-08T13:00:24Z","trigger":"spec_closeout","target":"catalog-publication-integrity","dedup_key":"59fa676c1b79821b","consumer":"state-refresh","result":"ok","duration_ms":5}
+{"at":"2026-09-08T22:46:06Z","trigger":"spec_closeout","target":"v1-delivery-ci-assurance","consumer":"docs-review","result":"skipped","duration_ms":0,"error":"docs_mapping_unavailable"}
+{"at":"2026-09-08T22:46:06Z","trigger":"spec_closeout","target":"v1-delivery-ci-assurance","dedup_key":"102675c8e7152697","consumer":"state-refresh","result":"ok","duration_ms":5,"changed_sections":["Specs \u0026 Roadmaps","Follow-ups","Validação \u0026 Evidência"]}

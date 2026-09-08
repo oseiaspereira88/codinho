@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "input_digest": "sha256:c90e869b57e2ac964b5c2298454cce68f4a0fce20ce6e8173e7dc5f0f7432ba8",
-  "provenance_digest": "sha256:ebcc128b489ae5939fc77a42e9f1191b6d59d870de9b9067014cf12e54d2bbbd",
+  "input_digest": "sha256:20a213ada995a24ec32a0d6b949e37744aff9e0c674b0bb5d80bb95e189d2205",
+  "provenance_digest": "sha256:3508ce9a39580c00e2ae1ade419bcb56d0631bd80efb26597310bb0305451590",
   "nodes": [
     {
       "id": "artifact:.agents/skills/codinho/SKILL.md",
@@ -127,6 +127,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/adr/2026-09-07-scoped-evaluation-evidence-and-qualitative-registration.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/adr/2026-09-08-native-ci-evidence-and-prospective-delivery-governance.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/adr/2026-09-08-native-ci-evidence-and-prospective-delivery-governance.md"
       }
     },
     {
@@ -312,10 +319,31 @@
       }
     },
     {
+      "id": "artifact:.pose/changelogs/unreleased/v1-delivery-ci-assurance.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/changelogs/unreleased/v1-delivery-ci-assurance.md"
+      }
+    },
+    {
       "id": "artifact:.pose/changelogs/unreleased/workspace-observation-baselines.md",
       "type": "artifact",
       "attributes": {
         "path": ".pose/changelogs/unreleased/workspace-observation-baselines.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/contracts/historical-renames.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/contracts/historical-renames.json"
+      }
+    },
+    {
+      "id": "artifact:.pose/contracts/mcp-stdio.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/contracts/mcp-stdio.json"
       }
     },
     {
@@ -372,6 +400,27 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/contributions/20260907-004842-detectar-contratos-mcp-go-e-distinguir-i.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/contributions/20260908-review-profile-evidence-classes.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/contributions/20260908-review-profile-evidence-classes.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/contributions/20260908-root-module-metadata-normalization.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/contributions/20260908-root-module-metadata-normalization.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/docs.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/docs.json"
       }
     },
     {
@@ -508,6 +557,13 @@
       }
     },
     {
+      "id": "artifact:.pose/knowledge/2026-09-08-decision-log-adr-ci-assurance-review.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/knowledge/2026-09-08-decision-log-adr-ci-assurance-review.md"
+      }
+    },
+    {
       "id": "artifact:.pose/knowledge/2026-09-08-decision-log-adr-publication-review.md",
       "type": "artifact",
       "attributes": {
@@ -585,6 +641,13 @@
       }
     },
     {
+      "id": "artifact:.pose/reports/2026-09-08-standard-v1-delivery-ci-review.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/reports/2026-09-08-standard-v1-delivery-ci-review.md"
+      }
+    },
+    {
       "id": "artifact:.pose/reports/history/doc-audit-auditoria-do-planejamento-v1.jsonl",
       "type": "artifact",
       "attributes": {
@@ -617,6 +680,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/reports/history/standard-registrar-baseline-de-decis-es-arquiteturais-4-adrs.jsonl"
+      }
+    },
+    {
+      "id": "artifact:.pose/reports/history/standard-v1-delivery-ci-review.jsonl",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/reports/history/standard-v1-delivery-ci-review.jsonl"
       }
     },
     {
@@ -949,6 +1019,13 @@
       }
     },
     {
+      "id": "artifact:.pose/review-profiles/spec-closeout.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-profiles/spec-closeout.json"
+      }
+    },
+    {
       "id": "artifact:.pose/roadmaps/codinho-v1.md",
       "type": "artifact",
       "attributes": {
@@ -1268,6 +1345,20 @@
       "type": "artifact",
       "attributes": {
         "path": "cmd/ailearn/main.go"
+      }
+    },
+    {
+      "id": "artifact:cmd/ci-assurance/main.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "cmd/ci-assurance/main.go"
+      }
+    },
+    {
+      "id": "artifact:cmd/ci-assurance/main_test.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "cmd/ci-assurance/main_test.go"
       }
     },
     {
@@ -1758,6 +1849,27 @@
       "type": "artifact",
       "attributes": {
         "path": "internal/checks/security_test.go"
+      }
+    },
+    {
+      "id": "artifact:internal/ciassurance/evidence.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/ciassurance/evidence.go"
+      }
+    },
+    {
+      "id": "artifact:internal/ciassurance/evidence_test.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/ciassurance/evidence_test.go"
+      }
+    },
+    {
+      "id": "artifact:internal/ciassurance/workflows_test.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/ciassurance/workflows_test.go"
       }
     },
     {
@@ -2461,6 +2573,13 @@
       }
     },
     {
+      "id": "artifact:internal/mcpserver/governance_contract_test.go",
+      "type": "artifact",
+      "attributes": {
+        "path": "internal/mcpserver/governance_contract_test.go"
+      }
+    },
+    {
       "id": "artifact:internal/mcpserver/instructions.go",
       "type": "artifact",
       "attributes": {
@@ -2944,6 +3063,41 @@
       }
     },
     {
+      "id": "artifact:scripts/ci/build-release.sh",
+      "type": "artifact",
+      "attributes": {
+        "path": "scripts/ci/build-release.sh"
+      }
+    },
+    {
+      "id": "artifact:scripts/ci/check-format.sh",
+      "type": "artifact",
+      "attributes": {
+        "path": "scripts/ci/check-format.sh"
+      }
+    },
+    {
+      "id": "artifact:scripts/ci/install-tools.sh",
+      "type": "artifact",
+      "attributes": {
+        "path": "scripts/ci/install-tools.sh"
+      }
+    },
+    {
+      "id": "artifact:scripts/ci/tools.env",
+      "type": "artifact",
+      "attributes": {
+        "path": "scripts/ci/tools.env"
+      }
+    },
+    {
+      "id": "artifact:scripts/ci/validate.sh",
+      "type": "artifact",
+      "attributes": {
+        "path": "scripts/ci/validate.sh"
+      }
+    },
+    {
       "id": "artifact:scripts/smoke-install.sh",
       "type": "artifact",
       "attributes": {
@@ -3281,6 +3435,14 @@
       }
     },
     {
+      "id": "change-set:cs-a5803ed3406c",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:a54b3ee80a56a1b97beb8e45afdfb928a4e0a9ad8564bce970d64a09a3594681",
+        "selector": "trailers:v1-delivery-ci-assurance"
+      }
+    },
+    {
       "id": "change-set:cs-ace3ca5ace4e",
       "type": "change-set",
       "attributes": {
@@ -3318,14 +3480,6 @@
       "attributes": {
         "diff_digest": "sha256:c63e1cb523c1512ca6ea4e759206b813a615e4facb5e9f67b2cdeeec835d1a9a",
         "selector": "trailers:catalog-publication-integrity"
-      }
-    },
-    {
-      "id": "change-set:cs-fe99ef6d8381",
-      "type": "change-set",
-      "attributes": {
-        "diff_digest": "sha256:dc873e8aa4b69543d25a023e856013d054cdec0201c85bfec9844312b170c280",
-        "selector": "trailers:v1-delivery-ci-assurance"
       }
     },
     {
@@ -3441,7 +3595,7 @@
       "id": "roadmap-criterion:codinho-v1/C1",
       "type": "roadmap-criterion",
       "attributes": {
-        "passed": "false"
+        "passed": "true"
       }
     },
     {
@@ -3462,7 +3616,7 @@
       "id": "roadmap-criterion:codinho-v1/C4",
       "type": "roadmap-criterion",
       "attributes": {
-        "passed": "false"
+        "passed": "true"
       }
     },
     {
@@ -3483,7 +3637,7 @@
       "id": "roadmap-criterion:codinho-v1/C7",
       "type": "roadmap-criterion",
       "attributes": {
-        "passed": "false"
+        "passed": "true"
       }
     },
     {
@@ -3728,7 +3882,7 @@
       "id": "spec:v1-delivery-ci-assurance",
       "type": "spec",
       "attributes": {
-        "status": "draft"
+        "status": "in-progress"
       }
     },
     {
@@ -3755,10 +3909,28 @@
       }
     },
     {
+      "id": "validation-result:./go/catalog",
+      "type": "validation-result",
+      "attributes": {
+        "check": "catalog",
+        "evidence_class": "integration",
+        "outcome": "pass"
+      }
+    },
+    {
       "id": "validation-result:./go/catalog-publication-integrity",
       "type": "validation-result",
       "attributes": {
         "check": "catalog-publication-integrity",
+        "evidence_class": "integration",
+        "outcome": "pass"
+      }
+    },
+    {
+      "id": "validation-result:./go/ci-assurance",
+      "type": "validation-result",
+      "attributes": {
+        "check": "ci-assurance",
         "evidence_class": "integration",
         "outcome": "pass"
       }
@@ -3787,6 +3959,15 @@
       "attributes": {
         "check": "evaluation-evidence",
         "evidence_class": "integration",
+        "outcome": "pass"
+      }
+    },
+    {
+      "id": "validation-result:./go/format",
+      "type": "validation-result",
+      "attributes": {
+        "check": "format",
+        "evidence_class": "build",
         "outcome": "pass"
       }
     },
@@ -3944,12 +4125,22 @@
     },
     {
       "from": "artifact:.github/workflows/ci.yml",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.github/workflows/ci.yml",
       "to": "delivery:infrastructure:codinho-local-distribution",
       "type": "implemented-by"
     },
     {
       "from": "artifact:.github/workflows/release.yml",
       "to": "delivery:governance:codinho-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.github/workflows/release.yml",
+      "to": "delivery:governance:v1-delivery-ci",
       "type": "implemented-by"
     },
     {
@@ -3970,6 +4161,11 @@
     {
       "from": "artifact:.pose/adr/2026-09-07-scoped-evaluation-evidence-and-qualitative-registration.md",
       "to": "delivery:capability:evaluation-evidence-lineage",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.pose/adr/2026-09-08-native-ci-evidence-and-prospective-delivery-governance.md",
+      "to": "delivery:governance:v1-delivery-ci",
       "type": "implemented-by"
     },
     {
@@ -3995,6 +4191,46 @@
     {
       "from": "artifact:.pose/changelogs/unreleased/session-tree-progression.md",
       "to": "delivery:capability:session-tree-progression",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.pose/changelogs/unreleased/v1-delivery-ci-assurance.md",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.pose/contracts/historical-renames.json",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.pose/contracts/mcp-stdio.json",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.pose/contributions/20260908-review-profile-evidence-classes.md",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.pose/contributions/20260908-root-module-metadata-normalization.md",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.pose/docs.json",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.pose/indexes/module-metadata.json",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.pose/indexes/repo-map.json",
+      "to": "delivery:governance:v1-delivery-ci",
       "type": "implemented-by"
     },
     {
@@ -4034,6 +4270,11 @@
     },
     {
       "from": "artifact:.pose/indexes/validation-matrix.json",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.pose/indexes/validation-matrix.json",
       "to": "delivery:infrastructure:codinho-local-distribution",
       "type": "implemented-by"
     },
@@ -4058,8 +4299,33 @@
       "type": "implemented-by"
     },
     {
+      "from": "artifact:.pose/knowledge/2026-09-08-decision-log-adr-ci-assurance-review.md",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
       "from": "artifact:.pose/knowledge/2026-09-08-decision-log-adr-publication-review.md",
       "to": "delivery:capability:catalog-publication-integrity",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.pose/policy/artifacts.json",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.pose/policy/delivery.json",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.pose/policy/docs.json",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:.pose/review-profiles/spec-closeout.json",
+      "to": "delivery:governance:v1-delivery-ci",
       "type": "implemented-by"
     },
     {
@@ -4089,6 +4355,11 @@
     },
     {
       "from": "artifact:Makefile",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:Makefile",
       "to": "delivery:infrastructure:codinho-local-distribution",
       "type": "implemented-by"
     },
@@ -4099,7 +4370,22 @@
     },
     {
       "from": "artifact:README.md",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:README.md",
       "to": "delivery:infrastructure:codinho-local-distribution",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:cmd/ci-assurance/main.go",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:cmd/ci-assurance/main_test.go",
+      "to": "delivery:governance:v1-delivery-ci",
       "type": "implemented-by"
     },
     {
@@ -4173,6 +4459,16 @@
       "type": "implemented-by"
     },
     {
+      "from": "artifact:docs/acceptance/v1-release-readiness.md",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/agent-review-workflow.md",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
       "from": "artifact:docs/compatibility.md",
       "to": "delivery:capability:catalog-publication-integrity",
       "type": "implemented-by"
@@ -4199,12 +4495,22 @@
     },
     {
       "from": "artifact:docs/compatibility.md",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/compatibility.md",
       "to": "delivery:infrastructure:codinho-local-distribution",
       "type": "implemented-by"
     },
     {
       "from": "artifact:docs/configuration.md",
       "to": "delivery:governance:codinho-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/configuration.md",
+      "to": "delivery:governance:v1-delivery-ci",
       "type": "implemented-by"
     },
     {
@@ -4223,8 +4529,23 @@
       "type": "implemented-by"
     },
     {
+      "from": "artifact:docs/content-authoring.md",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/content-review-checklist.md",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
       "from": "artifact:docs/install.md",
       "to": "delivery:governance:codinho-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/install.md",
+      "to": "delivery:governance:v1-delivery-ci",
       "type": "implemented-by"
     },
     {
@@ -4239,12 +4560,37 @@
     },
     {
       "from": "artifact:docs/quickstart.md",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/quickstart.md",
       "to": "delivery:infrastructure:codinho-local-distribution",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/security/executor-limitations.md",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/security/privacy.md",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/security/threat-model.md",
+      "to": "delivery:governance:v1-delivery-ci",
       "type": "implemented-by"
     },
     {
       "from": "artifact:docs/troubleshooting.md",
       "to": "delivery:governance:codinho-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:docs/troubleshooting.md",
+      "to": "delivery:governance:v1-delivery-ci",
       "type": "implemented-by"
     },
     {
@@ -4358,13 +4704,38 @@
       "type": "implemented-by"
     },
     {
+      "from": "artifact:internal/checks/editorial.go",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
       "from": "artifact:internal/checks/editorial_test.go",
       "to": "delivery:capability:catalog-publication-integrity",
       "type": "implemented-by"
     },
     {
+      "from": "artifact:internal/checks/editorial_test.go",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
       "from": "artifact:internal/checks/executor.go",
       "to": "delivery:capability:catalog-publication-integrity",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:internal/ciassurance/evidence.go",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:internal/ciassurance/evidence_test.go",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:internal/ciassurance/workflows_test.go",
+      "to": "delivery:governance:v1-delivery-ci",
       "type": "implemented-by"
     },
     {
@@ -4618,6 +4989,11 @@
       "type": "implemented-by"
     },
     {
+      "from": "artifact:internal/mcpserver/governance_contract_test.go",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
       "from": "artifact:internal/mcpserver/instructions.go",
       "to": "delivery:capability:evaluation-evidence-lineage",
       "type": "implemented-by"
@@ -4743,6 +5119,31 @@
       "type": "implemented-by"
     },
     {
+      "from": "artifact:packs/go-core.yaml",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:packs/go-data-text.yaml",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:packs/go-errors.yaml",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:packs/go-first-steps.yaml",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:packs/go-type-design.yaml",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
       "from": "artifact:schemas/catalog.schema.json",
       "to": "delivery:capability:catalog-publication-integrity",
       "type": "implemented-by"
@@ -4755,6 +5156,31 @@
     {
       "from": "artifact:schemas/pack.schema.json",
       "to": "delivery:capability:catalog-publication-integrity",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:scripts/ci/build-release.sh",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:scripts/ci/check-format.sh",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:scripts/ci/install-tools.sh",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:scripts/ci/tools.env",
+      "to": "delivery:governance:v1-delivery-ci",
+      "type": "implemented-by"
+    },
+    {
+      "from": "artifact:scripts/ci/validate.sh",
+      "to": "delivery:governance:v1-delivery-ci",
       "type": "implemented-by"
     },
     {
@@ -7893,6 +8319,456 @@
       "type": "changes"
     },
     {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.github/workflows/ci.yml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.github/workflows/release.yml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/adr/2026-09-08-native-ci-evidence-and-prospective-delivery-governance.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/assessments/README.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/assessments/consolidated.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/assessments/integrations.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/assessments/root.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/assessments/technical-debt.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/changelogs/unreleased/v1-delivery-ci-assurance.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/contracts/historical-renames.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/contracts/mcp-stdio.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/contributions/20260907-004842-detectar-contratos-mcp-go-e-distinguir-i.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/contributions/20260908-review-profile-evidence-classes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/contributions/20260908-root-module-metadata-normalization.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/docs.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/indexes/delivery-integrity.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/indexes/module-metadata.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/indexes/packages.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/indexes/releases.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/indexes/repo-map.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/indexes/roadmaps.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/indexes/spec-graph.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/indexes/validation-matrix.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/knowledge/2026-09-07-handoff-planning-audit-2026-09.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/knowledge/2026-09-08-decision-log-adr-ci-assurance-review.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/policy/artifacts.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/policy/delivery.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/policy/docs.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/reports/2026-09-07-doc-audit-auditoria-do-planejamento-v1.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/reports/2026-09-08-standard-v1-delivery-ci-review.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/reports/history/doc-audit-auditoria-do-planejamento-v1.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/reports/history/standard-v1-delivery-ci-review.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/results/planning-audit-validation.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/review-profiles/spec-closeout.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/roadmaps/codinho-v1.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/specs/2026-08-22-assistance-hints-detours.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/specs/2026-08-22-go-backend-packs.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/specs/2026-08-22-go-foundations-packs.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/specs/2026-08-22-go-interviews-pack.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/specs/2026-08-22-go-production-architecture-packs.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/specs/2026-08-22-installation-documentation-ci.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/specs/2026-08-22-learning-practice-debug-modes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/specs/2026-08-22-reliability-observability-compatibility.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/specs/2026-08-22-security-privacy-hardening.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/specs/2026-08-22-v1-integrated-acceptance.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/specs/2026-08-24-agent-authored-catalog-drafts.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/specs/2026-08-24-learning-track-composition.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/specs/2026-09-07-catalog-publication-integrity.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/specs/2026-09-07-concept-content-authoring.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/specs/2026-09-07-session-recovery-version-pinning.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/specs/2026-09-07-session-tree-progression.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/specs/2026-09-07-v1-delivery-ci-assurance.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/state/components/root.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/state/history.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/state/integrations.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/state/project-state.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/state/refresh-log.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:.pose/state/technical-debt.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:Makefile",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:README.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:cmd/ci-assurance/main.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:cmd/ci-assurance/main_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:docs/acceptance/v1-release-readiness.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:docs/agent-review-workflow.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:docs/compatibility.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:docs/configuration.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:docs/content-authoring.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:docs/content-review-checklist.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:docs/install.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:docs/quickstart.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:docs/security/executor-limitations.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:docs/security/privacy.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:docs/security/threat-model.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:docs/troubleshooting.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:internal/checks/editorial.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:internal/checks/editorial_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:internal/ciassurance/evidence.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:internal/ciassurance/evidence_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:internal/ciassurance/workflows_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:internal/mcpserver/governance_contract_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:packs/go-core.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:packs/go-data-text.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:packs/go-errors.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:packs/go-first-steps.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:packs/go-type-design.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:scripts/ci/build-release.sh",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:scripts/ci/check-format.sh",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:scripts/ci/install-tools.sh",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:scripts/ci/tools.env",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-a5803ed3406c",
+      "to": "artifact:scripts/ci/validate.sh",
+      "type": "changes"
+    },
+    {
       "from": "change-set:cs-ace3ca5ace4e",
       "to": "artifact:.pose/changelogs/unreleased/assistance-hints-detours.md",
       "type": "changes"
@@ -8558,218 +9434,88 @@
       "type": "changes"
     },
     {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/assessments/README.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/assessments/consolidated.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/assessments/integrations.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/assessments/root.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/assessments/technical-debt.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/contributions/20260907-004842-detectar-contratos-mcp-go-e-distinguir-i.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/indexes/delivery-integrity.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/indexes/packages.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/indexes/releases.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/indexes/repo-map.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/indexes/roadmaps.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/indexes/spec-graph.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/knowledge/2026-09-07-handoff-planning-audit-2026-09.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/reports/2026-09-07-doc-audit-auditoria-do-planejamento-v1.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/reports/history/doc-audit-auditoria-do-planejamento-v1.jsonl",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/results/planning-audit-validation.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/roadmaps/codinho-v1.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/specs/2026-08-22-assistance-hints-detours.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/specs/2026-08-22-go-backend-packs.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/specs/2026-08-22-go-foundations-packs.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/specs/2026-08-22-go-interviews-pack.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/specs/2026-08-22-go-production-architecture-packs.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/specs/2026-08-22-installation-documentation-ci.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/specs/2026-08-22-learning-practice-debug-modes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/specs/2026-08-22-reliability-observability-compatibility.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/specs/2026-08-22-security-privacy-hardening.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/specs/2026-08-22-v1-integrated-acceptance.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/specs/2026-08-24-agent-authored-catalog-drafts.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/specs/2026-08-24-learning-track-composition.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/specs/2026-09-07-catalog-publication-integrity.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/specs/2026-09-07-concept-content-authoring.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/specs/2026-09-07-session-recovery-version-pinning.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/specs/2026-09-07-session-tree-progression.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/specs/2026-09-07-v1-delivery-ci-assurance.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/state/components/root.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/state/history.jsonl",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/state/integrations.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/state/project-state.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/state/refresh-log.jsonl",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-fe99ef6d8381",
-      "to": "artifact:.pose/state/technical-debt.json",
-      "type": "changes"
-    },
-    {
       "from": "delivery:capability:canonical-concept-content",
       "to": "entrypoint:cmd/codinho/main.go",
       "type": "composes"
     },
     {
+      "from": "delivery:capability:canonical-concept-content",
+      "to": "validation-result:./go/catalog",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:canonical-concept-content",
+      "to": "validation-result:./go/catalog-publication-integrity",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:canonical-concept-content",
+      "to": "validation-result:./go/ci-assurance",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:canonical-concept-content",
+      "to": "validation-result:./go/evaluation-evidence",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:canonical-concept-content",
+      "to": "validation-result:./go/mcp-contract",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:canonical-concept-content",
+      "to": "validation-result:./go/published-catalog-proof",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:canonical-concept-content",
+      "to": "validation-result:./go/session-recovery",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:canonical-concept-content",
+      "to": "validation-result:./go/session-tree-progression",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:canonical-concept-content",
+      "to": "validation-result:./go/smoke-install",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:canonical-concept-content",
+      "to": "validation-result:./go/startup-budget",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:canonical-concept-content",
+      "to": "validation-result:./go/stdout-purity",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:canonical-concept-content",
+      "to": "validation-result:./go/tutor-skill-routing",
+      "type": "validated-by"
+    },
+    {
       "from": "delivery:capability:catalog-publication-integrity",
       "to": "entrypoint:cmd/codinho/main.go",
       "type": "composes"
     },
     {
       "from": "delivery:capability:catalog-publication-integrity",
+      "to": "validation-result:./go/catalog",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:catalog-publication-integrity",
       "to": "validation-result:./go/catalog-publication-integrity",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:catalog-publication-integrity",
+      "to": "validation-result:./go/ci-assurance",
       "type": "validated-by"
     },
     {
@@ -8824,7 +9570,17 @@
     },
     {
       "from": "delivery:capability:codinho-tutor",
+      "to": "validation-result:./go/catalog",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:codinho-tutor",
       "to": "validation-result:./go/catalog-publication-integrity",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:codinho-tutor",
+      "to": "validation-result:./go/ci-assurance",
       "type": "validated-by"
     },
     {
@@ -8879,7 +9635,17 @@
     },
     {
       "from": "delivery:capability:evaluation-evidence-lineage",
+      "to": "validation-result:./go/catalog",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:evaluation-evidence-lineage",
       "to": "validation-result:./go/catalog-publication-integrity",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:evaluation-evidence-lineage",
+      "to": "validation-result:./go/ci-assurance",
       "type": "validated-by"
     },
     {
@@ -8934,7 +9700,17 @@
     },
     {
       "from": "delivery:capability:session-recovery",
+      "to": "validation-result:./go/catalog",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:session-recovery",
       "to": "validation-result:./go/catalog-publication-integrity",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:session-recovery",
+      "to": "validation-result:./go/ci-assurance",
       "type": "validated-by"
     },
     {
@@ -8989,7 +9765,17 @@
     },
     {
       "from": "delivery:capability:session-tree-progression",
+      "to": "validation-result:./go/catalog",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:session-tree-progression",
       "to": "validation-result:./go/catalog-publication-integrity",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:capability:session-tree-progression",
+      "to": "validation-result:./go/ci-assurance",
       "type": "validated-by"
     },
     {
@@ -9044,7 +9830,17 @@
     },
     {
       "from": "delivery:contract:codinho-mcp-v1",
+      "to": "validation-result:./go/catalog",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:contract:codinho-mcp-v1",
       "to": "validation-result:./go/catalog-publication-integrity",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:contract:codinho-mcp-v1",
+      "to": "validation-result:./go/ci-assurance",
       "type": "validated-by"
     },
     {
@@ -9099,7 +9895,17 @@
     },
     {
       "from": "delivery:governance:codinho-ci",
+      "to": "validation-result:./go/catalog",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:governance:codinho-ci",
       "to": "validation-result:./go/catalog-publication-integrity",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:governance:codinho-ci",
+      "to": "validation-result:./go/ci-assurance",
       "type": "validated-by"
     },
     {
@@ -9154,7 +9960,17 @@
     },
     {
       "from": "delivery:governance:v1-delivery-ci",
+      "to": "validation-result:./go/catalog",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:governance:v1-delivery-ci",
       "to": "validation-result:./go/catalog-publication-integrity",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:governance:v1-delivery-ci",
+      "to": "validation-result:./go/ci-assurance",
       "type": "validated-by"
     },
     {
@@ -9209,7 +10025,17 @@
     },
     {
       "from": "delivery:infrastructure:codinho-local-distribution",
+      "to": "validation-result:./go/catalog",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:infrastructure:codinho-local-distribution",
       "to": "validation-result:./go/catalog-publication-integrity",
+      "type": "validated-by"
+    },
+    {
+      "from": "delivery:infrastructure:codinho-local-distribution",
+      "to": "validation-result:./go/ci-assurance",
       "type": "validated-by"
     },
     {
@@ -9269,7 +10095,17 @@
     },
     {
       "from": "entrypoint:.agents/skills/codinho/SKILL.md",
+      "to": "validation-result:./go/catalog",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:.agents/skills/codinho/SKILL.md",
       "to": "validation-result:./go/catalog-publication-integrity",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:.agents/skills/codinho/SKILL.md",
+      "to": "validation-result:./go/ci-assurance",
       "type": "validated-by"
     },
     {
@@ -9319,12 +10155,32 @@
     },
     {
       "from": "entrypoint:.github/workflows/ci.yml",
+      "to": "validation-result:./go/catalog",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:.github/workflows/ci.yml",
+      "to": "validation-result:./go/catalog",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:.github/workflows/ci.yml",
       "to": "validation-result:./go/catalog-publication-integrity",
       "type": "validated-by"
     },
     {
       "from": "entrypoint:.github/workflows/ci.yml",
       "to": "validation-result:./go/catalog-publication-integrity",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:.github/workflows/ci.yml",
+      "to": "validation-result:./go/ci-assurance",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:.github/workflows/ci.yml",
+      "to": "validation-result:./go/ci-assurance",
       "type": "validated-by"
     },
     {
@@ -9419,7 +10275,37 @@
     },
     {
       "from": "entrypoint:cmd/codinho/main.go",
-      "to": "validation-result:./go/catalog-publication-integrity",
+      "to": "validation-result:./go/catalog",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/catalog",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/catalog",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/catalog",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/catalog",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/catalog",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/catalog",
       "type": "validated-by"
     },
     {
@@ -9445,6 +10331,51 @@
     {
       "from": "entrypoint:cmd/codinho/main.go",
       "to": "validation-result:./go/catalog-publication-integrity",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/catalog-publication-integrity",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/catalog-publication-integrity",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/ci-assurance",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/ci-assurance",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/ci-assurance",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/ci-assurance",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/ci-assurance",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/ci-assurance",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/ci-assurance",
       "type": "validated-by"
     },
     {
@@ -9484,7 +10415,7 @@
     },
     {
       "from": "entrypoint:cmd/codinho/main.go",
-      "to": "validation-result:./go/mcp-contract",
+      "to": "validation-result:./go/evaluation-evidence",
       "type": "validated-by"
     },
     {
@@ -9510,6 +10441,21 @@
     {
       "from": "entrypoint:cmd/codinho/main.go",
       "to": "validation-result:./go/mcp-contract",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/mcp-contract",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/mcp-contract",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/published-catalog-proof",
       "type": "validated-by"
     },
     {
@@ -9574,7 +10520,7 @@
     },
     {
       "from": "entrypoint:cmd/codinho/main.go",
-      "to": "validation-result:./go/session-tree-progression",
+      "to": "validation-result:./go/session-recovery",
       "type": "validated-by"
     },
     {
@@ -9600,6 +10546,21 @@
     {
       "from": "entrypoint:cmd/codinho/main.go",
       "to": "validation-result:./go/session-tree-progression",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/session-tree-progression",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/session-tree-progression",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/smoke-install",
       "type": "validated-by"
     },
     {
@@ -9664,7 +10625,7 @@
     },
     {
       "from": "entrypoint:cmd/codinho/main.go",
-      "to": "validation-result:./go/stdout-purity",
+      "to": "validation-result:./go/startup-budget",
       "type": "validated-by"
     },
     {
@@ -9690,6 +10651,21 @@
     {
       "from": "entrypoint:cmd/codinho/main.go",
       "to": "validation-result:./go/stdout-purity",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/stdout-purity",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/stdout-purity",
+      "type": "validated-by"
+    },
+    {
+      "from": "entrypoint:cmd/codinho/main.go",
+      "to": "validation-result:./go/tutor-skill-routing",
       "type": "validated-by"
     },
     {
@@ -12539,12 +13515,57 @@
     },
     {
       "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:.pose/adr/2026-09-08-native-ci-evidence-and-prospective-delivery-governance.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:.pose/changelogs/unreleased/v1-delivery-ci-assurance.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:.pose/contracts/historical-renames.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:.pose/contracts/mcp-stdio.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:.pose/contributions/20260908-review-profile-evidence-classes.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:.pose/contributions/20260908-root-module-metadata-normalization.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:.pose/docs.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
       "to": "artifact:.pose/indexes/module-metadata.json",
       "type": "declares"
     },
     {
       "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:.pose/indexes/repo-map.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
       "to": "artifact:.pose/indexes/validation-matrix.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:.pose/knowledge/2026-09-08-decision-log-adr-ci-assurance-review.md",
       "type": "declares"
     },
     {
@@ -12564,6 +13585,11 @@
     },
     {
       "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:.pose/review-profiles/spec-closeout.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
       "to": "artifact:.pose/roadmaps/codinho-v1.md",
       "type": "declares"
     },
@@ -12574,12 +13600,47 @@
     },
     {
       "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:README.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:cmd/ci-assurance/main.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:cmd/ci-assurance/main_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
       "to": "artifact:docs/acceptance/v1-release-readiness.md",
       "type": "declares"
     },
     {
       "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:docs/agent-review-workflow.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
       "to": "artifact:docs/compatibility.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:docs/configuration.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:docs/content-authoring.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:docs/content-review-checklist.md",
       "type": "declares"
     },
     {
@@ -12594,12 +13655,112 @@
     },
     {
       "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:docs/security/executor-limitations.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:docs/security/privacy.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:docs/security/threat-model.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:docs/troubleshooting.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:internal/checks/editorial.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:internal/checks/editorial_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:internal/ciassurance/evidence.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:internal/ciassurance/evidence_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:internal/ciassurance/workflows_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:internal/mcpserver/governance_contract_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:packs/go-core.yaml",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:packs/go-data-text.yaml",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:packs/go-errors.yaml",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:packs/go-first-steps.yaml",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:packs/go-type-design.yaml",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:scripts/ci/build-release.sh",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:scripts/ci/check-format.sh",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:scripts/ci/install-tools.sh",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:scripts/ci/tools.env",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
+      "to": "artifact:scripts/ci/validate.sh",
+      "type": "declares"
+    },
+    {
+      "from": "spec:v1-delivery-ci-assurance",
       "to": "delivery:governance:v1-delivery-ci",
       "type": "delivers"
     },
     {
       "from": "spec:v1-delivery-ci-assurance",
-      "to": "change-set:cs-fe99ef6d8381",
+      "to": "change-set:cs-a5803ed3406c",
       "type": "observed-by"
     },
     {
@@ -15267,7 +16428,102 @@
     {
       "spec": "v1-delivery-ci-assurance",
       "action": "created",
+      "path": ".pose/adr/2026-09-08-native-ci-evidence-and-prospective-delivery-governance.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
+      "path": ".pose/changelogs/unreleased/v1-delivery-ci-assurance.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
+      "path": ".pose/contracts/historical-renames.json"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
+      "path": ".pose/contracts/mcp-stdio.json"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
+      "path": ".pose/contributions/20260908-review-profile-evidence-classes.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
+      "path": ".pose/contributions/20260908-root-module-metadata-normalization.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
+      "path": ".pose/docs.json"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
+      "path": ".pose/knowledge/2026-09-08-decision-log-adr-ci-assurance-review.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
+      "path": "cmd/ci-assurance/main.go"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
+      "path": "cmd/ci-assurance/main_test.go"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
       "path": "docs/acceptance/v1-release-readiness.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
+      "path": "internal/ciassurance/evidence.go"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
+      "path": "internal/ciassurance/evidence_test.go"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
+      "path": "internal/ciassurance/workflows_test.go"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
+      "path": "internal/mcpserver/governance_contract_test.go"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
+      "path": "scripts/ci/build-release.sh"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
+      "path": "scripts/ci/check-format.sh"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
+      "path": "scripts/ci/install-tools.sh"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
+      "path": "scripts/ci/tools.env"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "created",
+      "path": "scripts/ci/validate.sh"
     },
     {
       "spec": "v1-delivery-ci-assurance",
@@ -15283,6 +16539,11 @@
       "spec": "v1-delivery-ci-assurance",
       "action": "modified",
       "path": ".pose/indexes/module-metadata.json"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": ".pose/indexes/repo-map.json"
     },
     {
       "spec": "v1-delivery-ci-assurance",
@@ -15307,6 +16568,11 @@
     {
       "spec": "v1-delivery-ci-assurance",
       "action": "modified",
+      "path": ".pose/review-profiles/spec-closeout.json"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
       "path": ".pose/roadmaps/codinho-v1.md"
     },
     {
@@ -15317,7 +16583,32 @@
     {
       "spec": "v1-delivery-ci-assurance",
       "action": "modified",
+      "path": "README.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": "docs/agent-review-workflow.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
       "path": "docs/compatibility.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": "docs/configuration.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": "docs/content-authoring.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": "docs/content-review-checklist.md"
     },
     {
       "spec": "v1-delivery-ci-assurance",
@@ -15328,6 +16619,61 @@
       "spec": "v1-delivery-ci-assurance",
       "action": "modified",
       "path": "docs/quickstart.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": "docs/security/executor-limitations.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": "docs/security/privacy.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": "docs/security/threat-model.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": "docs/troubleshooting.md"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": "internal/checks/editorial.go"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": "internal/checks/editorial_test.go"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": "packs/go-core.yaml"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": "packs/go-data-text.yaml"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": "packs/go-errors.yaml"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": "packs/go-first-steps.yaml"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "action": "modified",
+      "path": "packs/go-type-design.yaml"
     },
     {
       "spec": "v1-integrated-acceptance",
@@ -18321,6 +19667,388 @@
       "diff_digest": "sha256:ce252850ea4ac95984e648df0351f7c1ebe4ba4cdeaf96ec862c963a57139b90"
     },
     {
+      "id": "cs-a5803ed3406c",
+      "spec": "v1-delivery-ci-assurance",
+      "selector": "trailers:v1-delivery-ci-assurance",
+      "base": "99978b852bdfe571536187d5c44356a56b8a5cdf^",
+      "head": "e737078ade6f8039dffd708f91062350763f275f",
+      "resolved_base": "d7587442bc9f2f5ba0fd751a3586b35006a41803",
+      "resolved_head": "e737078ade6f8039dffd708f91062350763f275f",
+      "commits": [
+        "99978b852bdfe571536187d5c44356a56b8a5cdf",
+        "dbd848e927ff636e65c2a38220f029e29a07057b",
+        "649725999449ebbdb77dea0a7880fb60fe471f54",
+        "3644837537fb46b49ac0539beaa93b9ddc924c08",
+        "e372a0cea0cf6f684130bc564e05ec70e66923e5",
+        "b9b886895023ffa4e831962c5620269c2b84dcdd",
+        "9a4a858fc4a3a3911bc525f09b151d3ab6b50ca8",
+        "e737078ade6f8039dffd708f91062350763f275f"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": ".pose/adr/2026-09-08-native-ci-evidence-and-prospective-delivery-governance.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/assessments/technical-debt.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/changelogs/unreleased/v1-delivery-ci-assurance.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/contracts/historical-renames.json"
+        },
+        {
+          "action": "created",
+          "path": ".pose/contracts/mcp-stdio.json"
+        },
+        {
+          "action": "created",
+          "path": ".pose/contributions/20260907-004842-detectar-contratos-mcp-go-e-distinguir-i.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/contributions/20260908-review-profile-evidence-classes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/contributions/20260908-root-module-metadata-normalization.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/docs.json"
+        },
+        {
+          "action": "created",
+          "path": ".pose/knowledge/2026-09-07-handoff-planning-audit-2026-09.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/knowledge/2026-09-08-decision-log-adr-ci-assurance-review.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-07-doc-audit-auditoria-do-planejamento-v1.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-08-standard-v1-delivery-ci-review.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/history/doc-audit-auditoria-do-planejamento-v1.jsonl"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/history/standard-v1-delivery-ci-review.jsonl"
+        },
+        {
+          "action": "created",
+          "path": ".pose/results/planning-audit-validation.json"
+        },
+        {
+          "action": "created",
+          "path": ".pose/specs/2026-09-07-catalog-publication-integrity.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/specs/2026-09-07-concept-content-authoring.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/specs/2026-09-07-session-recovery-version-pinning.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/specs/2026-09-07-session-tree-progression.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/specs/2026-09-07-v1-delivery-ci-assurance.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/state/technical-debt.json"
+        },
+        {
+          "action": "created",
+          "path": "cmd/ci-assurance/main.go"
+        },
+        {
+          "action": "created",
+          "path": "cmd/ci-assurance/main_test.go"
+        },
+        {
+          "action": "created",
+          "path": "docs/acceptance/v1-release-readiness.md"
+        },
+        {
+          "action": "created",
+          "path": "internal/ciassurance/evidence.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/ciassurance/evidence_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/ciassurance/workflows_test.go"
+        },
+        {
+          "action": "created",
+          "path": "internal/mcpserver/governance_contract_test.go"
+        },
+        {
+          "action": "created",
+          "path": "scripts/ci/build-release.sh"
+        },
+        {
+          "action": "created",
+          "path": "scripts/ci/check-format.sh"
+        },
+        {
+          "action": "created",
+          "path": "scripts/ci/install-tools.sh"
+        },
+        {
+          "action": "created",
+          "path": "scripts/ci/tools.env"
+        },
+        {
+          "action": "created",
+          "path": "scripts/ci/validate.sh"
+        },
+        {
+          "action": "modified",
+          "path": ".github/workflows/ci.yml"
+        },
+        {
+          "action": "modified",
+          "path": ".github/workflows/release.yml"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/README.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/consolidated.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/integrations.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/root.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/delivery-integrity.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/module-metadata.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/packages.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/releases.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/repo-map.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/roadmaps.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/spec-graph.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/validation-matrix.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/policy/artifacts.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/policy/delivery.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/policy/docs.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/review-profiles/spec-closeout.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/roadmaps/codinho-v1.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-assistance-hints-detours.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-go-backend-packs.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-go-foundations-packs.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-go-interviews-pack.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-go-production-architecture-packs.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-installation-documentation-ci.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-learning-practice-debug-modes.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-reliability-observability-compatibility.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-security-privacy-hardening.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-v1-integrated-acceptance.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-24-agent-authored-catalog-drafts.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-24-learning-track-composition.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/root.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/history.jsonl"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/integrations.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/project-state.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/refresh-log.jsonl"
+        },
+        {
+          "action": "modified",
+          "path": "Makefile"
+        },
+        {
+          "action": "modified",
+          "path": "README.md"
+        },
+        {
+          "action": "modified",
+          "path": "docs/agent-review-workflow.md"
+        },
+        {
+          "action": "modified",
+          "path": "docs/compatibility.md"
+        },
+        {
+          "action": "modified",
+          "path": "docs/configuration.md"
+        },
+        {
+          "action": "modified",
+          "path": "docs/content-authoring.md"
+        },
+        {
+          "action": "modified",
+          "path": "docs/content-review-checklist.md"
+        },
+        {
+          "action": "modified",
+          "path": "docs/install.md"
+        },
+        {
+          "action": "modified",
+          "path": "docs/quickstart.md"
+        },
+        {
+          "action": "modified",
+          "path": "docs/security/executor-limitations.md"
+        },
+        {
+          "action": "modified",
+          "path": "docs/security/privacy.md"
+        },
+        {
+          "action": "modified",
+          "path": "docs/security/threat-model.md"
+        },
+        {
+          "action": "modified",
+          "path": "docs/troubleshooting.md"
+        },
+        {
+          "action": "modified",
+          "path": "internal/checks/editorial.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/checks/editorial_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-core.yaml"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-data-text.yaml"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-errors.yaml"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-first-steps.yaml"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-type-design.yaml"
+        }
+      ],
+      "diff_digest": "sha256:a54b3ee80a56a1b97beb8e45afdfb928a4e0a9ad8564bce970d64a09a3594681"
+    },
+    {
       "id": "cs-ace3ca5ace4e",
       "spec": "assistance-hints-detours",
       "selector": "trailers:assistance-hints-detours",
@@ -18932,181 +20660,6 @@
         }
       ],
       "diff_digest": "sha256:c63e1cb523c1512ca6ea4e759206b813a615e4facb5e9f67b2cdeeec835d1a9a"
-    },
-    {
-      "id": "cs-fe99ef6d8381",
-      "spec": "v1-delivery-ci-assurance",
-      "selector": "trailers:v1-delivery-ci-assurance",
-      "base": "99978b852bdfe571536187d5c44356a56b8a5cdf^",
-      "head": "99978b852bdfe571536187d5c44356a56b8a5cdf",
-      "resolved_base": "d7587442bc9f2f5ba0fd751a3586b35006a41803",
-      "resolved_head": "99978b852bdfe571536187d5c44356a56b8a5cdf",
-      "commits": [
-        "99978b852bdfe571536187d5c44356a56b8a5cdf"
-      ],
-      "paths": [
-        {
-          "action": "created",
-          "path": ".pose/assessments/technical-debt.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/contributions/20260907-004842-detectar-contratos-mcp-go-e-distinguir-i.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/knowledge/2026-09-07-handoff-planning-audit-2026-09.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-07-doc-audit-auditoria-do-planejamento-v1.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/history/doc-audit-auditoria-do-planejamento-v1.jsonl"
-        },
-        {
-          "action": "created",
-          "path": ".pose/results/planning-audit-validation.json"
-        },
-        {
-          "action": "created",
-          "path": ".pose/specs/2026-09-07-catalog-publication-integrity.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/specs/2026-09-07-concept-content-authoring.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/specs/2026-09-07-session-recovery-version-pinning.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/specs/2026-09-07-session-tree-progression.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/specs/2026-09-07-v1-delivery-ci-assurance.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/state/technical-debt.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/README.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/consolidated.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/integrations.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/root.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/indexes/delivery-integrity.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/indexes/packages.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/indexes/releases.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/indexes/repo-map.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/indexes/roadmaps.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/indexes/spec-graph.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/roadmaps/codinho-v1.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-assistance-hints-detours.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-go-backend-packs.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-go-foundations-packs.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-go-interviews-pack.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-go-production-architecture-packs.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-installation-documentation-ci.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-learning-practice-debug-modes.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-reliability-observability-compatibility.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-security-privacy-hardening.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-v1-integrated-acceptance.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-24-agent-authored-catalog-drafts.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-24-learning-track-composition.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/root.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/history.jsonl"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/integrations.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/project-state.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/refresh-log.jsonl"
-        }
-      ],
-      "diff_digest": "sha256:dc873e8aa4b69543d25a023e856013d054cdec0201c85bfec9844312b170c280"
     }
   ],
   "reverse": {
@@ -19177,6 +20730,9 @@
     ".pose/adr/2026-09-07-scoped-evaluation-evidence-and-qualitative-registration.md": [
       "evaluation-evidence-lineage"
     ],
+    ".pose/adr/2026-09-08-native-ci-evidence-and-prospective-delivery-governance.md": [
+      "v1-delivery-ci-assurance"
+    ],
     ".pose/adr/2026-09-08-publication-projections-and-executable-editorial-proof.md": [
       "catalog-publication-integrity"
     ],
@@ -19192,8 +20748,29 @@
     ".pose/changelogs/unreleased/session-tree-progression.md": [
       "session-tree-progression"
     ],
+    ".pose/changelogs/unreleased/v1-delivery-ci-assurance.md": [
+      "v1-delivery-ci-assurance"
+    ],
+    ".pose/contracts/historical-renames.json": [
+      "v1-delivery-ci-assurance"
+    ],
+    ".pose/contracts/mcp-stdio.json": [
+      "v1-delivery-ci-assurance"
+    ],
+    ".pose/contributions/20260908-review-profile-evidence-classes.md": [
+      "v1-delivery-ci-assurance"
+    ],
+    ".pose/contributions/20260908-root-module-metadata-normalization.md": [
+      "v1-delivery-ci-assurance"
+    ],
+    ".pose/docs.json": [
+      "v1-delivery-ci-assurance"
+    ],
     ".pose/indexes/module-metadata.json": [
       "go-runtime-foundation",
+      "v1-delivery-ci-assurance"
+    ],
+    ".pose/indexes/repo-map.json": [
       "v1-delivery-ci-assurance"
     ],
     ".pose/indexes/validation-matrix.json": [
@@ -19220,6 +20797,9 @@
     ".pose/knowledge/2026-09-07-decision-log-adr-session-cursor-review.md": [
       "session-tree-progression"
     ],
+    ".pose/knowledge/2026-09-08-decision-log-adr-ci-assurance-review.md": [
+      "v1-delivery-ci-assurance"
+    ],
     ".pose/knowledge/2026-09-08-decision-log-adr-publication-review.md": [
       "catalog-publication-integrity"
     ],
@@ -19230,6 +20810,9 @@
       "v1-delivery-ci-assurance"
     ],
     ".pose/policy/docs.json": [
+      "v1-delivery-ci-assurance"
+    ],
+    ".pose/review-profiles/spec-closeout.json": [
       "v1-delivery-ci-assurance"
     ],
     ".pose/roadmaps/codinho-v1.md": [
@@ -19247,7 +20830,14 @@
       "v1-delivery-ci-assurance"
     ],
     "README.md": [
-      "installation-documentation-ci"
+      "installation-documentation-ci",
+      "v1-delivery-ci-assurance"
+    ],
+    "cmd/ci-assurance/main.go": [
+      "v1-delivery-ci-assurance"
+    ],
+    "cmd/ci-assurance/main_test.go": [
+      "v1-delivery-ci-assurance"
     ],
     "cmd/codinho/cli_integration_test.go": [
       "administrative-cli-fixtures",
@@ -19301,6 +20891,9 @@
     "docs/acceptance/v1-requirement-matrix.md": [
       "v1-integrated-acceptance"
     ],
+    "docs/agent-review-workflow.md": [
+      "v1-delivery-ci-assurance"
+    ],
     "docs/catalog/go-backend.md": [
       "go-backend-packs"
     ],
@@ -19326,16 +20919,19 @@
       "v1-delivery-ci-assurance"
     ],
     "docs/configuration.md": [
-      "installation-documentation-ci"
+      "installation-documentation-ci",
+      "v1-delivery-ci-assurance"
     ],
     "docs/content-authoring.md": [
       "catalog-authoring-quality",
       "catalog-publication-integrity",
       "concept-content-authoring",
-      "session-tree-progression"
+      "session-tree-progression",
+      "v1-delivery-ci-assurance"
     ],
     "docs/content-review-checklist.md": [
-      "catalog-authoring-quality"
+      "catalog-authoring-quality",
+      "v1-delivery-ci-assurance"
     ],
     "docs/install.md": [
       "installation-documentation-ci",
@@ -19346,17 +20942,21 @@
       "v1-delivery-ci-assurance"
     ],
     "docs/security/executor-limitations.md": [
-      "security-privacy-hardening"
+      "security-privacy-hardening",
+      "v1-delivery-ci-assurance"
     ],
     "docs/security/privacy.md": [
-      "security-privacy-hardening"
+      "security-privacy-hardening",
+      "v1-delivery-ci-assurance"
     ],
     "docs/security/threat-model.md": [
-      "security-privacy-hardening"
+      "security-privacy-hardening",
+      "v1-delivery-ci-assurance"
     ],
     "docs/troubleshooting.md": [
       "installation-documentation-ci",
-      "reliability-observability-compatibility"
+      "reliability-observability-compatibility",
+      "v1-delivery-ci-assurance"
     ],
     "go.mod": [
       "catalog-publication-integrity",
@@ -19477,10 +21077,12 @@
       "concept-content-authoring"
     ],
     "internal/checks/editorial.go": [
-      "catalog-publication-integrity"
+      "catalog-publication-integrity",
+      "v1-delivery-ci-assurance"
     ],
     "internal/checks/editorial_test.go": [
-      "catalog-publication-integrity"
+      "catalog-publication-integrity",
+      "v1-delivery-ci-assurance"
     ],
     "internal/checks/executor.go": [
       "catalog-publication-integrity",
@@ -19513,6 +21115,15 @@
     "internal/checks/security_test.go": [
       "safe-check-executor",
       "security-privacy-hardening"
+    ],
+    "internal/ciassurance/evidence.go": [
+      "v1-delivery-ci-assurance"
+    ],
+    "internal/ciassurance/evidence_test.go": [
+      "v1-delivery-ci-assurance"
+    ],
+    "internal/ciassurance/workflows_test.go": [
+      "v1-delivery-ci-assurance"
     ],
     "internal/cli/catalog.go": [
       "administrative-cli-fixtures",
@@ -19912,6 +21523,9 @@
       "session-tree-progression",
       "workspace-observation-baselines"
     ],
+    "internal/mcpserver/governance_contract_test.go": [
+      "v1-delivery-ci-assurance"
+    ],
     "internal/mcpserver/instructions.go": [
       "evaluation-evidence-lineage",
       "mcp-stdio-foundation"
@@ -20116,10 +21730,12 @@
       "go-backend-packs"
     ],
     "packs/go-core.yaml": [
-      "go-foundations-packs"
+      "go-foundations-packs",
+      "v1-delivery-ci-assurance"
     ],
     "packs/go-data-text.yaml": [
-      "go-foundations-packs"
+      "go-foundations-packs",
+      "v1-delivery-ci-assurance"
     ],
     "packs/go-database.yaml": [
       "go-backend-packs"
@@ -20128,11 +21744,13 @@
       "learning-practice-debug-modes"
     ],
     "packs/go-errors.yaml": [
-      "go-foundations-packs"
+      "go-foundations-packs",
+      "v1-delivery-ci-assurance"
     ],
     "packs/go-first-steps.yaml": [
       "catalog-schema-loader",
-      "go-foundations-packs"
+      "go-foundations-packs",
+      "v1-delivery-ci-assurance"
     ],
     "packs/go-http.yaml": [
       "go-backend-packs"
@@ -20150,7 +21768,8 @@
       "go-foundations-packs"
     ],
     "packs/go-type-design.yaml": [
-      "go-foundations-packs"
+      "go-foundations-packs",
+      "v1-delivery-ci-assurance"
     ],
     "packs/manifest.yaml": [
       "catalog-schema-loader",
@@ -20180,6 +21799,21 @@
     "schemas/pack.schema.json": [
       "catalog-publication-integrity",
       "catalog-schema-loader"
+    ],
+    "scripts/ci/build-release.sh": [
+      "v1-delivery-ci-assurance"
+    ],
+    "scripts/ci/check-format.sh": [
+      "v1-delivery-ci-assurance"
+    ],
+    "scripts/ci/install-tools.sh": [
+      "v1-delivery-ci-assurance"
+    ],
+    "scripts/ci/tools.env": [
+      "v1-delivery-ci-assurance"
+    ],
+    "scripts/ci/validate.sh": [
+      "v1-delivery-ci-assurance"
     ],
     "scripts/smoke-install.sh": [
       "installation-documentation-ci"
@@ -20253,6 +21887,16 @@
   },
   "findings": [
     {
+      "id": "dif-00de76ce7ea7",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "learning-practice-debug-modes",
+      "path": "internal/mcpserver/session_tools.go",
+      "change_set": "cs-456b1492238d",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
       "id": "dif-00e49310e8e8",
       "code": "existence",
       "severity": "error",
@@ -20260,15 +21904,6 @@
       "path": "packs/go-testing.yaml",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-02209cff65ad",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "v1-delivery-ci-assurance",
-      "path": ".github/workflows/release.yml",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "correct the action or record the exact attributed revisions"
     },
     {
       "id": "dif-04804efdc00f",
@@ -20307,6 +21942,16 @@
       "remediation": "correct the action or record the exact attributed revisions"
     },
     {
+      "id": "dif-08f785624e53",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "curriculum-graph-path-recommendation",
+      "path": "internal/mcpserver/catalog_tools.go",
+      "change_set": "cs-8589c5c09edb",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
       "id": "dif-095de7d2d333",
       "code": "action-mismatch",
       "severity": "error",
@@ -20314,6 +21959,36 @@
       "path": "internal/mcpserver/recommendation_contract_test.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-0a457b943361",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "workspace-observation-baselines",
+      "path": "internal/mcpserver/workspace_tools.go",
+      "change_set": "cs-4d3f63ca699e",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-1076790dd918",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "session-orchestration-disclosure",
+      "path": "internal/mcpserver/server_test.go",
+      "change_set": "cs-4dcb2c920c9c",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-1102339bfa26",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "assistance-hints-detours",
+      "path": "internal/mcpserver/assistance_tools.go",
+      "change_set": "cs-ace3ca5ace4e",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-113524b1178d",
@@ -20361,6 +22036,14 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
+      "id": "dif-19d40ba6f6f2",
+      "code": "orphan",
+      "severity": "warning",
+      "path": "scripts/agent-review.sh",
+      "message": "governed tracked path has no spec provenance claim",
+      "remediation": "backfill an explicit claim or add an exact reviewed exclusion"
+    },
+    {
       "id": "dif-1be10b05ee2e",
       "code": "action-mismatch",
       "severity": "error",
@@ -20379,13 +22062,14 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-1d1eaef047fe",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "v1-delivery-ci-assurance",
-      "path": ".pose/policy/delivery.json",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "correct the action or record the exact attributed revisions"
+      "id": "dif-1d3e59b3816e",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "reliability-observability-compatibility",
+      "path": "internal/mcpserver/logging.go",
+      "change_set": "cs-cd2ac178ff4e",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-1d9829439284",
@@ -20404,6 +22088,16 @@
       "path": "internal/mcpserver/content_draft_contract_test.go",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-1f583e1ab1ad",
+      "code": "undeclared",
+      "severity": "error",
+      "spec": "mcp-stdio-foundation",
+      "path": "cmd/ailearn/main.go",
+      "change_set": "cs-40725deda987",
+      "message": "Git observed a governed path not declared by the spec",
+      "remediation": "declare the exact action or narrow the attributed change set"
     },
     {
       "id": "dif-20187288f82a",
@@ -20451,13 +22145,14 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-2363ce660767",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "v1-delivery-ci-assurance",
-      "path": ".pose/indexes/module-metadata.json",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "correct the action or record the exact attributed revisions"
+      "id": "dif-24811b3539c6",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "safe-check-executor",
+      "path": "internal/mcpserver/assessment_contract_test.go",
+      "change_set": "cs-5bccc7e9e711",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-25869805728c",
@@ -20478,20 +22173,21 @@
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-25e92726c24b",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "safe-check-executor",
+      "path": "internal/mcpserver/contract_test.go",
+      "change_set": "cs-5bccc7e9e711",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
       "id": "dif-27428f552664",
       "code": "action-mismatch",
       "severity": "error",
       "spec": "go-foundations-packs",
       "path": "packs/go-io.yaml",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "correct the action or record the exact attributed revisions"
-    },
-    {
-      "id": "dif-27a8538fb3d4",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "v1-delivery-ci-assurance",
-      "path": "docs/acceptance/v1-release-readiness.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "correct the action or record the exact attributed revisions"
     },
@@ -20505,15 +22201,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-2b018222876f",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "v1-delivery-ci-assurance",
-      "path": ".pose/policy/docs.json",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "correct the action or record the exact attributed revisions"
-    },
-    {
       "id": "dif-2bf7d79b5aeb",
       "code": "action-mismatch",
       "severity": "error",
@@ -20521,6 +22208,16 @@
       "path": "docs/acceptance/v1-requirement-matrix.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-2c7963794bb8",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "curriculum-graph-path-recommendation",
+      "path": "internal/mcpserver/errors.go",
+      "change_set": "cs-8589c5c09edb",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-2fbbda6142e2",
@@ -20532,6 +22229,16 @@
       "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-30b43e24286f",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "workspace-observation-baselines",
+      "path": "internal/mcpserver/contract_test.go",
+      "change_set": "cs-4d3f63ca699e",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
       "id": "dif-30c1f3f81089",
       "code": "action-mismatch",
       "severity": "error",
@@ -20539,6 +22246,46 @@
       "path": "internal/curriculum/model.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec concept-content-authoring (ensure commits carry 'POSE-Spec: concept-content-authoring' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-315a29a637eb",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "safe-check-executor",
+      "path": "internal/mcpserver/assistance_contract_test.go",
+      "change_set": "cs-5bccc7e9e711",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-3321f9df58a8",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "curriculum-graph-path-recommendation",
+      "path": "internal/mcpserver/recommendation_contract_test.go",
+      "change_set": "cs-8589c5c09edb",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-336d738d4e15",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "interview-mode",
+      "path": "internal/mcpserver/session_tools.go",
+      "change_set": "cs-7525cc2429b5",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-33814fdf4bea",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "interview-mode",
+      "path": "internal/mcpserver/assistance_tools.go",
+      "change_set": "cs-7525cc2429b5",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-345b45011a1a",
@@ -20550,6 +22297,16 @@
       "remediation": "no Git change sets are attributed to spec agent-authored-catalog-drafts (ensure commits carry 'POSE-Spec: agent-authored-catalog-drafts' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-345f84be6047",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "mastery-review-scheduling",
+      "path": "internal/mcpserver/progress_tools.go",
+      "change_set": "cs-987ed739adc0",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
       "id": "dif-34a9401648f7",
       "code": "action-mismatch",
       "severity": "error",
@@ -20557,6 +22314,46 @@
       "path": "packs/go-concurrency-context.yaml",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-35bdcb64a222",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "mastery-review-scheduling",
+      "path": "cmd/codinho/main.go",
+      "change_set": "cs-987ed739adc0",
+      "message": "changed delivery root cmd/codinho has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-35cd9f9fd498",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "mastery-review-scheduling",
+      "path": "internal/mcpserver/progress_contract_test.go",
+      "change_set": "cs-987ed739adc0",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-37fe1c3f2841",
+      "code": "undeclared",
+      "severity": "error",
+      "spec": "go-foundations-packs",
+      "path": "docs/agent-review-workflow.md",
+      "change_set": "cs-9a9e6414dc45",
+      "message": "Git observed a governed path not declared by the spec",
+      "remediation": "declare the exact action or narrow the attributed change set"
+    },
+    {
+      "id": "dif-38019362c20b",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "reliability-observability-compatibility",
+      "path": "cmd/codinho/reliability_test.go",
+      "change_set": "cs-cd2ac178ff4e",
+      "message": "changed delivery root cmd/codinho has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-3cea106c54b8",
@@ -20568,14 +22365,14 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-3d4f4b637547",
-      "code": "stale-evidence",
-      "severity": "error",
-      "spec": "concept-content-authoring",
-      "path": "capability:canonical-concept-content",
-      "change_set": "./go/catalog-publication-integrity",
-      "message": "passed integration evidence is bound to a different scoped provenance digest",
-      "remediation": "rerun the registered validation check for this delivery scope"
+      "id": "dif-3e4f0ac08b1d",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "assistance-hints-detours",
+      "path": "internal/mcpserver/contract_test.go",
+      "change_set": "cs-ace3ca5ace4e",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-3ff365eabaca",
@@ -20587,13 +22384,14 @@
       "remediation": "correct the action or record the exact attributed revisions"
     },
     {
-      "id": "dif-40e34c73b0ff",
-      "code": "unconsumed-capability",
-      "severity": "error",
-      "spec": "concept-content-authoring",
-      "path": "capability:canonical-concept-content",
-      "message": "required current evidence is missing: integration",
-      "remediation": "run registered checks with the required evidenceClass against the current provenance digest"
+      "id": "dif-420633b42ea7",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "assistance-hints-detours",
+      "path": "internal/mcpserver/server.go",
+      "change_set": "cs-ace3ca5ace4e",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-424923f8beb5",
@@ -20621,6 +22419,16 @@
       "path": "packs/go-data-text.yaml",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "correct the action or record the exact attributed revisions"
+    },
+    {
+      "id": "dif-43d44a8d217b",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "safe-check-executor",
+      "path": "internal/mcpserver/errors.go",
+      "change_set": "cs-5bccc7e9e711",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-4556e8876700",
@@ -20657,6 +22465,16 @@
       "path": "internal/application/recommendation.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-4be470081a87",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "session-orchestration-disclosure",
+      "path": "internal/mcpserver/errors.go",
+      "change_set": "cs-4dcb2c920c9c",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-506d9516a1ea",
@@ -20713,6 +22531,26 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
+      "id": "dif-56e13ed1d3f5",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "safe-check-executor",
+      "path": "internal/mcpserver/check_contract_test.go",
+      "change_set": "cs-5bccc7e9e711",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-5ad67e54b4bd",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "safe-check-executor",
+      "path": "internal/mcpserver/server.go",
+      "change_set": "cs-5bccc7e9e711",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
       "id": "dif-5c016bcd9451",
       "code": "action-mismatch",
       "severity": "error",
@@ -20758,6 +22596,76 @@
       "remediation": "no Git change sets are attributed to spec agent-authored-catalog-drafts (ensure commits carry 'POSE-Spec: agent-authored-catalog-drafts' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-6370dac46224",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "learning-practice-debug-modes",
+      "path": "internal/mcpserver/errors.go",
+      "change_set": "cs-456b1492238d",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-63975be95f9c",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "mastery-review-scheduling",
+      "path": "internal/mcpserver/envelope.go",
+      "change_set": "cs-987ed739adc0",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-64fb3b5f9525",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "assistance-hints-detours",
+      "path": "internal/mcpserver/session_contract_test.go",
+      "change_set": "cs-ace3ca5ace4e",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-653269eefbb6",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "workspace-observation-baselines",
+      "path": "internal/mcpserver/server.go",
+      "change_set": "cs-4d3f63ca699e",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-658ca5ecedf5",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "feedback-evaluation-progression",
+      "path": "internal/mcpserver/envelope.go",
+      "change_set": "cs-0d0cb05af47c",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-6774d09f3c2c",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "session-orchestration-disclosure",
+      "path": "internal/mcpserver/contract_test.go",
+      "change_set": "cs-4dcb2c920c9c",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-6bd021919707",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "session-orchestration-disclosure",
+      "path": "internal/mcpserver/session_tools.go",
+      "change_set": "cs-4dcb2c920c9c",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
       "id": "dif-6de0e4aaef00",
       "code": "action-mismatch",
       "severity": "error",
@@ -20765,6 +22673,26 @@
       "path": "docs/catalog/go-interviews.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec go-interviews-pack (ensure commits carry 'POSE-Spec: go-interviews-pack' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-6f2aff1a5a98",
+      "code": "undeclared",
+      "severity": "error",
+      "spec": "go-foundations-packs",
+      "path": "docs/content-review-checklist.md",
+      "change_set": "cs-9a9e6414dc45",
+      "message": "Git observed a governed path not declared by the spec",
+      "remediation": "declare the exact action or narrow the attributed change set"
+    },
+    {
+      "id": "dif-7383c228afaf",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "workspace-observation-baselines",
+      "path": "cmd/codinho/main.go",
+      "change_set": "cs-4d3f63ca699e",
+      "message": "changed delivery root cmd/codinho has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-73deef78ad99",
@@ -20785,13 +22713,14 @@
       "remediation": "no Git change sets are attributed to spec agent-authored-catalog-drafts (ensure commits carry 'POSE-Spec: agent-authored-catalog-drafts' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-77a47c1131a8",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "v1-delivery-ci-assurance",
-      "path": ".github/workflows/ci.yml",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "correct the action or record the exact attributed revisions"
+      "id": "dif-75fa921cf30b",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "learning-practice-debug-modes",
+      "path": "internal/mcpserver/session_contract_test.go",
+      "change_set": "cs-456b1492238d",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-786555fa9a90",
@@ -20830,6 +22759,26 @@
       "remediation": "correct the action or record the exact attributed revisions"
     },
     {
+      "id": "dif-7f2a629aae45",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "feedback-evaluation-progression",
+      "path": "internal/mcpserver/assessment_contract_test.go",
+      "change_set": "cs-0d0cb05af47c",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-7fb291c2c8b2",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "learning-practice-debug-modes",
+      "path": "cmd/codinho/cli_integration_test.go",
+      "change_set": "cs-456b1492238d",
+      "message": "changed delivery root cmd/codinho has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
       "id": "dif-81ba0f74659f",
       "code": "action-mismatch",
       "severity": "error",
@@ -20857,6 +22806,16 @@
       "remediation": "no Git change sets are attributed to spec concept-content-authoring (ensure commits carry 'POSE-Spec: concept-content-authoring' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-8558719fdb38",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "interview-mode",
+      "path": "internal/mcpserver/session_contract_test.go",
+      "change_set": "cs-7525cc2429b5",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
       "id": "dif-85a1054b811f",
       "code": "existence",
       "severity": "error",
@@ -20873,6 +22832,16 @@
       "path": "internal/application/progress.go",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec agent-authored-catalog-drafts (ensure commits carry 'POSE-Spec: agent-authored-catalog-drafts' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-87266e6fce9d",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "curriculum-graph-path-recommendation",
+      "path": "cmd/codinho/main.go",
+      "change_set": "cs-8589c5c09edb",
+      "message": "changed delivery root cmd/codinho has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-87b37376d4ab",
@@ -20956,6 +22925,16 @@
       "remediation": "no Git change sets are attributed to spec agent-authored-catalog-drafts (ensure commits carry 'POSE-Spec: agent-authored-catalog-drafts' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-9058ff6f9398",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "reliability-observability-compatibility",
+      "path": "internal/mcpserver/server.go",
+      "change_set": "cs-cd2ac178ff4e",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
       "id": "dif-93a52efbabfa",
       "code": "existence",
       "severity": "error",
@@ -20983,6 +22962,16 @@
       "remediation": "correct the action or record the exact attributed revisions"
     },
     {
+      "id": "dif-98247d369ed1",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "mastery-review-scheduling",
+      "path": "internal/mcpserver/contract_test.go",
+      "change_set": "cs-987ed739adc0",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
       "id": "dif-98f12ec263b6",
       "code": "action-mismatch",
       "severity": "error",
@@ -20992,22 +22981,24 @@
       "remediation": "no Git change sets are attributed to spec go-production-architecture-packs (ensure commits carry 'POSE-Spec: go-production-architecture-packs' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-9d13817e0652",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "v1-delivery-ci-assurance",
-      "path": "docs/compatibility.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "correct the action or record the exact attributed revisions"
+      "id": "dif-993aa136b353",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "safe-check-executor",
+      "path": "internal/mcpserver/check_tools.go",
+      "change_set": "cs-5bccc7e9e711",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
-      "id": "dif-a0e65682e8b4",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "v1-delivery-ci-assurance",
-      "path": ".pose/indexes/validation-matrix.json",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "correct the action or record the exact attributed revisions"
+      "id": "dif-998f105ac5ff",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "reliability-observability-compatibility",
+      "path": "internal/mcpserver/logging_test.go",
+      "change_set": "cs-cd2ac178ff4e",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-a351218dabec",
@@ -21037,13 +23028,34 @@
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-b23fd0189738",
-      "code": "existence",
-      "severity": "error",
-      "spec": "v1-integrated-acceptance",
-      "path": "docs/acceptance/v1-release-readiness.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
+      "id": "dif-aebd34e22d97",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "feedback-evaluation-progression",
+      "path": "internal/mcpserver/assessment_tools.go",
+      "change_set": "cs-0d0cb05af47c",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-b12623f13c54",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "curriculum-graph-path-recommendation",
+      "path": "internal/mcpserver/server.go",
+      "change_set": "cs-8589c5c09edb",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-b14b3b9417bf",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "assistance-hints-detours",
+      "path": "cmd/codinho/main.go",
+      "change_set": "cs-ace3ca5ace4e",
+      "message": "changed delivery root cmd/codinho has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-b61937d15c5f",
@@ -21100,13 +23112,44 @@
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-c1ce1e57eb89",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "v1-delivery-ci-assurance",
-      "path": ".pose/policy/artifacts.json",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "correct the action or record the exact attributed revisions"
+      "id": "dif-bb9fe84e00cc",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "safe-check-executor",
+      "path": "cmd/codinho/main.go",
+      "change_set": "cs-5bccc7e9e711",
+      "message": "changed delivery root cmd/codinho has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-bd3da1df2ee8",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "assistance-hints-detours",
+      "path": "internal/mcpserver/assistance_contract_test.go",
+      "change_set": "cs-ace3ca5ace4e",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-bd7d5c7ad586",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "assistance-hints-detours",
+      "path": "internal/mcpserver/errors.go",
+      "change_set": "cs-ace3ca5ace4e",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-bd898a0dc21e",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "feedback-evaluation-progression",
+      "path": "internal/mcpserver/server.go",
+      "change_set": "cs-0d0cb05af47c",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-c3eb68d6226b",
@@ -21116,15 +23159,6 @@
       "path": "docs/catalog/go-production-architecture.md",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec go-production-architecture-packs (ensure commits carry 'POSE-Spec: go-production-architecture-packs' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-c4600b2d8ac7",
-      "code": "existence",
-      "severity": "error",
-      "spec": "v1-delivery-ci-assurance",
-      "path": "docs/acceptance/v1-release-readiness.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-c4c3182343e5",
@@ -21145,6 +23179,16 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
+      "id": "dif-c79ae97a9343",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "workspace-observation-baselines",
+      "path": "internal/mcpserver/errors.go",
+      "change_set": "cs-4d3f63ca699e",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
       "id": "dif-c828772cbaf0",
       "code": "action-mismatch",
       "severity": "error",
@@ -21154,13 +23198,14 @@
       "remediation": "no Git change sets are attributed to spec concept-content-authoring (ensure commits carry 'POSE-Spec: concept-content-authoring' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-c8db471605ed",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "v1-delivery-ci-assurance",
-      "path": "Makefile",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "correct the action or record the exact attributed revisions"
+      "id": "dif-c844ae122e3e",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "security-privacy-hardening",
+      "path": "internal/mcpserver/check_contract_test.go",
+      "change_set": "cs-9e3441c5b776",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-cc5caa9f1634",
@@ -21170,6 +23215,16 @@
       "path": "packs/manifest.yaml",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec go-interviews-pack (ensure commits carry 'POSE-Spec: go-interviews-pack' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-ccbfbb680468",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "session-orchestration-disclosure",
+      "path": "internal/mcpserver/session_contract_test.go",
+      "change_set": "cs-4dcb2c920c9c",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-cfa689745438",
@@ -21190,13 +23245,24 @@
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-d48dd2ecf188",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "v1-delivery-ci-assurance",
-      "path": "docs/install.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "correct the action or record the exact attributed revisions"
+      "id": "dif-d259ca32e2f3",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "feedback-evaluation-progression",
+      "path": "internal/mcpserver/contract_test.go",
+      "change_set": "cs-0d0cb05af47c",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-d613749e0fb0",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "workspace-observation-baselines",
+      "path": "internal/mcpserver/workspace_contract_test.go",
+      "change_set": "cs-4d3f63ca699e",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-d64fcc4b106f",
@@ -21208,6 +23274,36 @@
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-d72c35813570",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "interview-mode",
+      "path": "internal/mcpserver/contract_test.go",
+      "change_set": "cs-7525cc2429b5",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-dad66a4e3e7c",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "catalog-authoring-quality",
+      "path": "cmd/codinho/cli_integration_test.go",
+      "change_set": "cs-935f795f88ee",
+      "message": "changed delivery root cmd/codinho has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-db28c8284225",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "security-privacy-hardening",
+      "path": "cmd/codinho/cli_integration_test.go",
+      "change_set": "cs-9e3441c5b776",
+      "message": "changed delivery root cmd/codinho has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
       "id": "dif-dbd9789545e4",
       "code": "existence",
       "severity": "error",
@@ -21215,6 +23311,26 @@
       "path": "docs/catalog/go-interviews.md",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-ddb5ee50c3a8",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "learning-practice-debug-modes",
+      "path": "internal/mcpserver/contract_test.go",
+      "change_set": "cs-456b1492238d",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-dea993c46b55",
+      "code": "undeclared",
+      "severity": "error",
+      "spec": "go-runtime-foundation",
+      "path": "cmd/ailearn/main.go",
+      "change_set": "cs-27f24a7c63e8",
+      "message": "Git observed a governed path not declared by the spec",
+      "remediation": "declare the exact action or narrow the attributed change set"
     },
     {
       "id": "dif-dfb1f5acecaa",
@@ -21253,6 +23369,16 @@
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-e5964654a9c2",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "curriculum-graph-path-recommendation",
+      "path": "internal/mcpserver/recommendation_tools.go",
+      "change_set": "cs-8589c5c09edb",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
       "id": "dif-e9b13b7b19cd",
       "code": "existence",
       "severity": "error",
@@ -21260,6 +23386,16 @@
       "path": "docs/catalog/interview-playtest-report.md",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
+    },
+    {
+      "id": "dif-ec71f60cbe7d",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "mastery-review-scheduling",
+      "path": "internal/mcpserver/errors.go",
+      "change_set": "cs-987ed739adc0",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-ed40cba4ae3d",
@@ -21289,6 +23425,26 @@
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
     },
     {
+      "id": "dif-f0d208ddde77",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "mastery-review-scheduling",
+      "path": "internal/mcpserver/server.go",
+      "change_set": "cs-987ed739adc0",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-f1177f232947",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "security-privacy-hardening",
+      "path": "internal/mcpserver/check_tools.go",
+      "change_set": "cs-9e3441c5b776",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
       "id": "dif-f2d565e96e5b",
       "code": "existence",
       "severity": "error",
@@ -21307,13 +23463,14 @@
       "remediation": "no Git change sets are attributed to spec concept-content-authoring (ensure commits carry 'POSE-Spec: concept-content-authoring' trailer or generate report with pose report)"
     },
     {
-      "id": "dif-f7b381e0ea88",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "v1-delivery-ci-assurance",
-      "path": "docs/quickstart.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "correct the action or record the exact attributed revisions"
+      "id": "dif-f9605a0b14cb",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "safe-check-executor",
+      "path": "internal/mcpserver/session_contract_test.go",
+      "change_set": "cs-5bccc7e9e711",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-f97759e5d10c",
@@ -21341,6 +23498,16 @@
       "path": "schemas/catalog.schema.json",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec learning-track-composition (ensure commits carry 'POSE-Spec: learning-track-composition' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-fe8938bed16f",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "curriculum-graph-path-recommendation",
+      "path": "internal/mcpserver/contract_test.go",
+      "change_set": "cs-8589c5c09edb",
+      "message": "changed delivery root internal/mcpserver has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     }
   ],
   "deliveries": [
@@ -21452,16 +23619,16 @@
       "evidence_class": "build",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
-      "generated_at": "2026-09-08T12:55:02Z",
-      "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+      "git_head": "e737078ade6f8039dffd708f91062350763f275f",
+      "generated_at": "2026-09-08T22:43:15Z",
+      "provenance_digest": "sha256:3508ce9a39580c00e2ae1ade419bcb56d0631bd80efb26597310bb0305451590",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
-        "catalog-publication-integrity": "sha256:aad9e2679bd78a2dd31f58b56a447e1e937f26e4f15a3ddc635d4ae72baa0b50",
+        "catalog-publication-integrity": "sha256:d83412f72039277bcf3b20c6176c545cdef6f836afa66e448447f0bc99bbcdef",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
@@ -21483,7 +23650,49 @@
         "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "session-tree-progression": "sha256:ac0488085f805dcd6ac4d4f3f45f98d94a6b228d09fb290bf4dec2f94e177555",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
-        "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
+        "v1-delivery-ci-assurance": "sha256:abf764a9515e682ec68d4da93ba329734acc19fe5a36f2cfff653facafa49434",
+        "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
+      }
+    },
+    {
+      "id": "./go/catalog",
+      "module": ".",
+      "check": "catalog",
+      "evidence_class": "integration",
+      "severity": "required",
+      "outcome": "pass",
+      "git_head": "e737078ade6f8039dffd708f91062350763f275f",
+      "generated_at": "2026-09-08T22:43:15Z",
+      "provenance_digest": "sha256:3508ce9a39580c00e2ae1ade419bcb56d0631bd80efb26597310bb0305451590",
+      "report": ".pose/results/delivery-validation.json",
+      "scope_provenance": {
+        "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
+        "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
+        "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
+        "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
+        "catalog-publication-integrity": "sha256:d83412f72039277bcf3b20c6176c545cdef6f836afa66e448447f0bc99bbcdef",
+        "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
+        "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+        "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
+        "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
+        "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
+        "go-foundations-packs": "sha256:6a88afb4b7f12ac93450e05b035eb3c941482da5f4028fc9960d7c1ae7bba9fa",
+        "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
+        "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
+        "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
+        "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
+        "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
+        "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
+        "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
+        "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
+        "reliability-observability-compatibility": "sha256:19c11511b2a732584f4787c35bcd3d39e3a0ba209b3588c42cbc8f187a5172e0",
+        "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
+        "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
+        "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
+        "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
+        "session-tree-progression": "sha256:ac0488085f805dcd6ac4d4f3f45f98d94a6b228d09fb290bf4dec2f94e177555",
+        "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
+        "v1-delivery-ci-assurance": "sha256:abf764a9515e682ec68d4da93ba329734acc19fe5a36f2cfff653facafa49434",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -21494,16 +23703,16 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
-      "generated_at": "2026-09-08T12:55:02Z",
-      "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+      "git_head": "e737078ade6f8039dffd708f91062350763f275f",
+      "generated_at": "2026-09-08T22:43:15Z",
+      "provenance_digest": "sha256:3508ce9a39580c00e2ae1ade419bcb56d0631bd80efb26597310bb0305451590",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
-        "catalog-publication-integrity": "sha256:aad9e2679bd78a2dd31f58b56a447e1e937f26e4f15a3ddc635d4ae72baa0b50",
+        "catalog-publication-integrity": "sha256:d83412f72039277bcf3b20c6176c545cdef6f836afa66e448447f0bc99bbcdef",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
@@ -21525,7 +23734,49 @@
         "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "session-tree-progression": "sha256:ac0488085f805dcd6ac4d4f3f45f98d94a6b228d09fb290bf4dec2f94e177555",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
-        "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
+        "v1-delivery-ci-assurance": "sha256:abf764a9515e682ec68d4da93ba329734acc19fe5a36f2cfff653facafa49434",
+        "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
+      }
+    },
+    {
+      "id": "./go/ci-assurance",
+      "module": ".",
+      "check": "ci-assurance",
+      "evidence_class": "integration",
+      "severity": "required",
+      "outcome": "pass",
+      "git_head": "e737078ade6f8039dffd708f91062350763f275f",
+      "generated_at": "2026-09-08T22:43:15Z",
+      "provenance_digest": "sha256:3508ce9a39580c00e2ae1ade419bcb56d0631bd80efb26597310bb0305451590",
+      "report": ".pose/results/delivery-validation.json",
+      "scope_provenance": {
+        "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
+        "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
+        "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
+        "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
+        "catalog-publication-integrity": "sha256:d83412f72039277bcf3b20c6176c545cdef6f836afa66e448447f0bc99bbcdef",
+        "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
+        "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+        "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
+        "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
+        "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
+        "go-foundations-packs": "sha256:6a88afb4b7f12ac93450e05b035eb3c941482da5f4028fc9960d7c1ae7bba9fa",
+        "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
+        "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
+        "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
+        "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
+        "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
+        "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
+        "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
+        "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
+        "reliability-observability-compatibility": "sha256:19c11511b2a732584f4787c35bcd3d39e3a0ba209b3588c42cbc8f187a5172e0",
+        "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
+        "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
+        "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
+        "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
+        "session-tree-progression": "sha256:ac0488085f805dcd6ac4d4f3f45f98d94a6b228d09fb290bf4dec2f94e177555",
+        "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
+        "v1-delivery-ci-assurance": "sha256:abf764a9515e682ec68d4da93ba329734acc19fe5a36f2cfff653facafa49434",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -21536,16 +23787,16 @@
       "evidence_class": "e2e",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
-      "generated_at": "2026-09-08T12:55:02Z",
-      "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+      "git_head": "e737078ade6f8039dffd708f91062350763f275f",
+      "generated_at": "2026-09-08T22:43:15Z",
+      "provenance_digest": "sha256:3508ce9a39580c00e2ae1ade419bcb56d0631bd80efb26597310bb0305451590",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
-        "catalog-publication-integrity": "sha256:aad9e2679bd78a2dd31f58b56a447e1e937f26e4f15a3ddc635d4ae72baa0b50",
+        "catalog-publication-integrity": "sha256:d83412f72039277bcf3b20c6176c545cdef6f836afa66e448447f0bc99bbcdef",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
@@ -21567,7 +23818,7 @@
         "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "session-tree-progression": "sha256:ac0488085f805dcd6ac4d4f3f45f98d94a6b228d09fb290bf4dec2f94e177555",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
-        "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
+        "v1-delivery-ci-assurance": "sha256:abf764a9515e682ec68d4da93ba329734acc19fe5a36f2cfff653facafa49434",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -21578,16 +23829,16 @@
       "evidence_class": "reachability",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
-      "generated_at": "2026-09-08T12:55:02Z",
-      "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+      "git_head": "e737078ade6f8039dffd708f91062350763f275f",
+      "generated_at": "2026-09-08T22:43:15Z",
+      "provenance_digest": "sha256:3508ce9a39580c00e2ae1ade419bcb56d0631bd80efb26597310bb0305451590",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
-        "catalog-publication-integrity": "sha256:aad9e2679bd78a2dd31f58b56a447e1e937f26e4f15a3ddc635d4ae72baa0b50",
+        "catalog-publication-integrity": "sha256:d83412f72039277bcf3b20c6176c545cdef6f836afa66e448447f0bc99bbcdef",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
@@ -21609,7 +23860,7 @@
         "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "session-tree-progression": "sha256:ac0488085f805dcd6ac4d4f3f45f98d94a6b228d09fb290bf4dec2f94e177555",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
-        "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
+        "v1-delivery-ci-assurance": "sha256:abf764a9515e682ec68d4da93ba329734acc19fe5a36f2cfff653facafa49434",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -21620,16 +23871,16 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
-      "generated_at": "2026-09-08T12:55:02Z",
-      "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+      "git_head": "e737078ade6f8039dffd708f91062350763f275f",
+      "generated_at": "2026-09-08T22:43:15Z",
+      "provenance_digest": "sha256:3508ce9a39580c00e2ae1ade419bcb56d0631bd80efb26597310bb0305451590",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
-        "catalog-publication-integrity": "sha256:aad9e2679bd78a2dd31f58b56a447e1e937f26e4f15a3ddc635d4ae72baa0b50",
+        "catalog-publication-integrity": "sha256:d83412f72039277bcf3b20c6176c545cdef6f836afa66e448447f0bc99bbcdef",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
@@ -21651,7 +23902,49 @@
         "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "session-tree-progression": "sha256:ac0488085f805dcd6ac4d4f3f45f98d94a6b228d09fb290bf4dec2f94e177555",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
-        "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
+        "v1-delivery-ci-assurance": "sha256:abf764a9515e682ec68d4da93ba329734acc19fe5a36f2cfff653facafa49434",
+        "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
+      }
+    },
+    {
+      "id": "./go/format",
+      "module": ".",
+      "check": "format",
+      "evidence_class": "build",
+      "severity": "required",
+      "outcome": "pass",
+      "git_head": "e737078ade6f8039dffd708f91062350763f275f",
+      "generated_at": "2026-09-08T22:43:15Z",
+      "provenance_digest": "sha256:3508ce9a39580c00e2ae1ade419bcb56d0631bd80efb26597310bb0305451590",
+      "report": ".pose/results/delivery-validation.json",
+      "scope_provenance": {
+        "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
+        "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
+        "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
+        "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
+        "catalog-publication-integrity": "sha256:d83412f72039277bcf3b20c6176c545cdef6f836afa66e448447f0bc99bbcdef",
+        "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
+        "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+        "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
+        "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
+        "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
+        "go-foundations-packs": "sha256:6a88afb4b7f12ac93450e05b035eb3c941482da5f4028fc9960d7c1ae7bba9fa",
+        "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
+        "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
+        "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
+        "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
+        "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
+        "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
+        "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
+        "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
+        "reliability-observability-compatibility": "sha256:19c11511b2a732584f4787c35bcd3d39e3a0ba209b3588c42cbc8f187a5172e0",
+        "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
+        "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
+        "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
+        "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
+        "session-tree-progression": "sha256:ac0488085f805dcd6ac4d4f3f45f98d94a6b228d09fb290bf4dec2f94e177555",
+        "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
+        "v1-delivery-ci-assurance": "sha256:abf764a9515e682ec68d4da93ba329734acc19fe5a36f2cfff653facafa49434",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -21662,16 +23955,16 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
-      "generated_at": "2026-09-08T12:55:02Z",
-      "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+      "git_head": "e737078ade6f8039dffd708f91062350763f275f",
+      "generated_at": "2026-09-08T22:43:15Z",
+      "provenance_digest": "sha256:3508ce9a39580c00e2ae1ade419bcb56d0631bd80efb26597310bb0305451590",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
-        "catalog-publication-integrity": "sha256:aad9e2679bd78a2dd31f58b56a447e1e937f26e4f15a3ddc635d4ae72baa0b50",
+        "catalog-publication-integrity": "sha256:d83412f72039277bcf3b20c6176c545cdef6f836afa66e448447f0bc99bbcdef",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
@@ -21693,7 +23986,7 @@
         "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "session-tree-progression": "sha256:ac0488085f805dcd6ac4d4f3f45f98d94a6b228d09fb290bf4dec2f94e177555",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
-        "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
+        "v1-delivery-ci-assurance": "sha256:abf764a9515e682ec68d4da93ba329734acc19fe5a36f2cfff653facafa49434",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -21704,16 +23997,16 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
-      "generated_at": "2026-09-08T12:55:02Z",
-      "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+      "git_head": "e737078ade6f8039dffd708f91062350763f275f",
+      "generated_at": "2026-09-08T22:43:15Z",
+      "provenance_digest": "sha256:3508ce9a39580c00e2ae1ade419bcb56d0631bd80efb26597310bb0305451590",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
-        "catalog-publication-integrity": "sha256:aad9e2679bd78a2dd31f58b56a447e1e937f26e4f15a3ddc635d4ae72baa0b50",
+        "catalog-publication-integrity": "sha256:d83412f72039277bcf3b20c6176c545cdef6f836afa66e448447f0bc99bbcdef",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
@@ -21735,7 +24028,7 @@
         "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "session-tree-progression": "sha256:ac0488085f805dcd6ac4d4f3f45f98d94a6b228d09fb290bf4dec2f94e177555",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
-        "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
+        "v1-delivery-ci-assurance": "sha256:abf764a9515e682ec68d4da93ba329734acc19fe5a36f2cfff653facafa49434",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -21746,16 +24039,16 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
-      "generated_at": "2026-09-08T12:55:02Z",
-      "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+      "git_head": "e737078ade6f8039dffd708f91062350763f275f",
+      "generated_at": "2026-09-08T22:43:15Z",
+      "provenance_digest": "sha256:3508ce9a39580c00e2ae1ade419bcb56d0631bd80efb26597310bb0305451590",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
-        "catalog-publication-integrity": "sha256:aad9e2679bd78a2dd31f58b56a447e1e937f26e4f15a3ddc635d4ae72baa0b50",
+        "catalog-publication-integrity": "sha256:d83412f72039277bcf3b20c6176c545cdef6f836afa66e448447f0bc99bbcdef",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
@@ -21777,7 +24070,7 @@
         "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "session-tree-progression": "sha256:ac0488085f805dcd6ac4d4f3f45f98d94a6b228d09fb290bf4dec2f94e177555",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
-        "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
+        "v1-delivery-ci-assurance": "sha256:abf764a9515e682ec68d4da93ba329734acc19fe5a36f2cfff653facafa49434",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -21788,16 +24081,16 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
-      "generated_at": "2026-09-08T12:55:02Z",
-      "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+      "git_head": "e737078ade6f8039dffd708f91062350763f275f",
+      "generated_at": "2026-09-08T22:43:15Z",
+      "provenance_digest": "sha256:3508ce9a39580c00e2ae1ade419bcb56d0631bd80efb26597310bb0305451590",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
-        "catalog-publication-integrity": "sha256:aad9e2679bd78a2dd31f58b56a447e1e937f26e4f15a3ddc635d4ae72baa0b50",
+        "catalog-publication-integrity": "sha256:d83412f72039277bcf3b20c6176c545cdef6f836afa66e448447f0bc99bbcdef",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
@@ -21819,7 +24112,7 @@
         "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "session-tree-progression": "sha256:ac0488085f805dcd6ac4d4f3f45f98d94a6b228d09fb290bf4dec2f94e177555",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
-        "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
+        "v1-delivery-ci-assurance": "sha256:abf764a9515e682ec68d4da93ba329734acc19fe5a36f2cfff653facafa49434",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -21830,16 +24123,16 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
-      "generated_at": "2026-09-08T12:55:02Z",
-      "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+      "git_head": "e737078ade6f8039dffd708f91062350763f275f",
+      "generated_at": "2026-09-08T22:43:15Z",
+      "provenance_digest": "sha256:3508ce9a39580c00e2ae1ade419bcb56d0631bd80efb26597310bb0305451590",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
-        "catalog-publication-integrity": "sha256:aad9e2679bd78a2dd31f58b56a447e1e937f26e4f15a3ddc635d4ae72baa0b50",
+        "catalog-publication-integrity": "sha256:d83412f72039277bcf3b20c6176c545cdef6f836afa66e448447f0bc99bbcdef",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
@@ -21861,7 +24154,7 @@
         "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "session-tree-progression": "sha256:ac0488085f805dcd6ac4d4f3f45f98d94a6b228d09fb290bf4dec2f94e177555",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
-        "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
+        "v1-delivery-ci-assurance": "sha256:abf764a9515e682ec68d4da93ba329734acc19fe5a36f2cfff653facafa49434",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -21872,16 +24165,16 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
-      "generated_at": "2026-09-08T12:55:02Z",
-      "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+      "git_head": "e737078ade6f8039dffd708f91062350763f275f",
+      "generated_at": "2026-09-08T22:43:15Z",
+      "provenance_digest": "sha256:3508ce9a39580c00e2ae1ade419bcb56d0631bd80efb26597310bb0305451590",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
-        "catalog-publication-integrity": "sha256:aad9e2679bd78a2dd31f58b56a447e1e937f26e4f15a3ddc635d4ae72baa0b50",
+        "catalog-publication-integrity": "sha256:d83412f72039277bcf3b20c6176c545cdef6f836afa66e448447f0bc99bbcdef",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
@@ -21903,7 +24196,7 @@
         "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "session-tree-progression": "sha256:ac0488085f805dcd6ac4d4f3f45f98d94a6b228d09fb290bf4dec2f94e177555",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
-        "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
+        "v1-delivery-ci-assurance": "sha256:abf764a9515e682ec68d4da93ba329734acc19fe5a36f2cfff653facafa49434",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -21914,16 +24207,16 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
-      "generated_at": "2026-09-08T12:55:02Z",
-      "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+      "git_head": "e737078ade6f8039dffd708f91062350763f275f",
+      "generated_at": "2026-09-08T22:43:15Z",
+      "provenance_digest": "sha256:3508ce9a39580c00e2ae1ade419bcb56d0631bd80efb26597310bb0305451590",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
-        "catalog-publication-integrity": "sha256:aad9e2679bd78a2dd31f58b56a447e1e937f26e4f15a3ddc635d4ae72baa0b50",
+        "catalog-publication-integrity": "sha256:d83412f72039277bcf3b20c6176c545cdef6f836afa66e448447f0bc99bbcdef",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
@@ -21945,7 +24238,7 @@
         "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "session-tree-progression": "sha256:ac0488085f805dcd6ac4d4f3f45f98d94a6b228d09fb290bf4dec2f94e177555",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
-        "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
+        "v1-delivery-ci-assurance": "sha256:abf764a9515e682ec68d4da93ba329734acc19fe5a36f2cfff653facafa49434",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -21956,16 +24249,16 @@
       "evidence_class": "unit",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
-      "generated_at": "2026-09-08T12:55:02Z",
-      "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+      "git_head": "e737078ade6f8039dffd708f91062350763f275f",
+      "generated_at": "2026-09-08T22:43:15Z",
+      "provenance_digest": "sha256:3508ce9a39580c00e2ae1ade419bcb56d0631bd80efb26597310bb0305451590",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
-        "catalog-publication-integrity": "sha256:aad9e2679bd78a2dd31f58b56a447e1e937f26e4f15a3ddc635d4ae72baa0b50",
+        "catalog-publication-integrity": "sha256:d83412f72039277bcf3b20c6176c545cdef6f836afa66e448447f0bc99bbcdef",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
@@ -21987,7 +24280,7 @@
         "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "session-tree-progression": "sha256:ac0488085f805dcd6ac4d4f3f45f98d94a6b228d09fb290bf4dec2f94e177555",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
-        "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
+        "v1-delivery-ci-assurance": "sha256:abf764a9515e682ec68d4da93ba329734acc19fe5a36f2cfff653facafa49434",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -21998,16 +24291,16 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
-      "generated_at": "2026-09-08T12:55:02Z",
-      "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+      "git_head": "e737078ade6f8039dffd708f91062350763f275f",
+      "generated_at": "2026-09-08T22:43:15Z",
+      "provenance_digest": "sha256:3508ce9a39580c00e2ae1ade419bcb56d0631bd80efb26597310bb0305451590",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
-        "catalog-publication-integrity": "sha256:aad9e2679bd78a2dd31f58b56a447e1e937f26e4f15a3ddc635d4ae72baa0b50",
+        "catalog-publication-integrity": "sha256:d83412f72039277bcf3b20c6176c545cdef6f836afa66e448447f0bc99bbcdef",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
@@ -22029,7 +24322,7 @@
         "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "session-tree-progression": "sha256:ac0488085f805dcd6ac4d4f3f45f98d94a6b228d09fb290bf4dec2f94e177555",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
-        "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
+        "v1-delivery-ci-assurance": "sha256:abf764a9515e682ec68d4da93ba329734acc19fe5a36f2cfff653facafa49434",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     },
@@ -22038,18 +24331,18 @@
       "module": ".",
       "check": "vet",
       "evidence_class": "build",
-      "severity": "optional",
+      "severity": "required",
       "outcome": "pass",
-      "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
-      "generated_at": "2026-09-08T12:55:02Z",
-      "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+      "git_head": "e737078ade6f8039dffd708f91062350763f275f",
+      "generated_at": "2026-09-08T22:43:15Z",
+      "provenance_digest": "sha256:3508ce9a39580c00e2ae1ade419bcb56d0631bd80efb26597310bb0305451590",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
         "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
         "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
         "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
-        "catalog-publication-integrity": "sha256:aad9e2679bd78a2dd31f58b56a447e1e937f26e4f15a3ddc635d4ae72baa0b50",
+        "catalog-publication-integrity": "sha256:d83412f72039277bcf3b20c6176c545cdef6f836afa66e448447f0bc99bbcdef",
         "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
         "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
@@ -22071,7 +24364,7 @@
         "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
         "session-tree-progression": "sha256:ac0488085f805dcd6ac4d4f3f45f98d94a6b228d09fb290bf4dec2f94e177555",
         "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
-        "v1-delivery-ci-assurance": "sha256:7e4473160858f7138f38a236e62eff016326e8ef79fe1a85d91bd360877e3ab4",
+        "v1-delivery-ci-assurance": "sha256:abf764a9515e682ec68d4da93ba329734acc19fe5a36f2cfff653facafa49434",
         "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
       }
     }
@@ -22086,11 +24379,7 @@
         "check:cli-e2e"
       ],
       "raw": "CLI alcançável e integrada: surface:codinho-cli check:cli-reachability check:cli-e2e",
-      "passed": false,
-      "reasons": [
-        "check is missing, failing or stale: cli-reachability",
-        "check is missing, failing or stale: cli-e2e"
-      ]
+      "passed": true
     },
     {
       "roadmap": "codinho-v1",
@@ -22121,10 +24410,7 @@
         "check:tutor-skill-routing"
       ],
       "raw": "Conteúdo canônico e tutor composto: capability:canonical-concept-content capability:codinho-tutor check:tutor-skill-routing",
-      "passed": false,
-      "reasons": [
-        "check is missing, failing or stale: tutor-skill-routing"
-      ]
+      "passed": true
     },
     {
       "roadmap": "codinho-v1",
@@ -22155,13 +24441,7 @@
         "check:smoke-install"
       ],
       "raw": "Protocolo, inicialização e instalação: check:mcp-contract check:stdout-purity check:startup-budget check:smoke-install",
-      "passed": false,
-      "reasons": [
-        "check is missing, failing or stale: mcp-contract",
-        "check is missing, failing or stale: stdout-purity",
-        "check is missing, failing or stale: startup-budget",
-        "check is missing, failing or stale: smoke-install"
-      ]
+      "passed": true
     },
     {
       "roadmap": "codinho-v1",
@@ -22188,7 +24468,19 @@
     "capability:canonical-concept-content": [
       "spec:concept-content-authoring",
       "delivery:capability:canonical-concept-content",
-      "entrypoint:cmd/codinho/main.go"
+      "entrypoint:cmd/codinho/main.go",
+      "validation-result:./go/catalog",
+      "validation-result:./go/catalog-publication-integrity",
+      "validation-result:./go/ci-assurance",
+      "validation-result:./go/evaluation-evidence",
+      "validation-result:./go/mcp-contract",
+      "validation-result:./go/published-catalog-proof",
+      "validation-result:./go/session-recovery",
+      "validation-result:./go/session-tree-progression",
+      "validation-result:./go/smoke-install",
+      "validation-result:./go/startup-budget",
+      "validation-result:./go/stdout-purity",
+      "validation-result:./go/tutor-skill-routing"
     ],
     "capability:catalog-publication-integrity": [
       "spec:catalog-publication-integrity",
@@ -22233,7 +24525,9 @@
       "artifact:schemas/pack.schema.json",
       "delivery:capability:catalog-publication-integrity",
       "entrypoint:cmd/codinho/main.go",
+      "validation-result:./go/catalog",
       "validation-result:./go/catalog-publication-integrity",
+      "validation-result:./go/ci-assurance",
       "validation-result:./go/evaluation-evidence",
       "validation-result:./go/mcp-contract",
       "validation-result:./go/published-catalog-proof",
@@ -22261,7 +24555,9 @@
       "artifact:.pose/indexes/validation-matrix.json",
       "delivery:capability:codinho-tutor",
       "entrypoint:.agents/skills/codinho/SKILL.md",
+      "validation-result:./go/catalog",
       "validation-result:./go/catalog-publication-integrity",
+      "validation-result:./go/ci-assurance",
       "validation-result:./go/evaluation-evidence",
       "validation-result:./go/mcp-contract",
       "validation-result:./go/published-catalog-proof",
@@ -22300,7 +24596,9 @@
       "artifact:internal/session/service.go",
       "delivery:capability:evaluation-evidence-lineage",
       "entrypoint:cmd/codinho/main.go",
+      "validation-result:./go/catalog",
       "validation-result:./go/catalog-publication-integrity",
+      "validation-result:./go/ci-assurance",
       "validation-result:./go/evaluation-evidence",
       "validation-result:./go/mcp-contract",
       "validation-result:./go/published-catalog-proof",
@@ -22339,7 +24637,9 @@
       "artifact:internal/session/service.go",
       "delivery:capability:session-recovery",
       "entrypoint:cmd/codinho/main.go",
+      "validation-result:./go/catalog",
       "validation-result:./go/catalog-publication-integrity",
+      "validation-result:./go/ci-assurance",
       "validation-result:./go/evaluation-evidence",
       "validation-result:./go/mcp-contract",
       "validation-result:./go/published-catalog-proof",
@@ -22379,7 +24679,9 @@
       "artifact:internal/session/service_test.go",
       "delivery:capability:session-tree-progression",
       "entrypoint:cmd/codinho/main.go",
+      "validation-result:./go/catalog",
       "validation-result:./go/catalog-publication-integrity",
+      "validation-result:./go/ci-assurance",
       "validation-result:./go/evaluation-evidence",
       "validation-result:./go/mcp-contract",
       "validation-result:./go/published-catalog-proof",
@@ -22408,7 +24710,9 @@
       "artifact:go.sum",
       "delivery:contract:codinho-mcp-v1",
       "entrypoint:cmd/codinho/main.go",
+      "validation-result:./go/catalog",
       "validation-result:./go/catalog-publication-integrity",
+      "validation-result:./go/ci-assurance",
       "validation-result:./go/evaluation-evidence",
       "validation-result:./go/mcp-contract",
       "validation-result:./go/published-catalog-proof",
@@ -22436,7 +24740,9 @@
       "artifact:docs/troubleshooting.md",
       "delivery:governance:codinho-ci",
       "entrypoint:.github/workflows/ci.yml",
+      "validation-result:./go/catalog",
       "validation-result:./go/catalog-publication-integrity",
+      "validation-result:./go/ci-assurance",
       "validation-result:./go/evaluation-evidence",
       "validation-result:./go/mcp-contract",
       "validation-result:./go/published-catalog-proof",
@@ -22449,10 +24755,61 @@
     ],
     "governance:v1-delivery-ci": [
       "spec:v1-delivery-ci-assurance",
+      "artifact:.pose/adr/2026-09-08-native-ci-evidence-and-prospective-delivery-governance.md",
+      "artifact:.pose/changelogs/unreleased/v1-delivery-ci-assurance.md",
+      "artifact:.pose/contracts/historical-renames.json",
+      "artifact:.pose/contracts/mcp-stdio.json",
+      "artifact:.pose/contributions/20260908-review-profile-evidence-classes.md",
+      "artifact:.pose/contributions/20260908-root-module-metadata-normalization.md",
+      "artifact:.pose/docs.json",
+      "artifact:.pose/knowledge/2026-09-08-decision-log-adr-ci-assurance-review.md",
+      "artifact:cmd/ci-assurance/main.go",
+      "artifact:cmd/ci-assurance/main_test.go",
+      "artifact:docs/acceptance/v1-release-readiness.md",
+      "artifact:internal/ciassurance/evidence.go",
+      "artifact:internal/ciassurance/evidence_test.go",
+      "artifact:internal/ciassurance/workflows_test.go",
+      "artifact:internal/mcpserver/governance_contract_test.go",
+      "artifact:scripts/ci/build-release.sh",
+      "artifact:scripts/ci/check-format.sh",
+      "artifact:scripts/ci/install-tools.sh",
+      "artifact:scripts/ci/tools.env",
+      "artifact:scripts/ci/validate.sh",
+      "artifact:.github/workflows/ci.yml",
+      "artifact:.github/workflows/release.yml",
+      "artifact:.pose/indexes/module-metadata.json",
+      "artifact:.pose/indexes/repo-map.json",
+      "artifact:.pose/indexes/validation-matrix.json",
+      "artifact:.pose/policy/artifacts.json",
+      "artifact:.pose/policy/delivery.json",
+      "artifact:.pose/policy/docs.json",
+      "artifact:.pose/review-profiles/spec-closeout.json",
       "artifact:.pose/roadmaps/codinho-v1.md",
+      "artifact:Makefile",
+      "artifact:README.md",
+      "artifact:docs/agent-review-workflow.md",
+      "artifact:docs/compatibility.md",
+      "artifact:docs/configuration.md",
+      "artifact:docs/content-authoring.md",
+      "artifact:docs/content-review-checklist.md",
+      "artifact:docs/install.md",
+      "artifact:docs/quickstart.md",
+      "artifact:docs/security/executor-limitations.md",
+      "artifact:docs/security/privacy.md",
+      "artifact:docs/security/threat-model.md",
+      "artifact:docs/troubleshooting.md",
+      "artifact:internal/checks/editorial.go",
+      "artifact:internal/checks/editorial_test.go",
+      "artifact:packs/go-core.yaml",
+      "artifact:packs/go-data-text.yaml",
+      "artifact:packs/go-errors.yaml",
+      "artifact:packs/go-first-steps.yaml",
+      "artifact:packs/go-type-design.yaml",
       "delivery:governance:v1-delivery-ci",
       "entrypoint:.github/workflows/ci.yml",
+      "validation-result:./go/catalog",
       "validation-result:./go/catalog-publication-integrity",
+      "validation-result:./go/ci-assurance",
       "validation-result:./go/evaluation-evidence",
       "validation-result:./go/mcp-contract",
       "validation-result:./go/published-catalog-proof",
@@ -22480,7 +24837,9 @@
       "artifact:docs/troubleshooting.md",
       "delivery:infrastructure:codinho-local-distribution",
       "entrypoint:cmd/codinho/main.go",
+      "validation-result:./go/catalog",
       "validation-result:./go/catalog-publication-integrity",
+      "validation-result:./go/ci-assurance",
       "validation-result:./go/evaluation-evidence",
       "validation-result:./go/mcp-contract",
       "validation-result:./go/published-catalog-proof",

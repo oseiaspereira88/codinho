@@ -3,8 +3,8 @@
 Date: 2026-09-08. Reviewer: agent:codex-review-20260908-b9b8868.
 Implementation subject: b9b886895023ffa4e831962c5620269c2b84dcdd plus the
 review-profile mapping and readiness documentation recorded in this continuation.
-Decision: technical review passed; formal approval remains subject to sealing,
-current validation and verification of the attestation.
+Decision: approved. Formal verification returned ready-to-close, fresh=true,
+approved=true for bundle rvb-a4d3c9948aba2d5d and attestation rva-05b7193c1743db49.
 
 This is a separate review execution by the same actor after the implementation
 turn, under reviewer_independence=same-actor-separate-execution. It is not a
@@ -50,16 +50,21 @@ waive provenance for this spec. No waiver or fabricated evidence was introduced.
 
 ## Tools and execution evidence
 
-- make check: 19/19 locally on b9b8868; final governance candidate rerun required.
+- make check: 19/19 locally on final candidate e737078ade6f8039dffd708f91062350763f275f.
 - GitHub run 34283684515 attempt 1: Linux/amd64 and macOS/arm64, Go 1.27.1,
   19 checks per platform, source_modified=false; artifacts downloaded and verified.
-- artifact-check and surface-check: passed on b9b8868; rerun after final commit.
+- GitHub run 34284825936: final candidate e737078, Linux/amd64 and macOS/arm64,
+  Go 1.27.1, 19 checks each, source_modified=false. Reports and logs downloaded.
+  Native JSON SHA-256: Linux fa3388cd262917c8f7e671e13c4bd4570429ce8d93a1c1e66a694da487d36ca9;
+  macOS cb3162b2b9f18afc6df52d9250ec2a8d90f8647fc4c7490b1851c1f1ceb456cf.
+- artifact-check and surface-check: passed on the final candidate. Surface has zero findings.
 - knowledge-check and recurrence-check: passed; zero overdue and no recurrence.
 - assess discover, assess tech-debt and assess integrate: executed; no debt markers.
 - Component-specific validate commands: executed, all returned no matching
   standalone modules. Coverage comes from the root matrix, not these empty runs.
 - Recommended suggest-review/discover/tech-debt tools were used. No required
-  tool is waived. Review-check and closeout-check remain deferred until attestation.
+  tool is waived. Review-check passed after attestation; closeout-check confirmed
+  review approval with only the guarded lifecycle transition remaining.
 - Rules, plan digest, bundle digest, exact evidence refs and final tool
   dispositions are preserved by the sealed bundle and its separate attestation.
 

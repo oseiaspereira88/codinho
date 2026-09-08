@@ -1,17 +1,14 @@
 {
   "schema_version": 1,
-  "component_slug": "root",
-  "path": ".",
+  "component_slug": "github-workflows",
+  "path": ".github/workflows",
   "discovered_at": "2026-09-08T22:46:06Z",
   "baseline_commit": "e737078ade6f",
   "metrics": {
-    "loc_production": 12388,
-    "loc_tests": 11945,
-    "total_files": 190,
-    "languages": [
-      "go",
-      "shell"
-    ]
+    "loc_production": 0,
+    "loc_tests": 0,
+    "total_files": 0,
+    "languages": null
   },
   "technical_debt": {
     "todos": 0,
@@ -21,7 +18,7 @@
   },
   "metadata": {
     "criticality": "high",
-    "domain": "runtime",
+    "domain": "ci",
     "owner": "@oseiaspereira",
     "validationProfile": "baseline"
   },

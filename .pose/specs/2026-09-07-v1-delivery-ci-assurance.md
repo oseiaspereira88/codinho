@@ -1,8 +1,8 @@
 ---
 slug: v1-delivery-ci-assurance
-status: in-progress
+status: done
 created_at: 2026-09-07
-completed_at:
+completed_at: 2026-09-08
 supersedes:
 depends_on: installation-documentation-ci, reliability-observability-compatibility
 priority: 35
@@ -138,9 +138,9 @@ Renames históricos e evidências de módulos divergentes bloqueiam roll-up. CI 
 - [x] Atualizar documentação e checks declarativos junto com o contrato.
 
 ### Validation
-- [ ] Executar os cenários de cada R-ID, incluindo negativos.
-- [ ] Executar pose assess integrate e validação estruturada no candidato.
-- [ ] Reconciliar artifacts, surface e revisão independente antes do closeout.
+- [x] Executar os cenários de cada R-ID, incluindo negativos.
+- [x] Executar pose assess integrate e validação estruturada no candidato.
+- [x] Reconciliar artifacts, surface e revisão independente antes do closeout.
 
 ## 5. Decisions
 
@@ -198,6 +198,7 @@ sem declarar V1 pronta. Revisão independente cobre também threat model.
 - Security / Contract: pose assess integrate; pose validate --strict --json .pose/results/delivery-validation.json; pose surface-check --spec v1-delivery-ci-assurance --strict
 
 ### Execution log
+- 2026-09-08 UTC (candidato final): commit e737078ade6f8039dffd708f91062350763f275f passou make check local (19/19) e CI run 34284825936 em Linux/amd64 e macOS/arm64 (Go 1.27.1, 19/19, source_modified=false). Artefatos e logs baixados e conferidos. `pose index`, artifact-check e surface-check estritos passaram; bundle rvb-a4d3c9948aba2d5d selado com 18 evidências, atestação rva-05b7193c1743db49. review verify retornou ready-to-close, fresh=true, approved=true; review-check passou. closeout-check apontou apenas a transição de lifecycle, a ser aplicada por pose close.
 - 2026-09-08 UTC (revisão separada): CI run 34283684515, attempt 1, passou no b9b8868 em Linux/amd64 e macOS/arm64, Go 1.27.1, 19 checks por plataforma, source_modified=false. Artefatos, logs e relatórios baixados e conferidos; hashes no relatório de prontidão. Comparação YAML com dbd848e confirmou campos autorados idênticos após excluir validation nos cinco packs. Revisão do threat model e dos contratos registrada em report:.pose/reports/2026-09-08-standard-v1-delivery-ci-review.md, por mesmo ator em execução posterior conforme a política. Perfil de revisão corrigido para classes emitidas pela matriz. Não houve revisão humana ou aceite V1.
 - 2026-09-08 UTC (retomada do incremento): preservada a correção de benchmarks com saída JSON fragmentada por pacote/teste e o arquivamento dos logs de check/validate no CI. Adicionado `TestValidationLogsPreserveGateFailure`, que executa o script real em diretório isolado, força falha em cada gate, confere stdout/stderr no log e exige saída 23 sem emissão de relatório nativo. `PATH=/tmp/codinho-ci-tools:$PATH make check` passou 19/19 fora do sandbox; a tentativa inicial encontrou cache Go somente leitura. `pose assess integrate` continua avaliando zero contratos; `pose assess tech-debt` encontrou zero marcadores. Esta evidência é local e não substitui execução remota do novo candidato ou revisão independente.
 - 2026-09-08 UTC (CI nativa): run 34273134508 executou o commit 649725999449ebbdb77dea0a7880fb60fe471f54 com sucesso em Linux/amd64 e macOS/arm64. Artefatos baixados e conferidos: Go 1.27.1, host github-actions, 19 checks pass, source_modified=false. Relatório de prontidão inclui a matriz e o link do provider. Go 1.27.1 conferido em https://go.dev/VERSION (acesso 2026-09-08).
@@ -217,12 +218,12 @@ sem declarar V1 pronta. Revisão independente cobre também threat model.
 - 2026-09-07 UTC: criada em revisão de planejamento; implementação e gates de entrega não executados.
 
 ### Results summary
-Matriz local e CI nativa do b9b8868 passaram 19/19 checks, com logs e relatórios conferidos. Artefatos e superfície foram reconciliados. A revisão separada está registrada; closeout exige bundle selado, atestação e gates válidos sobre a versão final da governança.
+Matriz local e CI nativa do candidato final e737078 passaram 19/19 checks, com logs e relatórios conferidos. Artefatos e superfície foram reconciliados. Bundle rvb-a4d3c9948aba2d5d e atestação rva-05b7193c1743db49 estão aprovados e atuais; o lifecycle é controlado por pose close.
 
 ### Requirement trace
 - R1 [satisfied] ferramentas verificadas, gates e logs obrigatórios; check:ci-assurance test:TestValidationLogsPreserveGateFailure report:docs/acceptance/v1-release-readiness.md.
 - R2 [satisfied] matriz compartilhada passou 19/19; 38 checks editoriais em 76 cenários; check:catalog check:test check:format check:vet.
-- R3 [satisfied] run 34283684515 passou em Linux/amd64 e macOS/arm64; commit:b9b886895023ffa4e831962c5620269c2b84dcdd report:docs/acceptance/v1-release-readiness.md.
+- R3 [satisfied] runs 34283684515 e 34284825936 passaram em Linux/amd64 e macOS/arm64; commit:e737078ade6f8039dffd708f91062350763f275f report:.pose/reports/2026-09-08-standard-v1-delivery-ci-review.md.
 - R4 [satisfied] pins e labels inseguros verificados; build v0.0.0-ci sem publicação; test:TestWorkflowTrustBoundaries test:TestReleaseRejectsUnsafeLabelsBeforeBuild.
 - R5 [satisfied] policies, inventário MCP e rename conferidos; check:artifact-check check:surface-check test:TestContractGovernanceInventoryMatchesServer test:TestHistoricalRenameMatchesGit.
 - R6 [satisfied] C1–C9 mapeados no relatório, roadmap permanece não terminal; negativos de stale/skip/check desconhecido/relatório ausente passam; test:TestValidateEvidence report:docs/acceptance/v1-release-readiness.md.
@@ -235,7 +236,7 @@ Sem aceite V1, piloto humano ou prova nativa de Windows/Linux arm64. Filtros por
 ## 7. Final Report
 
 ### Delivered scope
-Workflows, instalação verificada, validação de evidência, provas editoriais privadas, manifest documental e relatórios nativos implementados. CI de Linux/macOS conferida e revisão separada registrada. O estado permanece in-progress até a validação e atestação da governança final.
+Workflows, instalação verificada, validação de evidência, provas editoriais privadas, manifest documental e relatórios nativos implementados. CI de Linux/macOS conferida; revisão separada aprovada no bundle rvb-a4d3c9948aba2d5d, com evidência atual da governança final. Esta entrega não concede aceite integrado da V1.
 
 ### Files and modules changed
 - CI, scripts de ferramentas/validação/build, internal/ciassurance, cmd/ci-assurance, matriz, manifest e documentação declarados nos artefatos.

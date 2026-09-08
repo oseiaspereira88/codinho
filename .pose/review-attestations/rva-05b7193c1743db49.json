@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "attestation_id": "rva-05b7193c1743db49",
+  "bundle_id": "rvb-a4d3c9948aba2d5d",
+  "bundle_digest": "sha256:a4d3c9948aba2d5d5aa47ae0fe315784d1afad0c861e87454b688fd3f0d45f53",
+  "reviewer": "agent:codex-review-20260908-b9b8868",
+  "decision": "approved",
+  "criteria": [
+    {
+      "id": "compatibility",
+      "disposition": "passed",
+      "evidence": "integration:./go/ci-assurance"
+    },
+    {
+      "id": "correctness",
+      "disposition": "passed",
+      "evidence": "integration:./go/ci-assurance"
+    },
+    {
+      "id": "cross-component-integration",
+      "disposition": "passed",
+      "evidence": "integration:./go/ci-assurance"
+    },
+    {
+      "id": "documentation",
+      "disposition": "passed",
+      "evidence": "integration:./go/ci-assurance"
+    },
+    {
+      "id": "operability",
+      "disposition": "passed",
+      "evidence": "integration:./go/ci-assurance"
+    },
+    {
+      "id": "requirements",
+      "disposition": "passed",
+      "evidence": "integration:./go/ci-assurance"
+    },
+    {
+      "id": "scope",
+      "disposition": "passed",
+      "evidence": "integration:./go/ci-assurance"
+    },
+    {
+      "id": "security",
+      "disposition": "passed",
+      "evidence": "integration:./go/ci-assurance"
+    }
+  ],
+  "tools": [
+    {
+      "id": "artifact-check",
+      "disposition": "passed",
+      "evidence": "check:artifact-check",
+      "rationale": "Executed in this review; detailed report contains criterion-by-criterion assessment."
+    },
+    {
+      "id": "assess-discover",
+      "component": ".github/workflows",
+      "disposition": "passed",
+      "evidence": "check:assess-discover",
+      "rationale": "Root discovery covers all mapped components; zero debt markers."
+    },
+    {
+      "id": "assess-discover",
+      "component": ".pose/contracts",
+      "disposition": "passed",
+      "evidence": "check:assess-discover",
+      "rationale": "Root discovery covers all mapped components; zero debt markers."
+    },
+    {
+      "id": "assess-discover",
+      "component": "cmd/ci-assurance",
+      "disposition": "passed",
+      "evidence": "check:assess-discover",
+      "rationale": "Root discovery covers all mapped components; zero debt markers."
+    },
+    {
+      "id": "assess-discover",
+      "component": "docs",
+      "disposition": "passed",
+      "evidence": "check:assess-discover",
+      "rationale": "Root discovery covers all mapped components; zero debt markers."
+    },
+    {
+      "id": "assess-discover",
+      "component": "internal",
+      "disposition": "passed",
+      "evidence": "check:assess-discover",
+      "rationale": "Root discovery covers all mapped components; zero debt markers."
+    },
+    {
+      "id": "assess-discover",
+      "component": "internal/ciassurance",
+      "disposition": "passed",
+      "evidence": "check:assess-discover",
+      "rationale": "Root discovery covers all mapped components; zero debt markers."
+    },
+    {
+      "id": "assess-discover",
+      "component": "internal/mcpserver",
+      "disposition": "passed",
+      "evidence": "check:assess-discover",
+      "rationale": "Root discovery covers all mapped components; zero debt markers."
+    },
+    {
+      "id": "assess-discover",
+      "component": "packs",
+      "disposition": "passed",
+      "evidence": "check:assess-discover",
+      "rationale": "Root discovery covers all mapped components; zero debt markers."
+    },
+    {
+      "id": "assess-discover",
+      "component": "scripts",
+      "disposition": "passed",
+      "evidence": "check:assess-discover",
+      "rationale": "Root discovery covers all mapped components; zero debt markers."
+    },
+    {
+      "id": "assess-integrate",
+      "disposition": "passed",
+      "evidence": "integration:./go/mcp-contract",
+      "rationale": "Detector ran with zero contracts; real MCP tests provide integration evidence."
+    },
+    {
+      "id": "assess-tech-debt",
+      "disposition": "passed",
+      "evidence": "check:assess-tech-debt",
+      "rationale": "Executed in this review; detailed report contains criterion-by-criterion assessment."
+    },
+    {
+      "id": "closeout-check",
+      "disposition": "deferred",
+      "rationale": "Run after attestation."
+    },
+    {
+      "id": "knowledge-check",
+      "disposition": "passed",
+      "evidence": "check:knowledge-check",
+      "rationale": "Executed in this review; detailed report contains criterion-by-criterion assessment."
+    },
+    {
+      "id": "review-check",
+      "disposition": "deferred",
+      "rationale": "Run after attestation."
+    },
+    {
+      "id": "suggest-review",
+      "component": ".github/workflows",
+      "disposition": "passed",
+      "evidence": "check:suggest-review",
+      "rationale": "Executed in this review; detailed report contains criterion-by-criterion assessment."
+    },
+    {
+      "id": "suggest-review",
+      "component": ".pose/contracts",
+      "disposition": "passed",
+      "evidence": "check:suggest-review",
+      "rationale": "Executed in this review; detailed report contains criterion-by-criterion assessment."
+    },
+    {
+      "id": "suggest-review",
+      "component": "cmd/ci-assurance",
+      "disposition": "passed",
+      "evidence": "check:suggest-review",
+      "rationale": "Executed in this review; detailed report contains criterion-by-criterion assessment."
+    },
+    {
+      "id": "suggest-review",
+      "component": "docs",
+      "disposition": "passed",
+      "evidence": "check:suggest-review",
+      "rationale": "Executed in this review; detailed report contains criterion-by-criterion assessment."
+    },
+    {
+      "id": "suggest-review",
+      "component": "internal",
+      "disposition": "passed",
+      "evidence": "check:suggest-review",
+      "rationale": "Executed in this review; detailed report contains criterion-by-criterion assessment."
+    },
+    {
+      "id": "suggest-review",
+      "component": "internal/ciassurance",
+      "disposition": "passed",
+      "evidence": "check:suggest-review",
+      "rationale": "Executed in this review; detailed report contains criterion-by-criterion assessment."
+    },
+    {
+      "id": "suggest-review",
+      "component": "internal/mcpserver",
+      "disposition": "passed",
+      "evidence": "check:suggest-review",
+      "rationale": "Executed in this review; detailed report contains criterion-by-criterion assessment."
+    },
+    {
+      "id": "suggest-review",
+      "component": "packs",
+      "disposition": "passed",
+      "evidence": "check:suggest-review",
+      "rationale": "Executed in this review; detailed report contains criterion-by-criterion assessment."
+    },
+    {
+      "id": "suggest-review",
+      "component": "scripts",
+      "disposition": "passed",
+      "evidence": "check:suggest-review",
+      "rationale": "Executed in this review; detailed report contains criterion-by-criterion assessment."
+    },
+    {
+      "id": "validate",
+      "disposition": "passed",
+      "evidence": "integration:./go/ci-assurance",
+      "rationale": "Strict root matrix passed 19/19 on e737078."
+    },
+    {
+      "id": "validate",
+      "component": ".github/workflows",
+      "disposition": "passed",
+      "evidence": "integration:./go/ci-assurance",
+      "rationale": "Filtered command ran with no standalone module; real coverage comes from the executed root matrix."
+    },
+    {
+      "id": "validate",
+      "component": ".pose/contracts",
+      "disposition": "passed",
+      "evidence": "integration:./go/ci-assurance",
+      "rationale": "Filtered command ran with no standalone module; real coverage comes from the executed root matrix."
+    },
+    {
+      "id": "validate",
+      "component": "cmd/ci-assurance",
+      "disposition": "passed",
+      "evidence": "integration:./go/ci-assurance",
+      "rationale": "Filtered command ran with no standalone module; real coverage comes from the executed root matrix."
+    },
+    {
+      "id": "validate",
+      "component": "docs",
+      "disposition": "passed",
+      "evidence": "integration:./go/ci-assurance",
+      "rationale": "Filtered command ran with no standalone module; real coverage comes from the executed root matrix."
+    },
+    {
+      "id": "validate",
+      "component": "internal",
+      "disposition": "passed",
+      "evidence": "integration:./go/ci-assurance",
+      "rationale": "Filtered command ran with no standalone module; real coverage comes from the executed root matrix."
+    },
+    {
+      "id": "validate",
+      "component": "internal/ciassurance",
+      "disposition": "passed",
+      "evidence": "integration:./go/ci-assurance",
+      "rationale": "Filtered command ran with no standalone module; real coverage comes from the executed root matrix."
+    },
+    {
+      "id": "validate",
+      "component": "internal/mcpserver",
+      "disposition": "passed",
+      "evidence": "integration:./go/ci-assurance",
+      "rationale": "Filtered command ran with no standalone module; real coverage comes from the executed root matrix."
+    },
+    {
+      "id": "validate",
+      "component": "packs",
+      "disposition": "passed",
+      "evidence": "integration:./go/ci-assurance",
+      "rationale": "Filtered command ran with no standalone module; real coverage comes from the executed root matrix."
+    },
+    {
+      "id": "validate",
+      "component": "scripts",
+      "disposition": "passed",
+      "evidence": "integration:./go/ci-assurance",
+      "rationale": "Filtered command ran with no standalone module; real coverage comes from the executed root matrix."
+    }
+  ],
+  "evidence_refs": [
+    "integration:./go/ci-assurance",
+    "integration:./go/mcp-contract",
+    "integration:./go/smoke-install",
+    "report:.pose/reports/2026-09-08-standard-v1-delivery-ci-review.md",
+    "unit:./go/test"
+  ],
+  "findings": [],
+  "attested_at": "2026-09-08T22:45:14Z",
+  "path": ".pose/review-attestations/rva-05b7193c1743db49.json"
+}

@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "attestation_id": "rva-317b7d1ca69ad04d",
+  "bundle_id": "rvb-e373f801791a11a5",
+  "bundle_digest": "sha256:e373f801791a11a5b940b99208cb4a6edd14a80aec506baaefc62b452d9d05c4",
+  "reviewer": "agent:tree_review",
+  "decision": "approved",
+  "criteria": [
+    {
+      "id": "compatibility",
+      "disposition": "passed",
+      "evidence": "integration:./go/session-tree-progression"
+    },
+    {
+      "id": "correctness",
+      "disposition": "passed",
+      "evidence": "test:TestTreeProgressionOverRealStdio"
+    },
+    {
+      "id": "cross-component-integration",
+      "disposition": "passed",
+      "evidence": "integration:./go/session-tree-progression"
+    },
+    {
+      "id": "documentation",
+      "disposition": "passed",
+      "evidence": "integration:./go/session-tree-progression"
+    },
+    {
+      "id": "operability",
+      "disposition": "passed",
+      "evidence": "integration:./go/session-tree-progression"
+    },
+    {
+      "id": "requirements",
+      "disposition": "passed",
+      "evidence": "requirement-trace:session-tree-progression"
+    },
+    {
+      "id": "scope",
+      "disposition": "passed",
+      "evidence": "integration:./go/session-tree-progression"
+    },
+    {
+      "id": "security",
+      "disposition": "passed",
+      "evidence": "integration:./go/session-tree-progression"
+    }
+  ],
+  "tools": [
+    {
+      "id": "artifact-check",
+      "disposition": "passed",
+      "evidence": "report:.pose/reports/2026-09-08-review-session-tree-progression.md",
+      "rationale": "Executed successfully; details in review report"
+    },
+    {
+      "id": "assess-discover",
+      "component": "cmd",
+      "disposition": "not-used",
+      "evidence": "report:.pose/reports/2026-09-08-review-session-tree-progression.md",
+      "rationale": "Global discovery covers both cmd and internal in the single Go module"
+    },
+    {
+      "id": "assess-discover",
+      "component": "internal",
+      "disposition": "not-used",
+      "evidence": "report:.pose/reports/2026-09-08-review-session-tree-progression.md",
+      "rationale": "Global discovery covers both cmd and internal in the single Go module"
+    },
+    {
+      "id": "assess-integrate",
+      "disposition": "passed",
+      "evidence": "integration:./go/session-tree-progression",
+      "rationale": "Real stdio integration passed; empty MCP Go detector inventory is documented"
+    },
+    {
+      "id": "assess-tech-debt",
+      "disposition": "passed",
+      "evidence": "report:.pose/reports/2026-09-08-review-session-tree-progression.md",
+      "rationale": "Executed successfully; details in review report"
+    },
+    {
+      "id": "closeout-check",
+      "disposition": "deferred",
+      "rationale": "post-review gate"
+    },
+    {
+      "id": "knowledge-check",
+      "disposition": "passed",
+      "evidence": "report:.pose/reports/2026-09-08-review-session-tree-progression.md",
+      "rationale": "Executed successfully; details in review report"
+    },
+    {
+      "id": "review-check",
+      "disposition": "deferred",
+      "rationale": "post-review gate"
+    },
+    {
+      "id": "suggest-review",
+      "component": "cmd",
+      "disposition": "passed",
+      "evidence": "report:.pose/reports/2026-09-08-review-session-tree-progression.md",
+      "rationale": "Executed successfully; details in review report"
+    },
+    {
+      "id": "suggest-review",
+      "component": "internal",
+      "disposition": "passed",
+      "evidence": "report:.pose/reports/2026-09-08-review-session-tree-progression.md",
+      "rationale": "Executed successfully; details in review report"
+    },
+    {
+      "id": "surface-check",
+      "disposition": "passed",
+      "evidence": "integration:./go/session-tree-progression",
+      "rationale": "Composed target has current stdio evidence and zero surface findings"
+    },
+    {
+      "id": "validate",
+      "disposition": "passed",
+      "evidence": "validation:.pose/results/delivery-validation.json",
+      "rationale": "Full root Go module validation covers cmd and internal: 14 of 14 passed"
+    },
+    {
+      "id": "validate",
+      "component": "cmd",
+      "disposition": "passed",
+      "evidence": "validation:.pose/results/delivery-validation.json",
+      "rationale": "Full root Go module validation covers cmd and internal: 14 of 14 passed"
+    },
+    {
+      "id": "validate",
+      "component": "internal",
+      "disposition": "passed",
+      "evidence": "validation:.pose/results/delivery-validation.json",
+      "rationale": "Full root Go module validation covers cmd and internal: 14 of 14 passed"
+    }
+  ],
+  "evidence_refs": [
+    "integration:./go/session-tree-progression",
+    "report:.pose/reports/2026-09-08-review-session-tree-progression.md",
+    "requirement-trace:session-tree-progression",
+    "test:TestTreeProgressionOverRealStdio",
+    "validation:.pose/results/delivery-validation.json"
+  ],
+  "findings": [],
+  "attested_at": "2026-09-08T03:42:37Z",
+  "path": ".pose/review-attestations/rva-317b7d1ca69ad04d.json"
+}

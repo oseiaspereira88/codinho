@@ -12,3 +12,5 @@
 {"at":"2026-09-07T14:42:06Z","trigger":"spec_closeout","target":"session-recovery-version-pinning","dedup_key":"f43d1711407e6d5d","consumer":"state-refresh","result":"skipped","duration_ms":0}
 {"at":"2026-09-07T14:42:36Z","trigger":"spec_closeout","target":"session-recovery-version-pinning","dedup_key":"f43d1711407e6d5d","consumer":"state-refresh","result":"skipped","duration_ms":0}
 {"at":"2026-09-07T14:42:50Z","trigger":"manual","dedup_key":"8b1198130ffc812a","consumer":"state-refresh","result":"ok","duration_ms":5,"changed_sections":["Follow-ups","Decisões \u0026 Conhecimento","Arquitetura"]}
+{"at":"2026-09-08T03:43:29Z","trigger":"manual","dedup_key":"cea2b3eef4da0ef2","consumer":"state-refresh","result":"ok","duration_ms":10,"changed_sections":["Specs \u0026 Roadmaps","Decisões \u0026 Conhecimento","Validação \u0026 Evidência","Arquitetura"]}
+{"at":"2026-09-08T03:44:13Z","trigger":"spec_closeout","target":"session-tree-progression","dedup_key":"148c1cc51e6f103d","consumer":"state-refresh","result":"ok","duration_ms":5}

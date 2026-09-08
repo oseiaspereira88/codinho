@@ -137,6 +137,14 @@
       "digest": "sha256:56189f9c528e1dc821e816f2caf555880fab1cb89a4392f35dc641973f808a49"
     },
     {
+      "spec": "session-tree-progression",
+      "category": "fixed",
+      "breaking": true,
+      "body": "Sessões iniciam na profundidade solicitada e percorrem todas as layers,\npreservando progresso ao mudar granularidade e reiniciar o servidor. Declare\nchildren_mode: choice para alternativas e use next_step_id em step_advance\npara selecionar um ramo permitido. Irmãos sem choice passam a seguir sequência\nobrigatória; concluir uma janela ampla cobre sua subárvore sem duplicar eventos.",
+      "path": "session-tree-progression.md",
+      "digest": "sha256:809ee955d17b100bed8877ca9e0158a661ebb880480f36af398fc1706559635f"
+    },
+    {
       "spec": "tutor-skill-host-integration",
       "category": "added",
       "breaking": false,

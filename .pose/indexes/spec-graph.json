@@ -401,6 +401,14 @@
       "to": "learning-practice-debug-modes"
     },
     {
+      "from": "session-tree-progression",
+      "to": "session-recovery-version-pinning"
+    },
+    {
+      "from": "session-tree-progression",
+      "to": "evaluation-evidence-lineage"
+    },
+    {
       "from": "tutor-skill-host-integration",
       "to": "mcp-stdio-foundation"
     },
@@ -893,11 +901,13 @@
     "session-tree-progression": {
       "depends_on": [
         "feedback-evaluation-progression",
-        "learning-practice-debug-modes"
+        "learning-practice-debug-modes",
+        "session-recovery-version-pinning",
+        "evaluation-evidence-lineage"
       ],
       "path": ".pose/specs/2026-09-07-session-tree-progression.md",
       "priority": 20,
-      "status": "draft"
+      "status": "done"
     },
     "tutor-skill-host-integration": {
       "depends_on": [

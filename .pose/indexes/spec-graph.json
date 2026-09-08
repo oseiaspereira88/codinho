@@ -649,7 +649,7 @@
       ],
       "path": ".pose/specs/2026-09-07-catalog-publication-integrity.md",
       "priority": 30,
-      "status": "draft"
+      "status": "done"
     },
     "catalog-schema-loader": {
       "depends_on": [

@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "attestation_id": "rva-f35c1de4d1992136",
+  "bundle_id": "rvb-838a0d1e9391698a",
+  "bundle_digest": "sha256:838a0d1e9391698a524b162085fab48ed005a63b2943faf4bb1bef4ddd40fde8",
+  "reviewer": "agent:publication_review",
+  "decision": "approved",
+  "criteria": [
+    {
+      "id": "compatibility",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "correctness",
+      "disposition": "passed",
+      "evidence": "test:auto-attest"
+    },
+    {
+      "id": "cross-component-integration",
+      "disposition": "passed",
+      "evidence": "integration:./go/catalog-publication-integrity"
+    },
+    {
+      "id": "documentation",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "operability",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "requirements",
+      "disposition": "passed",
+      "evidence": "requirement-trace:auto-attest"
+    },
+    {
+      "id": "scope",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "security",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    }
+  ],
+  "tools": [
+    {
+      "id": "artifact-check",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "assess-discover",
+      "component": "cmd",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "assess-discover",
+      "component": "internal",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "assess-discover",
+      "component": "packs",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "assess-discover",
+      "component": "schemas",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "assess-discover",
+      "component": "testdata",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "assess-integrate",
+      "disposition": "passed",
+      "evidence": "integration:./go/catalog-publication-integrity"
+    },
+    {
+      "id": "assess-tech-debt",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "closeout-check",
+      "disposition": "deferred",
+      "rationale": "post-review gate"
+    },
+    {
+      "id": "knowledge-check",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "review-check",
+      "disposition": "deferred",
+      "rationale": "post-review gate"
+    },
+    {
+      "id": "suggest-review",
+      "component": "cmd",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "suggest-review",
+      "component": "internal",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "suggest-review",
+      "component": "packs",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "suggest-review",
+      "component": "schemas",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "suggest-review",
+      "component": "testdata",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "surface-check",
+      "disposition": "passed",
+      "evidence": "integration:./go/catalog-publication-integrity"
+    },
+    {
+      "id": "validate",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "validate",
+      "component": "cmd",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "validate",
+      "component": "internal",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "validate",
+      "component": "packs",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "validate",
+      "component": "schemas",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "validate",
+      "component": "testdata",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    }
+  ],
+  "evidence_refs": [
+    "build:./go/build",
+    "e2e:./go/cli-e2e",
+    "integration:./go/catalog-publication-integrity",
+    "integration:./go/evaluation-evidence",
+    "integration:./go/mcp-contract",
+    "integration:./go/published-catalog-proof",
+    "integration:./go/session-recovery",
+    "integration:./go/session-tree-progression",
+    "integration:./go/smoke-install",
+    "integration:./go/startup-budget",
+    "integration:./go/stdout-purity",
+    "integration:./go/tutor-skill-routing",
+    "reachability:./go/cli-reachability",
+    "requirement-trace:auto-attest",
+    "test:auto-attest",
+    "unit:./go/test"
+  ],
+  "findings": [],
+  "attested_at": "2026-09-08T12:59:53Z",
+  "path": ".pose/review-attestations/rva-f35c1de4d1992136.json"
+}

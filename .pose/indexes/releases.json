@@ -25,6 +25,14 @@
       "digest": "sha256:8b143c23bf7dfb0ca29418c5e60d33dccac135ad6e5625227e2db826974f6f38"
     },
     {
+      "spec": "catalog-publication-integrity",
+      "category": "fixed",
+      "breaking": true,
+      "body": "MCP usa apenas conteúdo publicado; autoria/playtest de rascunhos exige\nserve --authoring. Gates separam inventário, publicação e desafios canônicos,\naplicam distribuição versionada e conferem expectativas executáveis de baseline\ne referência. --checks rejeita prova ausente, falha inesperada, skip e zero testes.\nGabaritos privados não entram em respostas ou eventos; sessões anteriores mantêm\nseu conteúdo fixado. Campos YAML desconhecidos deixam de ser ignorados.",
+      "path": "catalog-publication-integrity.md",
+      "digest": "sha256:501a5a0ac98705cef193e1764c9b5445f3c3e2d66cd90b4e6ea981d3fbfe64c5"
+    },
+    {
       "spec": "curriculum-graph-path-recommendation",
       "category": "added",
       "breaking": false,

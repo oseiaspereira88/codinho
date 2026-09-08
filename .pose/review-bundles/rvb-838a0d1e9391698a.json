@@ -1,0 +1,1136 @@
+{
+  "schema_version": 1,
+  "bundle_id": "rvb-838a0d1e9391698a",
+  "bundle_digest": "sha256:838a0d1e9391698a524b162085fab48ed005a63b2943faf4bb1bef4ddd40fde8",
+  "state": "sealed",
+  "sealed_at": "2026-09-08T12:57:11Z",
+  "payload": {
+    "scope": {
+      "ref": "spec:catalog-publication-integrity",
+      "kind": "spec",
+      "slug": "catalog-publication-integrity",
+      "depends_on": [
+        "catalog-authoring-quality",
+        "catalog-schema-loader",
+        "safe-check-executor"
+      ],
+      "components": [
+        "cli",
+        "curriculum",
+        "mcp-server"
+      ],
+      "deliveries": [
+        "capability:catalog-publication-integrity"
+      ],
+      "sections": [
+        {
+          "kind": "semantic-section",
+          "path": "decisions",
+          "digest": "sha256:e8dcd5827e93fb0dc11ffab4c357733cb6f114f5f7dfa586270e10cc7e5808fd",
+          "reason": "governed semantic review input"
+        },
+        {
+          "kind": "semantic-section",
+          "path": "intent",
+          "digest": "sha256:e699fa791878ff16bf55ebc30734ad58acb24ffe09e4d2d52a6a8b77c96778cc",
+          "reason": "governed semantic review input"
+        },
+        {
+          "kind": "semantic-section",
+          "path": "requirements",
+          "digest": "sha256:e121d417159b889439eaf3a91a3e8a4433dccdc69c8faa98b70cbc2ce614df6f",
+          "reason": "governed semantic review input"
+        },
+        {
+          "kind": "semantic-section",
+          "path": "technical plan",
+          "digest": "sha256:a98a5359008748cdb894ac2fba1d2cbd48c5ba2fe16304a03459ced81181fddf",
+          "reason": "governed semantic review input"
+        }
+      ]
+    },
+    "subject": {
+      "change_sets": [
+        "cs-98d26de1574a"
+      ],
+      "base": "2d390450d6773ddfc0e08a30a0b91e7ea07d361f",
+      "head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
+      "patch_digest": "sha256:19e7829079e993e5aa43850073641ad54ef7c311094dff3d914c32b5234b6706",
+      "tree_digest": "sha256:948080ea229e0aea3213d9b43a3aad23fb030be0789c8b189983b1186fe15104",
+      "entries": [
+        {
+          "action": "created",
+          "path": ".pose/adr/2026-09-08-publication-projections-and-executable-editorial-proof.md",
+          "class": "governance",
+          "digest": "sha256:bdf4a265e9e7787cf732c1a641d7a755016891a2bfd774ed9e726f5333986d5e",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": ".pose/changelogs/unreleased/catalog-publication-integrity.md",
+          "class": "governance",
+          "digest": "sha256:11d218e63d47ba4a24f6e1d351346084e913aaedccca7b6a849120faa207378e",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": ".pose/knowledge/2026-09-08-decision-log-adr-publication-review.md",
+          "class": "governance",
+          "digest": "sha256:92f6264e7d20c6d27de55163ff0baab13e4a58088b4ba89843c111fa5b02e69f",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "cmd/codinho/publication_integration_test.go",
+          "class": "implementation",
+          "digest": "sha256:ed4cfec1431d673319b9f3707432fe7f9bb36de57c4b2e75549b59f3902714e3",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/checks/editorial.go",
+          "class": "implementation",
+          "digest": "sha256:a3e5e21c2182159f1ce5281f11ed33401b600aab9d563983a2295ec3a6e896b6",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/checks/editorial_test.go",
+          "class": "implementation",
+          "digest": "sha256:a0954e261682896ce84f5ca78a26eba9e6c8c318dd563876fee457d88243b06d",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/cli/publication_test.go",
+          "class": "implementation",
+          "digest": "sha256:1ca835247948e949000c3abb0bc08218e69cc3a54dcc8bf8b7be84bced3e2ecb",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/distribution.go",
+          "class": "implementation",
+          "digest": "sha256:216f9471cec97d9565a3433e4afe84806aacf31929827c3997608e12c401f282",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/publication.go",
+          "class": "implementation",
+          "digest": "sha256:d07d26ad0bbb06cd6281643dd1c0dbb29b943bca74b8fa05aac02972b14d8fc6",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/publication_test.go",
+          "class": "implementation",
+          "digest": "sha256:1d044b020b2a2634d009f67a2270321938134755e917d4d94a9e4e46e4eb17a1",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/schema_contract_test.go",
+          "class": "implementation",
+          "digest": "sha256:e95e0f24a745dfa51ff83be58ec9ea623012682e0d865d74f43840249d3d20fc",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "packs/distribution.json",
+          "class": "implementation",
+          "digest": "sha256:9ea68f610ad167944b62eeda83f9fc24e6f5b875551ab828396d76d9e4f5bd9d",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "testdata/catalog-quality/distribution.json",
+          "class": "implementation",
+          "digest": "sha256:25b20292284c029a734b33bb12ed48ec35ce874c6f4e4252bf386f4e5951676c",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "testdata/catalog-quality/schema-corpus.json",
+          "class": "implementation",
+          "digest": "sha256:ac82cb528a8c5f411c8218240b2b85fe30310e077eb01d3033f13beffac555ad",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": ".github/workflows/ci.yml",
+          "class": "implementation",
+          "digest": "sha256:3c7bca558f4b814b3f1e9fd355e29959c56f50c1cf15c6c0e11d94f6c41b71e1",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/validation-matrix.json",
+          "class": "governance",
+          "digest": "sha256:76c231af2376ca09712707d6ae3561f88a2e193b62ec739baad614f2743cbeef",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "cmd/codinho/evaluation_evidence_integration_test.go",
+          "class": "implementation",
+          "digest": "sha256:ccaf60d1c276ff3e1f85be91ea277cea91c93131e73566bf369c62080d0840c0",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "cmd/codinho/integration_test.go",
+          "class": "implementation",
+          "digest": "sha256:2f9049ade5e8524b8cbfb962882cc511f7dad14a94c916acf5b1d1b9fcc35d1c",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "cmd/codinho/main.go",
+          "class": "implementation",
+          "digest": "sha256:598b6aa67a379c9665da1f9596e7b4daf915835cf0cd2d6dd02a354b78180422",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "cmd/codinho/recovery_integration_test.go",
+          "class": "implementation",
+          "digest": "sha256:abef222227f3fbe81032904c98bfe44868de4935bca0270d38bbed93b3d8d655",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "cmd/codinho/tree_progression_integration_test.go",
+          "class": "implementation",
+          "digest": "sha256:7393de0c9ed7a41433145953c61dc66117b0ba7224e31cf8f015a27710631796",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "docs/compatibility.md",
+          "class": "documentation",
+          "digest": "sha256:8702d138be7761cf54b46bd97ed8ad198585551b8d2f4d087ab57c075cb551e6",
+          "reason": "attributed documentation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "docs/content-authoring.md",
+          "class": "documentation",
+          "digest": "sha256:3d2c15102f29936eab720496c17ce2b32703d2d6b844bbae4543e60387bf5a29",
+          "reason": "attributed documentation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "go.mod",
+          "class": "governance",
+          "digest": "sha256:6f19aa82fe79747853b9eec7f4727746827b0f22a0e2c47e943712d691883031",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/checks/executor.go",
+          "class": "implementation",
+          "digest": "sha256:a3b1ccf3e93692375200b6fd14436e5a9a05beb2ab95800bfcc5266cd22367e6",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/cli/catalog.go",
+          "class": "implementation",
+          "digest": "sha256:33c131d9cfac4149f9adfef8f3d03a58976453b04b888e453ff64d3ce15cc726",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/cli/cli_test.go",
+          "class": "implementation",
+          "digest": "sha256:cfd7d90844f227c36aebcaed384896c080f379edcfdb076b9ceea1850618a6b1",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/cli/editorial.go",
+          "class": "implementation",
+          "digest": "sha256:c4051bad0cab22530a4a50f6255d7fb813279a06980249542feb0b934202211b",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/cli/editorial_test.go",
+          "class": "implementation",
+          "digest": "sha256:83760349d80bb48dd0618d93f4b21438528afa3eef601d2c6cc16ed44bba3219",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/coverage.go",
+          "class": "implementation",
+          "digest": "sha256:fab95a530b4e4e1fa3725b3d06e86921bba8668fd75ab0d738ec875dd9d0efde",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/coverage_test.go",
+          "class": "implementation",
+          "digest": "sha256:88c5ecf6fd32ecedb8aeeab7502ed786c77d8ea90d8094591fb0f33951d6e8d4",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/editorial.go",
+          "class": "implementation",
+          "digest": "sha256:f032fef84a34d7c2b7a1a1c616720473711a57c7bc9f64e79a650e3bac4cc521",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/index.go",
+          "class": "implementation",
+          "digest": "sha256:5dfc0b4ec0ee0a9fa1e148351c89283996a278f84b122c8ca0c5b100801283c5",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/loader.go",
+          "class": "implementation",
+          "digest": "sha256:2f2e076f4c2e504d059d5c673233b29e7ace39c3d7777fe54b2bdff210ca3f3d",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/model.go",
+          "class": "implementation",
+          "digest": "sha256:ebb9694974b5df042ad74537ddbc2de0b3782f114b07c0ebb17d07bb07165a7f",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/playtest.go",
+          "class": "implementation",
+          "digest": "sha256:018be367438aeaab11b88327b73ca7c865bd1a9f2a55d29eaff0d68b2ba08b0e",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "schemas/catalog.schema.json",
+          "class": "implementation",
+          "digest": "sha256:48bceb448065da75c81dae54dabfcd8fd07beaba377b7a1f49467178fcef2009",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "schemas/challenge.schema.json",
+          "class": "implementation",
+          "digest": "sha256:3e836f69084b71fd7ab415443d713ed445d05765348396618715928cfd331df1",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "schemas/pack.schema.json",
+          "class": "implementation",
+          "digest": "sha256:148ce8b143e2b7ac0c8bd93339fcc697919cb2994f408de6427055641c38736c",
+          "reason": "attributed implementation path in the immutable change set"
+        }
+      ]
+    },
+    "plan": {
+      "plan_digest": "sha256:d815afe523f1b9cce3bd06bacae75823679c8d95d32b51b8e365da1bb1392c03",
+      "independence": "same-actor-separate-execution",
+      "components": [
+        {
+          "id": "cmd",
+          "path": "cmd",
+          "kind": "directory",
+          "sources": [
+            "artifact:catalog-publication-integrity:cmd/codinho/evaluation_evidence_integration_test.go",
+            "artifact:catalog-publication-integrity:cmd/codinho/integration_test.go",
+            "artifact:catalog-publication-integrity:cmd/codinho/main.go",
+            "artifact:catalog-publication-integrity:cmd/codinho/publication_integration_test.go",
+            "artifact:catalog-publication-integrity:cmd/codinho/recovery_integration_test.go",
+            "artifact:catalog-publication-integrity:cmd/codinho/tree_progression_integration_test.go",
+            "delivery:capability:catalog-publication-integrity:cmd/codinho",
+            "delivery:capability:catalog-publication-integrity:cmd/codinho/main.go",
+            "observed:catalog-publication-integrity:cmd/codinho/evaluation_evidence_integration_test.go",
+            "observed:catalog-publication-integrity:cmd/codinho/integration_test.go",
+            "observed:catalog-publication-integrity:cmd/codinho/main.go",
+            "observed:catalog-publication-integrity:cmd/codinho/publication_integration_test.go",
+            "observed:catalog-publication-integrity:cmd/codinho/recovery_integration_test.go",
+            "observed:catalog-publication-integrity:cmd/codinho/tree_progression_integration_test.go"
+          ]
+        },
+        {
+          "id": "internal",
+          "path": "internal",
+          "kind": "directory",
+          "sources": [
+            "artifact:catalog-publication-integrity:internal/checks/editorial.go",
+            "artifact:catalog-publication-integrity:internal/checks/editorial_test.go",
+            "artifact:catalog-publication-integrity:internal/checks/executor.go",
+            "artifact:catalog-publication-integrity:internal/cli/catalog.go",
+            "artifact:catalog-publication-integrity:internal/cli/cli_test.go",
+            "artifact:catalog-publication-integrity:internal/cli/editorial.go",
+            "artifact:catalog-publication-integrity:internal/cli/editorial_test.go",
+            "artifact:catalog-publication-integrity:internal/cli/publication_test.go",
+            "artifact:catalog-publication-integrity:internal/curriculum/coverage.go",
+            "artifact:catalog-publication-integrity:internal/curriculum/coverage_test.go",
+            "artifact:catalog-publication-integrity:internal/curriculum/distribution.go",
+            "artifact:catalog-publication-integrity:internal/curriculum/editorial.go",
+            "artifact:catalog-publication-integrity:internal/curriculum/index.go",
+            "artifact:catalog-publication-integrity:internal/curriculum/loader.go",
+            "artifact:catalog-publication-integrity:internal/curriculum/model.go",
+            "artifact:catalog-publication-integrity:internal/curriculum/playtest.go",
+            "artifact:catalog-publication-integrity:internal/curriculum/publication.go",
+            "artifact:catalog-publication-integrity:internal/curriculum/publication_test.go",
+            "artifact:catalog-publication-integrity:internal/curriculum/schema_contract_test.go",
+            "observed:catalog-publication-integrity:internal/checks/editorial.go",
+            "observed:catalog-publication-integrity:internal/checks/editorial_test.go",
+            "observed:catalog-publication-integrity:internal/checks/executor.go",
+            "observed:catalog-publication-integrity:internal/cli/catalog.go",
+            "observed:catalog-publication-integrity:internal/cli/cli_test.go",
+            "observed:catalog-publication-integrity:internal/cli/editorial.go",
+            "observed:catalog-publication-integrity:internal/cli/editorial_test.go",
+            "observed:catalog-publication-integrity:internal/cli/publication_test.go",
+            "observed:catalog-publication-integrity:internal/curriculum/coverage.go",
+            "observed:catalog-publication-integrity:internal/curriculum/coverage_test.go",
+            "observed:catalog-publication-integrity:internal/curriculum/distribution.go",
+            "observed:catalog-publication-integrity:internal/curriculum/editorial.go",
+            "observed:catalog-publication-integrity:internal/curriculum/index.go",
+            "observed:catalog-publication-integrity:internal/curriculum/loader.go",
+            "observed:catalog-publication-integrity:internal/curriculum/model.go",
+            "observed:catalog-publication-integrity:internal/curriculum/playtest.go",
+            "observed:catalog-publication-integrity:internal/curriculum/publication.go",
+            "observed:catalog-publication-integrity:internal/curriculum/publication_test.go",
+            "observed:catalog-publication-integrity:internal/curriculum/schema_contract_test.go"
+          ]
+        },
+        {
+          "id": "packs",
+          "path": "packs",
+          "kind": "directory",
+          "sources": [
+            "artifact:catalog-publication-integrity:packs/distribution.json",
+            "observed:catalog-publication-integrity:packs/distribution.json"
+          ]
+        },
+        {
+          "id": "schemas",
+          "path": "schemas",
+          "kind": "directory",
+          "sources": [
+            "artifact:catalog-publication-integrity:schemas/catalog.schema.json",
+            "artifact:catalog-publication-integrity:schemas/challenge.schema.json",
+            "artifact:catalog-publication-integrity:schemas/pack.schema.json",
+            "observed:catalog-publication-integrity:schemas/catalog.schema.json",
+            "observed:catalog-publication-integrity:schemas/challenge.schema.json",
+            "observed:catalog-publication-integrity:schemas/pack.schema.json"
+          ]
+        },
+        {
+          "id": "testdata",
+          "path": "testdata",
+          "kind": "directory",
+          "sources": [
+            "artifact:catalog-publication-integrity:testdata/catalog-quality/distribution.json",
+            "artifact:catalog-publication-integrity:testdata/catalog-quality/schema-corpus.json",
+            "observed:catalog-publication-integrity:testdata/catalog-quality/distribution.json",
+            "observed:catalog-publication-integrity:testdata/catalog-quality/schema-corpus.json"
+          ]
+        }
+      ],
+      "criteria": [
+        {
+          "id": "compatibility",
+          "description": "Public CLI, file and MCP contracts are compatible or explicitly migrated.",
+          "required": true,
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "correctness",
+          "description": "Functional and negative behavior is correct.",
+          "required": true,
+          "evidence_classes": [
+            "test",
+            "validation"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "cross-component-integration",
+          "description": "Observed component boundaries and contracts are integrated and covered by current evidence.",
+          "required": true,
+          "evidence_classes": [
+            "integration"
+          ],
+          "profiles": [
+            "synthetic:cross-component"
+          ]
+        },
+        {
+          "id": "documentation",
+          "description": "Operational docs, templates and scaffold match runtime behavior.",
+          "required": true,
+          "rules": [
+            "documentation-style"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "operability",
+          "description": "Errors, explanations and remediation are actionable.",
+          "required": true,
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "requirements",
+          "description": "Every requirement has current, relevant evidence.",
+          "required": true,
+          "evidence_classes": [
+            "requirement-trace",
+            "test"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "scope",
+          "description": "The implementation matches the approved spec scope.",
+          "required": true,
+          "rules": [
+            "documentation-style"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "security",
+          "description": "Inputs, paths, evidence and authority boundaries are safe.",
+          "required": true,
+          "rules": [
+            "security"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        }
+      ],
+      "tools": [
+        {
+          "id": "artifact-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "artifact-check",
+            "--spec",
+            "catalog-publication-integrity",
+            "--strict"
+          ],
+          "rationale": "reconcile declared artifacts with Git-observed provenance",
+          "criteria": [
+            "requirements",
+            "scope"
+          ],
+          "preconditions": [
+            "artifacts-attributed"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            "cmd"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": "cmd",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            "internal"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": "internal",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            "packs"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": "packs",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            "schemas"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": "schemas",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            "testdata"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": "testdata",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-integrate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "assess",
+            "integrate"
+          ],
+          "rationale": "inspect providers, consumers and inter-component contract gaps",
+          "evidence_classes": [
+            "integration"
+          ],
+          "criteria": [
+            "cross-component-integration"
+          ],
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-tech-debt",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "tech-debt"
+          ],
+          "rationale": "inspect unresolved TODO, FIXME, panic and stub findings",
+          "criteria": [
+            "correctness"
+          ],
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "closeout-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "closeout-check",
+            "spec:catalog-publication-integrity"
+          ],
+          "rationale": "verify remaining hierarchical closeout blockers",
+          "preconditions": [
+            "review-complete"
+          ]
+        },
+        {
+          "id": "knowledge-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "knowledge-check",
+            "--strict"
+          ],
+          "rationale": "verify knowledge schema, sensitivity and lifecycle",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "review-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "review-check",
+            "spec:catalog-publication-integrity"
+          ],
+          "rationale": "verify exact review-plan coverage and freshness",
+          "preconditions": [
+            "review-complete"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            "cmd"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": "cmd",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            "internal"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": "internal",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            "packs"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": "packs",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            "schemas"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": "schemas",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            "testdata"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": "testdata",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "surface-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "surface-check",
+            "--spec",
+            "catalog-publication-integrity",
+            "--strict"
+          ],
+          "rationale": "verify delivery composition, reachability and fresh evidence",
+          "evidence_classes": [
+            "integration",
+            "reachability"
+          ],
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "criteria": [
+            "correctness",
+            "requirements"
+          ],
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            "cmd"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "component": "cmd",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            "internal"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "component": "internal",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            "packs"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "component": "packs",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            "schemas"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "component": "schemas",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            "testdata"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "component": "testdata",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        }
+      ]
+    },
+    "evidence": [
+      {
+        "id": "./go/build",
+        "module": ".",
+        "check": "build",
+        "evidence_class": "build",
+        "outcome": "pass",
+        "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
+        "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/catalog-publication-integrity",
+        "module": ".",
+        "check": "catalog-publication-integrity",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
+        "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/cli-e2e",
+        "module": ".",
+        "check": "cli-e2e",
+        "evidence_class": "e2e",
+        "outcome": "pass",
+        "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
+        "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/cli-reachability",
+        "module": ".",
+        "check": "cli-reachability",
+        "evidence_class": "reachability",
+        "outcome": "pass",
+        "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
+        "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/evaluation-evidence",
+        "module": ".",
+        "check": "evaluation-evidence",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
+        "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/mcp-contract",
+        "module": ".",
+        "check": "mcp-contract",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
+        "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/published-catalog-proof",
+        "module": ".",
+        "check": "published-catalog-proof",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
+        "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/session-recovery",
+        "module": ".",
+        "check": "session-recovery",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
+        "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/session-tree-progression",
+        "module": ".",
+        "check": "session-tree-progression",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
+        "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/smoke-install",
+        "module": ".",
+        "check": "smoke-install",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
+        "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/startup-budget",
+        "module": ".",
+        "check": "startup-budget",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
+        "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/stdout-purity",
+        "module": ".",
+        "check": "stdout-purity",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
+        "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/test",
+        "module": ".",
+        "check": "test",
+        "evidence_class": "unit",
+        "outcome": "pass",
+        "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
+        "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/tutor-skill-routing",
+        "module": ".",
+        "check": "tutor-skill-routing",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "ef456abf43a22c2502004aaf824c6e5992c09a72",
+        "provenance_digest": "sha256:83f2f7ef50fe11139196d045d32bdc0de994141c29e18497f9c9ef051b9455cd",
+        "report": ".pose/results/delivery-validation.json"
+      }
+    ],
+    "consumed_inputs": [
+      {
+        "kind": "governed-config",
+        "path": ".pose/indexes/validation-matrix.json",
+        "digest": "sha256:76c231af2376ca09712707d6ae3561f88a2e193b62ec739baad614f2743cbeef",
+        "reason": "consumed review policy or validation contract"
+      },
+      {
+        "kind": "governed-config",
+        "path": ".pose/policy/review.json",
+        "digest": "sha256:89a78e6ec6e1806414c669e66239831b593c08b9a182e36fae119bccecd28b5e",
+        "reason": "consumed review policy or validation contract"
+      },
+      {
+        "kind": "review-plan",
+        "path": "spec-closeout@1",
+        "digest": "sha256:d815afe523f1b9cce3bd06bacae75823679c8d95d32b51b8e365da1bb1392c03",
+        "reason": "effective component-aware plan contract"
+      },
+      {
+        "kind": "review-profile",
+        "path": ".pose/review-profiles/spec-closeout.json",
+        "digest": "sha256:de13c1d59e485aaf4cb474a8c2836507447c44dc7090cbdc2de589fa75c6cc92",
+        "reason": "selected by effective review plan"
+      },
+      {
+        "kind": "rule",
+        "path": ".pose/rules/documentation-style.md",
+        "digest": "sha256:5c5c666fc6c796cf9ae3876d25d3fd4fa523d121892459dc0d681d73da1d60ae",
+        "reason": "selected by effective review criterion"
+      },
+      {
+        "kind": "rule",
+        "path": ".pose/rules/security.md",
+        "digest": "sha256:1cbf29c12d09cad0799e2d8715e94f84a49ee8fa09867bb5f12a544f8df43774",
+        "reason": "selected by effective review criterion"
+      },
+      {
+        "kind": "schema",
+        "path": "review-bundle@1",
+        "digest": "sha256:e7c9643ec88eccb2a6dea3ee3291c351983d78e1d2fa44b61399514c5021bcb0",
+        "reason": "canonical bundle and attestation schema identity"
+      },
+      {
+        "kind": "tool-catalog",
+        "path": "native-review-tools@1",
+        "digest": "sha256:d815afe523f1b9cce3bd06bacae75823679c8d95d32b51b8e365da1bb1392c03",
+        "reason": "closed resolved native tool contract"
+      }
+    ]
+  },
+  "excluded_inputs": [
+    {
+      "kind": "derived-section",
+      "path": "final report",
+      "digest": "sha256:a55dcbec31ef361b8429e3b1869ef7c4fbd5bc97229544fa8a9565940efcda5f",
+      "reason": "operational closeout content is verified by its own gate"
+    },
+    {
+      "kind": "derived-section",
+      "path": "tasks",
+      "digest": "sha256:2584e9b88fdcb3205b6e8f55bd3f8c44224381b0e4f771b211460463296e1487",
+      "reason": "operational closeout content is verified by its own gate"
+    },
+    {
+      "kind": "derived-section",
+      "path": "validation",
+      "digest": "sha256:7d76769ea0efbd43107d3cd2b6cb312ebf0727e774856dcec7c3a64817f14280",
+      "reason": "operational closeout content is verified by its own gate"
+    },
+    {
+      "kind": "lifecycle",
+      "path": "/home/go/GolandProjects/codinho/.pose/specs/2026-09-07-catalog-publication-integrity.md",
+      "reason": "status and completed_at do not define the reviewed semantic subject"
+    },
+    {
+      "kind": "semantic-scope",
+      "path": ".pose/specs/2026-09-07-catalog-publication-integrity.md",
+      "reason": "attributed path is outside the semantic review subject"
+    }
+  ],
+  "warnings": [
+    "review tool validate drops evidence class validation: no registered check may emit it",
+    "unmapped review component explicit:cli",
+    "unmapped review component explicit:curriculum",
+    "unmapped review component explicit:mcp-server",
+    "unmapped review component path:.github/workflows/ci.yml",
+    "unmapped review component path:.pose/adr/2026-09-08-publication-projections-and-executable-editorial-proof.md",
+    "unmapped review component path:.pose/changelogs/unreleased/catalog-publication-integrity.md",
+    "unmapped review component path:.pose/indexes/validation-matrix.json",
+    "unmapped review component path:.pose/knowledge/2026-09-08-decision-log-adr-publication-review.md",
+    "unmapped review component path:docs/compatibility.md",
+    "unmapped review component path:docs/content-authoring.md",
+    "unmapped review component path:go.mod"
+  ],
+  "path": ".pose/review-bundles/rvb-838a0d1e9391698a.json"
+}

@@ -71,8 +71,29 @@ type ThemeAuthoring struct {
 
 // ConceptAuthoring is something a learner can understand (PROJECT.md §7.2).
 type ConceptAuthoring struct {
-	ID    string `yaml:"id"`
-	Title string `yaml:"title"`
+	ID      string                   `yaml:"id"`
+	Title   string                   `yaml:"title"`
+	Content *ConceptContentAuthoring `yaml:"content,omitempty"`
+}
+
+// ConceptContentAuthoring is public explanatory content, never challenge data.
+type ConceptContentAuthoring struct {
+	Version      int                        `yaml:"version"`
+	Explanation  string                     `yaml:"explanation"`
+	Example      ConceptExampleAuthoring    `yaml:"example"`
+	Analogy      string                     `yaml:"analogy,omitempty"`
+	RelationRefs []ConceptRelationReference `yaml:"relation_refs,omitempty"`
+}
+
+type ConceptExampleAuthoring struct {
+	Context     string `yaml:"context" json:"context"`
+	Code        string `yaml:"code" json:"code"`
+	Explanation string `yaml:"explanation" json:"explanation"`
+}
+
+type ConceptRelationReference struct {
+	Kind      string `yaml:"kind"`
+	ConceptID string `yaml:"concept_id"`
 }
 
 // CompetencyAuthoring is something a learner can demonstrate (PROJECT.md

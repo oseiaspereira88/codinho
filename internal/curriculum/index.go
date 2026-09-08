@@ -45,7 +45,7 @@ func newCatalog(packs []Pack) *Catalog {
 			c.themes[t.ID] = t
 		}
 		for _, cn := range p.Concepts {
-			c.concepts[cn.ID] = cn
+			c.concepts[cn.ID] = cloneConcept(cn)
 		}
 		for _, cp := range p.Competencies {
 			c.competencies[cp.ID] = cp
@@ -120,7 +120,7 @@ func (c *Catalog) List(kind ItemKind, theme string) []Item {
 // concept (assistance-hints-detours requirement R5).
 func (c *Catalog) Concept(id string) (ConceptAuthoring, bool) {
 	cn, ok := c.concepts[id]
-	return cn, ok
+	return cloneConcept(cn), ok
 }
 
 // Challenge returns the full authoring record for id with reserved fields

@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-core
-version: 1.0.0
+version: 1.1.0
 themes:
   - id: control-flow
     title: Controle de fluxo
@@ -27,6 +27,19 @@ concepts:
     title: Construtor retornando tipo de interface
   - id: functional-options-pattern
     title: Padrão de opções funcionais
+    content:
+      version: 1
+      explanation: "O padrão de opções funcionais permite configurar structs com parâmetros opcionais extensíveis através de closures aplicadas a um tipo de configuração não exportado ou protegido."
+      example:
+        context: "calendário"
+        code: "type EventOption func(*CalendarEvent)\n\nfunc WithReminder(minutes int) EventOption {\n\treturn func(e *CalendarEvent) {\n\t\te.reminderMinutes = minutes\n\t}\n}\n\nfunc NewCalendarEvent(title string, opts ...EventOption) *CalendarEvent {\n\tevent := &CalendarEvent{title: title, reminderMinutes: 15}\n\tfor _, opt := range opts {\n\t\topt(event)\n\t}\n\treturn event\n}"
+        explanation: "Constrói um evento do calendário com valores padrão e aplica opções variádicas sem sobrecarregar a assinatura da função construtora."
+      analogy: "Como preencher uma folha de compromissos: você anota o título obrigatório e marca apenas os lembretes ou cores opcionais que desejar."
+      relation_refs:
+        - kind: relates_to
+          concept_id: variadic-parameters
+        - kind: relates_to
+          concept_id: unexported-field-invariant
 competencies:
   - id: sequence-cleanup-with-defer
     title: Sequenciar limpeza de recursos com defer

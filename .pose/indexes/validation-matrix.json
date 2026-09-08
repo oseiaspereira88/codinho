@@ -494,6 +494,19 @@
           ],
           "severity": "required",
           "evidenceClass": "integration"
+        },
+        {
+          "name": "concept-content-capability",
+          "program": "go",
+          "args": [
+            "test",
+            "./cmd/codinho/...",
+            "-run",
+            "TestConceptContentOverRealStdio",
+            "-count=1"
+          ],
+          "severity": "required",
+          "evidenceClass": "integration"
         }
       ]
     }

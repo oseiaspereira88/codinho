@@ -27,6 +27,7 @@ const (
 	DiagDuplicateFixturePath      DiagnosticCode = "duplicate_fixture_path"
 	DiagInvalidVersion            DiagnosticCode = "invalid_version"
 	DiagInvalidNavigation         DiagnosticCode = "invalid_navigation"
+	DiagInvalidConceptContent     DiagnosticCode = "invalid_concept_content"
 )
 
 // semverPattern requires a plain major.minor.patch version (catalog-
@@ -154,6 +155,7 @@ func Validate(packs []Pack) []Diagnostic {
 
 	diags = append(diags, detectPrerequisiteCycles(prereqs)...)
 	diags = append(diags, validateRelations(packs, themes, concepts, competencies, challenges)...)
+	diags = append(diags, validateConceptContent(packs, concepts)...)
 
 	return diags
 }

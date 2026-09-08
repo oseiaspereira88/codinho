@@ -1,12 +1,23 @@
 schema_version: 1
 id: go-errors
-version: 1.0.0
+version: 1.1.0
 themes:
   - id: errors
     title: Erros
 concepts:
   - id: error-wrapping-with-percent-w
     title: Encadeamento de erro com %w
+    content:
+      version: 1
+      explanation: "O verbo %w na função fmt.Errorf cria um erro que envolve outro erro original, preservando a cadeia de causa para inspeção com errors.Is e errors.As sem perder a mensagem contextual."
+      example:
+        context: "reserva de planetário"
+        code: "var ErrSessaoLotada = errors.New(\"sessao esgotada\")\n\nfunc ReservarCadeiraPlanetario(sessaoID string, cadeira int) error {\n\tif cadeira > 50 {\n\t\treturn fmt.Errorf(\"planetario %s: %w\", sessaoID, ErrSessaoLotada)\n\t}\n\treturn nil\n}"
+        explanation: "O erro retornado inclui o identificador da sessão astronômica no prefixo e preserva a sentinela ErrSessaoLotada intacta para verificação pelo chamador."
+      analogy: "Como colocar uma carta dentro de um envelope timbrado do planetário: o envelope adiciona informações de postagem, mas a carta original permanece intacta lá dentro."
+      relation_refs:
+        - kind: relates_to
+          concept_id: errors-as-type-extraction
   - id: errors-as-type-extraction
     title: Extração de tipo com errors.As
   - id: errors-join-aggregation
@@ -1299,3 +1310,9 @@ relations:
   - from: go-errors.load-and-validate-required-keys
     to: go-errors.validate-user-joining-all-errors
     kind: deepens_into
+  - from: error-wrapping-with-percent-w
+    to: errors-as-type-extraction
+    kind: relates_to
+  - from: errors-as-type-extraction
+    to: error-wrapping-with-percent-w
+    kind: relates_to

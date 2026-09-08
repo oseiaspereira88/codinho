@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://codinho.dev/schemas/concept-content.schema.json",
+  "title": "ConceptContent",
+  "description": "Public canonical explanation and example for a curriculum concept.",
+  "type": "object",
+  "required": [
+    "version",
+    "explanation",
+    "example"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "explanation": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 8000
+    },
+    "example": {
+      "type": "object",
+      "required": [
+        "context",
+        "code",
+        "explanation"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "context": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "explanation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        }
+      }
+    },
+    "analogy": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "relation_refs": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "required": [
+          "kind",
+          "concept_id"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "concept_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

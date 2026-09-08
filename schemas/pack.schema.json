@@ -57,6 +57,16 @@
           },
           "title": {
             "type": "string"
+          },
+          "content": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "concept-content.schema.json"
+              }
+            ]
           }
         }
       }

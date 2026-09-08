@@ -1,0 +1,42 @@
+schema_version: 1
+id: catalog-quality-concept-content
+version: 1.0.0
+themes:
+  - id: theme-weather
+    title: Meteorologia
+concepts:
+  - id: weather-forecast-concept
+    title: Previsão do tempo
+    content:
+      version: 1
+      explanation: "Explicação canônica de conceitos de meteorologia usando tipos e funções."
+      example:
+        context: "meteorologia"
+        code: "func CurrentTemperature(city string) (float64, error) {\n\treturn 21.5, nil\n}"
+        explanation: "Consulta a temperatura atual de uma cidade em graus Celsius."
+      analogy: "Assim como um termômetro mede temperatura sem alterar o clima, uma consulta pura não altera o estado."
+      relation_refs:
+        - kind: relates_to
+          concept_id: atmospheric-pressure-concept
+  - id: atmospheric-pressure-concept
+    title: Pressão atmosférica
+    content:
+      version: 1
+      explanation: "Conceito de pressão atmosférica em barômetros digitais."
+      example:
+        context: "meteorologia"
+        code: "type Barometer struct {\n\thPa float64\n}"
+        explanation: "Representa a pressão atmosférica em hectopascais."
+  - id: legacy-weather-concept
+    title: Conceito legado sem conteúdo
+competencies:
+  - id: read-weather-sensor
+    title: Ler sensor meteorológico
+challenges: []
+relations:
+  - from: weather-forecast-concept
+    to: atmospheric-pressure-concept
+    kind: relates_to
+  - from: weather-forecast-concept
+    to: read-weather-sensor
+    kind: relates_to

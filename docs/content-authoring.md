@@ -51,6 +51,41 @@ Achados de aviso nunca bloqueiam `catalog validate`; eles existem para
 guiar revisão humana (Decision 1 de catalog-authoring-quality: automação
 não finge compreender pedagogia).
 
+## Conteúdo de conceitos (`content:`)
+
+Cada conceito em `packs/*.yaml` pode declarar opcionalmente uma explicação
+canônica e exemplo público via `content:`:
+
+```yaml
+concepts:
+  - id: variable-shadowing
+    title: Shadowing de variável
+    content:
+      version: 1
+      explanation: Explicação do conceito em prosa clara.
+      example:
+        context: meteorologia
+        code: |
+          func Example() { ... }
+        explanation: O que o exemplo demonstra.
+      analogy: Analogia opcional do mundo real.
+      relation_refs:
+        - kind: relates_to
+          concept_id: block-scope
+```
+
+Regras de autoria para conceitos:
+- `version: 1` obrigatório quando `content` estiver presente.
+- `explanation`: texto não vazio, até 8000 caracteres.
+- `example`: objeto com `context` (até 200 caracteres), `code` (até 4000 caracteres)
+  e `explanation` (até 2000 caracteres). O contexto do exemplo deve ser distinto
+  dos desafios do catálogo para não revelar soluções nem fixtures antecipadamente.
+- `analogy`: opcional, até 2000 caracteres.
+- `relation_refs`: até 8 referências. Cada referência deve apontar para um conceito
+  existente com uma aresta de relação de saída válida correspondente no grafo.
+- Conceitos legados sem `content` continuam válidos e retornam `content_status: missing`
+  na ferramenta MCP `concept_content_get`.
+
 ## Fixtures (`fixture:`)
 
 Um desafio `kind: debug` (ou qualquer outro que precise de código

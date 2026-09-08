@@ -107,7 +107,7 @@ func registerAssistanceTools(server *mcp.Server, sessions *application.SessionSe
 
 	mcp.AddTool(server, &mcp.Tool{
 		Name:        "concept_content_get",
-		Description: "Return the canonical catalog record for a concept. The calling agent adapts language to the learner's profile.",
+		Description: "Return bounded, authored concept content and ordered concept relations, or content_status=missing for legacy concepts. Never generates text or changes a session.",
 		Annotations: &mcp.ToolAnnotations{ReadOnlyHint: true},
 	}, func(_ context.Context, req *mcp.CallToolRequest, args conceptContentGetArgs) (*mcp.CallToolResult, Envelope, error) {
 		requestID := requestIDFor(req)
@@ -119,7 +119,7 @@ func registerAssistanceTools(server *mcp.Server, sessions *application.SessionSe
 			code, msg, retryable := mapError(err)
 			return errorResult(), errorEnvelope(requestID, code, msg, retryable, nil), nil
 		}
-		return nil, okEnvelope(requestID, ProgressEffectNone, map[string]string{"id": content.ID, "title": content.Title}), nil
+		return nil, okEnvelope(requestID, ProgressEffectNone, content), nil
 	})
 
 	mcp.AddTool(server, &mcp.Tool{

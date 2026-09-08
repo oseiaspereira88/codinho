@@ -2,6 +2,7 @@ package assistance
 
 import (
 	"errors"
+	"sort"
 
 	"github.com/oseiaspereira88/codinho/internal/curriculum"
 )
@@ -10,15 +11,27 @@ import (
 // the given ID.
 var ErrConceptNotFound = errors.New("assistance: concept not found")
 
-// ConceptContent is the canonical, sanitized concept record
-// concept_content_get exposes. It carries only what the catalog actually
-// authors (PROJECT.md §7.2: id and title); adapting language, relations,
-// analogies and examples to the learner's profile is the calling agent's
-// job (PROJECT.md §15.7, non-goal: "redigir explicações abertas dentro do
-// MCP").
+// ConceptContent exposes only public authored concept content. The tutor may
+// adapt it; the server never generates prose or consults challenge solutions.
 type ConceptContent struct {
-	ID    string
-	Title string
+	ID            string                   `json:"id"`
+	Title         string                   `json:"title"`
+	ContentStatus string                   `json:"content_status"`
+	Content       *CanonicalConceptContent `json:"content"`
+}
+
+type CanonicalConceptContent struct {
+	Version     int                                `json:"version"`
+	Explanation string                             `json:"explanation"`
+	Example     curriculum.ConceptExampleAuthoring `json:"example"`
+	Analogy     string                             `json:"analogy,omitempty"`
+	Relations   []ConceptRelation                  `json:"relations"`
+}
+
+type ConceptRelation struct {
+	Kind      string `json:"kind"`
+	ConceptID string `json:"concept_id"`
+	Title     string `json:"title"`
 }
 
 // Service resolves canonical, catalog-backed assistance content. It never
@@ -41,5 +54,24 @@ func (s *Service) ConceptContent(id string) (ConceptContent, error) {
 	if !ok {
 		return ConceptContent{}, ErrConceptNotFound
 	}
-	return ConceptContent{ID: c.ID, Title: c.Title}, nil
+	out := ConceptContent{ID: c.ID, Title: c.Title, ContentStatus: "missing"}
+	if c.Content == nil {
+		return out, nil
+	}
+	content := c.Content
+	public := &CanonicalConceptContent{Version: content.Version, Explanation: content.Explanation, Example: content.Example, Analogy: content.Analogy, Relations: []ConceptRelation{}}
+	for _, ref := range content.RelationRefs {
+		if target, ok := s.catalog.Concept(ref.ConceptID); ok {
+			public.Relations = append(public.Relations, ConceptRelation{Kind: ref.Kind, ConceptID: ref.ConceptID, Title: target.Title})
+		}
+	}
+	sort.Slice(public.Relations, func(i, j int) bool {
+		a, b := public.Relations[i], public.Relations[j]
+		if a.Kind != b.Kind {
+			return a.Kind < b.Kind
+		}
+		return a.ConceptID < b.ConceptID
+	})
+	out.ContentStatus, out.Content = "available", public
+	return out, nil
 }

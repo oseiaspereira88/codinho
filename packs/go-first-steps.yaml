@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-first-steps
-version: 1.0.0
+version: 1.1.0
 themes:
   - id: slices
     title: Slices e arrays
@@ -41,6 +41,19 @@ concepts:
     title: Retornos nomeados
   - id: variable-shadowing
     title: Shadowing de variável
+    content:
+      version: 1
+      explanation: "Ocorre quando uma variável declarada em um bloco interno possui o mesmo identificador de uma variável de um bloco externo, ocultando o acesso direto à variável mais externa dentro daquele escopo."
+      example:
+        context: "meteorologia"
+        code: "func ReadStationPrecipitation(sensorID string) (float64, error) {\n\treading := 0.0\n\tif sensorID != \"\" {\n\t\treading := 12.4\n\t\t_ = reading\n\t}\n\treturn reading, nil\n}"
+        explanation: "A declaração curta com := dentro do if cria uma nova variável reading que encobre a variável externa, fazendo com que a externa permaneça com 0.0."
+      analogy: "Como uma nuvem passageira que bloqueia temporariamente a visão do sol: o sol continua lá em cima, mas quem está sob a nuvem só enxerga a sombra."
+      relation_refs:
+        - kind: relates_to
+          concept_id: block-scope
+        - kind: relates_to
+          concept_id: named-return-values
   - id: block-scope
     title: Escopo de bloco
 competencies:

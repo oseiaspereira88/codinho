@@ -209,6 +209,97 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/clone-inventory-independently
+
+          go 1.25.0
+      - path: inventory.go
+        content: |
+          package inventory
+
+          // Inventory holds an owner and a list of item names.
+          type Inventory struct {
+              Owner string
+              Items []string
+          }
+
+          // CloneInventory returns a copy of inv whose Items slice never shares
+          // storage with inv's Items -- mutating one's Items must never affect
+          // the other's.
+          func CloneInventory(inv Inventory) Inventory {
+              items := make([]string, len(inv.Items))
+              copy(items, inv.Items)
+              inv.Items = items
+              return inv
+          }
+      - path: inventory_test.go
+        content: |
+          package inventory
+
+          import (
+              "reflect"
+              "testing"
+              "unsafe"
+          )
+
+          func TestCloneInventory(t *testing.T) {
+              original := Inventory{Owner: "alice", Items: make([]string, 2, 10)}
+              copy(original.Items, []string{"sword", "shield"})
+
+              clone := CloneInventory(original)
+
+              if !reflect.DeepEqual(clone, original) {
+                  t.Fatalf("CloneInventory(...) = %+v, want %+v", clone, original)
+              }
+
+              t.Run("mutating the clone's items does not affect the original", func(t *testing.T) {
+                  clone := CloneInventory(original)
+                  clone.Items[0] = "bow"
+                  if original.Items[0] != "sword" {
+                      t.Errorf("original.Items[0] = %q after mutating clone, want unchanged %q", original.Items[0], "sword")
+                  }
+              })
+
+              t.Run("clone items never point into original's backing array", func(t *testing.T) {
+                  clone := CloneInventory(original)
+                  if len(clone.Items) == 0 {
+                      return
+                  }
+                  origStart := uintptr(unsafe.Pointer(unsafe.SliceData(original.Items)))
+                  origEnd := origStart + uintptr(cap(original.Items))*unsafe.Sizeof(original.Items[0])
+                  cloneStart := uintptr(unsafe.Pointer(unsafe.SliceData(clone.Items)))
+                  if cloneStart >= origStart && cloneStart < origEnd {
+                      t.Error("clone.Items shares backing array with original.Items")
+                  }
+              })
+
+              t.Run("owner is copied", func(t *testing.T) {
+                  clone := CloneInventory(original)
+                  if clone.Owner != original.Owner {
+                      t.Errorf("clone.Owner = %q, want %q", clone.Owner, original.Owner)
+                  }
+              })
+
+              t.Run("empty items with spare capacity are still independent", func(t *testing.T) {
+                  emptyWithCap := Inventory{Owner: "carol", Items: make([]string, 0, 5)}
+                  clone := CloneInventory(emptyWithCap)
+                  if len(clone.Items) != 0 {
+                      t.Fatalf("clone.Items = %v, want empty", clone.Items)
+                  }
+                  origData := unsafe.SliceData(emptyWithCap.Items)
+                  cloneData := unsafe.SliceData(clone.Items)
+                  if origData != nil && cloneData == origData {
+                      t.Error("clone.Items shares backing array with an empty-but-spare-capacity original")
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-type-design.select-validator-true-nil
     version: 1.0.0
@@ -361,6 +452,77 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/select-validator-true-nil
+
+          go 1.25.0
+      - path: validator.go
+        content: |
+          package validator
+
+          import "errors"
+
+          var errValidatorNotConfigured = errors.New("validator not configured")
+
+          // Validator validates something and reports an error if invalid.
+          type Validator interface {
+              Validate() error
+          }
+
+          // strictValidator only validates successfully once configured with a
+          // positive minLength -- a nil or zero-value strictValidator is not
+          // configured.
+          type strictValidator struct {
+              minLength int
+          }
+
+          func (v *strictValidator) Validate() error {
+              if v.minLength <= 0 {
+                  return errValidatorNotConfigured
+              }
+              return nil
+          }
+
+          // SelectValidator returns a Validator for the given mode, or a true nil
+          // interface (not a nil pointer wrapped in a non-nil interface) when
+          // mode is unknown.
+          func SelectValidator(mode string) Validator {
+              if mode == "strict" {
+                  return &strictValidator{minLength: 1}
+              }
+              return nil
+          }
+      - path: validator_test.go
+        content: |
+          package validator
+
+          import "testing"
+
+          func TestSelectValidator(t *testing.T) {
+              t.Run("known mode returns a usable, configured validator", func(t *testing.T) {
+                  v := SelectValidator("strict")
+                  if v == nil {
+                      t.Fatal("SelectValidator(\"strict\") = nil, want non-nil")
+                  }
+                  if err := v.Validate(); err != nil {
+                      t.Errorf("Validate() = %v, want nil (an unconfigured or nil-backed validator would fail here)", err)
+                  }
+              })
+
+              t.Run("unknown mode returns a true nil interface", func(t *testing.T) {
+                  v := SelectValidator("unknown")
+                  if v != nil {
+                      t.Errorf("SelectValidator(\"unknown\") = %#v, want nil interface", v)
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-type-design.sum-list-with-nil-safe-receiver
     version: 1.0.0
@@ -527,6 +689,92 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/sum-list-with-nil-safe-receiver
+
+          go 1.25.0
+      - path: node.go
+        content: |
+          package list
+
+          // Node is one element of a singly linked list of ints.
+          type Node struct {
+              Value int
+              Next  *Node
+          }
+
+          // Sum returns the sum of Value across n and all of its Next nodes. It
+          // works correctly even when called on a nil *Node, returning 0 in that
+          // case.
+          func (n *Node) Sum() int {
+              total := 0
+              for current := n; current != nil; current = current.Next {
+                  total += current.Value
+              }
+              return total
+          }
+      - path: node_test.go
+        content: |
+          package list
+
+          import "testing"
+
+          func TestNodeSum(t *testing.T) {
+              t.Run("nil receiver returns 0 without panicking", func(t *testing.T) {
+                  var n *Node
+                  if got := n.Sum(); got != 0 {
+                      t.Errorf("nil.Sum() = %d, want 0", got)
+                  }
+              })
+
+              t.Run("single node", func(t *testing.T) {
+                  n := &Node{Value: 5}
+                  if got := n.Sum(); got != 5 {
+                      t.Errorf("Sum() = %d, want 5", got)
+                  }
+              })
+
+              t.Run("chain of nodes", func(t *testing.T) {
+                  n := &Node{Value: 1, Next: &Node{Value: 2, Next: &Node{Value: 3}}}
+                  if got := n.Sum(); got != 6 {
+                      t.Errorf("Sum() = %d, want 6", got)
+                  }
+              })
+
+              t.Run("chain with a negative value", func(t *testing.T) {
+                  n := &Node{Value: -3, Next: &Node{Value: 5}}
+                  if got := n.Sum(); got != 2 {
+                      t.Errorf("Sum() = %d, want 2", got)
+                  }
+              })
+
+              t.Run("chain with repeated values counts each node", func(t *testing.T) {
+                  n := &Node{Value: 2, Next: &Node{Value: 2}}
+                  if got := n.Sum(); got != 4 {
+                      t.Errorf("Sum() = %d, want 4", got)
+                  }
+              })
+
+              t.Run("long chain includes every node, not just a fixed prefix", func(t *testing.T) {
+                  const length = 20
+                  var head *Node
+                  want := 0
+                  for i := length; i >= 1; i-- {
+                      head = &Node{Value: i, Next: head}
+                      want += i
+                  }
+                  if got := head.Sum(); got != want {
+                      t.Errorf("Sum() over a %d-node chain = %d, want %d", length, got, want)
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-type-design.contains-generic-comparable
     version: 1.0.0
@@ -683,6 +931,104 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/contains-generic-comparable
+
+          go 1.25.0
+      - path: contains.go
+        content: |
+          package genset
+
+          // Contains reports whether target appears in items, for any comparable
+          // type T.
+          func Contains[T comparable](items []T, target T) bool {
+              for _, item := range items {
+                  if item == target {
+                      return true
+                  }
+              }
+              return false
+          }
+      - path: contains_test.go
+        content: |
+          package genset
+
+          import "testing"
+
+          type point struct {
+              X, Y int
+          }
+
+          func TestContains(t *testing.T) {
+              t.Run("ints", func(t *testing.T) {
+                  if !Contains([]int{2, 1, 3}, 2) {
+                      t.Error("Contains([2,1,3], 2) = false, want true (target at index 0)")
+                  }
+                  if !Contains([]int{1, 2, 3}, 2) {
+                      t.Error("Contains([1,2,3], 2) = false, want true")
+                  }
+                  if !Contains([]int{1, 2, 3, 4}, 4) {
+                      t.Error("Contains([1,2,3,4], 4) = false, want true (target beyond the first few elements)")
+                  }
+                  if Contains([]int{1, 2, 3}, 5) {
+                      t.Error("Contains([1,2,3], 5) = true, want false")
+                  }
+              })
+
+              t.Run("strings", func(t *testing.T) {
+                  if !Contains([]string{"a", "b"}, "b") {
+                      t.Error(`Contains(["a","b"], "b") = false, want true`)
+                  }
+                  if Contains([]string{"a", "b"}, "c") {
+                      t.Error(`Contains(["a","b"], "c") = true, want false`)
+                  }
+              })
+
+              t.Run("bools", func(t *testing.T) {
+                  if !Contains([]bool{false, false}, false) {
+                      t.Error("Contains([false,false], false) = false, want true")
+                  }
+                  if Contains([]bool{false, false}, true) {
+                      t.Error("Contains([false,false], true) = true, want false")
+                  }
+              })
+
+              t.Run("comparable struct", func(t *testing.T) {
+                  pts := []point{{1, 2}, {3, 4}}
+                  if !Contains(pts, point{3, 4}) {
+                      t.Error("Contains(pts, {3,4}) = false, want true")
+                  }
+                  if Contains(pts, point{9, 9}) {
+                      t.Error("Contains(pts, {9,9}) = true, want false")
+                  }
+              })
+
+              t.Run("empty slice", func(t *testing.T) {
+                  if Contains([]int{}, 1) {
+                      t.Error("Contains([], 1) = true, want false")
+                  }
+              })
+
+              t.Run("every index of a long slice is actually compared", func(t *testing.T) {
+                  const length = 20
+                  items := make([]int, length)
+                  for i := range items {
+                      items[i] = i
+                  }
+                  for target := 0; target < length; target++ {
+                      if !Contains(items, target) {
+                          t.Fatalf("Contains(items, %d) = false, want true (index %d must be compared, not just a fixed subset)", target, target)
+                      }
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-type-design.describe-if-circle-safely
     version: 1.0.0
@@ -834,6 +1180,82 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/describe-if-circle-safely
+
+          go 1.25.0
+      - path: shape.go
+        content: |
+          package shapes
+
+          import (
+              "fmt"
+          )
+
+          // Shape is anything with an area.
+          type Shape interface {
+              Area() float64
+          }
+
+          // Circle is a Shape with a radius.
+          type Circle struct {
+              Radius float64
+          }
+
+          func (c Circle) Area() float64 { return 3.14159 * c.Radius * c.Radius }
+
+          // Square is a Shape with a side, used in tests to represent a non-Circle
+          // Shape.
+          type Square struct {
+              Side float64
+          }
+
+          func (s Square) Area() float64 { return s.Side * s.Side }
+
+          // DescribeIfCircle returns a description of shape and true if shape is a
+          // Circle, or "" and false for any other Shape -- without panicking.
+          func DescribeIfCircle(shape Shape) (description string, ok bool) {
+              circle, ok := shape.(Circle)
+              if !ok {
+                  return "", false
+              }
+              return fmt.Sprintf("circle with radius %v", circle.Radius), true
+          }
+      - path: shape_test.go
+        content: |
+          package shapes
+
+          import "testing"
+
+          func TestDescribeIfCircle(t *testing.T) {
+              t.Run("circle produces an exact description of its radius", func(t *testing.T) {
+                  desc, ok := DescribeIfCircle(Circle{Radius: 10})
+                  if !ok {
+                      t.Fatal("DescribeIfCircle(Circle{...}) ok = false, want true")
+                  }
+                  want := "circle with radius 10"
+                  if desc != want {
+                      t.Errorf("description = %q, want %q", desc, want)
+                  }
+              })
+
+              t.Run("non-circle shape returns ok=false without panicking", func(t *testing.T) {
+                  desc, ok := DescribeIfCircle(Square{Side: 3})
+                  if ok {
+                      t.Errorf("DescribeIfCircle(Square{...}) ok = true, want false")
+                  }
+                  if desc != "" {
+                      t.Errorf("description = %q, want empty", desc)
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-type-design.map-generic-transform
     version: 1.0.0
@@ -1006,6 +1428,97 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/map-generic-transform
+
+          go 1.25.0
+      - path: mapgen.go
+        content: |
+          package gentransform
+
+          // Map returns a new slice with transform applied to each element of
+          // items, in order, preserving length and not mutating items.
+          func Map[T, U any](items []T, transform func(T) U) []U {
+              out := make([]U, len(items))
+              for i, item := range items {
+                  out[i] = transform(item)
+              }
+              return out
+          }
+      - path: mapgen_test.go
+        content: |
+          package gentransform
+
+          import (
+              "reflect"
+              "strconv"
+              "testing"
+              "unsafe"
+          )
+
+          func TestMap(t *testing.T) {
+              t.Run("int to string, preserves order and length", func(t *testing.T) {
+                  got := Map([]int{1, 2, 3}, strconv.Itoa)
+                  want := []string{"1", "2", "3"}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("Map(...) = %v, want %v", got, want)
+                  }
+              })
+
+              t.Run("mutating the result never affects the input, even with spare capacity", func(t *testing.T) {
+                  input := make([]int, 3, 10)
+                  copy(input, []int{1, 2, 3})
+                  original := append([]int(nil), input...)
+
+                  got := Map(input, func(n int) int { return n * 100 })
+                  if len(got) > 0 {
+                      got[0] = -1
+                  }
+                  if !reflect.DeepEqual(input, original) {
+                      t.Errorf("input mutated after touching result: got %v, want unchanged %v", input, original)
+                  }
+
+                  if len(got) > 0 {
+                      inputStart := uintptr(unsafe.Pointer(unsafe.SliceData(input)))
+                      inputEnd := inputStart + uintptr(cap(input))*unsafe.Sizeof(input[0])
+                      gotStart := uintptr(unsafe.Pointer(unsafe.SliceData(got)))
+                      if gotStart >= inputStart && gotStart < inputEnd {
+                          t.Error("Map(...) result shares backing array with input")
+                      }
+                  }
+              })
+
+              t.Run("every element is transformed, not just a fixed prefix", func(t *testing.T) {
+                  const length = 20
+                  items := make([]int, length)
+                  for i := range items {
+                      items[i] = i
+                  }
+                  got := Map(items, func(n int) int { return n * 2 })
+                  if len(got) != length {
+                      t.Fatalf("len(Map(...)) = %d, want %d", len(got), length)
+                  }
+                  for i, v := range got {
+                      if v != i*2 {
+                          t.Fatalf("Map(...)[%d] = %d, want %d", i, v, i*2)
+                      }
+                  }
+              })
+
+              t.Run("empty input", func(t *testing.T) {
+                  got := Map([]int{}, func(n int) int { return n })
+                  if len(got) != 0 {
+                      t.Errorf("Map([], ...) = %v, want empty", got)
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-type-design.first-circle-clone
     version: 1.0.0
@@ -1254,6 +1767,149 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/first-circle-clone
+
+          go 1.25.0
+      - path: registry.go
+        content: |
+          package registry
+
+          // Shape is anything with an area.
+          type Shape interface {
+              Area() float64
+          }
+
+          // Circle is a Shape with a radius.
+          type Circle struct {
+              Radius float64
+          }
+
+          func (c Circle) Area() float64 { return 3.14159 * c.Radius * c.Radius }
+
+          // Square is a Shape with a side, used to represent a non-Circle Shape.
+          type Square struct {
+              Side float64
+          }
+
+          func (s Square) Area() float64 { return s.Side * s.Side }
+
+          // Registry holds a named collection of shapes.
+          type Registry struct {
+              Name   string
+              Shapes []Shape
+          }
+
+          // FirstCircleClone returns a deep copy of reg -- whose Shapes never
+          // shares storage with reg's Shapes -- together with the first Circle
+          // found among reg's Shapes, or a true nil Shape (not a nil pointer
+          // wrapped in a non-nil interface) if reg has none. It never panics,
+          // regardless of what other Shape implementations reg contains.
+          func FirstCircleClone(reg Registry) (clone Registry, firstCircle Shape) {
+              clone = reg
+              clone.Shapes = make([]Shape, len(reg.Shapes))
+              copy(clone.Shapes, reg.Shapes)
+              for _, shape := range reg.Shapes {
+                  if circle, ok := shape.(Circle); ok {
+                      firstCircle = circle
+                      break
+                  }
+              }
+              return
+          }
+      - path: registry_test.go
+        content: |
+          package registry
+
+          import (
+              "reflect"
+              "testing"
+              "unsafe"
+          )
+
+          func TestFirstCircleClone(t *testing.T) {
+              t.Run("finds the first circle and clones independently", func(t *testing.T) {
+                  reg := Registry{Name: "r1", Shapes: make([]Shape, 3, 10)}
+                  reg.Shapes[0] = Square{Side: 1}
+                  reg.Shapes[1] = Circle{Radius: 2}
+                  reg.Shapes[2] = Square{Side: 3}
+                  original := reg.Shapes[1]
+
+                  clone, first := FirstCircleClone(reg)
+
+                  wantCircle := Circle{Radius: 2}
+                  if first != Shape(wantCircle) {
+                      t.Errorf("firstCircle = %#v, want %#v", first, wantCircle)
+                  }
+                  if !reflect.DeepEqual(clone.Shapes, reg.Shapes) {
+                      t.Fatalf("clone.Shapes = %v, want %v", clone.Shapes, reg.Shapes)
+                  }
+
+                  clone.Shapes[1] = Square{Side: 99}
+                  if reg.Shapes[1] != original {
+                      t.Errorf("reg.Shapes[1] changed after mutating clone: got %v, want unchanged %v", reg.Shapes[1], original)
+                  }
+
+                  inputStart := uintptr(unsafe.Pointer(unsafe.SliceData(reg.Shapes)))
+                  inputEnd := inputStart + uintptr(cap(reg.Shapes))*unsafe.Sizeof(reg.Shapes[0])
+                  cloneStart := uintptr(unsafe.Pointer(unsafe.SliceData(clone.Shapes)))
+                  if cloneStart >= inputStart && cloneStart < inputEnd {
+                      t.Error("clone.Shapes shares backing array with reg.Shapes")
+                  }
+              })
+
+              t.Run("no circle present returns a true nil Shape, without panicking", func(t *testing.T) {
+                  reg := Registry{Name: "r2", Shapes: []Shape{Square{Side: 1}, Square{Side: 2}}}
+                  _, first := FirstCircleClone(reg)
+                  if first != nil {
+                      t.Errorf("firstCircle = %#v, want nil interface", first)
+                  }
+              })
+
+              t.Run("empty shapes", func(t *testing.T) {
+                  reg := Registry{Name: "empty"}
+                  clone, first := FirstCircleClone(reg)
+                  if first != nil {
+                      t.Errorf("firstCircle = %#v, want nil", first)
+                  }
+                  if len(clone.Shapes) != 0 {
+                      t.Errorf("clone.Shapes = %v, want empty", clone.Shapes)
+                  }
+              })
+
+              t.Run("returns the first circle, not the last, when multiple are present", func(t *testing.T) {
+                  reg := Registry{Shapes: []Shape{Square{Side: 1}, Circle{Radius: 2}, Square{Side: 3}, Circle{Radius: 5}}}
+                  _, first := FirstCircleClone(reg)
+                  want := Shape(Circle{Radius: 2})
+                  if first != want {
+                      t.Errorf("firstCircle = %#v, want %#v (the first one, not the last)", first, want)
+                  }
+              })
+
+              t.Run("finds a circle at every possible index, not just a fixed subset", func(t *testing.T) {
+                  const length = 20
+                  for circleAt := 0; circleAt < length; circleAt++ {
+                      shapes := make([]Shape, length)
+                      for i := range shapes {
+                          shapes[i] = Square{Side: float64(i)}
+                      }
+                      shapes[circleAt] = Circle{Radius: float64(circleAt)}
+                      reg := Registry{Shapes: shapes}
+                      _, first := FirstCircleClone(reg)
+                      want := Shape(Circle{Radius: float64(circleAt)})
+                      if first != want {
+                          t.Fatalf("circle at index %d: firstCircle = %#v, want %#v", circleAt, first, want)
+                      }
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-type-design.generic-node-values-nil-safe
     version: 1.0.0
@@ -1438,6 +2094,110 @@ challenges:
         test_pattern: ^TestNodeValues$
         timeout: 20s
     variants: []
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/generic-node-values-nil-safe
+
+          go 1.25.0
+      - path: gnode.go
+        content: |
+          package gnode
+
+          // Node is one element of a singly linked list holding a value of any
+          // type.
+          type Node[T any] struct {
+              Value T
+              Next  *Node[T]
+          }
+
+          // Values returns a new slice with the Value field of n and every node
+          // reachable via Next, in order. It works correctly even when n is nil,
+          // returning an empty slice in that case, and never mutates the list.
+          func (n *Node[T]) Values() []T {
+              var out []T
+              for current := n; current != nil; current = current.Next {
+                  out = append(out, current.Value)
+              }
+              return out
+          }
+      - path: gnode_test.go
+        content: |
+          package gnode
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          type item struct {
+              ID   int
+              Name string
+          }
+
+          func TestNodeValues(t *testing.T) {
+              t.Run("nil receiver returns an empty slice without panicking", func(t *testing.T) {
+                  var n *Node[int]
+                  got := n.Values()
+                  if len(got) != 0 {
+                      t.Errorf("nil.Values() = %v, want empty", got)
+                  }
+              })
+
+              t.Run("single node", func(t *testing.T) {
+                  n := &Node[string]{Value: "a"}
+                  got := n.Values()
+                  want := []string{"a"}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("Values() = %v, want %v", got, want)
+                  }
+              })
+
+              t.Run("chain of nodes, order preserved", func(t *testing.T) {
+                  n := &Node[int]{Value: 1, Next: &Node[int]{Value: 2, Next: &Node[int]{Value: 3}}}
+                  got := n.Values()
+                  want := []int{1, 2, 3}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("Values() = %v, want %v", got, want)
+                  }
+              })
+
+              t.Run("works for a user-defined struct type, not just int/string", func(t *testing.T) {
+                  n := &Node[item]{
+                      Value: item{ID: 1, Name: "a"},
+                      Next: &Node[item]{
+                          Value: item{ID: 2, Name: "b"},
+                          Next: &Node[item]{
+                              Value: item{ID: 3, Name: "c"},
+                          },
+                      },
+                  }
+                  got := n.Values()
+                  want := []item{{1, "a"}, {2, "b"}, {3, "c"}}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("Values() = %v, want %v", got, want)
+                  }
+              })
+
+              t.Run("long chain includes every node, not just a fixed prefix", func(t *testing.T) {
+                  const length = 20
+                  var head *Node[int]
+                  want := make([]int, length)
+                  for i := length - 1; i >= 0; i-- {
+                      head = &Node[int]{Value: i, Next: head}
+                      want[i] = i
+                  }
+                  got := head.Values()
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("Values() over a %d-node chain = %v, want %v", length, got, want)
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
 relations:
   - from: go-type-design.clone-inventory-independently
     to: go-type-design.select-validator-true-nil

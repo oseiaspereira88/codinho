@@ -198,6 +198,82 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/filter-without-mutating-input
+
+          go 1.25.0
+      - path: filter.go
+        content: |
+          package datafilter
+
+          // Filter returns a new slice containing only the values from nums for
+          // which keep returns true, preserving their original order, without
+          // modifying nums or sharing its backing array.
+          func Filter(nums []int, keep func(int) bool) []int {
+              out := make([]int, 0, len(nums))
+              for _, n := range nums {
+                  if keep(n) {
+                      out = append(out, n)
+                  }
+              }
+              return out
+          }
+      - path: filter_test.go
+        content: |
+          package datafilter
+
+          import (
+              "reflect"
+              "testing"
+              "unsafe"
+          )
+
+          func TestFilter(t *testing.T) {
+              t.Run("keeps order and value, does not mutate or alias input", func(t *testing.T) {
+                  input := make([]int, 6, 20)
+                  copy(input, []int{1, 2, 3, 4, 5, 6})
+                  original := append([]int(nil), input...)
+
+                  got := Filter(input, func(n int) bool { return n%2 == 0 })
+
+                  want := []int{2, 4, 6}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("Filter(...) = %v, want %v", got, want)
+                  }
+                  if !reflect.DeepEqual(input, original) {
+                      t.Errorf("input mutated: got %v, want unchanged %v", input, original)
+                  }
+                  if len(got) > 0 {
+                      inputStart := uintptr(unsafe.Pointer(unsafe.SliceData(input)))
+                      inputEnd := inputStart + uintptr(cap(input))*unsafe.Sizeof(input[0])
+                      gotStart := uintptr(unsafe.Pointer(unsafe.SliceData(got)))
+                      if gotStart >= inputStart && gotStart < inputEnd {
+                          t.Error("Filter(...) output shares backing array with input")
+                      }
+                  }
+              })
+
+              t.Run("empty result", func(t *testing.T) {
+                  got := Filter([]int{1, 3, 5}, func(n int) bool { return n%2 == 0 })
+                  if len(got) != 0 {
+                      t.Errorf("Filter(...) = %v, want empty", got)
+                  }
+              })
+
+              t.Run("nil input", func(t *testing.T) {
+                  got := Filter(nil, func(n int) bool { return true })
+                  if len(got) != 0 {
+                      t.Errorf("Filter(nil, ...) = %v, want empty", got)
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-data-text.truncate-bytes-at-rune-boundary
     version: 1.0.0
@@ -338,6 +414,73 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/truncate-bytes-at-rune-boundary
+
+          go 1.25.0
+      - path: truncate.go
+        content: |
+          package trunc
+
+          import (
+              "unicode/utf8"
+          )
+
+          // TruncateBytes returns a prefix of s with at most maxBytes bytes,
+          // backing off to the nearest earlier rune boundary if the naive cut
+          // would split a multi-byte rune.
+          func TruncateBytes(s string, maxBytes int) string {
+              if maxBytes <= 0 {
+                  return ""
+              }
+              if len(s) <= maxBytes {
+                  return s
+              }
+              for maxBytes > 0 && !utf8.RuneStart(s[maxBytes]) {
+                  maxBytes--
+              }
+              return s[:maxBytes]
+          }
+      - path: truncate_test.go
+        content: |
+          package trunc
+
+          import "testing"
+
+          func TestTruncateBytes(t *testing.T) {
+              cases := []struct {
+                  name     string
+                  s        string
+                  maxBytes int
+                  want     string
+              }{
+                  {"already short enough", "hello", 10, "hello"},
+                  {"exact fit", "hello", 5, "hello"},
+                  {"backs off mid-rune, 2-byte char", "café", 4, "caf"},
+                  {"backs off mid-rune, 3-byte char", "日本語", 4, "日"},
+                  {"empty string", "", 5, ""},
+                  {"zero budget", "ab", 0, ""},
+                  {"ascii truncation, no rune issue", "hello world", 5, "hello"},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      got := TruncateBytes(c.s, c.maxBytes)
+                      if got != c.want {
+                          t.Errorf("TruncateBytes(%q, %d) = %q, want %q", c.s, c.maxBytes, got, c.want)
+                      }
+                      if len(got) > c.maxBytes {
+                          t.Errorf("TruncateBytes(%q, %d) = %q with %d bytes, want at most %d", c.s, c.maxBytes, got, len(got), c.maxBytes)
+                      }
+                  })
+              }
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-data-text.lookup-map-value-with-comma-ok
     version: 1.0.0
@@ -472,6 +615,57 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/lookup-map-value-with-comma-ok
+
+          go 1.25.0
+      - path: score.go
+        content: |
+          package scoreboard
+
+          // Score returns the score for name and whether name has been scored at
+          // all, distinguishing a score of exactly 0 from name never having been
+          // scored.
+          func Score(scores map[string]int, name string) (score int, scored bool) {
+              score, scored = scores[name]
+              return
+          }
+      - path: score_test.go
+        content: |
+          package scoreboard
+
+          import "testing"
+
+          func TestScore(t *testing.T) {
+              scores := map[string]int{"alice": 0, "bob": 7, "": 0}
+
+              cases := []struct {
+                  name      string
+                  who       string
+                  wantScore int
+                  wantOk    bool
+              }{
+                  {"scored exactly zero counts as scored", "alice", 0, true},
+                  {"scored nonzero", "bob", 7, true},
+                  {"never scored", "carol", 0, false},
+                  {"empty string key present counts as scored", "", 0, true},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      gotScore, gotOk := Score(scores, c.who)
+                      if gotScore != c.wantScore || gotOk != c.wantOk {
+                          t.Errorf("Score(scores, %q) = (%d, %v), want (%d, %v)", c.who, gotScore, gotOk, c.wantScore, c.wantOk)
+                      }
+                  })
+              }
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-data-text.quote-csv-field-when-needed
     version: 1.0.0
@@ -611,6 +805,64 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/quote-csv-field-when-needed
+
+          go 1.25.0
+      - path: csvfield.go
+        content: |
+          package csvfield
+
+          import (
+              "strings"
+          )
+
+          // CSVField returns s formatted as a single CSV field: unchanged when it
+          // contains none of comma, double quote, newline or carriage return, or
+          // wrapped in double quotes -- with every internal double quote doubled --
+          // when it does.
+          func CSVField(s string) string {
+              if !strings.ContainsAny(s, ",\"\n\r") {
+                  return s
+              }
+              return "\"" + strings.ReplaceAll(s, "\"", "\"\"") + "\""
+          }
+      - path: csvfield_test.go
+        content: |
+          package csvfield
+
+          import "testing"
+
+          func TestCSVField(t *testing.T) {
+              cases := []struct {
+                  name string
+                  in   string
+                  want string
+              }{
+                  {"plain text unchanged", "hello", "hello"},
+                  {"empty unchanged", "", ""},
+                  {"comma requires quoting", "a,b", `"a,b"`},
+                  {"newline requires quoting", "line1\nline2", "\"line1\nline2\""},
+                  {"carriage return requires quoting", "a\rb", "\"a\rb\""},
+                  {"internal quotes are doubled and wrapped", `say "hi"`, `"say ""hi"""`},
+                  {"comma and quote combined", `a,"b"`, `"a,""b"""`},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      got := CSVField(c.in)
+                      if got != c.want {
+                          t.Errorf("CSVField(%q) = %q, want %q", c.in, got, c.want)
+                      }
+                  })
+              }
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-data-text.dedupe-preserving-first-occurrence
     version: 1.0.0
@@ -755,6 +1007,73 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/dedupe-preserving-first-occurrence
+
+          go 1.25.0
+      - path: dedupe.go
+        content: |
+          package dedupe
+
+          // Dedupe returns items with duplicates removed, keeping only each
+          // value's first occurrence and preserving the original order.
+          func Dedupe(items []string) []string {
+              var out []string
+              seen := make(map[string]bool)
+              for _, item := range items {
+                  if !seen[item] {
+                      seen[item] = true
+                      out = append(out, item)
+                  }
+              }
+              return out
+          }
+      - path: dedupe_test.go
+        content: |
+          package dedupe
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          func TestDedupe(t *testing.T) {
+              cases := []struct {
+                  name string
+                  in   []string
+                  want []string
+              }{
+                  {"no duplicates", []string{"x", "y"}, []string{"x", "y"}},
+                  {"single element", []string{"x"}, []string{"x"}},
+                  {"empty", nil, nil},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      got := Dedupe(c.in)
+                      if !reflect.DeepEqual(got, c.want) {
+                          t.Errorf("Dedupe(%v) = %v, want %v", c.in, got, c.want)
+                      }
+                  })
+              }
+
+              t.Run("removes later duplicates, keeps first-occurrence order across repeated calls", func(t *testing.T) {
+                  in := []string{"a", "b", "a", "c", "b", "d", "e", "c", "f", "a"}
+                  want := []string{"a", "b", "c", "d", "e", "f"}
+                  for i := 0; i < 30; i++ {
+                      got := Dedupe(in)
+                      if !reflect.DeepEqual(got, want) {
+                          t.Fatalf("run %d: Dedupe(%v) = %v, want %v (order must not depend on map iteration)", i, in, got, want)
+                      }
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-data-text.sum-valid-integers-safely
     version: 1.0.0
@@ -890,6 +1209,67 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/sum-valid-integers-safely
+
+          go 1.25.0
+      - path: safeparse.go
+        content: |
+          package safeparse
+
+          import (
+              "strconv"
+          )
+
+          // SumValid parses each string in fields as an integer and returns the
+          // sum of the ones that parse successfully, along with how many did not.
+          func SumValid(fields []string) (sum int, invalid int) {
+              for _, field := range fields {
+                  n, err := strconv.Atoi(field)
+                  if err != nil {
+                      invalid++
+                      continue
+                  }
+                  sum += n
+              }
+              return
+          }
+      - path: safeparse_test.go
+        content: |
+          package safeparse
+
+          import "testing"
+
+          func TestSumValid(t *testing.T) {
+              cases := []struct {
+                  name        string
+                  fields      []string
+                  wantSum     int
+                  wantInvalid int
+              }{
+                  {"mixed valid and invalid", []string{"1", "2", "x", "4"}, 7, 1},
+                  {"all valid", []string{"10", "20", "30"}, 60, 0},
+                  {"all invalid", []string{"abc", "def"}, 0, 2},
+                  {"empty", nil, 0, 0},
+                  {"negative numbers parse", []string{"-3", "5"}, 2, 0},
+                  {"valid zero is not invalid", []string{"0", "5"}, 5, 0},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      gotSum, gotInvalid := SumValid(c.fields)
+                      if gotSum != c.wantSum || gotInvalid != c.wantInvalid {
+                          t.Errorf("SumValid(%v) = (%d, %d), want (%d, %d)", c.fields, gotSum, gotInvalid, c.wantSum, c.wantInvalid)
+                      }
+                  })
+              }
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-data-text.preallocate-slice-with-zero-length
     version: 1.0.0
@@ -1041,6 +1421,78 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/preallocate-slice-with-zero-length
+
+          go 1.25.0
+      - path: squares.go
+        content: |
+          package squares
+
+          // EvenSquares returns the squares of the even numbers from 0 to n-1, in
+          // order, pre-allocating its capacity to at most n without reserving
+          // space for numbers that end up excluded.
+          func EvenSquares(n int) []int {
+              out := make([]int, 0, n)
+              for i := 0; i < n; i++ {
+                  if i%2 == 0 {
+                      out = append(out, i*i)
+                  }
+              }
+              return out
+          }
+      - path: squares_test.go
+        content: |
+          package squares
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          func TestEvenSquares(t *testing.T) {
+              cases := []struct {
+                  name string
+                  n    int
+                  want []int
+              }{
+                  {"six", 6, []int{0, 4, 16}},
+                  {"one", 1, []int{0}},
+                  {"two", 2, []int{0}},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      got := EvenSquares(c.n)
+                      if len(got) != len(c.want) {
+                          t.Fatalf("EvenSquares(%d) has length %d, want %d (got %v)", c.n, len(got), len(c.want), got)
+                      }
+                      if !reflect.DeepEqual(got, c.want) {
+                          t.Errorf("EvenSquares(%d) = %v, want %v", c.n, got, c.want)
+                      }
+                  })
+              }
+
+              t.Run("zero has length zero", func(t *testing.T) {
+                  got := EvenSquares(0)
+                  if len(got) != 0 {
+                      t.Errorf("EvenSquares(0) has length %d, want 0 (got %v)", len(got), got)
+                  }
+              })
+
+              t.Run("capacity is preallocated to exactly n", func(t *testing.T) {
+                  got := EvenSquares(6)
+                  if cap(got) != 6 {
+                      t.Errorf("cap(EvenSquares(6)) = %d, want exactly 6", cap(got))
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-data-text.title-first-letters-preserving-spacing
     version: 1.0.0
@@ -1182,6 +1634,74 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/title-first-letters-preserving-spacing
+
+          go 1.25.0
+      - path: titlecase.go
+        content: |
+          package titlecase
+
+          import (
+              "unicode"
+          )
+
+          // TitleFirstLetters capitalizes the first letter of each word in s,
+          // leaving every other character -- including all original whitespace,
+          // exactly as it was.
+          func TitleFirstLetters(s string) string {
+              runes := []rune(s)
+              start := true
+              for i, r := range runes {
+                  if unicode.IsSpace(r) {
+                      start = true
+                      continue
+                  }
+                  if start {
+                      runes[i] = unicode.ToUpper(r)
+                      start = false
+                  }
+              }
+              return string(runes)
+          }
+      - path: titlecase_test.go
+        content: |
+          package titlecase
+
+          import "testing"
+
+          func TestTitleFirstLetters(t *testing.T) {
+              cases := []struct {
+                  name string
+                  in   string
+                  want string
+              }{
+                  {"single word", "hello", "Hello"},
+                  {"simple sentence", "go is fun", "Go Is Fun"},
+                  {"empty", "", ""},
+                  {"single letter", "a", "A"},
+                  {"multiple spaces preserved", "hello   world", "Hello   World"},
+                  {"leading space preserved", " go is fun", " Go Is Fun"},
+                  {"trailing space preserved", "go   ", "Go   "},
+                  {"tab preserved", "go\tis fun", "Go\tIs Fun"},
+                  {"unicode letter capitalized", "élan vital", "Élan Vital"},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      got := TitleFirstLetters(c.in)
+                      if got != c.want {
+                          t.Errorf("TitleFirstLetters(%q) = %q, want %q", c.in, got, c.want)
+                      }
+                  })
+              }
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-data-text.build-scores-from-entries
     version: 1.0.0
@@ -1353,6 +1873,104 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/build-scores-from-entries
+
+          go 1.25.0
+      - path: leaderboard.go
+        content: |
+          package leaderboard
+
+          import (
+              "strconv"
+              "strings"
+          )
+
+          // BuildScores parses "name:score" entries, keeping only the first valid
+          // score seen for each name -- including when that first score is
+          // exactly 0 -- and collecting the raw entries whose score failed to
+          // parse as an int, in the order they were seen.
+          func BuildScores(entries []string) (scores map[string]int, invalidEntries []string) {
+              scores = make(map[string]int)
+              for _, entry := range entries {
+                  name, raw, found := strings.Cut(entry, ":")
+                  n, err := strconv.Atoi(raw)
+                  if !found || err != nil {
+                      invalidEntries = append(invalidEntries, entry)
+                      continue
+                  }
+                  if _, exists := scores[name]; !exists {
+                      scores[name] = n
+                  }
+              }
+              return
+          }
+      - path: leaderboard_test.go
+        content: |
+          package leaderboard
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          func TestBuildScores(t *testing.T) {
+              t.Run("mixed valid, invalid, and duplicate entries", func(t *testing.T) {
+                  entries := []string{"alice:10", "bob:x", "alice:99", "carol:0", "dave:abc", "noformat"}
+                  scores, invalidEntries := BuildScores(entries)
+
+                  wantScores := map[string]int{"alice": 10, "carol": 0}
+                  if !reflect.DeepEqual(scores, wantScores) {
+                      t.Errorf("scores = %v, want %v", scores, wantScores)
+                  }
+                  wantInvalid := []string{"bob:x", "dave:abc", "noformat"}
+                  if !reflect.DeepEqual(invalidEntries, wantInvalid) {
+                      t.Errorf("invalidEntries = %v, want %v", invalidEntries, wantInvalid)
+                  }
+              })
+
+              t.Run("first score of zero is kept, not treated as absent", func(t *testing.T) {
+                  scores, _ := BuildScores([]string{"alice:0", "alice:50"})
+                  v, ok := scores["alice"]
+                  if !ok || v != 0 {
+                      t.Errorf(`scores["alice"] = (%d, %v), want (0, true)`, v, ok)
+                  }
+              })
+
+              t.Run("name never mentioned is absent, not zero", func(t *testing.T) {
+                  scores, _ := BuildScores([]string{"alice:10"})
+                  _, ok := scores["nobody"]
+                  if ok {
+                      t.Error(`scores["nobody"] should be absent (ok=false)`)
+                  }
+              })
+
+              t.Run("empty input", func(t *testing.T) {
+                  scores, invalidEntries := BuildScores(nil)
+                  if len(scores) != 0 || len(invalidEntries) != 0 {
+                      t.Errorf("BuildScores(nil) = (%v, %v), want both empty", scores, invalidEntries)
+                  }
+              })
+
+              t.Run("invalid entry does not claim the dedup slot for a later valid one", func(t *testing.T) {
+                  scores, invalidEntries := BuildScores([]string{"bob:not-an-int", "bob:5"})
+                  v, ok := scores["bob"]
+                  if !ok || v != 5 {
+                      t.Errorf(`scores["bob"] = (%d, %v), want (5, true)`, v, ok)
+                  }
+                  wantInvalid := []string{"bob:not-an-int"}
+                  if !reflect.DeepEqual(invalidEntries, wantInvalid) {
+                      t.Errorf("invalidEntries = %v, want %v", invalidEntries, wantInvalid)
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-data-text.format-names-as-csv-fields
     version: 1.0.0
@@ -1585,6 +2203,129 @@ challenges:
         test_pattern: ^TestFormatNames$
         timeout: 20s
     variants: []
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/format-names-as-csv-fields
+
+          go 1.25.0
+      - path: rows.go
+        content: |
+          package rows
+
+          import (
+              "strings"
+              "unicode"
+          )
+
+          // FormatNames returns a title-cased, CSV-quoted version of each name
+          // in names that is not the empty string, skipping empty strings, and
+          // pre-allocating its result with capacity exactly len(names) even
+          // though some entries are skipped.
+          func FormatNames(names []string) []string {
+              out := make([]string, 0, len(names))
+              for _, name := range names {
+                  if name == "" {
+                      continue
+                  }
+                  rs := []rune(name)
+                  start := true
+                  for i, r := range rs {
+                      if unicode.IsSpace(r) {
+                          start = true
+                          continue
+                      }
+                      if start {
+                          rs[i] = unicode.ToUpper(r)
+                          start = false
+                      }
+                  }
+                  name = string(rs)
+                  if strings.ContainsAny(name, ",\"\n\r") {
+                      name = "\"" + strings.ReplaceAll(name, "\"", "\"\"") + "\""
+                  }
+                  out = append(out, name)
+              }
+              return out
+          }
+      - path: rows_test.go
+        content: |
+          package rows
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          func TestFormatNames(t *testing.T) {
+              names := []string{"", "alice smith", "o'brien, jane", ""}
+
+              got := FormatNames(names)
+              want := []string{"Alice Smith", `"O'brien, Jane"`}
+              if !reflect.DeepEqual(got, want) {
+                  t.Errorf("FormatNames(%v) = %v, want %v", names, got, want)
+              }
+
+              t.Run("capacity is preallocated to exactly len(names)", func(t *testing.T) {
+                  if cap(got) != len(names) {
+                      t.Errorf("cap(FormatNames(...)) = %d, want exactly %d", cap(got), len(names))
+                  }
+              })
+
+              t.Run("no blanks, no quoting needed", func(t *testing.T) {
+                  got := FormatNames([]string{"bob", "carol jones"})
+                  want := []string{"Bob", "Carol Jones"}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("FormatNames(...) = %v, want %v", got, want)
+                  }
+                  if cap(got) != 2 {
+                      t.Errorf("cap = %d, want 2", cap(got))
+                  }
+              })
+
+              t.Run("all blank", func(t *testing.T) {
+                  got := FormatNames([]string{"", ""})
+                  if len(got) != 0 {
+                      t.Errorf("FormatNames(all blank) = %v, want empty", got)
+                  }
+              })
+
+              t.Run("empty input", func(t *testing.T) {
+                  got := FormatNames(nil)
+                  if len(got) != 0 {
+                      t.Errorf("FormatNames(nil) = %v, want empty", got)
+                  }
+              })
+
+              t.Run("original spacing preserved through title-casing", func(t *testing.T) {
+                  got := FormatNames([]string{"  bob   smith  "})
+                  want := []string{"  Bob   Smith  "}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("FormatNames(...) = %v, want %v", got, want)
+                  }
+              })
+
+              t.Run("whitespace-only name is not treated as blank", func(t *testing.T) {
+                  got := FormatNames([]string{"   "})
+                  want := []string{"   "}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("FormatNames(...) = %v, want %v", got, want)
+                  }
+              })
+
+              t.Run("internal quotes are doubled after title-casing", func(t *testing.T) {
+                  got := FormatNames([]string{`say "hi" john`})
+                  want := []string{`"Say ""hi"" John"`}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("FormatNames(...) = %v, want %v", got, want)
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
 relations:
   - from: go-data-text.filter-without-mutating-input
     to: go-data-text.truncate-bytes-at-rune-boundary

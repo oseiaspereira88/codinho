@@ -179,6 +179,57 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/close-resources-in-defer-order
+
+          go 1.25.0
+      - path: closer.go
+        content: |
+          package closer
+
+          // ClosingOrder returns the order resources would be closed in,
+          // registering each closure with defer.
+          func ClosingOrder(resources []string) (order []string) {
+              for _, resource := range resources {
+                  defer func(value string) { order = append(order, value) }(resource)
+              }
+              return
+          }
+      - path: closer_test.go
+        content: |
+          package closer
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          func TestClosingOrder(t *testing.T) {
+              cases := []struct {
+                  name      string
+                  resources []string
+                  want      []string
+              }{
+                  {"multiple", []string{"db", "cache", "file"}, []string{"file", "cache", "db"}},
+                  {"single", []string{"a"}, []string{"a"}},
+                  {"empty", nil, nil},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      got := ClosingOrder(c.resources)
+                      if !reflect.DeepEqual(got, c.want) {
+                          t.Errorf("ClosingOrder(%v) = %v, want %v", c.resources, got, c.want)
+                      }
+                  })
+              }
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-core.sum-variadic-numbers
     version: 1.0.0
@@ -305,6 +356,54 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/sum-variadic-numbers
+
+          go 1.25.0
+      - path: sum.go
+        content: |
+          package sumvariadic
+
+          func Sum(values ...int) int {
+              total := 0
+              for _, value := range values {
+                  total += value
+              }
+              return total
+          }
+      - path: sum_test.go
+        content: |
+          package sumvariadic
+
+          import "testing"
+
+          func TestSum(t *testing.T) {
+              cases := []struct {
+                  name string
+                  nums []int
+                  want int
+              }{
+                  {"no arguments", nil, 0},
+                  {"one argument", []int{5}, 5},
+                  {"multiple arguments", []int{1, 2, 3}, 6},
+                  {"mixed signs", []int{-1, 5, -4}, 0},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      got := Sum(c.nums...)
+                      if got != c.want {
+                          t.Errorf("Sum(%v...) = %d, want %d", c.nums, got, c.want)
+                      }
+                  })
+              }
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: compile_failure
+        reference: pass
   - schema_version: 1
     id: go-core.stop-processing-commands-with-labeled-break
     version: 1.0.0
@@ -442,6 +541,64 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/stop-processing-commands-with-labeled-break
+
+          go 1.25.0
+      - path: commands.go
+        content: |
+          package commands
+
+          // ProcessUntilStop processes commands in order, stopping before
+          // the "stop" command and everything after it.
+          func ProcessUntilStop(commands []string) (processed []string) {
+          loop:
+              for _, command := range commands {
+                  switch command {
+                  case "stop":
+                      break loop
+                  default:
+                      processed = append(processed, command)
+                  }
+              }
+              return
+          }
+      - path: commands_test.go
+        content: |
+          package commands
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          func TestProcessUntilStop(t *testing.T) {
+              cases := []struct {
+                  name string
+                  in   []string
+                  want []string
+              }{
+                  {"stops mid list", []string{"a", "b", "stop", "c"}, []string{"a", "b"}},
+                  {"stops immediately", []string{"stop"}, nil},
+                  {"no stop", []string{"a", "b"}, []string{"a", "b"}},
+                  {"empty", nil, nil},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      got := ProcessUntilStop(c.in)
+                      if !reflect.DeepEqual(got, c.want) {
+                          t.Errorf("ProcessUntilStop(%v) = %v, want %v", c.in, got, c.want)
+                      }
+                  })
+              }
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-core.increment-counter-with-pointer-receiver
     version: 1.0.0
@@ -573,6 +730,47 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/increment-counter-with-pointer-receiver
+
+          go 1.25.0
+      - path: counter.go
+        content: |
+          package counter
+
+          type Counter struct{ Count int }
+
+          func (c *Counter) Increment() { c.Count++ }
+      - path: counter_test.go
+        content: |
+          package counter
+
+          import "testing"
+
+          func TestCounterIncrement(t *testing.T) {
+              c := Counter{}
+              c.Increment()
+              c.Increment()
+              if c.Count != 2 {
+                  t.Fatalf("c.Count = %d, want 2", c.Count)
+              }
+
+              other := Counter{}
+              other.Increment()
+              if other.Count != 1 {
+                  t.Fatalf("other.Count = %d, want 1", other.Count)
+              }
+              if c.Count != 2 {
+                  t.Fatalf("c.Count changed to %d after touching other, want 2", c.Count)
+              }
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: compile_failure
+        reference: pass
   - schema_version: 1
     id: go-core.recover-from-panic-in-safe-call
     version: 1.0.0
@@ -714,6 +912,72 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/recover-from-panic-in-safe-call
+
+          go 1.25.0
+      - path: safecall.go
+        content: |
+          package safecall
+
+          import (
+              "fmt"
+          )
+
+          // SafeCall runs fn, converting any panic into an error instead
+          // of letting it crash the caller.
+          func SafeCall(fn func() int) (result int, err error) {
+              defer func() {
+                  if value := recover(); value != nil {
+                      err = fmt.Errorf("panic: %v", value)
+                  }
+              }()
+              result = fn()
+              return
+          }
+      - path: safecall_test.go
+        content: |
+          package safecall
+
+          import (
+              "errors"
+              "strings"
+              "testing"
+          )
+
+          func TestSafeCall(t *testing.T) {
+              t.Run("returns normal result", func(t *testing.T) {
+                  got, err := SafeCall(func() int { return 42 })
+                  if err != nil || got != 42 {
+                      t.Fatalf("SafeCall(...) = (%d, %v), want (42, nil)", got, err)
+                  }
+              })
+              t.Run("recovers string panic", func(t *testing.T) {
+                  _, err := SafeCall(func() int { panic("boom") })
+                  if err == nil || !strings.Contains(err.Error(), "boom") {
+                      t.Fatalf("SafeCall(...) err = %v, want error containing %q", err, "boom")
+                  }
+              })
+              t.Run("recovers int panic", func(t *testing.T) {
+                  _, err := SafeCall(func() int { panic(42) })
+                  if err == nil {
+                      t.Fatal("SafeCall(...) err = nil, want non-nil error")
+                  }
+              })
+              t.Run("recovers error panic", func(t *testing.T) {
+                  _, err := SafeCall(func() int { panic(errors.New("boom error")) })
+                  if err == nil || !strings.Contains(err.Error(), "boom error") {
+                      t.Fatalf("SafeCall(...) err = %v, want error containing %q", err, "boom error")
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-core.guard-invariant-with-unexported-field
     version: 1.0.0
@@ -860,6 +1124,73 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/guard-invariant-with-unexported-field
+
+          go 1.25.0
+      - path: percentage.go
+        content: |
+          package percentage
+
+          import "fmt"
+
+          type Percentage struct{ value int }
+
+          func (p Percentage) Value() int { return p.value }
+          func NewPercentage(v int) (Percentage, error) {
+              if v < 0 || v > 100 {
+                  return Percentage{}, fmt.Errorf("percentage out of range: %d", v)
+              }
+              return Percentage{value: v}, nil
+          }
+      - path: percentage_test.go
+        content: |
+          package percentage_test
+
+          import (
+              "testing"
+
+              "codinho-practice/guard-invariant-with-unexported-field"
+          )
+
+          func TestNewPercentage(t *testing.T) {
+              cases := []struct {
+                  name    string
+                  in      int
+                  wantErr bool
+                  want    int
+              }{
+                  {"valid middle", 50, false, 50},
+                  {"valid lower bound", 0, false, 0},
+                  {"valid upper bound", 100, false, 100},
+                  {"invalid too low", -1, true, 0},
+                  {"invalid too high", 101, true, 0},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      p, err := percentage.NewPercentage(c.in)
+                      if c.wantErr {
+                          if err == nil {
+                              t.Fatalf("NewPercentage(%d) err = nil, want error", c.in)
+                          }
+                          return
+                      }
+                      if err != nil {
+                          t.Fatalf("NewPercentage(%d) err = %v, want nil", c.in, err)
+                      }
+                      if p.Value() != c.want {
+                          t.Fatalf("NewPercentage(%d).Value() = %d, want %d", c.in, p.Value(), c.want)
+                      }
+                  })
+              }
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: compile_failure
+        reference: pass
   - schema_version: 1
     id: go-core.find-first-value-at-least
     version: 1.0.0
@@ -1001,6 +1332,65 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/find-first-value-at-least
+
+          go 1.25.0
+      - path: finder.go
+        content: |
+          package finder
+
+          // Node holds a value that may or may not meet a threshold.
+          type Node struct {
+              Value int
+          }
+
+          // FindFirstAtLeast returns the first non-nil node's Value that is
+          // greater than or equal to min, and whether one was found.
+          func FindFirstAtLeast(nodes []*Node, min int) (value int, found bool) {
+              for _, node := range nodes {
+                  if node != nil && node.Value >= min {
+                      return node.Value, true
+                  }
+              }
+              return 0, false
+          }
+      - path: finder_test.go
+        content: |
+          package finder
+
+          import "testing"
+
+          func TestFindFirstAtLeast(t *testing.T) {
+              cases := []struct {
+                  name      string
+                  nodes     []*Node
+                  min       int
+                  wantValue int
+                  wantFound bool
+              }{
+                  {"skips nil and finds match", []*Node{nil, {Value: 3}, {Value: 10}}, 5, 10, true},
+                  {"all nil returns not found", []*Node{nil, nil}, 0, 0, false},
+                  {"first element already matches", []*Node{{Value: 7}, {Value: 1}}, 5, 7, true},
+                  {"empty slice", nil, 0, 0, false},
+                  {"no element meets minimum", []*Node{{Value: 1}, {Value: 2}}, 5, 0, false},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      gotValue, gotFound := FindFirstAtLeast(c.nodes, c.min)
+                      if gotValue != c.wantValue || gotFound != c.wantFound {
+                          t.Errorf("FindFirstAtLeast(%v, %d) = (%d, %v), want (%d, %v)", c.nodes, c.min, gotValue, gotFound, c.wantValue, c.wantFound)
+                      }
+                  })
+              }
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-core.hide-counter-type-behind-interface
     version: 1.0.0
@@ -1145,6 +1535,53 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/hide-counter-type-behind-interface
+
+          go 1.25.0
+      - path: counterapi.go
+        content: |
+          package counterapi
+
+          type Counter interface{ Increment() int }
+          type counterImpl struct{ count int }
+
+          func (c *counterImpl) Increment() int { c.count++; return c.count }
+          func NewCounter() Counter             { return &counterImpl{} }
+      - path: counterapi_test.go
+        content: |
+          package counterapi_test
+
+          import (
+              "testing"
+
+              "codinho-practice/hide-counter-type-behind-interface"
+          )
+
+          func TestCounter(t *testing.T) {
+              c := counterapi.NewCounter()
+              if got := c.Increment(); got != 1 {
+                  t.Fatalf("first Increment() = %d, want 1", got)
+              }
+              if got := c.Increment(); got != 2 {
+                  t.Fatalf("second Increment() = %d, want 2", got)
+              }
+
+              other := counterapi.NewCounter()
+              if got := other.Increment(); got != 1 {
+                  t.Fatalf("other Increment() = %d, want 1", got)
+              }
+              if got := c.Increment(); got != 3 {
+                  t.Fatalf("c.Increment() after touching other = %d, want 3", got)
+              }
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-core.run-commands-with-cleanup-and-recovery
     version: 1.0.0
@@ -1371,6 +1808,115 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/run-commands-with-cleanup-and-recovery
+
+          go 1.25.0
+      - path: batch.go
+        content: |
+          package batch
+
+          import (
+              "fmt"
+          )
+
+          // RunCommands runs each command in order using run, appending a report
+          // line for each one, and closing (cleaning up) every command it starts
+          // -- even when run panics. It stops immediately, without running or
+          // closing any further commands, as soon as it reaches "stop".
+          func RunCommands(commands []string, run func(string) int) (report []string) {
+              for _, command := range commands {
+                  if command == "stop" {
+                      break
+                  }
+                  func() {
+                      report = append(report, "start:"+command)
+                      defer func() { report = append(report, "closed:"+command) }()
+                      defer func() {
+                          if value := recover(); value != nil {
+                              report = append(report, fmt.Sprintf("failed:%s:%v", command, value))
+                          }
+                      }()
+                      result := run(command)
+                      report = append(report, fmt.Sprintf("ok:%s:%d", command, result))
+                  }()
+              }
+              return
+          }
+      - path: batch_test.go
+        content: |
+          package batch
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          func TestRunCommands(t *testing.T) {
+              run := func(cmd string) int {
+                  if cmd == "boom" {
+                      panic("kaboom")
+                  }
+                  return len(cmd)
+              }
+
+              t.Run("runs, recovers panic, and cleans up in order", func(t *testing.T) {
+                  got := RunCommands([]string{"a", "boom", "bb"}, run)
+                  want := []string{
+                      "start:a", "ok:a:1", "closed:a",
+                      "start:boom", "failed:boom:kaboom", "closed:boom",
+                      "start:bb", "ok:bb:2", "closed:bb",
+                  }
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("RunCommands(...) = %v, want %v", got, want)
+                  }
+              })
+
+              t.Run("stops immediately at stop, without touching remaining commands", func(t *testing.T) {
+                  var called []string
+                  spy := func(cmd string) int {
+                      called = append(called, cmd)
+                      return run(cmd)
+                  }
+                  got := RunCommands([]string{"a", "stop", "c"}, spy)
+                  want := []string{"start:a", "ok:a:1", "closed:a"}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("RunCommands(...) = %v, want %v", got, want)
+                  }
+                  if wantCalled := []string{"a"}; !reflect.DeepEqual(called, wantCalled) {
+                      t.Errorf("run was called with %v, want %v (never for stop or c)", called, wantCalled)
+                  }
+              })
+
+              t.Run("empty input", func(t *testing.T) {
+                  got := RunCommands(nil, run)
+                  if len(got) != 0 {
+                      t.Errorf("RunCommands(nil, run) = %v, want empty", got)
+                  }
+              })
+
+              t.Run("stop as first command runs nothing", func(t *testing.T) {
+                  got := RunCommands([]string{"stop", "a"}, run)
+                  if len(got) != 0 {
+                      t.Errorf("RunCommands([stop, a], run) = %v, want empty", got)
+                  }
+              })
+
+              t.Run("panic value is stringified", func(t *testing.T) {
+                  got := RunCommands([]string{"boom"}, run)
+                  want := []string{"start:boom", "failed:boom:kaboom", "closed:boom"}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("RunCommands([boom], run) = %v, want %v", got, want)
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-core.configure-server-with-functional-options
     version: 1.0.0
@@ -1593,6 +2139,108 @@ challenges:
         test_pattern: ^TestNewServer$
         timeout: 20s
     variants: []
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/configure-server-with-functional-options
+
+          go 1.25.0
+      - path: server.go
+        content: |
+          package server
+
+          import "fmt"
+
+          type Option func(*Server)
+          type Server struct {
+              host string
+              port int
+          }
+
+          func (s *Server) Host() string    { return s.host }
+          func (s *Server) Port() int       { return s.port }
+          func WithHost(host string) Option { return func(s *Server) { s.host = host } }
+          func WithPort(port int) Option    { return func(s *Server) { s.port = port } }
+          func NewServer(opts ...Option) (*Server, error) {
+              s := &Server{host: "localhost", port: 8080}
+              for _, opt := range opts {
+                  opt(s)
+              }
+              if s.port < 1 || s.port > 65535 {
+                  return nil, fmt.Errorf("port out of range: %d", s.port)
+              }
+              return s, nil
+          }
+      - path: server_test.go
+        content: |
+          package server_test
+
+          import (
+              "testing"
+
+              server "codinho-practice/configure-server-with-functional-options"
+          )
+
+          func TestNewServer(t *testing.T) {
+              t.Run("defaults with no options", func(t *testing.T) {
+                  s, err := server.NewServer()
+                  if err != nil {
+                      t.Fatalf("NewServer() err = %v, want nil", err)
+                  }
+                  if s.Host() != "localhost" || s.Port() != 8080 {
+                      t.Fatalf("NewServer() = (%q, %d), want (localhost, 8080)", s.Host(), s.Port())
+                  }
+              })
+
+              t.Run("applies host option", func(t *testing.T) {
+                  s, err := server.NewServer(server.WithHost("example.com"))
+                  if err != nil {
+                      t.Fatalf("err = %v, want nil", err)
+                  }
+                  if s.Host() != "example.com" || s.Port() != 8080 {
+                      t.Fatalf("got (%q, %d), want (example.com, 8080)", s.Host(), s.Port())
+                  }
+              })
+
+              t.Run("later option wins over earlier one", func(t *testing.T) {
+                  s, err := server.NewServer(server.WithPort(80), server.WithPort(443))
+                  if err != nil {
+                      t.Fatalf("err = %v, want nil", err)
+                  }
+                  if s.Port() != 443 {
+                      t.Fatalf("Port() = %d, want 443", s.Port())
+                  }
+              })
+
+              t.Run("rejects port zero", func(t *testing.T) {
+                  _, err := server.NewServer(server.WithPort(0))
+                  if err == nil {
+                      t.Fatal("err = nil, want error for port 0")
+                  }
+              })
+
+              t.Run("rejects port above valid range", func(t *testing.T) {
+                  _, err := server.NewServer(server.WithPort(70000))
+                  if err == nil {
+                      t.Fatal("err = nil, want error for port 70000")
+                  }
+              })
+
+              t.Run("accepts port at upper bound", func(t *testing.T) {
+                  s, err := server.NewServer(server.WithPort(65535))
+                  if err != nil {
+                      t.Fatalf("err = %v, want nil", err)
+                  }
+                  if s.Port() != 65535 {
+                      t.Fatalf("Port() = %d, want 65535", s.Port())
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
 relations:
   - from: go-core.close-resources-in-defer-order
     to: go-core.sum-variadic-numbers

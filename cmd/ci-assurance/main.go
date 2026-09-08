@@ -42,20 +42,43 @@ func run() error {
 		return err
 	}
 	host := "local"
+	modified, err := candidateModified(".")
+	if err != nil {
+		return err
+	}
 	if os.Getenv("GITHUB_ACTIONS") == "true" {
 		host = "github-actions"
+		if modified {
+			return fmt.Errorf("CI candidate source changed during validation")
+		}
 	}
 	return json.NewEncoder(os.Stdout).Encode(struct {
-		SchemaVersion int       `json:"schema_version"`
-		GitHead       string    `json:"git_head"`
-		OS            string    `json:"os"`
-		Arch          string    `json:"arch"`
-		GoVersion     string    `json:"go_version"`
-		Host          string    `json:"host"`
-		RunID         string    `json:"run_id,omitempty"`
-		RunAttempt    string    `json:"run_attempt,omitempty"`
-		GeneratedAt   time.Time `json:"generated_at"`
-		Checks        int       `json:"passed_checks"`
-		Outcome       string    `json:"outcome"`
-	}{1, head, runtime.GOOS, runtime.GOARCH, runtime.Version(), host, os.Getenv("GITHUB_RUN_ID"), os.Getenv("GITHUB_RUN_ATTEMPT"), report.GeneratedAt, len(report.Checks), "pass"})
+		SchemaVersion  int       `json:"schema_version"`
+		GitHead        string    `json:"git_head"`
+		OS             string    `json:"os"`
+		Arch           string    `json:"arch"`
+		GoVersion      string    `json:"go_version"`
+		Host           string    `json:"host"`
+		RunID          string    `json:"run_id,omitempty"`
+		RunAttempt     string    `json:"run_attempt,omitempty"`
+		GeneratedAt    time.Time `json:"generated_at"`
+		Checks         int       `json:"passed_checks"`
+		Outcome        string    `json:"outcome"`
+		SourceModified bool      `json:"source_modified"`
+	}{1, head, runtime.GOOS, runtime.GOARCH, runtime.Version(), host, os.Getenv("GITHUB_RUN_ID"), os.Getenv("GITHUB_RUN_ATTEMPT"), report.GeneratedAt, len(report.Checks), "pass", modified})
+}
+
+// Generated validation/assessment reports do not change the candidate source.
+// Include untracked authored inputs so a local run cannot silently attest HEAD.
+func candidateModified(root string) (bool, error) {
+	cmd := exec.Command("git", "status", "--porcelain=v1", "--untracked-files=all", "--",
+		"cmd", "internal", "packs", "scripts", ".github", "Makefile", "go.mod", "go.sum",
+		"README.md", "PROJECT.md", "docs", ".agents/skills/codinho", ".pose/adr", ".pose/specs", ".pose/contracts", ".pose/policy", ".pose/docs.json",
+		".pose/indexes/module-metadata.json", ".pose/indexes/validation-matrix.json")
+	cmd.Dir = root
+	out, err := cmd.Output()
+	if err != nil {
+		return false, fmt.Errorf("inspect candidate source: %w", err)
+	}
+	return len(out) > 0, nil
 }

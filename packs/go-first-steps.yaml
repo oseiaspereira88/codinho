@@ -129,6 +129,90 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      justification: 'Protótipo sem fixture distribuída: baseline privada reproduz o check declarado sem materializar
+        solução no workspace do aluno.'
+      baseline_fixture:
+      - path: go.mod
+        content: |
+          module example.invalid/filterproof
+
+          go 1.25.0
+      - path: filter.go
+        content: |
+          package filterproof
+          func Filter(nums []int, keep func(int) bool) []int { panic("not implemented") }
+      - path: filter_test.go
+        content: |
+          package filterproof
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          func TestFilter(t *testing.T) {
+              input := []int{1, 2, 3, 4}
+              before := append([]int(nil), input...)
+              got := Filter(input, func(v int) bool { return v%2 == 0 })
+              if !reflect.DeepEqual(got, []int{2, 4}) || !reflect.DeepEqual(input, before) {
+                  t.Fatal("filter must preserve order and input")
+              }
+              got[0] = 99
+              if !reflect.DeepEqual(input, before) {
+                  t.Fatal("shared storage")
+              }
+              if len(Filter(nil, func(int) bool { return true })) != 0 {
+                  t.Fatal("nil input")
+              }
+          }
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module example.invalid/filterproof
+
+          go 1.25.0
+      - path: filter.go
+        content: |
+          package filterproof
+
+          func Filter(nums []int, keep func(int) bool) []int {
+              out := make([]int, 0, len(nums))
+              for _, n := range nums {
+                  if keep(n) {
+                      out = append(out, n)
+                  }
+              }
+              return out
+          }
+      - path: filter_test.go
+        content: |
+          package filterproof
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          func TestFilter(t *testing.T) {
+              input := []int{1, 2, 3, 4}
+              before := append([]int(nil), input...)
+              got := Filter(input, func(v int) bool { return v%2 == 0 })
+              if !reflect.DeepEqual(got, []int{2, 4}) || !reflect.DeepEqual(input, before) {
+                  t.Fatal("filter must preserve order and input")
+              }
+              got[0] = 99
+              if !reflect.DeepEqual(input, before) {
+                  t.Fatal("shared storage")
+              }
+              if len(Filter(nil, func(int) bool { return true })) != 0 {
+                  t.Fatal("nil input")
+              }
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-first-steps.enumerate-weekdays-with-iota
     version: 1.0.0
@@ -571,6 +655,59 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/clamp-int-to-byte
+
+          go 1.25.0
+      - path: clamp.go
+        content: |
+          package clamp
+
+          // ClampToByte converts n to a byte, clamping to the valid byte
+          // range instead of allowing it to wrap around silently.
+          func ClampToByte(n int) byte {
+              if n < 0 {
+                  return 0
+              }
+              if n > 255 {
+                  return 255
+              }
+              return byte(n)
+          }
+      - path: clamp_test.go
+        content: |
+          package clamp
+
+          import "testing"
+
+          func TestClampToByte(t *testing.T) {
+              cases := []struct {
+                  name string
+                  in   int
+                  want byte
+              }{
+                  {"below range", -10, 0},
+                  {"above range", 300, 255},
+                  {"within range", 120, 120},
+                  {"lower bound", 0, 0},
+                  {"upper bound", 255, 255},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      got := ClampToByte(c.in)
+                      if got != c.want {
+                          t.Errorf("ClampToByte(%d) = %d, want %d", c.in, got, c.want)
+                      }
+                  })
+              }
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-first-steps.format-rate-limit-message
     version: 1.0.0
@@ -674,6 +811,46 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/format-rate-limit-message
+
+          go 1.25.0
+      - path: ratelimit.go
+        content: |
+          package ratelimit
+
+          import (
+              "fmt"
+          )
+
+          // RateLimitMessage formats a rate-limit notice for resource,
+          // after the given number of attempts.
+          func RateLimitMessage(resource string, attempts int) string {
+              return fmt.Sprintf("%s exceeded rate limit after %d attempts", resource, attempts)
+          }
+      - path: ratelimit_test.go
+        content: |
+          package ratelimit
+
+          import "testing"
+
+          func TestRateLimitMessage(t *testing.T) {
+              got := RateLimitMessage("checkout", 3)
+              want := "checkout exceeded rate limit after 3 attempts"
+              if got != want {
+                  t.Errorf("RateLimitMessage(...) = %q, want %q", got, want)
+              }
+          }
+      expectations:
+      - check_id: message-content
+        baseline: test_failure
+        reference: pass
+      - check_id: format-safety
+        baseline: pass
+        reference: pass
   - schema_version: 1
     id: go-first-steps.avoid-shadowing-named-returns
     version: 1.0.0
@@ -812,6 +989,62 @@ challenges:
         test_pattern: ^TestParseAge$
         timeout: 20s
     variants: []
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/avoid-shadowing-named-returns
+
+          go 1.25.0
+      - path: parseage.go
+        content: |
+          package parseage
+
+          import (
+              "strconv"
+              "strings"
+          )
+
+          // ParseAge parses raw as an age, validating it is non-empty and
+          // numeric.
+          func ParseAge(raw string) (age int, err error) {
+              age, err = strconv.Atoi(strings.TrimSpace(raw))
+              return
+          }
+      - path: parseage_test.go
+        content: |
+          package parseage
+
+          import "testing"
+
+          func TestParseAge(t *testing.T) {
+              cases := []struct {
+                  name    string
+                  in      string
+                  wantAge int
+                  wantErr bool
+              }{
+                  {"valid", "25", 25, false},
+                  {"empty", "", 0, true},
+                  {"whitespace only", "   ", 0, true},
+                  {"not a number", "abc", 0, true},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      age, err := ParseAge(c.in)
+                      if age != c.wantAge {
+                          t.Errorf("ParseAge(%q) age = %d, want %d", c.in, age, c.wantAge)
+                      }
+                      if (err != nil) != c.wantErr {
+                          t.Errorf("ParseAge(%q) err = %v, wantErr %v", c.in, err, c.wantErr)
+                      }
+                  })
+              }
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
 relations:
   - from: go-first-steps.enumerate-weekdays-with-iota
     to: go-first-steps.convert-celsius-to-fahrenheit

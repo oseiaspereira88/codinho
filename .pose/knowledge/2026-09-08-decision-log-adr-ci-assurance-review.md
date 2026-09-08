@@ -26,15 +26,15 @@ an unpatched Go 1.25 toolchain; this is a real failure, not an approved exceptio
 last_reviewed_at: 2026-09-08.
 
 ## Next checks
-make check was executed locally: 18/19 checks passed, including race, vet,
-build, scanner, MCP/CLI and smoke. catalog failed because draft checks lack
-validation/reference_fixture metadata (38 declared, zero verified). Keep that
-gate failing until editorial remediation supplies real fixtures. Negative
-ci-assurance tests and docs-check (13 docs) pass. Native CI, independent security
-review, contract mapping, prospective policies and provenance remain pending.
-The report describes a dirty worktree, not an immutable candidate attestation.
-Resume with the execution log in the spec; do not reinstall or overwrite local
-POSE 1.8.1 (the CI-pinned tools are isolated under /tmp/codinho-ci-tools).
+make check now passes 19/19 locally. Five draft packs gained private validation
+references: 38 checks / 76 scenarios verified; distributed fixtures, tests,
+acceptance and publication fields were preserved. No pedagogical/publication
+attestation was added. The first implementation commit dbd848e passed strict
+artifact-check with only historical orphan warnings. MCP inventory and historical
+rename are covered by tests; artifact/delivery policies are enabled. The native
+report now marks source_modified and rejects mutated GitHub candidate sources.
+Run native Linux/macOS CI and independent security review on the final commit.
+Use /tmp/codinho-ci-tools for the pinned CI tools; keep local POSE 1.8.1 intact.
 Review pins at the next Go/POSE upgrade or security advisory. The 90-day TTL
 covers the initial native CI adoption and requires a later toolchain review.
 

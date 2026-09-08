@@ -60,6 +60,12 @@ Preservar a política de release sem publish. Definir roots e equivalência de c
 - distribution
 
 ### Artifacts
+- created: cmd/ci-assurance/main_test.go
+- modified: packs/go-first-steps.yaml
+- modified: packs/go-core.yaml
+- modified: packs/go-data-text.yaml
+- modified: packs/go-type-design.yaml
+- modified: packs/go-errors.yaml
 - created: .pose/contributions/20260908-root-module-metadata-normalization.md
 - created: internal/mcpserver/governance_contract_test.go
 - created: .pose/contracts/historical-renames.json
@@ -122,9 +128,10 @@ Renames históricos e evidências de módulos divergentes bloqueiam roll-up. CI 
 - [ ] Reconciliar esta lista de artefatos com os arquivos efetivos; declarar arquivos adicionais antes de alterá-los.
 
 ### Implementation
-- [ ] Implementar primeiro o menor fluxo que fecha a lacuna.
-- [ ] Integrar entradas reais, persistência/compatibilidade e diagnósticos.
-- [ ] Atualizar documentação e checks declarativos junto com o contrato.
+- [x] Completar validation privado dos rascunhos com checks: preservar fixture inicial, reutilizar seus testes e fornecer referência executável; não mudar publication.
+- [x] Implementar primeiro o menor fluxo que fecha a lacuna.
+- [x] Integrar entradas reais, persistência/compatibilidade e diagnósticos.
+- [x] Atualizar documentação e checks declarativos junto com o contrato.
 
 ### Validation
 - [ ] Executar os cenários de cada R-ID, incluindo negativos.
@@ -132,6 +139,12 @@ Renames históricos e evidências de módulos divergentes bloqueiam roll-up. CI 
 - [ ] Reconciliar artifacts, surface e revisão independente antes do closeout.
 
 ## 5. Decisions
+
+### Decision 3
+- Date: 2026-09-08
+- Decision: incluir provas privadas dos checks já declarados nos cinco packs existentes para satisfazer R2. Reutilizar os testes do desafio na referência e registrar a falha de baseline observada; o protótipo sem fixture usa baseline_fixture com justificativa.
+- Rationale: o gate --checks exige prova de rascunhos também; placeholders não constituem referência executável. Alterar o gate esconderia a lacuna.
+- Consequences: escopo inclui somente validation privado; autoria/revisão humana, status de publicação e gate quantitativo V1 permanecem separados. Validar que as fixtures distribuídas e contratos públicos foram preservados.
 
 ### Decision 2
 - Date: 2026-09-08
@@ -175,6 +188,8 @@ sem declarar V1 pronta. Revisão independente cobre também threat model.
 - Security / Contract: pose assess integrate; pose validate --strict --json .pose/results/delivery-validation.json; pose surface-check --spec v1-delivery-ci-assurance --strict
 
 ### Execution log
+- 2026-09-08 UTC (provas editoriais): validation privado adicionado a 37 desafios em cinco packs, reutilizando os testes existentes. O protótipo sem fixture recebeu baseline_fixture privada com justificativa. Comparação estrutural antes/depois confirmou fixture distribuída, checks, acceptance e publication idênticos. `catalog validate --checks --json` passou: 38/38 checks, 76/76 cenários, zero achados blocking. `make check` passou 19/19 checks. Não houve publicação ou atestado pedagógico.
+- 2026-09-08 UTC (proveniência): commit dbd848e atribuiu o primeiro incremento à spec; artifact-check estrito passou sem erros (avisos de órfãos históricos). Novas provas privadas serão atribuídas no próximo commit. Relatório nativo passa a declarar source_modified e a rejeitar fonte alterada durante GitHub Actions; teste cobre fonte tracked/untracked e separa relatórios gerados.
 - 2026-09-08 UTC (continuação): policies artifacts/delivery habilitadas com roots reais; metadados de CLI, MCP, governança e distribuição registrados. Inventário de 33 tools comparado com tools/list do servidor; rename 9d88c68f7a1a3a2d1a84730a724fa28f99bb9821 verificado por git show --find-renames. Bundles históricos preservados. `go test -race ./internal/ciassurance ./internal/mcpserver -count=1` passa.
 - 2026-09-08 UTC (continuação): pose index não associa chave raiz "." ao path vazio emitido; alias equivalente aplicado e projeção passou a declared/isComplete=true. Limitação sanitizada registrada localmente em .pose/contributions/20260908-root-module-metadata-normalization.md. Nenhum envio upstream.
 - 2026-09-08 UTC: retomada consumiu knowledge:adr-ci-assurance-review e confirmou a spec in-progress. Discover executado antes de editar; tools POSE 1.7.12 e govulncheck 1.6.0 instaladas em diretório temporário com hashes verificados.
@@ -188,11 +203,11 @@ sem declarar V1 pronta. Revisão independente cobre também threat model.
 - 2026-09-07 UTC: criada em revisão de planejamento; implementação e gates de entrega não executados.
 
 ### Results summary
-Incremento local validado parcialmente: 18 de 19 checks passam. O gate editorial do catálogo, a reconciliação de proveniência e as evidências remotas/independentes ainda impedem closeout.
+Matriz local passou 19/19 checks após completar as provas editoriais. Proveniência do primeiro incremento passou; evidências do candidato final e revisão independente ainda governam closeout.
 
 ### Requirement trace
-- R1: ferramentas verificadas e gates obrigatórios implementados; make check permanece fail no catálogo.
-- R2: matriz compartilhada executa os checks; remediação editorial dos rascunhos pendente.
+- R1: ferramentas verificadas e gates obrigatórios implementados; make check passou localmente após completar as provas privadas.
+- R2: matriz compartilhada executa os checks; 38 checks editoriais verificados em 76 cenários.
 - R3: jobs nativos configurados; execução remota Linux/macOS pendente.
 - R4: labels inseguros rejeitados em teste; build local v0.0.0-ci gerou binário/checksum sem publicar.
 - R5: policies, metadados, inventário MCP e mapa histórico implementados/testados; reconciliação Git e gate de proveniência em andamento.
@@ -206,7 +221,7 @@ Renames históricos e evidências de módulos divergentes bloqueiam roll-up. CI 
 ## 7. Final Report
 
 ### Delivered scope
-Workflows, instalação verificada, validação de evidência e manifest documental implementados no worktree. Testes negativos e checks locais registrados acima. Spec permanece in-progress: catálogo, proveniência, execução nativa remota e revisão independente pendentes.
+Workflows, instalação verificada, validação de evidência e manifest documental implementados no worktree. Testes negativos e checks locais registrados acima. Spec permanece in-progress: evidência final de proveniência, execução nativa remota e revisão independente pendentes.
 
 ### Files and modules changed
 - CI, scripts de ferramentas/validação/build, internal/ciassurance, cmd/ci-assurance, matriz, manifest e documentação declarados nos artefatos.

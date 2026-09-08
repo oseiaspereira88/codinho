@@ -179,6 +179,84 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/wrap-sentinel-error-with-context
+
+          go 1.25.0
+      - path: loadval.go
+        content: |
+          package config
+
+          import (
+              "fmt"
+          )
+
+          import "errors"
+
+          // ErrNotFound is returned when a key is missing from the store.
+          var ErrNotFound = errors.New("not found")
+
+          // LoadValue returns the value for key, or an error wrapping ErrNotFound
+          // -- with the key included in the message -- when key is not in store.
+          func LoadValue(store map[string]string, key string) (string, error) {
+              if value, ok := store[key]; ok {
+                  return value, nil
+              }
+              return "", fmt.Errorf("key %q: %w", key, ErrNotFound)
+          }
+      - path: loadval_test.go
+        content: |
+          package config
+
+          import (
+              "errors"
+              "strings"
+              "testing"
+          )
+
+          func TestLoadValue(t *testing.T) {
+              store := map[string]string{"a": "1", "b": "2", "c": "3", "d": "4", "e": "5"}
+
+              for key, want := range store {
+                  key, want := key, want
+                  t.Run("found key "+key, func(t *testing.T) {
+                      got, err := LoadValue(store, key)
+                      if err != nil || got != want {
+                          t.Fatalf("LoadValue(store, %q) = (%q, %v), want (%q, nil)", key, got, err, want)
+                      }
+                  })
+              }
+
+              t.Run("missing key wraps ErrNotFound and mentions the key", func(t *testing.T) {
+                  _, err := LoadValue(store, "missing")
+                  if err == nil {
+                      t.Fatal("err = nil, want non-nil")
+                  }
+                  if !errors.Is(err, ErrNotFound) {
+                      t.Errorf("errors.Is(err, ErrNotFound) = false, want true (err = %v)", err)
+                  }
+                  if !strings.Contains(err.Error(), "missing") {
+                      t.Errorf("err.Error() = %q, does not mention the key", err.Error())
+                  }
+              })
+
+              t.Run("different missing key is mentioned correctly, not hardcoded", func(t *testing.T) {
+                  _, err := LoadValue(store, "another-missing-key")
+                  if !errors.Is(err, ErrNotFound) {
+                      t.Errorf("errors.Is(err, ErrNotFound) = false, want true (err = %v)", err)
+                  }
+                  if !strings.Contains(err.Error(), "another-missing-key") {
+                      t.Errorf("err.Error() = %q, does not mention the key", err.Error())
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-errors.extract-field-with-errors-as
     version: 1.0.0
@@ -346,6 +424,96 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/extract-field-with-errors-as
+
+          go 1.25.0
+      - path: validate.go
+        content: |
+          package validate
+
+          import (
+              "errors"
+          )
+
+          import "fmt"
+
+          // ValidationError reports which field failed validation.
+          type ValidationError struct {
+              Field string
+          }
+
+          func (e *ValidationError) Error() string {
+              return fmt.Sprintf("invalid field: %s", e.Field)
+          }
+
+          // ValidateAge returns an error wrapping a *ValidationError when age is
+          // negative.
+          func ValidateAge(age int) error {
+              if age < 0 {
+                  return fmt.Errorf("validating age: %w", &ValidationError{Field: "age"})
+              }
+              return nil
+          }
+
+          // FieldFromError returns the Field of the *ValidationError wrapped
+          // anywhere in err's chain, and whether one was found.
+          func FieldFromError(err error) (field string, ok bool) {
+              var target *ValidationError
+              if errors.As(err, &target) && target != nil {
+                  return target.Field, true
+              }
+              return "", false
+          }
+      - path: validate_test.go
+        content: |
+          package validate
+
+          import (
+              "errors"
+              "fmt"
+              "testing"
+          )
+
+          func TestFieldFromError(t *testing.T) {
+              t.Run("wrapped validation error", func(t *testing.T) {
+                  err := ValidateAge(-1)
+                  field, ok := FieldFromError(err)
+                  if !ok || field != "age" {
+                      t.Errorf("FieldFromError(err) = (%q, %v), want (\"age\", true)", field, ok)
+                  }
+              })
+
+              t.Run("deeply wrapped validation error", func(t *testing.T) {
+                  inner := ValidateAge(-1)
+                  wrapped := fmt.Errorf("handling request: %w", fmt.Errorf("processing user: %w", inner))
+                  field, ok := FieldFromError(wrapped)
+                  if !ok || field != "age" {
+                      t.Errorf("FieldFromError(wrapped) = (%q, %v), want (\"age\", true)", field, ok)
+                  }
+              })
+
+              t.Run("unrelated error", func(t *testing.T) {
+                  field, ok := FieldFromError(errors.New("something else went wrong"))
+                  if ok {
+                      t.Errorf("FieldFromError(unrelated) = (%q, true), want ok=false", field)
+                  }
+              })
+
+              t.Run("nil error", func(t *testing.T) {
+                  field, ok := FieldFromError(nil)
+                  if ok {
+                      t.Errorf("FieldFromError(nil) = (%q, true), want ok=false", field)
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-errors.validate-user-joining-all-errors
     version: 1.0.0
@@ -506,6 +674,88 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/validate-user-joining-all-errors
+
+          go 1.25.0
+      - path: validate.go
+        content: |
+          package user
+
+          import "errors"
+
+          // ErrNameRequired means name was empty.
+          var ErrNameRequired = errors.New("name is required")
+
+          // ErrAgeNegative means age was negative.
+          var ErrAgeNegative = errors.New("age cannot be negative")
+
+          // ValidateUser returns nil when name and age are both valid, or a
+          // single error aggregating every violated rule -- not just the first
+          // one found.
+          func ValidateUser(name string, age int) error {
+              var violations []error
+              if name == "" {
+                  violations = append(violations, ErrNameRequired)
+              }
+              if age < 0 {
+                  violations = append(violations, ErrAgeNegative)
+              }
+              return errors.Join(violations...)
+          }
+      - path: validate_test.go
+        content: |
+          package user
+
+          import (
+              "errors"
+              "testing"
+          )
+
+          func TestValidateUser(t *testing.T) {
+              t.Run("both valid", func(t *testing.T) {
+                  if err := ValidateUser("bob", 5); err != nil {
+                      t.Errorf("ValidateUser(\"bob\", 5) = %v, want nil", err)
+                  }
+              })
+
+              t.Run("only name invalid", func(t *testing.T) {
+                  err := ValidateUser("", 5)
+                  if !errors.Is(err, ErrNameRequired) {
+                      t.Error("expected ErrNameRequired")
+                  }
+                  if errors.Is(err, ErrAgeNegative) {
+                      t.Error("did not expect ErrAgeNegative")
+                  }
+              })
+
+              t.Run("only age invalid", func(t *testing.T) {
+                  err := ValidateUser("bob", -1)
+                  if !errors.Is(err, ErrAgeNegative) {
+                      t.Error("expected ErrAgeNegative")
+                  }
+                  if errors.Is(err, ErrNameRequired) {
+                      t.Error("did not expect ErrNameRequired")
+                  }
+              })
+
+              t.Run("both invalid: both errors are present, not just the first", func(t *testing.T) {
+                  err := ValidateUser("", -1)
+                  if !errors.Is(err, ErrNameRequired) {
+                      t.Error("expected ErrNameRequired to be present")
+                  }
+                  if !errors.Is(err, ErrAgeNegative) {
+                      t.Error("expected ErrAgeNegative to also be present, not just the first violation")
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-errors.translate-error-at-boundary
     version: 1.0.0
@@ -659,6 +909,77 @@ challenges:
         timeout: 20s
     variants: []
 
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/translate-error-at-boundary
+
+          go 1.25.0
+      - path: service.go
+        content: |
+          package svc
+
+          import "errors"
+
+          // errDeadlineExceeded simulates a low-level networking failure. It is
+          // unexported: callers of CallService must never be able to detect it
+          // directly.
+          var errDeadlineExceeded = errors.New("i/o timeout")
+
+          // ErrServiceUnavailable is the public sentinel CallService returns when
+          // the simulated call fails, translating the low-level failure into a
+          // domain-appropriate one instead of relaying it as-is.
+          var ErrServiceUnavailable = errors.New("service unavailable")
+
+          // CallService simulates calling a flaky downstream service. When
+          // simulateTimeout is true, it translates the internal timeout into
+          // ErrServiceUnavailable, without leaking errDeadlineExceeded to the
+          // caller.
+          func CallService(simulateTimeout bool) error {
+              if simulateTimeout {
+                  return ErrServiceUnavailable
+              }
+              return nil
+          }
+      - path: service_test.go
+        content: |
+          package svc
+
+          import (
+              "errors"
+              "strings"
+              "testing"
+          )
+
+          func TestCallService(t *testing.T) {
+              t.Run("success", func(t *testing.T) {
+                  if err := CallService(false); err != nil {
+                      t.Errorf("CallService(false) = %v, want nil", err)
+                  }
+              })
+
+              t.Run("timeout translates to the public sentinel", func(t *testing.T) {
+                  err := CallService(true)
+                  if !errors.Is(err, ErrServiceUnavailable) {
+                      t.Errorf("errors.Is(err, ErrServiceUnavailable) = false, want true (err = %v)", err)
+                  }
+              })
+
+              t.Run("the internal low-level error is never leaked to the caller", func(t *testing.T) {
+                  err := CallService(true)
+                  if errors.Is(err, errDeadlineExceeded) {
+                      t.Error("errors.Is(err, errDeadlineExceeded) = true, want false -- internal error leaked across the boundary")
+                  }
+                  if strings.Contains(err.Error(), errDeadlineExceeded.Error()) {
+                      t.Errorf("err.Error() = %q, contains the internal error message %q -- leaked textually even without errors.Is", err.Error(), errDeadlineExceeded.Error())
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
   - schema_version: 1
     id: go-errors.load-and-validate-required-keys
     version: 1.0.0
@@ -833,6 +1154,105 @@ challenges:
         test_pattern: ^TestLoadAndValidate$
         timeout: 20s
     variants: []
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/load-and-validate-required-keys
+
+          go 1.25.0
+      - path: loadvalidate.go
+        content: |
+          package config
+
+          import (
+              "fmt"
+          )
+
+          import "errors"
+
+          // ErrNotFound is returned when a key is missing from the store.
+          var ErrNotFound = errors.New("not found")
+
+          // LoadAndValidate checks that every key in required is present in
+          // store. It wraps ErrNotFound with the missing key's name for each
+          // absent key, and aggregates every such error into a single joined
+          // error -- not just the first one found. It returns nil when every
+          // required key is present.
+          func LoadAndValidate(store map[string]string, required []string) error {
+              var missing []error
+              for _, key := range required {
+                  if _, ok := store[key]; !ok {
+                      missing = append(missing, fmt.Errorf("key %q: %w", key, ErrNotFound))
+                  }
+              }
+              return errors.Join(missing...)
+          }
+      - path: loadvalidate_test.go
+        content: |
+          package config
+
+          import (
+              "errors"
+              "strings"
+              "testing"
+          )
+
+          func TestLoadAndValidate(t *testing.T) {
+              store := map[string]string{"a": "1", "b": "2"}
+
+              t.Run("all present", func(t *testing.T) {
+                  if err := LoadAndValidate(store, []string{"a", "b"}); err != nil {
+                      t.Errorf("LoadAndValidate(...) = %v, want nil", err)
+                  }
+              })
+
+              t.Run("empty required list", func(t *testing.T) {
+                  if err := LoadAndValidate(store, nil); err != nil {
+                      t.Errorf("LoadAndValidate(store, nil) = %v, want nil", err)
+                  }
+              })
+
+              t.Run("single missing key", func(t *testing.T) {
+                  err := LoadAndValidate(store, []string{"a", "quorum-x1"})
+                  if !errors.Is(err, ErrNotFound) {
+                      t.Error("expected ErrNotFound")
+                  }
+                  if !strings.Contains(err.Error(), `"quorum-x1"`) {
+                      t.Error("expected message to mention the missing key")
+                  }
+              })
+
+              t.Run("every one of several missing keys is individually joined, not merged or hardcoded", func(t *testing.T) {
+                  missing := []string{"zeta-1", "zeta-2", "zeta-3", "zeta-4", "zeta-5", "zeta-6"}
+                  required := append([]string{"a", "b"}, missing...)
+
+                  err := LoadAndValidate(store, required)
+                  if err == nil {
+                      t.Fatal("err = nil, want non-nil")
+                  }
+                  if !errors.Is(err, ErrNotFound) {
+                      t.Errorf("errors.Is(err, ErrNotFound) = false, want true (err = %v)", err)
+                  }
+                  for _, key := range missing {
+                      if !strings.Contains(err.Error(), `"`+key+`"`) {
+                          t.Errorf("err.Error() = %q, does not mention missing key %q", err.Error(), key)
+                      }
+                  }
+
+                  joined, ok := err.(interface{ Unwrap() []error })
+                  if !ok {
+                      t.Fatal("err does not implement Unwrap() []error -- not a joined multi-error")
+                  }
+                  if got := len(joined.Unwrap()); got != len(missing) {
+                      t.Errorf("len(err.Unwrap()) = %d, want %d (one joined error per missing key, not merged into one)", got, len(missing))
+                  }
+              })
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
 relations:
   - from: go-errors.wrap-sentinel-error-with-context
     to: go-errors.extract-field-with-errors-as

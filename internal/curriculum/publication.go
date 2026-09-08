@@ -189,6 +189,17 @@ func ValidatePublication(packs []Pack) []Diagnostic {
 			if ch.Publication.Status != StatusPublished {
 				continue
 			}
+			if ch.SchemaVersion != SchemaVersion {
+				add(p.File, ch.ID, "schema_version", "published challenge requires supported schema version")
+			}
+			if strings.TrimSpace(ch.ID) == "" || strings.TrimSpace(ch.Title) == "" || strings.TrimSpace(ch.Difficulty) == "" {
+				add(p.File, ch.ID, "identity", "published challenge requires id, title and difficulty")
+			}
+			switch ch.Kind {
+			case "atomic", "combined", "functional_slice", "debug", "debugging", "refactoring", "code_review", "systems_mission", "simulation":
+			default:
+				add(p.File, ch.ID, "kind", "unknown published challenge kind")
+			}
 			if p.Publication.Status != StatusPublished {
 				add(p.File, ch.ID, "publication", "published challenge requires published containing pack")
 			}

@@ -983,5 +983,223 @@
         }
       ]
     }
+  },
+  {
+    "name": "published-missing-title",
+    "valid": false,
+    "document": {
+      "schema_version": 1,
+      "id": "fixture",
+      "version": "1.0.0",
+      "themes": [
+        {
+          "id": "theme",
+          "title": "Theme"
+        }
+      ],
+      "concepts": [
+        {
+          "id": "concept",
+          "title": "Concept"
+        }
+      ],
+      "competencies": [
+        {
+          "id": "competency",
+          "title": "Competency"
+        }
+      ],
+      "challenges": [
+        {
+          "schema_version": 1,
+          "id": "challenge",
+          "version": "1.0.0",
+          "kind": "atomic",
+          "difficulty": "foundational",
+          "competencies": {
+            "primary": [
+              "competency"
+            ]
+          },
+          "acceptance": [
+            "Observable behavior"
+          ],
+          "fixture": [
+            {
+              "path": "main.go",
+              "content": "package main\n"
+            }
+          ],
+          "variants": [
+            "Private alternative"
+          ],
+          "publication": {
+            "status": "published",
+            "author": "synthetic-author",
+            "reviewed_by": "synthetic-reviewer",
+            "playtested": true
+          }
+        }
+      ],
+      "relations": [
+        {
+          "from": "concept",
+          "to": "competency",
+          "kind": "relates_to"
+        }
+      ],
+      "publication": {
+        "status": "published",
+        "author": "synthetic-author",
+        "reviewed_by": "synthetic-reviewer",
+        "playtested": true
+      }
+    }
+  },
+  {
+    "name": "published-unknown-kind",
+    "valid": false,
+    "document": {
+      "schema_version": 1,
+      "id": "fixture",
+      "version": "1.0.0",
+      "themes": [
+        {
+          "id": "theme",
+          "title": "Theme"
+        }
+      ],
+      "concepts": [
+        {
+          "id": "concept",
+          "title": "Concept"
+        }
+      ],
+      "competencies": [
+        {
+          "id": "competency",
+          "title": "Competency"
+        }
+      ],
+      "challenges": [
+        {
+          "schema_version": 1,
+          "id": "challenge",
+          "version": "1.0.0",
+          "title": "Challenge",
+          "kind": "unknown",
+          "difficulty": "foundational",
+          "competencies": {
+            "primary": [
+              "competency"
+            ]
+          },
+          "acceptance": [
+            "Observable behavior"
+          ],
+          "fixture": [
+            {
+              "path": "main.go",
+              "content": "package main\n"
+            }
+          ],
+          "variants": [
+            "Private alternative"
+          ],
+          "publication": {
+            "status": "published",
+            "author": "synthetic-author",
+            "reviewed_by": "synthetic-reviewer",
+            "playtested": true
+          }
+        }
+      ],
+      "relations": [
+        {
+          "from": "concept",
+          "to": "competency",
+          "kind": "relates_to"
+        }
+      ],
+      "publication": {
+        "status": "published",
+        "author": "synthetic-author",
+        "reviewed_by": "synthetic-reviewer",
+        "playtested": true
+      }
+    }
+  },
+  {
+    "name": "published-future-schema",
+    "valid": false,
+    "document": {
+      "schema_version": 1,
+      "id": "fixture",
+      "version": "1.0.0",
+      "themes": [
+        {
+          "id": "theme",
+          "title": "Theme"
+        }
+      ],
+      "concepts": [
+        {
+          "id": "concept",
+          "title": "Concept"
+        }
+      ],
+      "competencies": [
+        {
+          "id": "competency",
+          "title": "Competency"
+        }
+      ],
+      "challenges": [
+        {
+          "schema_version": 2,
+          "id": "challenge",
+          "version": "1.0.0",
+          "title": "Challenge",
+          "kind": "atomic",
+          "difficulty": "foundational",
+          "competencies": {
+            "primary": [
+              "competency"
+            ]
+          },
+          "acceptance": [
+            "Observable behavior"
+          ],
+          "fixture": [
+            {
+              "path": "main.go",
+              "content": "package main\n"
+            }
+          ],
+          "variants": [
+            "Private alternative"
+          ],
+          "publication": {
+            "status": "published",
+            "author": "synthetic-author",
+            "reviewed_by": "synthetic-reviewer",
+            "playtested": true
+          }
+        }
+      ],
+      "relations": [
+        {
+          "from": "concept",
+          "to": "competency",
+          "kind": "relates_to"
+        }
+      ],
+      "publication": {
+        "status": "published",
+        "author": "synthetic-author",
+        "reviewed_by": "synthetic-reviewer",
+        "playtested": true
+      }
+    }
   }
 ]

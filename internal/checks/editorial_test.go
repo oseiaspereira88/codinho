@@ -17,8 +17,9 @@ func TestEditorialRealGoTestProof(t *testing.T) {
 		{"test-failure", "func TestProof(t *testing.T) {t.Fatal(\"expected\")}", "TestProof", "", "test_failure"},
 		{"compile-failure", "func TestProof(t *testing.T) {notDefined()}", "TestProof", "", "compile_failure"},
 		{"skip", "func TestProof(t *testing.T) {t.Skip(\"unavailable\")}", "TestProof", "", "skipped"},
+		{"mixed-skip-failure", "func TestProof(t *testing.T) {t.Fatal(\"expected\")}; func TestSkip(t *testing.T) {t.Skip()}", "Test", "", "incomplete_failure"},
 		{"no-match", "func TestProof(t *testing.T) {}", "TestMissing", "", "no_tests"},
-		{"timeout", "func TestProof(t *testing.T) {}", "TestProof", "1ns", "error"},
+		{"timeout", "func TestProof(t *testing.T) {}", "TestProof", "1ns", "timeout"},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			dir := t.TempDir()

@@ -18,7 +18,10 @@ JSON schemas omit fields that Go already supports and unknown YAML fields vanish
   Missing metadata remains a draft; never fabricate review or playtest.
 - Separate inventory, drafts, published and eligible coverage. canonical: true is
   an explicit curation claim; variant_of excludes derivatives from eligible counts.
-  Variants remain private alternate text and never become additional challenges.
+  The variants array remains private alternate text and never becomes additional
+  challenges. variant_of instead identifies a derivative challenge with its own
+  ID and human publication metadata: it may be visible when published, but never
+  counts as an additional canonical challenge.
   A versioned distribution policy lists canonical pack groups and exact kind counts;
   per-pack constraints are enforced where planned, global constraints always at V1.
   Type groups express the product's combined debugging/refactoring/review target.
@@ -36,7 +39,8 @@ JSON schemas omit fields that Go already supports and unknown YAML fields vanish
 - --checks validates all authored checks; --published-checks validates every
   published check. V1 implies published checks and eligible distribution/coverage.
   Missing proof never counts as success; zero published checks reports zero and
-  does not establish V1 readiness. Emit only IDs, versions, digests and classified
+  does not establish V1 readiness. V1 rejects zero declared published checks;
+  any skipped or incomplete scenario remains unverified. Emit only IDs, versions, digests and classified
   results, never reference code or process output in editorial reports.
 - Clear private validation from every catalog challenge projection and JSON
   serialization, preserving historical pinned-content digests through optional

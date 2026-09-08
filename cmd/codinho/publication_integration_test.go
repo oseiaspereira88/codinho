@@ -47,6 +47,11 @@ func TestPublicationIntegrityOverRealStdio(t *testing.T) {
 	bin := buildCodinhoBinary(t)
 	root := t.TempDir()
 	pack := syntheticPublicationPack()
+	derivative := pack.Challenges[0]
+	derivative.ID = "published-derivative"
+	derivative.VariantOf = "public-challenge"
+	derivative.Variants = []string{"PRIVATE-ALTERNATIVE-SENTINEL"}
+	pack.Challenges = append(pack.Challenges, derivative)
 	writePublicationPack(t, root, pack)
 	ctx, cancel := context.WithTimeout(context.Background(), 40*time.Second)
 	defer cancel()
@@ -74,10 +79,10 @@ func TestPublicationIntegrityOverRealStdio(t *testing.T) {
 	} {
 		env := callTool(ctx, t, cs, req.tool, req.args)
 		data, _ := json.Marshal(env)
-		if strings.Contains(string(data), "hidden-draft") || strings.Contains(string(data), "PRIVATE-REFERENCE-SENTINEL") {
+		if strings.Contains(string(data), "hidden-draft") || strings.Contains(string(data), "PRIVATE-REFERENCE-SENTINEL") || strings.Contains(string(data), "PRIVATE-ALTERNATIVE-SENTINEL") {
 			t.Fatalf("%s leaked private content: %s", req.tool, data)
 		}
-		if req.tool == "catalog_search" && !strings.Contains(string(data), "public-challenge") {
+		if req.tool == "catalog_search" && (!strings.Contains(string(data), "public-challenge") || !strings.Contains(string(data), "published-derivative")) {
 			t.Fatalf("published content missing: %s", data)
 		}
 	}
@@ -116,6 +121,18 @@ func TestPublicationIntegrityOverRealStdio(t *testing.T) {
 	}
 	if strings.Contains(string(log), "PRIVATE-REFERENCE-SENTINEL") {
 		t.Fatal("reference solution leaked into pinned session event")
+	}
+	// A published derivative is visible, but its reserved alternate text remains private.
+	cs = connect(false)
+	derivativeSession := callTool(ctx, t, cs, "session_start", map[string]any{"challenge_id": "published-derivative", "depth": "micro"})
+	callTool(ctx, t, cs, "instruction_get", map[string]any{"session_id": derivativeSession["session_id"]})
+	cs.Close()
+	log, err = os.ReadFile(filepath.Join(root, ".codinho", "state", "events.jsonl"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if strings.Contains(string(log), "PRIVATE-ALTERNATIVE-SENTINEL") {
+		t.Fatal("private alternate text leaked into pinned content")
 	}
 	// A claimed publication without review must fail before even starting MCP.
 	pack.Challenges[0].Publication.ReviewedBy = ""
@@ -227,6 +244,27 @@ func TestPublicationIntegrityCLI(t *testing.T) {
 		}
 		if result.Publication.Eligible.Challenges != 0 || !strings.Contains(string(out), "v1_gate_below_threshold") {
 			t.Fatalf("did not gate on publication: %s", out)
+		}
+		// Even sufficient, explicitly published content must not pass V1 with no checks.
+		meta := curriculum.PublicationAuthoring{Status: "published", Author: "synthetic-author", ReviewedBy: "synthetic-reviewer", Playtested: true}
+		p.Publication = meta
+		for i := range p.Challenges {
+			p.Challenges[i].Publication = meta
+		}
+		writePublicationPack(t, root, p)
+		noCheckPolicy := curriculum.DistributionPolicy{SchemaVersion: 1, Global: curriculum.TypeDistribution{ByChallengeKind: map[string]int{"atomic": 84}}, Packs: []curriculum.PackDistribution{{IDs: []string{p.ID}, Expected: curriculum.TypeDistribution{ByChallengeKind: map[string]int{"atomic": 84}}}}}
+		policy, err = json.Marshal(noCheckPolicy)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err = os.WriteFile(filepath.Join(root, "packs", "distribution.json"), policy, 0600); err != nil {
+			t.Fatal(err)
+		}
+		cmd = exec.Command(bin, "catalog", "validate", "--v1-gate", "--json")
+		cmd.Dir = root
+		out, err = cmd.CombinedOutput()
+		if err == nil || !strings.Contains(string(out), "v1_check_proof_incomplete") || strings.Contains(string(out), "v1_gate_below_threshold") || strings.Contains(string(out), "type_distribution_mismatch") {
+			t.Fatalf("zero-check V1 gate did not isolate execution proof gap: %s %v", out, err)
 		}
 	})
 }

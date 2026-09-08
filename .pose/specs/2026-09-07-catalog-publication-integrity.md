@@ -168,6 +168,9 @@ candidato final. Nenhum metadado humano real será criado pela automação.
 - Security / Contract: pose assess integrate; pose validate --strict --json .pose/results/delivery-validation.json; pose surface-check --spec catalog-publication-integrity --strict
 
 ### Execution log
+- 2026-09-08 UTC: rodada 1 da revisão publication_review rejeitou f9ca9c8 por V1 sem checks, timeout genérico, fail+skip e pack ausente com meta zero. Corrigidos com regressões reais; achado de variant_of retirado após distinguir derivado publicado de variants privado, esclarecido no ADR/doc e testado no MCP.
+- 2026-09-08 UTC: três casos adicionais do corpus reproduziram aceitação de publicação sem título, com tipo desconhecido ou schema futuro. Corrigida validação do desafio publicado sem bloquear rascunhos mínimos. go test -race ./internal/curriculum/... ./internal/checks/... ./internal/cli/... ./cmd/codinho/... -count=1 passou após todas as correções.
+- 2026-09-08 UTC: matriz POSE inicial passou 16/16 em f9ca9c8 (incluindo govulncheck). Execução do revisor sem PATH do govulncheck sobrescreveu o resultado com falha ambiental; o autor reexecutará a matriz no novo candidato. Nenhuma falha ambiental foi contada como sucesso.
 - 2026-09-08 UTC: pose assess discover antes das alterações; 11.335 LOC de produção, 10.887 LOC de testes, sem marcadores de dívida.
 - 2026-09-08 UTC: reprodução do filtro ausente por inspeção e contratos negativos. ADR/plano registrados antes do código. Implementados projeções de publicação, distribuição, provas de execução, corpus e composição.
 - 2026-09-08 UTC: go test ./internal/curriculum/... ./internal/cli/... ./internal/checks/... passou; go test ./cmd/codinho -run TestPublicationIntegrity -count=1 passou. go test -race ./... passou em todos os pacotes; último ajuste de saída truncada será revalidado no candidato.
@@ -185,7 +188,7 @@ Implementação e testes compostos passam; validação estruturada no commit, re
 - R5: TestEditorialExpectedBaselineAndReference — falta de fixture/prova, alternativa sem justificativa, referência falhando; TestPublicationIntegrityCLI verifica 1/1 publicado; CI executa --published-checks.
 - R6: TestPublicationSchemaCorpus — documentos compartilhados; TestLoaderRejectsUnknownManifestAndSymlinkEscape — manifesto desconhecido, versão futura, confinamento.
 - R7: TestPublicationIntegrityOverRealStdio retoma sessão de autoria com catálogo público; suites de recovery/tree/evidence legadas passam em -race sem reescrever eventos.
-- R8: TestPublicationIntegrityCLI/numerically-sufficient-drafts — inventário supera todos os mínimos, validação incremental passa, V1 falha com zero elegíveis.
+- R8: TestPublicationIntegrityCLI/numerically-sufficient-drafts — inventário supera todos os mínimos, validação incremental passa, V1 falha com zero elegíveis; com publicação e distribuição suficientes mas zero checks, falha isolada v1_check_proof_incomplete.
 
 ### Known gaps
 O catálogo real ainda não tem conteúdo publicado. Autoria usa serve --authoring; dados sintéticos de teste não constituem revisão/playtest do catálogo real.

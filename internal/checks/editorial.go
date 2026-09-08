@@ -40,6 +40,9 @@ func (e *Executor) ExecuteEditorial(ctx context.Context, r Resolved, root worksp
 		return "unverifiable_output", nil
 	}
 	if result.Outcome == OutcomeError {
+		if bytes.Contains(result.Stderr, []byte("[TIMEOUT]")) {
+			return "timeout", nil
+		}
 		return "error", nil
 	}
 	if r.Kind == KindGoTest || r.Kind == KindGoTestRace || r.Kind == KindGoBenchmark {
@@ -126,11 +129,14 @@ func classifyTestProof(r Result, benchmark ...bool) string {
 			buildFailed = true
 		}
 	}
+	if skipped {
+		if failed > 0 || buildFailed || len(packageFailed) > 0 {
+			return "incomplete_failure"
+		}
+		return "skipped"
+	}
 	if buildFailed {
 		return "compile_failure"
-	}
-	if skipped {
-		return "skipped"
 	}
 	if packages == 0 {
 		return "unverifiable_output"

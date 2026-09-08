@@ -146,6 +146,10 @@ func runCatalogValidate(args []string, stdout, stderr io.Writer) int {
 				return exitError
 			}
 			proof = &report
+			if *v1Gate && (report.DeclaredChecks == 0 || report.VerifiedChecks != report.DeclaredChecks) {
+				blocking = true
+				v1Findings = append(v1Findings, curriculum.EditorialFinding{Item: "v1-gate", Rule: "v1_check_proof_incomplete", Severity: curriculum.SeverityBlocking, Detail: "V1 requires at least one published check and verified proof for every declared published check"})
+			}
 			editorial = append(editorial, checkFindings...)
 			if len(checkFindings) > 0 {
 				blocking = true

@@ -130,6 +130,15 @@ func (p DistributionPolicy) Check(packs []Pack) []EditorialFinding {
 	for _, target := range p.Packs {
 		selected := []Pack{}
 		for _, id := range target.IDs {
+			exists := false
+			for _, authored := range packs {
+				if authored.ID == id {
+					exists = true
+				}
+			}
+			if !exists {
+				out = append(out, EditorialFinding{Item: "pack:" + id, Rule: RuleTypeDistributionMismatch, Severity: SeverityBlocking, Detail: "policy target pack does not exist in inventory"})
+			}
 			allowed[id] = true
 			for _, pack := range eligible {
 				if pack.ID == id {

@@ -11,7 +11,7 @@ import (
 func publicationPack() Pack {
 	meta := PublicationAuthoring{Status: StatusPublished, Author: "synthetic-author", ReviewedBy: "synthetic-reviewer", Playtested: true}
 	return Pack{ID: "fixture", Version: "1.0.0", Publication: meta, Competencies: []CompetencyAuthoring{{ID: "competency"}}, Challenges: []ChallengeAuthoring{
-		{ID: "canonical", Version: "1.0.0", Kind: "atomic", Canonical: true, Publication: meta, Competencies: CompetencyRefs{Primary: []string{"competency"}}, Acceptance: []string{"observable"}},
+		{SchemaVersion: 1, ID: "canonical", Version: "1.0.0", Title: "Challenge", Difficulty: "foundational", Kind: "atomic", Canonical: true, Publication: meta, Competencies: CompetencyRefs{Primary: []string{"competency"}}, Acceptance: []string{"observable"}},
 		{ID: "draft", Version: "1.0.0", Kind: "atomic"},
 	}}
 }
@@ -147,5 +147,19 @@ func TestLoaderRejectsUnknownManifestAndSymlinkEscape(t *testing.T) {
 	write("schema_version: 2\npacks: []\n")
 	if c, diags, err := Load(dir, DefaultLimits); err != nil || c != nil || !hasDiagnostic(diags, DiagIncompatibleSchemaVersion) {
 		t.Fatalf("future manifest was not blocking: %v %+v %v", c, diags, err)
+	}
+}
+
+func TestDistributionRejectsAbsentZeroTarget(t *testing.T) {
+	policy, err := LoadDistributionPolicy("../../testdata/catalog-quality/distribution.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	policy.Packs = append(policy.Packs, PackDistribution{IDs: []string{"absent"}, Expected: TypeDistribution{ByChallengeKind: map[string]int{"atomic": 0}}})
+	if err = policy.Validate(); err != nil {
+		t.Fatal(err)
+	}
+	if len(policy.Check([]Pack{publicationPack()})) == 0 {
+		t.Fatal("absent pack silently accepted for zero target")
 	}
 }

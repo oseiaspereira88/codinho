@@ -78,6 +78,8 @@ reproduzível. Um texto dizendo que o check passou em outro lugar não é prova.
 Baseline aceita `pass`, `test_failure`, `compile_failure`, `format_failure`,
 `analysis_failure` ou `syntax_failure`; referência exige `pass`. Falha não prevista,
 timeout, skip, nenhum teste/benchmark executado e saída truncada não passam.
+Timeout tem resultado próprio; falha combinada com skip é incomplete_failure,
+sem aceitar a execução parcial como prova de falha esperada.
 Testes usam JSON e `-count=1`; benchmarks usam também `-benchtime=1x` e precisam
 produzir uma medição. Cada check/cenário roda em diretório temporário próprio.
 O executor usa runners permitidos, sem shell, com timeout e captura limitada;
@@ -121,7 +123,9 @@ Nenhum rascunho é promovido automaticamente e nenhum trabalho autorado é apaga
 O relatório separa `inventory`, `drafts`, `published` e `eligible`. Nos desafios,
 `canonical: true` é uma declaração explícita de curadoria; protótipos sem essa
 marca e derivados com `variant_of: <id>` não contam como novos desafios elegíveis.
-O array reservado `variants` também não aumenta a contagem. Revise equivalência e
+Um derivado com variant_of e publicação própria é visível no MCP, mas fica fora
+da contagem canônica. O array reservado `variants` continua privado e também não
+aumenta a contagem. Revise equivalência e
 repetição pedagogicamente antes de marcar um desafio canônico.
 
 `codinho catalog validate --v1-gate` usa cobertura elegível (160 conceitos,
@@ -135,7 +139,8 @@ para validar uma política explicitamente; ela deve ter totais coerentes.
 
 `--published-checks` executa todos os checks publicados e informa quantos foram
 verificados. CI usa esse comando e arquiva `catalog-proof.json`. Zero publicados
-produz zero verificados, sem afirmar prontidão V1. `--checks` cobre também
+produz zero verificados, sem afirmar prontidão V1. V1 rejeita zero checks publicados,
+mesmo que todas as contagens de conteúdo estejam completas. `--checks` cobre também
 rascunhos e diagnostica metadados ausentes; `catalog validate` sem esses flags
 continua utilizável durante autoria incremental. V1 permanece um gate explícito:
 um catálogo numericamente suficiente de rascunhos deve falhar.

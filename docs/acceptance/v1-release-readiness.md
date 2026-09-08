@@ -5,7 +5,7 @@ doc_type: reference
 
 # Prontidão de entrega V1
 
-Estado em 2026-09-08: implementação em andamento. Não há aceite V1 nesta rodada.
+Estado em 2026-09-08: gates implementados e CI nativa conferida. Não há aceite V1 nesta rodada.
 Consulte a [spec](../../.pose/specs/2026-09-07-v1-delivery-ci-assurance.md) e
 os [critérios do roadmap](../../.pose/roadmaps/codinho-v1.md).
 

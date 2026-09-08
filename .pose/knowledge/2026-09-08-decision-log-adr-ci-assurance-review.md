@@ -20,7 +20,8 @@ Required CI tools and native platform evidence are governed by the
 [ADR](../adr/2026-09-08-native-ci-evidence-and-prospective-delivery-governance.md).
 
 ## Current state
-Implementation in progress; review/closeout resumed after commit b9b8868.
+Executable CI and native evidence reviewed after commit b9b8868. Consult the
+spec lifecycle and sealed attestation for the current formal closeout state.
 Official POSE archive hashes and action commit pins
 were checked on 2026-09-08. The latest remote baseline failed govulncheck against
 an unpatched Go 1.25 toolchain; this is a real failure, not an approved exception.

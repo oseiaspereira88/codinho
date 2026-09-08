@@ -178,3 +178,20 @@ para limites de agregação e integração futura com trilhas.
 Esses números são medidos no hardware desta sessão de desenvolvimento;
 são thresholds informativos, não uma garantia de SLO (Non-functional:
 "Benchmarks são informativos com thresholds documentados").
+
+
+## Publicação e autoria explícita
+
+`serve` seleciona apenas conteúdo publicado; use `serve --authoring` para
+playtest de rascunhos locais. Publicação exige metadados reais no pack e em cada
+desafio. Metadados legados ausentes continuam sendo rascunho. Campos opcionais
+canonical e variant_of não mudam IDs; não contam variantes/protótipos como novos
+desafios curados. validation é uma entrada editorial privada, removida das
+projeções e omitida do JSON de sessão. Campos opcionais vazios preservam digests
+históricos; retomada usa conteúdo já fixado mesmo quando o catálogo atual o oculta.
+
+`catalog validate --checks` passa a exigir expectativas de baseline/referência:
+falhas ou skips sem expectativa deixam de ser aceitos. Rascunhos existentes sem
+prova permanecem editáveis; complete validation antes de publicar. Campos YAML
+não reconhecidos passam a falhar explicitamente. Nenhum evento é reescrito.
+Veja [autoria](content-authoring.md) para distribuição e comandos de validação.

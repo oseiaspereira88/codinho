@@ -71,3 +71,17 @@ func TestCheckTypeDistributionEmptyWantNeverFlags(t *testing.T) {
 		t.Fatalf("findings = %+v, want none when no distribution is declared yet", findings)
 	}
 }
+
+func TestTypeDistributionIncludesUnexpectedKindsDeterministically(t *testing.T) {
+	cov := Coverage{ByChallengeKind: map[string]int{"atomic": 1, "unexpected": 1}, ByDifficulty: map[string]int{"advanced": 1, "foundational": 1}}
+	want := TypeDistribution{ByChallengeKind: map[string]int{"atomic": 1}, ByDifficulty: map[string]int{"foundational": 2}}
+	for i := 0; i < 5; i++ {
+		findings := CheckTypeDistribution(cov, want)
+		if len(findings) != 3 || findings[0].Item != "distribution:kind:unexpected" || findings[1].Item != "distribution:difficulty:advanced" || findings[2].Item != "distribution:difficulty:foundational" {
+			t.Fatalf("incomplete or nondeterministic distribution: %+v", findings)
+		}
+	}
+	if len(CheckTypeDistribution(cov, TypeDistribution{})) != 0 {
+		t.Fatal("unspecified distribution must remain unconstrained")
+	}
+}

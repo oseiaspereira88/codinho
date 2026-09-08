@@ -183,6 +183,14 @@ challenges:
       - id: parses
         runner: internal_ast
         package: main.go
+    validation:
+      reference_fixture:
+        - path: main.go
+          content: "package main\n"
+      expectations:
+        - check_id: parses
+          baseline: pass
+          reference: pass
 `
 	if err := os.WriteFile(filepath.Join(packsDir, "checks-pack.yaml"), []byte(pack), 0o600); err != nil {
 		t.Fatalf("writing pack: %v", err)

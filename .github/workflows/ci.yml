@@ -57,6 +57,11 @@ jobs:
       - name: catalog validate
         run: go run ./cmd/codinho catalog validate
 
+      - name: published catalog proof
+        run: |
+          go build -o /tmp/codinho-editorial ./cmd/codinho
+          /tmp/codinho-editorial catalog validate --published-checks --json > catalog-proof.json
+
       - name: skills-check
         run: |
           if command -v pose >/dev/null 2>&1; then
@@ -73,5 +78,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: test-results.json
+          path: |
+            test-results.json
+            catalog-proof.json
           retention-days: 30

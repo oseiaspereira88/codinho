@@ -6,6 +6,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"os"
 	"os/signal"
@@ -28,7 +29,7 @@ func main() {
 
 	args := os.Args[1:]
 	if len(args) > 0 && args[0] == "serve" {
-		if err := runServe(ctx, os.Stderr); err != nil {
+		if err := runServe(ctx, os.Stderr, args[1:]...); err != nil {
 			fmt.Fprintf(os.Stderr, "codinho serve: %v\n", err)
 			os.Exit(1)
 		}
@@ -42,19 +43,35 @@ func main() {
 // running the MCP server until stdin closes or ctx is canceled
 // (requirement R1). It never writes to stdout: mcp.StdioTransport owns
 // stdout for the protocol, and every diagnostic here goes to stderr.
-func runServe(ctx context.Context, stderr *os.File) error {
+func runServe(ctx context.Context, stderr *os.File, args ...string) error {
+	fs := flag.NewFlagSet("serve", flag.ContinueOnError)
+	fs.SetOutput(stderr)
+	authoring := fs.Bool("authoring", false, "include local drafts for authoring/playtest")
+	if err := fs.Parse(args); err != nil {
+		return err
+	}
+	if fs.NArg() != 0 {
+		return fmt.Errorf("unexpected serve arguments")
+	}
 	cfg := config.Load()
 
-	catalog, diags, err := curriculum.Load(filepath.Join(cfg.WorkspaceRoot, "packs"), curriculum.DefaultLimits)
+	packs, diags, err := curriculum.LoadPacks(filepath.Join(cfg.WorkspaceRoot, "packs"), curriculum.DefaultLimits)
 	if err != nil {
 		return fmt.Errorf("loading catalog: %w", err)
 	}
+	diags = append(diags, curriculum.ValidatePublication(packs)...)
 	for _, d := range diags {
 		fmt.Fprintf(stderr, "catalog diagnostic: %+v\n", d)
 	}
-	if catalog == nil {
-		return fmt.Errorf("catalog failed to load: see diagnostics above")
+	for _, d := range diags {
+		if d.Blocking {
+			return fmt.Errorf("catalog failed to load: see diagnostics above")
+		}
 	}
+	if !*authoring {
+		packs = curriculum.PublishedPacks(packs)
+	}
+	catalog := curriculum.NewCatalogFromPacks(packs)
 
 	stateDir := filepath.Join(cfg.WorkspaceRoot, ".codinho", "state")
 	if err := os.MkdirAll(stateDir, 0o700); err != nil {

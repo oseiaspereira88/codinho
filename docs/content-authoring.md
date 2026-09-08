@@ -3,7 +3,10 @@
 Guia para quem escreve packs (`packs/*.yaml`) — temas, conceitos,
 competências, trilhas e desafios. O contrato formal vive em
 `schemas/*.schema.json`; o loader em `internal/curriculum` é a
-implementação de referência que sempre vence em caso de divergência.
+implementação de referência. Campos YAML desconhecidos são rejeitados. O corpus
+`testdata/catalog-quality/schema-corpus.json` exercita schemas e loader com os
+mesmos documentos. Regras de grafo, identidade e revisão entre pessoas são
+semânticas adicionais do Go; rascunhos mínimos legados continuam carregáveis.
 
 ## Antes de escrever
 
@@ -50,35 +53,92 @@ inicial) declara `fixture: [{path, content}]`. Nunca escreva esse
 conteúdo manualmente no workspace do aluno — só
 `codinho workspace prepare <challenge-id> --dest <path>` materializa.
 
-Se o desafio também declarar `checks`, rode
-`codinho catalog validate --checks` para confirmar que a fixture forma um
-workspace executável para cada check (ex.: um check `go_test` precisa de
-`go.mod` dentro da própria fixture).
+Se o desafio declarar checks, cada um precisa de expectativa para o código
+inicial e para uma referência completa. Esses arquivos privados são usados por
+`codinho catalog validate --checks`; nunca pelo workspace do aluno.
+
+```yaml
+validation:
+  reference_fixture:
+    - path: main.go
+      content: "package main\n"
+  expectations:
+    - check_id: parses
+      baseline: syntax_failure
+      reference: pass
+```
+
+Esse exemplo pressupõe um check `internal_ast` chamado `parses` e uma fixture
+inicial intencionalmente inválida. A referência deve formar um workspace completo,
+incluindo `go.mod` e testes quando o runner exigir. Ela não sobrepõe a fixture
+inicial. Para desafios sem código inicial distribuído, use `baseline_fixture`
+dentro de validation e uma `justification` explicando essa alternativa
+reproduzível. Um texto dizendo que o check passou em outro lugar não é prova.
+
+Baseline aceita `pass`, `test_failure`, `compile_failure`, `format_failure`,
+`analysis_failure` ou `syntax_failure`; referência exige `pass`. Falha não prevista,
+timeout, skip, nenhum teste/benchmark executado e saída truncada não passam.
+Testes usam JSON e `-count=1`; benchmarks usam também `-benchtime=1x` e precisam
+produzir uma medição. Cada check/cenário roda em diretório temporário próprio.
+O executor usa runners permitidos, sem shell, com timeout e captura limitada;
+nega downloads de módulos. Isso não é isolamento de rede do código executado:
+fixtures são código local confiável, como no contrato existente de `--checks`.
+
+O relatório contém IDs/versões de pack e desafio, cenário, expectativa, resultado
+e digest do check com seus arquivos. Também identifica revisão do binário,
+modificações locais e versão Go quando disponíveis; revisão desconhecida é
+indicada como `unknown`. CI associa o artefato ao commit da execução. Conteúdo da
+referência e stdout/stderr do programa não entram no relatório, no catálogo
+público ou nos eventos de sessão.
 
 ## Publicação (`publication:`)
 
-Um desafio começa como rascunho (`publication.status` vazio ou `draft`) e
-nunca é verificado por essas regras nesse estado. Para marcar
-`status: published`, preencha:
+Pack e desafio começam como rascunhos quando publication está ausente, vazio ou
+com status draft. Para publicar, preencha metadados verdadeiros em ambos:
 
 ```yaml
 publication:
   status: published
   author: <seu nome ou handle>
   reviewed_by: <pessoa DIFERENTE de author>
-  playtested: true   # só true depois de um playtest real
+  playtested: true   # somente após playtest real
 ```
 
-`playtested: true` é uma afirmação de honra — nenhuma automação consegue
-confirmar que um playtest realmente aconteceu (Decision 1).
+A publicação do pack governa temas, conceitos, competências e trilhas. Cada
+desafio requer sua própria publicação e referências a conteúdo publicado. Uma
+publicação inválida bloqueia a inicialização do MCP, inclusive em autoria.
+Automação verifica declarações, mas não autentica pessoas nem confirma playtests.
+A pré-revisão por outro agente não preenche esses metadados.
+
+`codinho serve` usa somente o catálogo publicado para busca, recomendação e novas
+sessões. `codinho serve --authoring` inclui rascunhos para autoria/playtest local.
+Comandos administrativos list/show continuam permitindo inspecionar inventário.
+Sessões anteriores retomam o conteúdo público que já estava fixado no histórico.
+Nenhum rascunho é promovido automaticamente e nenhum trabalho autorado é apagado.
 
 ## Cobertura e gate V1
 
-`codinho catalog validate --v1-gate` compara o catálogo carregado contra
-os limiares do roadmap V1 (160 conceitos, 100 competências, 84 desafios,
-12 trilhas, 500 step nodes). Ele fica desligado por padrão porque um
-catálogo em progresso está, por definição, abaixo desses números — use-o
-apenas ao se aproximar do aceite V1.
+O relatório separa `inventory`, `drafts`, `published` e `eligible`. Nos desafios,
+`canonical: true` é uma declaração explícita de curadoria; protótipos sem essa
+marca e derivados com `variant_of: <id>` não contam como novos desafios elegíveis.
+O array reservado `variants` também não aumenta a contagem. Revise equivalência e
+repetição pedagogicamente antes de marcar um desafio canônico.
+
+`codinho catalog validate --v1-gate` usa cobertura elegível (160 conceitos,
+100 competências, 84 desafios, 12 trilhas, 500 nós), distribuição exata de
+`packs/distribution.json` e execução de todos os checks publicados. A política
+versionada define tipos globais e por pack ou grupo planejado. Depuração,
+refatoração e revisão compartilham o alvo investigation; backend e produção ainda
+usam seus totais de grupo, sem inventar uma divisão entre packs. Tipos inesperados
+e packs publicados fora da política falham. Use `--distribution <arquivo.json>`
+para validar uma política explicitamente; ela deve ter totais coerentes.
+
+`--published-checks` executa todos os checks publicados e informa quantos foram
+verificados. CI usa esse comando e arquiva `catalog-proof.json`. Zero publicados
+produz zero verificados, sem afirmar prontidão V1. `--checks` cobre também
+rascunhos e diagnostica metadados ausentes; `catalog validate` sem esses flags
+continua utilizável durante autoria incremental. V1 permanece um gate explícito:
+um catálogo numericamente suficiente de rascunhos deve falhar.
 
 
 ## Sequência e alternativas da árvore

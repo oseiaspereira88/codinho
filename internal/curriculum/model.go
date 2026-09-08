@@ -44,7 +44,8 @@ type Pack struct {
 	// recommendation Decision 2): it connects any two catalog items by one
 	// of the eight declared kinds, independent of the older, challenge-only
 	// Prerequisites mechanism.
-	Relations []RelationAuthoring `yaml:"relations"`
+	Relations   []RelationAuthoring  `yaml:"relations"`
+	Publication PublicationAuthoring `yaml:"publication,omitempty"`
 
 	// File is the source path, set by the loader for diagnostics. It is not
 	// part of the authored YAML shape.
@@ -121,6 +122,10 @@ type ChallengeAuthoring struct {
 	// Status) is an ordinary, unpublished authoring draft and is never
 	// flagged by the editorial gate.
 	Publication PublicationAuthoring `yaml:"publication"`
+	Canonical   bool                 `yaml:"canonical,omitempty" json:"Canonical,omitempty"`
+	VariantOf   string               `yaml:"variant_of,omitempty" json:"VariantOf,omitempty"`
+	// Validation is private editorial input; never serialize into public sessions.
+	Validation *CheckValidationAuthoring `yaml:"validation,omitempty" json:"-"`
 }
 
 // PublicationAuthoring is the editorial metadata catalog-authoring-
@@ -228,4 +233,19 @@ type CheckAuthoring struct {
 	TestPattern string `yaml:"test_pattern"`
 	Timeout     string `yaml:"timeout"`
 	Network     bool   `yaml:"network"`
+}
+
+// CheckValidationAuthoring supplies reproducible, private editorial scenarios.
+// Each fixture is complete; reference files never overlay the starter workspace.
+type CheckValidationAuthoring struct {
+	BaselineFixture  []FixtureFileAuthoring      `yaml:"baseline_fixture,omitempty"`
+	Justification    string                      `yaml:"justification,omitempty"`
+	ReferenceFixture []FixtureFileAuthoring      `yaml:"reference_fixture"`
+	Expectations     []CheckExpectationAuthoring `yaml:"expectations"`
+}
+
+type CheckExpectationAuthoring struct {
+	CheckID   string `yaml:"check_id"`
+	Baseline  string `yaml:"baseline"`
+	Reference string `yaml:"reference"`
 }

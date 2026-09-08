@@ -130,7 +130,7 @@ func TestTutorSkillFullSessionRoutingOverRealStdio(t *testing.T) {
 	}
 
 	ctx := context.Background()
-	cmd := exec.Command(bin, "serve")
+	cmd := exec.Command(bin, "serve", "--authoring")
 	cmd.Dir = workspaceRoot
 	transport := &mcp.CommandTransport{Command: cmd}
 	client := mcp.NewClient(&mcp.Implementation{Name: "tutor-skill-integration-test", Version: "0.0.0"}, nil)

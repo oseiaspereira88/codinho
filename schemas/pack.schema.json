@@ -2,23 +2,43 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://codinho.dev/schemas/pack.schema.json",
   "title": "Pack",
-  "description": "One authored YAML pack: a self-contained, versioned set of themes, concepts, competencies, tracks and challenges (PROJECT.md §14). Authoring contract; the Go loader in internal/curriculum enforces the equivalent rules natively (see catalog-schema-loader Decision 3).",
+  "description": "Versioned authored pack. Publication gates auxiliary entities; challenge publication is individual. Go additionally enforces graph and publication semantics.",
   "type": "object",
-  "required": ["schema_version", "id", "version"],
+  "required": [
+    "schema_version",
+    "id",
+    "version"
+  ],
   "additionalProperties": false,
   "properties": {
-    "schema_version": { "type": "integer", "const": 1 },
-    "id": { "type": "string", "minLength": 1 },
-    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
     "themes": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "title"],
+        "required": [
+          "id",
+          "title"
+        ],
         "additionalProperties": false,
         "properties": {
-          "id": { "type": "string" },
-          "title": { "type": "string" }
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
         }
       }
     },
@@ -26,11 +46,18 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "title"],
+        "required": [
+          "id",
+          "title"
+        ],
         "additionalProperties": false,
         "properties": {
-          "id": { "type": "string" },
-          "title": { "type": "string" }
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
         }
       }
     },
@@ -38,11 +65,18 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "title"],
+        "required": [
+          "id",
+          "title"
+        ],
         "additionalProperties": false,
         "properties": {
-          "id": { "type": "string" },
-          "title": { "type": "string" }
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
         }
       }
     },
@@ -50,18 +84,117 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "title"],
+        "required": [
+          "id",
+          "title"
+        ],
         "additionalProperties": false,
         "properties": {
-          "id": { "type": "string" },
-          "title": { "type": "string" },
-          "themes": { "type": "array", "items": { "type": "string" } }
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "themes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
         }
       }
     },
     "challenges": {
       "type": "array",
-      "items": { "$ref": "challenge.schema.json" }
+      "items": {
+        "$ref": "challenge.schema.json"
+      }
+    },
+    "publication": {
+      "type": "object",
+      "description": "Editorial metadata gating status: published (catalog-authoring-quality requirement R7).",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "",
+            "draft",
+            "published"
+          ]
+        },
+        "author": {
+          "type": "string"
+        },
+        "reviewed_by": {
+          "type": "string",
+          "description": "Must differ from author when status is published."
+        },
+        "playtested": {
+          "type": "boolean"
+        }
+      },
+      "if": {
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "const": "published"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "author",
+          "reviewed_by",
+          "playtested"
+        ],
+        "properties": {
+          "author": {
+            "pattern": "\\S"
+          },
+          "reviewed_by": {
+            "pattern": "\\S"
+          },
+          "playtested": {
+            "const": true
+          }
+        }
+      }
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "from",
+          "to",
+          "kind"
+        ],
+        "properties": {
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "requires",
+              "recommended_before",
+              "relates_to",
+              "contrasts_with",
+              "commonly_fails_with",
+              "applies_in",
+              "deepens_into",
+              "evidences"
+            ]
+          }
+        }
+      }
     }
   }
 }

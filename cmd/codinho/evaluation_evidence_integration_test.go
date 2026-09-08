@@ -27,7 +27,7 @@ func TestEvaluationEvidenceOverRealStdio(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 	connect := func() *mcp.ClientSession {
-		cmd := exec.CommandContext(ctx, bin, "serve")
+		cmd := exec.CommandContext(ctx, bin, "serve", "--authoring")
 		cmd.Dir = root
 		cs, err := mcp.NewClient(&mcp.Implementation{Name: "evaluation-lineage-test", Version: "1"}, nil).Connect(ctx, &mcp.CommandTransport{Command: cmd}, nil)
 		if err != nil {

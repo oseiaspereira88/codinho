@@ -57,7 +57,7 @@ func (e *Executor) Execute(ctx context.Context, r Resolved, root workspace.Root)
 	cmd.Env = buildEnv(r.NetworkApproved)
 	setProcessGroup(cmd)
 
-	var stdout, stderr bytes.Buffer
+	var stdout, stderr boundedOutput
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 
@@ -168,4 +168,29 @@ func executeInternalAST(root workspace.Root, path string) (Result, error) {
 		return Result{Outcome: OutcomeFail, Stderr: workspace.Redact([]byte(err.Error()))}, nil
 	}
 	return Result{Outcome: OutcomePass}, nil
+}
+
+// boundedOutput drains the subprocess stream while retaining at most the cap.
+// Both streams have separate writers; each is written by one exec copy goroutine.
+type boundedOutput struct {
+	buffer    bytes.Buffer
+	truncated bool
+}
+
+func (b *boundedOutput) Write(data []byte) (int, error) {
+	n := len(data)
+	remaining := maxOutputBytes - b.buffer.Len()
+	if len(data) > remaining {
+		data = data[:remaining]
+		b.truncated = true
+	}
+	_, err := b.buffer.Write(data)
+	return n, err
+}
+
+func (b *boundedOutput) Bytes() []byte {
+	if b.truncated {
+		return append(b.buffer.Bytes(), truncationSuffix...)
+	}
+	return b.buffer.Bytes()
 }

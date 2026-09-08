@@ -1,5 +1,7 @@
 package curriculum
 
+import "strings"
+
 // RulePublishedWithoutAuthor, RulePublishedWithoutReview,
 // RulePublishedSameReviewer and RulePublishedWithoutPlaytest enforce the
 // Constraint "revisão... por pessoa diferente do autor" for any
@@ -19,6 +21,8 @@ const (
 // can never confirm a playtest actually happened, which is exactly the
 // qualitative judgment Decision 1 reserves for people, not automation.
 func checkPublicationMetadata(file string, ch ChallengeAuthoring) []EditorialFinding {
+	ch.Publication.Author = strings.TrimSpace(ch.Publication.Author)
+	ch.Publication.ReviewedBy = strings.TrimSpace(ch.Publication.ReviewedBy)
 	if ch.Publication.Status != StatusPublished {
 		return nil
 	}
@@ -34,7 +38,7 @@ func checkPublicationMetadata(file string, ch ChallengeAuthoring) []EditorialFin
 			File: file, Item: ch.ID, Rule: RulePublishedWithoutReview, Severity: SeverityBlocking,
 			Detail: "status published sem publication.reviewed_by", Suggestion: "preencha publication.reviewed_by com uma pessoa diferente do autor",
 		})
-	} else if ch.Publication.Author != "" && ch.Publication.ReviewedBy == ch.Publication.Author {
+	} else if ch.Publication.Author != "" && strings.EqualFold(ch.Publication.ReviewedBy, ch.Publication.Author) {
 		out = append(out, EditorialFinding{
 			File: file, Item: ch.ID, Rule: RulePublishedSameReviewer, Severity: SeverityBlocking,
 			Detail: "publication.reviewed_by é igual a publication.author", Suggestion: "a revisão deve ser feita por uma pessoa diferente do autor",

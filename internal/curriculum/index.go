@@ -130,6 +130,7 @@ func (c *Catalog) Challenge(id string) (ChallengeAuthoring, bool) {
 	if !ok {
 		return ChallengeAuthoring{}, false
 	}
+	ch.Validation = nil
 	ch.Variants = nil // reserved: excluded from the public view
 	return ch, true
 }
@@ -154,6 +155,7 @@ func (c *Catalog) Competency(id string) (CompetencyAuthoring, bool) {
 func (c *Catalog) Challenges() []ChallengeAuthoring {
 	out := make([]ChallengeAuthoring, 0, len(c.challenges))
 	for _, ch := range c.challenges {
+		ch.Validation = nil
 		ch.Variants = nil // reserved: excluded from the public view, same as Challenge
 		out = append(out, ch)
 	}

@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "kind_groups": {
+    "investigation": [
+      "debug",
+      "debugging",
+      "refactoring",
+      "code_review"
+    ]
+  },
+  "global": {
+    "by_challenge_kind": {
+      "atomic": 42,
+      "combined": 20,
+      "functional_slice": 8,
+      "investigation": 6,
+      "systems_mission": 4,
+      "simulation": 4
+    }
+  },
+  "packs": [
+    {
+      "ids": [
+        "go-first-steps"
+      ],
+      "expected": {
+        "by_challenge_kind": {
+          "atomic": 6
+        }
+      }
+    },
+    {
+      "ids": [
+        "go-core"
+      ],
+      "expected": {
+        "by_challenge_kind": {
+          "atomic": 8,
+          "combined": 2
+        }
+      }
+    },
+    {
+      "ids": [
+        "go-data-text"
+      ],
+      "expected": {
+        "by_challenge_kind": {
+          "atomic": 8,
+          "combined": 2
+        }
+      }
+    },
+    {
+      "ids": [
+        "go-type-design"
+      ],
+      "expected": {
+        "by_challenge_kind": {
+          "atomic": 6,
+          "combined": 2
+        }
+      }
+    },
+    {
+      "ids": [
+        "go-errors"
+      ],
+      "expected": {
+        "by_challenge_kind": {
+          "atomic": 4,
+          "combined": 2,
+          "functional_slice": 1
+        }
+      }
+    },
+    {
+      "ids": [
+        "go-io"
+      ],
+      "expected": {
+        "by_challenge_kind": {
+          "combined": 1,
+          "functional_slice": 1
+        }
+      }
+    },
+    {
+      "ids": [
+        "go-testing"
+      ],
+      "expected": {
+        "by_challenge_kind": {
+          "combined": 1
+        }
+      }
+    },
+    {
+      "ids": [
+        "go-concurrency-context",
+        "go-http",
+        "go-database"
+      ],
+      "expected": {
+        "by_challenge_kind": {
+          "atomic": 8,
+          "combined": 8,
+          "functional_slice": 4,
+          "investigation": 2,
+          "systems_mission": 1
+        }
+      }
+    },
+    {
+      "ids": [
+        "go-production",
+        "go-architecture-debugging"
+      ],
+      "expected": {
+        "by_challenge_kind": {
+          "atomic": 2,
+          "combined": 2,
+          "functional_slice": 2,
+          "investigation": 4,
+          "systems_mission": 3
+        }
+      }
+    },
+    {
+      "ids": [
+        "go-interviews"
+      ],
+      "expected": {
+        "by_challenge_kind": {
+          "simulation": 4
+        }
+      }
+    }
+  ]
+}

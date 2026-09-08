@@ -35,9 +35,8 @@ const (
 	RuleRelationNotReciprocal    EditorialRuleID = "relation_not_reciprocal"
 	// RuleFixtureNotReproducible, RuleCheckNotResolvable and
 	// RuleCheckExecutionError are reported by the CLI layer (not this
-	// package: materializing a fixture and executing a check would
-	// import internal/fixtures and internal/checks, which already import
-	// internal/curriculum, so doing it here would cycle) after actually
+	// package: fixture materialization and execution belong to the
+	// administrative command's explicit code-execution boundary) after actually
 	// materializing a challenge's fixture and running its declared
 	// checks against it (requirement R5).
 	RuleFixtureNotReproducible EditorialRuleID = "fixture_not_reproducible"

@@ -1,6 +1,9 @@
 package curriculum
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 // Coverage is a projection of catalog composition, independent of any
 // editorial finding (requirement R6).
@@ -96,15 +99,16 @@ const RuleTypeDistributionMismatch EditorialRuleID = "type_distribution_mismatch
 // map means that dimension is not yet constrained — no pack spec has
 // declared numbers for it yet.
 type TypeDistribution struct {
-	ByChallengeKind map[string]int
-	ByDifficulty    map[string]int
+	ByChallengeKind map[string]int `json:"by_challenge_kind"`
+	ByDifficulty    map[string]int `json:"by_difficulty,omitempty"`
 }
 
 // CheckTypeDistribution compares cov against want, reporting every exact
 // mismatch (requirement R10).
 func CheckTypeDistribution(cov Coverage, want TypeDistribution) []EditorialFinding {
 	var out []EditorialFinding
-	for kind, wantN := range want.ByChallengeKind {
+	for _, kind := range distributionKeys(cov.ByChallengeKind, want.ByChallengeKind) {
+		wantN := want.ByChallengeKind[kind]
 		if got := cov.ByChallengeKind[kind]; got != wantN {
 			out = append(out, EditorialFinding{
 				Item: "distribution:kind:" + kind, Rule: RuleTypeDistributionMismatch, Severity: SeverityBlocking,
@@ -112,7 +116,8 @@ func CheckTypeDistribution(cov Coverage, want TypeDistribution) []EditorialFindi
 			})
 		}
 	}
-	for difficulty, wantN := range want.ByDifficulty {
+	for _, difficulty := range distributionKeys(cov.ByDifficulty, want.ByDifficulty) {
+		wantN := want.ByDifficulty[difficulty]
 		if got := cov.ByDifficulty[difficulty]; got != wantN {
 			out = append(out, EditorialFinding{
 				Item: "distribution:difficulty:" + difficulty, Rule: RuleTypeDistributionMismatch, Severity: SeverityBlocking,
@@ -121,4 +126,57 @@ func CheckTypeDistribution(cov Coverage, want TypeDistribution) []EditorialFindi
 		}
 	}
 	return out
+}
+
+func distributionKeys(actual, expected map[string]int) []string {
+	if len(expected) == 0 {
+		return nil
+	}
+	seen := map[string]bool{}
+	for k := range expected {
+		seen[k] = true
+	}
+	for k := range actual {
+		seen[k] = true
+	}
+	keys := make([]string, 0, len(seen))
+	for k := range seen {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	return keys
+}
+
+// PublicationCoverage keeps inventory distinct from release eligibility.
+type PublicationCoverage struct {
+	Inventory Coverage `json:"inventory"`
+	Drafts    Coverage `json:"drafts"`
+	Published Coverage `json:"published"`
+	Eligible  Coverage `json:"eligible"`
+}
+
+func ProjectPublicationCoverage(packs []Pack) PublicationCoverage {
+	public := PublishedPacks(packs)
+	eligible := EligiblePacks(packs)
+	drafts := make([]Pack, 0, len(packs))
+	for _, p := range packs {
+		copy := p
+		copy.Challenges = nil
+		if p.Publication.Status == StatusPublished {
+			copy.Themes = nil
+			copy.Concepts = nil
+			copy.Competencies = nil
+			copy.Tracks = nil
+		}
+		for _, ch := range p.Challenges {
+			if ch.Publication.Status != StatusPublished {
+				copy.Challenges = append(copy.Challenges, ch)
+			}
+		}
+		drafts = append(drafts, copy)
+	}
+	return PublicationCoverage{
+		Inventory: ProjectCoverage(newCatalog(packs)), Drafts: ProjectCoverage(newCatalog(drafts)),
+		Published: ProjectCoverage(newCatalog(public)), Eligible: ProjectCoverage(newCatalog(eligible)),
+	}
 }

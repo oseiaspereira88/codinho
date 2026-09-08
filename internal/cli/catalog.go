@@ -37,9 +37,8 @@ func runCatalog(args []string, stdout, stderr io.Writer) int {
 	}
 }
 
-// loadCatalog loads the workspace's packs, the same way codinho serve
-// does, so administrative commands see exactly the catalog a session
-// would (requirement R2).
+// loadCatalog loads administrative inventory, including drafts. Normal serve
+// additionally selects the published projection for every runtime service.
 func loadCatalog(cfg config.Config) (*curriculum.Catalog, []curriculum.Diagnostic, error) {
 	return curriculum.Load(filepath.Join(cfg.WorkspaceRoot, "packs"), curriculum.DefaultLimits)
 }
@@ -63,17 +62,21 @@ type editorialFindingOut struct {
 }
 
 type catalogValidateOut struct {
-	Diagnostics []diagnosticOut       `json:"diagnostics"`
-	Editorial   []editorialFindingOut `json:"editorial"`
-	Coverage    curriculum.Coverage   `json:"coverage"`
-	V1Gate      []editorialFindingOut `json:"v1_gate,omitempty"`
+	Diagnostics []diagnosticOut                `json:"diagnostics"`
+	Editorial   []editorialFindingOut          `json:"editorial"`
+	Coverage    curriculum.Coverage            `json:"coverage"`
+	V1Gate      []editorialFindingOut          `json:"v1_gate,omitempty"`
+	Publication curriculum.PublicationCoverage `json:"publication"`
+	Proof       *editorialProofReport          `json:"proof,omitempty"`
 }
 
 func runCatalogValidate(args []string, stdout, stderr io.Writer) int {
 	fs := newFlagSet("catalog validate", stderr)
 	jsonOut := fs.Bool("json", false, "print diagnostics as JSON")
 	v1Gate := fs.Bool("v1-gate", false, "also check coverage against the V1 roadmap thresholds (requirement R9); off by default since an in-progress catalog is expected to be below them")
-	runChecks := fs.Bool("checks", false, "materialize every challenge with both a fixture and checks, and actually run those checks against it (requirement R5); off by default since it spawns real subprocesses")
+	runChecks := fs.Bool("checks", false, "execute declared baseline and reference expectations for every authored check")
+	publishedChecks := fs.Bool("published-checks", false, "execute every published check against baseline and reference")
+	distribution := fs.String("distribution", "", "validate eligible counts against a JSON policy; V1 defaults to packs/distribution.json")
 	if err := fs.Parse(args); err != nil {
 		return exitUsage
 	}
@@ -94,27 +97,55 @@ func runCatalogValidate(args []string, stdout, stderr io.Writer) int {
 
 	var editorial []curriculum.EditorialFinding
 	var coverage curriculum.Coverage
+	var publication curriculum.PublicationCoverage
+	var proof *editorialProofReport
 	var v1Findings []curriculum.EditorialFinding
 	if !blocking {
 		editorial = curriculum.RunEditorialChecks(packs)
-		coverage = curriculum.ProjectCoverage(curriculum.NewCatalogFromPacks(packs))
+		publication = curriculum.ProjectPublicationCoverage(packs)
+		coverage = publication.Inventory
+		publicationDiags := curriculum.ValidatePublication(packs)
+		diags = append(diags, publicationDiags...)
+		if len(publicationDiags) > 0 {
+			blocking = true
+		}
 		for _, f := range editorial {
 			if f.Severity == curriculum.SeverityBlocking {
 				blocking = true
 			}
 		}
 		if *v1Gate {
-			v1Findings = curriculum.CheckV1Gate(coverage)
+			v1Findings = curriculum.CheckV1Gate(publication.Eligible)
 			if len(v1Findings) > 0 {
 				blocking = true
 			}
 		}
-		if *runChecks {
-			checkFindings, err := runChecksAgainstFixtures(packs)
+		if *v1Gate && *distribution == "" {
+			*distribution = filepath.Join(cfg.WorkspaceRoot, "packs", "distribution.json")
+		}
+		if *distribution != "" {
+			policy, err := curriculum.LoadDistributionPolicy(*distribution)
+			if err != nil {
+				fmt.Fprintf(stderr, "codinho: distribution: %v\n", err)
+				return exitError
+			}
+			distributionFindings := policy.Check(packs)
+			v1Findings = append(v1Findings, distributionFindings...)
+			if len(distributionFindings) > 0 {
+				blocking = true
+			}
+		}
+		if *runChecks || *publishedChecks || *v1Gate {
+			selected := packs
+			if !*runChecks {
+				selected = curriculum.PublishedAuthoringPacks(packs)
+			}
+			checkFindings, report, err := runEditorialProofs(selected)
 			if err != nil {
 				fmt.Fprintf(stderr, "codinho: catalog validate: %v\n", err)
 				return exitError
 			}
+			proof = &report
 			editorial = append(editorial, checkFindings...)
 			if len(checkFindings) > 0 {
 				blocking = true
@@ -123,7 +154,7 @@ func runCatalogValidate(args []string, stdout, stderr io.Writer) int {
 	}
 
 	if *jsonOut {
-		out := catalogValidateOut{Coverage: coverage}
+		out := catalogValidateOut{Coverage: coverage, Publication: publication, Proof: proof}
 		for _, d := range diags {
 			out.Diagnostics = append(out.Diagnostics, diagnosticOut{File: d.File, Item: d.Item, Field: d.Field, Code: string(d.Code), Detail: d.Detail, Blocking: d.Blocking})
 		}
@@ -138,6 +169,10 @@ func runCatalogValidate(args []string, stdout, stderr io.Writer) int {
 			return exitError
 		}
 	} else {
+		fmt.Fprintf(stdout, "challenges: inventory=%d drafts=%d published=%d eligible=%d\n", publication.Inventory.Challenges, publication.Drafts.Challenges, publication.Published.Challenges, publication.Eligible.Challenges)
+		if proof != nil {
+			fmt.Fprintf(stdout, "checks: declared=%d verified=%d\n", proof.DeclaredChecks, proof.VerifiedChecks)
+		}
 		if len(diags) == 0 && len(editorial) == 0 && len(v1Findings) == 0 {
 			fmt.Fprintln(stdout, "catalog: ok, no diagnostics")
 		}

@@ -1,6 +1,6 @@
 ---
 slug: catalog-publication-integrity
-status: draft
+status: in-progress
 created_at: 2026-09-07
 completed_at:
 supersedes:
@@ -62,18 +62,43 @@ Registrar ADR para visibilidade, distribuição e expectativas de checks antes d
 ### Artifacts
 - modified: internal/curriculum/coverage.go
 - modified: internal/curriculum/coverage_test.go
+- modified: internal/curriculum/model.go
 - modified: internal/curriculum/index.go
 - modified: internal/curriculum/loader.go
+- modified: internal/curriculum/playtest.go
 - modified: internal/curriculum/editorial.go
+- modified: internal/checks/executor.go
 - modified: internal/cli/catalog.go
 - modified: internal/cli/editorial.go
 - modified: internal/cli/editorial_test.go
+- modified: internal/cli/cli_test.go
+- modified: cmd/codinho/main.go
+- modified: cmd/codinho/integration_test.go
+- modified: cmd/codinho/recovery_integration_test.go
+- modified: cmd/codinho/tree_progression_integration_test.go
+- modified: cmd/codinho/evaluation_evidence_integration_test.go
 - modified: schemas/catalog.schema.json
+- modified: schemas/pack.schema.json
 - modified: schemas/challenge.schema.json
-- created: testdata/catalog-quality/distribution.json
-- created: internal/curriculum/schema_contract_test.go
 - modified: docs/content-authoring.md
+- modified: docs/compatibility.md
+- modified: .github/workflows/ci.yml
 - modified: .pose/indexes/validation-matrix.json
+- modified: go.mod
+- created: internal/curriculum/publication.go
+- created: internal/curriculum/publication_test.go
+- created: internal/curriculum/distribution.go
+- created: internal/curriculum/schema_contract_test.go
+- created: internal/checks/editorial.go
+- created: internal/checks/editorial_test.go
+- created: internal/cli/publication_test.go
+- created: cmd/codinho/publication_integration_test.go
+- created: testdata/catalog-quality/distribution.json
+- created: testdata/catalog-quality/schema-corpus.json
+- created: packs/distribution.json
+- created: .pose/adr/2026-09-08-publication-projections-and-executable-editorial-proof.md
+- created: .pose/knowledge/2026-09-08-decision-log-adr-publication-review.md
+- created: .pose/changelogs/unreleased/catalog-publication-integrity.md
 
 ### Delivery targets
 - capability:catalog-publication-integrity module:cmd/codinho profile:composed-capability entrypoint:cmd/codinho/main.go
@@ -82,29 +107,35 @@ Registrar ADR para visibilidade, distribuição e expectativas de checks antes d
 Registrar ADR para visibilidade, distribuição e expectativas de checks antes do código. Reusar publication e o gate humano existentes; geração dinâmica/quarentena fica em agent-authored-catalog-drafts.
 
 ### Data/storage changes
-Documentar os campos e migração exigidos pelos requisitos antes do primeiro incremento. Nenhuma migração é executada nesta rodada de planejamento.
+Documentar os campos e migração exigidos pelos requisitos antes do primeiro incremento. Campos novos opcionais usam omitempty ou json:"-"; não reescrever JSONL. Publicação de packs governa entidades auxiliares, publicação individual governa desafios; canonical opt-in exclui protótipos e variant_of exclui derivados da contagem.
 
 ### Technical risks
-O catálogo atual não tem published: aplicar filtro exige um fluxo explícito de playtest para continuar autoria. Schema JSON não deve virar fonte concorrente de regras.
+O catálogo real ainda não tem conteúdo publicado. Autoria usa serve --authoring; dados sintéticos de teste não constituem revisão/playtest do catálogo real.
 
 ## 4. Tasks
 
 ### Planning
-- [ ] Reproduzir o achado e revisar contratos/ADRs aplicáveis.
-- [ ] Completar decisões de formato e plano de testes negativos antes de modificar código.
-- [ ] Reconciliar esta lista de artefatos com os arquivos efetivos; declarar arquivos adicionais antes de alterá-los.
+- [x] Reproduzir o achado e revisar contratos/ADRs aplicáveis.
+- [x] Completar decisões de formato e plano de testes negativos antes de modificar código.
+- [x] Reconciliar esta lista de artefatos com os arquivos efetivos; declarar arquivos adicionais antes de alterá-los.
 
 ### Implementation
-- [ ] Implementar primeiro o menor fluxo que fecha a lacuna.
-- [ ] Integrar entradas reais, persistência/compatibilidade e diagnósticos.
-- [ ] Atualizar documentação e checks declarativos junto com o contrato.
+- [x] Implementar primeiro o menor fluxo que fecha a lacuna.
+- [x] Integrar entradas reais, persistência/compatibilidade e diagnósticos.
+- [x] Atualizar documentação e checks declarativos junto com o contrato.
 
 ### Validation
-- [ ] Executar os cenários de cada R-ID, incluindo negativos.
+- [x] Executar os cenários de cada R-ID, incluindo negativos.
 - [ ] Executar pose assess integrate e validação estruturada no candidato.
 - [ ] Reconciliar artifacts, surface e revisão independente antes do closeout.
 
 ## 5. Decisions
+
+### Decision 2
+- Date: 2026-09-08
+- Decision: aplicar [ADR de publicação](../adr/2026-09-08-publication-projections-and-executable-editorial-proof.md). Consumidos knowledge:planning-audit-2026-09 e knowledge:adr-local-versioned-catalog-and-event-state-review.
+- Rationale: inventário e visibilidade não são evidência de curadoria; prova executável não substitui revisão humana.
+- Consequences: política versionada externa ao YAML de conteúdo; modo de autoria explícito; corpus testa o contrato estrutural compartilhado, sem alegar equivalência de regras semânticas globais com JSON Schema.
 
 ### Decision 1
 - Date: 2026-09-07
@@ -117,7 +148,17 @@ O catálogo atual não tem published: aplicar filtro exige um fluxo explícito d
 ## 6. Validation
 
 ### Strategy
-Validar cada contrato com cenário positivo e negativo pela entrada de produção; usar somente dados sintéticos.
+Risco médio/alto: composição MCP, visibilidade de gabaritos e execução de código local.
+Antes do código: R1/R2 comparar inventário/publicado/elegível, variante/protótipo,
+contagem global e por pack, tipo inesperado; R3/R7 subprocesso stdio padrão vs
+serve --authoring e replay legado. R4/R5 executar baseline e referência em roots
+isoladas: pass, falha de teste prevista, compilação inesperada, skip, zero testes,
+timeout, fixture ausente, alternativa sem justificativa, referência incorreta.
+R6 corpus JSON sintético compartilhado com loader YAML, campos desconhecidos e
+metadados inválidos; regras semânticas de referências/revisão testadas à parte.
+R8 CLI real com catálogo suficiente de rascunhos deve falhar V1 e passar validação
+incremental. Suites completas, race, vet/build, CI e revisão independente no
+candidato final. Nenhum metadado humano real será criado pela automação.
 
 ### Deterministic checks
 - Test: go test -race ./internal/curriculum/... ./internal/cli/... ./internal/mcpserver/...
@@ -127,27 +168,38 @@ Validar cada contrato com cenário positivo e negativo pela entrada de produçã
 - Security / Contract: pose assess integrate; pose validate --strict --json .pose/results/delivery-validation.json; pose surface-check --spec catalog-publication-integrity --strict
 
 ### Execution log
+- 2026-09-08 UTC: pose assess discover antes das alterações; 11.335 LOC de produção, 10.887 LOC de testes, sem marcadores de dívida.
+- 2026-09-08 UTC: reprodução do filtro ausente por inspeção e contratos negativos. ADR/plano registrados antes do código. Implementados projeções de publicação, distribuição, provas de execução, corpus e composição.
+- 2026-09-08 UTC: go test ./internal/curriculum/... ./internal/cli/... ./internal/checks/... passou; go test ./cmd/codinho -run TestPublicationIntegrity -count=1 passou. go test -race ./... passou em todos os pacotes; último ajuste de saída truncada será revalidado no candidato.
+- 2026-09-08 UTC: pose assess integrate executado (zero contratos detectados pelo scanner; testes MCP reais provam composição). pose assess tech-debt: zero marcadores. Revisão independente publication_review iniciada por agent-batch-review, ainda sem decisão final.
 - 2026-09-07 UTC: criada em revisão de planejamento; implementação e gates de entrega não executados.
 
 ### Results summary
-Escopo proposto com requisitos verificáveis. A validação atual do produto está no relatório; não prova os novos requisitos.
+Implementação e testes compostos passam; validação estruturada no commit, reconciliação de artefatos e revisão independente ainda condicionam entrega.
 
 ### Requirement trace
-Preencher R1–R8 com evidência por cenário durante a implementação e no closeout.
+- R1: TestPublicationCoverageVisibilityAndPrivateProof; TestPublicationIntegrityCLI/published-proof — inventário 2, publicado/elegível 1; variantes e protótipos excluídos.
+- R2: TestDistributionProductionPolicyAndUnexpectedTypes; TestTypeDistributionIncludesUnexpectedKindsDeterministically; CLI real --distribution.
+- R3: TestPublicationIntegrityOverRealStdio — busca/recomendação/relações sem rascunho, get/start recusados, autoria explícita; publicação inválida impede startup.
+- R4: TestEditorialRealGoTestProof; TestEditorialOtherRunners; TestEditorialExpectedBaselineAndReference — baseline/ref real, fail/compile/skip/no-match/timeout, gabarito privado.
+- R5: TestEditorialExpectedBaselineAndReference — falta de fixture/prova, alternativa sem justificativa, referência falhando; TestPublicationIntegrityCLI verifica 1/1 publicado; CI executa --published-checks.
+- R6: TestPublicationSchemaCorpus — documentos compartilhados; TestLoaderRejectsUnknownManifestAndSymlinkEscape — manifesto desconhecido, versão futura, confinamento.
+- R7: TestPublicationIntegrityOverRealStdio retoma sessão de autoria com catálogo público; suites de recovery/tree/evidence legadas passam em -race sem reescrever eventos.
+- R8: TestPublicationIntegrityCLI/numerically-sufficient-drafts — inventário supera todos os mínimos, validação incremental passa, V1 falha com zero elegíveis.
 
 ### Known gaps
-O catálogo atual não tem published: aplicar filtro exige um fluxo explícito de playtest para continuar autoria. Schema JSON não deve virar fonte concorrente de regras.
+O catálogo real ainda não tem conteúdo publicado. Autoria usa serve --authoring; dados sintéticos de teste não constituem revisão/playtest do catálogo real.
 
 ## 7. Final Report
 
 ### Delivered scope
-Somente planejamento; nenhuma funcionalidade desta spec foi entregue.
+Implementados os caminhos R1–R8 e verificados por testes locais. Encerramento depende da validação estruturada e atestação independente no candidato.
 
 ### Files and modules changed
-- Esta spec; dependências no roadmap e no aceite integrado.
+- Curriculum, checks, CLI e composição MCP; schemas, corpus, política, CI, documentos e ADR declarados em Artifacts.
 
 ### Validation executed
-- Planejamento sujeito a pose lint-spec --ready-check e pose check --strict nesta auditoria.
+- Suites de módulo, CLI/MCP reais, go test -race ./..., pose lint-spec --ready-check e pose check --strict passaram; registro final seguirá a validação estruturada.
 
 ### Residual risks
 Validar o comportamento implementado em execução independente; não reutilizar resultado histórico como aprovação do código futuro.

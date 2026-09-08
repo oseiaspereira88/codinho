@@ -2,9 +2,12 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://codinho.dev/schemas/catalog.schema.json",
   "title": "Catalog manifest",
-  "description": "packs/manifest.yaml: the ordered list of packs that make up a catalog. Authoring contract for humans and external tooling; the Go loader in internal/curriculum enforces the equivalent rules natively (see catalog-schema-loader Decision 3).",
+  "description": "Manifest inventory; an entry does not imply publication or eligibility. Distribution policy is a separate JSON file.",
   "type": "object",
-  "required": ["schema_version", "packs"],
+  "required": [
+    "schema_version",
+    "packs"
+  ],
   "additionalProperties": false,
   "properties": {
     "schema_version": {

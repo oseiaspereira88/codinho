@@ -31,7 +31,7 @@ func TestSessionRecoveryOverRealStdio(t *testing.T) {
 		store.Close()
 		ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 		defer cancel()
-		cmd := exec.CommandContext(ctx, bin, "serve")
+		cmd := exec.CommandContext(ctx, bin, "serve", "--authoring")
 		cmd.Dir = root
 		cs, err := mcp.NewClient(&mcp.Implementation{Name: "legacy-test", Version: "1"}, nil).Connect(ctx, &mcp.CommandTransport{Command: cmd}, nil)
 		if err != nil {
@@ -62,7 +62,7 @@ func TestSessionRecoveryOverRealStdio(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		broken := exec.CommandContext(ctx, bin, "serve")
+		broken := exec.CommandContext(ctx, bin, "serve", "--authoring")
 		broken.Dir = root
 		if output, err := broken.CombinedOutput(); err == nil || !strings.Contains(string(output), "corrupted log") {
 			t.Fatalf("corrupt startup: %s %v", output, err)
@@ -83,7 +83,7 @@ func TestSessionRecoveryOverRealStdio(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 			defer cancel()
 			connect := func() *mcp.ClientSession {
-				cmd := exec.CommandContext(ctx, bin, "serve")
+				cmd := exec.CommandContext(ctx, bin, "serve", "--authoring")
 				cmd.Dir = root
 				client := mcp.NewClient(&mcp.Implementation{Name: "recovery-test", Version: "1"}, nil)
 				cs, err := client.Connect(ctx, &mcp.CommandTransport{Command: cmd}, nil)
@@ -167,7 +167,7 @@ func TestSessionRecoveryOverRealStdio(t *testing.T) {
 		writeIntegrationFixturePack(t, root)
 		ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 		defer cancel()
-		cmd := exec.CommandContext(ctx, bin, "serve")
+		cmd := exec.CommandContext(ctx, bin, "serve", "--authoring")
 		cmd.Dir = root
 		stdin, err := cmd.StdinPipe()
 		if err != nil {
@@ -227,7 +227,7 @@ func TestSessionRecoveryOverRealStdio(t *testing.T) {
 			t.Fatal(err)
 		}
 		f.Close()
-		retryCmd := exec.CommandContext(ctx, bin, "serve")
+		retryCmd := exec.CommandContext(ctx, bin, "serve", "--authoring")
 		retryCmd.Dir = root
 		cs, err := mcp.NewClient(&mcp.Implementation{Name: "retry-test", Version: "1"}, nil).Connect(ctx, &mcp.CommandTransport{Command: retryCmd}, nil)
 		if err != nil {

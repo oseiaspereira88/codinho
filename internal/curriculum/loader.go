@@ -1,6 +1,7 @@
 package curriculum
 
 import (
+	"bytes"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -37,6 +38,7 @@ func Load(dir string, limits Limits) (*Catalog, []Diagnostic, error) {
 	if err != nil {
 		return nil, nil, err
 	}
+	diags = append(diags, ValidatePublication(packs)...)
 	for _, d := range diags {
 		if d.Blocking {
 			return nil, diags, nil
@@ -60,12 +62,12 @@ func LoadPacks(dir string, limits Limits) ([]Pack, []Diagnostic, error) {
 		return nil, nil, fmt.Errorf("reading manifest: %w", err)
 	}
 	var manifest PackManifest
-	if err := manifestNode.Decode(&manifest); err != nil {
+	if err := decodeStrict(manifestNode, &manifest); err != nil {
 		return nil, nil, fmt.Errorf("decoding manifest: %w", err)
 	}
 	if manifest.SchemaVersion != SchemaVersion {
 		return nil, []Diagnostic{{
-			File: manifestPath, Code: DiagIncompatibleSchemaVersion,
+			File: manifestPath, Code: DiagIncompatibleSchemaVersion, Blocking: true,
 			Detail: fmt.Sprintf("manifest schema_version %d, loader supports %d", manifest.SchemaVersion, SchemaVersion),
 		}}, nil
 	}
@@ -89,7 +91,7 @@ func LoadPacks(dir string, limits Limits) ([]Pack, []Diagnostic, error) {
 			continue
 		}
 		var pack Pack
-		if err := node.Decode(&pack); err != nil {
+		if err := decodeStrict(node, &pack); err != nil {
 			diags = append(diags, Diagnostic{File: name, Code: DiagMalformedPack, Detail: err.Error(), Blocking: true})
 			continue
 		}
@@ -174,5 +176,28 @@ func confinedPath(dir, name string) (string, error) {
 	if err != nil || rel == ".." || strings.HasPrefix(rel, ".."+string(filepath.Separator)) || filepath.IsAbs(rel) {
 		return "", fmt.Errorf("pack path %q escapes catalog directory", name)
 	}
-	return joined, nil
+	base, err := filepath.EvalSymlinks(dir)
+	if err != nil {
+		return "", err
+	}
+	real, err := filepath.EvalSymlinks(joined)
+	if err != nil {
+		return "", err
+	}
+	rel, err = filepath.Rel(base, real)
+	if err != nil || rel == ".." || strings.HasPrefix(rel, ".."+string(filepath.Separator)) || filepath.IsAbs(rel) {
+		return "", fmt.Errorf("pack symlink escapes catalog directory")
+	}
+	return real, nil
+}
+
+// Decode from the already bounded tree with unknown-field rejection enabled.
+func decodeStrict(node *yaml.Node, dst any) error {
+	data, err := yaml.Marshal(node)
+	if err != nil {
+		return err
+	}
+	decoder := yaml.NewDecoder(bytes.NewReader(data))
+	decoder.KnownFields(true)
+	return decoder.Decode(dst)
 }

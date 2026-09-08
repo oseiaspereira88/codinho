@@ -81,6 +81,8 @@
     ".": {
       "checks": [
         {"name": "build", "program": "go", "args": ["build", "./cmd/codinho"], "severity": "required", "evidenceClass": "build"},
+        {"name": "catalog-publication-integrity", "program": "go", "args": ["test", "./cmd/codinho", "-run", "TestPublicationIntegrity", "-count=1"], "severity": "required", "evidenceClass": "integration"},
+        {"name": "published-catalog-proof", "program": "go", "args": ["run", "./cmd/codinho", "catalog", "validate", "--published-checks", "--json"], "severity": "required", "evidenceClass": "integration"},
         {"name": "session-recovery", "program": "go", "args": ["test", "./cmd/codinho", "-run", "TestSessionRecoveryOverRealStdio"], "severity": "required", "evidenceClass": "integration"},
         {"name": "session-tree-progression", "program": "go", "args": ["test", "./cmd/codinho", "-run", "TestTreeProgressionOverRealStdio"], "severity": "required", "evidenceClass": "integration"},
         {"name": "evaluation-evidence", "program": "go", "args": ["test", "./cmd/codinho", "-run", "TestEvaluationEvidenceOverRealStdio"], "severity": "required", "evidenceClass": "integration"},

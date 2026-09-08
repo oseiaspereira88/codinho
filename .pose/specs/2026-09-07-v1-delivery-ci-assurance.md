@@ -125,7 +125,7 @@ Renames históricos e evidências de módulos divergentes bloqueiam roll-up. CI 
 ### Planning
 - [x] Reproduzir o achado e revisar contratos/ADRs aplicáveis.
 - [x] Completar decisões de formato e plano de testes negativos antes de modificar código.
-- [ ] Reconciliar esta lista de artefatos com os arquivos efetivos; declarar arquivos adicionais antes de alterá-los.
+- [x] Reconciliar esta lista de artefatos com os arquivos efetivos; declarar arquivos adicionais antes de alterá-los.
 
 ### Implementation
 - [x] Completar validation privado dos rascunhos com checks: preservar fixture inicial, reutilizar seus testes e fornecer referência executável; não mudar publication.
@@ -188,6 +188,8 @@ sem declarar V1 pronta. Revisão independente cobre também threat model.
 - Security / Contract: pose assess integrate; pose validate --strict --json .pose/results/delivery-validation.json; pose surface-check --spec v1-delivery-ci-assurance --strict
 
 ### Execution log
+- 2026-09-08 UTC (CI nativa): run 34273134508 executou o commit 649725999449ebbdb77dea0a7880fb60fe471f54 com sucesso em Linux/amd64 e macOS/arm64. Artefatos baixados e conferidos: Go 1.27.1, host github-actions, 19 checks pass, source_modified=false. Relatório de prontidão inclui a matriz e o link do provider. Go 1.27.1 conferido em https://go.dev/VERSION (acesso 2026-09-08).
+- 2026-09-08 UTC (revisão local): threat model distingue controle de download de módulos de bloqueio de sockets, registra corrida residual de symlinks e explicita limites de subprocessos/CI. Mapeamento por paths reais eliminou contratos não classificados do bundle. Revisão independente solicitada, ainda não atestada.
 - 2026-09-08 UTC (provas editoriais): validation privado adicionado a 37 desafios em cinco packs, reutilizando os testes existentes. O protótipo sem fixture recebeu baseline_fixture privada com justificativa. Comparação estrutural antes/depois confirmou fixture distribuída, checks, acceptance e publication idênticos. `catalog validate --checks --json` passou: 38/38 checks, 76/76 cenários, zero achados blocking. `make check` passou 19/19 checks. Não houve publicação ou atestado pedagógico.
 - 2026-09-08 UTC (proveniência): commit dbd848e atribuiu o primeiro incremento à spec; artifact-check estrito passou sem erros (avisos de órfãos históricos). Novas provas privadas serão atribuídas no próximo commit. Relatório nativo passa a declarar source_modified e a rejeitar fonte alterada durante GitHub Actions; teste cobre fonte tracked/untracked e separa relatórios gerados.
 - 2026-09-08 UTC (continuação): policies artifacts/delivery habilitadas com roots reais; metadados de CLI, MCP, governança e distribuição registrados. Inventário de 33 tools comparado com tools/list do servidor; rename 9d88c68f7a1a3a2d1a84730a724fa28f99bb9821 verificado por git show --find-renames. Bundles históricos preservados. `go test -race ./internal/ciassurance ./internal/mcpserver -count=1` passa.
@@ -208,12 +210,12 @@ Matriz local passou 19/19 checks após completar as provas editoriais. Proveniê
 ### Requirement trace
 - R1: ferramentas verificadas e gates obrigatórios implementados; make check passou localmente após completar as provas privadas.
 - R2: matriz compartilhada executa os checks; 38 checks editoriais verificados em 76 cenários.
-- R3: jobs nativos configurados; execução remota Linux/macOS pendente.
+- R3: run 34273134508 passou em Linux/amd64 e macOS/arm64; veja matriz por commit no relatório de prontidão.
 - R4: labels inseguros rejeitados em teste; build local v0.0.0-ci gerou binário/checksum sem publicar.
 - R5: policies, metadados, inventário MCP e mapa histórico implementados/testados; reconciliação Git e gate de proveniência em andamento.
 - R6: negativos do validador passam; roadmap C1–C9 permanece não terminal.
 - R7: docs-check passa para 13 documentos; comandos e alegações de plataforma corrigidos.
-- R8: relatório de prontidão registra pendências; revisão independente e evidências remotas pendentes.
+- R8: relatório de prontidão registra pendências; evidências remotas conferidas; revisão independente pendente.
 
 ### Known gaps
 Renames históricos e evidências de módulos divergentes bloqueiam roll-up. CI remota e revisão humana precisam de evidência real, não de YAML existente.

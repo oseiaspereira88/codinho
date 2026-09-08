@@ -21,8 +21,8 @@ que rodam a cada pull request contra esta matriz (requirement R4/R5).
 
 | OS/arquitetura | Estado | Evidência exigida |
 |---|---|---|
-| Linux/amd64 | Execução local disponível; CI do candidato pendente | Relatórios `delivery-validation.json` e `native-ci.json` do mesmo commit. |
-| macOS/arquitetura do runner | Execução nativa do candidato pendente | Job macOS real com testes e smoke-install; compatibilidade POSIX não comprova execução. |
+| Linux/amd64 | Execução nativa comprovada no candidato 6497259 | CI 34273134508: 19 checks, incluindo smoke-install. |
+| macOS/arm64 | Execução nativa comprovada no candidato 6497259 | CI 34273134508: 19 checks, incluindo smoke-install. |
 | Linux/arm64 | Build cruzado previsto | Artefato de build não comprova execução nativa. |
 | Windows | Desejável, sem suporte nativo comprovado | `GOOS=windows go vet ./...` é apenas checagem estática. |
 

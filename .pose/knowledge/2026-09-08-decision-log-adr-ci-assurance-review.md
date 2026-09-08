@@ -33,7 +33,9 @@ attestation was added. The first implementation commit dbd848e passed strict
 artifact-check with only historical orphan warnings. MCP inventory and historical
 rename are covered by tests; artifact/delivery policies are enabled. The native
 report now marks source_modified and rejects mutated GitHub candidate sources.
-Run native Linux/macOS CI and independent security review on the final commit.
+Native run 34273134508 passed on commit 6497259: Linux/amd64 and macOS/arm64,
+Go 1.27.1, 19 checks each, source_modified=false. Artifacts were downloaded and
+verified. Recheck the final commit and obtain independent security review.
 Use /tmp/codinho-ci-tools for the pinned CI tools; keep local POSE 1.8.1 intact.
 Review pins at the next Go/POSE upgrade or security advisory. The 90-day TTL
 covers the initial native CI adoption and requires a later toolchain review.

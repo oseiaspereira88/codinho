@@ -96,6 +96,14 @@ func (r *record) windowAt(depth learning.Depth) (Window, error) {
 			return Window{}, ErrNoWindowAtDepth
 		}
 		if depthRank(n.Kind) >= depthRank(string(depth)) {
+			// A completed decision checkpoint is not an aggregate completion
+			// of its selected exercise. Keep the selected branch addressable.
+			if n.ChildrenMode == "choice" && r.completed(n.ID) && !r.covered[n.ID] && r.choices[n.ID] != "" {
+				continue
+			}
+			if active != nil && n.ID != string(active.StepID) && r.subtreeDone(n) {
+				return Window{}, ErrNoWindowAtDepth
+			}
 			return Window{n.ID, n.Kind}, nil
 		}
 	}

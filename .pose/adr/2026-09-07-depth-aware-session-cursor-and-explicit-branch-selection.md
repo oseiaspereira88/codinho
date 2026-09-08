@@ -17,7 +17,10 @@ Session recovery and evidence lineage require stable node identity.
 - Traverse layers and ordinary children in document order at the requested depth.
   A completed coarse window covers its subtree for navigation, without synthetic
   child completions, evaluations or mastery events. Completing all finer windows
-  exhausts their container without creating a parent completion event.
+  exhausts their container without creating a parent completion event. Do not
+  reopen an exhausted ancestor after a depth change. A completed choice
+  checkpoint redirects to its selected branch when refining/coarsening; it
+  does not substitute for completing that branch.
 - Add optional children_mode: sequence (default) or choice to authored steps.
   Choice requires at least two children. Node IDs must be nonempty and unique
   within each challenge, including layer IDs; steps use macro/meso/micro kinds. When a finer window reaches an unselected

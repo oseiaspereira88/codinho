@@ -153,6 +153,7 @@ Navegação não faz rede nem executa processos; indisponibilidade de append e c
 - Security / Contract: pose assess integrate; pose validate --strict --json .pose/results/delivery-validation.json; pose surface-check --spec session-tree-progression --strict
 
 ### Execution log
+- 2026-09-08 UTC: TestTreeCoarserAdvanceNeverReopensExhaustedContainers reproduziu retorno indevido à primeira layer ao avançar numa profundidade ampla. Corrigida exaustão derivada de subárvores e preservada navegação no ramo escolhido; nenhuma conclusão sintética é produzida.
 - 2026-09-08 UTC: TestTreeStartResolvesDepth reproduziu quatro falhas no código anterior (challenge/layer/meso/micro iniciavam em macro). Após implementar o cursor, testes de sessão, aplicação e MCP passaram, incluindo preservação de avaliação e hints no replay.
 - 2026-09-08 UTC: TestTreeProgressionOverRealStdio passou com cinco profundidades, duas layers, seleção de ambas as alternativas, restarts, rejeições sem append e ausência de duplicação de completion/attempt/mastery. Revisão independente agent:tree_review iniciada por delegação nativa, gpt-5.6-luna/high; não substitui gates humanos.
 - 2026-09-07 UTC: criada em revisão de planejamento; implementação e gates de entrega não executados.

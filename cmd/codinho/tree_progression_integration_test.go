@@ -270,6 +270,27 @@ func TestTreeProgressionOverRealStdio(t *testing.T) {
 			}
 		}
 	}
+	// Changing scale in a later layer must not resurrect earlier containers.
+	coarse := callTool(ctx, t, cs, "session_start", map[string]any{"challenge_id": "tree", "depth": "micro"})
+	coarseID := coarse["session_id"].(string)
+	coarseRev := revisionOf(t, coarse)
+	for _, want := range []string{"a2", "choose"} {
+		d := callTool(ctx, t, cs, "step_complete", map[string]any{"session_id": coarseID, "override": true, "expected_revision": coarseRev})
+		n := callTool(ctx, t, cs, "step_advance", map[string]any{"session_id": coarseID, "expected_revision": revisionOf(t, d)})
+		kind := "micro"
+		if want == "choose" {
+			kind = "meso"
+		}
+		node(n, want, kind)
+		coarseRev = revisionOf(t, n)
+	}
+	w := callTool(ctx, t, cs, "granularity_adjust", map[string]any{"session_id": coarseID, "depth": "layer", "expected_revision": coarseRev})
+	node(w, "layer-two", "layer")
+	d := callTool(ctx, t, cs, "step_complete", map[string]any{"session_id": coarseID, "override": true, "expected_revision": revisionOf(t, w)})
+	end := callTool(ctx, t, cs, "step_advance", map[string]any{"session_id": coarseID, "expected_revision": revisionOf(t, d)})
+	if envData(t, end)["done"] != true {
+		t.Fatal("coarser advance reopened an earlier layer")
+	}
 	progressAfter := callTool(ctx, t, cs, "progress_get", map[string]any{})
 	if !reflect.DeepEqual(envData(t, progressBefore), envData(t, progressAfter)) {
 		t.Fatal("navigation fabricated mastery")

@@ -396,3 +396,54 @@ func TestTreeOverrideAtLastWindowIsAudited(t *testing.T) {
 		}
 	}
 }
+
+func TestTreeCoarserAdvanceNeverReopensExhaustedContainers(t *testing.T) {
+	svc := newTreeService(t, false)
+	start, err := svc.Start(StartInput{ChallengeID: "tree", Depth: learning.DepthMicro})
+	mustTree(t, err)
+	sid := start.SessionID
+	rev := start.Revision
+	for _, want := range []string{"a2", "last"} {
+		d, err := svc.StepComplete(sid, true, true, rev, "")
+		mustTree(t, err)
+		n, err := svc.StepAdvance(sid, false, d.Revision, "")
+		mustTree(t, err)
+		if n.StepID != want {
+			t.Fatal(n)
+		}
+		rev = n.Revision
+	}
+	w, err := svc.GranularityAdjust(sid, learning.DepthLayer, "", rev, "")
+	mustTree(t, err)
+	if w.StepID != "layer-two" {
+		t.Fatal(w)
+	}
+	d, err := svc.StepComplete(sid, true, true, w.Revision, "")
+	mustTree(t, err)
+	n, err := svc.StepAdvance(sid, false, d.Revision, "")
+	mustTree(t, err)
+	if !n.Done {
+		t.Fatalf("reopened exhausted earlier layer: %+v", n)
+	}
+}
+
+func TestTreeDoesNotReopenFullyCompletedAncestor(t *testing.T) {
+	svc := newTreeService(t, false)
+	start, err := svc.Start(StartInput{ChallengeID: "tree", Depth: learning.DepthMicro})
+	mustTree(t, err)
+	sid := start.SessionID
+	d, err := svc.StepComplete(sid, true, true, start.Revision, "")
+	mustTree(t, err)
+	n, err := svc.StepAdvance(sid, false, d.Revision, "")
+	mustTree(t, err)
+	d, err = svc.StepComplete(sid, true, true, n.Revision, "")
+	mustTree(t, err)
+	if _, err := svc.GranularityAdjust(sid, learning.DepthLayer, "", d.Revision, ""); err == nil {
+		t.Fatal("reopened layer whose fine work is finished")
+	}
+	n, err = svc.StepAdvance(sid, false, d.Revision, "")
+	mustTree(t, err)
+	if n.StepID != "last" {
+		t.Fatal(n)
+	}
+}

@@ -135,7 +135,8 @@ Ajuste a granularidade para exibir um ancestral ou retornar ao cursor mais fino.
 Avaliações, pistas e filhos concluídos permanecem associados aos seus nós;
 a troca de janela não avança para um irmão. Concluir uma janela ampla cobre
 sua subárvore para navegação, sem produzir eventos de conclusão dos filhos.
-Não refine uma janela já concluída para obter crédito novamente: avance.
+Não refine uma janela já concluída nem reabra um ancestral cujos filhos foram
+percorridos para obter crédito novamente: avance.
 Repetir a conclusão do mesmo nó não cria outro evento. Retornar done em
 step_advance não encerra a sessão; use session_finish explicitamente. A primeira
 confirmação de done é registrada para preservar a auditoria de overrides.

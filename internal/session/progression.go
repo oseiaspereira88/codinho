@@ -79,8 +79,19 @@ type navigation struct {
 // frontier resolves the first unfinished window in document order. Containers
 // do not acquire synthetic completion events when their finer windows finish.
 func (r *record) frontier(n curriculum.StepAuthoring, depth learning.Depth) navigation {
-	if r.covered[n.ID] {
+	if r.subtreeDone(n) {
 		return navigation{}
+	}
+	if n.ChildrenMode == "choice" && r.completed(n.ID) && !r.covered[n.ID] {
+		chosen := r.choices[n.ID]
+		if chosen == "" {
+			return navigation{parent: n, options: n.Children}
+		}
+		for _, c := range n.Children {
+			if c.ID == chosen {
+				return r.frontier(c, depth)
+			}
+		}
 	}
 	if depthRank(n.Kind) >= depthRank(string(depth)) || len(n.Children) == 0 {
 		if r.completed(n.ID) {
@@ -161,4 +172,30 @@ func (s *Service) checkNavigationRevision(id learning.SessionID, expected uint64
 		return eventstore.ErrRevisionConflict
 	}
 	return nil
+}
+
+// subtreeDone derives navigation coverage without creating parent progress or
+// completion events. This keeps coarser traversal from revisiting old layers.
+func (r *record) subtreeDone(n curriculum.StepAuthoring) bool {
+	if r.covered[n.ID] {
+		return true
+	}
+	if len(n.Children) == 0 {
+		return r.completed(n.ID)
+	}
+	if n.ChildrenMode == "choice" {
+		selected := r.choices[n.ID]
+		for _, c := range n.Children {
+			if c.ID == selected {
+				return r.subtreeDone(c)
+			}
+		}
+		return false
+	}
+	for _, c := range n.Children {
+		if !r.subtreeDone(c) {
+			return false
+		}
+	}
+	return true
 }

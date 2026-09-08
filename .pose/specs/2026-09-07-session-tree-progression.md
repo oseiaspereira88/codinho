@@ -1,8 +1,8 @@
 ---
 slug: session-tree-progression
-status: in-progress
+status: done
 created_at: 2026-09-07
-completed_at:
+completed_at: 2026-09-08
 supersedes:
 depends_on: feedback-evaluation-progression, learning-practice-debug-modes, session-recovery-version-pinning, evaluation-evidence-lineage
 priority: 20
@@ -110,8 +110,8 @@ Agrupar nós pode apagar evidência ou revelar filhos; replay e trilhas consomem
 
 ### Validation
 - [x] Executar os cenários de cada R-ID, incluindo negativos.
-- [ ] Executar pose assess integrate e validação estruturada no candidato.
-- [ ] Reconciliar artifacts, surface e revisão independente antes do closeout.
+- [x] Executar pose assess integrate e validação estruturada no candidato.
+- [x] Reconciliar artifacts, surface e revisão independente antes do closeout.
 
 ## 5. Decisions
 
@@ -153,13 +153,15 @@ Navegação não faz rede nem executa processos; indisponibilidade de append e c
 - Security / Contract: pose assess integrate; pose validate --strict --json .pose/results/delivery-validation.json; pose surface-check --spec session-tree-progression --strict
 
 ### Execution log
+- 2026-09-08 UTC: 14/14 checks estruturados passaram em 8e151596c30124e060ca1ba6a198ff46a5469aaf; revisor agent:tree_review aprovou sem ressalvas o diff contra 974a59d.
+- 2026-09-08 UTC: POSE 1.7.12 selou rvb-e373f801791a11a5 com atestação rva-317b7d1ca69ad04d; review verify/review-check retornaram fresh=true e approved=true.
 - 2026-09-08 UTC: TestTreeCoarserAdvanceNeverReopensExhaustedContainers reproduziu retorno indevido à primeira layer ao avançar numa profundidade ampla. Corrigida exaustão derivada de subárvores e preservada navegação no ramo escolhido; nenhuma conclusão sintética é produzida.
 - 2026-09-08 UTC: TestTreeStartResolvesDepth reproduziu quatro falhas no código anterior (challenge/layer/meso/micro iniciavam em macro). Após implementar o cursor, testes de sessão, aplicação e MCP passaram, incluindo preservação de avaliação e hints no replay.
 - 2026-09-08 UTC: TestTreeProgressionOverRealStdio passou com cinco profundidades, duas layers, seleção de ambas as alternativas, restarts, rejeições sem append e ausência de duplicação de completion/attempt/mastery. Revisão independente agent:tree_review iniciada por delegação nativa, gpt-5.6-luna/high; não substitui gates humanos.
 - 2026-09-07 UTC: criada em revisão de planejamento; implementação e gates de entrega não executados.
 
 ### Results summary
-Implementação e suíte completa, incluindo race e E2E real, passaram. Atribuição Git, validação estruturada e revisão final condicionam o fechamento.
+Os 14 checks estruturados passaram no commit 8e151596c30124e060ca1ba6a198ff46a5469aaf. Race, revisão independente, atribuição Git e surface-check aprovados. Consulte o [relatório de revisão](../reports/2026-09-08-review-session-tree-progression.md).
 
 ### Requirement trace
 - R1 [satisfied] test:TestTreeStartResolvesDepth test:TestTreeProgressionOverRealStdio
@@ -170,12 +172,12 @@ Implementação e suíte completa, incluindo race e E2E real, passaram. Atribui�
 - R6 [satisfied] capability:session-tree-progression evidence:integration check:session-tree-progression test:TestTreeProgressionOverRealStdio
 
 ### Known gaps
-Agrupar nós pode apagar evidência ou revelar filhos; replay e trilhas consomem este estado e exigem teste composto no aceite.
+Trilhas de múltiplos desafios e joins de DAG permanecem fora do contrato. O aceite V1 reexecuta a composição no candidato final; esta revisão não substitui seus gates humanos.
 
 ## 7. Final Report
 
 ### Delivered scope
-Cursor relativo, sequência completa de layers, alternativas explícitas, progresso por nó e replay compatível implementados e testados. Gates finais de entrega ainda pendentes.
+Cursor relativo, sequência completa de layers, alternativas explícitas, progresso por nó e replay compatível implementados e testados. Candidato aprovado em revisão independente e nos gates estruturados.
 
 ### Files and modules changed
 - Sessão/replay, catálogo, aplicação/MCP, testes e documentação declarados em Artifacts.
@@ -184,7 +186,7 @@ Cursor relativo, sequência completa de layers, alternativas explícitas, progre
 - go test ./..., go test -race ./..., E2E stdio real, strict check/spec lint/knowledge/skills passaram. assess integrate não detectou contratos MCP Go; integração é comprovada pelo E2E. assess tech-debt e recurrence-check retornaram zero achados.
 
 ### Residual risks
-Validar o comportamento implementado em execução independente; não reutilizar resultado histórico como aprovação do código futuro.
+Navegação cobre árvores ordenadas e alternativas exclusivas; não implementa joins de DAG nem múltiplos desafios. Conclusão ampla não inventa evidência fina. Não usar escritores antigos no estado atualizado; gates humanos/editoriais continuam no aceite V1.
 
 ### Follow-ups
 - [covered: v1-integrated-acceptance] Reexecutar os requisitos desta spec no candidato composto da V1.

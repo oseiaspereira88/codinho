@@ -92,6 +92,57 @@ func TestValidationReachesGatesAfterVersionCheck(t *testing.T) {
 	}
 }
 
+func TestValidationLogsPreserveGateFailure(t *testing.T) {
+	for _, gate := range []string{"check", "validate"} {
+		t.Run(gate, func(t *testing.T) {
+			root := t.TempDir()
+			bin := filepath.Join(root, "bin")
+			ci := filepath.Join(root, "scripts", "ci")
+			for _, dir := range []string{bin, ci} {
+				if err := os.MkdirAll(dir, 0755); err != nil {
+					t.Fatal(err)
+				}
+			}
+			for _, name := range []string{"validate.sh", "tools.env"} {
+				raw, err := os.ReadFile(filepath.Join("../../scripts/ci", name))
+				if err != nil {
+					t.Fatal(err)
+				}
+				if err := os.WriteFile(filepath.Join(ci, name), raw, 0644); err != nil {
+					t.Fatal(err)
+				}
+			}
+			scripts := map[string]string{
+				"pose":        "#!/bin/bash\nsource scripts/ci/tools.env\nif [ \"$1\" = version ]; then echo \"pose $POSE_VERSION\"; exit; fi\necho \"gate:$1\"\nif [ \"$1\" = \"$FAIL_GATE\" ]; then echo gate-error >&2; exit 23; fi\n",
+				"go":          "#!/bin/bash\nsource scripts/ci/tools.env\nif [ \"$1\" = version ]; then echo \"mod golang.org/x/vuln $GOVULNCHECK_VERSION $GOVULNCHECK_SUM\"; else echo unexpected-evidence; fi\n",
+				"govulncheck": "#!/bin/bash\nexit 99\n",
+			}
+			for name, body := range scripts {
+				if err := os.WriteFile(filepath.Join(bin, name), []byte(body), 0755); err != nil {
+					t.Fatal(err)
+				}
+			}
+			cmd := exec.Command("bash", filepath.Join(ci, "validate.sh"))
+			cmd.Env = append(os.Environ(), "PATH="+bin+string(os.PathListSeparator)+os.Getenv("PATH"), "FAIL_GATE="+gate)
+			out, err := cmd.CombinedOutput()
+			if status, ok := err.(*exec.ExitError); !ok || status.ExitCode() != 23 {
+				t.Fatalf("gate failure lost: %v\n%s", err, out)
+			}
+			name := "pose-check.log"
+			if gate == "validate" {
+				name = "pose-validate.latest.log"
+			}
+			log, err := os.ReadFile(filepath.Join(root, ".pose/results", name))
+			if err != nil || !strings.Contains(string(log), "gate:"+gate) || !strings.Contains(string(log), "gate-error") {
+				t.Fatalf("missing gate stdout/stderr: %s (%v)", log, err)
+			}
+			if _, err := os.Stat(filepath.Join(root, ".pose/results/native-ci.json")); !os.IsNotExist(err) {
+				t.Fatalf("failed validation produced native evidence: %v", err)
+			}
+		})
+	}
+}
+
 func TestHistoricalRenameMatchesGit(t *testing.T) {
 	raw, err := os.ReadFile("../../.pose/contracts/historical-renames.json")
 	if err != nil {

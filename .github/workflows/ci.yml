@@ -34,10 +34,19 @@ jobs:
           bash scripts/ci/install-tools.sh
           printf '%s\n' "$CI_TOOL_BIN" >> "$GITHUB_PATH"
       - name: Required native validation
+        id: validation
         run: make check
       - name: Windows static compatibility (not native evidence)
         if: runner.os == 'Linux'
         run: GOOS=windows go vet ./...
+      - name: Record validation report
+        if: always()
+        env:
+          VALIDATION_OUTCOME: ${{ steps.validation.outcome }}
+        run: |
+          outcome=fail
+          if [ "$VALIDATION_OUTCOME" = success ]; then outcome=pass; fi
+          pose report --task native-ci-validation --spec v1-delivery-ci-assurance --workflow feature --outcome "$outcome" --context github-actions
       - name: Archive candidate evidence
         if: always()
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
@@ -46,6 +55,10 @@ jobs:
           path: |
             .pose/results/delivery-validation.json
             .pose/results/native-ci.json
+            .pose/results/pose-check.log
+            .pose/results/pose-validate.latest.log
+            .pose/reports/*-standard-native-ci-validation.md
+            .pose/reports/history/native-ci-validation.jsonl
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 30

@@ -79,6 +79,7 @@ func classifyTestProof(r Result, benchmark ...bool) string {
 	ended := map[string]bool{}
 	packageFailed := map[string]bool{}
 	testFailed := map[string]bool{}
+	benchmarkOutput := map[string]string{}
 	for {
 		var ev struct{ Action, Package, Test, Output, FailedBuild string }
 		err := dec.Decode(&ev)
@@ -92,12 +93,25 @@ func classifyTestProof(r Result, benchmark ...bool) string {
 			buildFailed = true
 		}
 		if len(benchmark) > 0 && benchmark[0] && ev.Action == "output" && strings.HasPrefix(ev.Test, "Benchmark") {
-			fields := strings.Fields(ev.Output)
-			if len(fields) >= 4 && strings.HasPrefix(fields[0], ev.Test) && fields[3] == "ns/op" {
-				if n, err := strconv.Atoi(fields[1]); err == nil && n > 0 {
-					ran++
+			// test2json can flush the benchmark name before the measurement.
+			// Reassemble lines per package/test so scheduling and interleaving
+			// do not decide whether a real measurement counts as evidence.
+			key := ev.Package + "\x00" + ev.Test
+			pending := benchmarkOutput[key] + ev.Output
+			for {
+				line, rest, complete := strings.Cut(pending, "\n")
+				if !complete {
+					break
+				}
+				pending = rest
+				fields := strings.Fields(line)
+				if len(fields) >= 4 && strings.HasPrefix(fields[0], ev.Test) && fields[3] == "ns/op" {
+					if n, err := strconv.Atoi(fields[1]); err == nil && n > 0 {
+						ran++
+					}
 				}
 			}
+			benchmarkOutput[key] = pending
 		}
 		if ev.Test != "" {
 			switch ev.Action {

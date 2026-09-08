@@ -3,9 +3,11 @@ package checks
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"io"
 	"os"
 	"path/filepath"
+	"strconv"
 	"testing"
 
 	"github.com/oseiaspereira88/codinho/internal/workspace"
@@ -102,6 +104,32 @@ func TestEditorialOtherRunners(t *testing.T) {
 			got, err := NewExecutor().ExecuteEditorial(context.Background(), r, root)
 			if err != nil || got != tc.want {
 				t.Fatalf("proof=%s err=%v want=%s", got, err, tc.want)
+			}
+		})
+	}
+}
+
+func TestEditorialBenchmarkProofAcrossOutputFragments(t *testing.T) {
+	const line = "BenchmarkProof-2\t1\t123.0 ns/op\n"
+	for cut := 1; cut < len(line); cut++ {
+		t.Run(strconv.Itoa(cut), func(t *testing.T) {
+			var out bytes.Buffer
+			enc := json.NewEncoder(&out)
+			events := []map[string]string{
+				{"Action": "start", "Package": "p"},
+				{"Action": "run", "Package": "p", "Test": "BenchmarkProof"},
+				{"Action": "output", "Package": "p", "Test": "BenchmarkProof", "Output": line[:cut]},
+				{"Action": "output", "Package": "other", "Test": "BenchmarkProof", "Output": "noise\n"},
+				{"Action": "output", "Package": "p", "Test": "BenchmarkProof", "Output": line[cut:]},
+				{"Action": "pass", "Package": "p"},
+			}
+			for _, event := range events {
+				if err := enc.Encode(event); err != nil {
+					t.Fatal(err)
+				}
+			}
+			if got := classifyTestProof(Result{Outcome: OutcomePass, Stdout: out.Bytes()}, true); got != "pass" {
+				t.Fatalf("fragmented benchmark: got %s, want pass", got)
 			}
 		})
 	}

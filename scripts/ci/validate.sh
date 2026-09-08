@@ -12,6 +12,7 @@ go version -m "$(command -v govulncheck)" | awk -v version="$GOVULNCHECK_VERSION
   '$1 == "mod" && $2 == "golang.org/x/vuln" && $3 == version && $4 == sum { found=1 } END { exit !found }'
 pose skills-check --strict
 pose docs-check
-pose check --strict
-pose validate --strict --json .pose/results/delivery-validation.json
+mkdir -p .pose/results
+pose check --strict 2>&1 | tee .pose/results/pose-check.log
+pose validate --strict --json .pose/results/delivery-validation.json 2>&1 | tee .pose/results/pose-validate.latest.log
 go run ./cmd/ci-assurance > .pose/results/native-ci.json

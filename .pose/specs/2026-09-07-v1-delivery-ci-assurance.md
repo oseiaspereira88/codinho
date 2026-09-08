@@ -60,6 +60,8 @@ Preservar a política de release sem publish. Definir roots e equivalência de c
 - distribution
 
 ### Artifacts
+- modified: internal/checks/editorial.go
+- modified: internal/checks/editorial_test.go
 - created: cmd/ci-assurance/main_test.go
 - modified: packs/go-first-steps.yaml
 - modified: packs/go-core.yaml
@@ -188,6 +190,7 @@ sem declarar V1 pronta. Revisão independente cobre também threat model.
 - Security / Contract: pose assess integrate; pose validate --strict --json .pose/results/delivery-validation.json; pose surface-check --spec v1-delivery-ci-assurance --strict
 
 ### Execution log
+- 2026-09-08 UTC (retomada do incremento): preservada a correção de benchmarks com saída JSON fragmentada por pacote/teste e o arquivamento dos logs de check/validate no CI. Adicionado `TestValidationLogsPreserveGateFailure`, que executa o script real em diretório isolado, força falha em cada gate, confere stdout/stderr no log e exige saída 23 sem emissão de relatório nativo. `PATH=/tmp/codinho-ci-tools:$PATH make check` passou 19/19 fora do sandbox; a tentativa inicial encontrou cache Go somente leitura. `pose assess integrate` continua avaliando zero contratos; `pose assess tech-debt` encontrou zero marcadores. Esta evidência é local e não substitui execução remota do novo candidato ou revisão independente.
 - 2026-09-08 UTC (CI nativa): run 34273134508 executou o commit 649725999449ebbdb77dea0a7880fb60fe471f54 com sucesso em Linux/amd64 e macOS/arm64. Artefatos baixados e conferidos: Go 1.27.1, host github-actions, 19 checks pass, source_modified=false. Relatório de prontidão inclui a matriz e o link do provider. Go 1.27.1 conferido em https://go.dev/VERSION (acesso 2026-09-08).
 - 2026-09-08 UTC (revisão local): threat model distingue controle de download de módulos de bloqueio de sockets, registra corrida residual de symlinks e explicita limites de subprocessos/CI. Mapeamento por paths reais eliminou contratos não classificados do bundle. Revisão independente solicitada, ainda não atestada.
 - 2026-09-08 UTC (provas editoriais): validation privado adicionado a 37 desafios em cinco packs, reutilizando os testes existentes. O protótipo sem fixture recebeu baseline_fixture privada com justificativa. Comparação estrutural antes/depois confirmou fixture distribuída, checks, acceptance e publication idênticos. `catalog validate --checks --json` passou: 38/38 checks, 76/76 cenários, zero achados blocking. `make check` passou 19/19 checks. Não houve publicação ou atestado pedagógico.

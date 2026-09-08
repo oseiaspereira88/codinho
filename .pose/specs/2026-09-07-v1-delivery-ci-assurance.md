@@ -6,7 +6,7 @@ completed_at:
 supersedes:
 depends_on: installation-documentation-ci, reliability-observability-compatibility
 priority: 35
-components: ci, governance, distribution
+components: .github/workflows, internal/ciassurance, internal/mcpserver, cmd/ci-assurance, scripts, packs, docs, .pose/contracts
 delivers: governance:v1-delivery-ci
 ---
 

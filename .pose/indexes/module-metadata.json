@@ -48,6 +48,30 @@
       "criticality": "high",
       "domain": "runtime",
       "validationProfile": "baseline"
+    },
+    ".pose/contracts": {
+      "owner": "@oseiaspereira",
+      "criticality": "high",
+      "domain": "governance",
+      "validationProfile": "baseline"
+    },
+    "cmd/ci-assurance": {
+      "owner": "@oseiaspereira",
+      "criticality": "high",
+      "domain": "governance",
+      "validationProfile": "baseline"
+    },
+    "packs": {
+      "owner": "@oseiaspereira",
+      "criticality": "high",
+      "domain": "curriculum",
+      "validationProfile": "baseline"
+    },
+    "docs": {
+      "owner": "@oseiaspereira",
+      "criticality": "high",
+      "domain": "documentation",
+      "validationProfile": "baseline"
     }
   },
   "_comment": "Empty path is the root alias emitted by pose index; dot is retained for assess/review. Keep both root entries identical until the engine normalizes paths."

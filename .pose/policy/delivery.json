@@ -1,10 +1,35 @@
 {
-  "_comment": "Delivery-integrity policy (spec pose-delivery-surface-assurance). Disabled by default: roots/entrypoints must name this project's own source paths, not pose-mcp's. Set enabled=true and populate roots once configured for this project.",
+  "_comment": "Project-owned entrypoints. Adoption date does not waive explicit spec or roadmap checks.",
   "schema_version": 1,
-  "enabled": false,
-  "adopted_at": "",
+  "enabled": true,
+  "adopted_at": "2026-09-08",
   "results_path": ".pose/results/delivery-validation.json",
-  "roots": [],
+  "roots": [
+    {
+      "path": "cmd/codinho",
+      "kind": "surface",
+      "profile": "cli-surface",
+      "entrypoint": "cmd/codinho/main.go"
+    },
+    {
+      "path": "internal/mcpserver",
+      "kind": "contract",
+      "profile": "api-contract",
+      "entrypoint": "internal/mcpserver/server.go"
+    },
+    {
+      "path": ".github/workflows",
+      "kind": "governance",
+      "profile": "release-governance",
+      "entrypoint": ".github/workflows/ci.yml"
+    },
+    {
+      "path": "scripts",
+      "kind": "infrastructure",
+      "profile": "local-distribution",
+      "entrypoint": "scripts/smoke-install.sh"
+    }
+  ],
   "severities": {
     "unconnected-artifact": "error",
     "unconsumed-capability": "error",

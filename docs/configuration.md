@@ -1,3 +1,8 @@
+---
+title: "Configuração do servidor MCP"
+doc_type: howto
+---
+
 # Configuração do servidor MCP
 
 O `codinho` expõe seu servidor MCP via `codinho serve`, sobre stdio —

@@ -1,3 +1,8 @@
+---
+title: "Privacidade e dados locais"
+doc_type: howto
+---
+
 # Privacidade e dados locais
 
 ## O que é coletado

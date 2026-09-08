@@ -1,3 +1,8 @@
+---
+title: "codinho"
+doc_type: reference
+---
+
 # codinho
 
 ## Microaprendizado de código assistido por IA

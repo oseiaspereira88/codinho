@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "profile": "cli",
+  "roots": [
+    "docs"
+  ],
+  "default_review_days": 180,
+  "entries": [
+    {
+      "path": "README.md",
+      "doc_type": "reference",
+      "topics": [
+        "codinho"
+      ],
+      "owns": [],
+      "applies_to": ".",
+      "owner": "@pose-maintainers"
+    },
+    {
+      "path": "docs/agent-review-workflow.md",
+      "doc_type": "howto",
+      "topics": [
+        "codinho"
+      ],
+      "owns": [],
+      "applies_to": ".",
+      "owner": "@pose-maintainers"
+    },
+    {
+      "path": "docs/compatibility.md",
+      "doc_type": "reference",
+      "topics": [
+        "codinho"
+      ],
+      "owns": [
+        "internal",
+        "cmd"
+      ],
+      "applies_to": ".",
+      "owner": "@pose-maintainers"
+    },
+    {
+      "path": "docs/configuration.md",
+      "doc_type": "howto",
+      "topics": [
+        "codinho"
+      ],
+      "owns": [],
+      "applies_to": ".",
+      "owner": "@pose-maintainers"
+    },
+    {
+      "path": "docs/content-authoring.md",
+      "doc_type": "howto",
+      "topics": [
+        "codinho"
+      ],
+      "owns": [],
+      "applies_to": ".",
+      "owner": "@pose-maintainers"
+    },
+    {
+      "path": "docs/content-review-checklist.md",
+      "doc_type": "howto",
+      "topics": [
+        "codinho"
+      ],
+      "owns": [],
+      "applies_to": ".",
+      "owner": "@pose-maintainers"
+    },
+    {
+      "path": "docs/install.md",
+      "doc_type": "howto",
+      "topics": [
+        "codinho"
+      ],
+      "owns": [],
+      "applies_to": ".",
+      "owner": "@pose-maintainers"
+    },
+    {
+      "path": "docs/quickstart.md",
+      "doc_type": "tutorial",
+      "topics": [
+        "codinho"
+      ],
+      "owns": [],
+      "applies_to": ".",
+      "owner": "@pose-maintainers"
+    },
+    {
+      "path": "docs/security/executor-limitations.md",
+      "doc_type": "howto",
+      "topics": [
+        "codinho"
+      ],
+      "owns": [],
+      "applies_to": ".",
+      "owner": "@pose-maintainers"
+    },
+    {
+      "path": "docs/security/privacy.md",
+      "doc_type": "howto",
+      "topics": [
+        "codinho"
+      ],
+      "owns": [],
+      "applies_to": ".",
+      "owner": "@pose-maintainers"
+    },
+    {
+      "path": "docs/security/threat-model.md",
+      "doc_type": "howto",
+      "topics": [
+        "codinho"
+      ],
+      "owns": [],
+      "applies_to": ".",
+      "owner": "@pose-maintainers"
+    },
+    {
+      "path": "docs/troubleshooting.md",
+      "doc_type": "howto",
+      "topics": [
+        "codinho"
+      ],
+      "owns": [],
+      "applies_to": ".",
+      "owner": "@pose-maintainers"
+    },
+    {
+      "path": "docs/acceptance/v1-release-readiness.md",
+      "doc_type": "reference",
+      "topics": [
+        "delivery"
+      ],
+      "owns": [
+        "scripts/ci",
+        ".github/workflows",
+        "internal/ciassurance"
+      ],
+      "applies_to": ".",
+      "owner": "@pose-maintainers"
+    }
+  ]
+}

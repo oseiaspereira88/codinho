@@ -1,3 +1,8 @@
+---
+title: "Quickstart"
+doc_type: tutorial
+---
+
 # Quickstart
 
 Do zero ao primeiro desafio completado.

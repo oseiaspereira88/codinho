@@ -104,3 +104,16 @@ fechamento da spec de aceite e dos milestones, sem dispensar seus gates prévios
 - Contratos MCP prematuros podem causar retrabalho; estabilize o domínio e o envelope primeiro.
 - A granularidade pode virar receita; valide autonomia e transferência em sessões reais.
 - Specs paralelas podem disputar os mesmos arquivos; respeite a DAG e atribua commits por trailer.
+
+## Proveniência e validação do candidato
+
+Use o [mapa do rename histórico](../contracts/historical-renames.json) para
+localizar a revisão original de cmd/ailearn/main.go. A correspondência é
+verificada contra Git; ela não altera bundles ou transforma evidência antiga
+em evidência do candidato. O [inventário MCP](../contracts/mcp-stdio.json) é
+comparado com tools/list pelo check mcp-contract. A avaliação estática do POSE
+continua sem cobertura desse registro Go e não substitui esse teste.
+
+As policies artifacts/delivery estão habilitadas desde 2026-09-08. Exija os
+gates explícitos da spec e do roadmap mesmo para referências anteriores à
+adoção. Uma política válida ou um mapa presente não basta para aprovar C1–C9.

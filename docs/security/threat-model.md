@@ -1,3 +1,8 @@
+---
+title: "Threat model"
+doc_type: howto
+---
+
 # Threat model
 
 Escopo: o runtime `codinho` — servidor MCP (`codinho serve`), CLI

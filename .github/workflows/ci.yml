@@ -1,84 +1,51 @@
-# CI: runs on every pull request and on main (requirement R4). Least
-# privilege by default (no write access unless a job explicitly needs
-# it); no secrets are used or required. Action versions are pinned to
-# major-version tags below — pinning to a verified commit SHA is a
-# documented follow-up (installation-documentation-ci Known Gap: this
-# session could not fetch and verify real upstream SHAs offline).
 name: CI
-
 on:
   pull_request:
   push:
-    branches: [main]
-
+    branches: [main, 'ci/v1-delivery-assurance']
+  workflow_dispatch:
 permissions:
   contents: read
-
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-
 jobs:
-  test:
-    name: build, vet, test, vulncheck, catalog (requirement R5)
-    runs-on: ubuntu-latest
+  native:
+    name: native-${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15]
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
-          go-version-file: go.mod
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6
+        with:
+          go-version: '1.27.1'
           cache: true
-
-      - name: gofmt
+      - name: Install verified governance tools
+        env:
+          CI_TOOL_BIN: ${{ runner.temp }}/codinho-tools
         run: |
-          out="$(gofmt -l .)"
-          if [ -n "$out" ]; then
-            echo "gofmt needs to be run on:"
-            echo "$out"
-            exit 1
-          fi
-
-      - name: go vet
-        run: go vet ./...
-
-      - name: go vet (windows cross-compile check)
+          bash scripts/ci/install-tools.sh
+          printf '%s\n' "$CI_TOOL_BIN" >> "$GITHUB_PATH"
+      - name: Required native validation
+        run: make check
+      - name: Windows static compatibility (not native evidence)
+        if: runner.os == 'Linux'
         run: GOOS=windows go vet ./...
-
-      - name: build
-        run: go build ./...
-
-      - name: test (race)
-        run: go test ./... -race -json > test-results.json
-
-      - name: govulncheck
-        run: go run golang.org/x/vuln/cmd/govulncheck@latest ./...
-
-      - name: catalog validate
-        run: go run ./cmd/codinho catalog validate
-
-      - name: published catalog proof
-        run: |
-          go build -o /tmp/codinho-editorial ./cmd/codinho
-          /tmp/codinho-editorial catalog validate --published-checks --json > catalog-proof.json
-
-      - name: skills-check
-        run: |
-          if command -v pose >/dev/null 2>&1; then
-            pose skills-check --strict
-          else
-            echo "pose CLI not installed on this runner; skipping (documented gap, not a silently-passed gate)"
-          fi
-
-      # Redacted structured test output, never source code or secrets
-      # (Security requirement: "Não publicar evidências com código do
-      # aluno ou estado local"; requirement R6).
-      - name: upload test results
+      - name: Archive candidate evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
-          name: test-results
+          name: native-${{ runner.os }}-${{ runner.arch }}-${{ github.sha }}
           path: |
-            test-results.json
-            catalog-proof.json
+            .pose/results/delivery-validation.json
+            .pose/results/native-ci.json
+          include-hidden-files: true
+          if-no-files-found: error
           retention-days: 30

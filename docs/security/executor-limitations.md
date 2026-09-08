@@ -1,3 +1,8 @@
+---
+title: "Limites de segurança do executor de checks"
+doc_type: howto
+---
+
 # Limites de segurança do executor de checks
 
 ## O que o executor garante

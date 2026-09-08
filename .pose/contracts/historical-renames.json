@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "renames": [
+    {
+      "commit": "9d88c68f7a1a3a2d1a84730a724fa28f99bb9821",
+      "old_path": "cmd/ailearn/main.go",
+      "new_path": "cmd/codinho/main.go",
+      "git_status": "R077"
+    }
+  ],
+  "policy": "Historical references identify their original revision. This map documents Git evidence; it does not rewrite claims, bundles or attestations."
+}

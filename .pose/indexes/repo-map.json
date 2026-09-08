@@ -16,25 +16,20 @@
       "language": "go",
       "hasDockerfile": false,
       "hasHelmChart": false,
-      "owner": "unknown",
-      "criticality": "medium",
-      "domain": "unknown",
+      "owner": "@oseiaspereira",
+      "criticality": "high",
+      "domain": "runtime",
       "validationProfile": "baseline",
       "metadata": {
-        "criticality": "medium",
-        "domain": "unknown",
-        "owner": "unknown",
+        "criticality": "high",
+        "domain": "runtime",
+        "owner": "@oseiaspereira",
         "validationProfile": "baseline"
       },
       "metadataStatus": {
-        "isComplete": false,
-        "missingFields": [
-          "criticality",
-          "domain",
-          "owner",
-          "validationProfile"
-        ],
-        "source": "defaulted"
+        "isComplete": true,
+        "missingFields": [],
+        "source": "declared"
       }
     }
   ],

@@ -11,10 +11,7 @@ test:
 race: test
 
 lint:
-	@fmtout=$$(gofmt -l .); \
-	if [ -n "$$fmtout" ]; then \
-		echo "gofmt needs to be run on:"; echo "$$fmtout"; exit 1; \
-	fi
+	bash scripts/ci/check-format.sh
 
 vet:
 	go vet ./...
@@ -27,7 +24,8 @@ catalog: build
 
 # check runs everything CI runs, in the same order, so a local failure
 # never surprises a pull request (requirement R4, R5).
-check: lint vet build test vulncheck catalog
+check:
+	bash scripts/ci/validate.sh
 
 smoke: build
 	./scripts/smoke-install.sh ./$(BINARY)

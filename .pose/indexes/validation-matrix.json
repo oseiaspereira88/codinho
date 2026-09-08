@@ -5,95 +5,496 @@
   "deliveryProfiles": {
     "cli-surface": {
       "kind": "surface",
-      "requiredEvidenceClasses": ["reachability"],
-      "anyEvidenceClasses": ["integration", "e2e"]
+      "requiredEvidenceClasses": [
+        "reachability"
+      ],
+      "anyEvidenceClasses": [
+        "integration",
+        "e2e"
+      ]
     },
     "composed-capability": {
       "kind": "capability",
-      "requiredEvidenceClasses": ["integration"]
+      "requiredEvidenceClasses": [
+        "integration"
+      ]
     },
     "api-contract": {
       "kind": "contract",
-      "requiredEvidenceClasses": ["integration"]
+      "requiredEvidenceClasses": [
+        "integration"
+      ]
     },
     "release-governance": {
       "kind": "governance",
-      "requiredEvidenceClasses": ["integration"]
+      "requiredEvidenceClasses": [
+        "integration"
+      ]
     },
     "local-distribution": {
       "kind": "infrastructure",
-      "requiredEvidenceClasses": ["integration"]
+      "requiredEvidenceClasses": [
+        "integration"
+      ]
     },
     "backend-go": {
       "kind": "governance",
-      "requiredEvidenceClasses": ["integration"]
+      "requiredEvidenceClasses": [
+        "integration"
+      ]
     }
   },
   "stacks": {
     "node": {
       "checks": [
-        {"name": "lint", "program": "npm", "args": ["run", "lint", "--if-present"], "severity": "optional"},
-        {"name": "test", "program": "npm", "args": ["test", "--if-present"], "severity": "required"},
-        {"name": "build", "program": "npm", "args": ["run", "build", "--if-present"], "severity": "required"},
-        {"name": "typecheck", "program": "npm", "args": ["run", "typecheck", "--if-present"], "severity": "optional"}
+        {
+          "name": "lint",
+          "program": "npm",
+          "args": [
+            "run",
+            "lint",
+            "--if-present"
+          ],
+          "severity": "optional"
+        },
+        {
+          "name": "test",
+          "program": "npm",
+          "args": [
+            "test",
+            "--if-present"
+          ],
+          "severity": "required"
+        },
+        {
+          "name": "build",
+          "program": "npm",
+          "args": [
+            "run",
+            "build",
+            "--if-present"
+          ],
+          "severity": "required"
+        },
+        {
+          "name": "typecheck",
+          "program": "npm",
+          "args": [
+            "run",
+            "typecheck",
+            "--if-present"
+          ],
+          "severity": "optional"
+        }
       ]
     },
     "go": {
       "checks": [
-        {"name": "test", "program": "go", "args": ["test", "./..."], "severity": "required", "evidenceClass": "unit"},
-        {"name": "vet", "program": "go", "args": ["vet", "./..."], "severity": "optional", "evidenceClass": "build"}
+        {
+          "name": "format",
+          "program": "bash",
+          "args": [
+            "scripts/ci/check-format.sh"
+          ],
+          "severity": "required",
+          "evidenceClass": "build"
+        },
+        {
+          "name": "test",
+          "program": "go",
+          "args": [
+            "test",
+            "-race",
+            "-count=1",
+            "./..."
+          ],
+          "severity": "required",
+          "evidenceClass": "unit"
+        },
+        {
+          "name": "vet",
+          "program": "go",
+          "args": [
+            "vet",
+            "./..."
+          ],
+          "severity": "required",
+          "evidenceClass": "build"
+        }
       ]
     },
     "rust": {
       "checks": [
-        {"name": "test", "program": "cargo", "args": ["test"], "severity": "required"}
+        {
+          "name": "test",
+          "program": "cargo",
+          "args": [
+            "test"
+          ],
+          "severity": "required"
+        }
       ]
     },
     "java": {
       "checks": [
-        {"name": "maven-test", "program": "mvn", "args": ["-B", "test"], "severity": "required", "when": {"fileExists": "pom.xml"}},
-        {"name": "gradle-test", "program": "./gradlew", "args": ["test"], "severity": "required", "when": {"fileExists": "gradlew"}},
-        {"name": "gradle-test-wrapper", "program": "gradle", "args": ["test"], "severity": "required", "when": {"fileExists": "build.gradle", "fileNotExists": "gradlew"}},
-        {"name": "gradle-test-wrapper-kts", "program": "gradle", "args": ["test"], "severity": "required", "when": {"fileExists": "build.gradle.kts", "fileNotExists": "gradlew"}}
+        {
+          "name": "maven-test",
+          "program": "mvn",
+          "args": [
+            "-B",
+            "test"
+          ],
+          "severity": "required",
+          "when": {
+            "fileExists": "pom.xml"
+          }
+        },
+        {
+          "name": "gradle-test",
+          "program": "./gradlew",
+          "args": [
+            "test"
+          ],
+          "severity": "required",
+          "when": {
+            "fileExists": "gradlew"
+          }
+        },
+        {
+          "name": "gradle-test-wrapper",
+          "program": "gradle",
+          "args": [
+            "test"
+          ],
+          "severity": "required",
+          "when": {
+            "fileExists": "build.gradle",
+            "fileNotExists": "gradlew"
+          }
+        },
+        {
+          "name": "gradle-test-wrapper-kts",
+          "program": "gradle",
+          "args": [
+            "test"
+          ],
+          "severity": "required",
+          "when": {
+            "fileExists": "build.gradle.kts",
+            "fileNotExists": "gradlew"
+          }
+        }
       ]
     },
     "python": {
       "checks": [
-        {"name": "poetry-test", "program": "poetry", "args": ["run", "pytest", "-q"], "severity": "required", "when": {"fileExists": "poetry.lock"}},
-        {"name": "pipenv-test", "program": "pipenv", "args": ["run", "pytest", "-q"], "severity": "required", "when": {"fileExists": "Pipfile", "fileNotExistsAny": ["poetry.lock"]}},
-        {"name": "pip-test", "program": "pytest", "args": ["-q"], "severity": "required", "when": {"fileExists": "requirements.txt", "fileNotExistsAny": ["poetry.lock", "Pipfile"]}},
-        {"name": "setuptools-test", "program": "pytest", "args": ["-q"], "severity": "required", "when": {"fileExists": "setup.py", "fileNotExistsAny": ["poetry.lock", "Pipfile", "requirements.txt"]}},
-        {"name": "pep517-test", "program": "pytest", "args": ["-q"], "severity": "optional", "when": {"fileExists": "pyproject.toml", "fileNotExistsAny": ["poetry.lock", "Pipfile", "requirements.txt", "setup.py"]}}
+        {
+          "name": "poetry-test",
+          "program": "poetry",
+          "args": [
+            "run",
+            "pytest",
+            "-q"
+          ],
+          "severity": "required",
+          "when": {
+            "fileExists": "poetry.lock"
+          }
+        },
+        {
+          "name": "pipenv-test",
+          "program": "pipenv",
+          "args": [
+            "run",
+            "pytest",
+            "-q"
+          ],
+          "severity": "required",
+          "when": {
+            "fileExists": "Pipfile",
+            "fileNotExistsAny": [
+              "poetry.lock"
+            ]
+          }
+        },
+        {
+          "name": "pip-test",
+          "program": "pytest",
+          "args": [
+            "-q"
+          ],
+          "severity": "required",
+          "when": {
+            "fileExists": "requirements.txt",
+            "fileNotExistsAny": [
+              "poetry.lock",
+              "Pipfile"
+            ]
+          }
+        },
+        {
+          "name": "setuptools-test",
+          "program": "pytest",
+          "args": [
+            "-q"
+          ],
+          "severity": "required",
+          "when": {
+            "fileExists": "setup.py",
+            "fileNotExistsAny": [
+              "poetry.lock",
+              "Pipfile",
+              "requirements.txt"
+            ]
+          }
+        },
+        {
+          "name": "pep517-test",
+          "program": "pytest",
+          "args": [
+            "-q"
+          ],
+          "severity": "optional",
+          "when": {
+            "fileExists": "pyproject.toml",
+            "fileNotExistsAny": [
+              "poetry.lock",
+              "Pipfile",
+              "requirements.txt",
+              "setup.py"
+            ]
+          }
+        }
       ]
     },
     "dotnet": {
       "checks": [
-        {"name": "dotnet-test", "program": "dotnet", "args": ["test"], "severity": "required"}
+        {
+          "name": "dotnet-test",
+          "program": "dotnet",
+          "args": [
+            "test"
+          ],
+          "severity": "required"
+        }
       ]
     },
     "cloudflare-workers": {
       "checks": [
-        {"name": "wrangler-version", "program": "wrangler", "args": ["--version"], "severity": "optional"}
+        {
+          "name": "wrangler-version",
+          "program": "wrangler",
+          "args": [
+            "--version"
+          ],
+          "severity": "optional"
+        }
       ]
     }
   },
   "moduleOverrides": {
     ".": {
       "checks": [
-        {"name": "build", "program": "go", "args": ["build", "./cmd/codinho"], "severity": "required", "evidenceClass": "build"},
-        {"name": "catalog-publication-integrity", "program": "go", "args": ["test", "./cmd/codinho", "-run", "TestPublicationIntegrity", "-count=1"], "severity": "required", "evidenceClass": "integration"},
-        {"name": "published-catalog-proof", "program": "go", "args": ["run", "./cmd/codinho", "catalog", "validate", "--published-checks", "--json"], "severity": "required", "evidenceClass": "integration"},
-        {"name": "session-recovery", "program": "go", "args": ["test", "./cmd/codinho", "-run", "TestSessionRecoveryOverRealStdio"], "severity": "required", "evidenceClass": "integration"},
-        {"name": "session-tree-progression", "program": "go", "args": ["test", "./cmd/codinho", "-run", "TestTreeProgressionOverRealStdio"], "severity": "required", "evidenceClass": "integration"},
-        {"name": "evaluation-evidence", "program": "go", "args": ["test", "./cmd/codinho", "-run", "TestEvaluationEvidenceOverRealStdio"], "severity": "required", "evidenceClass": "integration"},
-        {"name": "mcp-contract", "program": "go", "args": ["test", "./internal/mcpserver/...", "-run", "TestContract"], "severity": "required", "evidenceClass": "integration"},
-        {"name": "tutor-skill-routing", "program": "go", "args": ["test", "./cmd/codinho/...", "-run", "TestTutorSkillFullSessionRoutingOverRealStdio"], "severity": "required", "evidenceClass": "integration"},
-        {"name": "cli-reachability", "program": "go", "args": ["test", "./cmd/codinho/...", "-run", "TestCLIEntrypointReachesEveryCommand"], "severity": "required", "evidenceClass": "reachability"},
-        {"name": "cli-e2e", "program": "go", "args": ["test", "./cmd/codinho/...", "-run", "TestCLIEndToEndWorkflow"], "severity": "required", "evidenceClass": "e2e"},
-        {"name": "govulncheck", "program": "govulncheck", "args": ["./..."], "severity": "required"},
-        {"name": "stdout-purity", "program": "go", "args": ["test", "./cmd/codinho/...", "-run", "TestServeNeverWritesToStdoutOnStartupFailure|TestServeStdoutIsOnlyValidJSONFrames"], "severity": "required", "evidenceClass": "integration"},
-        {"name": "startup-budget", "program": "go", "args": ["test", "./cmd/codinho/...", "-run", "TestServeStartupRespondsWithinOneSecond"], "severity": "required", "evidenceClass": "integration"},
-        {"name": "smoke-install", "program": "go", "args": ["test", "./cmd/codinho/...", "-run", "TestSmokeInstallScript"], "severity": "required", "evidenceClass": "integration"}
+        {
+          "name": "build",
+          "program": "go",
+          "args": [
+            "build",
+            "./cmd/codinho"
+          ],
+          "severity": "required",
+          "evidenceClass": "build"
+        },
+        {
+          "name": "catalog-publication-integrity",
+          "program": "go",
+          "args": [
+            "test",
+            "./cmd/codinho",
+            "-run",
+            "TestPublicationIntegrity",
+            "-count=1"
+          ],
+          "severity": "required",
+          "evidenceClass": "integration"
+        },
+        {
+          "name": "published-catalog-proof",
+          "program": "go",
+          "args": [
+            "run",
+            "./cmd/codinho",
+            "catalog",
+            "validate",
+            "--published-checks",
+            "--json"
+          ],
+          "severity": "required",
+          "evidenceClass": "integration"
+        },
+        {
+          "name": "session-recovery",
+          "program": "go",
+          "args": [
+            "test",
+            "./cmd/codinho",
+            "-run",
+            "TestSessionRecoveryOverRealStdio",
+            "-count=1"
+          ],
+          "severity": "required",
+          "evidenceClass": "integration"
+        },
+        {
+          "name": "session-tree-progression",
+          "program": "go",
+          "args": [
+            "test",
+            "./cmd/codinho",
+            "-run",
+            "TestTreeProgressionOverRealStdio",
+            "-count=1"
+          ],
+          "severity": "required",
+          "evidenceClass": "integration"
+        },
+        {
+          "name": "evaluation-evidence",
+          "program": "go",
+          "args": [
+            "test",
+            "./cmd/codinho",
+            "-run",
+            "TestEvaluationEvidenceOverRealStdio",
+            "-count=1"
+          ],
+          "severity": "required",
+          "evidenceClass": "integration"
+        },
+        {
+          "name": "mcp-contract",
+          "program": "go",
+          "args": [
+            "test",
+            "./internal/mcpserver/...",
+            "-run",
+            "TestContract",
+            "-count=1"
+          ],
+          "severity": "required",
+          "evidenceClass": "integration"
+        },
+        {
+          "name": "tutor-skill-routing",
+          "program": "go",
+          "args": [
+            "test",
+            "./cmd/codinho/...",
+            "-run",
+            "TestTutorSkillFullSessionRoutingOverRealStdio",
+            "-count=1"
+          ],
+          "severity": "required",
+          "evidenceClass": "integration"
+        },
+        {
+          "name": "cli-reachability",
+          "program": "go",
+          "args": [
+            "test",
+            "./cmd/codinho/...",
+            "-run",
+            "TestCLIEntrypointReachesEveryCommand",
+            "-count=1"
+          ],
+          "severity": "required",
+          "evidenceClass": "reachability"
+        },
+        {
+          "name": "cli-e2e",
+          "program": "go",
+          "args": [
+            "test",
+            "./cmd/codinho/...",
+            "-run",
+            "TestCLIEndToEndWorkflow",
+            "-count=1"
+          ],
+          "severity": "required",
+          "evidenceClass": "e2e"
+        },
+        {
+          "name": "govulncheck",
+          "program": "govulncheck",
+          "args": [
+            "./..."
+          ],
+          "severity": "required"
+        },
+        {
+          "name": "stdout-purity",
+          "program": "go",
+          "args": [
+            "test",
+            "./cmd/codinho/...",
+            "-run",
+            "TestServeNeverWritesToStdoutOnStartupFailure|TestServeStdoutIsOnlyValidJSONFrames",
+            "-count=1"
+          ],
+          "severity": "required",
+          "evidenceClass": "integration"
+        },
+        {
+          "name": "startup-budget",
+          "program": "go",
+          "args": [
+            "test",
+            "./cmd/codinho/...",
+            "-run",
+            "TestServeStartupRespondsWithinOneSecond",
+            "-count=1"
+          ],
+          "severity": "required",
+          "evidenceClass": "integration"
+        },
+        {
+          "name": "smoke-install",
+          "program": "go",
+          "args": [
+            "test",
+            "./cmd/codinho/...",
+            "-run",
+            "TestSmokeInstallScript",
+            "-count=1"
+          ],
+          "severity": "required",
+          "evidenceClass": "integration"
+        },
+        {
+          "name": "ci-assurance",
+          "program": "go",
+          "args": [
+            "test",
+            "./internal/ciassurance/...",
+            "-count=1"
+          ],
+          "severity": "required",
+          "evidenceClass": "integration"
+        },
+        {
+          "name": "catalog",
+          "program": "go",
+          "args": [
+            "run",
+            "./cmd/codinho",
+            "catalog",
+            "validate",
+            "--checks",
+            "--json"
+          ],
+          "severity": "required",
+          "evidenceClass": "integration"
+        }
       ]
     }
   }

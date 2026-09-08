@@ -1,3 +1,8 @@
+---
+title: "Fluxo de autor/revisor entre agentes"
+doc_type: howto
+---
+
 # Fluxo de autor/revisor entre agentes
 
 Padrão para quando dois processos de IA independentes colaboram na autoria

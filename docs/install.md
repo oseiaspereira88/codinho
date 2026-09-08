@@ -1,3 +1,8 @@
+---
+title: "Instalação"
+doc_type: howto
+---
+
 # Instalação
 
 ## Pré-requisitos
@@ -15,7 +20,7 @@ dependências de rede em tempo de execução.
 
 ```sh
 git clone <este repositório>
-cd ai-code-micro-learning
+cd codinho
 go build -o codinho ./cmd/codinho
 ```
 
@@ -59,8 +64,8 @@ então uma sessão MCP ativa não é afetada até o próximo restart.
 ## Remoção
 
 ```sh
-rm codinho                     # o binário
-codinho privacy purge --confirm  # estado local (.codinho/state), antes de remover
+./codinho privacy purge --confirm  # estado local (.codinho/state)
+rm codinho                        # remova o binário por último
 ```
 
 Isso nunca toca seu código nem o repositório Git do desafio — ver

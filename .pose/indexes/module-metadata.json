@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "defaults": {
-    "owner": "",
-    "criticality": "medium",
-    "domain": "",
+    "owner": "@oseiaspereira",
+    "criticality": "high",
+    "domain": "runtime",
     "validationProfile": "baseline"
   },
   "modules": {
@@ -12,6 +12,43 @@
       "criticality": "high",
       "domain": "runtime",
       "validationProfile": "baseline"
+    },
+    "cmd/codinho": {
+      "owner": "@oseiaspereira",
+      "criticality": "high",
+      "domain": "cli",
+      "validationProfile": "baseline"
+    },
+    "internal/mcpserver": {
+      "owner": "@oseiaspereira",
+      "criticality": "high",
+      "domain": "mcp",
+      "validationProfile": "baseline"
+    },
+    "internal/ciassurance": {
+      "owner": "@oseiaspereira",
+      "criticality": "high",
+      "domain": "governance",
+      "validationProfile": "baseline"
+    },
+    ".github/workflows": {
+      "owner": "@oseiaspereira",
+      "criticality": "high",
+      "domain": "ci",
+      "validationProfile": "baseline"
+    },
+    "scripts": {
+      "owner": "@oseiaspereira",
+      "criticality": "high",
+      "domain": "distribution",
+      "validationProfile": "baseline"
+    },
+    "": {
+      "owner": "@oseiaspereira",
+      "criticality": "high",
+      "domain": "runtime",
+      "validationProfile": "baseline"
     }
-  }
+  },
+  "_comment": "Empty path is the root alias emitted by pose index; dot is retained for assess/review. Keep both root entries identical until the engine normalizes paths."
 }

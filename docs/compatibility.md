@@ -1,3 +1,8 @@
+---
+title: "Matriz de compatibilidade"
+doc_type: reference
+---
+
 # Matriz de compatibilidade
 
 Ver [`docs/install.md`](install.md) para pré-requisitos de instalação e
@@ -7,19 +12,22 @@ que rodam a cada pull request contra esta matriz (requirement R4/R5).
 ## Go
 
 - **Mínimo declarado**: `go 1.25.0` (`go.mod`).
-- **Testado nesta sessão**: `go1.26.6 linux/amd64` — `go build ./...`,
-  `go vet ./...` e `go test ./... -race` passam limpos.
-- `GOOS=windows go vet ./...` roda sem diagnósticos a cada spec fechada
-  desde o início do projeto (checagem estática cross-compile; não é
-  execução real em Windows).
+- Consulte os resultados do candidato para a versão executada; a versão de
+  linguagem mínima não comprova que todo patch antigo seja seguro.
+- A CI fixa seu toolchain em `.github/workflows/ci.yml` e executa o scanner
+  verificado de `scripts/ci/tools.env`.
 
 ## Sistema operacional
 
-| OS | Status | Evidência |
+| OS/arquitetura | Estado | Evidência exigida |
 |---|---|---|
-| Linux | **Suportado, testado** | Toda a suíte de testes (`go test ./... -race`) roda nesta plataforma a cada spec. |
-| macOS | **Suportado, não testado nesta sessão** | Código não usa nenhuma primitiva específica de Linux (paths, syscalls e process-group handling em `internal/checks/process_unix.go` usam a API POSIX padrão do pacote `syscall`, compatível com Darwin). Sem execução real registrada. |
-| Windows | **Não declarado suportado até haver evidência real** | `GOOS=windows go vet` passa (checagem estática), e `internal/checks/process_windows.go`/`internal/diagnostics/process_windows.go` implementam os pontos de divergência de plataforma (grupo de processo, verificação de PID). Sem execução real registrada — não reivindicar suporte além do que a Compatibility desta spec permite ("documentar Windows como suportado somente após evidência"). |
+| Linux/amd64 | Execução local disponível; CI do candidato pendente | Relatórios `delivery-validation.json` e `native-ci.json` do mesmo commit. |
+| macOS/arquitetura do runner | Execução nativa do candidato pendente | Job macOS real com testes e smoke-install; compatibilidade POSIX não comprova execução. |
+| Linux/arm64 | Build cruzado previsto | Artefato de build não comprova execução nativa. |
+| Windows | Desejável, sem suporte nativo comprovado | `GOOS=windows go vet ./...` é apenas checagem estática. |
+
+Consulte a [prontidão V1](acceptance/v1-release-readiness.md) antes de afirmar
+suporte ou aceite. Registre plataforma e arquitetura efetivas do processo.
 
 ## SDK MCP
 

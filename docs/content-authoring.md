@@ -1,3 +1,8 @@
+---
+title: "Autoria de conteúdo curricular"
+doc_type: howto
+---
+
 # Autoria de conteúdo curricular
 
 Guia para quem escreve packs (`packs/*.yaml`) — temas, conceitos,

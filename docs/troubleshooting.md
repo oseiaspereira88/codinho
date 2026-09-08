@@ -1,3 +1,8 @@
+---
+title: "Troubleshooting"
+doc_type: howto
+---
+
 # Troubleshooting
 
 Primeiro passo sempre: `codinho doctor` (ou `codinho doctor --json` para

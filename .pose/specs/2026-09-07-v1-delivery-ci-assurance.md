@@ -1,6 +1,6 @@
 ---
 slug: v1-delivery-ci-assurance
-status: draft
+status: in-progress
 created_at: 2026-09-07
 completed_at:
 supersedes:
@@ -37,7 +37,7 @@ Fechar uma lacuna verificável da V1 antes de ampliar a superfície que depende 
 - R3: Executar testes e smoke-install nativos em Linux e macOS conforme RNF-005; Windows permanece desejável e não bloqueia V1 sem mudança de escopo. Distinguir build cruzado de execução por arquitetura.
 - R4: Fixar actions e scanner por versão/digest verificado; tratar inputs de release como dados validados, sem interpolação direta em shell; manter build sem publicação automática.
 - R5: Mapear componentes/contratos reais, habilitar políticas de artifacts/delivery com roots e evidências corretas, reconciliar rename ailearn→codinho sem falsificar histórico ou editar bundles imutáveis.
-- R6: Registrar e validar critérios C1–C8 do roadmap por evidência atual; comprovar que stale, skipped, check inexistente e relatório ausente bloqueiam a entrega.
+- R6: Registrar e validar critérios C1–C9 do roadmap por evidência atual; comprovar que stale, skipped, check inexistente e relatório ausente bloqueiam a entrega.
 - R7: Governar documentação por manifest e revisar comandos/links; corrigir alegações de retomada e suporte até existirem evidências dos contratos correspondentes.
 - R8: Produzir relatório de prontidão com matriz por requisito, plataforma, host, commit e resultado; obter revisão independente do threat model antes do aceite.
 
@@ -60,6 +60,10 @@ Preservar a política de release sem publish. Definir roots e equivalência de c
 - distribution
 
 ### Artifacts
+- created: .pose/contributions/20260908-root-module-metadata-normalization.md
+- created: internal/mcpserver/governance_contract_test.go
+- created: .pose/contracts/historical-renames.json
+- modified: .pose/indexes/repo-map.json
 - modified: .github/workflows/ci.yml
 - modified: .github/workflows/release.yml
 - modified: Makefile
@@ -73,6 +77,30 @@ Preservar a política de release sem publish. Definir roots e equivalência de c
 - modified: docs/install.md
 - modified: docs/quickstart.md
 - created: docs/acceptance/v1-release-readiness.md
+
+- modified: README.md
+- modified: docs/configuration.md
+- modified: docs/content-authoring.md
+- modified: docs/content-review-checklist.md
+- modified: docs/agent-review-workflow.md
+- modified: docs/troubleshooting.md
+- modified: docs/security/privacy.md
+- modified: docs/security/executor-limitations.md
+- modified: docs/security/threat-model.md
+- created: scripts/ci/install-tools.sh
+- created: scripts/ci/tools.env
+- created: scripts/ci/check-format.sh
+- created: scripts/ci/validate.sh
+- created: scripts/ci/build-release.sh
+- created: cmd/ci-assurance/main.go
+- created: internal/ciassurance/evidence.go
+- created: internal/ciassurance/evidence_test.go
+- created: internal/ciassurance/workflows_test.go
+- created: .pose/docs.json
+- created: .pose/contracts/mcp-stdio.json
+- created: .pose/adr/2026-09-08-native-ci-evidence-and-prospective-delivery-governance.md
+- created: .pose/knowledge/2026-09-08-decision-log-adr-ci-assurance-review.md
+- created: .pose/changelogs/unreleased/v1-delivery-ci-assurance.md
 
 ### Delivery targets
 - governance:v1-delivery-ci module:.github/workflows profile:release-governance entrypoint:.github/workflows/ci.yml
@@ -89,8 +117,8 @@ Renames históricos e evidências de módulos divergentes bloqueiam roll-up. CI 
 ## 4. Tasks
 
 ### Planning
-- [ ] Reproduzir o achado e revisar contratos/ADRs aplicáveis.
-- [ ] Completar decisões de formato e plano de testes negativos antes de modificar código.
+- [x] Reproduzir o achado e revisar contratos/ADRs aplicáveis.
+- [x] Completar decisões de formato e plano de testes negativos antes de modificar código.
 - [ ] Reconciliar esta lista de artefatos com os arquivos efetivos; declarar arquivos adicionais antes de alterá-los.
 
 ### Implementation
@@ -105,6 +133,12 @@ Renames históricos e evidências de módulos divergentes bloqueiam roll-up. CI 
 
 ## 5. Decisions
 
+### Decision 2
+- Date: 2026-09-08
+- Decision: registrar ADR native-ci-evidence-and-prospective-delivery-governance antes da implementação. Consumidos knowledge:planning-audit-2026-09 e knowledge:adr-publication-review.
+- Rationale: jobs locais não provam macOS; evidência histórica não deve ser reescrita para satisfazer regras novas. Versões externas precisam ser fixadas e conferidas por origem/hashes.
+- Consequences: CI executa e arquiva provas nativas por plataforma; publicação de release permanece fora do workflow. Políticas prospectivas e reconciliação explícita preservam registros imutáveis. C9 já existente no roadmap também deve entrar na matriz de prontidão.
+
 ### Decision 1
 - Date: 2026-09-07
 - Context: ci.yml não instala POSE nem executa pose check/validate; skills-check é pulado sem binário. A matriz não inclui catálogo, checks de fixtures, formatação com falha nem race. delivery.json e artifacts.json estão desativados; roadmap não tinha Cut criteria; o bundle esbarra em cmd/ailearn/main.go histórico inexistente.
@@ -116,7 +150,22 @@ Renames históricos e evidências de módulos divergentes bloqueiam roll-up. CI 
 ## 6. Validation
 
 ### Strategy
-Validar cada contrato com cenário positivo e negativo pela entrada de produção; usar somente dados sintéticos.
+Risco alto: CI, execução de ferramentas e evidência de entrega. Plano antes do código:
+
+| Cenário | Comando | Evidência esperada |
+|---|---|---|
+| Contratos de workflows, pins, inputs e evidência negativa | go test ./internal/ciassurance/... -count=1 | Rejeita versão com metacaracteres, relatório ausente/stale, skip e check inexistente; versões/hashes fechados. |
+| Matriz local composta | make check | POSE obrigatório, formatação/race/vet/build/catálogo/MCP/smoke e JSON; ferramenta ausente falha. |
+| Documentos e referências | pose docs-check; pose check --strict | Manifest cobre docs e links; nenhum erro. |
+| Plataformas nativas | GitHub Actions CI em Linux/macOS | Jobs reais, commit/OS/arquitetura/toolchain e resultados completos, sem equiparar cross-build a execução. |
+| Release somente build | scripts/ci/build-release.sh v0.0.0-ci | Binário e checksum; input inválido falha antes de build, sem tag/release. |
+| Integridade do candidato | pose artifact-check --spec v1-delivery-ci-assurance --strict; pose surface-check --spec v1-delivery-ci-assurance --strict | Origem atribuída, entrada de produção e evidência atual. |
+
+Comandos são obrigatórios. Windows é checagem cruzada explicitamente distinta;
+aceite quantitativo/editorial V1 e hosts de tutor continuam no aceite integrado.
+Gates do roadmap são exercitados como prontidão (falhas pendentes esperadas),
+sem declarar V1 pronta. Revisão independente cobre também threat model.
+
 
 ### Deterministic checks
 - Test: pose check --strict; pose validate --strict; pose skills-check --strict; pose docs-check
@@ -126,13 +175,30 @@ Validar cada contrato com cenário positivo e negativo pela entrada de produçã
 - Security / Contract: pose assess integrate; pose validate --strict --json .pose/results/delivery-validation.json; pose surface-check --spec v1-delivery-ci-assurance --strict
 
 ### Execution log
+- 2026-09-08 UTC (continuação): policies artifacts/delivery habilitadas com roots reais; metadados de CLI, MCP, governança e distribuição registrados. Inventário de 33 tools comparado com tools/list do servidor; rename 9d88c68f7a1a3a2d1a84730a724fa28f99bb9821 verificado por git show --find-renames. Bundles históricos preservados. `go test -race ./internal/ciassurance ./internal/mcpserver -count=1` passa.
+- 2026-09-08 UTC (continuação): pose index não associa chave raiz "." ao path vazio emitido; alias equivalente aplicado e projeção passou a declared/isComplete=true. Limitação sanitizada registrada localmente em .pose/contributions/20260908-root-module-metadata-normalization.md. Nenhum envio upstream.
+- 2026-09-08 UTC: retomada consumiu knowledge:adr-ci-assurance-review e confirmou a spec in-progress. Discover executado antes de editar; tools POSE 1.7.12 e govulncheck 1.6.0 instaladas em diretório temporário com hashes verificados.
+- 2026-09-08 UTC: testes em internal/ciassurance passam para relatório inválido/ausente, stale/futuro, skip, comando divergente, check desconhecido/duplicado, matriz inválida e labels inseguros. Corrigida rejeição de checks duplicados na matriz e SHA não hexadecimal.
+- 2026-09-08 UTC: corrigido SIGPIPE de `pose version | head` sob pipefail; teste executa o script real com ferramentas sintéticas e verifica propagação da falha do gate. Formatação inclui arquivos novos ainda não staged.
+- 2026-09-08 UTC: `pose docs-check` passa com 13 documentos, zero erros/avisos; corrigidos diretório de instalação, remoção do binário e alegações de plataforma. `pose check --strict` e `pose lint-spec v1-delivery-ci-assurance --ready-check` passam.
+- 2026-09-08 UTC: `PATH=/tmp/codinho-ci-tools:$PATH make check` fora do sandbox executou 19 checks: 18 pass, catalog fail. Race completo, vet, build, govulncheck, MCP, CLI, startup, smoke e ci-assurance passaram. O catálogo tem 38 checks declarados, zero verificados; rascunhos sem validation/reference_fixture bloqueiam `catalog validate --checks`. Gate preservado; relatório nativo de sucesso não foi emitido.
+- 2026-09-08 UTC: `pose assess integrate` detecta zero contratos (limitação já registrada no handoff de auditoria); isso não comprova integração MCP. `pose assess tech-debt` retorna zero marcadores. `pose surface-check` e `pose artifact-check` falham por proveniência/artefatos pendentes. `pose roadmap-check codinho-v1 --strict` mantém terminal=false, nove critérios e blockers de documentos de aceite ausentes e specs não terminais.
+- 2026-09-08 UTC: estado lido e discover executado antes das alterações:1módulo,12.127LOCprod/11.524LOCtest,zero marcadores. CI atual pula skills sem POSE, usa actions por tags e scanner latest; release interpola input em shell. Último job remoto34168152576 falhou em govulncheck.
+- 2026-09-08 UTC: origem oficial verificada via GitHub API: POSE v1.7.12 commit cd9a050f4de9d74f8b695f5f0c5bdeabda96a9d4, digests dos assets; checkout/setup-go/upload-artifact resolvidos para commits dos respectivos repositórios. Referência de segurança: https://docs.github.com/en/actions/reference/security/secure-use (acesso2026-09-08).
 - 2026-09-07 UTC: criada em revisão de planejamento; implementação e gates de entrega não executados.
 
 ### Results summary
-Escopo proposto com requisitos verificáveis. A validação atual do produto está no relatório; não prova os novos requisitos.
+Incremento local validado parcialmente: 18 de 19 checks passam. O gate editorial do catálogo, a reconciliação de proveniência e as evidências remotas/independentes ainda impedem closeout.
 
 ### Requirement trace
-Preencher R1–R8 com evidência por cenário durante a implementação e no closeout.
+- R1: ferramentas verificadas e gates obrigatórios implementados; make check permanece fail no catálogo.
+- R2: matriz compartilhada executa os checks; remediação editorial dos rascunhos pendente.
+- R3: jobs nativos configurados; execução remota Linux/macOS pendente.
+- R4: labels inseguros rejeitados em teste; build local v0.0.0-ci gerou binário/checksum sem publicar.
+- R5: policies, metadados, inventário MCP e mapa histórico implementados/testados; reconciliação Git e gate de proveniência em andamento.
+- R6: negativos do validador passam; roadmap C1–C9 permanece não terminal.
+- R7: docs-check passa para 13 documentos; comandos e alegações de plataforma corrigidos.
+- R8: relatório de prontidão registra pendências; revisão independente e evidências remotas pendentes.
 
 ### Known gaps
 Renames históricos e evidências de módulos divergentes bloqueiam roll-up. CI remota e revisão humana precisam de evidência real, não de YAML existente.
@@ -140,13 +206,13 @@ Renames históricos e evidências de módulos divergentes bloqueiam roll-up. CI 
 ## 7. Final Report
 
 ### Delivered scope
-Somente planejamento; nenhuma funcionalidade desta spec foi entregue.
+Workflows, instalação verificada, validação de evidência e manifest documental implementados no worktree. Testes negativos e checks locais registrados acima. Spec permanece in-progress: catálogo, proveniência, execução nativa remota e revisão independente pendentes.
 
 ### Files and modules changed
-- Esta spec; dependências no roadmap e no aceite integrado.
+- CI, scripts de ferramentas/validação/build, internal/ciassurance, cmd/ci-assurance, matriz, manifest e documentação declarados nos artefatos.
 
 ### Validation executed
-- Planejamento sujeito a pose lint-spec --ready-check e pose check --strict nesta auditoria.
+- Consulte Execution log: validação composta executada com falha editorial explícita, checks de docs/estrutura e testes negativos passando.
 
 ### Residual risks
 Validar o comportamento implementado em execução independente; não reutilizar resultado histórico como aprovação do código futuro.

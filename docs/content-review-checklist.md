@@ -1,3 +1,8 @@
+---
+title: "Checklist de revisão de conteúdo"
+doc_type: howto
+---
+
 # Checklist de revisão de conteúdo
 
 Para quem revisa um desafio antes de `publication.status: published`.

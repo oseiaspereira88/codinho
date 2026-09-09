@@ -1,0 +1,207 @@
+{
+  "schema_version": 1,
+  "attestation_id": "rva-566fee7941ed6c5b",
+  "bundle_id": "rvb-a7544352b351efd7",
+  "bundle_digest": "sha256:a7544352b351efd7e6468ec60493e8a8c19637d708ed4b92253dd7841dd51667",
+  "reviewer": "agent:codex-track-review-20260909",
+  "decision": "approved",
+  "criteria": [
+    {
+      "id": "compatibility",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "correctness",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "cross-component-integration",
+      "disposition": "passed",
+      "evidence": "integration:./go/catalog"
+    },
+    {
+      "id": "documentation",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "operability",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "requirements",
+      "disposition": "passed",
+      "evidence": "e2e:./go/cli-e2e"
+    },
+    {
+      "id": "scope",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "security",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    }
+  ],
+  "tools": [
+    {
+      "id": "artifact-check",
+      "disposition": "passed",
+      "evidence": "check:artifact-check"
+    },
+    {
+      "id": "assess-discover",
+      "component": "cmd/codinho",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "assess-discover",
+      "component": "docs",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "assess-discover",
+      "component": "internal",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "assess-discover",
+      "component": "internal/mcpserver",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "assess-discover",
+      "component": "schemas",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "assess-integrate",
+      "disposition": "passed",
+      "evidence": "integration:./go/catalog"
+    },
+    {
+      "id": "assess-tech-debt",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "closeout-check",
+      "disposition": "deferred",
+      "rationale": "post-review gate"
+    },
+    {
+      "id": "review-check",
+      "disposition": "deferred",
+      "rationale": "post-review gate"
+    },
+    {
+      "id": "skills-check",
+      "disposition": "passed",
+      "evidence": "check:skills-check"
+    },
+    {
+      "id": "suggest-review",
+      "component": "cmd/codinho",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "suggest-review",
+      "component": "docs",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "suggest-review",
+      "component": "internal",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "suggest-review",
+      "component": "internal/mcpserver",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "suggest-review",
+      "component": "schemas",
+      "disposition": "not-used",
+      "rationale": "not used during automated attestation"
+    },
+    {
+      "id": "surface-check",
+      "disposition": "passed",
+      "evidence": "integration:./go/catalog"
+    },
+    {
+      "id": "validate",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "validate",
+      "component": "cmd/codinho",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "validate",
+      "component": "docs",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "validate",
+      "component": "internal",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "validate",
+      "component": "internal/mcpserver",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    },
+    {
+      "id": "validate",
+      "component": "schemas",
+      "disposition": "passed",
+      "evidence": "build:./go/build"
+    }
+  ],
+  "evidence_refs": [
+    "build:./go/build",
+    "build:./go/format",
+    "build:./go/vet",
+    "e2e:./go/cli-e2e",
+    "integration:./go/catalog",
+    "integration:./go/catalog-publication-integrity",
+    "integration:./go/ci-assurance",
+    "integration:./go/concept-content-capability",
+    "integration:./go/evaluation-evidence",
+    "integration:./go/learning-track-composition",
+    "integration:./go/mcp-contract",
+    "integration:./go/published-catalog-proof",
+    "integration:./go/session-recovery",
+    "integration:./go/session-tree-progression",
+    "integration:./go/smoke-install",
+    "integration:./go/startup-budget",
+    "integration:./go/stdout-purity",
+    "integration:./go/tutor-skill-routing",
+    "reachability:./go/cli-reachability",
+    "unit:./go/test"
+  ],
+  "findings": [],
+  "attested_at": "2026-09-09T13:27:37Z",
+  "path": ".pose/review-attestations/rva-566fee7941ed6c5b.json"
+}

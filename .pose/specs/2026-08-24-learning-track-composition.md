@@ -1,8 +1,8 @@
 ---
 slug: learning-track-composition
-status: in-progress
+status: done
 created_at: 2026-08-24
-completed_at:
+completed_at: 2026-09-09
 supersedes:
 depends_on: curriculum-graph-path-recommendation, session-orchestration-disclosure, mastery-review-scheduling, session-recovery-version-pinning, session-tree-progression, catalog-publication-integrity
 priority: 65
@@ -219,7 +219,7 @@ cobrindo os três valores de `coverage` e uma trilha autorada completa.
 
 ### Execution log
 - 2026-09-09: implementados conjuntos, cobertura, composição por dependências, membership e lifecycle fixado de trilhas. Contratos MCP legados mantidos; CLI e skill atualizadas.
-- 2026-09-09: matriz com 21 checks passou; revisão acrescentou proteção de custo e ciclo misto e testes de conclusão explícita. Revalidar candidato final antes de closeout.
+- 2026-09-09: matriz com 21 checks passou; revisão acrescentou proteção de custo e ciclo misto e testes de conclusão explícita. Candidato ae0f7ae validado: 21/21 checks, sem skips. Revisão e closeout aprovados; consultar report:.pose/reports/2026-09-09-review-learning-track-composition.md.
 
 ### Results summary
 Busca, recomendação e sessões sobre trilhas implementadas; evidência final registrada no relatório de revisão.

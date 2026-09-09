@@ -667,7 +667,7 @@
       ],
       "path": ".pose/specs/2026-09-07-concept-content-authoring.md",
       "priority": 40,
-      "status": "in-progress"
+      "status": "done"
     },
     "curriculum-graph-path-recommendation": {
       "depends_on": [
@@ -809,7 +809,7 @@
       ],
       "path": ".pose/specs/2026-08-24-learning-track-composition.md",
       "priority": 65,
-      "status": "draft"
+      "status": "in-progress"
     },
     "local-event-store": {
       "depends_on": [

@@ -7,7 +7,7 @@ func TestRecommendPrioritizesCompetencyMatchOverThemeMatch(t *testing.T) {
 		{ID: "theme-only", ThemeIDs: []string{"slices"}},
 		{ID: "competency-match", PrimaryCompetency: []string{"slice-filter"}},
 	}
-	objective := Objective{CompetencyID: "slice-filter", ThemeID: "slices"}
+	objective := Objective{CompetencyIDs: []string{"slice-filter"}, ThemeIDs: []string{"slices"}}
 	got := Recommend(objective, candidates, nil, nil)
 	if len(got) != 2 || got[0].ChallengeID != "competency-match" {
 		t.Fatalf("expected competency-match first, got %+v", got)
@@ -70,7 +70,7 @@ func TestRecommendIsStableAcrossRepeatedCalls(t *testing.T) {
 		{ID: "x", PrimaryCompetency: []string{"comp-a"}, EstimatedMinutes: 20},
 		{ID: "y", PrimaryCompetency: []string{"comp-a"}, EstimatedMinutes: 10},
 	}
-	objective := Objective{CompetencyID: "comp-a", TimeBudgetMinutes: 15}
+	objective := Objective{CompetencyIDs: []string{"comp-a"}, TimeBudgetMinutes: 15}
 	first := Recommend(objective, candidates, nil, nil)
 	for range 5 {
 		next := Recommend(objective, candidates, nil, nil)
@@ -90,7 +90,7 @@ func TestRecommendPrependsSmallerRemediationBelowThreshold(t *testing.T) {
 		{ID: "big", PrimaryCompetency: []string{"comp-a"}, EstimatedMinutes: 30},
 		{ID: "small", PrimaryCompetency: []string{"comp-a"}, EstimatedMinutes: 10},
 	}
-	objective := Objective{CompetencyID: "comp-a"}
+	objective := Objective{CompetencyIDs: []string{"comp-a"}}
 	mastery := map[string]Mastery{"comp-a": {CompetencyID: "comp-a", BestState: "introduced"}}
 	got := Recommend(objective, candidates, mastery, nil)
 	if len(got) != 3 {
@@ -109,7 +109,7 @@ func TestRecommendSkipsRemediationOnceAutonomousWithoutHelp(t *testing.T) {
 		{ID: "big", PrimaryCompetency: []string{"comp-a"}, EstimatedMinutes: 30},
 		{ID: "small", PrimaryCompetency: []string{"comp-a"}, EstimatedMinutes: 10},
 	}
-	objective := Objective{CompetencyID: "comp-a"}
+	objective := Objective{CompetencyIDs: []string{"comp-a"}}
 	mastery := map[string]Mastery{"comp-a": {CompetencyID: "comp-a", BestState: "demonstrates_without_help"}}
 	got := Recommend(objective, candidates, mastery, nil)
 	if len(got) != 2 {

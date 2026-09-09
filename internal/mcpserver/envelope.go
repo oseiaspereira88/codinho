@@ -4,6 +4,8 @@
 // curriculum and event-store packages.
 package mcpserver
 
+import "github.com/oseiaspereira88/codinho/internal/curriculum"
+
 // ProgressEffect is one of the stable values PROJECT.md §15.3 defines for
 // the envelope's progress_effect field.
 type ProgressEffect string
@@ -45,16 +47,17 @@ type ErrorInfo struct {
 // Envelope is the single response shape every tool in this server returns
 // (PROJECT.md §15.3, §15.4).
 type Envelope struct {
-	Status         string         `json:"status"`
-	RequestID      string         `json:"request_id,omitempty"`
-	SessionID      string         `json:"session_id,omitempty"`
-	ActiveNode     *ActiveNode    `json:"active_node,omitempty"`
-	ProgressEffect ProgressEffect `json:"progress_effect"`
-	Disclosure     *Disclosure    `json:"disclosure,omitempty"`
-	AllowedActions []string       `json:"allowed_actions,omitempty"`
-	Data           any            `json:"data,omitempty"`
-	Warnings       []string       `json:"warnings,omitempty"`
-	Error          *ErrorInfo     `json:"error,omitempty"`
+	Selection      *curriculum.Selection `json:"selection,omitempty"`
+	Status         string                `json:"status"`
+	RequestID      string                `json:"request_id,omitempty"`
+	SessionID      string                `json:"session_id,omitempty"`
+	ActiveNode     *ActiveNode           `json:"active_node,omitempty"`
+	ProgressEffect ProgressEffect        `json:"progress_effect"`
+	Disclosure     *Disclosure           `json:"disclosure,omitempty"`
+	AllowedActions []string              `json:"allowed_actions,omitempty"`
+	Data           any                   `json:"data,omitempty"`
+	Warnings       []string              `json:"warnings,omitempty"`
+	Error          *ErrorInfo            `json:"error,omitempty"`
 }
 
 // okEnvelope builds a successful response.

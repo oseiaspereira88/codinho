@@ -58,7 +58,18 @@ func (v *evaluationEvidenceValidator) Validate(ctx session.EvaluationEvidenceCon
 	var producer eventstore.Event
 	var event evaluationEvidencePayload
 	var producerScope observationEvent
+	trackCursor := 0
 	for _, ev := range v.store.Replay(string(ctx.SessionID)) {
+		if ev.Type == eventstore.EventStepAdvanced {
+			var boundary struct {
+				Cursor int `json:"track_cursor"`
+			}
+			if json.Unmarshal(ev.Payload, &boundary) == nil && boundary.Cursor > trackCursor {
+				trackCursor = boundary.Cursor
+				producer = eventstore.Event{}
+			}
+		}
+
 		var p evaluationEvidencePayload
 		if json.Unmarshal(ev.Payload, &p) != nil || p.StepID != string(ctx.StepID) {
 			continue

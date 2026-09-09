@@ -1,13 +1,13 @@
 ---
 slug: learning-track-composition
-status: draft
+status: in-progress
 created_at: 2026-08-24
 completed_at:
 supersedes:
 depends_on: curriculum-graph-path-recommendation, session-orchestration-disclosure, mastery-review-scheduling, session-recovery-version-pinning, session-tree-progression, catalog-publication-integrity
 priority: 65
 components: curriculum, recommendations, sessions, mcp-server
-delivers:
+delivers: capability:learning-track-composition
 ---
 
 # Spec: learning-track-composition
@@ -100,16 +100,41 @@ escolher.
 - modified: internal/application/recommendation.go
 - modified: internal/application/catalog.go
 - modified: internal/cli/catalog.go
-- modified: internal/curriculum/graph.go
 - modified: internal/mcpserver/catalog_tools.go
 - modified: internal/mcpserver/recommendation_tools.go
-- modified: internal/learning/session.go
-- modified: schemas/catalog.schema.json
-- modified: internal/mcpserver/recommendation_contract_test.go
+- modified: schemas/pack.schema.json
 - modified: .agents/skills/codinho/SKILL.md
 
+- created: internal/curriculum/selection.go
+- created: internal/curriculum/tracks.go
+- created: internal/curriculum/selection_test.go
+- created: internal/session/tracks.go
+- created: internal/session/tracks_test.go
+- created: internal/mcpserver/selection.go
+- created: internal/mcpserver/track_contract_test.go
+- created: cmd/codinho/track_integration_test.go
+- modified: internal/curriculum/index.go
+- modified: internal/curriculum/validator.go
+- modified: internal/session/recovery.go
+- modified: internal/session/progression.go
+- modified: internal/mcpserver/errors.go
+- modified: internal/curriculum/search_test.go
+- modified: internal/recommendation/service_test.go
+- modified: internal/application/recommendation_test.go
+- modified: docs/content-authoring.md
+- modified: .pose/indexes/validation-matrix.json
+- modified: .pose/adr/2026-08-23-multi-subject-selection-and-path-composition.md
+
+- modified: internal/mcpserver/envelope.go
+
+- modified: internal/curriculum/search_bench_test.go
+- modified: internal/mcpserver/contract_test.go
+
+- modified: internal/application/evaluation_evidence.go
+- modified: internal/application/evaluation_evidence_test.go
+
 ### Delivery targets
-Nenhum novo; amplia o contrato MCP V1 já entregue por `mcp-stdio-foundation`.
+- capability:learning-track-composition module:cmd/codinho profile:composed-capability entrypoint:cmd/codinho/main.go
 
 ### API/contract changes
 - `session_start` ganha `track_id` como alternativa a `challenge_id`.
@@ -129,30 +154,37 @@ modelo atual contém apenas ID/Title/Themes e não codifica a sequência.
 ## 4. Tasks
 
 ### Planning
-- [ ] Mapear e migrar todos os consumidores singulares, incluindo
+- [x] Mapear e migrar todos os consumidores singulares, incluindo
       internal/cli/catalog.go, preservando o contrato MCP externo.
 
 ### Implementation
-- [ ] Trocar `Query.Theme`/`Query.Competency` por `ThemeIDs`/`CompetencyIDs`.
-- [ ] Trocar `Objective.ThemeID`/`CompetencyID` por versões em conjunto.
-- [ ] Implementar cálculo de cobertura (`total`/`partial`/`none`).
-- [ ] Implementar composição de trilha ad hoc a partir do grafo de
+- [x] Trocar `Query.Theme`/`Query.Competency` por `ThemeIDs`/`CompetencyIDs`.
+- [x] Trocar `Objective.ThemeID`/`CompetencyID` por versões em conjunto.
+- [x] Implementar cálculo de cobertura (`total`/`partial`/`none`).
+- [x] Implementar composição de trilha ad hoc a partir do grafo de
       precedência quando a cobertura for `partial`.
-- [ ] Implementar lifecycle de sessão sobre `track_id` pré-existente.
-- [ ] Atualizar contrato MCP (`session_start`, `catalog_search`,
+- [x] Implementar lifecycle de sessão sobre `track_id` pré-existente.
+- [x] Atualizar contrato MCP (`session_start`, `catalog_search`,
       `learning_path_recommend`) e seus golden tests.
 
 ### Validation
-- [ ] Teste de cobertura `total` (um item cobre todos os assuntos pedidos).
-- [ ] Teste de cobertura `partial` com composição de trilha correta pelo
+- [x] Teste de cobertura `total` (um item cobre todos os assuntos pedidos).
+- [x] Teste de cobertura `partial` com composição de trilha correta pelo
       grafo de precedência.
-- [ ] Teste de cobertura `none`.
-- [ ] Teste de sessão completa sobre `track_id` percorrendo todos os
+- [x] Teste de cobertura `none`.
+- [x] Teste de sessão completa sobre `track_id` percorrendo todos os
       desafios em ordem.
-- [ ] Suíte completa de internal/curriculum, internal/recommendation,
+- [x] Suíte completa de internal/curriculum, internal/recommendation,
       internal/session, internal/mcpserver sem regressão.
 
 ## 5. Decisions
+
+### Decision 2
+- Date: 2026-09-09
+- Decision: extensão do ADR existente com membership, identidade de composição e replay fixado.
+- Rationale: consumir knowledge:adr-multi-subject-selection-and-path-composition-review e knowledge:planning-audit-2026-09; impedir recomposição após aceite e preservar o MCP legado.
+- Consequences: conjuntos limitados, seletores exclusivos e cobertura ausente explícita.
+
 
 ### Decision 1
 - Date: 2026-08-23
@@ -172,6 +204,13 @@ modelo atual contém apenas ID/Title/Themes e não codifica a sequência.
 Corpus de catálogo de teste com temas sobrepostos e não sobrepostos,
 cobrindo os três valores de `coverage` e uma trilha autorada completa.
 
+| Cenário obrigatório | Comando | Evidência |
+|---|---|---|
+| Conjuntos e composição | go test ./internal/curriculum ./internal/recommendation ./internal/application | total/partial/none, ausentes, ordem, limites, determinismo |
+| Sessão e replay | go test ./internal/session | trilha inteira, restart, packs alterados, retry e cursor |
+| Contrato e composição real | go test ./internal/mcpserver ./cmd/codinho | seletores conflitantes, campos antigos, stdio real |
+| Regressão e segurança | pose validate --strict --json .pose/results/delivery-validation.json | race, vet, build, scanner, contratos e integração passam |
+
 ### Deterministic checks
 - Test: go test ./internal/curriculum/... ./internal/recommendation/... ./internal/session/... ./internal/mcpserver/...
 - Lint: gofmt -l internal/curriculum internal/recommendation internal/session internal/mcpserver
@@ -179,29 +218,37 @@ cobrindo os três valores de `coverage` e uma trilha autorada completa.
 - Build: go build ./...
 
 ### Execution log
-- Pendente.
+- 2026-09-09: implementados conjuntos, cobertura, composição por dependências, membership e lifecycle fixado de trilhas. Contratos MCP legados mantidos; CLI e skill atualizadas.
+- 2026-09-09: matriz com 21 checks passou; revisão acrescentou proteção de custo e ciclo misto e testes de conclusão explícita. Revalidar candidato final antes de closeout.
 
 ### Results summary
-Nenhuma implementação ainda; spec criada para sequenciar o trabalho.
+Busca, recomendação e sessões sobre trilhas implementadas; evidência final registrada no relatório de revisão.
 
 ### Requirement trace
-- Mapear R1–R9 a testes de cobertura, composição, compatibilidade e retomada.
+- R1 [satisfied] test:TestSelectionCoverageAndComposition report:internal/recommendation/service_test.go
+- R2 [satisfied] test:TestSelectionCoverageAndComposition test:TestContractTrackSelection
+- R3 [satisfied] test:TestTrackExplicitCompletionTraversesAllChallenges test:TestTrackCompositionOverRealStdio
+- R4 [satisfied] test:TestSelectionCoverageAndComposition test:TestCompositionBoundsAndMixedDependencyCycle
+- R5 [satisfied] test:TestContractTrackSelection report:.agents/skills/codinho/SKILL.md
+- R6 [satisfied] test:TestTrackSessionReplayAndBoundaries test:TestTrackCompositionOverRealStdio
+- R7 [satisfied] test:TestTrackSelectorsAndComposition test:TestTrackMembershipValidation test:TestSelectionBounds
+- R8 [satisfied] test:TestSelectionCoverageAndComposition test:TestContractTrackSelection
+- R9 [satisfied] test:TestContractTrackSelection report:internal/cli/catalog.go report:.agents/skills/codinho/SKILL.md
 
 ### Known gaps
-- A auditoria de 2026-09-07 identificou lacunas de membership, persistência,
-  cobertura impossível e consumidor CLI; R6–R9 tornam esses casos explícitos.
+Playtest humano nos dois hosts continua no aceite V1. A composição inclui todos os candidatos e pré-requisitos, sem prometer caminho mínimo ou qualidade pedagógica autorreferendada.
 
 ## 7. Final Report
 
 ### Delivered scope
-Nenhum; spec draft aguardando implementação.
+Conjuntos de assuntos com cobertura explícita; composição determinística; trilhas autoradas e compostas com versões/cursor fixados; compatibilidade MCP, CLI e skill; isolamento de evidências entre desafios.
 
 ### Files and modules changed
-- Planejados nas áreas afetadas acima.
+- Artefatos reconciliados na seção Technical Plan; inclui persistência/replay, testes de contrato e integração stdio.
 
 ### Validation executed
 - Command: pose lint-spec learning-track-composition --ready-check
-- Result: registrar após validação.
+- Result: passed; usar relatório de revisão e validação estruturada para o candidato final.
 
 ### Residual risks
 - Nenhum adicional além do já descrito em Technical risks.

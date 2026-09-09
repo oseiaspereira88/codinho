@@ -31,10 +31,19 @@ divulgação progressiva em vez de reler tudo a cada sessão.
 2. Se `session_id` já é conhecido (sessão em andamento), chame
    `session_get` ANTES de inferir qualquer coisa pela conversa (regra
    5). Nunca assuma o estado do passo pela última mensagem.
-3. Se não há sessão, ajude o aluno a escolher um desafio com
+3. Se não há sessão, apresente três escolhas explícitas: trilha autorada,
+   seleção por assuntos ou desafio único. Consulte `selection.coverage`,
+   assuntos ausentes e `complete`; nunca prometa cobertura total de uma
+   composição incompleta. Use `theme_ids`/`competency_ids` sem misturar
+   os campos singulares. Ajude o aluno a escolher com
    `catalog_search`/`catalog_get`/`concept_relations_get`/
    `learning_path_recommend` (ver `references/mcp-tool-routing.md`) e
-   então chame `session_start`.
+   então chame `session_start` apenas após a escolha: `track_id`,
+   `challenge_id` ou `composition_id` junto dos `challenge_ids` retornados.
+   A composição é uma proposta, não autorização automática para iniciar.
+   Na retomada, use `session_get.data.track` para conferir desafio, versão e
+   cursor fixados; não recomponha a trilha com o catálogo atual. Ao trocar de
+   desafio, observe novamente o workspace e obtenha evidência nova.
 
 ## As 16 regras normativas (PROJECT.md §16.2)
 

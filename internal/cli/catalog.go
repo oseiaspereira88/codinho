@@ -5,6 +5,7 @@ import (
 	"io"
 	"path/filepath"
 	"sort"
+	"strings"
 
 	"github.com/oseiaspereira88/codinho/internal/config"
 	"github.com/oseiaspereira88/codinho/internal/curriculum"
@@ -209,6 +210,8 @@ func runCatalogList(args []string, stdout, stderr io.Writer) int {
 	fs := newFlagSet("catalog list", stderr)
 	kind := fs.String("kind", "", "item kind: theme, concept, competency, track, challenge (default challenge)")
 	theme := fs.String("theme", "", "restrict to items under this theme")
+	themes := fs.String("themes", "", "comma-separated theme IDs; exclusive with --theme")
+	competencies := fs.String("competencies", "", "comma-separated competency IDs")
 	jsonOut := fs.Bool("json", false, "print result as JSON")
 	if err := fs.Parse(args); err != nil {
 		return exitUsage
@@ -225,7 +228,19 @@ func runCatalogList(args []string, stdout, stderr io.Writer) int {
 		return exitError
 	}
 
-	result, err := catalog.Search(curriculum.Query{Kind: curriculum.ItemKind(*kind), Theme: *theme})
+	if *theme != "" && *themes != "" {
+		fmt.Fprintln(stderr, "codinho: choose --theme or --themes")
+		return exitUsage
+	}
+	themeIDs := optionalTheme(*theme)
+	if *themes != "" {
+		themeIDs = strings.Split(*themes, ",")
+	}
+	var competencyIDs []string
+	if *competencies != "" {
+		competencyIDs = strings.Split(*competencies, ",")
+	}
+	result, err := catalog.Search(curriculum.Query{Kind: curriculum.ItemKind(*kind), ThemeIDs: themeIDs, CompetencyIDs: competencyIDs})
 	if err != nil {
 		fmt.Fprintf(stderr, "codinho: catalog list: %v\n", err)
 		return exitError
@@ -322,4 +337,11 @@ func printChallenge(stdout io.Writer, ch curriculum.ChallengeAuthoring) {
 		sort.Strings(paths)
 		fmt.Fprintf(stdout, "fixture: %v\n", paths)
 	}
+}
+
+func optionalTheme(id string) []string {
+	if id == "" {
+		return nil
+	}
+	return []string{id}
 }

@@ -202,3 +202,32 @@ executadas em sequência.
 Uma sessão que conclua o próprio nó numa janela ampla cobre sua subárvore
 sem fabricar conclusões individuais. Consulte [compatibilidade](compatibility.md#navegação-da-árvore-da-sessão)
 para cursor, agrupamento e retomada.
+
+## Trilhas e seleção por assuntos
+
+Declare `challenge_ids` em uma trilha para permitir seu início por `track_id`.
+Use de 1 a 100 IDs únicos, existentes, em ordem de dependências. Inclua primeiro
+os desafios exigidos por `prerequisites`, `requires` e `recommended_before`;
+nessas relações, a origem depende do destino. Trilhas legadas sem membership
+continuam consultáveis, mas não podem iniciar uma sessão.
+
+Buscas aceitam `theme_ids` e `competency_ids`, até 16 IDs por conjunto.
+Os campos singulares MCP continuam disponíveis; não combine formas singular
+e plural do mesmo filtro. `catalog_search` mantém `data` como lista e inclui
+`selection` no envelope. `learning_path_recommend` retorna `recommendations`,
+`selection` e `path` em `data`. A cobertura é `total` quando um candidato cobre
+todos os assuntos, `partial` quando há alguma cobertura, e `none` sem cobertura.
+`complete` informa se a união cobre tudo; consulte sempre os IDs ausentes.
+
+A composição inclui candidatos e pré-requisitos em ordem determinística.
+Aceite explicitamente `composition_id` com seus `challenge_ids` em
+`session_start`. Um catálogo alterado invalida a proposta anterior ao início;
+uma sessão iniciada fixa toda a sequência e as versões até o fim. `session_get`
+mostra em `data.track` o cursor (base zero), total e desafio ativo. Cada
+`step_advance` respeita a conclusão ou override explícito e troca para o próximo
+desafio ao esgotar a árvore atual. Evidências anteriores à troca não avaliam o
+novo desafio. `session_finish` mantém seu significado de encerramento explícito.
+
+Na CLI, use `catalog list --themes alpha,beta --competencies comp-a --json`
+para consultar conjuntos e cobertura. `--theme` permanece compatível e é
+exclusivo com `--themes`.

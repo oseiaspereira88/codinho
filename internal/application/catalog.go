@@ -30,9 +30,9 @@ func NewCatalogService(catalog *curriculum.Catalog) *CatalogService {
 // remain the Kind/Theme subset). An empty field is not applied.
 type SearchQuery struct {
 	Kind          curriculum.ItemKind
-	Theme         string
+	ThemeIDs      []string
 	Text          string
-	Competency    string
+	CompetencyIDs []string
 	Difficulty    string
 	ChallengeKind string
 	MaxMinutes    int
@@ -45,20 +45,21 @@ type SearchQuery struct {
 type SearchResult struct {
 	Items     []curriculum.Item
 	Truncated bool
+	Selection curriculum.Selection
 }
 
 // Search returns every sanitized item matching q. An empty Kind defaults to
 // challenges, the catalog's primary browsing surface (requirement R3).
 func (s *CatalogService) Search(q SearchQuery) (SearchResult, error) {
 	result, err := s.catalog.Search(curriculum.Query{
-		Kind: q.Kind, Theme: q.Theme, Text: q.Text, Competency: q.Competency,
+		Kind: q.Kind, ThemeIDs: q.ThemeIDs, Text: q.Text, CompetencyIDs: q.CompetencyIDs,
 		Difficulty: q.Difficulty, ChallengeKind: q.ChallengeKind, MaxMinutes: q.MaxMinutes,
 		Prerequisite: q.Prerequisite,
 	})
 	if err != nil {
 		return SearchResult{}, err
 	}
-	return SearchResult{Items: result.Items, Truncated: result.Truncated}, nil
+	return SearchResult{Items: result.Items, Truncated: result.Truncated, Selection: result.Selection}, nil
 }
 
 // Get returns the sanitized item with id, or ErrNotFound.

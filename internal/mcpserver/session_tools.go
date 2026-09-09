@@ -10,14 +10,17 @@ import (
 )
 
 type sessionStartArgs struct {
-	ChallengeID      string `json:"challenge_id" jsonschema:"ID of the challenge to fix for this session"`
-	Mode             string `json:"mode,omitempty" jsonschema:"pedagogical mode: teaching, practice, review, debug, exploration or interview (default practice)"`
-	Depth            string `json:"depth,omitempty" jsonschema:"initial depth: challenge, layer, macro, meso or micro (default micro)"`
-	Help             string `json:"help,omitempty" jsonschema:"help policy: free, progressive, limited, no_code, no_hints or only_after_attempt (default progressive)"`
-	Evaluation       string `json:"evaluation,omitempty" jsonschema:"evaluation policy: on_demand, on_step_complete or only_at_end (default on_demand)"`
-	DisclosureMax    int    `json:"disclosure_max,omitempty" jsonschema:"assistance ladder ceiling, 0-6 (default 1)"`
-	TimeLimitSeconds int    `json:"time_limit_seconds,omitempty" jsonschema:"optional session duration in seconds, off by default; interview-mode uses this for its optional timer"`
-	RequestID        string `json:"request_id,omitempty" jsonschema:"idempotency key; retrying with the same value returns the original session"`
+	TrackID          string   `json:"track_id,omitempty" jsonschema:"authored track ID, exclusive with challenge_id and composition_id"`
+	CompositionID    string   `json:"composition_id,omitempty" jsonschema:"composition ID offered by learning_path_recommend, requires challenge_ids"`
+	ChallengeIDs     []string `json:"challenge_ids,omitempty" jsonschema:"ordered IDs accepted with composition_id"`
+	ChallengeID      string   `json:"challenge_id,omitempty" jsonschema:"ID of the challenge to fix for this session"`
+	Mode             string   `json:"mode,omitempty" jsonschema:"pedagogical mode: teaching, practice, review, debug, exploration or interview (default practice)"`
+	Depth            string   `json:"depth,omitempty" jsonschema:"initial depth: challenge, layer, macro, meso or micro (default micro)"`
+	Help             string   `json:"help,omitempty" jsonschema:"help policy: free, progressive, limited, no_code, no_hints or only_after_attempt (default progressive)"`
+	Evaluation       string   `json:"evaluation,omitempty" jsonschema:"evaluation policy: on_demand, on_step_complete or only_at_end (default on_demand)"`
+	DisclosureMax    int      `json:"disclosure_max,omitempty" jsonschema:"assistance ladder ceiling, 0-6 (default 1)"`
+	TimeLimitSeconds int      `json:"time_limit_seconds,omitempty" jsonschema:"optional session duration in seconds, off by default; interview-mode uses this for its optional timer"`
+	RequestID        string   `json:"request_id,omitempty" jsonschema:"idempotency key; retrying with the same value returns the original session"`
 }
 
 type sessionGetArgs struct {
@@ -80,12 +83,12 @@ func toDisclosure(d application.Disclosure) *Disclosure {
 func registerSessionTools(server *mcp.Server, sessions *application.SessionService) {
 	mcp.AddTool(server, &mcp.Tool{
 		Name:        "session_start",
-		Description: "Fix a challenge, mode and policies, and activate the session's first instructional step.",
+		Description: "Start an explicitly chosen challenge, authored track or accepted composition; pin its content and activate only the first instructional step.",
 		Annotations: &mcp.ToolAnnotations{ReadOnlyHint: false, IdempotentHint: true},
 	}, func(_ context.Context, req *mcp.CallToolRequest, args sessionStartArgs) (*mcp.CallToolResult, Envelope, error) {
 		requestID := requestIDFor(req)
-		if args.ChallengeID == "" {
-			return errorResult(), errorEnvelope(requestID, ErrCodeInvalidInput, "challenge_id is required", false, nil), nil
+		if args.ChallengeID == "" && args.TrackID == "" && args.CompositionID == "" {
+			return errorResult(), errorEnvelope(requestID, ErrCodeInvalidInput, "challenge_id, track_id or composition_id is required", false, nil), nil
 		}
 		var timeLimit *time.Duration
 		if args.TimeLimitSeconds > 0 {
@@ -93,6 +96,7 @@ func registerSessionTools(server *mcp.Server, sessions *application.SessionServi
 			timeLimit = &d
 		}
 		result, err := sessions.Start(application.StartInput{
+			TrackID: args.TrackID, CompositionID: args.CompositionID, ChallengeIDs: args.ChallengeIDs,
 			ChallengeID:   args.ChallengeID,
 			Mode:          learning.PedagogicalMode(args.Mode),
 			Depth:         learning.Depth(args.Depth),
@@ -107,6 +111,7 @@ func registerSessionTools(server *mcp.Server, sessions *application.SessionServi
 			return errorResult(), errorEnvelope(requestID, code, msg, retryable, nil), nil
 		}
 		env := okEnvelope(requestID, ProgressEffectSessionChanged, map[string]any{
+			"track":     result.Track,
 			"objective": result.Objective,
 			"revision":  result.Revision,
 		})
@@ -132,6 +137,7 @@ func registerSessionTools(server *mcp.Server, sessions *application.SessionServi
 			return errorResult(), errorEnvelope(requestID, code, msg, retryable, nil), nil
 		}
 		env := okEnvelope(requestID, ProgressEffectNone, map[string]any{
+			"track":    result.Track,
 			"state":    string(result.State),
 			"revision": result.Revision,
 		})

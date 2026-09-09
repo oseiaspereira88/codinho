@@ -46,6 +46,8 @@ var ErrNoActiveStep = errors.New("session: no active instructional step")
 var ErrNoOpenDetour = errors.New("session: no open detour for this session")
 
 type record struct {
+	track       *trackSnapshot
+	trackCursor int
 	session     *learning.LearningSession
 	challengeID string
 	pinned      curriculum.ChallengeAuthoring
@@ -145,6 +147,9 @@ func (s *Service) challenge(id string) (curriculum.ChallengeAuthoring, error) {
 
 // StartInput is what a caller supplies to Start (requirement R1).
 type StartInput struct {
+	TrackID       string   `json:",omitempty"`
+	CompositionID string   `json:",omitempty"`
+	ChallengeIDs  []string `json:",omitempty"`
 	ChallengeID   string
 	Mode          learning.PedagogicalMode
 	Depth         learning.Depth
@@ -160,6 +165,7 @@ type StartInput struct {
 
 // StartResult is what Start returns on success.
 type StartResult struct {
+	Track      *TrackStatus
 	SessionID  learning.SessionID
 	ActiveStep learning.StepID
 	Kind       string
@@ -184,11 +190,11 @@ func (s *Service) Start(in StartInput) (StartResult, error) {
 			if s.startInputs[in.RequestID] != inputIdentity(in) {
 				return StartResult{}, eventstore.ErrRevisionConflict
 			}
-			return cached, nil
+			return cloneStartResult(cached), nil
 		}
 	}
 
-	challenge, err := s.challenge(in.ChallengeID)
+	challenge, track, err := s.resolveStart(in)
 	if err != nil {
 		return StartResult{}, err
 	}
@@ -226,6 +232,13 @@ func (s *Service) Start(in StartInput) (StartResult, error) {
 		return StartResult{}, err
 	}
 
+	if track != nil {
+		for _, ch := range track.Challenges {
+			if _, ok := deriveWindow(ch, depth); !ok {
+				return StartResult{}, ErrNoWindowAtDepth
+			}
+		}
+	}
 	window, ok := deriveWindow(challenge, depth)
 	if !ok {
 		return StartResult{}, ErrNoWindowAtDepth
@@ -237,7 +250,7 @@ func (s *Service) Start(in StartInput) (StartResult, error) {
 	// Append first: the durable record of intent to start must exist
 	// before the in-memory session is exposed to callers (local-event-store
 	// R1/R3 ordering contract).
-	payload := startedPayload{RecoveryVersion: 1, NavigationVersion: 1, ChallengeID: in.ChallengeID, Mode: string(mode), Input: in, Policy: policy, Challenge: challenge, Digest: contentDigest(challenge)}
+	payload := startedPayload{RecoveryVersion: 1, NavigationVersion: 1, Track: track, ChallengeID: challenge.ID, Mode: string(mode), Input: in, Policy: policy, Challenge: challenge, Digest: contentDigest(challenge)}
 	ev, err := s.store.Append(string(sessionID), 0, in.RequestID, eventstore.EventSessionStarted, payload)
 	if err != nil {
 		return StartResult{}, err
@@ -258,9 +271,10 @@ func (s *Service) Start(in StartInput) (StartResult, error) {
 		return StartResult{}, err
 	}
 
-	s.sessions[sessionID] = &record{session: domainSession, challengeID: in.ChallengeID, pinned: challenge, depth: depth, cursor: step.ID, progress: map[string]savedProgress{}, covered: map[string]bool{}, choices: map[string]string{}}
+	s.sessions[sessionID] = &record{session: domainSession, track: track, challengeID: challenge.ID, pinned: challenge, depth: depth, cursor: step.ID, progress: map[string]savedProgress{}, covered: map[string]bool{}, choices: map[string]string{}}
 
 	result := StartResult{
+		Track:      s.sessions[sessionID].trackStatus(),
 		SessionID:  sessionID,
 		ActiveStep: progress.StepID,
 		Kind:       step.Kind,
@@ -269,7 +283,7 @@ func (s *Service) Start(in StartInput) (StartResult, error) {
 		Disclosure: disclosureFor(policy.Disclosure, progress),
 	}
 	if in.RequestID != "" {
-		s.startResults[in.RequestID] = result
+		s.startResults[in.RequestID] = cloneStartResult(result)
 		s.startInputs[in.RequestID] = inputIdentity(in)
 		s.startIDs[in.RequestID] = sessionID
 	}
@@ -278,6 +292,7 @@ func (s *Service) Start(in StartInput) (StartResult, error) {
 
 // GetResult is what Get returns (requirement R2).
 type GetResult struct {
+	Track      *TrackStatus
 	SessionID  learning.SessionID
 	State      learning.SessionState
 	ActiveStep learning.StepID
@@ -306,6 +321,7 @@ func (s *Service) getLocked(id learning.SessionID) (GetResult, error) {
 	}
 	node, _ := findStep(rec.pinned, string(stepID))
 	return GetResult{
+		Track:      rec.trackStatus(),
 		SessionID:  id,
 		State:      rec.session.State,
 		ActiveStep: stepID,
@@ -1164,7 +1180,7 @@ func (s *Service) StepAdvance(id learning.SessionID, override bool, expectedRevi
 		}
 	}
 	ev, fresh, err := s.mutate(id, expectedRevision, requestID, eventstore.EventStepAdvanced, map[string]any{
-		"navigation_version": 1, "from": string(active.StepID), "to": next.node.ID, "override": override, "choice_parent": choiceParent, "choice_id": selected, "done": next.node.ID == "",
+		"track_cursor": projected.trackCursor, "navigation_version": 1, "from": string(active.StepID), "to": next.node.ID, "override": override, "choice_parent": choiceParent, "choice_id": selected, "done": next.node.ID == "",
 	})
 	if err != nil {
 		return AdvanceResult{}, err

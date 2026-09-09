@@ -45,8 +45,8 @@ func prerequisitesMet(c Candidate, completed map[string]bool) bool {
 }
 
 func matchesObjective(c Candidate, objective Objective) (competencyMatch, themeMatch bool) {
-	competencyMatch = objective.CompetencyID != "" && slices.Contains(c.PrimaryCompetency, objective.CompetencyID)
-	themeMatch = objective.ThemeID != "" && slices.Contains(c.ThemeIDs, objective.ThemeID)
+	competencyMatch = hasAny(c.PrimaryCompetency, objective.CompetencyIDs)
+	themeMatch = hasAny(c.ThemeIDs, objective.ThemeIDs)
 	return
 }
 
@@ -101,10 +101,10 @@ func sortRecommendations(recs []Recommendation) {
 // remediationThreshold (Decision 4, requirement R6), then returns to the
 // original top recommendation right after it.
 func withRemediation(ranked []Recommendation, eligible []Candidate, objective Objective, mastery map[string]Mastery, completed map[string]bool) []Recommendation {
-	if len(ranked) == 0 || objective.CompetencyID == "" {
+	if len(ranked) == 0 || len(objective.CompetencyIDs) != 1 {
 		return ranked
 	}
-	m := mastery[objective.CompetencyID]
+	m := mastery[objective.CompetencyIDs[0]]
 	if stateRank[m.BestState] >= stateRank[remediationThreshold] {
 		return ranked
 	}
@@ -120,7 +120,7 @@ func withRemediation(ranked []Recommendation, eligible []Candidate, objective Ob
 
 	var smaller *Candidate
 	for _, c := range eligible {
-		if c.ID == top.ChallengeID || !slices.Contains(c.PrimaryCompetency, objective.CompetencyID) {
+		if c.ID == top.ChallengeID || !slices.Contains(c.PrimaryCompetency, objective.CompetencyIDs[0]) {
 			continue
 		}
 		if c.EstimatedMinutes == 0 || c.EstimatedMinutes >= topCandidate.EstimatedMinutes {
@@ -144,4 +144,13 @@ func withRemediation(ranked []Recommendation, eligible []Candidate, objective Ob
 	out = append(out, remediation)
 	out = append(out, ranked...)
 	return out
+}
+
+func hasAny(a, b []string) bool {
+	for _, id := range b {
+		if slices.Contains(a, id) {
+			return true
+		}
+	}
+	return false
 }

@@ -20,8 +20,8 @@ type Candidate struct {
 
 // Objective is what the caller wants to work toward (requirement R4).
 type Objective struct {
-	CompetencyID      string
-	ThemeID           string
+	CompetencyIDs     []string
+	ThemeIDs          []string
 	TimeBudgetMinutes int // 0 = no budget declared
 }
 

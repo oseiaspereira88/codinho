@@ -156,6 +156,7 @@ func Validate(packs []Pack) []Diagnostic {
 	diags = append(diags, detectPrerequisiteCycles(prereqs)...)
 	diags = append(diags, validateRelations(packs, themes, concepts, competencies, challenges)...)
 	diags = append(diags, validateConceptContent(packs, concepts)...)
+	diags = append(diags, validateTracks(packs)...)
 
 	return diags
 }

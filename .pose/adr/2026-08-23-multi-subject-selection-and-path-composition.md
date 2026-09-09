@@ -91,3 +91,39 @@ sequências pedagogicamente ruins em playtest real (assuntos numa ordem que
 não respeita pré-requisitos percebidos), ou se o número de assuntos
 simultâneos pedidos em uso real ultrapassar o que uma trilha de tamanho
 razoável consegue cobrir sem virar maratona.
+
+## Refinement — 2026-09-09
+
+Track.challenge_ids is an optional ordered list (1–100 unique existing challenges
+when present). Legacy tracks without membership remain browsable but cannot
+start sessions. Authored order must respect challenge prerequisites and
+requires/recommended_before edges: From depends on To, following the existing
+graph contract. Composed paths include prerequisite challenges and use ID ties.
+
+Queries allow up to 16 unique nonblank IDs per set, each at most 200 bytes.
+Unknown query subjects are reported as missing; unknown session targets fail.
+Coverage is total when one result covers all subjects, partial when there is
+some coverage, and none when nothing matches. Union completeness is reported
+separately; incomplete paths never claim total coverage. Empty explicit sets
+and conflicting legacy/plural fields are rejected at the MCP boundary.
+
+Legacy catalog_search keeps its array data shape; selection metadata is additive
+on the envelope. Recommendation keeps its recommendations array and adds path
+metadata. Three modes are always advertised. Singular external fields translate
+to sets; internal Query and Objective use only sets.
+
+A composition_id is a versioned digest of the ordered challenge snapshots,
+accepted together with challenge_ids. It detects catalog changes before
+acceptance; it is not an authorization token. Session start accepts exactly one
+of challenge_id, track_id, or composition_id with challenge_ids. Only existing
+catalog content and dependency-valid paths can start.
+
+The start event pins the entire selected sequence with a version and digest.
+Each challenge remains separate: advancement switches the active challenge and
+resets its node progress/disclosure while preserving session policy. Step IDs
+are scoped to the active challenge. The explicit step_advance event records the
+path cursor; replay validates it against the fixed sequence. Old starts omit
+path state and retain their original single-challenge behavior. No new mastery
+completion event or synthetic merged challenge is introduced.
+
+Review if paths exceed 100 challenges or require cross-challenge branch choice.

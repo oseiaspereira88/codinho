@@ -34,6 +34,8 @@ const (
 // value: those could leak internals (security requirement).
 func mapError(err error) (ErrorCode, string, bool) {
 	switch {
+	case errors.Is(err, curriculum.ErrInvalidSelection):
+		return ErrCodeInvalidInput, "invalid, conflicting, stale or excessive selection", false
 	case errors.Is(err, application.ErrEvaluationEvidenceInvalid):
 		return ErrCodeEvaluationEvidenceInvalid, "evidence is unavailable or does not match this session, step, check or rubric", false
 	case errors.Is(err, application.ErrEvaluationEvidenceStale):

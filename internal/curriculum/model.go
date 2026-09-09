@@ -106,9 +106,10 @@ type CompetencyAuthoring struct {
 // TrackAuthoring is an ordered journey toward a learning goal (PROJECT.md
 // §7.1, §14.6).
 type TrackAuthoring struct {
-	ID     string   `yaml:"id"`
-	Title  string   `yaml:"title"`
-	Themes []string `yaml:"themes"`
+	ChallengeIDs []string `yaml:"challenge_ids,omitempty"`
+	ID           string   `yaml:"id"`
+	Title        string   `yaml:"title"`
+	Themes       []string `yaml:"themes"`
 }
 
 // ChallengeAuthoring mirrors the challenge anatomy of PROJECT.md §14.8.

@@ -11,14 +11,16 @@ import (
 // catalogSearchArgs is catalog_search's strict input schema (requirement
 // R3, R5, R6).
 type catalogSearchArgs struct {
-	Kind          string `json:"kind,omitempty" jsonschema:"item kind to list: theme, concept, competency, track or challenge (default challenge)"`
-	Theme         string `json:"theme,omitempty" jsonschema:"optional theme ID to narrow results"`
-	Text          string `json:"text,omitempty" jsonschema:"free text matched against title (and brief, for challenges); bounded length"`
-	Competency    string `json:"competency,omitempty" jsonschema:"challenge-only: matches a primary or secondary competency ID"`
-	Difficulty    string `json:"difficulty,omitempty" jsonschema:"challenge-only: foundational, intermediate, advanced, ..."`
-	ChallengeKind string `json:"challenge_kind,omitempty" jsonschema:"challenge-only: the authored kind (atomic, ...)"`
-	MaxMinutes    int    `json:"max_minutes,omitempty" jsonschema:"challenge-only: exclude challenges estimated longer than this"`
-	Prerequisite  string `json:"prerequisite,omitempty" jsonschema:"challenge-only: matches a challenge that lists this ID as a prerequisite"`
+	ThemeIDs      []string `json:"theme_ids,omitempty" jsonschema:"explicit set of 1 to 16 theme IDs; exclusive with the legacy theme field"`
+	CompetencyIDs []string `json:"competency_ids,omitempty" jsonschema:"explicit set of 1 to 16 competency IDs; exclusive with the legacy competency field"`
+	Kind          string   `json:"kind,omitempty" jsonschema:"item kind to list: theme, concept, competency, track or challenge (default challenge)"`
+	Theme         string   `json:"theme,omitempty" jsonschema:"optional theme ID to narrow results"`
+	Text          string   `json:"text,omitempty" jsonschema:"free text matched against title (and brief, for challenges); bounded length"`
+	Competency    string   `json:"competency,omitempty" jsonschema:"challenge-only: matches a primary or secondary competency ID"`
+	Difficulty    string   `json:"difficulty,omitempty" jsonschema:"challenge-only: foundational, intermediate, advanced, ..."`
+	ChallengeKind string   `json:"challenge_kind,omitempty" jsonschema:"challenge-only: the authored kind (atomic, ...)"`
+	MaxMinutes    int      `json:"max_minutes,omitempty" jsonschema:"challenge-only: exclude challenges estimated longer than this"`
+	Prerequisite  string   `json:"prerequisite,omitempty" jsonschema:"challenge-only: matches a challenge that lists this ID as a prerequisite"`
 }
 
 // catalogGetArgs is catalog_get's strict input schema.
@@ -41,8 +43,17 @@ func registerCatalogTools(server *mcp.Server, catalog *application.CatalogServic
 		Annotations: &mcp.ToolAnnotations{ReadOnlyHint: true},
 	}, func(_ context.Context, req *mcp.CallToolRequest, args catalogSearchArgs) (*mcp.CallToolResult, Envelope, error) {
 		requestID := requestIDFor(req)
+		themes, err := subjectIDs(args.Theme, args.ThemeIDs)
+		if err != nil {
+			return errorResult(), errorEnvelope(requestID, ErrCodeInvalidInput, "invalid or conflicting theme selectors", false, nil), nil
+		}
+		comps, err := subjectIDs(args.Competency, args.CompetencyIDs)
+		if err != nil {
+			return errorResult(), errorEnvelope(requestID, ErrCodeInvalidInput, "invalid or conflicting competency selectors", false, nil), nil
+		}
+
 		result, err := catalog.Search(application.SearchQuery{
-			Kind: curriculum.ItemKind(args.Kind), Theme: args.Theme, Text: args.Text, Competency: args.Competency,
+			Kind: curriculum.ItemKind(args.Kind), ThemeIDs: themes, Text: args.Text, CompetencyIDs: comps,
 			Difficulty: args.Difficulty, ChallengeKind: args.ChallengeKind, MaxMinutes: args.MaxMinutes,
 			Prerequisite: args.Prerequisite,
 		})
@@ -51,6 +62,7 @@ func registerCatalogTools(server *mcp.Server, catalog *application.CatalogServic
 			return errorResult(), errorEnvelope(requestID, code, msg, retryable, nil), nil
 		}
 		env := okEnvelope(requestID, ProgressEffectNone, result.Items)
+		env.Selection = &result.Selection
 		if result.Truncated {
 			env.Warnings = []string{"result truncated: refine the query to see every match"}
 		}

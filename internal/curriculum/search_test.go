@@ -27,7 +27,7 @@ func TestSearchByTextMatchesTitleCaseInsensitively(t *testing.T) {
 
 func TestSearchByDifficultyAndCompetency(t *testing.T) {
 	catalog := loadValidCatalog(t)
-	result, err := catalog.Search(Query{Difficulty: "foundational", Competency: "slice-filter"})
+	result, err := catalog.Search(Query{Difficulty: "foundational", CompetencyIDs: []string{"slice-filter"}})
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}

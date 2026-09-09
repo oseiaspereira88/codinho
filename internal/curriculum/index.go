@@ -51,7 +51,7 @@ func newCatalog(packs []Pack) *Catalog {
 			c.competencies[cp.ID] = cp
 		}
 		for _, tr := range p.Tracks {
-			c.tracks[tr.ID] = tr
+			c.tracks[tr.ID] = cloneTrack(tr)
 		}
 		for _, ch := range p.Challenges {
 			c.challenges[ch.ID] = ch

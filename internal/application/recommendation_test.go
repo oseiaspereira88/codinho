@@ -65,7 +65,7 @@ func TestRecommendationServiceWithoutProgressStillExcludesBlockedChallenge(t *te
 	catalog := newRecommendationTestCatalog(t)
 	svc := NewRecommendationService(catalog, nil)
 
-	got, err := svc.Recommend(RecommendInput{CompetencyID: "comp-a"})
+	got, err := svc.Recommend(RecommendInput{CompetencyIDs: []string{"comp-a"}})
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -128,7 +128,7 @@ func TestRecommendationServiceFoldsInMasteryAndReviewDue(t *testing.T) {
 	}
 
 	svc := NewRecommendationService(catalog, progress)
-	got, err := svc.Recommend(RecommendInput{CompetencyID: "comp-a"})
+	got, err := svc.Recommend(RecommendInput{CompetencyIDs: []string{"comp-a"}})
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}

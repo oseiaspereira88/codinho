@@ -164,6 +164,13 @@ func (r *record) nextNavigation(override bool, selected string) (navigation, *re
 		c.choices[next.parent.ID] = selected
 		next = c.frontier(challengeTree(c.pinned), c.depth)
 	}
+	if next.node.ID == "" && len(next.options) == 0 {
+		var err error
+		next, err = c.nextChallenge()
+		if err != nil {
+			return navigation{}, nil, err
+		}
+	}
 	return next, c, nil
 }
 

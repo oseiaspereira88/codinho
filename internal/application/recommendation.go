@@ -32,8 +32,8 @@ func NewRecommendationService(catalog *curriculum.Catalog, progress *ProgressSer
 // already established for mastery_evidence_record's cited evidence
 // (Decision 5).
 type RecommendInput struct {
-	CompetencyID      string
-	ThemeID           string
+	CompetencyIDs     []string
+	ThemeIDs          []string
 	TimeBudgetMinutes int
 	Completed         []string
 }
@@ -78,7 +78,7 @@ func (r *RecommendationService) Recommend(in RecommendInput) ([]recommendation.R
 		return nil, err
 	}
 
-	objective := recommendation.Objective{CompetencyID: in.CompetencyID, ThemeID: in.ThemeID, TimeBudgetMinutes: in.TimeBudgetMinutes}
+	objective := recommendation.Objective{CompetencyIDs: in.CompetencyIDs, ThemeIDs: in.ThemeIDs, TimeBudgetMinutes: in.TimeBudgetMinutes}
 	return recommendation.Recommend(objective, candidates, masteryByCompetency, completed), nil
 }
 
@@ -116,4 +116,45 @@ func (r *RecommendationService) masteryInputs() (map[string]recommendation.Maste
 		}
 	}
 	return out, nil
+}
+
+// RecommendationSelection preserves ranked candidates and offers an explicit
+// composition whose completeness is separate from single-item coverage.
+type RecommendationSelection struct {
+	Recommendations []recommendation.Recommendation `json:"recommendations"`
+	Selection       curriculum.Selection            `json:"selection"`
+	Path            curriculum.Path                 `json:"path"`
+}
+
+func (r *RecommendationService) RecommendSelection(in RecommendInput) (RecommendationSelection, error) {
+	var err error
+	in.ThemeIDs, err = curriculum.NormalizeSubjects(in.ThemeIDs)
+	if err != nil {
+		return RecommendationSelection{}, err
+	}
+	in.CompetencyIDs, err = curriculum.NormalizeSubjects(in.CompetencyIDs)
+	if err != nil {
+		return RecommendationSelection{}, err
+	}
+	path, selection, err := r.catalog.Compose(in.ThemeIDs, in.CompetencyIDs)
+	if err != nil {
+		return RecommendationSelection{}, err
+	}
+	recs, err := r.Recommend(in)
+	if err != nil {
+		return RecommendationSelection{}, err
+	}
+	if len(in.ThemeIDs)+len(in.CompetencyIDs) > 0 {
+		filtered := make([]recommendation.Recommendation, 0, len(recs))
+		for _, rec := range recs {
+			for _, id := range path.ChallengeIDs {
+				if rec.ChallengeID == id {
+					filtered = append(filtered, rec)
+					break
+				}
+			}
+		}
+		recs = filtered
+	}
+	return RecommendationSelection{Recommendations: recs, Selection: selection, Path: path}, nil
 }

@@ -299,12 +299,12 @@ func TestContractSessionGetUnknownSessionReturnsSessionNotActive(t *testing.T) {
 // R4, security).
 func TestContractMissingRequiredArgumentIsRejectedBySchema(t *testing.T) {
 	cs := newContractClient(t)
-	res, err := cs.CallTool(context.Background(), &mcp.CallToolParams{Name: "session_start", Arguments: map[string]any{}})
+	res, err := cs.CallTool(context.Background(), &mcp.CallToolParams{Name: "session_get", Arguments: map[string]any{}})
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	if !res.IsError {
-		t.Fatal("expected IsError when challenge_id is missing")
+		t.Fatal("expected IsError when session_id is missing")
 	}
 	if res.StructuredContent != nil {
 		t.Fatalf("schema-level rejection should not carry our Envelope, got %+v", res.StructuredContent)

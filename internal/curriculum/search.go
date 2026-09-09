@@ -26,9 +26,9 @@ const maxSearchResults = 100
 // primary browsing surface.
 type Query struct {
 	Kind          ItemKind
-	Theme         string
+	ThemeIDs      []string
 	Text          string
-	Competency    string
+	CompetencyIDs []string
 	Difficulty    string
 	ChallengeKind string // the challenge's authored `kind` (atomic, ...), distinct from ItemKind
 	MaxMinutes    int    // 0 = no limit
@@ -41,6 +41,7 @@ type Query struct {
 type Result struct {
 	Items     []Item
 	Truncated bool
+	Selection Selection
 }
 
 // Search returns every item matching q, in deterministic order (ID
@@ -48,6 +49,15 @@ type Result struct {
 func (c *Catalog) Search(q Query) (Result, error) {
 	if len(q.Text) > maxSearchTextLen {
 		return Result{}, ErrSearchTextTooLong
+	}
+	var err error
+	q.ThemeIDs, err = NormalizeSubjects(q.ThemeIDs)
+	if err != nil {
+		return Result{}, err
+	}
+	q.CompetencyIDs, err = NormalizeSubjects(q.CompetencyIDs)
+	if err != nil {
+		return Result{}, err
 	}
 	kind := q.Kind
 	if kind == "" {
@@ -58,13 +68,23 @@ func (c *Catalog) Search(q Query) (Result, error) {
 	var out []Item
 	if kind == KindChallenge {
 		for _, ch := range c.challenges {
+			m := c.SubjectMatch(ch.ID, q.ThemeIDs, q.CompetencyIDs)
+			if len(q.ThemeIDs)+len(q.CompetencyIDs) > 0 && len(m.ThemeIDs)+len(m.CompetencyIDs) == 0 {
+				continue
+			}
 			if !matchesChallenge(ch, q, text) {
 				continue
 			}
 			out = append(out, Item{ID: ch.ID, Kind: KindChallenge, Title: ch.Title})
 		}
 	} else {
-		for _, item := range c.List(kind, q.Theme) {
+		for _, item := range c.List(kind, "") {
+			if len(q.ThemeIDs)+len(q.CompetencyIDs) > 0 {
+				m := c.SubjectMatch(item.ID, q.ThemeIDs, q.CompetencyIDs)
+				if len(m.ThemeIDs)+len(m.CompetencyIDs) == 0 {
+					continue
+				}
+			}
 			if text != "" && !strings.Contains(strings.ToLower(item.Title), text) {
 				continue
 			}
@@ -77,13 +97,14 @@ func (c *Catalog) Search(q Query) (Result, error) {
 	if truncated {
 		out = out[:maxSearchResults]
 	}
-	return Result{Items: out, Truncated: truncated}, nil
+	ids := make([]string, len(out))
+	for i, item := range out {
+		ids[i] = item.ID
+	}
+	return Result{Items: out, Truncated: truncated, Selection: c.Selection(ids, q.ThemeIDs, q.CompetencyIDs)}, nil
 }
 
 func matchesChallenge(ch ChallengeAuthoring, q Query, text string) bool {
-	if q.Theme != "" && !slices.Contains(ch.Themes, q.Theme) {
-		return false
-	}
 	if q.Difficulty != "" && ch.Difficulty != q.Difficulty {
 		return false
 	}
@@ -91,9 +112,6 @@ func matchesChallenge(ch ChallengeAuthoring, q Query, text string) bool {
 		return false
 	}
 	if q.MaxMinutes > 0 && ch.EstimatedMinutes > q.MaxMinutes {
-		return false
-	}
-	if q.Competency != "" && !slices.Contains(ch.Competencies.Primary, q.Competency) && !slices.Contains(ch.Competencies.Secondary, q.Competency) {
 		return false
 	}
 	if q.Prerequisite != "" && !slices.Contains(ch.Prerequisites, q.Prerequisite) {

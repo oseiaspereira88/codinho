@@ -369,3 +369,25 @@ func TestEvaluationEvidenceCheckOutcomesAndObservationLimits(t *testing.T) {
 		t.Fatalf("baseline proved arbitrary structural claim: %+v %v", got, err)
 	}
 }
+
+func TestTrackBoundaryRejectsPreviousChallengeCheck(t *testing.T) {
+	s, ws, start, run, _ := checkedEvidence(t)
+	checks, step, err := s.ActiveChecks(start.SessionID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	v := &evaluationEvidenceValidator{store: ws.store, evidence: ws.evidence}
+	ctx := session.EvaluationEvidenceContext{SessionID: start.SessionID, StepID: step, ChallengeID: "fixture.challenge-one", Checks: checks}
+	criterion := assessment.CriterionInput{Name: "test", Kind: "structural", CheckID: "focused-tests", EvidenceID: learning.EvidenceID(run.EvidenceID)}
+	if _, err := v.Validate(ctx, criterion); err != nil {
+		t.Fatal(err)
+	}
+	// The durable boundary separates challenges even if step/check IDs coincide.
+	if _, err := ws.store.Append(string(start.SessionID), run.Revision, "boundary", eventstore.EventStepAdvanced, map[string]any{"track_cursor": 1}); err != nil {
+		t.Fatal(err)
+	}
+	ctx.ChallengeID = "second"
+	if _, err := v.Validate(ctx, criterion); !errors.Is(err, session.ErrEvaluationEvidenceInvalid) {
+		t.Fatalf("old evidence accepted: %v", err)
+	}
+}

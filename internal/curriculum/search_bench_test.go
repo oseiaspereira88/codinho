@@ -26,7 +26,7 @@ func syntheticCatalogAtV1Scale(n int) *Catalog {
 func BenchmarkSearchAtV1Scale(b *testing.B) {
 	catalog := syntheticCatalogAtV1Scale(84)
 	for b.Loop() {
-		if _, err := catalog.Search(Query{Difficulty: "foundational", Competency: "bench-competency", Text: "Challenge"}); err != nil {
+		if _, err := catalog.Search(Query{Difficulty: "foundational", CompetencyIDs: []string{"bench-competency"}, Text: "Challenge"}); err != nil {
 			b.Fatalf("unexpected error: %v", err)
 		}
 	}
@@ -43,5 +43,14 @@ func TestSearchP95BudgetAtV1Scale(t *testing.T) {
 	}
 	if elapsed := time.Since(start); elapsed > 100*time.Millisecond {
 		t.Fatalf("Search took %s, want well under the 100ms p95 budget", elapsed)
+	}
+}
+
+func BenchmarkComposeAtV1Scale(b *testing.B) {
+	catalog := syntheticCatalogAtV1Scale(84)
+	for b.Loop() {
+		if _, _, err := catalog.Compose([]string{"bench-theme"}, []string{"bench-competency"}); err != nil {
+			b.Fatal(err)
+		}
 	}
 }

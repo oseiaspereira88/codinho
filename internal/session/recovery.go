@@ -20,6 +20,7 @@ import (
 var ErrSessionUnrecoverable = errors.New("session: recovery unavailable; historical state lacks a compatible projection")
 
 type startedPayload struct {
+	Track             *trackSnapshot                `json:"track,omitempty"`
 	NavigationVersion int                           `json:"navigation_version,omitempty"`
 	RecoveryVersion   int                           `json:"recovery_version"`
 	ChallengeID       string                        `json:"challenge_id"`
@@ -222,6 +223,11 @@ func restoreStart(ev eventstore.Event) (*record, startedPayload, error) {
 	if p.NavigationVersion < 0 || p.NavigationVersion > 1 || p.RecoveryVersion != 1 || p.ChallengeID == "" || p.Challenge.ID != p.ChallengeID || p.Digest != contentDigest(p.Challenge) {
 		return nil, p, ErrSessionUnrecoverable
 	}
+	if p.Track != nil {
+		if p.Track.Version != 1 || len(p.Track.Challenges) == 0 || len(p.Track.Challenges) > curriculum.MaxTrackChallenges || p.Track.Digest != curriculum.PathIdentity(p.Track.Challenges) || contentDigest(p.Track.Challenges[0]) != p.Digest {
+			return nil, p, ErrSessionUnrecoverable
+		}
+	}
 	policy, err := learning.NewSessionPolicy(p.Policy.Mode, p.Policy.InitialDepth, p.Policy.Help.Kind, p.Policy.Disclosure.MaxLevel, p.Policy.Evaluation, p.Policy.Advance, p.Policy.TimeLimit)
 	if err != nil {
 		return nil, p, err
@@ -246,7 +252,7 @@ func restoreStart(ev eventstore.Event) (*record, startedPayload, error) {
 	if err := domain.SetActiveInstruction(active); err != nil {
 		return nil, p, err
 	}
-	return &record{session: domain, challengeID: p.ChallengeID, pinned: p.Challenge, depth: policy.InitialDepth, cursor: step.ID, progress: map[string]savedProgress{}, covered: map[string]bool{}, choices: map[string]string{}}, p, nil
+	return &record{track: p.Track, session: domain, challengeID: p.ChallengeID, pinned: p.Challenge, depth: policy.InitialDepth, cursor: step.ID, progress: map[string]savedProgress{}, covered: map[string]bool{}, choices: map[string]string{}}, p, nil
 }
 
 // recover projects only persisted facts, never consulting today's catalog.
@@ -271,7 +277,7 @@ func (s *Service) recover() {
 			s.sessions[id] = rec
 			if ev.RequestID != "" {
 				step, _ := findStep(p.Challenge, string(rec.session.ActiveStep().StepID))
-				s.startResults[ev.RequestID] = StartResult{SessionID: id, ActiveStep: rec.session.ActiveStep().StepID, Kind: step.Kind, Objective: step.Instruction.Objective, Revision: ev.Revision, Disclosure: disclosureFor(p.Policy.Disclosure, rec.session.ActiveStep())}
+				s.startResults[ev.RequestID] = StartResult{Track: rec.trackStatus(), SessionID: id, ActiveStep: rec.session.ActiveStep().StepID, Kind: step.Kind, Objective: step.Instruction.Objective, Revision: ev.Revision, Disclosure: disclosureFor(p.Policy.Disclosure, rec.session.ActiveStep())}
 				s.startInputs[ev.RequestID] = inputIdentity(p.Input)
 			}
 			continue
@@ -310,6 +316,7 @@ func (s *Service) recover() {
 }
 
 type deltaPayload struct {
+	TrackCursor        int                           `json:"track_cursor"`
 	Done               bool                          `json:"done"`
 	NavigationVersion  int                           `json:"navigation_version"`
 	Cursor             string                        `json:"cursor"`
@@ -404,7 +411,7 @@ func applyEvent(rec *record, ev eventstore.Event) error {
 				if err != nil {
 					return err
 				}
-				if next.node.ID != p.To || p.Done != (p.To == "") || len(next.options) > 0 {
+				if projected.trackCursor != p.TrackCursor || next.node.ID != p.To || p.Done != (p.To == "") || len(next.options) > 0 {
 					return ErrInvalidNextStep
 				}
 				parent := ""

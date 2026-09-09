@@ -8,6 +8,8 @@ import (
 )
 
 type learningPathRecommendArgs struct {
+	ThemeIDs          []string `json:"theme_ids,omitempty" jsonschema:"explicit set of 1 to 16 theme IDs; exclusive with the legacy theme field"`
+	CompetencyIDs     []string `json:"competency_ids,omitempty" jsonschema:"explicit set of 1 to 16 competency IDs; exclusive with the legacy competency field"`
 	CompetencyID      string   `json:"competency_id,omitempty" jsonschema:"target competency ID"`
 	ThemeID           string   `json:"theme_id,omitempty" jsonschema:"target theme ID, used alongside or instead of competency_id"`
 	TimeBudgetMinutes int      `json:"time_budget_minutes,omitempty" jsonschema:"available practice time in minutes; 0 means unconstrained"`
@@ -21,15 +23,24 @@ func registerRecommendationTools(server *mcp.Server, recs *application.Recommend
 		Annotations: &mcp.ToolAnnotations{ReadOnlyHint: true},
 	}, func(_ context.Context, req *mcp.CallToolRequest, args learningPathRecommendArgs) (*mcp.CallToolResult, Envelope, error) {
 		requestID := requestIDFor(req)
-		result, err := recs.Recommend(application.RecommendInput{
-			CompetencyID: args.CompetencyID, ThemeID: args.ThemeID,
+		themes, err := subjectIDs(args.ThemeID, args.ThemeIDs)
+		if err != nil {
+			return errorResult(), errorEnvelope(requestID, ErrCodeInvalidInput, "invalid or conflicting theme selectors", false, nil), nil
+		}
+		comps, err := subjectIDs(args.CompetencyID, args.CompetencyIDs)
+		if err != nil {
+			return errorResult(), errorEnvelope(requestID, ErrCodeInvalidInput, "invalid or conflicting competency selectors", false, nil), nil
+		}
+
+		result, err := recs.RecommendSelection(application.RecommendInput{
+			CompetencyIDs: comps, ThemeIDs: themes,
 			TimeBudgetMinutes: args.TimeBudgetMinutes, Completed: args.Completed,
 		})
 		if err != nil {
 			code, msg, retryable := mapError(err)
 			return errorResult(), errorEnvelope(requestID, code, msg, retryable, nil), nil
 		}
-		env := okEnvelope(requestID, ProgressEffectNone, map[string]any{"recommendations": result})
+		env := okEnvelope(requestID, ProgressEffectNone, result)
 		return nil, env, nil
 	})
 }

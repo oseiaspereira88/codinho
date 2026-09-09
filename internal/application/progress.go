@@ -110,6 +110,15 @@ func (p *ProgressService) RecordEvidence(in EvidenceInput) (EvidenceResult, erro
 		provenance := previous.ContentProvenance
 		if provenance == "" {
 			provenance = "legacy_unreviewed"
+			signals, err := p.recordedSignals()
+			if err != nil {
+				return EvidenceResult{}, err
+			}
+			state := mastery.FoldProjections(signals)[in.CompetencyID][dim].State
+			if state == "" {
+				state = mastery.StateNotObserved
+			}
+			previous.State = string(state)
 		}
 		return EvidenceResult{ContentProvenance: provenance, CompetencyID: previous.CompetencyID, Dimension: previous.Dimension, State: previous.State, Revision: p.Revision()}, nil
 	}

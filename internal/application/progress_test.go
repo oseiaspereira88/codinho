@@ -255,3 +255,15 @@ func TestEvidenceRetryKeepsOriginalProvenance(t *testing.T) {
 		t.Fatal("request replaced", err)
 	}
 }
+
+func TestLegacyMasteryRetryDoesNotPresentHistoricalUnreviewedStateAsReviewed(t *testing.T) {
+	svc, _ := newProgressTestService(t)
+	historical := signalPayload{CompetencyID: "legacy", Dimension: string(mastery.DimensionExplanation), EvidenceID: "legacy-evidence", Success: true, ObservedAt: time.Now().UTC().Format(time.RFC3339Nano), RuleVersion: mastery.RuleVersionV1, State: string(mastery.StateRetained)}
+	if _, err := svc.store.Append(masteryStreamID, 0, "legacy-request", eventstore.EventMasteryProjected, historical); err != nil {
+		t.Fatal(err)
+	}
+	result, err := svc.RecordEvidence(EvidenceInput{CompetencyID: historical.CompetencyID, Dimension: historical.Dimension, EvidenceID: historical.EvidenceID, Success: true, RequestID: "legacy-request"})
+	if err != nil || result.State != "not_observed" || result.ContentProvenance != "legacy_unreviewed" {
+		t.Fatalf("legacy retry claims reviewed mastery: %+v %v", result, err)
+	}
+}

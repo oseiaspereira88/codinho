@@ -40,6 +40,7 @@ func New(deps Deps, stderr io.Writer) *mcp.Server {
 	server.AddReceivingMiddleware(loggingMiddleware(logger))
 
 	registerCatalogTools(server, deps.Catalog)
+	registerContentDraftTools(server, deps.Session)
 	registerSessionTools(server, deps.Session)
 	registerAssistanceTools(server, deps.Session, deps.Assistance)
 	registerAssessmentTools(server, deps.Session)

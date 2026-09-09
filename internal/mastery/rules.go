@@ -26,6 +26,10 @@ func AdvanceState(ruleVersion int, current DimensionProjection, sig Signal) Dime
 		next.State = StateNotObserved
 	}
 
+	if sig.ContentProvenance != "published" {
+		return next
+	}
+
 	next.EvidenceCount++
 	next.LastEvidenceID = sig.EvidenceID
 

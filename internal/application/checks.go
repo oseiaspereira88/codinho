@@ -167,11 +167,12 @@ func (c *ChecksService) Run(in CheckRunInput) (CheckRunResult, error) {
 	}
 
 	ev, err := c.store.Append(string(in.SessionID), in.ExpectedRevision, in.RequestID, eventstore.EventCheckExecuted, map[string]any{
-		"step_id":     string(stepID),
-		"check_id":    found.ID,
-		"outcome":     string(result.Outcome),
-		"evidence_id": evidenceID,
-		"fingerprint": fingerprint,
+		"content_provenance": sessionProvenance(c.store, string(in.SessionID)),
+		"step_id":            string(stepID),
+		"check_id":           found.ID,
+		"outcome":            string(result.Outcome),
+		"evidence_id":        evidenceID,
+		"fingerprint":        fingerprint,
 	})
 	if err != nil {
 		return CheckRunResult{}, err

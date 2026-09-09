@@ -2,6 +2,7 @@ package application
 
 import (
 	"github.com/oseiaspereira88/codinho/internal/curriculum"
+	"github.com/oseiaspereira88/codinho/internal/drafts"
 	"github.com/oseiaspereira88/codinho/internal/eventstore"
 	"github.com/oseiaspereira88/codinho/internal/evidence"
 	"github.com/oseiaspereira88/codinho/internal/learning"
@@ -35,14 +36,15 @@ var (
 
 // SessionService adapts internal/session.Service for the MCP server.
 type SessionService struct {
-	svc *session.Service
+	svc    *session.Service
+	drafts *drafts.Service
 }
 
 // NewSessionService wires a SessionService to its catalog and event
 // store. Evidence consumption is always authorized by the application
 // adapter; a nil evidence store rejects any new citation.
 func NewSessionService(catalog *CatalogService, store *eventstore.Store, evidenceStore *evidence.Store) *SessionService {
-	return &SessionService{svc: session.New(catalog.catalog, store, evidenceStore, &evaluationEvidenceValidator{store: store, evidence: evidenceStore})}
+	return &SessionService{drafts: drafts.New(store), svc: session.New(catalog.catalog, store, evidenceStore, &evaluationEvidenceValidator{store: store, evidence: evidenceStore})}
 }
 
 // ActiveChecks returns the checks declared by the session's fixed

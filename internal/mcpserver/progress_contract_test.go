@@ -2,13 +2,14 @@ package mcpserver
 
 import (
 	"context"
+	"github.com/oseiaspereira88/codinho/internal/eventstore"
 	"testing"
 
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
 func TestContractMasteryEvidenceRecordThenProgressGetAndReviewDue(t *testing.T) {
-	cs := newContractClient(t)
+	cs := newContractClient(t, publishedProgressFixture(t))
 	ctx := context.Background()
 
 	revRes, err := cs.CallTool(ctx, &mcp.CallToolParams{Name: "progress_get", Arguments: map[string]any{}})
@@ -69,7 +70,7 @@ func TestContractMasteryEvidenceRecordThenProgressGetAndReviewDue(t *testing.T) 
 }
 
 func TestContractMasteryEvidenceRecordRejectsUnknownDimension(t *testing.T) {
-	cs := newContractClient(t)
+	cs := newContractClient(t, publishedProgressFixture(t))
 	res, err := cs.CallTool(context.Background(), &mcp.CallToolParams{Name: "mastery_evidence_record", Arguments: map[string]any{
 		"competency_id": "c", "dimension": "not-a-real-dimension", "evidence_id": "e1", "expected_revision": 0,
 	}})
@@ -86,7 +87,7 @@ func TestContractMasteryEvidenceRecordRejectsUnknownDimension(t *testing.T) {
 }
 
 func TestContractMasteryEvidenceRecordGuidedNeverExceedsDemonstratesWithHelp(t *testing.T) {
-	cs := newContractClient(t)
+	cs := newContractClient(t, publishedProgressFixture(t))
 	ctx := context.Background()
 	rev := 0.0
 
@@ -107,5 +108,19 @@ func TestContractMasteryEvidenceRecordGuidedNeverExceedsDemonstratesWithHelp(t *
 			t.Fatalf("iteration %d: state = %v, want demonstrates_with_help (requirement R4)", i, data["state"])
 		}
 		rev = data["revision"].(float64)
+	}
+}
+
+func publishedProgressFixture(t *testing.T) func(*eventstore.Store) {
+	return func(store *eventstore.Store) {
+		const sid = "synthetic-reviewed"
+		if _, err := store.Append(sid, 0, "", eventstore.EventSessionStarted, map[string]string{"content_provenance": "published"}); err != nil {
+			t.Fatal(err)
+		}
+		for _, id := range []string{"ev-1", "ev"} {
+			if _, err := store.Append(sid, store.Revision(sid), "", eventstore.EventEvidenceRecorded, map[string]string{"evidence_id": id}); err != nil {
+				t.Fatal(err)
+			}
+		}
 	}
 }

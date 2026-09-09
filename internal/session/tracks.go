@@ -3,6 +3,7 @@ package session
 import (
 	"encoding/json"
 	"github.com/oseiaspereira88/codinho/internal/curriculum"
+	"github.com/oseiaspereira88/codinho/internal/drafts"
 )
 
 // trackSnapshot is private durable state. Public status never exposes future
@@ -30,6 +31,19 @@ func (r *record) trackStatus() *TrackStatus {
 	return &TrackStatus{TrackID: r.track.TrackID, CompositionID: r.track.CompositionID, ChallengeID: r.challengeID, ChallengeVersion: r.pinned.Version, Cursor: r.trackCursor, Total: len(r.track.Challenges)}
 }
 func (s *Service) resolveStart(in StartInput) (curriculum.ChallengeAuthoring, *trackSnapshot, error) {
+	catalog := s.catalog
+	if in.DraftID != "" {
+		if !in.AcceptDraft {
+			return curriculum.ChallengeAuthoring{}, nil, curriculum.ErrInvalidSelection
+		}
+		var err error
+		catalog, err = drafts.New(s.store).Catalog(in.DraftID)
+		if err != nil {
+			return curriculum.ChallengeAuthoring{}, nil, err
+		}
+	} else if in.AcceptDraft {
+		return curriculum.ChallengeAuthoring{}, nil, curriculum.ErrInvalidSelection
+	}
 	count := 0
 	for _, id := range []string{in.ChallengeID, in.TrackID, in.CompositionID} {
 		if id != "" {
@@ -40,18 +54,21 @@ func (s *Service) resolveStart(in StartInput) (curriculum.ChallengeAuthoring, *t
 		return curriculum.ChallengeAuthoring{}, nil, curriculum.ErrInvalidSelection
 	}
 	if in.ChallengeID != "" {
-		ch, err := s.challenge(in.ChallengeID)
-		return ch, nil, err
+		ch, ok := catalog.Challenge(in.ChallengeID)
+		if !ok {
+			return ch, nil, ErrNotFound
+		}
+		return ch, nil, nil
 	}
 	ids := in.ChallengeIDs
 	if in.TrackID != "" {
-		t, ok := s.catalog.Track(in.TrackID)
+		t, ok := catalog.Track(in.TrackID)
 		if !ok {
 			return curriculum.ChallengeAuthoring{}, nil, ErrNotFound
 		}
 		ids = t.ChallengeIDs
 	}
-	chs, err := s.catalog.ResolvePath(ids)
+	chs, err := catalog.ResolvePath(ids)
 	if err != nil {
 		return curriculum.ChallengeAuthoring{}, nil, err
 	}
@@ -101,4 +118,19 @@ func cloneStartResult(r StartResult) StartResult {
 		r.Track = &status
 	}
 	return r
+}
+
+// snapshotProvenance is fixed for the complete path, never upgraded on replay.
+func snapshotProvenance(ch curriculum.ChallengeAuthoring, track *trackSnapshot) string {
+	if ch.Publication.Status != "published" {
+		return "draft"
+	}
+	if track != nil {
+		for _, member := range track.Challenges {
+			if member.Publication.Status != "published" {
+				return "draft"
+			}
+		}
+	}
+	return "published"
 }

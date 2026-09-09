@@ -46,14 +46,15 @@ type baselineEntry struct {
 }
 
 type observationEvent struct {
-	RecoveryVersion int                `json:"recovery_version"`
-	StepID          string             `json:"step_id"`
-	EvidenceID      string             `json:"evidence_id"`
-	Kind            string             `json:"kind"`
-	Fingerprint     string             `json:"fingerprint"`
-	Baseline        workspace.Baseline `json:"baseline"`
-	Root            string             `json:"root"`
-	Globs           []string           `json:"globs"`
+	ContentProvenance string             `json:"content_provenance"`
+	RecoveryVersion   int                `json:"recovery_version"`
+	StepID            string             `json:"step_id"`
+	EvidenceID        string             `json:"evidence_id"`
+	Kind              string             `json:"kind"`
+	Fingerprint       string             `json:"fingerprint"`
+	Baseline          workspace.Baseline `json:"baseline"`
+	Root              string             `json:"root"`
+	Globs             []string           `json:"globs"`
 }
 
 // observationPayload is what this package stores as evidence content: a
@@ -214,7 +215,7 @@ func (w *WorkspaceService) Observe(in ObserveInput) (ObserveResult, error) {
 	if isBaseline {
 		entry = baselineEntry{baseline: newBaseline, root: root.Path(), globs: slices.Clone(in.Globs)}
 	}
-	ev, err := w.store.Append(string(in.SessionID), in.ExpectedRevision, in.RequestID, eventstore.EventObservationRecorded, observationEvent{
+	ev, err := w.store.Append(string(in.SessionID), in.ExpectedRevision, in.RequestID, eventstore.EventObservationRecorded, observationEvent{ContentProvenance: sessionProvenance(w.store, string(in.SessionID)),
 		RecoveryVersion: 1, StepID: string(in.StepID), EvidenceID: evidenceID, Kind: payload.Kind, Fingerprint: payload.Fingerprint,
 		Baseline: entry.baseline, Root: entry.root, Globs: entry.globs,
 	})

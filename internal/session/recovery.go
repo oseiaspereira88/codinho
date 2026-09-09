@@ -20,6 +20,7 @@ import (
 var ErrSessionUnrecoverable = errors.New("session: recovery unavailable; historical state lacks a compatible projection")
 
 type startedPayload struct {
+	ContentProvenance string                        `json:"content_provenance,omitempty"`
 	Track             *trackSnapshot                `json:"track,omitempty"`
 	NavigationVersion int                           `json:"navigation_version,omitempty"`
 	RecoveryVersion   int                           `json:"recovery_version"`
@@ -252,7 +253,10 @@ func restoreStart(ev eventstore.Event) (*record, startedPayload, error) {
 	if err := domain.SetActiveInstruction(active); err != nil {
 		return nil, p, err
 	}
-	return &record{track: p.Track, session: domain, challengeID: p.ChallengeID, pinned: p.Challenge, depth: policy.InitialDepth, cursor: step.ID, progress: map[string]savedProgress{}, covered: map[string]bool{}, choices: map[string]string{}}, p, nil
+	if p.ContentProvenance == "" {
+		p.ContentProvenance = "legacy_unreviewed"
+	}
+	return &record{contentProvenance: p.ContentProvenance, track: p.Track, session: domain, challengeID: p.ChallengeID, pinned: p.Challenge, depth: policy.InitialDepth, cursor: step.ID, progress: map[string]savedProgress{}, covered: map[string]bool{}, choices: map[string]string{}}, p, nil
 }
 
 // recover projects only persisted facts, never consulting today's catalog.
@@ -277,7 +281,7 @@ func (s *Service) recover() {
 			s.sessions[id] = rec
 			if ev.RequestID != "" {
 				step, _ := findStep(p.Challenge, string(rec.session.ActiveStep().StepID))
-				s.startResults[ev.RequestID] = StartResult{Track: rec.trackStatus(), SessionID: id, ActiveStep: rec.session.ActiveStep().StepID, Kind: step.Kind, Objective: step.Instruction.Objective, Revision: ev.Revision, Disclosure: disclosureFor(p.Policy.Disclosure, rec.session.ActiveStep())}
+				s.startResults[ev.RequestID] = StartResult{ContentProvenance: rec.contentProvenance, Track: rec.trackStatus(), SessionID: id, ActiveStep: rec.session.ActiveStep().StepID, Kind: step.Kind, Objective: step.Instruction.Objective, Revision: ev.Revision, Disclosure: disclosureFor(p.Policy.Disclosure, rec.session.ActiveStep())}
 				s.startInputs[ev.RequestID] = inputIdentity(p.Input)
 			}
 			continue

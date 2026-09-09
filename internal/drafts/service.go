@@ -74,8 +74,15 @@ func (s *Service) Submit(raw, requestID string) (Record, curriculum.DraftValidat
 		return Record{}, v, ErrQuota
 	}
 	r := Record{ID: "draft_" + hash, PackID: p.ID, Version: p.Version, Digest: hash, YAML: raw, ExpiresAt: s.now().Add(Lifetime)}
-	_, err = s.store.Append(stream, revision, requestID, eventstore.EventDraftSubmitted, r)
-	return r, v, err
+	ev, err := s.store.Append(stream, revision, requestID, eventstore.EventDraftSubmitted, r)
+	if err != nil {
+		return Record{}, v, err
+	}
+	var persisted Record
+	if ev.Type != eventstore.EventDraftSubmitted || json.Unmarshal(ev.Payload, &persisted) != nil || persisted.Digest != hash {
+		return Record{}, v, ErrConflict
+	}
+	return persisted, v, nil
 }
 func (s *Service) Get(id string) (Record, error) {
 	var found Record
@@ -134,6 +141,15 @@ func (s *Service) Remove(id, requestID string, confirm bool) error {
 	if _, err := s.Get(id); err != nil {
 		return err
 	}
-	_, err := s.store.Append(stream, revision, requestID, eventstore.EventDraftRemoved, map[string]string{"draft_id": id})
-	return err
+	ev, err := s.store.Append(stream, revision, requestID, eventstore.EventDraftRemoved, map[string]string{"draft_id": id})
+	if err != nil {
+		return err
+	}
+	var persisted struct {
+		ID string `json:"draft_id"`
+	}
+	if ev.Type != eventstore.EventDraftRemoved || json.Unmarshal(ev.Payload, &persisted) != nil || persisted.ID != id {
+		return ErrConflict
+	}
+	return nil
 }

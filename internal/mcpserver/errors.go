@@ -2,6 +2,7 @@ package mcpserver
 
 import (
 	"errors"
+	"github.com/oseiaspereira88/codinho/internal/drafts"
 	"os"
 
 	"github.com/oseiaspereira88/codinho/internal/application"
@@ -34,6 +35,14 @@ const (
 // value: those could leak internals (security requirement).
 func mapError(err error) (ErrorCode, string, bool) {
 	switch {
+	case errors.Is(err, drafts.ErrUnavailable):
+		return ErrCodeItemNotFound, "draft is unavailable, removed or expired", false
+	case errors.Is(err, drafts.ErrConflict):
+		return ErrCodeInvalidInput, "draft request conflicts with an existing request or pack identity; removal requires explicit confirmation", false
+	case errors.Is(err, drafts.ErrQuota):
+		return ErrCodeInvalidInput, "draft quota reached; export and explicitly purge local state", false
+	case errors.Is(err, curriculum.ErrInvalidDraft):
+		return ErrCodeInvalidInput, "draft failed authoring validation", false
 	case errors.Is(err, curriculum.ErrInvalidSelection):
 		return ErrCodeInvalidInput, "invalid, conflicting, stale or excessive selection", false
 	case errors.Is(err, application.ErrEvaluationEvidenceInvalid):

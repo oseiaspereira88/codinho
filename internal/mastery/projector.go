@@ -28,6 +28,9 @@ type key struct {
 func FoldProjections(signals []RecordedSignal) map[string]map[Dimension]DimensionProjection {
 	out := map[key]DimensionProjection{}
 	for _, rs := range signals {
+		if rs.ContentProvenance != "published" {
+			continue
+		}
 		k := key{CompetencyID: rs.CompetencyID, Dimension: rs.Dimension}
 		out[k] = AdvanceState(rs.RuleVersion, out[k], rs.Signal)
 	}
@@ -49,6 +52,9 @@ func FoldProjections(signals []RecordedSignal) map[string]map[Dimension]Dimensio
 func FoldSchedules(signals []RecordedSignal) map[string]Schedule {
 	current := map[string]*Schedule{}
 	for _, rs := range signals {
+		if rs.ContentProvenance != "published" {
+			continue
+		}
 		if rs.SolutionRevealed {
 			continue
 		}

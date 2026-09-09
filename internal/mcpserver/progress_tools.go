@@ -87,11 +87,16 @@ func registerProgressTools(server *mcp.Server, progress *application.ProgressSer
 			code, msg, retryable := mapError(err)
 			return errorResult(), errorEnvelope(requestID, code, msg, retryable, nil), nil
 		}
-		env := okEnvelope(requestID, ProgressEffectMasteryProjected, map[string]any{
-			"competency_id": result.CompetencyID,
-			"dimension":     result.Dimension,
-			"state":         result.State,
-			"revision":      result.Revision,
+		effect := ProgressEffectNone
+		if result.ContentProvenance == "published" {
+			effect = ProgressEffectMasteryProjected
+		}
+		env := okEnvelope(requestID, effect, map[string]any{
+			"content_provenance": result.ContentProvenance,
+			"competency_id":      result.CompetencyID,
+			"dimension":          result.Dimension,
+			"state":              result.State,
+			"revision":           result.Revision,
 		})
 		return nil, env, nil
 	})

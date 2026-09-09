@@ -18,6 +18,7 @@ func newProgressTestService(t *testing.T) (*ProgressService, string) {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	t.Cleanup(func() { store.Close() })
+	seedPublishedEvidence(t, store, "e1", "e2", "ev1", "ev2")
 	return NewProgressService(store), path
 }
 
@@ -182,5 +183,75 @@ func TestProgressServiceRecomputesAfterReopeningTheStore(t *testing.T) {
 	proj, ok := got.Competencies["comp-a"][string(mastery.DimensionAutonomousImplementation)]
 	if !ok || proj.State != mastery.StateDemonstratesWithoutHelp {
 		t.Fatalf("expected the projection to survive a store reopen (requirement R8), got %+v", got.Competencies)
+	}
+}
+
+func seedPublishedEvidence(t *testing.T, store *eventstore.Store, ids ...string) {
+	t.Helper()
+	const sid = "synthetic-published-session"
+	if _, err := store.Append(sid, 0, "", eventstore.EventSessionStarted, map[string]string{"content_provenance": "published"}); err != nil {
+		t.Fatal(err)
+	}
+	for _, id := range ids {
+		if _, err := store.Append(sid, store.Revision(sid), "", eventstore.EventEvidenceRecorded, map[string]string{"evidence_id": id}); err != nil {
+			t.Fatal(err)
+		}
+	}
+}
+
+func TestDraftAndLegacyEvidenceAreExcludedWithoutRetroactivePromotion(t *testing.T) {
+	svc, _ := newProgressTestService(t)
+	for _, origin := range []string{"draft", "legacy_unreviewed", ""} {
+		sid := "session-" + origin
+		if _, err := svc.store.Append(sid, 0, "", eventstore.EventSessionStarted, map[string]string{"content_provenance": origin}); err != nil {
+			t.Fatal(err)
+		}
+		id := "evidence-" + origin
+		if _, err := svc.store.Append(sid, 1, "", eventstore.EventEvidenceRecorded, map[string]string{"evidence_id": id, "content_provenance": "published"}); err != nil {
+			t.Fatal(err)
+		}
+		result, err := svc.RecordEvidence(EvidenceInput{CompetencyID: "quarantined", Dimension: string(mastery.DimensionExplanation), EvidenceID: id, Success: true, ExpectedRevision: svc.Revision()})
+		if err != nil || result.State != "not_observed" || result.ContentProvenance == "published" {
+			t.Fatalf("unreviewed origin accepted: %+v %v", result, err)
+		}
+	}
+	// A newly published producer with the same content-addressed evidence ID
+	// must not reclassify any historical draft signal.
+	if _, err := svc.store.Append("new-published", 0, "", eventstore.EventSessionStarted, map[string]string{"content_provenance": "published"}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := svc.store.Append("new-published", 1, "", eventstore.EventEvidenceRecorded, map[string]string{"evidence_id": "evidence-draft"}); err != nil {
+		t.Fatal(err)
+	}
+	projection, err := svc.Progress("quarantined")
+	if err != nil || len(projection.Competencies) != 0 {
+		t.Fatalf("retroactive promotion: %+v %v", projection, err)
+	}
+	due, err := svc.ReviewDue(time.Now().AddDate(1, 0, 0))
+	if err != nil || len(due.Due) != 0 {
+		t.Fatal("draft review scheduled", err)
+	}
+	if svc.evidenceProvenance("evidence-draft") == "published" || svc.evidenceProvenance("invented") == "published" {
+		t.Fatal("ambiguous or missing evidence trusted")
+	}
+}
+
+func TestEvidenceRetryKeepsOriginalProvenance(t *testing.T) {
+	svc, _ := newProgressTestService(t)
+	in := EvidenceInput{CompetencyID: "c", Dimension: string(mastery.DimensionExplanation), EvidenceID: "later", Success: true, RequestID: "retry"}
+	first, err := svc.RecordEvidence(in)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err = svc.store.Append("synthetic-published-session", svc.store.Revision("synthetic-published-session"), "", eventstore.EventEvidenceRecorded, map[string]string{"evidence_id": "later"}); err != nil {
+		t.Fatal(err)
+	}
+	again, err := svc.RecordEvidence(in)
+	if err != nil || again != first {
+		t.Fatalf("retry reclassified: %+v %+v %v", first, again, err)
+	}
+	in.EvidenceID = "ev1"
+	if _, err = svc.RecordEvidence(in); !errors.Is(err, eventstore.ErrRevisionConflict) {
+		t.Fatal("request replaced", err)
 	}
 }

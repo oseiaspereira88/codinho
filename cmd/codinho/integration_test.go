@@ -201,14 +201,14 @@ func TestTutorSkillFullSessionRoutingOverRealStdio(t *testing.T) {
 		"success": true, "expected_revision": progressRev,
 	})
 	recordData := envData(t, record)
-	if recordData["state"] != "demonstrates_without_help" {
-		t.Fatalf("expected demonstrates_without_help for a first autonomous success, got %+v", recordData)
+	if recordData["state"] != "not_observed" || recordData["content_provenance"] != "draft" {
+		t.Fatalf("expected draft evidence to remain outside reviewed mastery, got %+v", recordData)
 	}
 
 	progressAfter := callTool(ctx, t, cs, "progress_get", map[string]any{"competency_id": "comp-a"})
 	competencies, _ := envData(t, progressAfter)["competencies"].(map[string]any)
-	if _, ok := competencies["comp-a"]; !ok {
-		t.Fatalf("expected comp-a to appear in progress after recording evidence, got %+v", competencies)
+	if _, ok := competencies["comp-a"]; ok {
+		t.Fatalf("draft competency must not appear in reviewed progress, got %+v", competencies)
 	}
 
 	due := callTool(ctx, t, cs, "review_due", map[string]any{})

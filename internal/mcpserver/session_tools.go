@@ -10,6 +10,8 @@ import (
 )
 
 type sessionStartArgs struct {
+	DraftID          string   `json:"draft_id,omitempty" jsonschema:"quarantined draft ID; requires explicit accept_draft consent"`
+	AcceptDraft      bool     `json:"accept_draft,omitempty" jsonschema:"learner explicitly accepts unreviewed content excluded from reviewed mastery"`
 	TrackID          string   `json:"track_id,omitempty" jsonschema:"authored track ID, exclusive with challenge_id and composition_id"`
 	CompositionID    string   `json:"composition_id,omitempty" jsonschema:"composition ID offered by learning_path_recommend, requires challenge_ids"`
 	ChallengeIDs     []string `json:"challenge_ids,omitempty" jsonschema:"ordered IDs accepted with composition_id"`
@@ -96,7 +98,7 @@ func registerSessionTools(server *mcp.Server, sessions *application.SessionServi
 			timeLimit = &d
 		}
 		result, err := sessions.Start(application.StartInput{
-			TrackID: args.TrackID, CompositionID: args.CompositionID, ChallengeIDs: args.ChallengeIDs,
+			DraftID: args.DraftID, AcceptDraft: args.AcceptDraft, TrackID: args.TrackID, CompositionID: args.CompositionID, ChallengeIDs: args.ChallengeIDs,
 			ChallengeID:   args.ChallengeID,
 			Mode:          learning.PedagogicalMode(args.Mode),
 			Depth:         learning.Depth(args.Depth),
@@ -111,9 +113,11 @@ func registerSessionTools(server *mcp.Server, sessions *application.SessionServi
 			return errorResult(), errorEnvelope(requestID, code, msg, retryable, nil), nil
 		}
 		env := okEnvelope(requestID, ProgressEffectSessionChanged, map[string]any{
-			"track":     result.Track,
-			"objective": result.Objective,
-			"revision":  result.Revision,
+			"content_provenance": result.ContentProvenance,
+			"content_warning":    contentWarning(result.ContentProvenance),
+			"track":              result.Track,
+			"objective":          result.Objective,
+			"revision":           result.Revision,
 		})
 		env.SessionID = string(result.SessionID)
 		env.ActiveNode = &ActiveNode{ID: string(result.ActiveStep), Kind: result.Kind}
@@ -137,9 +141,11 @@ func registerSessionTools(server *mcp.Server, sessions *application.SessionServi
 			return errorResult(), errorEnvelope(requestID, code, msg, retryable, nil), nil
 		}
 		env := okEnvelope(requestID, ProgressEffectNone, map[string]any{
-			"track":    result.Track,
-			"state":    string(result.State),
-			"revision": result.Revision,
+			"content_provenance": result.ContentProvenance,
+			"content_warning":    contentWarning(result.ContentProvenance),
+			"track":              result.Track,
+			"state":              string(result.State),
+			"revision":           result.Revision,
 		})
 		env.SessionID = string(result.SessionID)
 		env.Disclosure = toDisclosure(result.Disclosure)
@@ -344,4 +350,11 @@ func registerLifecycleTool(server *mcp.Server, name, description string, fn life
 		env.SessionID = args.SessionID
 		return nil, env, nil
 	})
+}
+
+func contentWarning(provenance string) string {
+	if provenance == "published" {
+		return ""
+	}
+	return "Conteúdo não revisado: esta sessão não contribui para a maestria revisada."
 }

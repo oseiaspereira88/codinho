@@ -46,16 +46,17 @@ var ErrNoActiveStep = errors.New("session: no active instructional step")
 var ErrNoOpenDetour = errors.New("session: no open detour for this session")
 
 type record struct {
-	track       *trackSnapshot
-	trackCursor int
-	session     *learning.LearningSession
-	challengeID string
-	pinned      curriculum.ChallengeAuthoring
-	depth       learning.Depth
-	cursor      string
-	progress    map[string]savedProgress
-	covered     map[string]bool
-	choices     map[string]string
+	contentProvenance string
+	track             *trackSnapshot
+	trackCursor       int
+	session           *learning.LearningSession
+	challengeID       string
+	pinned            curriculum.ChallengeAuthoring
+	depth             learning.Depth
+	cursor            string
+	progress          map[string]savedProgress
+	covered           map[string]bool
+	choices           map[string]string
 	// cleanEvaluation tracks whether the active step's most recent
 	// evaluation had no blocking failure, gating step_complete's
 	// requires_positive_evaluation policy (requirement R7). It resets
@@ -147,6 +148,8 @@ func (s *Service) challenge(id string) (curriculum.ChallengeAuthoring, error) {
 
 // StartInput is what a caller supplies to Start (requirement R1).
 type StartInput struct {
+	DraftID       string   `json:",omitempty"`
+	AcceptDraft   bool     `json:",omitempty"`
 	TrackID       string   `json:",omitempty"`
 	CompositionID string   `json:",omitempty"`
 	ChallengeIDs  []string `json:",omitempty"`
@@ -165,13 +168,14 @@ type StartInput struct {
 
 // StartResult is what Start returns on success.
 type StartResult struct {
-	Track      *TrackStatus
-	SessionID  learning.SessionID
-	ActiveStep learning.StepID
-	Kind       string
-	Objective  string
-	Revision   uint64
-	Disclosure Disclosure
+	ContentProvenance string
+	Track             *TrackStatus
+	SessionID         learning.SessionID
+	ActiveStep        learning.StepID
+	Kind              string
+	Objective         string
+	Revision          uint64
+	Disclosure        Disclosure
 }
 
 // Start fixes challengeID, creates a new session at its first authored
@@ -250,7 +254,8 @@ func (s *Service) Start(in StartInput) (StartResult, error) {
 	// Append first: the durable record of intent to start must exist
 	// before the in-memory session is exposed to callers (local-event-store
 	// R1/R3 ordering contract).
-	payload := startedPayload{RecoveryVersion: 1, NavigationVersion: 1, Track: track, ChallengeID: challenge.ID, Mode: string(mode), Input: in, Policy: policy, Challenge: challenge, Digest: contentDigest(challenge)}
+	provenance := snapshotProvenance(challenge, track)
+	payload := startedPayload{ContentProvenance: provenance, RecoveryVersion: 1, NavigationVersion: 1, Track: track, ChallengeID: challenge.ID, Mode: string(mode), Input: in, Policy: policy, Challenge: challenge, Digest: contentDigest(challenge)}
 	ev, err := s.store.Append(string(sessionID), 0, in.RequestID, eventstore.EventSessionStarted, payload)
 	if err != nil {
 		return StartResult{}, err
@@ -271,9 +276,9 @@ func (s *Service) Start(in StartInput) (StartResult, error) {
 		return StartResult{}, err
 	}
 
-	s.sessions[sessionID] = &record{session: domainSession, track: track, challengeID: challenge.ID, pinned: challenge, depth: depth, cursor: step.ID, progress: map[string]savedProgress{}, covered: map[string]bool{}, choices: map[string]string{}}
+	s.sessions[sessionID] = &record{contentProvenance: provenance, session: domainSession, track: track, challengeID: challenge.ID, pinned: challenge, depth: depth, cursor: step.ID, progress: map[string]savedProgress{}, covered: map[string]bool{}, choices: map[string]string{}}
 
-	result := StartResult{
+	result := StartResult{ContentProvenance: provenance,
 		Track:      s.sessions[sessionID].trackStatus(),
 		SessionID:  sessionID,
 		ActiveStep: progress.StepID,
@@ -292,13 +297,14 @@ func (s *Service) Start(in StartInput) (StartResult, error) {
 
 // GetResult is what Get returns (requirement R2).
 type GetResult struct {
-	Track      *TrackStatus
-	SessionID  learning.SessionID
-	State      learning.SessionState
-	ActiveStep learning.StepID
-	Kind       string
-	Revision   uint64
-	Disclosure Disclosure
+	ContentProvenance string
+	Track             *TrackStatus
+	SessionID         learning.SessionID
+	State             learning.SessionState
+	ActiveStep        learning.StepID
+	Kind              string
+	Revision          uint64
+	Disclosure        Disclosure
 }
 
 // Get returns the current state of an in-memory session, or
@@ -320,7 +326,7 @@ func (s *Service) getLocked(id learning.SessionID) (GetResult, error) {
 		stepID = active.StepID
 	}
 	node, _ := findStep(rec.pinned, string(stepID))
-	return GetResult{
+	return GetResult{ContentProvenance: rec.contentProvenance,
 		Track:      rec.trackStatus(),
 		SessionID:  id,
 		State:      rec.session.State,
@@ -397,6 +403,9 @@ func (s *Service) mutate(id learning.SessionID, expectedRevision uint64, request
 		}
 	}
 	fields["request_digest"] = s.requestDigest
+	if rec := s.sessions[id]; rec != nil && rec.contentProvenance != "legacy_unreviewed" {
+		fields["content_provenance"] = rec.contentProvenance
+	}
 	payload = fields
 	if existing, ok := s.store.Request(string(id), requestID); ok {
 		raw, marshalErr := json.Marshal(payload)

@@ -82,7 +82,7 @@ relations:
 // newContractClient starts a real server behind an in-memory net.Pipe
 // transport and connects a real MCP client to it, so contract tests
 // exercise the actual protocol round trip, not just Go function calls.
-func newContractClient(t *testing.T) *mcp.ClientSession {
+func newContractClient(t *testing.T, seed ...func(*eventstore.Store)) *mcp.ClientSession {
 	t.Helper()
 	catalog := newTestCatalog(t)
 	store, err := eventstore.Open(filepath.Join(t.TempDir(), "events.jsonl"), nil)
@@ -90,6 +90,9 @@ func newContractClient(t *testing.T) *mcp.ClientSession {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	t.Cleanup(func() { store.Close() })
+	for _, setup := range seed {
+		setup(store)
+	}
 
 	evidenceStore, err := evidence.Open(filepath.Join(t.TempDir(), "evidence"))
 	if err != nil {
@@ -170,6 +173,7 @@ func TestContractListsExactlyTheMinimalToolSlice(t *testing.T) {
 		"step_evaluate":     false,
 		"reflection_record": false, "step_complete": false, "step_advance": false,
 		"workspace_observe": false, "evidence_get": false, "check_run": false,
+		"content_draft_submit": false, "content_draft_get": false, "content_draft_remove": false,
 		"progress_get": false, "review_due": false, "mastery_evidence_record": false,
 		"concept_relations_get": false, "learning_path_recommend": false,
 	}

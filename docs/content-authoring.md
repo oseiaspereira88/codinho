@@ -231,3 +231,40 @@ novo desafio. `session_finish` mantém seu significado de encerramento explícit
 Na CLI, use `catalog list --themes alpha,beta --competencies comp-a --json`
 para consultar conjuntos e cobertura. `--theme` permanece compatível e é
 exclusivo com `--themes`.
+
+## Conteúdo gerado pelo host
+
+O quarto modo de entrada é gerar conteúdo. O host prepara um pack YAML
+completo e autocontido no schema existente e chama `content_draft_submit`
+com `pack_yaml` e um `request_id` estável. A submissão aplica validação
+estrutural, editorial, de referências, paths e secrets; não executa checks
+nem escreve fixtures no projeto do aluno. `published`, `reviewed_by` e
+`playtested` não são aceitos como alegações do conteúdo gerado.
+
+A resposta fornece `draft_id`, versão, digest e expiração. Rascunhos ficam
+no stream `drafts` do estado local, fora das buscas e recomendações padrão.
+Para praticar, obtenha a escolha explícita do aluno e passe `draft_id`,
+`accept_draft: true` e `challenge_id` ou `track_id` a `session_start`.
+`session_start` e `session_get` mantêm `content_provenance` e o aviso de
+conteúdo não revisado. Os snapshots fixados continuam disponíveis após
+reiniciar, expirar ou remover o rascunho.
+
+Evidência de rascunho não altera a maestria revisada nem sua agenda. Eventos
+antigos sem proveniência verificável também ficam fora dessa projeção,
+sem apagar histórico. Publicar conteúdo posteriormente não reclassifica
+as tentativas anteriores. Uma nova tentativa sobre conteúdo publicado
+precisa de nova evidência causal.
+
+`content_draft_get` é exclusivo de revisão/exportação de autoria: retorna
+o YAML integral, que pode conter soluções e fixtures privadas. Não o use
+durante a prática do aluno. O revisor humano pode exportar esse YAML,
+incorporá-lo em `packs/`, preencher a metadata de revisão/playtest e passar
+pelo mesmo `catalog validate --checks` exigido para autoria manual. Nenhuma
+tool MCP promove conteúdo automaticamente.
+
+Cada submissão permite até 256 KiB; o estado admite 100 submissões e 16 MiB
+acumulados de YAML até um purge explícito. A validade para novos usos é de
+30 dias. `content_draft_remove` exige `confirm: true` e registra uma remoção
+lógica: não apaga auditoria nem libera quota. `codinho privacy export --dest`
+inclui os rascunhos; `codinho privacy purge --confirm` remove todo o estado
+local, inclusive a quarentena. Exporte antes se precisar conservar histórico.

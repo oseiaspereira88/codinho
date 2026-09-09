@@ -147,3 +147,14 @@ func TestTrackExplicitCompletionTraversesAllChallenges(t *testing.T) {
 		t.Fatal("tree exhaustion implicitly finished session", err)
 	}
 }
+
+func TestSnapshotProvenanceIncludesEveryTrackMember(t *testing.T) {
+	reviewed := curriculum.ChallengeAuthoring{Publication: curriculum.PublicationAuthoring{Status: "published"}}
+	draft := curriculum.ChallengeAuthoring{}
+	if snapshotProvenance(reviewed, nil) != "published" {
+		t.Fatal("reviewed snapshot misclassified")
+	}
+	if snapshotProvenance(reviewed, &trackSnapshot{Challenges: []curriculum.ChallengeAuthoring{reviewed, draft}}) != "draft" {
+		t.Fatal("future draft member not quarantined")
+	}
+}

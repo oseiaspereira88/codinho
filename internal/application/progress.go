@@ -42,16 +42,17 @@ func NewProgressService(store *eventstore.Store) *ProgressService {
 // (Compatibility: replay always re-derives State via the recorded
 // RuleVersion, never trusts this cached copy — see recordedSignals).
 type signalPayload struct {
-	CompetencyID     string `json:"competency_id"`
-	Dimension        string `json:"dimension"`
-	EvidenceID       string `json:"evidence_id"`
-	Variant          string `json:"variant,omitempty"`
-	HelpUsed         bool   `json:"help_used"`
-	SolutionRevealed bool   `json:"solution_revealed"`
-	Success          bool   `json:"success"`
-	ObservedAt       string `json:"observed_at"`
-	RuleVersion      int    `json:"rule_version"`
-	State            string `json:"state"`
+	ContentProvenance string `json:"content_provenance"`
+	CompetencyID      string `json:"competency_id"`
+	Dimension         string `json:"dimension"`
+	EvidenceID        string `json:"evidence_id"`
+	Variant           string `json:"variant,omitempty"`
+	HelpUsed          bool   `json:"help_used"`
+	SolutionRevealed  bool   `json:"solution_revealed"`
+	Success           bool   `json:"success"`
+	ObservedAt        string `json:"observed_at"`
+	RuleVersion       int    `json:"rule_version"`
+	State             string `json:"state"`
 }
 
 // schedulePayload is the durable shape of one review_scheduled event
@@ -82,10 +83,11 @@ type EvidenceInput struct {
 
 // EvidenceResult is what mastery_evidence_record reports.
 type EvidenceResult struct {
-	CompetencyID string
-	Dimension    string
-	State        string
-	Revision     uint64
+	ContentProvenance string
+	CompetencyID      string
+	Dimension         string
+	State             string
+	Revision          uint64
 }
 
 // RecordEvidence appends sig to the mastery log and returns the resulting
@@ -100,8 +102,21 @@ func (p *ProgressService) RecordEvidence(in EvidenceInput) (EvidenceResult, erro
 		return EvidenceResult{}, ErrInvalidCompetency
 	}
 
+	if ev, ok := p.store.Request(masteryStreamID, in.RequestID); ok {
+		var previous signalPayload
+		if ev.Type != eventstore.EventMasteryProjected || json.Unmarshal(ev.Payload, &previous) != nil || previous.CompetencyID != in.CompetencyID || previous.Dimension != in.Dimension || previous.EvidenceID != in.EvidenceID || previous.Variant != in.Variant || previous.HelpUsed != in.HelpUsed || previous.SolutionRevealed != in.SolutionRevealed || previous.Success != in.Success {
+			return EvidenceResult{}, eventstore.ErrRevisionConflict
+		}
+		provenance := previous.ContentProvenance
+		if provenance == "" {
+			provenance = "legacy_unreviewed"
+		}
+		return EvidenceResult{ContentProvenance: provenance, CompetencyID: previous.CompetencyID, Dimension: previous.Dimension, State: previous.State, Revision: p.Revision()}, nil
+	}
+
 	observed := time.Now().UTC()
-	payload := signalPayload{
+	provenance := p.evidenceProvenance(in.EvidenceID)
+	payload := signalPayload{ContentProvenance: provenance,
 		CompetencyID: in.CompetencyID, Dimension: string(dim), EvidenceID: in.EvidenceID, Variant: in.Variant,
 		HelpUsed: in.HelpUsed, SolutionRevealed: in.SolutionRevealed, Success: in.Success,
 		ObservedAt: observed.Format(time.RFC3339Nano), RuleVersion: mastery.RuleVersionV1,
@@ -117,7 +132,7 @@ func (p *ProgressService) RecordEvidence(in EvidenceInput) (EvidenceResult, erro
 	}
 
 	priorProjection := mastery.FoldProjections(priorSignals)[in.CompetencyID][dim]
-	sig := mastery.Signal{
+	sig := mastery.Signal{ContentProvenance: provenance,
 		CompetencyID: in.CompetencyID, Dimension: dim, EvidenceID: in.EvidenceID, Variant: in.Variant,
 		HelpUsed: in.HelpUsed, SolutionRevealed: in.SolutionRevealed, Success: in.Success, Observed: observed,
 	}
@@ -129,7 +144,7 @@ func (p *ProgressService) RecordEvidence(in EvidenceInput) (EvidenceResult, erro
 		return EvidenceResult{}, err
 	}
 
-	if !in.SolutionRevealed {
+	if !in.SolutionRevealed && provenance == "published" {
 		newSchedule := mastery.NextSchedule(in.CompetencyID, schedulePtr, in.Success, observed)
 		schedulePayloadValue := schedulePayload{
 			CompetencyID: newSchedule.CompetencyID, DueAt: newSchedule.DueAt.Format(time.RFC3339Nano),
@@ -144,7 +159,7 @@ func (p *ProgressService) RecordEvidence(in EvidenceInput) (EvidenceResult, erro
 		}
 	}
 
-	return EvidenceResult{
+	return EvidenceResult{ContentProvenance: provenance,
 		CompetencyID: in.CompetencyID, Dimension: string(dim), State: payload.State,
 		Revision: p.store.Revision(masteryStreamID),
 	}, nil
@@ -221,7 +236,7 @@ func (p *ProgressService) recordedSignals() ([]mastery.RecordedSignal, error) {
 			return nil, fmt.Errorf("parsing observed_at for event %s: %w", ev.ID, err)
 		}
 		out = append(out, mastery.RecordedSignal{
-			Signal: mastery.Signal{
+			Signal: mastery.Signal{ContentProvenance: payload.ContentProvenance,
 				CompetencyID: payload.CompetencyID, Dimension: mastery.Dimension(payload.Dimension),
 				EvidenceID: payload.EvidenceID, Variant: payload.Variant, HelpUsed: payload.HelpUsed,
 				SolutionRevealed: payload.SolutionRevealed, Success: payload.Success, Observed: observed,

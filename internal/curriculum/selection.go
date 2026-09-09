@@ -61,7 +61,7 @@ func (c *Catalog) SubjectMatch(id string, themes, comps []string) SubjectMatch {
 	return m
 }
 func (c *Catalog) Selection(ids, themes, comps []string) Selection {
-	s := Selection{Coverage: "none", CoveredThemeIDs: []string{}, MissingThemeIDs: []string{}, CoveredCompetencyIDs: []string{}, MissingCompetencyIDs: []string{}, Matches: []SubjectMatch{}, Modes: []string{"track", "subjects", "challenge"}}
+	s := Selection{Coverage: "none", CoveredThemeIDs: []string{}, MissingThemeIDs: []string{}, CoveredCompetencyIDs: []string{}, MissingCompetencyIDs: []string{}, Matches: []SubjectMatch{}, Modes: []string{"track", "subjects", "challenge", "generate"}}
 	for _, id := range ids {
 		m := c.SubjectMatch(id, themes, comps)
 		s.Matches = append(s.Matches, m)

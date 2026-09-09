@@ -1,11 +1,13 @@
 package curriculum
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"github.com/oseiaspereira88/codinho/internal/checks"
 	"github.com/oseiaspereira88/codinho/internal/security"
 	"gopkg.in/yaml.v3"
+	"io"
 	"strings"
 )
 
@@ -33,8 +35,13 @@ func ParseDraft(data []byte) (Pack, DraftValidation, error) {
 		return fail("draft contains secret-shaped content")
 	}
 	var doc yaml.Node
-	if err := yaml.Unmarshal(data, &doc); err != nil {
+	decoder := yaml.NewDecoder(bytes.NewReader(data))
+	if err := decoder.Decode(&doc); err != nil {
 		return fail("malformed YAML")
+	}
+	var extra yaml.Node
+	if err := decoder.Decode(&extra); err != io.EOF {
+		return fail("submission requires exactly one YAML document")
 	}
 	if err := checkYAMLLimits(&doc, DefaultLimits); err != nil {
 		return fail("YAML depth or alias limit exceeded")
@@ -78,6 +85,7 @@ func ParseDraft(data []byte) (Pack, DraftValidation, error) {
 		}
 	}
 	result.Diagnostics = Validate([]Pack{p})
+	result.Diagnostics = append(result.Diagnostics, ValidatePublication([]Pack{p})...)
 	result.Editorial = RunEditorialChecks([]Pack{p})
 	for _, d := range result.Diagnostics {
 		if d.Blocking || d.Code == DiagMissingReference {

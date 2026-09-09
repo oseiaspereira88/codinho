@@ -11,8 +11,8 @@ import (
 const privacyUsage = `Usage: codinho privacy <command>
 
 Commands:
-  export  Copy the local event log and evidence store to a destination
-  purge   Remove all local state (event log and evidence store)
+  export  Copy the local event log (including quarantined drafts) and evidence store to a destination
+  purge   Remove all local state (event log (including quarantined drafts) and evidence store)
 `
 
 func runPrivacy(args []string, stdout, stderr io.Writer) int {
@@ -32,7 +32,7 @@ func runPrivacy(args []string, stdout, stderr io.Writer) int {
 	}
 }
 
-// runPrivacyExport copies the local event log and evidence store
+// runPrivacyExport copies the local event log (including quarantined drafts) and evidence store
 // verbatim to dest, never touching the learner's project files or Git
 // state (security-privacy-hardening requirement R6, R9).
 func runPrivacyExport(args []string, stdout, stderr io.Writer) int {
@@ -56,7 +56,7 @@ func runPrivacyExport(args []string, stdout, stderr io.Writer) int {
 }
 
 // runPrivacyPurge removes only the local `.codinho/state` directory
-// (event log and evidence store); it always requires --confirm and never
+// (event log (including quarantined drafts) and evidence store); it always requires --confirm and never
 // touches the learner's project files (fail-closed default; requirement
 // R6, R9).
 func runPrivacyPurge(args []string, stdout, stderr io.Writer) int {
@@ -71,6 +71,6 @@ func runPrivacyPurge(args []string, stdout, stderr io.Writer) int {
 		fmt.Fprintf(stderr, "codinho: privacy purge: %v\n", err)
 		return exitError
 	}
-	fmt.Fprintln(stdout, "removed local state (event log and evidence store)")
+	fmt.Fprintln(stdout, "removed local state (event log (including quarantined drafts) and evidence store)")
 	return exitOK
 }

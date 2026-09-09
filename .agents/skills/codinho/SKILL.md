@@ -31,8 +31,8 @@ divulgação progressiva em vez de reler tudo a cada sessão.
 2. Se `session_id` já é conhecido (sessão em andamento), chame
    `session_get` ANTES de inferir qualquer coisa pela conversa (regra
    5). Nunca assuma o estado do passo pela última mensagem.
-3. Se não há sessão, apresente três escolhas explícitas: trilha autorada,
-   seleção por assuntos ou desafio único. Consulte `selection.coverage`,
+3. Se não há sessão, apresente quatro escolhas explícitas: trilha autorada,
+   seleção por assuntos, desafio único ou conteúdo gerado. Consulte `selection.coverage`,
    assuntos ausentes e `complete`; nunca prometa cobertura total de uma
    composição incompleta. Use `theme_ids`/`competency_ids` sem misturar
    os campos singulares. Ajude o aluno a escolher com
@@ -44,6 +44,18 @@ divulgação progressiva em vez de reler tudo a cada sessão.
    Na retomada, use `session_get.data.track` para conferir desafio, versão e
    cursor fixados; não recomponha a trilha com o catálogo atual. Ao trocar de
    desafio, observe novamente o workspace e obtenha evidência nova.
+
+4. Para conteúdo gerado, prepare um pack YAML autocontido no schema de autoria
+   e use `content_draft_submit` com `pack_yaml` e `request_id`. Corrija os
+   diagnósticos bloqueantes antes de tentar novamente. Explique que é conteúdo
+   não revisado e não contará para maestria revisada. Só após consentimento
+   explícito do aluno inicie com `draft_id`, `accept_draft: true` e a escolha
+   de `challenge_id` ou `track_id`. Preserve o aviso de `session_get` na retomada.
+   Não declare publicação, revisão ou playtest humano em nome do aluno.
+   `content_draft_get` retorna autoria privada e só deve ser usado em revisão
+   ou exportação explicitamente solicitada, nunca durante a prática.
+   `content_draft_remove` exige confirmação; export/purge usam a CLI de
+   privacidade. A promoção continua pelo funil humano de autoria e playtest.
 
 ## As 16 regras normativas (PROJECT.md §16.2)
 

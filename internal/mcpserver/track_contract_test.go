@@ -53,7 +53,7 @@ func TestContractTrackSelection(t *testing.T) {
 	if selection["complete"] != false || selection["coverage"] != "partial" {
 		t.Fatal(selection)
 	}
-	if len(selection["modes"].([]any)) != 3 {
+	if len(selection["modes"].([]any)) != 4 {
 		t.Fatal("selection modes missing")
 	}
 }

@@ -71,14 +71,15 @@ func Higher(a, b State) State {
 // record) asserts, citing an already-recorded Evidence rather than
 // creating a new one (Decision 2; invariant 9: evidence is immutable).
 type Signal struct {
-	CompetencyID     string
-	Dimension        Dimension
-	EvidenceID       string
-	Variant          string
-	HelpUsed         bool
-	SolutionRevealed bool
-	Success          bool
-	Observed         time.Time
+	ContentProvenance string
+	CompetencyID      string
+	Dimension         Dimension
+	EvidenceID        string
+	Variant           string
+	HelpUsed          bool
+	SolutionRevealed  bool
+	Success           bool
+	Observed          time.Time
 }
 
 // DimensionProjection is one competency's current state in one dimension,

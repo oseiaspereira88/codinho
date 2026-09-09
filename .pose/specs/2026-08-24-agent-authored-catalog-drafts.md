@@ -108,7 +108,6 @@ real — puxado pelo próprio uso, não só por autoria offline dos packs
 - created: internal/mcpserver/content_draft_contract_test.go
 - created: cmd/codinho/draft_integration_test.go
 - modified: internal/curriculum/selection.go
-- modified: internal/curriculum/loader.go
 - modified: internal/mastery/model.go
 - modified: internal/mastery/projector.go
 - modified: internal/mastery/rules.go
@@ -124,14 +123,22 @@ real — puxado pelo próprio uso, não só por autoria offline dos packs
 - modified: internal/mcpserver/progress_tools.go
 - modified: internal/mcpserver/errors.go
 - modified: internal/eventstore/event.go
-- modified: internal/security/policy_test.go
+- modified: internal/cli/cli_test.go
 - modified: internal/cli/privacy.go
-- modified: cmd/codinho/main.go
 - modified: .agents/skills/codinho/SKILL.md
 - modified: .pose/contracts/mcp-stdio.json
 - modified: .pose/indexes/validation-matrix.json
 - modified: docs/content-authoring.md
 - modified: .pose/adr/2026-08-23-agent-generated-catalog-content-as-a-first-class-mode.md
+
+- modified: internal/mastery/rules_test.go
+- modified: internal/mcpserver/progress_contract_test.go
+- modified: internal/mcpserver/contract_test.go
+- modified: internal/mcpserver/track_contract_test.go
+- modified: cmd/codinho/integration_test.go
+- modified: internal/application/workspace.go
+- modified: internal/application/checks.go
+- modified: internal/session/tracks_test.go
 
 ### Delivery targets
 - capability:agent-authored-catalog-drafts module:cmd/codinho profile:composed-capability entrypoint:cmd/codinho/main.go

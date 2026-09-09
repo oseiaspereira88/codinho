@@ -358,6 +358,12 @@ func TestProgressShowAndExportReflectRecordedEvidence(t *testing.T) {
 	if err != nil {
 		t.Fatalf("openEventStore: %v", err)
 	}
+	if _, err := store.Append("synthetic-reviewed", 0, "", eventstore.EventSessionStarted, map[string]string{"content_provenance": "published"}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := store.Append("synthetic-reviewed", 1, "", eventstore.EventEvidenceRecorded, map[string]string{"evidence_id": "ev1"}); err != nil {
+		t.Fatal(err)
+	}
 	svc := application.NewProgressService(store)
 	if _, err := svc.RecordEvidence(application.EvidenceInput{
 		CompetencyID: "slice-filter",

@@ -1,8 +1,8 @@
 ---
 slug: concept-content-authoring
-status: in-progress
+status: done
 created_at: 2026-09-07
-completed_at:
+completed_at: 2026-09-09
 supersedes:
 depends_on: assistance-hints-detours, catalog-authoring-quality
 priority: 40

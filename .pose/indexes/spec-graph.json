@@ -667,7 +667,7 @@
       ],
       "path": ".pose/specs/2026-09-07-concept-content-authoring.md",
       "priority": 40,
-      "status": "draft"
+      "status": "in-progress"
     },
     "curriculum-graph-path-recommendation": {
       "depends_on": [
@@ -929,7 +929,7 @@
       ],
       "path": ".pose/specs/2026-09-07-v1-delivery-ci-assurance.md",
       "priority": 35,
-      "status": "in-progress"
+      "status": "done"
     },
     "v1-integrated-acceptance": {
       "depends_on": [

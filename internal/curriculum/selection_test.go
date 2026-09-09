@@ -3,7 +3,9 @@ package curriculum
 import (
 	"fmt"
 	"reflect"
+	"sort"
 	"testing"
+	"time"
 )
 
 func selectionCatalog() *Catalog {
@@ -86,5 +88,36 @@ func TestCompositionBoundsAndMixedDependencyCycle(t *testing.T) {
 	c = newCatalog([]Pack{{Challenges: []ChallengeAuthoring{{ID: "a", Themes: []string{"alpha"}, Prerequisites: []string{"b"}}, {ID: "b"}}, Relations: []RelationAuthoring{{From: "b", To: "a", Kind: "recommended_before"}}}})
 	if _, _, err := c.Compose([]string{"alpha"}, nil); err == nil {
 		t.Fatal("mixed dependency cycle accepted")
+	}
+}
+
+func TestSelectionLatencyAtV1Scale(t *testing.T) {
+	c := syntheticCatalogAtV1Scale(84)
+	for _, tc := range []struct {
+		name  string
+		query func() error
+	}{
+		{"search", func() error { _, err := c.Search(Query{ThemeIDs: []string{"bench-theme"}}); return err }},
+		{"compose", func() error {
+			_, _, err := c.Compose([]string{"bench-theme"}, []string{"bench-competency"})
+			return err
+		}},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			samples := make([]time.Duration, 100)
+			for i := range samples {
+				start := time.Now()
+				if err := tc.query(); err != nil {
+					t.Fatal(err)
+				}
+				samples[i] = time.Since(start)
+			}
+			sort.Slice(samples, func(i, j int) bool { return samples[i] < samples[j] })
+			p95 := samples[94]
+			t.Logf("p95=%s (100 queries, 84 indexed challenges)", p95)
+			if p95 >= 100*time.Millisecond {
+				t.Fatalf("p95 budget exceeded: %s", p95)
+			}
+		})
 	}
 }

@@ -1,8 +1,8 @@
 ---
 slug: agent-authored-catalog-drafts
-status: in-progress
+status: done
 created_at: 2026-08-24
-completed_at:
+completed_at: 2026-09-09
 supersedes:
 depends_on: catalog-authoring-quality, learning-track-composition, tutor-skill-host-integration, catalog-publication-integrity, concept-content-authoring, session-recovery-version-pinning
 priority: 75
@@ -161,18 +161,18 @@ real — puxado pelo próprio uso, não só por autoria offline dos packs
 - [x] Registrar quarentena lógica no stream drafts, preservando o catálogo padrão.
 
 ### Implementation
-- [ ] Implementar `content_draft_submit` reusando validação existente.
-- [ ] Implementar quarentena e exclusão de rascunho de buscas padrão.
-- [ ] Implementar `content_provenance` em eventos e ignorá-lo na projeção
+- [x] Implementar `content_draft_submit` reusando validação existente.
+- [x] Implementar quarentena e exclusão de rascunho de buscas padrão.
+- [x] Implementar `content_provenance` em eventos e ignorá-lo na projeção
       de mastery revisada.
-- [ ] Implementar aviso persistente de sessão sobre rascunho.
-- [ ] Expor os quatro modos na skill `codinho`.
+- [x] Implementar aviso persistente de sessão sobre rascunho.
+- [x] Expor os quatro modos na skill `codinho`.
 
 ### Validation
 - [x] Teste de submissão de rascunho válido e inválido (reuso de regras).
-- [ ] Teste de sessão sobre rascunho não contaminando mastery revisada.
-- [ ] Teste de promoção de rascunho a `published` pelo funil existente.
-- [ ] Suíte completa de internal/curriculum, internal/mastery,
+- [x] Teste de sessão sobre rascunho não contaminando mastery revisada.
+- [x] Teste de promoção de rascunho a `published` pelo funil existente.
+- [x] Suíte completa de internal/curriculum, internal/mastery,
       internal/session, internal/mcpserver sem regressão.
 
 ## 5. Decisions
@@ -221,32 +221,45 @@ verificando isolamento de evidência, e promoção ponta a ponta até
 - Security / Contract: fixture confinement e secret scan já existentes, aplicados ao caminho de rascunho.
 
 ### Execution log
+- 2026-09-09: gate final em 44bd0dc passou: 22 executados, 22 aprovados, zero falhas/erros/skips. Bundle rvb-aa9f1bede3dde740 e atestação rva-cb59d98b35a61657; review-check e closeout-check confirmam estado terminal.
 - 2026-09-09, incremento de persistência: `go test ./internal/curriculum ./internal/drafts ./internal/eventstore` passou. Cobertura de validação, isolamento, retry, colisão, restart, remoção, expiração e quota cumulativa.
 - 2026-09-09: `pose validate --strict --json .pose/results/delivery-validation.json` passou na matriz completa antes do commit da base.
 
 ### Results summary
-Base interna de validação e quarentena implementada e validada; integração com sessão, maestria e MCP pendente.
+Submissão e revisão via MCP, prática com consentimento, quarentena durável e isolamento da maestria implementados; gate final registrado no relatório de revisão.
 
 ### Requirement trace
-- Mapear R1–R11 a testes de submissão, quarentena, proveniência, promoção, compatibilidade e privacidade.
+- R1 [satisfied] test:TestDraftOverRealStdio
+- R2 [satisfied] test:TestParseDraftRejectsUnsafeOrInvalidAuthoring
+- R3 [satisfied] test:TestParseDraftQuarantinesUnreviewedContent
+- R4 [satisfied] test:TestDraftOverRealStdio
+- R5 [satisfied] test:TestDraftAndLegacyEvidenceAreExcludedWithoutRetroactivePromotion
+- R6 [satisfied] test:TestDraftPromotionRequiresExistingHumanPublicationGate
+- R7 [satisfied] test:TestDraftReplayIdempotencyAndRemoval
+- R8 [satisfied] test:TestParseDraftRejectsUnsafeOrInvalidAuthoring
+- R9 [satisfied] test:TestParseDraftRejectsUnsafeOrInvalidAuthoring
+- R10 [satisfied] test:TestEvidenceRetryKeepsOriginalProvenance
+- R11 [satisfied] test:TestDraftExpiryAndCumulativeQuota
 
 ### Known gaps
-- Conectar quarentena às sessões/MCP e provar isolamento da maestria antes de encerrar.
+- Playtest real no host e publicação humana continuam na aceitação integrada V1; testes sintéticos não atestam revisão pedagógica humana.
 
 ## 7. Final Report
 
 ### Delivered scope
-Entrega parcial: validação e persistência interna de rascunhos. Ainda não disponível pelo MCP.
+Modo de conteúdo gerado disponível via MCP, com submissão limitada, revisão/exportação explícita, remoção lógica, consentimento para prática e avisos persistentes. Proveniência imutável exclui rascunhos e histórico não verificável da maestria revisada e da agenda.
 
 ### Files and modules changed
-- Planejados nas áreas afetadas acima.
+- curriculum/drafts validam e persistem; session fixa snapshots; application/mastery classificam evidência; MCP/skill expõem o fluxo; CLI privacy inclui a quarentena.
 
 ### Validation executed
-- Command: pose lint-spec agent-authored-catalog-drafts --ready-check
-- Result: registrar após validação.
+- Command: pose validate --strict --json .pose/results/delivery-validation.json
+- Result: matriz completa executada; ver relatório .pose/reports/2026-09-09-review-agent-authored-catalog-drafts.md.
+- Command: pose artifact-check --spec agent-authored-catalog-drafts --strict; pose surface-check --spec agent-authored-catalog-drafts --strict; pose skills-check --strict
+- Result: passaram após atribuição explícita de adb3235..44bd0dc; o commit 2c8b990 não tinha trailer, então pose report registrou o intervalo imutável sem reescrever histórico.
 
 ### Residual risks
-- Nenhum adicional além do já descrito em Technical risks.
+- Remoção/expiração não liberam quota nem apagam auditoria: export/purge explícitos. Histórico sem proveniência verificável deixa de contar na projeção revisada; os eventos permanecem preservados. Publicação humana continua obrigatória.
 
 ### Follow-ups
 - [covered: v1-integrated-acceptance] Exercitar submissão, consentimento, retomada, promoção humana e isolamento de mastery no candidato V1.

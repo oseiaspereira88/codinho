@@ -97,6 +97,14 @@
       "digest": "sha256:f9653d7c9f42ea4ed52df57545a564a9a4ed8d48b0d6af093b40ab6156b313a5"
     },
     {
+      "spec": "learning-track-composition",
+      "category": "added",
+      "breaking": false,
+      "body": "Selecione vários assuntos com indicação de cobertura e tópicos ausentes.\nInicie uma trilha autorada ou aceite uma composição de desafios; a sessão\npreserva a sequência, as versões e o ponto de retomada mesmo após mudanças\nno catálogo. Campos MCP singulares continuam compatíveis.",
+      "path": "learning-track-composition.md",
+      "digest": "sha256:e19b7e28555157cc9b9f3f644a3b1245a0aeea7df3089918d042a1f40672596f"
+    },
+    {
       "spec": "mastery-review-scheduling",
       "category": "added",
       "breaking": false,

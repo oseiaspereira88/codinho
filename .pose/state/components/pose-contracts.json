@@ -2,8 +2,8 @@
   "schema_version": 1,
   "component_slug": "pose-contracts",
   "path": ".pose/contracts",
-  "discovered_at": "2026-09-09T13:31:00Z",
-  "baseline_commit": "adb32358550c",
+  "discovered_at": "2026-09-09T19:30:08Z",
+  "baseline_commit": "44bd0dc0228c",
   "metrics": {
     "loc_production": 0,
     "loc_tests": 0,

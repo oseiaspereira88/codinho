@@ -1,8 +1,8 @@
 # Component Assessment: root (`.`)
 
 > **Mapeamento de Módulo POSE**: `.`
-> **Data de Avaliação**: 2026-09-09T13:31:00Z | **Baseline Commit**: adb32358550c
-> **Métricas**: 13047 LOC Produção | 13031 LOC Testes | 201 Arquivos Totais
+> **Data de Avaliação**: 2026-09-09T19:30:08Z | **Baseline Commit**: 44bd0dc0228c
+> **Métricas**: 13517 LOC Produção | 13502 LOC Testes | 210 Arquivos Totais
 > **Linguagens**: go, shell
 > **Saúde de Código**: 0 TODOs | 0 FIXMEs | 0 Panics | 0 Stubs
 

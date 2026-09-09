@@ -2,12 +2,12 @@
   "schema_version": 1,
   "component_slug": "internal-mcpserver",
   "path": "internal/mcpserver",
-  "discovered_at": "2026-09-09T13:31:00Z",
-  "baseline_commit": "adb32358550c",
+  "discovered_at": "2026-09-09T19:30:08Z",
+  "baseline_commit": "44bd0dc0228c",
   "metrics": {
-    "loc_production": 1367,
-    "loc_tests": 2010,
-    "total_files": 26,
+    "loc_production": 1444,
+    "loc_tests": 2057,
+    "total_files": 28,
     "languages": [
       "go"
     ]

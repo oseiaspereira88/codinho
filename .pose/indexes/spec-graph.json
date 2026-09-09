@@ -614,7 +614,7 @@
       ],
       "path": ".pose/specs/2026-08-24-agent-authored-catalog-drafts.md",
       "priority": 75,
-      "status": "draft"
+      "status": "in-progress"
     },
     "architecture-decision-baseline": {
       "depends_on": null,
@@ -809,7 +809,7 @@
       ],
       "path": ".pose/specs/2026-08-24-learning-track-composition.md",
       "priority": 65,
-      "status": "in-progress"
+      "status": "done"
     },
     "local-event-store": {
       "depends_on": [

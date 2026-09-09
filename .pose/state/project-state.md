@@ -78,10 +78,10 @@ Use os cut criteria do roadmap codinho-v1; esta remediação não encerra a V1.
   - report:2026-09-08-review-session-tree-progression.md
 
 ## Arquitetura
-<!-- state:derived hash:d581a63b1e38 status:active -->
+<!-- state:derived hash:07837f78cd16 status:active -->
 
 - componentes: total=10 verificados=10 completude=100.0%
-- linhas_de_codigo: producao=14870 testes=17151 total=32021
+- linhas_de_codigo: producao=15417 testes=17786 total=33203
 - linguagens: go, shell
 - saude_de_codigo: TODOs=0 FIXMEs=0 panics=0 stubs=0
 - integracoes: contratos=0 ativos=0 gaps=0

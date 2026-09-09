@@ -1,0 +1,1496 @@
+{
+  "schema_version": 1,
+  "bundle_id": "rvb-aa9f1bede3dde740",
+  "bundle_digest": "sha256:aa9f1bede3dde740b1b860036c04cc48934efa69978221489f743455033aa402",
+  "state": "sealed",
+  "sealed_at": "2026-09-09T19:29:13Z",
+  "payload": {
+    "scope": {
+      "ref": "spec:agent-authored-catalog-drafts",
+      "kind": "spec",
+      "slug": "agent-authored-catalog-drafts",
+      "depends_on": [
+        "catalog-authoring-quality",
+        "catalog-publication-integrity",
+        "concept-content-authoring",
+        "learning-track-composition",
+        "session-recovery-version-pinning",
+        "tutor-skill-host-integration"
+      ],
+      "components": [
+        "curriculum",
+        "mastery",
+        "mcp-server",
+        "tutor-skill"
+      ],
+      "deliveries": [
+        "capability:agent-authored-catalog-drafts"
+      ],
+      "sections": [
+        {
+          "kind": "semantic-section",
+          "path": "decisions",
+          "digest": "sha256:97e101ff7d632b9b725ffc39938a2e5a42c3a543fa935bcc5f3b31e8315997cc",
+          "reason": "governed semantic review input"
+        },
+        {
+          "kind": "semantic-section",
+          "path": "intent",
+          "digest": "sha256:399a85633bb2877783e6ab1b240f5008dd2fbe6ee2b4d12e0b0cdbd62ceababf",
+          "reason": "governed semantic review input"
+        },
+        {
+          "kind": "semantic-section",
+          "path": "requirements",
+          "digest": "sha256:4ff95206046a98be334bf91f4dcee66fdd99cfa29375626910108bd94d6f000b",
+          "reason": "governed semantic review input"
+        },
+        {
+          "kind": "semantic-section",
+          "path": "technical plan",
+          "digest": "sha256:8afe53992dee7ce38081aa5cb957fecb9d29fe78297f13849c940f36c1b5d563",
+          "reason": "governed semantic review input"
+        }
+      ]
+    },
+    "subject": {
+      "change_sets": [
+        "cs-01fa9d850b16"
+      ],
+      "base": "adb32358550c3cb916082be8d01b0b780bc3fe77",
+      "head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+      "patch_digest": "sha256:6d5a871783a901271c4228c5be3c23b6aa585f3eb0c11541b92b0568664c26d4",
+      "tree_digest": "sha256:ceea3d80ebdbe7c6b80fdb531623100076e25b634e3ef607e0fb1163185f25b8",
+      "entries": [
+        {
+          "action": "created",
+          "path": ".pose/docs-review.jsonl",
+          "class": "governance",
+          "digest": "sha256:d56c21a2d4f015d820fe7bc101b8c3279e0e03d3599d4d76d8990d92bcf3bf7a",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": ".pose/templates/public-claims.json",
+          "class": "governance",
+          "digest": "sha256:9277b64ff50df524ac62afaff76a5d7488e747e0402ebb18b18c94f4a5d313fa",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "cmd/codinho/draft_integration_test.go",
+          "class": "implementation",
+          "digest": "sha256:ce5fbd662fc083859e9e1f72a4a50a2e6d84c8f4495846a7c5c811a944deadf6",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/application/draft_provenance.go",
+          "class": "implementation",
+          "digest": "sha256:459e855aeabe2a8b521df052e46eb98719147efa3ed4ef74239f1a143ccb55d5",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/application/drafts.go",
+          "class": "implementation",
+          "digest": "sha256:56c1b0a4bf24f4e4db733ec99ddb640a7223fa40b6498d87143984e3536e5f2d",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/drafts.go",
+          "class": "implementation",
+          "digest": "sha256:1807856bdf5da50eef678314a37de83cc61c09a60f78b9574cc6d287c1a4d909",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/drafts_test.go",
+          "class": "implementation",
+          "digest": "sha256:9731830290631cc410ddbc37f957d425fc89447d0fbde151df05f9ba35fcf78b",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/drafts/service.go",
+          "class": "implementation",
+          "digest": "sha256:0b297b421c0941b6953ae6211ff5ef3e2fc36b1efabe468a9f685f2b9fd94152",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/drafts/service_test.go",
+          "class": "implementation",
+          "digest": "sha256:f88e3155feeba02787ed0572034f0730378f263b68156530272e4b2561071c64",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/mcpserver/content_draft_contract_test.go",
+          "class": "implementation",
+          "digest": "sha256:6f2fa3b99251279eed450d944937df1791e0edbb74c2f65f79b1775086a0e7e3",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/mcpserver/content_draft_tools.go",
+          "class": "implementation",
+          "digest": "sha256:cb6ab737b9f4d1ac7ee2bfef90dd455451454b7835124bba9828e19d6831266a",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": ".agents/skills/codinho/SKILL.md",
+          "class": "governance",
+          "digest": "sha256:e5c4c9aa61a5c99d32f8998a3322891b8f966a2056e0781ad3d2912b0ad513e7",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/adr/2026-08-23-agent-generated-catalog-content-as-a-first-class-mode.md",
+          "class": "governance",
+          "digest": "sha256:e3e171f6ada1fceeb37e58a91b9eb553d11cafea3a504c1b29060fe8687ac8a5",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/contracts/mcp-stdio.json",
+          "class": "implementation",
+          "digest": "sha256:18ffb3b4599c6c60348e6d123cf6b6b9b630b6fbb1e4da96a6d030ea0e09314b",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/validation-matrix.json",
+          "class": "governance",
+          "digest": "sha256:cbd0d1ca1cd67b5c5b2d8f9e3c91ad6ab08adfb52cffe5be608033e35cfd9389",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/policy/review.json",
+          "class": "governance",
+          "digest": "sha256:0a0536853ba9fbf8d7da5fb77371e4d1c19ea9fab06606aa7b8d03947379fd40",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/review-profiles/milestone-integration.json",
+          "class": "governance",
+          "digest": "sha256:7daebfd42dad712f3a08f01229b0fd2daa23640fabc95fbb70f08e49c68a1297",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "AGENTS.md",
+          "class": "documentation",
+          "digest": "sha256:fceae7efcc67751fe7b7298c9bbb432b7bbf611fa58f0ba6a7d8605e978b3aae",
+          "reason": "attributed documentation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "POSE.md",
+          "class": "documentation",
+          "digest": "sha256:8770aa319b287f89c5122790dc3d47de2fe1d83097d9b9800f66464d0328115f",
+          "reason": "attributed documentation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "cmd/codinho/integration_test.go",
+          "class": "implementation",
+          "digest": "sha256:00767f6fd91bb619cab79385867dbbec6fc5a735103e0e09226f646b6e44d69e",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "docs/content-authoring.md",
+          "class": "implementation",
+          "digest": "sha256:339677dd2d2c57bc9ac43f6994fe9faba0d3440d5c2294f523523237c83c4484",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/application/checks.go",
+          "class": "implementation",
+          "digest": "sha256:d7e2ff8b18823c134a3a7080311d6a04e218fdb8794844edc7e96d3ee6845d95",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/application/progress.go",
+          "class": "implementation",
+          "digest": "sha256:aef1fa6d93b664a13f3619c9106dc8b429a3e82aa3567966eb2cfa11c49d2796",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/application/progress_test.go",
+          "class": "implementation",
+          "digest": "sha256:6ce135397899abd41f2ee9a710aec1456a284e111894ab48ed1451e5ac63c300",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/application/session.go",
+          "class": "implementation",
+          "digest": "sha256:05b920085be841a986e72ec1e44c489c83b3d87a913bffa9f41cba2dc49a6fe3",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/application/workspace.go",
+          "class": "implementation",
+          "digest": "sha256:f294d814f09b13a9aa5aa23a76112edcae4e1013780e9e61195cf9fb77645d6f",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/cli/cli_test.go",
+          "class": "implementation",
+          "digest": "sha256:d33a2a347809b99ed418274f57b689de5a73388dcdf238e43fa6b2a1db7759b0",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/cli/privacy.go",
+          "class": "implementation",
+          "digest": "sha256:8200cb53d9f17b90b2563da1a04aca68990969e8f22fd9a6f082ef19ce74e2c5",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/selection.go",
+          "class": "implementation",
+          "digest": "sha256:3269576230f45fda83880f0d4bfc78fccfc76c616881a7b505dcc97459305077",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/eventstore/event.go",
+          "class": "implementation",
+          "digest": "sha256:82e9d3be9fd5bc7aab6563ca7e8cc3bd2b0b27c590e90fa1ad631bd9c2e1a066",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mastery/model.go",
+          "class": "implementation",
+          "digest": "sha256:2d0685846ed53c777d7f8f99c2de69b387eab4ec53b2b3892490c236001a1873",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mastery/projector.go",
+          "class": "implementation",
+          "digest": "sha256:70644a5ff4f4f2d9a1a8f0232980b8b15c96fbf068d4a9a21567453b988f5dde",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mastery/projector_test.go",
+          "class": "implementation",
+          "digest": "sha256:4fc6d90f337774e9c4ced5e200f3374cdab2ec4077c7ed9c8df4e5ec60d803e6",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mastery/rules.go",
+          "class": "implementation",
+          "digest": "sha256:58759a6614aa4d7c8099c4fcb8f2366e19745b04b2449140e068e37b437c0aba",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mastery/rules_test.go",
+          "class": "implementation",
+          "digest": "sha256:f3d42cbedfaaaffb68f47d50b8fb4b0051c7c512819f401e71e62b3a328e5c4a",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/contract_test.go",
+          "class": "implementation",
+          "digest": "sha256:f850124fb00c9d7cb66011fd97b9805feb858e5a44d8ef263f553fd1b8210b9a",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/errors.go",
+          "class": "implementation",
+          "digest": "sha256:ccbbfa8ac2d33287eb899e9564269055980b12d151f618940f4bc2e35fee6378",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/progress_contract_test.go",
+          "class": "implementation",
+          "digest": "sha256:5a5530318915bb0689da1c67fde7bf6995c96e623ada17053c5fd9729ffb2bec",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/progress_tools.go",
+          "class": "implementation",
+          "digest": "sha256:ca8a10d74b14555fcf94cd9db2c689d70fa8b8097db204482b21f1cb2f8429c5",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/server.go",
+          "class": "implementation",
+          "digest": "sha256:82e82beb1475b813cae64af8f3853368799d39be144156beda62b2175cca3da4",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/session_tools.go",
+          "class": "implementation",
+          "digest": "sha256:f8afec8cb63eb0b16efe07e0510304d575409254d642522322c01d98e0f2fce6",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/mcpserver/track_contract_test.go",
+          "class": "implementation",
+          "digest": "sha256:e5c761da7ac274e98d614eb2e90035442da8554e43e90bcd30c0e8bc3487943c",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/session/recovery.go",
+          "class": "implementation",
+          "digest": "sha256:a6f81b46361b088fb6861a8078fb4057975a595da5e8d368ae8a5de1af358827",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/session/service.go",
+          "class": "implementation",
+          "digest": "sha256:8929eb11e13e99bcc402eb99472f1fcf38cb26cc3849bb93f8d3ffe9932d81c4",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/session/tracks.go",
+          "class": "implementation",
+          "digest": "sha256:d23b804b5aee4499235b618bc509e53b91c8485ff6add284133ae13e21b0a2a5",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "internal/session/tracks_test.go",
+          "class": "implementation",
+          "digest": "sha256:e63a8c930d021d01608dadd95a857d54b2d8038314342e0f70a348be61879e23",
+          "reason": "attributed implementation path in the immutable change set"
+        }
+      ]
+    },
+    "plan": {
+      "plan_digest": "sha256:35a300a7f4dbad131b3968b17cbfd9acf816d6ffe66af0d0f2cf56dfb94d8572",
+      "independence": "same-actor-separate-execution",
+      "components": [
+        {
+          "id": "codinho",
+          "path": "cmd/codinho",
+          "kind": "module",
+          "domain": "cli",
+          "owner": "@oseiaspereira",
+          "criticality": "high",
+          "validation_profile": "baseline",
+          "sources": [
+            "artifact:agent-authored-catalog-drafts:cmd/codinho/draft_integration_test.go",
+            "artifact:agent-authored-catalog-drafts:cmd/codinho/integration_test.go",
+            "delivery:capability:agent-authored-catalog-drafts:cmd/codinho",
+            "delivery:capability:agent-authored-catalog-drafts:cmd/codinho/main.go",
+            "observed:agent-authored-catalog-drafts:cmd/codinho/draft_integration_test.go",
+            "observed:agent-authored-catalog-drafts:cmd/codinho/integration_test.go"
+          ]
+        },
+        {
+          "id": "contracts",
+          "path": ".pose/contracts",
+          "kind": "module",
+          "domain": "governance",
+          "owner": "@oseiaspereira",
+          "criticality": "high",
+          "validation_profile": "baseline",
+          "sources": [
+            "artifact:agent-authored-catalog-drafts:.pose/contracts/mcp-stdio.json",
+            "observed:agent-authored-catalog-drafts:.pose/contracts/mcp-stdio.json"
+          ]
+        },
+        {
+          "id": "docs",
+          "path": "docs",
+          "kind": "module",
+          "domain": "documentation",
+          "owner": "@oseiaspereira",
+          "criticality": "high",
+          "validation_profile": "baseline",
+          "sources": [
+            "artifact:agent-authored-catalog-drafts:docs/content-authoring.md",
+            "observed:agent-authored-catalog-drafts:docs/content-authoring.md"
+          ]
+        },
+        {
+          "id": "internal",
+          "path": "internal",
+          "kind": "directory",
+          "sources": [
+            "artifact:agent-authored-catalog-drafts:internal/application/checks.go",
+            "artifact:agent-authored-catalog-drafts:internal/application/draft_provenance.go",
+            "artifact:agent-authored-catalog-drafts:internal/application/drafts.go",
+            "artifact:agent-authored-catalog-drafts:internal/application/progress.go",
+            "artifact:agent-authored-catalog-drafts:internal/application/progress_test.go",
+            "artifact:agent-authored-catalog-drafts:internal/application/session.go",
+            "artifact:agent-authored-catalog-drafts:internal/application/workspace.go",
+            "artifact:agent-authored-catalog-drafts:internal/cli/cli_test.go",
+            "artifact:agent-authored-catalog-drafts:internal/cli/privacy.go",
+            "artifact:agent-authored-catalog-drafts:internal/curriculum/drafts.go",
+            "artifact:agent-authored-catalog-drafts:internal/curriculum/drafts_test.go",
+            "artifact:agent-authored-catalog-drafts:internal/curriculum/selection.go",
+            "artifact:agent-authored-catalog-drafts:internal/drafts/service.go",
+            "artifact:agent-authored-catalog-drafts:internal/drafts/service_test.go",
+            "artifact:agent-authored-catalog-drafts:internal/eventstore/event.go",
+            "artifact:agent-authored-catalog-drafts:internal/mastery/model.go",
+            "artifact:agent-authored-catalog-drafts:internal/mastery/projector.go",
+            "artifact:agent-authored-catalog-drafts:internal/mastery/projector_test.go",
+            "artifact:agent-authored-catalog-drafts:internal/mastery/rules.go",
+            "artifact:agent-authored-catalog-drafts:internal/mastery/rules_test.go",
+            "artifact:agent-authored-catalog-drafts:internal/session/recovery.go",
+            "artifact:agent-authored-catalog-drafts:internal/session/service.go",
+            "artifact:agent-authored-catalog-drafts:internal/session/tracks.go",
+            "artifact:agent-authored-catalog-drafts:internal/session/tracks_test.go",
+            "observed:agent-authored-catalog-drafts:internal/application/checks.go",
+            "observed:agent-authored-catalog-drafts:internal/application/draft_provenance.go",
+            "observed:agent-authored-catalog-drafts:internal/application/drafts.go",
+            "observed:agent-authored-catalog-drafts:internal/application/progress.go",
+            "observed:agent-authored-catalog-drafts:internal/application/progress_test.go",
+            "observed:agent-authored-catalog-drafts:internal/application/session.go",
+            "observed:agent-authored-catalog-drafts:internal/application/workspace.go",
+            "observed:agent-authored-catalog-drafts:internal/cli/cli_test.go",
+            "observed:agent-authored-catalog-drafts:internal/cli/privacy.go",
+            "observed:agent-authored-catalog-drafts:internal/curriculum/drafts.go",
+            "observed:agent-authored-catalog-drafts:internal/curriculum/drafts_test.go",
+            "observed:agent-authored-catalog-drafts:internal/curriculum/selection.go",
+            "observed:agent-authored-catalog-drafts:internal/drafts/service.go",
+            "observed:agent-authored-catalog-drafts:internal/drafts/service_test.go",
+            "observed:agent-authored-catalog-drafts:internal/eventstore/event.go",
+            "observed:agent-authored-catalog-drafts:internal/mastery/model.go",
+            "observed:agent-authored-catalog-drafts:internal/mastery/projector.go",
+            "observed:agent-authored-catalog-drafts:internal/mastery/projector_test.go",
+            "observed:agent-authored-catalog-drafts:internal/mastery/rules.go",
+            "observed:agent-authored-catalog-drafts:internal/mastery/rules_test.go",
+            "observed:agent-authored-catalog-drafts:internal/session/recovery.go",
+            "observed:agent-authored-catalog-drafts:internal/session/service.go",
+            "observed:agent-authored-catalog-drafts:internal/session/tracks.go",
+            "observed:agent-authored-catalog-drafts:internal/session/tracks_test.go"
+          ]
+        },
+        {
+          "id": "mcpserver",
+          "path": "internal/mcpserver",
+          "kind": "module",
+          "domain": "mcp",
+          "owner": "@oseiaspereira",
+          "criticality": "high",
+          "validation_profile": "baseline",
+          "sources": [
+            "artifact:agent-authored-catalog-drafts:internal/mcpserver/content_draft_contract_test.go",
+            "artifact:agent-authored-catalog-drafts:internal/mcpserver/content_draft_tools.go",
+            "artifact:agent-authored-catalog-drafts:internal/mcpserver/contract_test.go",
+            "artifact:agent-authored-catalog-drafts:internal/mcpserver/errors.go",
+            "artifact:agent-authored-catalog-drafts:internal/mcpserver/progress_contract_test.go",
+            "artifact:agent-authored-catalog-drafts:internal/mcpserver/progress_tools.go",
+            "artifact:agent-authored-catalog-drafts:internal/mcpserver/server.go",
+            "artifact:agent-authored-catalog-drafts:internal/mcpserver/session_tools.go",
+            "artifact:agent-authored-catalog-drafts:internal/mcpserver/track_contract_test.go",
+            "observed:agent-authored-catalog-drafts:internal/mcpserver/content_draft_contract_test.go",
+            "observed:agent-authored-catalog-drafts:internal/mcpserver/content_draft_tools.go",
+            "observed:agent-authored-catalog-drafts:internal/mcpserver/contract_test.go",
+            "observed:agent-authored-catalog-drafts:internal/mcpserver/errors.go",
+            "observed:agent-authored-catalog-drafts:internal/mcpserver/progress_contract_test.go",
+            "observed:agent-authored-catalog-drafts:internal/mcpserver/progress_tools.go",
+            "observed:agent-authored-catalog-drafts:internal/mcpserver/server.go",
+            "observed:agent-authored-catalog-drafts:internal/mcpserver/session_tools.go",
+            "observed:agent-authored-catalog-drafts:internal/mcpserver/track_contract_test.go"
+          ]
+        }
+      ],
+      "criteria": [
+        {
+          "id": "compatibility",
+          "description": "Public CLI, file and MCP contracts are compatible or explicitly migrated.",
+          "required": true,
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "correctness",
+          "description": "Functional and negative behavior is correct.",
+          "required": true,
+          "evidence_classes": [
+            "build",
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "cross-component-integration",
+          "description": "Observed component boundaries and contracts are integrated and covered by current evidence.",
+          "required": true,
+          "evidence_classes": [
+            "integration"
+          ],
+          "profiles": [
+            "synthetic:cross-component"
+          ]
+        },
+        {
+          "id": "documentation",
+          "description": "Operational docs, templates and scaffold match runtime behavior.",
+          "required": true,
+          "rules": [
+            "documentation-style"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "operability",
+          "description": "Errors, explanations and remediation are actionable.",
+          "required": true,
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "requirements",
+          "description": "Every requirement has current, relevant evidence.",
+          "required": true,
+          "evidence_classes": [
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "scope",
+          "description": "The implementation matches the approved spec scope.",
+          "required": true,
+          "rules": [
+            "documentation-style"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "security",
+          "description": "Inputs, paths, evidence and authority boundaries are safe.",
+          "required": true,
+          "rules": [
+            "security"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        }
+      ],
+      "tools": [
+        {
+          "id": "artifact-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "artifact-check",
+            "--spec",
+            "agent-authored-catalog-drafts",
+            "--strict"
+          ],
+          "rationale": "reconcile declared artifacts with Git-observed provenance",
+          "criteria": [
+            "requirements",
+            "scope"
+          ],
+          "preconditions": [
+            "artifacts-attributed"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            ".pose/contracts"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": ".pose/contracts",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            "cmd/codinho"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": "cmd/codinho",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            "docs"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": "docs",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            "internal"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": "internal",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            "internal/mcpserver"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": "internal/mcpserver",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-integrate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "assess",
+            "integrate"
+          ],
+          "rationale": "inspect providers, consumers and inter-component contract gaps",
+          "evidence_classes": [
+            "integration"
+          ],
+          "criteria": [
+            "cross-component-integration"
+          ],
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-tech-debt",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "tech-debt"
+          ],
+          "rationale": "inspect unresolved TODO, FIXME, panic and stub findings",
+          "criteria": [
+            "correctness"
+          ],
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "closeout-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "closeout-check",
+            "spec:agent-authored-catalog-drafts"
+          ],
+          "rationale": "verify remaining hierarchical closeout blockers",
+          "preconditions": [
+            "review-complete"
+          ]
+        },
+        {
+          "id": "review-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "review-check",
+            "spec:agent-authored-catalog-drafts"
+          ],
+          "rationale": "verify exact review-plan coverage and freshness",
+          "preconditions": [
+            "review-complete"
+          ]
+        },
+        {
+          "id": "skills-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "skills-check",
+            "--strict"
+          ],
+          "rationale": "verify distributed skill and workflow conformance",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            ".pose/contracts"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": ".pose/contracts",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            "cmd/codinho"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": "cmd/codinho",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            "docs"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": "docs",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            "internal"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": "internal",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            "internal/mcpserver"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": "internal/mcpserver",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "surface-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "surface-check",
+            "--spec",
+            "agent-authored-catalog-drafts",
+            "--strict"
+          ],
+          "rationale": "verify delivery composition, reachability and fresh evidence",
+          "evidence_classes": [
+            "integration",
+            "reachability"
+          ],
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "build",
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "criteria": [
+            "correctness",
+            "requirements"
+          ],
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            ".pose/contracts"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "build",
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "component": ".pose/contracts",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            "cmd/codinho"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "build",
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "component": "cmd/codinho",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            "docs"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "build",
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "component": "docs",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            "internal"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "build",
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "component": "internal",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            "internal/mcpserver"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "build",
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "component": "internal/mcpserver",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        }
+      ]
+    },
+    "evidence": [
+      {
+        "id": "./go/agent-authored-catalog-drafts",
+        "module": ".",
+        "check": "agent-authored-catalog-drafts",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/build",
+        "module": ".",
+        "check": "build",
+        "evidence_class": "build",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/catalog",
+        "module": ".",
+        "check": "catalog",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/catalog-publication-integrity",
+        "module": ".",
+        "check": "catalog-publication-integrity",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/ci-assurance",
+        "module": ".",
+        "check": "ci-assurance",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/cli-e2e",
+        "module": ".",
+        "check": "cli-e2e",
+        "evidence_class": "e2e",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/cli-reachability",
+        "module": ".",
+        "check": "cli-reachability",
+        "evidence_class": "reachability",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/concept-content-capability",
+        "module": ".",
+        "check": "concept-content-capability",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/evaluation-evidence",
+        "module": ".",
+        "check": "evaluation-evidence",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/format",
+        "module": ".",
+        "check": "format",
+        "evidence_class": "build",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/learning-track-composition",
+        "module": ".",
+        "check": "learning-track-composition",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/mcp-contract",
+        "module": ".",
+        "check": "mcp-contract",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/published-catalog-proof",
+        "module": ".",
+        "check": "published-catalog-proof",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/session-recovery",
+        "module": ".",
+        "check": "session-recovery",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/session-tree-progression",
+        "module": ".",
+        "check": "session-tree-progression",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/smoke-install",
+        "module": ".",
+        "check": "smoke-install",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/startup-budget",
+        "module": ".",
+        "check": "startup-budget",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/stdout-purity",
+        "module": ".",
+        "check": "stdout-purity",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/test",
+        "module": ".",
+        "check": "test",
+        "evidence_class": "unit",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/tutor-skill-routing",
+        "module": ".",
+        "check": "tutor-skill-routing",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/vet",
+        "module": ".",
+        "check": "vet",
+        "evidence_class": "build",
+        "outcome": "pass",
+        "git_head": "44bd0dc0228ca4d29039d54cd525981e80c2a6d8",
+        "provenance_digest": "sha256:9f635d0677b3e250d03c6ae4473d4a09d95470d982055a9f0047d7c72c92d4e8",
+        "report": ".pose/results/delivery-validation.json"
+      }
+    ],
+    "consumed_inputs": [
+      {
+        "kind": "governed-config",
+        "path": ".pose/indexes/validation-matrix.json",
+        "digest": "sha256:cbd0d1ca1cd67b5c5b2d8f9e3c91ad6ab08adfb52cffe5be608033e35cfd9389",
+        "reason": "consumed review policy or validation contract"
+      },
+      {
+        "kind": "governed-config",
+        "path": ".pose/policy/review.json",
+        "digest": "sha256:0a0536853ba9fbf8d7da5fb77371e4d1c19ea9fab06606aa7b8d03947379fd40",
+        "reason": "consumed review policy or validation contract"
+      },
+      {
+        "kind": "review-plan",
+        "path": "spec-closeout@1",
+        "digest": "sha256:35a300a7f4dbad131b3968b17cbfd9acf816d6ffe66af0d0f2cf56dfb94d8572",
+        "reason": "effective component-aware plan contract"
+      },
+      {
+        "kind": "review-profile",
+        "path": ".pose/review-profiles/spec-closeout.json",
+        "digest": "sha256:b5858075a81dbb654c37c77b9c9b45793507592eb669411287b3c2510632a138",
+        "reason": "selected by effective review plan"
+      },
+      {
+        "kind": "rule",
+        "path": ".pose/rules/documentation-style.md",
+        "digest": "sha256:5c5c666fc6c796cf9ae3876d25d3fd4fa523d121892459dc0d681d73da1d60ae",
+        "reason": "selected by effective review criterion"
+      },
+      {
+        "kind": "rule",
+        "path": ".pose/rules/security.md",
+        "digest": "sha256:1cbf29c12d09cad0799e2d8715e94f84a49ee8fa09867bb5f12a544f8df43774",
+        "reason": "selected by effective review criterion"
+      },
+      {
+        "kind": "schema",
+        "path": "review-bundle@1",
+        "digest": "sha256:e7c9643ec88eccb2a6dea3ee3291c351983d78e1d2fa44b61399514c5021bcb0",
+        "reason": "canonical bundle and attestation schema identity"
+      },
+      {
+        "kind": "tool-catalog",
+        "path": "native-review-tools@1",
+        "digest": "sha256:35a300a7f4dbad131b3968b17cbfd9acf816d6ffe66af0d0f2cf56dfb94d8572",
+        "reason": "closed resolved native tool contract"
+      }
+    ]
+  },
+  "excluded_inputs": [
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/README.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/cmd-ci-assurance.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/cmd-codinho.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/consolidated.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/docs.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/github-workflows.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/integrations.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/internal-ciassurance.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/internal-mcpserver.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/packs.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/pose-contracts.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/root.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/scripts.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/technical-debt.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/contributions/20260908-review-profile-evidence-classes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/contributions/20260909-historical-review-closeout-upgrade.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/results/delivery-validation.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/cmd-ci-assurance.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/cmd-codinho.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/docs.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/github-workflows.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/internal-ciassurance.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/internal-mcpserver.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/packs.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/pose-contracts.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/root.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/scripts.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/history.jsonl",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/integrations.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/machinery-manifest.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/project-state.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/refresh-log.jsonl",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/technical-debt.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-index",
+      "path": ".pose/indexes/delivery-integrity.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-index",
+      "path": ".pose/indexes/releases.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-section",
+      "path": "final report",
+      "digest": "sha256:08de44104f661f48ee31b3a4fc3ae6a97f68ca488c6ba747a91f145c120f8624",
+      "reason": "operational closeout content is verified by its own gate"
+    },
+    {
+      "kind": "derived-section",
+      "path": "tasks",
+      "digest": "sha256:7ed3aa13dbf46e8b6f23c11c3015a1aa13136329c41ecc38f01e975976b2c906",
+      "reason": "operational closeout content is verified by its own gate"
+    },
+    {
+      "kind": "derived-section",
+      "path": "validation",
+      "digest": "sha256:e86d2a8ea0d2fdc429253848f0fe668b4bf1a7964246282e2682ec4a0a2ef9d8",
+      "reason": "operational closeout content is verified by its own gate"
+    },
+    {
+      "kind": "lifecycle",
+      "path": "/home/go/GolandProjects/codinho/.pose/specs/2026-08-24-agent-authored-catalog-drafts.md",
+      "reason": "status and completed_at do not define the reviewed semantic subject"
+    },
+    {
+      "kind": "semantic-scope",
+      "path": ".pose/specs/2026-08-24-agent-authored-catalog-drafts.md",
+      "reason": "attributed path is outside the semantic review subject"
+    }
+  ],
+  "warnings": [
+    "unmapped review component explicit:curriculum",
+    "unmapped review component explicit:mastery",
+    "unmapped review component explicit:mcp-server",
+    "unmapped review component explicit:tutor-skill",
+    "unmapped review component path:.agents/skills/codinho/SKILL.md",
+    "unmapped review component path:.pose/adr/2026-08-23-agent-generated-catalog-content-as-a-first-class-mode.md",
+    "unmapped review component path:.pose/indexes/validation-matrix.json"
+  ],
+  "path": ".pose/review-bundles/rvb-aa9f1bede3dde740.json"
+}

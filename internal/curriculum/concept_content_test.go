@@ -1,13 +1,81 @@
 package curriculum_test
 
 import (
+	"encoding/json"
+	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
 
+	"github.com/google/jsonschema-go/jsonschema"
 	"github.com/oseiaspereira88/codinho/internal/curriculum"
+	"gopkg.in/yaml.v3"
 )
+
+// Exercise the same authoring documents through schema and production loader.
+// Graph references and nonblank text are additional semantic loader rules.
+func TestConceptContentSchemaLoaderParity(t *testing.T) {
+	readSchema := func(name string) (*jsonschema.Schema, error) {
+		data, err := os.ReadFile(filepath.Join("../../schemas", filepath.Base(name)))
+		if err != nil {
+			return nil, err
+		}
+		var schema jsonschema.Schema
+		err = json.Unmarshal(data, &schema)
+		return &schema, err
+	}
+	schema, err := readSchema("pack.schema.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	resolved, err := schema.Resolve(&jsonschema.ResolveOptions{Loader: func(u *url.URL) (*jsonschema.Schema, error) { return readSchema(u.Path) }})
+	if err != nil {
+		t.Fatal(err)
+	}
+	cases := []struct {
+		name   string
+		modify func(map[string]any)
+		valid  bool
+	}{
+		{"valid", func(c map[string]any) {}, true},
+		{"null", func(c map[string]any) { c["content"] = nil }, true},
+		{"omitted", func(c map[string]any) { delete(c, "content") }, true},
+		{"unknown_version", func(c map[string]any) { c["content"].(map[string]any)["version"] = 2 }, false},
+		{"missing_example", func(c map[string]any) { delete(c["content"].(map[string]any), "example") }, false},
+		{"reserved_field", func(c map[string]any) { c["content"].(map[string]any)["solution"] = "reserved" }, false},
+		{"unicode_limit", func(c map[string]any) { c["content"].(map[string]any)["explanation"] = strings.Repeat("界", 8000) }, true},
+		{"unicode_over_limit", func(c map[string]any) { c["content"].(map[string]any)["explanation"] = strings.Repeat("界", 8001) }, false},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			concept := map[string]any{"id": "weather", "title": "Weather", "content": map[string]any{
+				"version": 1, "explanation": "Read a weather measurement.",
+				"example": map[string]any{"context": "Weather station", "code": "var pressure = 1013", "explanation": "Pressure in hPa."},
+			}}
+			tc.modify(concept)
+			doc := map[string]any{"schema_version": 1, "id": "weather", "version": "1.0.0", "concepts": []any{concept}}
+			if err := resolved.Validate(doc); (err == nil) != tc.valid {
+				t.Fatalf("schema valid=%v want=%v: %v", err == nil, tc.valid, err)
+			}
+			dir := t.TempDir()
+			data, err := yaml.Marshal(doc)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if err := os.WriteFile(filepath.Join(dir, "manifest.yaml"), []byte("schema_version: 1\npacks: [pack.yaml]\n"), 0600); err != nil {
+				t.Fatal(err)
+			}
+			if err := os.WriteFile(filepath.Join(dir, "pack.yaml"), data, 0600); err != nil {
+				t.Fatal(err)
+			}
+			catalog, diags, err := curriculum.Load(dir, curriculum.DefaultLimits)
+			if valid := err == nil && catalog != nil; valid != tc.valid {
+				t.Fatalf("loader valid=%v want=%v: %v %+v", valid, tc.valid, err, diags)
+			}
+		})
+	}
+}
 
 func TestConceptContent(t *testing.T) {
 	t.Run("ValidAndLegacyConcepts", func(t *testing.T) {

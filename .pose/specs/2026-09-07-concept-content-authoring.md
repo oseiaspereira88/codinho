@@ -152,6 +152,7 @@ malicioso. Nenhum acesso de rede, timeout externo ou migração é introduzido.
 - Security / Contract: pose assess integrate; pose validate --strict --json .pose/results/delivery-validation.json; pose surface-check --spec concept-content-authoring --strict
 
 ### Execution log
+- 2026-09-09 UTC: revisão identificou ausência da cobertura declarada de paridade schema/loader; adicionados casos válidos, legado omitido/null, versão desconhecida, exemplo ausente, campo reservado e limite Unicode (8000/8001). TestConceptContent passou. Perfis overlay de revisão migrados para o mapeamento distribuído pelo POSE 2.0.2, mantendo critérios e ferramentas obrigatórias; reprodução registrada na contribuição review-profile-evidence-classes.
 - 2026-09-07 UTC: criada em revisão de planejamento; baseline registrado.
 - 2026-09-08 UTC: implementada extensão de schema (schemas/concept-content.schema.json, pack.schema.json) e modelo Go (internal/curriculum), validação de limites Unicode e integridade de relações, projeção canônica com ordenação determinística e imutabilidade (internal/assistance), testes MCP de contrato e não-divulgação (internal/mcpserver), teste de composição sobre stdio real (cmd/codinho/concept_content_integration_test.go), documentação autoral (docs/content-authoring.md) e amostra revisada nos packs (go-first-steps, go-errors, go-core).
 

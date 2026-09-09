@@ -22,3 +22,13 @@ at profile validation time. Never fabricate references or waive required checks.
 
 The instance adopted the existing corrected distribution profile's class mapping.
 No upstream issue was submitted.
+
+## Follow-up on 2026-09-09
+
+POSE 2.0.2 also rejects the legacy backend/frontend overlays before review
+preparation: contract, test, observability and validation are not registered
+check evidence classes. Reproduced with the installed overlays and compared
+against a fresh 2.0.2 installation in a temporary directory. Adopted its exact
+overlay mappings to unit/integration/e2e/build, preserving criterion IDs,
+required tools and sealed historical bundles. Recommend migrating overlays
+together with the base profile. No upstream submission was made.

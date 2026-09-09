@@ -1,7 +1,7 @@
 ---
 schema_version: 1
-generated_at: 2026-09-08T22:46:06Z
-baseline_commit: e737078ade6f8039dffd708f91062350763f275f
+generated_at: 2026-09-09T13:28:01Z
+baseline_commit: ae0f7ae56e5a597ffaedfb03bbbe00098279e87a
 staleness_policy: max_age_days=7,max_commits=20
 refresh_pending: 
 ---
@@ -30,23 +30,23 @@ provas de baseline/referência e distribuição canônica em packs/distribution.
 Use os cut criteria do roadmap codinho-v1; esta remediação não encerra a V1.
 
 ## Specs & Roadmaps
-<!-- state:derived hash:3b4979ab3240 -->
+<!-- state:derived hash:50db194798ca -->
 
-- specs: total=35 draft=7 in-progress=1 blocked=0 done=27 superseded=0 abandoned=0
+- specs: total=35 draft=5 in-progress=1 blocked=0 done=29 superseded=0 abandoned=0
 - roadmaps: total=1 active=1 done=0
 - últimos closeouts:
+  - spec:learning-track-composition (2026-09-09)
+  - spec:concept-content-authoring (2026-09-09)
   - spec:v1-delivery-ci-assurance (2026-09-08)
   - spec:session-tree-progression (2026-09-08)
   - spec:catalog-publication-integrity (2026-09-08)
-  - spec:evaluation-evidence-lineage (2026-09-07)
-  - spec:session-recovery-version-pinning (2026-09-07)
-  - ... e mais 22 (ver `pose_list_specs status:done`)
+  - ... e mais 24 (ver `pose_list_specs status:done`)
 
 ## Follow-ups
-<!-- state:derived hash:52cb476c38da -->
+<!-- state:derived hash:a7066737ad47 -->
 
-- abertos: 8
-- por criticidade: high=5 medium=3 low=0 sem-classificação=0
+- abertos: 10
+- por criticidade: high=5 medium=5 low=0 sem-classificação=0
 - vencidos (review < hoje): 0
 
 ## Capabilities
@@ -66,22 +66,22 @@ Use os cut criteria do roadmap codinho-v1; esta remediação não encerra a V1.
 - knowledge: total=12 ativo=12 expirado=0
 
 ## Validação & Evidência
-<!-- state:derived hash:b04bcea7a566 -->
+<!-- state:derived hash:eeb7c47d4ac1 -->
 
 - último registro: task=v1-delivery-ci-review outcome=pass (2026-09-08T22:05:19Z)
 - últimos 30 dias: total=18 outcome_ok=16 outcome_outro=2
-- reports revisados (.md): total=15
+- reports revisados (.md): total=17
+  - report:2026-09-09-review-learning-track-composition.md
+  - report:2026-09-09-review-concept-content-authoring.md
   - report:2026-09-08-standard-v1-delivery-ci-review.md
   - report:2026-09-08-review-catalog-publication-integrity.md
   - report:2026-09-08-review-session-tree-progression.md
-  - report:2026-09-07-review-evaluation-evidence.md
-  - report:2026-09-07-review-session-recovery.md
 
 ## Arquitetura
-<!-- state:derived hash:17f2886e7c43 status:active -->
+<!-- state:derived hash:d581a63b1e38 status:active -->
 
 - componentes: total=10 verificados=10 completude=100.0%
-- linhas_de_codigo: producao=14169 testes=15624 total=29793
+- linhas_de_codigo: producao=14870 testes=17151 total=32021
 - linguagens: go, shell
 - saude_de_codigo: TODOs=0 FIXMEs=0 panics=0 stubs=0
 - integracoes: contratos=0 ativos=0 gaps=0

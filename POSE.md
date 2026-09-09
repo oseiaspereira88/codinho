@@ -193,6 +193,10 @@ pose knowledge-check [--strict|--tolerant] [--max-overdue N]
 pose recurrence-check [--strict|--tolerant] [--window-days N] [--threshold T] [--include-pass]
 pose history-check [--strict|--tolerant]
 pose skills-check [--strict|--tolerant]
+pose public-claims [--strict|--tolerant] [--json]
+                                   # public surfaces vs. the released fact:
+                                   # stale version, evergreen surface that
+                                   # gained one, non-canonical docs host
 pose artifact-check --spec <slug> [--from <rev> --to <rev>] [--strict|--tolerant] [--json]
 pose surface-check [--spec <slug>] [--results <path>] [--strict|--tolerant] [--json]
 pose roadmap-check <slug> [--strict|--tolerant] [--json]
@@ -234,7 +238,6 @@ pose suggest-feedback | pose portfolio-projection | pose reconcile-evidence
 
 # Assessment and extensions
 pose assess <discover|integrate|tech-debt|stale|request|snapshot> [--json] [--update-state]
-pose public-claims [--strict|--tolerant] [--json]
 pose extension <install|list|remove|verify> [...]
 
 # Artifact generation and maintenance
@@ -274,8 +277,6 @@ pose release-notes --version vX.Y.Z  # compatibility alias for the immutable not
 ```
 
 ### Command reference
-
-- `public-claims` — validate governed public claims against their declared evidence.
 
 - `init` — ensures the minimal required `.pose` directory structure, policy files and indexes. Supports `--wizard` to auto-detect repository stacks and seed the initial validation matrix.
 - `check` — validates POSE structural integrity (required paths and references in `AGENTS.md`/`POSE.md`) **plus** the [`validation-matrix.json`](.pose/indexes/validation-matrix.json) schema, [`task-map.json`](.pose/indexes/task-map.json) sync, the native spec dependency graph and the schema-version gate. It fails in `--strict` and warns where permitted in `--tolerant`.

@@ -33,6 +33,14 @@
       "digest": "sha256:501a5a0ac98705cef193e1764c9b5445f3c3e2d66cd90b4e6ea981d3fbfe64c5"
     },
     {
+      "spec": "concept-content-authoring",
+      "category": "added",
+      "breaking": false,
+      "body": "Conceitos podem oferecer explicações canônicas, exemplos e relações autoradas\npela ferramenta concept_content_get. Conceitos legados indicam conteúdo ausente;\na consulta preserva a sessão e a progressão das pistas.",
+      "path": "concept-content-authoring.md",
+      "digest": "sha256:b2f5583172b4cb2d7bfee2654e201a17e728219dbde6d25639f9ba251f71ac11"
+    },
+    {
       "spec": "curriculum-graph-path-recommendation",
       "category": "added",
       "breaking": false,
@@ -159,6 +167,14 @@
       "body": "Adicionada a skill `codinho`, que ensina o Codex CLI e a extensão de IDE a\nusar o servidor MCP como tutor de prática deliberada em Go: anuncia modo e\nprofundidade, observa o workspace antes de avaliar, trata feedback como\nconsultivo e nunca edita o código do aluno.",
       "path": "tutor-skill-host-integration.md",
       "digest": "sha256:bb719c351e85305a46e021641d89d61a2305867bcc40bd27f06e33eb86160e78"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "category": "changed",
+      "breaking": false,
+      "body": "CI exige ferramentas verificadas, checks estritos e evidência identificada por\nplataforma e commit. Build de release valida o rótulo e continua sem publicação.\nDocumentação tem manifest; contratos MCP e rename histórico têm mapas testados.\nProvas privadas dos rascunhos e execução nativa de Linux/macOS foram verificadas.\nO aceite integrado da V1 permanece separado desta entrega de governança.",
+      "path": "v1-delivery-ci-assurance.md",
+      "digest": "sha256:96df707ad53e22c409e8936ce64d7c543fc0f9da4cba152aa2b14853631e7c9c"
     },
     {
       "spec": "workspace-observation-baselines",

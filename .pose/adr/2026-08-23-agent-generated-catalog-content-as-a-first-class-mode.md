@@ -110,3 +110,40 @@ crescer além do que a fase 1 (revisor único) consegue processar, exigindo
 adiantar a curadoria em duas camadas da fase 2; ou se `playtest` real
 mostrar que sessões sobre rascunho não revisado confundem o aluno sobre o
 que é "conteúdo oficial" do catálogo.
+
+## Refinement — 2026-09-09
+
+Store self-contained draft packs as YAML in a dedicated drafts event stream
+inside the existing local state log. No new filesystem execution/materialization
+path is introduced. Submission is bounded at 256 KiB, 100 lifetime submissions
+and 16 MiB cumulative draft bytes until explicit privacy purge. New sessions
+may use a draft for 30 days; removal appends a tombstone and prevents new use.
+Pinned existing sessions remain replayable. Export includes the original log;
+privacy purge is the explicit physical erasure/retention mechanism, while
+expiration/removal affect availability and never pretend to erase history.
+
+The server parses with strict known fields and existing YAML depth/alias limits,
+reuses Validate/RunEditorialChecks, rejects secrets, reviewed/playtested claims
+and published status, and records normalized draft status. Fixtures are bounded
+inline data; checks must resolve through the existing allowlist but are never
+executed on submission. A request ID is required, idempotent only for the exact
+same payload; pack ID/version collisions never overwrite prior submissions.
+
+The learner selects draft_id plus a challenge/track/composition and accept_draft.
+The server pins content and content_provenance in session_started. Any nonpublic
+member makes the entire track draft. Public-session provenance is server-derived
+from pinned publication metadata. Events without explicit historical provenance
+are legacy_unreviewed. Mastery derives provenance from the cited producer event
+and its session start; unknown/mixed provenance never counts as published.
+Draft and legacy signals may be retained for audit but never advance reviewed
+mastery or scheduling. Promotion does not reclassify old attempts or signals.
+
+Review/export uses explicit draft tools. To publish, a human reviews the exported
+pack offline, records author/reviewed_by/playtested and passes the existing
+publication checks before installation in packs. No MCP promotion bypass exists.
+A new session and newly produced evidence are required after publication; there
+is no operation for retroactive promotion of old draft evidence in this phase.
+
+Rejected: a parallel file store duplicates export/lock/recovery; automatic
+promotion or accepting client provenance breaks the editorial authority boundary.
+Review quota/retention when the human review backlog exceeds this bounded design.

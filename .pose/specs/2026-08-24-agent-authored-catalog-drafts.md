@@ -1,13 +1,13 @@
 ---
 slug: agent-authored-catalog-drafts
-status: draft
+status: in-progress
 created_at: 2026-08-24
 completed_at:
 supersedes:
 depends_on: catalog-authoring-quality, learning-track-composition, tutor-skill-host-integration, catalog-publication-integrity, concept-content-authoring, session-recovery-version-pinning
 priority: 75
 components: curriculum, mcp-server, tutor-skill, mastery
-delivers:
+delivers: capability:agent-authored-catalog-drafts
 ---
 
 # Spec: agent-authored-catalog-drafts
@@ -98,22 +98,43 @@ real — puxado pelo próprio uso, não só por autoria offline dos packs
 - .agents/skills/codinho/ (exposição dos quatro modos)
 
 ### Artifacts
+- created: internal/curriculum/drafts.go
+- created: internal/curriculum/drafts_test.go
+- created: internal/drafts/service.go
+- created: internal/drafts/service_test.go
+- created: internal/application/drafts.go
+- created: internal/application/draft_provenance.go
 - created: internal/mcpserver/content_draft_tools.go
-- modified: internal/curriculum/model.go
+- created: internal/mcpserver/content_draft_contract_test.go
+- created: cmd/codinho/draft_integration_test.go
+- modified: internal/curriculum/selection.go
 - modified: internal/curriculum/loader.go
 - modified: internal/mastery/model.go
 - modified: internal/mastery/projector.go
+- modified: internal/mastery/rules.go
+- modified: internal/mastery/projector_test.go
 - modified: internal/session/service.go
-- modified: .agents/skills/codinho/SKILL.md
+- modified: internal/session/recovery.go
+- modified: internal/session/tracks.go
+- modified: internal/application/session.go
 - modified: internal/application/progress.go
+- modified: internal/application/progress_test.go
+- modified: internal/mcpserver/server.go
+- modified: internal/mcpserver/session_tools.go
+- modified: internal/mcpserver/progress_tools.go
+- modified: internal/mcpserver/errors.go
 - modified: internal/eventstore/event.go
-- modified: internal/security/policy.go
+- modified: internal/security/policy_test.go
 - modified: internal/cli/privacy.go
-- created: internal/mcpserver/content_draft_contract_test.go
-- modified: schemas/event.schema.json
+- modified: cmd/codinho/main.go
+- modified: .agents/skills/codinho/SKILL.md
+- modified: .pose/contracts/mcp-stdio.json
+- modified: .pose/indexes/validation-matrix.json
+- modified: docs/content-authoring.md
+- modified: .pose/adr/2026-08-23-agent-generated-catalog-content-as-a-first-class-mode.md
 
 ### Delivery targets
-Nenhum novo; amplia o contrato MCP V1 já entregue.
+- capability:agent-authored-catalog-drafts module:cmd/codinho profile:composed-capability entrypoint:cmd/codinho/main.go
 
 ### API/contract changes
 - Nova tool `content_draft_submit`; `session_start` aceita sessão sobre
@@ -150,6 +171,13 @@ Nenhum novo; amplia o contrato MCP V1 já entregue.
 
 ## 5. Decisions
 
+### Decision 2
+- Date: 2026-09-09
+- Decision: quarentena lógica no stream drafts do event log, packs YAML autocontidos; proveniência derivada de eventos de origem, nunca do cliente.
+- Rationale: consumir knowledge:adr-agent-generated-catalog-content-as-a-first-class-mode-review e knowledge:planning-audit-2026-09; reutilizar durabilidade, export e purge existentes.
+- Consequences: limite 256 KiB por submissão, 100 submissões/16 MiB acumulados até purge, validade de 30 dias para novos inícios; tombstone remove disponibilidade, histórico permanece até purge explícito. Promoção offline usa o funil editorial existente; não altera evidências anteriores.
+
+
 ### Decision 1
 - Date: 2026-08-23
 - Context: onde mora conteúdo gerado em sessão real antes de revisão.
@@ -170,6 +198,14 @@ Nenhum novo; amplia o contrato MCP V1 já entregue.
 Corpus de rascunhos válidos/inválidos, sessão real sobre rascunho
 verificando isolamento de evidência, e promoção ponta a ponta até
 `published`.
+
+| Cenário obrigatório | Comando | Evidência |
+|---|---|---|
+| Validação | go test ./internal/curriculum ./internal/drafts | dados limitados, schema fechado, paths, secrets, status e critérios editoriais |
+| Durabilidade | go test ./internal/drafts ./internal/session | retry, colisão, quota, expiração, remoção, restart e consentimento |
+| Maestria | go test ./internal/mastery ./internal/application | draft/legado não promovem, publicado exige origem registrada, sem promoção retroativa |
+| MCP real | go test ./cmd/codinho -run TestDraftOverRealStdio -count=1 | submissão, isolamento de busca, aviso persistente, replay e export/purge |
+| Gate completo | pose validate --strict --json .pose/results/delivery-validation.json | checks required sem skips |
 
 ### Deterministic checks
 - Test: go test ./internal/mcpserver/... ./internal/curriculum/... ./internal/mastery/... ./internal/session/...

@@ -19,6 +19,8 @@ const CurrentEventSchemaVersion = 1
 type EventType string
 
 const (
+	EventDraftSubmitted       EventType = "draft_submitted"
+	EventDraftRemoved         EventType = "draft_removed"
 	EventSessionStarted       EventType = "session_started"
 	EventSessionPolicyChanged EventType = "session_policy_changed"
 	EventInstructionIssued    EventType = "instruction_issued"

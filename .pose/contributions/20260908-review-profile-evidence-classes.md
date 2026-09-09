@@ -1,5 +1,8 @@
 # Installed review profile requests unproducible evidence classes
 
+Current disposition: not reproducible in the updated instance; do not submit
+as an active defect on the basis of this report.
+
 Observed on 2026-09-08 with POSE 1.8.1. Local feedback only.
 
 ## Synthetic reproduction
@@ -32,3 +35,17 @@ against a fresh 2.0.2 installation in a temporary directory. Adopted its exact
 overlay mappings to unit/integration/e2e/build, preserving criterion IDs,
 required tools and sealed historical bundles. Recommend migrating overlays
 together with the base profile. No upstream submission was made.
+
+## Recheck after instance update — 2026-09-09
+
+Both the installed binary and instance now report POSE 2.0.2. Strict structural
+validation passes, and review bundle preparation returns prepared with no
+blockers or unsupported evidence-class errors. The updated review policy has
+evidence_vocabulary_reconciled_at, and the milestone profile now requests
+integration instead of integration-test.
+
+The original failure occurred with legacy profiles. Backend/frontend mappings
+had already been corrected manually before this update, so this recheck does
+not independently prove automatic migration of those original profiles.
+There is no current reproduction warranting upstream submission. Preserve the
+earlier observations as migration history rather than an unresolved defect.

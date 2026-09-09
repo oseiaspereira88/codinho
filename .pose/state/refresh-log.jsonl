@@ -18,3 +18,7 @@
 {"at":"2026-09-08T13:00:24Z","trigger":"spec_closeout","target":"catalog-publication-integrity","dedup_key":"59fa676c1b79821b","consumer":"state-refresh","result":"ok","duration_ms":5}
 {"at":"2026-09-08T22:46:06Z","trigger":"spec_closeout","target":"v1-delivery-ci-assurance","consumer":"docs-review","result":"skipped","duration_ms":0,"error":"docs_mapping_unavailable"}
 {"at":"2026-09-08T22:46:06Z","trigger":"spec_closeout","target":"v1-delivery-ci-assurance","dedup_key":"102675c8e7152697","consumer":"state-refresh","result":"ok","duration_ms":5,"changed_sections":["Specs \u0026 Roadmaps","Follow-ups","Validação \u0026 Evidência"]}
+{"at":"2026-09-09T07:05:32Z","trigger":"spec_closeout","target":"concept-content-authoring","consumer":"docs-review","result":"ok","duration_ms":0,"changed_sections":["docs/compatibility.md"]}
+{"at":"2026-09-09T07:05:32Z","trigger":"spec_closeout","target":"concept-content-authoring","dedup_key":"4774feac6ca92abd","consumer":"state-refresh","result":"ok","duration_ms":5,"changed_sections":["Specs \u0026 Roadmaps","Follow-ups","Validação \u0026 Evidência"]}
+{"at":"2026-09-09T13:28:01Z","trigger":"spec_closeout","target":"learning-track-composition","consumer":"docs-review","result":"ok","duration_ms":0,"changed_sections":["docs/compatibility.md"]}
+{"at":"2026-09-09T13:28:01Z","trigger":"spec_closeout","target":"learning-track-composition","dedup_key":"b702cf53e7e4ee46","consumer":"state-refresh","result":"ok","duration_ms":7,"changed_sections":["Specs \u0026 Roadmaps","Follow-ups","Validação \u0026 Evidência"]}

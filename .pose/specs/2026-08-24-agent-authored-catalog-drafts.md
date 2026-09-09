@@ -151,8 +151,7 @@ real — puxado pelo próprio uso, não só por autoria offline dos packs
 ## 4. Tasks
 
 ### Planning
-- [ ] Confirmar formato de área de quarentena (diretório separado vs.
-      flag no mesmo pack) sem quebrar `catalog validate` padrão.
+- [x] Registrar quarentena lógica no stream drafts, preservando o catálogo padrão.
 
 ### Implementation
 - [ ] Implementar `content_draft_submit` reusando validação existente.
@@ -163,7 +162,7 @@ real — puxado pelo próprio uso, não só por autoria offline dos packs
 - [ ] Expor os quatro modos na skill `codinho`.
 
 ### Validation
-- [ ] Teste de submissão de rascunho válido e inválido (reuso de regras).
+- [x] Teste de submissão de rascunho válido e inválido (reuso de regras).
 - [ ] Teste de sessão sobre rascunho não contaminando mastery revisada.
 - [ ] Teste de promoção de rascunho a `published` pelo funil existente.
 - [ ] Suíte completa de internal/curriculum, internal/mastery,
@@ -215,22 +214,22 @@ verificando isolamento de evidência, e promoção ponta a ponta até
 - Security / Contract: fixture confinement e secret scan já existentes, aplicados ao caminho de rascunho.
 
 ### Execution log
-- Pendente.
+- 2026-09-09, incremento de persistência: `go test ./internal/curriculum ./internal/drafts ./internal/eventstore` passou. Cobertura de validação, isolamento, retry, colisão, restart, remoção, expiração e quota cumulativa.
+- 2026-09-09: `pose validate --strict --json .pose/results/delivery-validation.json` passou na matriz completa antes do commit da base.
 
 ### Results summary
-Nenhuma implementação ainda; spec criada para sequenciar o trabalho.
+Base interna de validação e quarentena implementada e validada; integração com sessão, maestria e MCP pendente.
 
 ### Requirement trace
 - Mapear R1–R11 a testes de submissão, quarentena, proveniência, promoção, compatibilidade e privacidade.
 
 ### Known gaps
-- Resolver no ADR a semântica de evidência anterior à publicação e o
-  armazenamento de fixtures antes do primeiro incremento (R7–R11).
+- Conectar quarentena às sessões/MCP e provar isolamento da maestria antes de encerrar.
 
 ## 7. Final Report
 
 ### Delivered scope
-Nenhum; spec draft aguardando implementação.
+Entrega parcial: validação e persistência interna de rascunhos. Ainda não disponível pelo MCP.
 
 ### Files and modules changed
 - Planejados nas áreas afetadas acima.

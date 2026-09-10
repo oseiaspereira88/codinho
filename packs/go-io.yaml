@@ -1503,6 +1503,43 @@ challenges:
             optional:
             - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
               correta?
+          children:
+          - id: write-result-report.verify-newline
+            kind: micro
+            action: verify
+            target: json_output
+            title: Verificar newline final
+            instruction:
+              objective: Confirme que o relatório JSON termina com exatamente um newline após a codificação.
+              scope: Apenas o formato do documento escrito.
+            concepts:
+            - io-writer-errors
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: output-ends-with-newline
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
+          - id: write-result-report.verify-writer-identity
+            kind: micro
+            action: verify
+            target: writer_error
+            title: Verificar identidade do erro de escrita
+            instruction:
+              objective: Confirme que a mesma instância de erro do Writer chega ao chamador.
+              scope: Apenas a propagação de falhas após bytes aceitos.
+            concepts:
+            - io-writer-errors
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: writer-error-is-identical
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
   fixture:
   - path: go.mod
     content: |

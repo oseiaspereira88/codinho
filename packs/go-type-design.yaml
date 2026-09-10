@@ -276,6 +276,41 @@ challenges:
             reflection:
               optional:
                 - Por que return inv (copiando a struct inteira por valor) não seria suficiente para isolar Items?
+            children:
+              - id: model.verify-capacity-edge
+                kind: micro
+                action: verify
+                target: aliasing
+                title: Verificar slice vazia com capacidade excedente
+                instruction:
+                  objective: Teste o clone quando Items tem comprimento zero e capacidade maior que zero, confirmando que uma futura escrita não alcança o original.
+                  scope: Apenas o caso de capacidade excedente.
+                concepts: [struct-shallow-copy-aliasing]
+                evidence:
+                  strategies: [compile]
+                criteria:
+                  - id: spare-capacity-isolated
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
+              - id: model.verify-owner-preserved
+                kind: micro
+                action: verify
+                target: output
+                title: Verificar preservação do proprietário
+                instruction:
+                  objective: Compare Owner no clone com Owner na entrada e confirme que a cópia profunda da slice não descartou o campo escalar.
+                  scope: Apenas os campos escalares do valor retornado.
+                concepts: [struct-shallow-copy-aliasing]
+                evidence:
+                  strategies: [compile]
+                criteria:
+                  - id: owner-preserved
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
     fixture:
       - path: go.mod
         content: |

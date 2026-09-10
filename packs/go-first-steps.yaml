@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-first-steps
-version: 1.5.0
+version: 1.6.0
 themes:
   - id: slices
     title: Slices e arrays
@@ -36,6 +36,29 @@ concepts:
           concept_id: zero-values
   - id: range-loop
     title: Laço range
+    content:
+      version: 1
+      explanation: range percorre arrays, slices, maps, strings ou canais conforme o tipo. Em strings, o índice aponta para o byte inicial e o valor é um rune; em maps, a ordem não é garantida. Use o segundo valor quando precisar do elemento e descarte com _ quando só o índice importar.
+      example:
+        context: soma de valores
+        code: |
+          package example
+
+          import "testing"
+
+          func sum(values []int) int {
+              total := 0
+              for _, value := range values { total += value }
+              return total
+          }
+
+          func TestRange(t *testing.T) {
+              if sum([]int{2, 3, 5}) != 10 { t.Fatal("sum") }
+          }
+        explanation: O índice é descartado e o segundo valor alimenta o acumulador.
+      relation_refs:
+        - kind: relates_to
+          concept_id: slice-declaration
   - id: named-types
     title: Tipos nomeados
     content:
@@ -61,8 +84,48 @@ concepts:
           concept_id: type-conversion
   - id: structs
     title: Structs
+    content:
+      version: 1
+      explanation: Uma struct agrupa campos nomeados que formam um valor composto. O literal nomeado torna a intenção resistente à reordenação de campos; campos não exportados restringem acesso fora do package. Copiar uma struct copia seus campos conforme o tipo de cada um.
+      example:
+        context: ponto geométrico
+        code: |
+          package example
+
+          import "testing"
+
+          type Point struct { X, Y int }
+
+          func TestStruct(t *testing.T) {
+              p := Point{X: 2, Y: 3}
+              if p.X+p.Y != 5 { t.Fatal(p) }
+          }
+        explanation: O literal nomeado associa valores aos campos explicitamente.
+      relation_refs:
+        - kind: relates_to
+          concept_id: field-types
   - id: field-types
     title: Tipos de campo
+    content:
+      version: 1
+      explanation: Cada campo de uma struct tem um tipo que define seu zero value, operações e representação. Campos podem ser escalares, slices, maps, ponteiros ou outras structs; essa escolha determina cópia, aliasing e necessidade de nil checks. Modele o campo pelo comportamento que o domínio precisa.
+      example:
+        context: cadastro mínimo
+        code: |
+          package example
+
+          import "testing"
+
+          type User struct { Name string; Scores []int; Active bool }
+
+          func TestFields(t *testing.T) {
+              var user User
+              if user.Name != "" || user.Scores != nil || user.Active { t.Fatal(user) }
+          }
+        explanation: "Os três campos exibem zeros distintos: string vazia, slice nil e false."
+      relation_refs:
+        - kind: relates_to
+          concept_id: zero-values
   - id: zero-values
     title: Valores zero
     content:
@@ -313,6 +376,31 @@ concepts:
           concept_id: named-return-values
   - id: block-scope
     title: Escopo de bloco
+    content:
+      version: 1
+      explanation: Uma variável declarada dentro de if, for ou bloco entre chaves só pode ser usada naquele bloco e nos blocos internos. Uma declaração interna pode ocultar o nome externo; prefira atribuição explícita quando a intenção for atualizar o valor existente.
+      example:
+        context: escolha local
+        code: |
+          package example
+
+          import "testing"
+
+          func choose(ok bool) string {
+              result := "no"
+              if ok {
+                  result = "yes"
+              }
+              return result
+          }
+
+          func TestScope(t *testing.T) {
+              if choose(true) != "yes" || choose(false) != "no" { t.Fatal("scope") }
+          }
+        explanation: A atribuição usa o result externo; uma nova declaração dentro do if mudaria o escopo.
+      relation_refs:
+        - kind: relates_to
+          concept_id: variable-shadowing
 competencies:
   - id: slice-filter
     title: Filtrar um slice
@@ -1468,6 +1556,18 @@ relations:
     to: variable-shadowing
     kind: relates_to
   - from: named-return-values
+    to: variable-shadowing
+    kind: relates_to
+  - from: range-loop
+    to: slice-declaration
+    kind: relates_to
+  - from: structs
+    to: field-types
+    kind: relates_to
+  - from: field-types
+    to: zero-values
+    kind: relates_to
+  - from: block-scope
     to: variable-shadowing
     kind: relates_to
   - from: variable-shadowing

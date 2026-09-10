@@ -135,6 +135,7 @@ conceitos / ≥60 competências / ≥300 step nodes (R1's threshold em
 - [x] Expandir o fluxo de go-debugging com nodes de verificação da saída e análise da fronteira vazia, preservando o desafio canônico; validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir o desafio de conversão estreitante de go-first-steps com nodes de verificação de limites e reflexão sobre a ordem das operações; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir os desafios de módulo e formatação de go-first-steps com nodes de inspeção e verificação observável; preservar fixtures e validar catálogo. Consumir knowledge:go-foundations-io-batch.
+- [x] Expandir o desafio de shadowing e retornos nomeados com nodes de verificação de casos e reflexão sobre escopo; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Completar conteúdo dos oito conceitos restantes de go-errors com exemplos isolados, relações e preservação de desafios/fixtures; executar exemplos e matriz strict. Consumir knowledge:go-foundations-io-batch.
 - [x] Complementar errors.As, errors.Join e tradução na fronteira em go-errors, preservando o conteúdo de %w e desafios; testar três exemplos isolados e matriz strict. Consumir knowledge:go-foundations-io-batch.
 - [x] Aprofundar os dez conceitos existentes de go-io com explicações, exemplos Go isolados e referências ligadas ao grafo; preservar desafios/fixtures e verificar exemplos e matriz strict. Consumir knowledge:go-foundations-io-batch.

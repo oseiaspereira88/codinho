@@ -1481,6 +1481,43 @@ challenges:
             reflection:
               optional:
                 - O que aconteceria com age e err se você tivesse redeclarado os dois dentro do bloco condicional em vez de atualizá-los?
+            children:
+              - id: model.verify-shadowing-cases
+                kind: micro
+                action: verify
+                target: function
+                title: Verificar casos válidos e inválidos
+                instruction:
+                  objective: Execute os casos numérico, vazio, somente espaços e texto inválido, confirmando age e err no retorno.
+                  scope: Apenas a observação dos retornos após a implementação.
+                concepts: [named-return-values, variable-shadowing]
+                evidence:
+                  strategies: [compile]
+                criteria:
+                  - id: valid-case-verified
+                    kind: structural
+                  - id: invalid-cases-verified
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
+              - id: model.explain-assignment-scope
+                kind: micro
+                action: reflect
+                target: decision
+                title: Explicar a atribuição no escopo correto
+                instruction:
+                  objective: Explique por que := dentro do bloco criaria novos nomes e por que a atribuição simples atualiza os retornos nomeados.
+                  scope: Apenas a justificativa sobre escopo e shadowing.
+                concepts: [variable-shadowing, block-scope]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: assignment-scope-explained
+                    kind: qualitative
+                completion:
+                  requires_positive_evaluation: false
+                  requires_user_confirmation: true
     fixture:
       - path: go.mod
         content: |

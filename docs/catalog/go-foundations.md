@@ -140,3 +140,8 @@ explicações e exemplos isolados de errors.As, errors.Join e tradução na
 fronteira. Os exemplos verificam presença e ausência de tipo, preservação de
 causas agregadas, agregação vazia e separação entre erro público e causa interna.
 As contagens e os desafios permanecem iguais; revisão pedagógica está pendente.
+
+Em go-errors 1.4.0, os 12 conceitos têm conteúdo de apoio. O complemento cobre
+precedência, identidade, busca em cadeias/árvores, valor zero, validação antes
+da mutação, ordenação e snapshots. Os oito exemplos novos são testes Go
+isolados. A aprovação mecânica não altera o estado editorial draft.

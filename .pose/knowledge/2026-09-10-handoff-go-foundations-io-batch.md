@@ -50,7 +50,8 @@ usam autor codex e não têm reviewed_by/playtested humano.
   report e duas modificações documentais declaradas; histórico preservado.
   Avisos globais de arquivos sem atribuição permanecem fora deste lote.
 
-- Continuar os oito conceitos restantes de go-errors e depois go-core.
+- Continuar go-core: go-errors 1.4.0 agora tem conteúdo nos 12 conceitos.
+  Os oito exemplos do complemento foram executados isoladamente.
   errors.As, errors.Join e tradução na fronteira agora têm exemplos isolados;
   o conteúdo anterior de %w foi preservado. go-testing tem
   conteúdo nos oito conceitos e go-io nos dez, com exemplos Go isolados.
@@ -100,3 +101,5 @@ Mesmo agente, com decisões de distribuição e playtest a cargo de @oseiasperei
 - [Conceitos de I/O](../reports/2026-09-10-io-concept-content.md).
 
 - [Conceitos de erros](../reports/2026-09-10-error-concept-content.md).
+
+- [Complemento de erros](../reports/2026-09-10-error-concepts-complement.md).

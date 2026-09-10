@@ -122,6 +122,7 @@ conceitos / ≥60 competências / ≥300 step nodes (R1's threshold em
 `catalog-authoring-quality` R9 `--v1-gate`).
 
 ### Implementation
+- [x] Completar conteúdo dos oito conceitos restantes de go-errors com exemplos isolados, relações e preservação de desafios/fixtures; executar exemplos e matriz strict. Consumir knowledge:go-foundations-io-batch.
 - [x] Complementar errors.As, errors.Join e tradução na fronteira em go-errors, preservando o conteúdo de %w e desafios; testar três exemplos isolados e matriz strict. Consumir knowledge:go-foundations-io-batch.
 - [x] Aprofundar os dez conceitos existentes de go-io com explicações, exemplos Go isolados e referências ligadas ao grafo; preservar desafios/fixtures e verificar exemplos e matriz strict. Consumir knowledge:go-foundations-io-batch.
 - [x] Aprofundar os oito conceitos existentes de go-testing com explanation/example e referências conceituais válidas; preservar desafios e fixtures. Validar exemplos Go isolados, catálogo e matriz strict. Consumir knowledge:go-foundations-io-batch.

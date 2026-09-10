@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-errors
-version: 1.3.0
+version: 1.4.0
 themes:
   - id: errors
     title: Erros
@@ -89,20 +89,163 @@ concepts:
       concept_id: error-identity-not-message
 - id: error-classification-precedence
   title: Precedência na classificação de erros
+  content:
+    version: 1
+    explanation: 'Um erro agregado pode satisfazer várias categorias simultaneamente. Defina a prioridade
+      no contrato e teste combinações: a ordem das condições pode alterar o resultado mesmo quando cada
+      condição está correta. Não confunda prioridade de negócio com ordem dos filhos na árvore de erros.'
+    example:
+      context: prioridade de uma reserva
+      code: "package example\n\nimport (\n\t\"errors\"\n\t\"testing\"\n)\n\nfunc TestPriority(t *testing.T)\
+        \ {\n\tclosed := errors.New(\"closed\")\n\tbusy := errors.New(\"busy\")\n\tclassify := func(err\
+        \ error) string {\n\t\tswitch {\n\t\tcase errors.Is(err, closed):\n\t\t\treturn \"closed\"\n\t\
+        \tcase errors.Is(err, busy):\n\t\t\treturn \"busy\"\n\t\tdefault:\n\t\t\treturn \"other\"\n\t\t\
+        }\n\t}\n\tfor _, err := range []error{errors.Join(closed, busy), errors.Join(busy, closed)} {\n\
+        \t\tif classify(err) != \"closed\" {\n\t\t\tt.Fatal(\"priority depends on order\")\n\t\t}\n\t\
+        }\n}\n"
+      explanation: A categoria closed vence nas duas ordens de agregação. A prioridade está nas condições,
+        não na posição do erro.
+    relation_refs:
+    - kind: relates_to
+      concept_id: errors-join-aggregation
 - id: error-identity-not-message
   title: Identidade de erro versus mensagem
+  content:
+    version: 1
+    explanation: Dois erros podem ter a mesma mensagem sem representar a mesma identidade. Declare uma
+      sentinela compartilhada quando o contrato requer reconhecimento estável e consulte-a com errors.Is.
+      Comparar Error() mistura diagnóstico com classificação e pode aceitar uma falha de outra origem.
+    example:
+      context: mensagens coincidentes
+      code: "package example\n\nimport (\n\t\"errors\"\n\t\"testing\"\n)\n\nfunc TestIdentity(t *testing.T)\
+        \ {\n\ta := errors.New(\"unavailable\")\n\tb := errors.New(\"unavailable\")\n\tif a.Error() !=\
+        \ b.Error() {\n\t\tt.Fatal(\"expected equal messages\")\n\t}\n\tif errors.Is(a, b) {\n\t\tt.Fatal(\"\
+        distinct errors matched\")\n\t}\n\tif !errors.Is(a, a) {\n\t\tt.Fatal(\"identity lost\")\n\t}\n\
+        }\n"
+      explanation: As mensagens são iguais, mas as chamadas a errors.New criam erros distintos. O teste
+        separa texto e identidade.
+    relation_refs:
+    - kind: relates_to
+      concept_id: error-wrapping-with-percent-w
 - id: error-chain-type-traversal
   title: Extração de tipos em cadeias de erro
+  content:
+    version: 1
+    explanation: errors.As percorre wrapping para encontrar um erro atribuível ao tipo solicitado. Um
+      único errors.Unwrap alcança apenas a próxima camada e não substitui essa busca. O erro encontrado
+      mantém os dados do tipo; evite remover contexto manualmente até achar uma mensagem conhecida.
+    example:
+      context: medida rejeitada por várias camadas
+      code: "package example\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n\t\"testing\"\n)\n\ntype MeasureError\
+        \ struct{ Unit string }\n\nfunc (e *MeasureError) Error() string { return \"invalid measure\"\
+        \ }\nfunc TestNestedType(t *testing.T) {\n\troot := &MeasureError{Unit: \"kg\"}\n\terr := fmt.Errorf(\"\
+        screen: %w\", fmt.Errorf(\"service: %w\", root))\n\tvar got *MeasureError\n\tif !errors.As(err,\
+        \ &got) || got != root || got.Unit != \"kg\" {\n\t\tt.Fatal(\"nested type lost\")\n\t}\n}\n"
+      explanation: A busca atravessa duas camadas e recupera o mesmo objeto. Um acesso apenas à primeira
+        causa ainda encontraria um erro de contexto.
+    relation_refs:
+    - kind: relates_to
+      concept_id: errors-as-type-extraction
 - id: error-joined-tree-order
   title: Ordem de tipos em árvores de erros
+  content:
+    version: 1
+    explanation: Erros agregados formam uma árvore. errors.As visita o erro atual e depois os filhos em
+      profundidade, na ordem em que aparecem, retornando a primeira correspondência. Quando há vários
+      erros do mesmo tipo, inverter os filhos pode mudar o objeto encontrado; não use essa ordem como
+      prioridade de negócio implícita.
+    example:
+      context: duas falhas de campo
+      code: "package example\n\nimport (\n\t\"errors\"\n\t\"testing\"\n)\n\ntype FieldError struct{ Name\
+        \ string }\n\nfunc (e *FieldError) Error() string { return \"invalid field\" }\nfunc TestTreeOrder(t\
+        \ *testing.T) {\n\ta := &FieldError{Name: \"color\"}\n\tb := &FieldError{Name: \"size\"}\n\tfor\
+        \ _, tc := range []struct {\n\t\terr  error\n\t\twant *FieldError\n\t}{{errors.Join(errors.Join(a),\
+        \ b), a}, {errors.Join(b, errors.Join(a)), b}} {\n\t\tvar got *FieldError\n\t\tif !errors.As(tc.err,\
+        \ &got) || got != tc.want {\n\t\t\tt.Fatal(\"unexpected first match\")\n\t\t}\n\t}\n}\n"
+      explanation: Os dois arranjos contêm as mesmas falhas, mas a primeira correspondência muda. A árvore
+        aninhada demonstra a busca em profundidade.
+    relation_refs:
+    - kind: relates_to
+      concept_id: error-classification-precedence
 - id: catalog-zero-value
   title: Valor zero de catálogo em memória
+  content:
+    version: 1
+    explanation: Um tipo pode oferecer operações úteis sem construtor. Para mapas, leitura e len funcionam
+      com nil, mas atribuir uma entrada a um mapa nil causa panic. Inicialize o mapa antes da primeira
+      escrita e documente quais operações o valor zero suporta; isso não implica segurança para acesso
+      concorrente.
+    example:
+      context: contador por cor
+      code: "package example\n\nimport (\n\t\"testing\"\n)\n\ntype Counter struct{ counts map[string]int\
+        \ }\n\nfunc (c *Counter) Add(key string) {\n\tif c.counts == nil {\n\t\tc.counts = make(map[string]int)\n\
+        \t}\n\tc.counts[key]++\n}\nfunc TestZeroCounter(t *testing.T) {\n\tvar c Counter\n\tif len(c.counts)\
+        \ != 0 || c.counts[\"blue\"] != 0 {\n\t\tt.Fatal(\"invalid zero\")\n\t}\n\tc.Add(\"blue\")\n\t\
+        c.Add(\"blue\")\n\tif c.counts[\"blue\"] != 2 {\n\t\tt.Fatal(\"lost count\")\n\t}\n}\n"
+      explanation: A primeira escrita prepara o mapa e a segunda preserva seu conteúdo. O exemplo usa
+        uma variável endereçável, não um ponteiro nil para Counter.
+    relation_refs:
+    - kind: relates_to
+      concept_id: catalog-validation-before-mutation
 - id: catalog-validation-before-mutation
   title: Validação anterior à mutação
+  content:
+    version: 1
+    explanation: Valide as condições de uma operação antes de alterar o estado. Se um erro deve deixar
+      os dados intactos, teste o estado após a rejeição, não apenas a presença do erro. Atualizações com
+      várias etapas exigem cuidado adicional para evitar que uma etapa posterior falhe depois de uma mutação
+      parcial.
+    example:
+      context: limite de volume
+      code: "package example\n\nimport (\n\t\"errors\"\n\t\"testing\"\n)\n\nfunc setVolume(dst *int, next\
+        \ int) error {\n\tif next < 0 || next > 10 {\n\t\treturn errors.New(\"volume outside range\")\n\
+        \t}\n\t*dst = next\n\treturn nil\n}\nfunc TestNoPartialMutation(t *testing.T) {\n\tvalue := 4\n\
+        \tif err := setVolume(&value, 11); err == nil || value != 4 {\n\t\tt.Fatal(\"rejection changed\
+        \ state\")\n\t}\n\tif err := setVolume(&value, 7); err != nil || value != 7 {\n\t\tt.Fatal(\"\
+        valid update failed\")\n\t}\n}\n"
+      explanation: O ponteiro recebido é válido neste contrato ilustrativo. A rejeição preserva o valor
+        anterior; o caso válido confirma que a operação realmente atualiza.
+    relation_refs:
+    - kind: relates_to
+      concept_id: catalog-zero-value
 - id: catalog-deterministic-list
   title: Listagem determinística de mapas
+  content:
+    version: 1
+    explanation: A ordem de iteração de um map não é um contrato estável. Se a API promete ordem, extraia
+      os itens e ordene pelo critério declarado. Escolha também como desempatar quando a chave de ordenação
+      não é única; testes não devem depender da ordem casual observada em uma execução.
+    example:
+      context: nomes de cores
+      code: "package example\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc TestSortedKeys(t *testing.T)\
+        \ {\n\tm := map[string]int{\"red\": 2, \"blue\": 1, \"green\": 3}\n\tkeys := make([]string, 0,\
+        \ len(m))\n\tfor k := range m {\n\t\tkeys = append(keys, k)\n\t}\n\tslices.Sort(keys)\n\tif !slices.Equal(keys,\
+        \ []string{\"blue\", \"green\", \"red\"}) {\n\t\tt.Fatal(keys)\n\t}\n}\n"
+      explanation: O resultado usa ordem lexical de strings. Esse critério é explícito e não pretende
+        representar ordenação linguística por localidade.
+    relation_refs:
+    - kind: relates_to
+      concept_id: catalog-value-snapshots
 - id: catalog-value-snapshots
   title: Snapshots por valor de catálogo
+  content:
+    version: 1
+    explanation: Retornar uma cópia de um valor pode isolar o estado interno, mas o isolamento depende
+      dos campos. Inteiros e strings copiados não permitem alterar os campos originais por meio da cópia.
+      Slices, mapas e ponteiros podem continuar compartilhando dados; copiar somente a struct não garante
+      cópia profunda.
+    example:
+      context: leitura de um marcador
+      code: "package example\n\nimport (\n\t\"testing\"\n)\n\ntype Marker struct {\n\tLabel string\n\t\
+        Count int\n}\n\nfunc TestValueSnapshot(t *testing.T) {\n\tstored := Marker{Label: \"blue\", Count:\
+        \ 2}\n\tview := stored\n\tview.Count = 9\n\tif stored.Count != 2 {\n\t\tt.Fatal(\"view changed\
+        \ storage\")\n\t}\n\tstored.Label = \"red\"\n\tif view.Label != \"blue\" {\n\t\tt.Fatal(\"storage\
+        \ changed snapshot\")\n\t}\n}\n"
+      explanation: O exemplo verifica mutações em ambas as direções com campos por valor. Uma struct com
+        slice exigiria um contrato e uma cópia adicionais.
+    relation_refs:
+    - kind: relates_to
+      concept_id: catalog-validation-before-mutation
 competencies:
   - id: wrap-sentinel-with-context
     title: Encadear um erro sentinela preservando o contexto
@@ -2083,4 +2226,28 @@ relations:
     kind: relates_to
   - from: error-translation-at-boundary
     to: error-identity-not-message
+    kind: relates_to
+  - from: error-classification-precedence
+    to: errors-join-aggregation
+    kind: relates_to
+  - from: error-identity-not-message
+    to: error-wrapping-with-percent-w
+    kind: relates_to
+  - from: error-chain-type-traversal
+    to: errors-as-type-extraction
+    kind: relates_to
+  - from: error-joined-tree-order
+    to: error-classification-precedence
+    kind: relates_to
+  - from: catalog-zero-value
+    to: catalog-validation-before-mutation
+    kind: relates_to
+  - from: catalog-validation-before-mutation
+    to: catalog-zero-value
+    kind: relates_to
+  - from: catalog-deterministic-list
+    to: catalog-value-snapshots
+    kind: relates_to
+  - from: catalog-value-snapshots
+    to: catalog-validation-before-mutation
     kind: relates_to

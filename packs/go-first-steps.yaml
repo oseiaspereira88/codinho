@@ -1042,6 +1042,44 @@ challenges:
             reflection:
               optional:
                 - O que aconteceria com o resultado se a conversão para byte fosse feita antes do ajuste, e não depois?
+          - id: model.verify-clamp-boundaries
+            kind: micro
+            action: verify
+            target: function
+            title: Verificar os três limites do clamp
+            instruction:
+              objective: Confira os casos abaixo do mínimo, dentro do intervalo e acima do máximo, relacionando cada resultado ao contrato.
+              scope: Somente os valores -1, 120 e 256; não altere a implementação.
+            concepts: [narrowing-conversion-overflow]
+            evidence:
+              strategies: [compile]
+            criteria:
+              - id: lower-bound-verified
+                kind: structural
+              - id: in-range-verified
+                kind: structural
+              - id: upper-bound-verified
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+          - id: model.explain-conversion-risk
+            kind: micro
+            action: reflect
+            target: decision
+            title: Explicar o risco da conversão estreitante
+            instruction:
+              objective: Explique por que ajustar antes de converter evita perda de informação e como o teste demonstra essa decisão.
+              scope: Apenas a justificativa da ordem das operações.
+            concepts: [narrowing-conversion-overflow, type-conversion]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: conversion-order-explained
+                kind: qualitative
+            completion:
+              requires_positive_evaluation: false
+              requires_user_confirmation: true
     fixture:
       - path: go.mod
         content: |

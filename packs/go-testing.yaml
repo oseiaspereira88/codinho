@@ -585,6 +585,45 @@ challenges:
             optional:
             - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
               correta?
+          children:
+          - id: measure-reservation-remaining.verify-nonnegative-result
+            kind: micro
+            action: verify
+            target: output
+            title: Verificar duração nunca negativa
+            instruction:
+              objective: Confirme que reserva expirada e reserva no limite retornam zero, enquanto uma futura retorna duração positiva.
+              scope: Apenas as três fronteiras temporais.
+            concepts:
+            - testing-time-boundaries
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: expired-clamped-to-zero
+              kind: structural
+            - id: future-remains-positive
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
+          - id: measure-reservation-remaining.verify-clock-once
+            kind: micro
+            action: verify
+            target: dependency
+            title: Verificar uma leitura do relógio
+            instruction:
+              objective: Use um dublê contador para confirmar que a operação consulta o relógio exatamente uma vez.
+              scope: Apenas a quantidade de chamadas da dependência.
+            concepts:
+            - testing-counting-double
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: clock-called-once
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
   fixture:
   - path: go.mod
     content: |

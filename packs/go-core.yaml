@@ -289,6 +289,11 @@ challenges:
               optional:
                 - Por que a ordem final é o inverso da ordem em que os recursos foram recebidos?
           - id: model.verify-empty-defer-stack
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: boundary_case

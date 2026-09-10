@@ -278,6 +278,11 @@ challenges:
                 - Por que return inv (copiando a struct inteira por valor) não seria suficiente para isolar Items?
             children:
               - id: model.verify-capacity-edge
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: aliasing
@@ -295,6 +300,11 @@ challenges:
                   requires_positive_evaluation: true
                   requires_user_confirmation: false
               - id: model.verify-owner-preserved
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: output
@@ -576,6 +586,11 @@ challenges:
                 - Por que devolver um *strictValidator nil como Validator (mesmo dentro do caso "strict") resulta em uma interface diferente de nil, mas que ainda pode falhar de forma inesperada ao ser usada?
             children:
               - id: model.verify-validator-identity
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: interface
@@ -836,6 +851,11 @@ challenges:
                 - Por que tratar o receptor nil já no início da função evita repetir essa checagem para cada nó restante da cadeia, seja a solução recursiva ou iterativa?
             children:
               - id: model.verify-chain-boundaries
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: function
@@ -1104,6 +1124,11 @@ challenges:
                 - Por que a constraint any não seria suficiente para comparar elementos com == dentro de Contains?
             children:
               - id: model.verify-comparable-instantiations
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: function
@@ -1121,6 +1146,11 @@ challenges:
                   requires_positive_evaluation: true
                   requires_user_confirmation: false
               - id: model.verify-empty-and-late-match
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: boundary_case
@@ -1415,6 +1445,11 @@ challenges:
                 - Por que shape.(Circle) sem a forma comma-ok panicaria justamente no caso em que shape é um Square, e não no caso em que é um Circle -- e por que um type switch com um caso default evita esse problema sem precisar de comma-ok?
             children:
               - id: model.verify-circle-and-other-shape
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: output
@@ -1681,6 +1716,11 @@ challenges:
                 - Por que Map precisa de dois parâmetros de tipo (T e U), em vez de só um?
             children:
               - id: model.verify-generic-order
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: output
@@ -1700,6 +1740,11 @@ challenges:
                   requires_positive_evaluation: true
                   requires_user_confirmation: false
               - id: model.verify-result-isolation
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: aliasing
@@ -2010,6 +2055,11 @@ challenges:
                 - Por que capturar um *Circle nil em uma variável e devolvê-lo como Shape produziria uma interface diferente de nil, mesmo quando nenhum Circle foi de fato encontrado?
             children:
               - id: model.verify-first-circle-order
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: output
@@ -2029,6 +2079,11 @@ challenges:
                   requires_positive_evaluation: true
                   requires_user_confirmation: false
               - id: model.verify-registry-isolation
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: aliasing

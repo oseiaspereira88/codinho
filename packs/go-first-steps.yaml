@@ -930,6 +930,11 @@ challenges:
               - level: 3
                 kind: logical_prose
           - id: model.inspect-module-with-go-list
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: module
@@ -1077,6 +1082,11 @@ challenges:
               optional:
                 - O que aconteceria com o resultado se a conversão para byte fosse feita antes do ajuste, e não depois?
           - id: model.verify-clamp-boundaries
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: function
@@ -1282,6 +1292,11 @@ challenges:
                 - O que go vet reportaria se você usasse %s para o número de tentativas?
             children:
               - id: model.run-format-check
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: package
@@ -1299,6 +1314,11 @@ challenges:
                   requires_positive_evaluation: true
                   requires_user_confirmation: false
               - id: model.compare-message-boundary
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: output
@@ -1483,6 +1503,11 @@ challenges:
                 - O que aconteceria com age e err se você tivesse redeclarado os dois dentro do bloco condicional em vez de atualizá-los?
             children:
               - id: model.verify-shadowing-cases
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: function

@@ -359,6 +359,11 @@ challenges:
             - Dois fusos diferentes podem representar o mesmo instante?
           children:
           - id: testable-expiry.verify-zone-equivalence
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: boundary_case
@@ -412,6 +417,11 @@ challenges:
             - Por que comparar apenas o conteúdo antes de modificar a saída não detecta aliasing?
           children:
           - id: testable-expiry.verify-empty-result
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: boundary_case
@@ -430,6 +440,11 @@ challenges:
             completion:
               requires_positive_evaluation: true
           - id: testable-expiry.verify-order-preserved
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: output_order
@@ -643,6 +658,11 @@ challenges:
               correta?
           children:
           - id: measure-reservation-remaining.verify-nonnegative-result
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: output
@@ -663,6 +683,11 @@ challenges:
             completion:
               requires_positive_evaluation: true
           - id: measure-reservation-remaining.verify-clock-once
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: dependency
@@ -681,6 +706,11 @@ challenges:
             completion:
               requires_positive_evaluation: true
           - id: measure-reservation-remaining.verify-missing-clock
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: dependency_boundary
@@ -889,6 +919,11 @@ challenges:
               correta?
           children:
           - id: check-ticket-boundary.verify-equality
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: boundary_case
@@ -907,6 +942,11 @@ challenges:
             completion:
               requires_positive_evaluation: true
           - id: check-ticket-boundary.verify-timezone-equivalence
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: boundary_case
@@ -925,6 +965,11 @@ challenges:
             completion:
               requires_positive_evaluation: true
           - id: check-ticket-boundary.verify-mixed-cases
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: boundary_case
@@ -1104,13 +1149,18 @@ challenges:
               correta?
           children:
           - id: snapshot-readings.verify-bidirectional-isolation
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: aliasing
-            title: Verificar isolamento nos dois sentidos
+            title: Verificar isolamento da saída
             instruction:
-              objective: Mude um elemento do snapshot e depois um elemento da entrada, confirmando que nenhuma alteração atravessa a fronteira.
-              scope: Apenas o comportamento de cópia independente.
+              objective: Altere um valor no snapshot e confirme que a leitura original conserva o valor anterior.
+              scope: Mutação da saída após a cópia.
             concepts:
             - testing-input-isolation
             evidence:
@@ -1119,11 +1169,37 @@ challenges:
             criteria:
             - id: output-change-isolated
               kind: structural
+            completion:
+              requires_positive_evaluation: true
+          - id: snapshot-readings.verify-input-isolation
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+            kind: micro
+            action: verify
+            target: aliasing
+            title: Verificar isolamento da entrada
+            instruction:
+              objective: Altere um rótulo na entrada e confirme que o snapshot conserva o rótulo copiado.
+              scope: Mutação da entrada após a cópia.
+            concepts:
+            - testing-input-isolation
+            evidence:
+              strategies:
+              - test
+            criteria:
             - id: input-change-isolated
               kind: structural
             completion:
               requires_positive_evaluation: true
           - id: snapshot-readings.verify-empty-non-nil
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: boundary_case
@@ -1299,6 +1375,11 @@ challenges:
               correta?
           children:
           - id: count-deadline-clock-calls.verify-empty-batch
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: boundary_case
@@ -1319,6 +1400,11 @@ challenges:
             completion:
               requires_positive_evaluation: true
           - id: count-deadline-clock-calls.verify-strict-deadline
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: boundary_case
@@ -1337,6 +1423,11 @@ challenges:
             completion:
               requires_positive_evaluation: true
           - id: count-deadline-clock-calls.verify-missing-clock
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: dependency_boundary
@@ -1355,6 +1446,11 @@ challenges:
             completion:
               requires_positive_evaluation: true
           - id: count-deadline-clock-calls.verify-single-observation
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: counting_double

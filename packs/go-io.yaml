@@ -846,6 +846,11 @@ challenges:
               correta?
           children:
           - id: read-fragmented-note.verify-partial-bytes
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: reader
@@ -864,6 +869,11 @@ challenges:
             completion:
               requires_positive_evaluation: true
           - id: read-fragmented-note.verify-eof-boundary
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: reader
@@ -1130,6 +1140,11 @@ challenges:
               correta?
           children:
           - id: decode-weather-fields.verify-null-document
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: json_document
@@ -1148,6 +1163,11 @@ challenges:
             completion:
               requires_positive_evaluation: true
           - id: decode-weather-fields.verify-trailing-value
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: json_document
@@ -1333,6 +1353,11 @@ challenges:
               correta?
           children:
           - id: read-quoted-attendees.verify-quoted-comma
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: csv_record
@@ -1351,6 +1376,11 @@ challenges:
             completion:
               requires_positive_evaluation: true
           - id: read-quoted-attendees.verify-invalid-record
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: csv_record
@@ -1547,6 +1577,11 @@ challenges:
               correta?
           children:
           - id: write-result-report.verify-newline
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: json_output
@@ -1565,6 +1600,11 @@ challenges:
             completion:
               requires_positive_evaluation: true
           - id: write-result-report.verify-writer-identity
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
             kind: micro
             action: verify
             target: writer_error

@@ -586,6 +586,11 @@ challenges:
                 - 'Por que err.(*ValidationError) falha quando err é o resultado de fmt.Errorf com %w, mesmo o *ValidationError estando presente no encadeamento?'
             children:
               - id: extract-field.verify-deep-wrapping
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: error
@@ -603,6 +608,11 @@ challenges:
                   requires_positive_evaluation: true
                   requires_user_confirmation: false
               - id: extract-field.verify-absent-type
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: error
@@ -880,6 +890,11 @@ challenges:
                 - Por que retornar só o primeiro erro encontrado perderia informação útil quando várias regras são violadas ao mesmo tempo?
             children:
               - id: validate-user.verify-cause-identity
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: error
@@ -897,6 +912,11 @@ challenges:
                   requires_positive_evaluation: true
                   requires_user_confirmation: false
               - id: validate-user.verify-success-is-nil
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: error
@@ -1157,6 +1177,11 @@ challenges:
                 - Por que encadear errDeadlineExceeded com %w junto de ErrServiceUnavailable violaria o propósito de uma fronteira de tradução, mesmo que errors.Is(err, ErrServiceUnavailable) continuasse funcionando?
             children:
               - id: translate-error.verify-public-identity
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: error
@@ -1176,6 +1201,11 @@ challenges:
                   requires_positive_evaluation: true
                   requires_user_confirmation: false
               - id: translate-error.verify-public-message
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
                 kind: micro
                 action: verify
                 target: error
@@ -1793,6 +1823,11 @@ challenges:
               - Como distinguir a ordem da busca por tipo da precedência de categorias?
             children:
             - id: classify-wrapped-errors.verify-identity-vs-text
+              hints:
+                - level: 1
+                  kind: guiding_question
+                - level: 2
+                  kind: syntax_recall
               kind: micro
               action: verify
               target: classification
@@ -1811,6 +1846,11 @@ challenges:
               completion:
                 requires_positive_evaluation: true
             - id: classify-wrapped-errors.verify-joined-precedence
+              hints:
+                - level: 1
+                  kind: guiding_question
+                - level: 2
+                  kind: syntax_recall
               kind: micro
               action: verify
               target: classification
@@ -2165,6 +2205,11 @@ challenges:
               - Por que a ordem de iteração de um mapa não serve como contrato de listagem?
             children:
             - id: maintain-memory-catalog.verify-invalid-put-preserves-state
+              hints:
+                - level: 1
+                  kind: guiding_question
+                - level: 2
+                  kind: syntax_recall
               kind: micro
               action: verify
               target: state
@@ -2183,6 +2228,11 @@ challenges:
               completion:
                 requires_positive_evaluation: true
             - id: maintain-memory-catalog.verify-sorted-snapshots
+              hints:
+                - level: 1
+                  kind: guiding_question
+                - level: 2
+                  kind: syntax_recall
               kind: micro
               action: verify
               target: output

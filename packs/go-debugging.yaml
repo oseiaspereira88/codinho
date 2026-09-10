@@ -139,6 +139,11 @@ challenges:
                             kind: guiding_question
                         children:
                           - id: go-debug.verify-corrected-output
+                            hints:
+                              - level: 1
+                                kind: guiding_question
+                              - level: 2
+                                kind: syntax_recall
                             kind: micro
                             action: verify
                             target: program_output

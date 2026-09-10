@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-first-steps
-version: 1.2.0
+version: 1.3.0
 themes:
   - id: slices
     title: Slices e arrays
@@ -11,18 +11,106 @@ themes:
 concepts:
   - id: slice-declaration
     title: Declaração de slice
+    content:
+      version: 1
+      explanation: Uma slice declara uma sequência com comprimento variável. nil, uma slice vazia e uma slice com capacidade reservada podem ter comportamentos diferentes em comparação e alocação, embora len(nil) seja zero. Escolha a forma conforme o contrato e use append para crescer a sequência.
+      example:
+        context: lista de tarefas
+        code: |
+          package example
+
+          import "testing"
+
+          func addTask(tasks []string, task string) []string {
+              return append(tasks, task)
+          }
+
+          func TestSlice(t *testing.T) {
+              var tasks []string
+              tasks = addTask(tasks, "estudar")
+              if len(tasks) != 1 || tasks[0] != "estudar" { t.Fatal(tasks) }
+          }
+        explanation: A slice nil pode receber append diretamente e passa a conter o item.
+      relation_refs:
+        - kind: relates_to
+          concept_id: zero-values
   - id: range-loop
     title: Laço range
   - id: named-types
     title: Tipos nomeados
+    content:
+      version: 1
+      explanation: Um tipo nomeado cria uma identidade própria mesmo quando sua representação subjacente é conhecida. Isso permite métodos e contratos mais claros, mas valores de tipos nomeados distintos não são intercambiáveis sem conversão explícita. Use o nome para representar uma regra do domínio, não apenas para renomear uma variável.
+      example:
+        context: identificador de usuário
+        code: |
+          package example
+
+          import "testing"
+
+          type UserID string
+
+          func label(id UserID) string { return "user:" + string(id) }
+
+          func TestNamedType(t *testing.T) {
+              if label(UserID("42")) != "user:42" { t.Fatal("label") }
+          }
+        explanation: A conversão para string é explícita na fronteira da representação.
+      relation_refs:
+        - kind: relates_to
+          concept_id: type-conversion
   - id: structs
     title: Structs
   - id: field-types
     title: Tipos de campo
   - id: zero-values
     title: Valores zero
+    content:
+      version: 1
+      explanation: "Toda variável declarada sem inicializador recebe o valor zero do tipo: 0, false, string vazia, ponteiro nil ou uma estrutura composta por zeros. Projetar tipos cujo zero value seja útil reduz construtores obrigatórios e torna declarações locais seguras. Zero não significa ausência em todo domínio; modele essa diferença quando necessário."
+      example:
+        context: acumulador inicial
+        code: |
+          package example
+
+          import "testing"
+
+          type Counter struct { N int; Active bool }
+
+          func TestZero(t *testing.T) {
+              var c Counter
+              if c.N != 0 || c.Active { t.Fatal(c) }
+              var names []string
+              if names != nil || len(names) != 0 { t.Fatal(names) }
+          }
+        explanation: O zero de Counter é um estado observável e o de slice é nil com comprimento zero.
+      relation_refs:
+        - kind: relates_to
+          concept_id: slice-declaration
   - id: short-variable-declaration
     title: Declaração curta de variável (:=)
+    content:
+      version: 1
+      explanation: Uma declaração associa um nome a um valor e a um tipo em um escopo. A forma := infere o tipo e exige ao menos uma variável nova no lado esquerdo dentro do escopo atual. Prefira declarar no escopo mais curto que comunique a intenção.
+      example:
+        context: configuração de uma saudação
+        code: |
+          package example
+
+          import "testing"
+
+          func greeting(name string) string {
+              prefix := "Olá"
+              return prefix + ", " + name
+          }
+
+          func TestGreeting(t *testing.T) {
+              if greeting("Ana") != "Olá, Ana" { t.Fatal(greeting("Ana")) }
+          }
+        explanation: prefix nasce no escopo da função e participa da composição sem estado global.
+      relation_refs:
+        - kind: relates_to
+          concept_id: zero-values
   - id: constant-declaration
     title: Declaração de constantes
   - id: iota-sequence
@@ -159,7 +247,7 @@ tracks:
 challenges:
   - schema_version: 1
     id: go-data.slice-filter-preserve-input
-    version: 1.0.0
+    version: 1.1.0
     title: Filtrar valores sem alterar a entrada
     kind: atomic
     difficulty: foundational
@@ -1221,4 +1309,19 @@ relations:
     kind: relates_to
   - from: convert-numeric-types-safely
     to: model-enumeration-with-iota
+    kind: relates_to
+  - from: declarations-and-types
+    to: short-variable-declaration
+    kind: relates_to
+  - from: slice-declaration
+    to: zero-values
+    kind: relates_to
+  - from: named-types
+    to: type-conversion
+    kind: relates_to
+  - from: zero-values
+    to: slice-declaration
+    kind: relates_to
+  - from: short-variable-declaration
+    to: zero-values
     kind: relates_to

@@ -137,6 +137,41 @@ challenges:
                         hints:
                           - level: 1
                             kind: guiding_question
+                        children:
+                          - id: go-debug.verify-corrected-output
+                            kind: micro
+                            action: verify
+                            target: program_output
+                            title: Verificar a saída corrigida
+                            instruction:
+                              objective: Execute novamente o programa corrigido e confirme a saída esperada sem panic.
+                              scope: Somente a execução após a correção.
+                            concepts: [slice-bounds]
+                            evidence:
+                              strategies: [compile]
+                            criteria:
+                              - id: corrected-output
+                                kind: structural
+                            completion:
+                              requires_positive_evaluation: true
+                              requires_user_confirmation: false
+                          - id: go-debug.check-empty-boundary
+                            kind: micro
+                            action: verify
+                            target: boundary_case
+                            title: Conferir a fronteira de slice vazia
+                            instruction:
+                              objective: Analise o que a função faria com uma slice vazia e registre se o contrato exige uma guarda adicional.
+                              scope: Apenas o caso len(values) igual a zero; não altere a fixture neste passo.
+                            concepts: [slice-bounds]
+                            evidence:
+                              strategies: [source_inspection]
+                            criteria:
+                              - id: empty-boundary-considered
+                                kind: qualitative
+                            completion:
+                              requires_positive_evaluation: false
+                              requires_user_confirmation: true
     fixture:
       - path: main.go
         content: |

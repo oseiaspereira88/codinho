@@ -132,6 +132,7 @@ conceitos / ≥60 competências / ≥300 step nodes (R1's threshold em
 - [x] Aprofundar o conceito de limites de slice em go-debugging com exemplo isolado e preservar o desafio de depuração; validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Tornar explícitas três competências de investigação já cobertas pelos nodes de go-debugging e associá-las ao desafio existente, sem criar desafio canônico; validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Adicionar cinco competências derivadas dos nodes existentes de go-io e associá-las aos desafios correspondentes, sem criar desafios canônicos; validar catálogo. Consumir knowledge:go-foundations-io-batch.
+- [x] Expandir o fluxo de go-debugging com nodes de verificação da saída e análise da fronteira vazia, preservando o desafio canônico; validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Completar conteúdo dos oito conceitos restantes de go-errors com exemplos isolados, relações e preservação de desafios/fixtures; executar exemplos e matriz strict. Consumir knowledge:go-foundations-io-batch.
 - [x] Complementar errors.As, errors.Join e tradução na fronteira em go-errors, preservando o conteúdo de %w e desafios; testar três exemplos isolados e matriz strict. Consumir knowledge:go-foundations-io-batch.
 - [x] Aprofundar os dez conceitos existentes de go-io com explicações, exemplos Go isolados e referências ligadas ao grafo; preservar desafios/fixtures e verificar exemplos e matriz strict. Consumir knowledge:go-foundations-io-batch.

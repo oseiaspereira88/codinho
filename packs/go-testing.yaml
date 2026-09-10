@@ -873,6 +873,24 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+          - id: check-ticket-boundary.verify-mixed-cases
+            kind: micro
+            action: verify
+            target: boundary_case
+            title: Verificar conjunto misto de ingressos
+            instruction:
+              objective: Confirme que apenas ingressos com expiração posterior ao instante observado são válidos.
+              scope: Uma entrada com casos anterior, igual e posterior.
+            concepts:
+            - testing-time-boundaries
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: only-strictly-future-valid
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
   fixture:
   - path: go.mod
     content: |

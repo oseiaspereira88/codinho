@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-testing
-version: 1.1.0
+version: 1.2.0
 publication:
   status: draft
   author: codex
@@ -10,20 +10,151 @@ themes:
 concepts:
 - id: testing-table-cases
   title: Casos de teste em tabela
+  content:
+    version: 1
+    explanation: 'Uma tabela reúne entradas e resultados esperados para o mesmo contrato. Escolha casos
+      que distingam comportamentos: vazio, limite e valor comum. Calcule o esperado explicitamente; repetir
+      a implementação dentro do teste pode reproduzir o mesmo erro.'
+    example:
+      context: classificação de paridade
+      code: "package example\n\nimport (\n\t\"testing\"\n)\n\nfunc TestParity(t *testing.T) {\n\tfor _,\
+        \ tc := range []struct {\n\t\tn    int\n\t\teven bool\n\t}{{0, true}, {3, false}, {4, true}} {\n\
+        \t\tif got := tc.n%2 == 0; got != tc.even {\n\t\t\tt.Fatalf(\"n=%d: got %v, want %v\", tc.n, got,\
+        \ tc.even)\n\t\t}\n\t}\n}\n"
+      explanation: Os valores esperados estão declarados na tabela. Um caso novo amplia a cobertura sem
+        duplicar a lógica de verificação.
+    relation_refs:
+    - kind: relates_to
+      concept_id: testing-named-subtests
 - id: testing-named-subtests
   title: Subtestes com nomes descritivos
+  content:
+    version: 1
+    explanation: Um subteste nomeado associa uma falha a um cenário legível. Use t.Run e nomes que descrevam
+      a condição, em vez de índices sem significado. O nome ajuda a selecionar e diagnosticar o caso;
+      não substitui uma mensagem com entrada, obtido e esperado.
+    example:
+      context: tamanhos de mensagens
+      code: "package example\n\nimport (\n\t\"testing\"\n)\n\nfunc TestMessageSizes(t *testing.T) {\n\t\
+        for _, tc := range []struct {\n\t\tname, text string\n\t\twant       int\n\t}{{\"empty\", \"\"\
+        , 0}, {\"ascii\", \"ola\", 3}} {\n\t\tt.Run(tc.name, func(t *testing.T) {\n\t\t\tif got := len(tc.text);\
+        \ got != tc.want {\n\t\t\t\tt.Fatalf(\"got %d, want %d\", got, tc.want)\n\t\t\t}\n\t\t})\n\t}\n\
+        }\n"
+      explanation: Cada cenário aparece separadamente na saída de go test. O exemplo mede bytes e escolhe
+        ASCII explicitamente; não afirma contar caracteres Unicode.
+    relation_refs:
+    - kind: relates_to
+      concept_id: testing-table-cases
 - id: testing-clock-injection
   title: Injeção de relógio
+  content:
+    version: 1
+    explanation: Receber uma função de relógio permite escolher o instante observado sem depender da hora
+      da máquina. O código usa essa dependência, e o teste fornece um valor fixo. Injetar o relógio não
+      basta se a implementação ainda consulta time.Now por outro caminho.
+    example:
+      context: ano de um registro
+      code: "package example\n\nimport (\n\t\"testing\"\n\t\"time\"\n)\n\nfunc recordedYear(clock func()\
+        \ time.Time) int { return clock().Year() }\nfunc TestRecordedYear(t *testing.T) {\n\tfixed :=\
+        \ time.Date(2030, 7, 1, 0, 0, 0, 0, time.UTC)\n\tif got := recordedYear(func() time.Time { return\
+        \ fixed }); got != 2030 {\n\t\tt.Fatalf(\"got %d\", got)\n\t}\n}\n"
+      explanation: O teste escolhe a data diretamente. A função ilustrativa exige um relógio não nil;
+        cada API deve definir separadamente seu contrato para dependências ausentes.
+    relation_refs:
+    - kind: relates_to
+      concept_id: testing-repeatability
 - id: testing-counting-double
   title: Dublê com contagem de chamadas
+  content:
+    version: 1
+    explanation: Um dublê pode registrar quantas vezes uma dependência foi chamada, além de fornecer um
+      valor. Verifique a contagem apenas quando ela faz parte do contrato observável. Um retorno que muda
+      entre chamadas pode revelar uma consulta extra que um valor constante esconderia.
+    example:
+      context: leitura de uma sequência controlada
+      code: "package example\n\nimport (\n\t\"testing\"\n)\n\nfunc TestCountingDouble(t *testing.T) {\n\
+        \tcalls := 0\n\tnext := func() int { calls++; return calls * 10 }\n\tfirst, second := next(),\
+        \ next()\n\tif calls != 2 || first != 10 || second != 20 {\n\t\tt.Fatalf(\"calls=%d values=%d,%d\"\
+        , calls, first, second)\n\t}\n}\n"
+      explanation: O estado local registra chamadas e altera os resultados. Este dublê é sequencial; uso
+        concorrente exigiria sincronização.
+    relation_refs:
+    - kind: relates_to
+      concept_id: testing-clock-injection
 - id: testing-time-boundaries
   title: Fronteiras temporais
+  content:
+    version: 1
+    explanation: Para uma fronteira, teste imediatamente antes, na igualdade e imediatamente depois. Declare
+      se o limite é inclusivo ou exclusivo antes de escrever a comparação. Casos muito distantes podem
+      passar mesmo quando o operador de igualdade está errado.
+    example:
+      context: abertura de um portão
+      code: "package example\n\nimport (\n\t\"testing\"\n\t\"time\"\n)\n\nfunc TestOpeningBoundary(t *testing.T)\
+        \ {\n\topening := time.Date(2030, 1, 1, 9, 0, 0, 0, time.UTC)\n\tfor _, tc := range []struct {\n\
+        \t\toffset time.Duration\n\t\topen   bool\n\t}{{-time.Nanosecond, false}, {0, true}, {time.Nanosecond,\
+        \ true}} {\n\t\tgot := !opening.Add(tc.offset).Before(opening)\n\t\tif got != tc.open {\n\t\t\t\
+        t.Fatalf(\"offset=%v got=%v\", tc.offset, got)\n\t\t}\n\t}\n}\n"
+      explanation: Aqui o limite de abertura é inclusivo. A expectativa da igualdade torna esse contrato
+        explícito; outros domínios podem usar limite exclusivo.
+    relation_refs:
+    - kind: relates_to
+      concept_id: testing-table-cases
 - id: testing-instant-versus-zone
   title: Instante versus representação em fuso
+  content:
+    version: 1
+    explanation: 'Um instante pode ter representações diferentes em fusos diferentes. Use time.Time.Equal
+      para igualdade de instante: o operador == também compara detalhes da representação. Fixe o fuso
+      quando o contrato trata de hora civil; não confunda hora local com ordem cronológica.'
+    example:
+      context: representações de uma reunião
+      code: "package example\n\nimport (\n\t\"testing\"\n\t\"time\"\n)\n\nfunc TestSameInstant(t *testing.T)\
+        \ {\n\tutc := time.Date(2030, 1, 1, 12, 0, 0, 0, time.UTC)\n\tlocal := utc.In(time.FixedZone(\"\
+        example\", -3*60*60))\n\tif !utc.Equal(local) || local.Hour() != 9 {\n\t\tt.Fatal(\"instant or\
+        \ representation changed\")\n\t}\n}\n"
+      explanation: A representação local mostra 9h, e a UTC mostra 12h, mas ambas identificam o mesmo
+        instante. FixedZone usa um deslocamento fixo neste exemplo.
+    relation_refs:
+    - kind: relates_to
+      concept_id: testing-time-boundaries
 - id: testing-input-isolation
   title: Verificação de preservação da entrada
+  content:
+    version: 1
+    explanation: Comparar entrada e saída antes de modificá-las não demonstra independência. Faça uma
+      mutação controlada na saída e observe a entrada, depois teste a direção contrária. Copiar um slice
+      separa seu array, mas elementos com ponteiros, mapas ou outros slices podem continuar compartilhando
+      dados.
+    example:
+      context: cópia de uma lista de pontuações
+      code: "package example\n\nimport (\n\t\"testing\"\n)\n\nfunc TestScoreIsolation(t *testing.T) {\n\
+        \tinput := []int{4, 8}\n\toutput := append([]int(nil), input...)\n\toutput[0] = 99\n\tif input[0]\
+        \ != 4 {\n\t\tt.Fatal(\"output changed input\")\n\t}\n\tinput[1] = 77\n\tif output[1] != 8 {\n\
+        \t\tt.Fatal(\"input changed output\")\n\t}\n}\n"
+      explanation: Os elementos int são valores sem referências internas. O teste verifica mutações em
+        ambas as direções; não demonstra uma cópia profunda de qualquer tipo.
+    relation_refs:
+    - kind: relates_to
+      concept_id: testing-repeatability
 - id: testing-repeatability
   title: Repetibilidade sem esperas reais
+  content:
+    version: 1
+    explanation: 'Um teste repetível controla entradas e dependências relevantes e não depende da ordem
+      de execução. Evite esperas reais para simular passagem de tempo: agendamento da máquina pode mudar
+      o resultado. Repita o teste para investigar instabilidade, mas lembre que várias execuções aprovadas
+      não provam ausência de dependências ocultas.'
+    example:
+      context: geração local de identificadores
+      code: "package example\n\nimport (\n\t\"testing\"\n)\n\nfunc TestLocalSequence(t *testing.T) {\n\
+        \tfor run := 0; run < 3; run++ {\n\t\tvalue := 0\n\t\tnext := func() int { value++; return value\
+        \ }\n\t\tif next() != 1 || next() != 2 {\n\t\t\tt.Fatal(\"sequence differs\")\n\t\t}\n\t}\n}\n"
+      explanation: Cada execução cria seu próprio estado. Um contador global compartilhado entre testes
+        perderia esse isolamento.
+    relation_refs:
+    - kind: relates_to
+      concept_id: testing-counting-double
 competencies:
 - id: testing-design-deterministic-time
   title: Projetar comportamento temporal determinístico
@@ -1051,4 +1182,28 @@ relations:
   kind: relates_to
 - from: go-testing.select-active-tokens-with-injected-clock
   to: go-testing.count-deadline-clock-calls
+  kind: relates_to
+- from: testing-table-cases
+  to: testing-named-subtests
+  kind: relates_to
+- from: testing-named-subtests
+  to: testing-table-cases
+  kind: relates_to
+- from: testing-clock-injection
+  to: testing-repeatability
+  kind: relates_to
+- from: testing-counting-double
+  to: testing-clock-injection
+  kind: relates_to
+- from: testing-time-boundaries
+  to: testing-table-cases
+  kind: relates_to
+- from: testing-instant-versus-zone
+  to: testing-time-boundaries
+  kind: relates_to
+- from: testing-input-isolation
+  to: testing-repeatability
+  kind: relates_to
+- from: testing-repeatability
+  to: testing-counting-double
   kind: relates_to

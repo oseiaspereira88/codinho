@@ -44,6 +44,10 @@ usam autor codex e não têm reviewed_by/playtested humano.
 
 ## Next checks
 
+- Continuar o conteúdo de apoio em go-io: go-testing agora tem explanation,
+  example e relation_refs nos oito conceitos existentes, com exemplos Go
+  isolados verificados. Esse aprofundamento não altera a contagem de conceitos.
+
 - Revisar pedagogicamente as oito variantes de I/O/testes agora autoradas.
   Todas usam variant_of, canonical false e uma competência da origem; seus
   32 nodes não suprem a profundidade das bases. Fixtures próprias verificam

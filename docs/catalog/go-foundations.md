@@ -111,3 +111,15 @@ inicie session_start com track_id. A sessão fixa o percurso e mantém o aviso d
 conteúdo não revisado. Os testes de roteamento atravessam 47 posições entre
 as cinco trilhas usando avanço explícito; isso comprova alcance das instruções,
 sem atestar conclusão pelo aluno, ordem pedagógica ideal ou playtest humano.
+
+## Conteúdo de apoio em testes
+
+Os oito conceitos de go-testing têm explicações, exemplos Go isolados e
+referências entre conceitos. Consulte-os por concept_content_get em modo de
+autoria. Os exemplos usam contextos distintos dos desafios e ressaltam limites:
+bytes versus caracteres, instante versus fuso, cópia de slice versus cópia
+profunda e dublês sequenciais versus concorrentes.
+
+Este aprofundamento mantém as contagens do inventário. Os exemplos foram
+executados como testes Go isolados; sua aprovação não substitui revisão
+pedagógica nem publica o pack draft.

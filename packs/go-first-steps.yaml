@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-first-steps
-version: 1.4.0
+version: 1.5.0
 themes:
   - id: slices
     title: Slices e arrays
@@ -203,12 +203,99 @@ concepts:
           concept_id: go-version-directive
   - id: go-version-directive
     title: Diretiva de versão mínima de Go
+    content:
+      version: 1
+      explanation: A diretiva go em go.mod declara a versão mínima da linguagem e orienta ferramentas sobre sintaxe e comportamento disponíveis. Ela não instala o compilador nem substitui a versão usada no CI; mantenha a diretiva alinhada ao ambiente suportado e teste com essa versão.
+      example:
+        context: contrato de compilação
+        code: |
+          package example
+
+          import "testing"
+
+          func TestVersionContract(t *testing.T) {
+              if testing.Short() { t.Skip("metadata-only example") }
+          }
+        explanation: O exemplo é deliberadamente independente de rede; o contrato de versão vive no go.mod do módulo.
+      relation_refs:
+        - kind: relates_to
+          concept_id: go-modules
   - id: narrowing-conversion-overflow
     title: Overflow em conversão numérica estreitante
+    content:
+      version: 1
+      explanation: Converter para um tipo numérico menor pode descartar bits e produzir um valor diferente sem retornar error. Verifique o intervalo antes da conversão quando a entrada vier de fora do domínio. A conversão em si não é uma validação.
+      example:
+        context: limite de byte
+        code: |
+          package example
+
+          import "testing"
+
+          func toByte(value int) (byte, bool) {
+              if value < 0 || value > 255 { return 0, false }
+              return byte(value), true
+          }
+
+          func TestByte(t *testing.T) {
+              if got, ok := toByte(255); !ok || got != 255 { t.Fatal(got, ok) }
+              if _, ok := toByte(256); ok { t.Fatal("overflow accepted") }
+          }
+        explanation: A checagem de intervalo rejeita 256 antes da conversão estreitante.
+      relation_refs:
+        - kind: relates_to
+          concept_id: type-conversion
   - id: printf-verb-matching
     title: Correspondência entre verbo de formatação e tipo
+    content:
+      version: 1
+      explanation: Verbos de fmt devem corresponder ao tipo e à intenção do valor. %d é adequado a inteiros, %q pode citar strings e %v é genérico, mas menos preciso. go vet detecta vários desencontros estáticos; trate a mensagem formatada como saída observável e teste casos representativos.
+      example:
+        context: recibo textual
+        code: |
+          package example
+
+          import (
+              "fmt"
+              "testing"
+          )
+
+          func receipt(item string, quantity int) string {
+              return fmt.Sprintf("%q x %d", item, quantity)
+          }
+
+          func TestReceipt(t *testing.T) {
+              if got := receipt("café", 2); got != `"café" x 2` { t.Fatal(got) }
+          }
+        explanation: A string é citada com %q e o inteiro usa %d, tornando a intenção explícita.
+      relation_refs:
+        - kind: relates_to
+          concept_id: type-conversion
   - id: named-return-values
     title: Retornos nomeados
+    content:
+      version: 1
+      explanation: Retornos nomeados declaram variáveis de resultado no cabeçalho da função. Eles podem tornar defer capaz de ajustar o resultado, mas também aumentam o estado implícito; use nomes curtos e retorne explicitamente quando isso melhorar a leitura. Um return vazio só é claro em funções pequenas.
+      example:
+        context: divisão segura
+        code: |
+          package example
+
+          import "testing"
+
+          func divide(a, b int) (result int, ok bool) {
+              if b == 0 { return 0, false }
+              return a / b, true
+          }
+
+          func TestDivide(t *testing.T) {
+              if got, ok := divide(8, 2); !ok || got != 4 { t.Fatal(got, ok) }
+              if _, ok := divide(1, 0); ok { t.Fatal("division by zero") }
+          }
+        explanation: O caminho inválido retorna explicitamente o par de resultados, sem depender de estado implícito.
+      relation_refs:
+        - kind: relates_to
+          concept_id: variable-shadowing
   - id: variable-shadowing
     title: Shadowing de variável
     content:
@@ -1406,6 +1493,18 @@ relations:
     kind: relates_to
   - from: short-variable-declaration
     to: zero-values
+    kind: relates_to
+  - from: go-version-directive
+    to: go-modules
+    kind: relates_to
+  - from: narrowing-conversion-overflow
+    to: type-conversion
+    kind: relates_to
+  - from: printf-verb-matching
+    to: type-conversion
+    kind: relates_to
+  - from: named-return-values
+    to: variable-shadowing
     kind: relates_to
   - from: constant-declaration
     to: iota-sequence

@@ -2008,6 +2008,43 @@ challenges:
             reflection:
               optional:
                 - Por que capturar um *Circle nil em uma variável e devolvê-lo como Shape produziria uma interface diferente de nil, mesmo quando nenhum Circle foi de fato encontrado?
+            children:
+              - id: model.verify-first-circle-order
+                kind: micro
+                action: verify
+                target: output
+                title: Verificar primeiro Circle em qualquer posição
+                instruction:
+                  objective: Confira uma sequência longa com mais de um Circle e confirme que o resultado é o primeiro encontrado.
+                  scope: Apenas ordem e cobertura da busca.
+                concepts: [safe-type-assertion]
+                evidence:
+                  strategies: [compile]
+                criteria:
+                  - id: first-circle-preserved
+                    kind: structural
+                  - id: long-search-covered
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
+              - id: model.verify-registry-isolation
+                kind: micro
+                action: verify
+                target: aliasing
+                title: Verificar isolamento do Registry clonado
+                instruction:
+                  objective: Altere a slice Shapes do clone e confirme que o Registry original permanece inalterado.
+                  scope: Apenas o isolamento do backing array.
+                concepts: [struct-shallow-copy-aliasing]
+                evidence:
+                  strategies: [compile, source_inspection]
+                criteria:
+                  - id: registry-input-unchanged
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
     fixture:
       - path: go.mod
         content: |

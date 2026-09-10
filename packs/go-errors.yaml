@@ -1118,6 +1118,43 @@ challenges:
             reflection:
               optional:
                 - Por que encadear errDeadlineExceeded com %w junto de ErrServiceUnavailable violaria o propósito de uma fronteira de tradução, mesmo que errors.Is(err, ErrServiceUnavailable) continuasse funcionando?
+            children:
+              - id: translate-error.verify-public-identity
+                kind: micro
+                action: verify
+                target: error
+                title: Verificar apenas a identidade pública
+                instruction:
+                  objective: Confirme que a falha traduzida satisfaz errors.Is para ErrServiceUnavailable e não para a causa interna.
+                  scope: Apenas as identidades observáveis pelo chamador.
+                concepts: [error-translation-at-boundary]
+                evidence:
+                  strategies: [test]
+                criteria:
+                  - id: public-sentinel-detectable
+                    kind: structural
+                  - id: internal-cause-undetectable
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
+              - id: translate-error.verify-public-message
+                kind: micro
+                action: verify
+                target: error
+                title: Verificar mensagem sem detalhe interno
+                instruction:
+                  objective: Inspecione a mensagem pública e confirme que o texto do timeout interno não aparece.
+                  scope: Apenas o conteúdo textual do erro traduzido.
+                concepts: [error-translation-at-boundary]
+                evidence:
+                  strategies: [test]
+                criteria:
+                  - id: internal-message-undetectable
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
     fixture:
       - path: go.mod
         content: |

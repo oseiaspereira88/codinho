@@ -1,0 +1,643 @@
+schema_version: 1
+id: go-io
+version: 1.0.0
+publication:
+  status: draft
+  author: codex
+themes:
+- id: io-and-serialization
+  title: I/O e serialização
+concepts:
+- id: io-reader-stream
+  title: Leitura por interface e fluxo
+- id: io-partial-reads
+  title: Leituras parciais
+- id: io-eof-boundary
+  title: Fim de entrada e erros de leitura
+- id: io-json-decoder
+  title: Decodificação JSON a partir de Reader
+- id: io-json-strict-fields
+  title: Campos JSON desconhecidos
+- id: io-csv-quoted-fields
+  title: Campos CSV entre aspas
+- id: io-writer-errors
+  title: Propagação de erros de escrita
+- id: io-validate-before-write
+  title: Validar antes de produzir saída
+- id: io-csv-record-width
+  title: Largura consistente de registros CSV
+- id: io-json-encode
+  title: Codificação JSON em Writer
+competencies:
+- id: io-decode-one-json
+  title: Decodificar exatamente um documento JSON
+- id: io-reject-unknown-fields
+  title: Rejeitar campos desconhecidos
+- id: io-preserve-reader-errors
+  title: Preservar erros da entrada
+- id: io-import-validated-records
+  title: Importar registros validados
+- id: io-write-json-result
+  title: Produzir saída JSON por Writer
+- id: io-preserve-writer-errors
+  title: Preservar erros de escrita
+tracks: []
+challenges:
+- schema_version: 1
+  id: go-io.decode-strict-config
+  version: 1.0.0
+  title: Ler uma configuração JSON estrita
+  kind: combined
+  difficulty: foundational
+  estimated_minutes: 30
+  themes:
+  - io-and-serialization
+  competencies:
+    primary:
+    - io-decode-one-json
+    - io-reject-unknown-fields
+    - io-preserve-reader-errors
+  prerequisites: []
+  brief: Leia uma configuração do fluxo recebido, aceitando somente um documento válido com nome não vazio
+    e tentativas entre zero e cinco.
+  constraints:
+  - Use somente a biblioteca padrão.
+  - Não abra arquivos, não acesse a rede e não altere as assinaturas da fixture.
+  - Propague erros de I/O preservando sua identidade.
+  acceptance:
+  - Aceita entrada fragmentada e espaços após o documento, preservando nome e tentativas.
+  - Rejeita campos desconhecidos, JSON inválido, valores adicionais ou texto após o documento.
+  - Rejeita nome vazio ou apenas espaços, tentativas negativas ou maiores que cinco.
+  - Preserva a identidade de falhas de leitura para errors.Is.
+  publication:
+    status: draft
+    author: codex
+  layers:
+  - id: decode-strict-config.implementation
+    macro_steps:
+    - id: decode-strict-config.macro
+      kind: macro
+      title: Ler uma configuração JSON estrita
+      instruction:
+        objective: Leia uma configuração do fluxo recebido, aceitando somente um documento válido com
+          nome não vazio e tentativas entre zero e cinco.
+        scope: Contrato observável do desafio.
+      children:
+      - id: decode-strict-config.meso
+        kind: meso
+        title: Transformação e tratamento de falhas
+        instruction:
+          objective: Implemente o contrato de transformação definido no briefing.
+          scope: Entrada, validação e retorno.
+        children:
+        - id: decode-strict-config.step-1
+          kind: micro
+          action: implement
+          target: function
+          title: Leia a configuração a partir da entrada recebida.
+          instruction:
+            objective: Leia a configuração a partir da entrada recebida.
+            scope: Documento inicial; aceite leituras fragmentadas.
+          concepts:
+          - io-json-decoder
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: behavior-1
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que uma única chamada a Read não garante um documento completo?
+        - id: decode-strict-config.step-2
+          kind: micro
+          action: implement
+          target: function
+          title: Rejeite campos que não pertencem à configuração.
+          instruction:
+            objective: Rejeite campos que não pertencem à configuração.
+            scope: Nomes das propriedades de entrada.
+          concepts:
+          - io-json-strict-fields
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: behavior-2
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Como um erro de digitação poderia passar despercebido?
+        - id: decode-strict-config.step-3
+          kind: micro
+          action: implement
+          target: function
+          title: Rejeite conteúdo adicional após a configuração.
+          instruction:
+            objective: Rejeite conteúdo adicional após a configuração.
+            scope: O fluxo inteiro, incluindo espaços finais e falhas tardias.
+          concepts:
+          - io-eof-boundary
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: behavior-3
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Qual é a diferença entre espaços finais e um segundo valor JSON?
+        - id: decode-strict-config.step-4
+          kind: micro
+          action: implement
+          target: function
+          title: Valide os valores da configuração.
+          instruction:
+            objective: Valide os valores da configuração.
+            scope: Nome não vazio e limite de tentativas.
+          concepts:
+          - io-reader-stream
+          evidence:
+            strategies:
+            - test
+          criteria:
+          - id: behavior-4
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que JSON sintaticamente válido ainda pode ser uma configuração inválida?
+  fixture:
+  - path: go.mod
+    content: |
+      module codinho-practice/io
+
+      go 1.25.0
+  - path: config.go
+    content: "package config\n\nimport \"io\"\n\ntype Config struct {\n\tName    string `json:\"name\"\
+      `\n\tRetries int    `json:\"retries\"`\n}\n\nfunc Decode(r io.Reader) (Config, error) { return Config{},\
+      \ nil }\n"
+  - path: config_test.go
+    content: "package config\n\nimport (\n\t\"errors\"\n\t\"io\"\n\t\"strings\"\n\t\"testing\"\n)\n\n\
+      type failedReader struct{ err error }\n\nfunc (r failedReader) Read([]byte) (int, error) { return\
+      \ 0, r.err }\n\ntype tinyReader struct{ r io.Reader }\n\nfunc (r tinyReader) Read(p []byte) (int,\
+      \ error) {\n\tif len(p) > 1 {\n\t\tp = p[:1]\n\t}\n\treturn r.r.Read(p)\n}\nfunc TestDecode(t *testing.T)\
+      \ {\n\tfor _, input := range []string{`{\"name\":\"sensor\",\"retries\":0}`, `{\"name\":\"sensor\"\
+      ,\"retries\":5}   `} {\n\t\tgot, err := Decode(tinyReader{strings.NewReader(input)})\n\t\tif err\
+      \ != nil || got.Name != \"sensor\" || (strings.Contains(input, \":5\") && got.Retries != 5) || (strings.Contains(input,\
+      \ \":0\") && got.Retries != 0) {\n\t\t\tt.Fatalf(\"valid input: %+v %v\", got, err)\n\t\t}\n\t}\n\
+      \tfor _, input := range []string{\"\", `null`, `[]`, `{`, `{\"name\":\"\",\"retries\":0}`, `{\"\
+      name\":\"  \",\"retries\":0}`, `{\"name\":\"sensor\",\"retries\":-1}`, `{\"name\":\"sensor\",\"\
+      retries\":6}`, `{\"name\":\"sensor\",\"retry\":1}`, `{\"name\":\"sensor\",\"retries\":1.5}`, `{\"\
+      name\":\"sensor\"} {}`, `{\"name\":\"sensor\"} garbage`} {\n\t\tt.Run(input, func(t *testing.T)\
+      \ {\n\t\t\tif _, err := Decode(strings.NewReader(input)); err == nil {\n\t\t\t\tt.Fatal(\"invalid\
+      \ input accepted\")\n\t\t\t}\n\t\t})\n\t}\n\twant := errors.New(\"synthetic read failure\")\n\t\
+      if _, err := Decode(failedReader{want}); !errors.Is(err, want) {\n\t\tt.Fatalf(\"lost source error:\
+      \ %v\", err)\n\t}\n\tif _, err := Decode(io.MultiReader(strings.NewReader(`{\"name\":\"sensor\"\
+      }`), failedReader{want})); !errors.Is(err, want) {\n\t\tt.Fatalf(\"lost trailing source error: %v\"\
+      , err)\n\t}\n}\n"
+  checks:
+  - id: focused-tests
+    runner: go_test
+    package: ./...
+    test_pattern: ^TestDecode$
+    timeout: 20s
+  variants: []
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: |
+        module codinho-practice/io
+
+        go 1.25.0
+    - path: config.go
+      content: "package config\n\nimport (\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"io\"\n\t\"strings\"\n\
+        )\n\ntype Config struct {\n\tName    string `json:\"name\"`\n\tRetries int    `json:\"retries\"\
+        `\n}\n\nfunc Decode(r io.Reader) (Config, error) {\n\tvar cfg Config\n\tdecoder := json.NewDecoder(r)\n\
+        \tdecoder.DisallowUnknownFields()\n\tif err := decoder.Decode(&cfg); err != nil {\n\t\treturn\
+        \ Config{}, fmt.Errorf(\"decode config: %w\", err)\n\t}\n\tvar extra any\n\tif err := decoder.Decode(&extra);\
+        \ err != io.EOF {\n\t\tif err == nil {\n\t\t\treturn Config{}, fmt.Errorf(\"unexpected trailing\
+        \ JSON value\")\n\t\t}\n\t\treturn Config{}, fmt.Errorf(\"trailing input: %w\", err)\n\t}\n\t\
+        if strings.TrimSpace(cfg.Name) == \"\" || cfg.Retries < 0 || cfg.Retries > 5 {\n\t\treturn Config{},\
+        \ fmt.Errorf(\"invalid name or retries\")\n\t}\n\treturn cfg, nil\n}\n"
+    - path: config_test.go
+      content: "package config\n\nimport (\n\t\"errors\"\n\t\"io\"\n\t\"strings\"\n\t\"testing\"\n)\n\n\
+        type failedReader struct{ err error }\n\nfunc (r failedReader) Read([]byte) (int, error) { return\
+        \ 0, r.err }\n\ntype tinyReader struct{ r io.Reader }\n\nfunc (r tinyReader) Read(p []byte) (int,\
+        \ error) {\n\tif len(p) > 1 {\n\t\tp = p[:1]\n\t}\n\treturn r.r.Read(p)\n}\nfunc TestDecode(t\
+        \ *testing.T) {\n\tfor _, input := range []string{`{\"name\":\"sensor\",\"retries\":0}`, `{\"\
+        name\":\"sensor\",\"retries\":5}   `} {\n\t\tgot, err := Decode(tinyReader{strings.NewReader(input)})\n\
+        \t\tif err != nil || got.Name != \"sensor\" || (strings.Contains(input, \":5\") && got.Retries\
+        \ != 5) || (strings.Contains(input, \":0\") && got.Retries != 0) {\n\t\t\tt.Fatalf(\"valid input:\
+        \ %+v %v\", got, err)\n\t\t}\n\t}\n\tfor _, input := range []string{\"\", `null`, `[]`, `{`, `{\"\
+        name\":\"\",\"retries\":0}`, `{\"name\":\"  \",\"retries\":0}`, `{\"name\":\"sensor\",\"retries\"\
+        :-1}`, `{\"name\":\"sensor\",\"retries\":6}`, `{\"name\":\"sensor\",\"retry\":1}`, `{\"name\"\
+        :\"sensor\",\"retries\":1.5}`, `{\"name\":\"sensor\"} {}`, `{\"name\":\"sensor\"} garbage`} {\n\
+        \t\tt.Run(input, func(t *testing.T) {\n\t\t\tif _, err := Decode(strings.NewReader(input)); err\
+        \ == nil {\n\t\t\t\tt.Fatal(\"invalid input accepted\")\n\t\t\t}\n\t\t})\n\t}\n\twant := errors.New(\"\
+        synthetic read failure\")\n\tif _, err := Decode(failedReader{want}); !errors.Is(err, want) {\n\
+        \t\tt.Fatalf(\"lost source error: %v\", err)\n\t}\n\tif _, err := Decode(io.MultiReader(strings.NewReader(`{\"\
+        name\":\"sensor\"}`), failedReader{want})); !errors.Is(err, want) {\n\t\tt.Fatalf(\"lost trailing\
+        \ source error: %v\", err)\n\t}\n}\n"
+    expectations:
+    - check_id: focused-tests
+      baseline: test_failure
+      reference: pass
+- schema_version: 1
+  id: go-io.import-csv-inventory
+  version: 1.0.0
+  title: Importar um inventário CSV validado
+  kind: functional_slice
+  difficulty: foundational
+  estimated_minutes: 50
+  themes:
+  - io-and-serialization
+  competencies:
+    primary:
+    - io-import-validated-records
+    - io-write-json-result
+    - io-preserve-writer-errors
+  prerequisites: []
+  brief: Transforme um inventário CSV em um array JSON, preservando a ordem dos registros e evitando qualquer
+    escrita enquanto a entrada não for inteiramente validada.
+  constraints:
+  - Use somente a biblioteca padrão.
+  - Não abra arquivos, não acesse a rede e não altere as assinaturas da fixture.
+  - Propague erros de I/O preservando sua identidade.
+  acceptance:
+  - Exige cabeçalho exato name,quantity; nomes são aparados e únicos, quantidades são inteiros positivos.
+  - Preserva UTF-8 e campos CSV entre aspas, inclusive nomes contendo vírgulas.
+  - Cabeçalho sem registros produz um array JSON vazio.
+  - Rejeita CSV malformado, largura incorreta, nomes vazios/duplicados, quantidades inválidas ou fora
+    do intervalo de int.
+  - Qualquer erro de entrada ou validação deixa o Writer intocado, mesmo após linhas válidas.
+  - Propaga erros do Reader e do Writer com identidade preservada; falha de escrita pode ter produzido
+    saída parcial.
+  publication:
+    status: draft
+    author: codex
+  layers:
+  - id: import-csv-inventory.implementation
+    macro_steps:
+    - id: import-csv-inventory.macro
+      kind: macro
+      title: Importar um inventário CSV validado
+      instruction:
+        objective: Transforme um inventário CSV em um array JSON, preservando a ordem dos registros e
+          evitando qualquer escrita enquanto a entrada não for inteiramente validada.
+        scope: Contrato observável do desafio.
+      children:
+      - id: import-csv-inventory.meso
+        kind: meso
+        title: Transformação e tratamento de falhas
+        instruction:
+          objective: Implemente o contrato de transformação definido no briefing.
+          scope: Entrada, validação e retorno.
+        children:
+        - id: import-csv-inventory.step-1
+          kind: micro
+          action: implement
+          target: function
+          title: Verifique o cabeçalho do inventário.
+          instruction:
+            objective: Verifique o cabeçalho do inventário.
+            scope: Colunas e ordem exigidas pelo contrato.
+          concepts:
+          - io-csv-record-width
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: behavior-1
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que validar os nomes além da quantidade de colunas?
+        - id: import-csv-inventory.step-2
+          kind: micro
+          action: implement
+          target: function
+          title: Leia os registros respeitando o formato CSV.
+          instruction:
+            objective: Leia os registros respeitando o formato CSV.
+            scope: Aspas, vírgulas em campos e falhas de leitura.
+          concepts:
+          - io-csv-quoted-fields
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: behavior-2
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que separar cada linha por vírgulas quebra um CSV válido?
+        - id: import-csv-inventory.step-3
+          kind: micro
+          action: implement
+          target: function
+          title: Valide cada registro antes de aceitar o inventário.
+          instruction:
+            objective: Valide cada registro antes de aceitar o inventário.
+            scope: Nomes aparados únicos e quantidades positivas; ainda sem escrita.
+          concepts:
+          - io-validate-before-write
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: behavior-3
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - O que acontece com a saída quando a última linha é inválida?
+        - id: import-csv-inventory.step-4
+          kind: micro
+          action: implement
+          target: function
+          title: Produza o array JSON no destino recebido.
+          instruction:
+            objective: Produza o array JSON no destino recebido.
+            scope: Ordem original, entrada vazia e erros do Writer.
+          concepts:
+          - io-writer-errors
+          evidence:
+            strategies:
+            - test
+          criteria:
+          - id: behavior-4
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que a função não promete desfazer bytes já aceitos pelo Writer?
+  fixture:
+  - path: go.mod
+    content: |
+      module codinho-practice/io
+
+      go 1.25.0
+  - path: inventory.go
+    content: "package inventory\n\nimport \"io\"\n\ntype Entry struct {\n\tName     string `json:\"name\"\
+      `\n\tQuantity int    `json:\"quantity\"`\n}\n\nfunc Import(r io.Reader, w io.Writer) error { return\
+      \ nil }\n"
+  - path: inventory_test.go
+    content: "package inventory\n\nimport (\n\t\"bytes\"\n\t\"encoding/json\"\n\t\"errors\"\n\t\"io\"\n\
+      \t\"reflect\"\n\t\"strings\"\n\t\"testing\"\n)\n\ntype failingReader struct{ err error }\n\nfunc\
+      \ (r failingReader) Read([]byte) (int, error) { return 0, r.err }\n\ntype failingWriter struct{\
+      \ err error }\n\nfunc (w failingWriter) Write([]byte) (int, error) { return 0, w.err }\nfunc TestImport(t\
+      \ *testing.T) {\n\tvar output bytes.Buffer\n\tinput := \"name,quantity\\n Café ,2\\n\\\"Tea, green\\\
+      \",3\\n\"\n\tif err := Import(strings.NewReader(input), &output); err != nil {\n\t\tt.Fatal(err)\n\
+      \t}\n\tvar got []Entry\n\tif err := json.Unmarshal(output.Bytes(), &got); err != nil {\n\t\tt.Fatal(err)\n\
+      \t}\n\twant := []Entry{{Name: \"Café\", Quantity: 2}, {Name: \"Tea, green\", Quantity: 3}}\n\tif\
+      \ !reflect.DeepEqual(got, want) {\n\t\tt.Fatalf(\"got %+v\", got)\n\t}\n\toutput.Reset()\n\tif err\
+      \ := Import(strings.NewReader(\"name,quantity\\n\"), &output); err != nil || strings.TrimSpace(output.String())\
+      \ != \"[]\" {\n\t\tt.Fatalf(\"empty import: %q %v\", output.String(), err)\n\t}\n\tfor _, input\
+      \ := range []string{\"\", \"quantity,name\\n1,A\\n\", \"name,quantity\\nA,1\\nA,2\\n\", \"name,quantity\\\
+      nA,1\\n A ,2\\n\", \"name,quantity\\nA,1\\n ,2\\n\", \"name,quantity\\nA,1\\nB,zero\\n\", \"name,quantity\\\
+      nA,1\\nB,0\\n\", \"name,quantity\\nA,1\\nB,-1\\n\", \"name,quantity\\nA,1\\nB,999999999999999999999999999999\\\
+      n\", \"name,quantity\\nA,1\\nB,2,extra\\n\", \"name,quantity\\nA,1\\n\\\"broken,2\\n\"} {\n\t\t\
+      output.Reset()\n\t\toutput.WriteString(\"unchanged\")\n\t\tif err := Import(strings.NewReader(input),\
+      \ &output); err == nil || output.String() != \"unchanged\" {\n\t\t\tt.Fatalf(\"invalid import changed\
+      \ output: %q %v\", output.String(), err)\n\t\t}\n\t}\n\tsource := errors.New(\"synthetic source\
+      \ failure\")\n\toutput.Reset()\n\tif err := Import(io.MultiReader(strings.NewReader(\"name,quantity\\\
+      nA,1\\n\"), failingReader{source}), &output); !errors.Is(err, source) || output.Len() != 0 {\n\t\
+      \tt.Fatalf(\"read failure: %v output %q\", err, output.String())\n\t}\n\ttarget := errors.New(\"\
+      synthetic write failure\")\n\tif err := Import(strings.NewReader(\"name,quantity\\nA,1\\n\"), failingWriter{target});\
+      \ !errors.Is(err, target) {\n\t\tt.Fatalf(\"lost output error: %v\", err)\n\t}\n}\n"
+  checks:
+  - id: focused-tests
+    runner: go_test
+    package: ./...
+    test_pattern: ^TestImport$
+    timeout: 20s
+  variants: []
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: |
+        module codinho-practice/io
+
+        go 1.25.0
+    - path: inventory.go
+      content: "package inventory\n\nimport (\n\t\"encoding/csv\"\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"\
+        io\"\n\t\"strconv\"\n\t\"strings\"\n)\n\ntype Entry struct {\n\tName     string `json:\"name\"\
+        `\n\tQuantity int    `json:\"quantity\"`\n}\n\nfunc Import(r io.Reader, w io.Writer) error {\n\
+        \treader := csv.NewReader(r)\n\theader, err := reader.Read()\n\tif err != nil {\n\t\treturn fmt.Errorf(\"\
+        read header: %w\", err)\n\t}\n\tif len(header) != 2 || header[0] != \"name\" || header[1] != \"\
+        quantity\" {\n\t\treturn fmt.Errorf(\"invalid header\")\n\t}\n\tentries := make([]Entry, 0)\n\t\
+        seen := map[string]bool{}\n\tfor row := 2; ; row++ {\n\t\tfields, err := reader.Read()\n\t\tif\
+        \ err == io.EOF {\n\t\t\tbreak\n\t\t}\n\t\tif err != nil {\n\t\t\treturn fmt.Errorf(\"row %d:\
+        \ %w\", row, err)\n\t\t}\n\t\tname := strings.TrimSpace(fields[0])\n\t\tquantity, err := strconv.Atoi(fields[1])\n\
+        \t\tif err != nil || quantity <= 0 || name == \"\" || seen[name] {\n\t\t\treturn fmt.Errorf(\"\
+        invalid row %d\", row)\n\t\t}\n\t\tseen[name] = true\n\t\tentries = append(entries, Entry{Name:\
+        \ name, Quantity: quantity})\n\t}\n\tif err := json.NewEncoder(w).Encode(entries); err != nil\
+        \ {\n\t\treturn fmt.Errorf(\"write inventory: %w\", err)\n\t}\n\treturn nil\n}\n"
+    - path: inventory_test.go
+      content: "package inventory\n\nimport (\n\t\"bytes\"\n\t\"encoding/json\"\n\t\"errors\"\n\t\"io\"\
+        \n\t\"reflect\"\n\t\"strings\"\n\t\"testing\"\n)\n\ntype failingReader struct{ err error }\n\n\
+        func (r failingReader) Read([]byte) (int, error) { return 0, r.err }\n\ntype failingWriter struct{\
+        \ err error }\n\nfunc (w failingWriter) Write([]byte) (int, error) { return 0, w.err }\nfunc TestImport(t\
+        \ *testing.T) {\n\tvar output bytes.Buffer\n\tinput := \"name,quantity\\n Café ,2\\n\\\"Tea, green\\\
+        \",3\\n\"\n\tif err := Import(strings.NewReader(input), &output); err != nil {\n\t\tt.Fatal(err)\n\
+        \t}\n\tvar got []Entry\n\tif err := json.Unmarshal(output.Bytes(), &got); err != nil {\n\t\tt.Fatal(err)\n\
+        \t}\n\twant := []Entry{{Name: \"Café\", Quantity: 2}, {Name: \"Tea, green\", Quantity: 3}}\n\t\
+        if !reflect.DeepEqual(got, want) {\n\t\tt.Fatalf(\"got %+v\", got)\n\t}\n\toutput.Reset()\n\t\
+        if err := Import(strings.NewReader(\"name,quantity\\n\"), &output); err != nil || strings.TrimSpace(output.String())\
+        \ != \"[]\" {\n\t\tt.Fatalf(\"empty import: %q %v\", output.String(), err)\n\t}\n\tfor _, input\
+        \ := range []string{\"\", \"quantity,name\\n1,A\\n\", \"name,quantity\\nA,1\\nA,2\\n\", \"name,quantity\\\
+        nA,1\\n A ,2\\n\", \"name,quantity\\nA,1\\n ,2\\n\", \"name,quantity\\nA,1\\nB,zero\\n\", \"name,quantity\\\
+        nA,1\\nB,0\\n\", \"name,quantity\\nA,1\\nB,-1\\n\", \"name,quantity\\nA,1\\nB,999999999999999999999999999999\\\
+        n\", \"name,quantity\\nA,1\\nB,2,extra\\n\", \"name,quantity\\nA,1\\n\\\"broken,2\\n\"} {\n\t\t\
+        output.Reset()\n\t\toutput.WriteString(\"unchanged\")\n\t\tif err := Import(strings.NewReader(input),\
+        \ &output); err == nil || output.String() != \"unchanged\" {\n\t\t\tt.Fatalf(\"invalid import\
+        \ changed output: %q %v\", output.String(), err)\n\t\t}\n\t}\n\tsource := errors.New(\"synthetic\
+        \ source failure\")\n\toutput.Reset()\n\tif err := Import(io.MultiReader(strings.NewReader(\"\
+        name,quantity\\nA,1\\n\"), failingReader{source}), &output); !errors.Is(err, source) || output.Len()\
+        \ != 0 {\n\t\tt.Fatalf(\"read failure: %v output %q\", err, output.String())\n\t}\n\ttarget :=\
+        \ errors.New(\"synthetic write failure\")\n\tif err := Import(strings.NewReader(\"name,quantity\\\
+        nA,1\\n\"), failingWriter{target}); !errors.Is(err, target) {\n\t\tt.Fatalf(\"lost output error:\
+        \ %v\", err)\n\t}\n}\n"
+    expectations:
+    - check_id: focused-tests
+      baseline: test_failure
+      reference: pass
+relations:
+- from: go-io.decode-strict-config
+  to: io-reader-stream
+  kind: relates_to
+- from: io-reader-stream
+  to: go-io.decode-strict-config
+  kind: relates_to
+- from: go-io.decode-strict-config
+  to: io-partial-reads
+  kind: relates_to
+- from: io-partial-reads
+  to: go-io.decode-strict-config
+  kind: relates_to
+- from: go-io.decode-strict-config
+  to: io-eof-boundary
+  kind: relates_to
+- from: io-eof-boundary
+  to: go-io.decode-strict-config
+  kind: relates_to
+- from: go-io.decode-strict-config
+  to: io-json-decoder
+  kind: relates_to
+- from: io-json-decoder
+  to: go-io.decode-strict-config
+  kind: relates_to
+- from: go-io.decode-strict-config
+  to: io-json-strict-fields
+  kind: relates_to
+- from: io-json-strict-fields
+  to: go-io.decode-strict-config
+  kind: relates_to
+- from: go-io.import-csv-inventory
+  to: io-csv-quoted-fields
+  kind: relates_to
+- from: io-csv-quoted-fields
+  to: go-io.import-csv-inventory
+  kind: relates_to
+- from: go-io.import-csv-inventory
+  to: io-writer-errors
+  kind: relates_to
+- from: io-writer-errors
+  to: go-io.import-csv-inventory
+  kind: relates_to
+- from: go-io.import-csv-inventory
+  to: io-validate-before-write
+  kind: relates_to
+- from: io-validate-before-write
+  to: go-io.import-csv-inventory
+  kind: relates_to
+- from: go-io.import-csv-inventory
+  to: io-csv-record-width
+  kind: relates_to
+- from: io-csv-record-width
+  to: go-io.import-csv-inventory
+  kind: relates_to
+- from: go-io.import-csv-inventory
+  to: io-json-encode
+  kind: relates_to
+- from: io-json-encode
+  to: go-io.import-csv-inventory
+  kind: relates_to

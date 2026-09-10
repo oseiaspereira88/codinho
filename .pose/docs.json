@@ -142,6 +142,20 @@
       ],
       "applies_to": ".",
       "owner": "@pose-maintainers"
+    },
+    {
+      "path": "docs/catalog/go-foundations.md",
+      "doc_type": "reference",
+      "topics": [
+        "catalog",
+        "go-foundations"
+      ],
+      "owns": [
+        "packs/go-io.yaml"
+      ],
+      "applies_to": "packs",
+      "owner": "@oseiaspereira",
+      "last_reviewed_at": "2026-09-09"
     }
   ]
 }

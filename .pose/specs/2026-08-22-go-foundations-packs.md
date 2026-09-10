@@ -68,6 +68,7 @@ Oferecer prática desde o primeiro contato até a base necessária para backend,
 - created: packs/go-testing.yaml
 - modified: packs/manifest.yaml
 - created: docs/catalog/go-foundations.md
+- modified: .pose/docs.json
 
 ### Delivery targets
 Nenhum tipado; conteúdo consumido pelo catálogo V1.
@@ -116,6 +117,7 @@ conceitos / ≥60 competências / ≥300 step nodes (R1's threshold em
 `catalog-authoring-quality` R9 `--v1-gate`).
 
 ### Implementation
+- [x] Lote 2026-09-09: criar go-io com decodificação JSON estrita (combinado) e importação CSV validada para JSON (fatia funcional), fixtures baseline/reference e checks sem rede. Autoria nova identifica codex; conteúdo histórico mantém seu autor.
 - [ ] Autorar conceitos, competências e relações.
 - [ ] Autorar os 44 desafios e 300 step nodes.
 - [ ] Autorar pistas, reflexões, variantes e checks.
@@ -216,6 +218,8 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
 - Security / Contract: secret scan, path confinement e leak detector.
 
 ### Execution log
+- 2026-09-09, lote go-io: dois desafios draft, 10 conceitos, 6 competências e 12 nodes adicionados. Matriz completa 22/22 passou; após revisão dos critérios intermediários, catalog validate --checks confirmou 40/40 checks do catálogo, incluindo baseline=test_failure/reference=pass nos dois desafios novos. docs-check sem warnings de inventário. Publicação e playtest permanecem pendentes.
+- 2026-09-09: retomada após agent-authored-catalog-drafts; assess discover --component packs executado. Inventário aponta 33 atômicos fundamentais (go-first-steps tem 7 ante 6 previstos); preservar o conteúdo extra e registrar a divergência no relatório antes de qualquer alteração da distribuição.
 - 2026-08-23: destravada (Decision 2) — `author: claude` liberado como
   identidade de autoria da fase 1.
 - 2026-08-23: primeiro lote autorado em `packs/go-first-steps.yaml` — 2

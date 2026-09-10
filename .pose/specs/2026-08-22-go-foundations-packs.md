@@ -71,6 +71,7 @@ Oferecer prática desde o primeiro contato até a base necessária para backend,
 - modified: .pose/docs.json
 - modified: .pose/indexes/validation-matrix.json
 - created: cmd/codinho/foundation_tracks_integration_test.go
+- created: internal/curriculum/foundation_variants_test.go
 
 ### Delivery targets
 Nenhum tipado; conteúdo consumido pelo catálogo V1.
@@ -119,6 +120,7 @@ conceitos / ≥60 competências / ≥300 step nodes (R1's threshold em
 `catalog-authoring-quality` R9 `--v1-gate`).
 
 ### Implementation
+- [x] Lote de variantes: quatro atômicas em go-io e quatro em go-testing, com variant_of, canonical false, uma competência compartilhada com a origem e fixtures próprias. Manter 45 bases de autoria; variantes não suprem o déficit de profundidade das bases. Consumir knowledge:go-foundations-io-batch.
 - [x] Compor as cinco trilhas previstas usando desafios existentes e verificar início/travessia por MCP real em modo de autoria; não publicar conteúdo nem alterar a contagem canônica.
 - [x] Lote final de autoria go-errors: classificação de erros encadeados (combinado) e catálogo em memória testado (fatia funcional), preservando fontes históricas e autoria; fixture baseline/reference, ordem determinística e isolamento.
 - [x] Lote go-testing: desafio combinado de seleção temporal determinística, clock injetado, casos de fronteira e isolamento de slices; fixtures baseline/reference, avaliação qualitativa intermediária e check final. Consumir knowledge:go-foundations-io-batch.
@@ -1082,14 +1084,14 @@ os sete packs, as cinco trilhas e o playtest real estiverem completos
 ## 7. Final Report
 
 ### Delivered scope
-Autoria parcial dos sete packs presentes no manifest; os lotes go-io, go-testing e complemento go-errors têm fixtures baseline/reference verificadas. Há 45 desafios fundamentais draft (33 atômicos, 10 combinados, duas fatias funcionais), 70 conceitos, 51 competências e 118 nodes. A meta oficial de 44 permanece sem alteração: divergência de distribuição, variantes, aprofundamento e playtest humano impedem encerrar esta spec. As cinco trilhas já têm sequências explícitas e roteamento verificado.
+Autoria parcial dos sete packs presentes no manifest; os lotes go-io, go-testing e complemento go-errors têm fixtures baseline/reference verificadas. Há 45 desafios fundamentais draft (33 atômicos, 10 combinados, duas fatias funcionais), 70 conceitos, 51 competências e 118 nodes. A meta oficial de 44 permanece sem alteração: divergência de distribuição, aprofundamento e playtest humano impedem encerrar esta spec. As cinco trilhas já têm sequências explícitas e roteamento verificado. Oito variantes atômicas de I/O/testes acrescentam 32 nodes próprios, sem aumentar as 45 bases de autoria.
 
 ### Files and modules changed
 - Sete packs de fundamentos, manifest e docs/catalog/go-foundations.md. O inventário e os relatórios por lote distinguem autoria, verificação mecânica e publicação.
 
 ### Validation executed
 - Command: pose validate --strict --json .pose/results/delivery-validation.json
-- Result: 22/22 checks aprovados no complemento go-errors; 43/43 checks editoriais verificados.
+- Result: 23/23 checks aprovados no lote de oito variantes, zero skips; fixtures baseline/reference verificadas.
 - Command: pose docs-check; pose lint-spec go-foundations-packs --ready-check
 - Result: passaram. A spec permanece in-progress; não houve playtest humano.
 

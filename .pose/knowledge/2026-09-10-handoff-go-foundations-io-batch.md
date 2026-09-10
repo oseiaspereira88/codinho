@@ -35,7 +35,7 @@ Os sete packs estão presentes, com 45 desafios draft (33 A / 10 C / 2 F),
 70 conceitos, 51 competências e 118 nodes. Consulte o inventário em
 [go-foundations.md](../../docs/catalog/go-foundations.md).
 
-Matriz final 23/23 passou, incluindo foundation-track-routing; 43/43 checks
+Matriz final 23/23 passou, incluindo foundation-track-routing; 51/51 checks
 editoriais foram verificados com baseline/reference. O teste MCP real percorre
 47 posições nas cinco trilhas em modo de autoria usando override explícito:
 comprova alcance e ordem, não resolução dos exercícios ou playtest humano.
@@ -44,9 +44,10 @@ usam autor codex e não têm reviewed_by/playtested humano.
 
 ## Next checks
 
-- Puxar variantes contextualizadas de I/O e testes: quatro de cada ainda
-  pendentes, sem aumentar artificialmente a contagem canônica. Revisar a
-  semântica de variant_of e do gate de distribuição antes da autoria.
+- Revisar pedagogicamente as oito variantes de I/O/testes agora autoradas.
+  Todas usam variant_of, canonical false e uma competência da origem; seus
+  32 nodes não suprem a profundidade das bases. Fixtures próprias verificam
+  comportamento; não comprovam a qualidade dos testes escritos pelo aluno.
 - Aprofundar conceitos, competências e nodes: faltam pelo menos 30 conceitos,
   nove competências e 182 nodes para as metas atuais, sem inflar a árvore com
   passos redundantes. Os novos lotes usam critérios qualitativos intermediários
@@ -79,3 +80,5 @@ Mesmo agente, com decisões de distribuição e playtest a cargo de @oseiasperei
 - [Complemento de erros](../reports/2026-09-10-go-errors-authoring-batch.md).
 - [Cinco trilhas](../reports/2026-09-10-foundation-track-routing.md).
 - [Revisão de rascunhos](../reports/2026-09-09-review-agent-authored-catalog-drafts.md).
+
+- [Oito variantes](../reports/2026-09-10-foundation-variants-authoring-batch.md).

@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-testing
-version: 1.0.0
+version: 1.1.0
 publication:
   status: draft
   author: codex
@@ -344,6 +344,641 @@ challenges:
     - check_id: focused-tests
       baseline: test_failure
       reference: pass
+- schema_version: 1
+  id: go-testing.measure-reservation-remaining
+  version: 1.0.0
+  canonical: false
+  variant_of: go-testing.select-active-tokens-with-injected-clock
+  title: Medir o tempo restante de uma reserva
+  kind: atomic
+  difficulty: foundational
+  estimated_minutes: 20
+  themes:
+  - testing-and-testability
+  competencies:
+    primary:
+    - testing-design-deterministic-time
+  brief: Calcule o tempo restante de uma reserva usando um relógio controlado pelo teste, sem retornar
+    durações negativas.
+  constraints:
+  - Use somente a biblioteca padrão e as entradas recebidas.
+  - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
+  acceptance:
+  - Usa o relógio recebido exatamente uma vez.
+  - Reserva expirada ou no limite retorna zero.
+  - Relógio nil retorna ErrMissingClock.
+  publication:
+    status: draft
+    author: codex
+  layers:
+  - id: measure-reservation-remaining.implementation
+    macro_steps:
+    - id: measure-reservation-remaining.macro
+      kind: macro
+      title: Medir o tempo restante de uma reserva
+      instruction:
+        objective: Calcule o tempo restante de uma reserva usando um relógio controlado pelo teste, sem
+          retornar durações negativas.
+        scope: Uma competência contextualizada da origem.
+      children:
+      - id: measure-reservation-remaining.meso
+        kind: meso
+        title: Casos observáveis e implementação
+        instruction:
+          objective: Use os casos de aceite para orientar a implementação.
+          scope: Contrato da variante.
+        children:
+        - id: measure-reservation-remaining.step-1
+          kind: micro
+          title: Descreva os instantes de teste.
+          instruction:
+            objective: Descreva os instantes de teste.
+            scope: Não espere o tempo real passar para criar os casos.
+          concepts:
+          - testing-clock-injection
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: behavior-1
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
+              correta?
+        - id: measure-reservation-remaining.step-2
+          kind: micro
+          title: Calcule a duração observável.
+          instruction:
+            objective: Calcule a duração observável.
+            scope: Cubra limite, expiração, futuro e ausência da dependência.
+          concepts:
+          - testing-clock-injection
+          evidence:
+            strategies:
+            - test
+          criteria:
+          - id: behavior-2
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
+              correta?
+  fixture:
+  - path: go.mod
+    content: |
+      module codinho-practice/measure-reservation-remaining
+
+      go 1.25.0
+  - path: exercise.go
+    content: "package exercise\n\nimport (\n\t\"errors\"\n\t\"time\"\n)\n\nvar ErrMissingClock = errors.New(\"\
+      missing clock\")\n\nfunc Remaining(end time.Time, clock func() time.Time) (time.Duration, error)\
+      \ { return 0, nil }\n"
+  - path: exercise_test.go
+    content: "package exercise\n\nimport (\n\t\"errors\"\n\t\"testing\"\n\t\"time\"\n)\n\nfunc TestVariant(t\
+      \ *testing.T) {\n\tnow := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)\n\tfor _, delta := range []time.Duration{-time.Hour,\
+      \ 0, time.Nanosecond, time.Minute} {\n\t\tcalls := 0\n\t\tgot, err := Remaining(now.Add(delta),\
+      \ func() time.Time { calls++; return now })\n\t\twant := delta\n\t\tif want < 0 {\n\t\t\twant =\
+      \ 0\n\t\t}\n\t\tif err != nil || got != want || calls != 1 {\n\t\t\tt.Fatalf(\"%v %v calls=%d\"\
+      , got, err, calls)\n\t\t}\n\t}\n\tif _, err := Remaining(now, nil); !errors.Is(err, ErrMissingClock)\
+      \ {\n\t\tt.Fatal(err)\n\t}\n}\n"
+  checks:
+  - id: focused-tests
+    runner: go_test
+    package: ./...
+    test_pattern: ^TestVariant$
+    timeout: 20s
+  variants: []
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: |
+        module codinho-practice/measure-reservation-remaining
+
+        go 1.25.0
+    - path: exercise.go
+      content: "package exercise\n\nimport (\n\t\"errors\"\n\t\"time\"\n)\n\nvar ErrMissingClock = errors.New(\"\
+        missing clock\")\n\nfunc Remaining(end time.Time, clock func() time.Time) (time.Duration, error)\
+        \ {\n\tif clock == nil {\n\t\treturn 0, ErrMissingClock\n\t}\n\tleft := end.Sub(clock())\n\tif\
+        \ left < 0 {\n\t\tleft = 0\n\t}\n\treturn left, nil\n}\n"
+    - path: exercise_test.go
+      content: "package exercise\n\nimport (\n\t\"errors\"\n\t\"testing\"\n\t\"time\"\n)\n\nfunc TestVariant(t\
+        \ *testing.T) {\n\tnow := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)\n\tfor _, delta := range\
+        \ []time.Duration{-time.Hour, 0, time.Nanosecond, time.Minute} {\n\t\tcalls := 0\n\t\tgot, err\
+        \ := Remaining(now.Add(delta), func() time.Time { calls++; return now })\n\t\twant := delta\n\t\
+        \tif want < 0 {\n\t\t\twant = 0\n\t\t}\n\t\tif err != nil || got != want || calls != 1 {\n\t\t\
+        \tt.Fatalf(\"%v %v calls=%d\", got, err, calls)\n\t\t}\n\t}\n\tif _, err := Remaining(now, nil);\
+        \ !errors.Is(err, ErrMissingClock) {\n\t\tt.Fatal(err)\n\t}\n}\n"
+    expectations:
+    - check_id: focused-tests
+      baseline: test_failure
+      reference: pass
+- schema_version: 1
+  id: go-testing.check-ticket-boundary
+  version: 1.0.0
+  canonical: false
+  variant_of: go-testing.select-active-tokens-with-injected-clock
+  title: Testar o instante de validade de um ingresso
+  kind: atomic
+  difficulty: foundational
+  estimated_minutes: 20
+  themes:
+  - testing-and-testability
+  competencies:
+    primary:
+    - testing-cover-boundary-cases
+  brief: Informe se um ingresso ainda é válido no instante recebido, cobrindo a fronteira exata de expiração.
+  constraints:
+  - Use somente a biblioteca padrão e as entradas recebidas.
+  - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
+  acceptance:
+  - Válido somente antes da expiração; na igualdade já está expirado.
+  - Fusos diferentes que representam o mesmo instante têm o mesmo resultado.
+  publication:
+    status: draft
+    author: codex
+  layers:
+  - id: check-ticket-boundary.implementation
+    macro_steps:
+    - id: check-ticket-boundary.macro
+      kind: macro
+      title: Testar o instante de validade de um ingresso
+      instruction:
+        objective: Informe se um ingresso ainda é válido no instante recebido, cobrindo a fronteira exata
+          de expiração.
+        scope: Uma competência contextualizada da origem.
+      children:
+      - id: check-ticket-boundary.meso
+        kind: meso
+        title: Casos observáveis e implementação
+        instruction:
+          objective: Use os casos de aceite para orientar a implementação.
+          scope: Contrato da variante.
+        children:
+        - id: check-ticket-boundary.step-1
+          kind: micro
+          title: Modele casos próximos da fronteira.
+          instruction:
+            objective: Modele casos próximos da fronteira.
+            scope: Diferencie um nanossegundo antes, igualdade e um nanossegundo depois.
+          concepts:
+          - testing-time-boundaries
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: behavior-1
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
+              correta?
+        - id: check-ticket-boundary.step-2
+          kind: micro
+          title: Implemente a decisão de validade.
+          instruction:
+            objective: Implemente a decisão de validade.
+            scope: Use instantes, sem comparar strings ou relógio global.
+          concepts:
+          - testing-time-boundaries
+          evidence:
+            strategies:
+            - test
+          criteria:
+          - id: behavior-2
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
+              correta?
+  fixture:
+  - path: go.mod
+    content: |
+      module codinho-practice/check-ticket-boundary
+
+      go 1.25.0
+  - path: exercise.go
+    content: |
+      package exercise
+
+      import "time"
+
+      func Valid(end, now time.Time) bool { return true }
+  - path: exercise_test.go
+    content: "package exercise\n\nimport (\n\t\"testing\"\n\t\"time\"\n)\n\nfunc TestVariant(t *testing.T)\
+      \ {\n\tend := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)\n\tfor _, tc := range []struct {\n\t\t\
+      delta time.Duration\n\t\twant  bool\n\t}{{-time.Nanosecond, true}, {0, false}, {time.Nanosecond,\
+      \ false}} {\n\t\tif got := Valid(end, end.Add(tc.delta)); got != tc.want {\n\t\t\tt.Fatalf(\"delta\
+      \ %v: %v\", tc.delta, got)\n\t\t}\n\t}\n\tif Valid(end, end.In(time.FixedZone(\"synthetic\", -10800)))\
+      \ {\n\t\tt.Fatal(\"same instant treated differently\")\n\t}\n}\n"
+  checks:
+  - id: focused-tests
+    runner: go_test
+    package: ./...
+    test_pattern: ^TestVariant$
+    timeout: 20s
+  variants: []
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: |
+        module codinho-practice/check-ticket-boundary
+
+        go 1.25.0
+    - path: exercise.go
+      content: |
+        package exercise
+
+        import "time"
+
+        func Valid(end, now time.Time) bool { return now.Before(end) }
+    - path: exercise_test.go
+      content: "package exercise\n\nimport (\n\t\"testing\"\n\t\"time\"\n)\n\nfunc TestVariant(t *testing.T)\
+        \ {\n\tend := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)\n\tfor _, tc := range []struct {\n\t\
+        \tdelta time.Duration\n\t\twant  bool\n\t}{{-time.Nanosecond, true}, {0, false}, {time.Nanosecond,\
+        \ false}} {\n\t\tif got := Valid(end, end.Add(tc.delta)); got != tc.want {\n\t\t\tt.Fatalf(\"\
+        delta %v: %v\", tc.delta, got)\n\t\t}\n\t}\n\tif Valid(end, end.In(time.FixedZone(\"synthetic\"\
+        , -10800))) {\n\t\tt.Fatal(\"same instant treated differently\")\n\t}\n}\n"
+    expectations:
+    - check_id: focused-tests
+      baseline: test_failure
+      reference: pass
+- schema_version: 1
+  id: go-testing.snapshot-readings
+  version: 1.0.0
+  canonical: false
+  variant_of: go-testing.select-active-tokens-with-injected-clock
+  title: Detectar aliasing em um snapshot de leituras
+  kind: atomic
+  difficulty: foundational
+  estimated_minutes: 20
+  themes:
+  - testing-and-testability
+  competencies:
+    primary:
+    - testing-detect-aliasing
+  brief: Produza um snapshot de leituras que possa ser modificado sem alterar o slice original.
+  constraints:
+  - Use somente a biblioteca padrão e as entradas recebidas.
+  - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
+  acceptance:
+  - Preserva ordem, rótulos e valores.
+  - Alterações nos elementos da saída não alteram a entrada e vice-versa.
+  - Entrada nil ou vazia produz slice vazio não nil.
+  publication:
+    status: draft
+    author: codex
+  layers:
+  - id: snapshot-readings.implementation
+    macro_steps:
+    - id: snapshot-readings.macro
+      kind: macro
+      title: Detectar aliasing em um snapshot de leituras
+      instruction:
+        objective: Produza um snapshot de leituras que possa ser modificado sem alterar o slice original.
+        scope: Uma competência contextualizada da origem.
+      children:
+      - id: snapshot-readings.meso
+        kind: meso
+        title: Casos observáveis e implementação
+        instruction:
+          objective: Use os casos de aceite para orientar a implementação.
+          scope: Contrato da variante.
+        children:
+        - id: snapshot-readings.step-1
+          kind: micro
+          title: Observe a diferença entre igualdade e independência.
+          instruction:
+            objective: Observe a diferença entre igualdade e independência.
+            scope: Compare conteúdo antes e depois de uma mutação deliberada.
+          concepts:
+          - testing-input-isolation
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: behavior-1
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
+              correta?
+        - id: snapshot-readings.step-2
+          kind: micro
+          title: Produza o snapshot independente.
+          instruction:
+            objective: Produza o snapshot independente.
+            scope: Cubra mutações em ambas as direções e entrada vazia.
+          concepts:
+          - testing-input-isolation
+          evidence:
+            strategies:
+            - test
+          criteria:
+          - id: behavior-2
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
+              correta?
+  fixture:
+  - path: go.mod
+    content: |
+      module codinho-practice/snapshot-readings
+
+      go 1.25.0
+  - path: exercise.go
+    content: "package exercise\n\ntype Reading struct {\n\tLabel string\n\tValue int\n}\n\nfunc Snapshot(in\
+      \ []Reading) []Reading { return in }\n"
+  - path: exercise_test.go
+    content: "package exercise\n\nimport (\n\t\"reflect\"\n\t\"testing\"\n)\n\nfunc TestVariant(t *testing.T)\
+      \ {\n\tfor _, in := range [][]Reading{nil, {}} {\n\t\tif got := Snapshot(in); got == nil || len(got)\
+      \ != 0 {\n\t\t\tt.Fatal(\"empty contract\")\n\t\t}\n\t}\n\tin := []Reading{{\"B\", 2}, {\"A\", 1}}\n\
+      \tout := Snapshot(in)\n\tif !reflect.DeepEqual(in, out) {\n\t\tt.Fatal(\"content changed\")\n\t\
+      }\n\tout[0].Value = 99\n\tif in[0].Value != 2 {\n\t\tt.Fatal(\"output aliases input\")\n\t}\n\t\
+      in[1].Label = \"changed\"\n\tif out[1].Label != \"A\" {\n\t\tt.Fatal(\"input aliases output\")\n\
+      \t}\n}\n"
+  checks:
+  - id: focused-tests
+    runner: go_test
+    package: ./...
+    test_pattern: ^TestVariant$
+    timeout: 20s
+  variants: []
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: |
+        module codinho-practice/snapshot-readings
+
+        go 1.25.0
+    - path: exercise.go
+      content: "package exercise\n\ntype Reading struct {\n\tLabel string\n\tValue int\n}\n\nfunc Snapshot(in\
+        \ []Reading) []Reading { out := make([]Reading, len(in)); copy(out, in); return out }\n"
+    - path: exercise_test.go
+      content: "package exercise\n\nimport (\n\t\"reflect\"\n\t\"testing\"\n)\n\nfunc TestVariant(t *testing.T)\
+        \ {\n\tfor _, in := range [][]Reading{nil, {}} {\n\t\tif got := Snapshot(in); got == nil || len(got)\
+        \ != 0 {\n\t\t\tt.Fatal(\"empty contract\")\n\t\t}\n\t}\n\tin := []Reading{{\"B\", 2}, {\"A\"\
+        , 1}}\n\tout := Snapshot(in)\n\tif !reflect.DeepEqual(in, out) {\n\t\tt.Fatal(\"content changed\"\
+        )\n\t}\n\tout[0].Value = 99\n\tif in[0].Value != 2 {\n\t\tt.Fatal(\"output aliases input\")\n\t\
+        }\n\tin[1].Label = \"changed\"\n\tif out[1].Label != \"A\" {\n\t\tt.Fatal(\"input aliases output\"\
+        )\n\t}\n}\n"
+    expectations:
+    - check_id: focused-tests
+      baseline: test_failure
+      reference: pass
+- schema_version: 1
+  id: go-testing.count-deadline-clock-calls
+  version: 1.0.0
+  canonical: false
+  variant_of: go-testing.select-active-tokens-with-injected-clock
+  title: Observar o relógio de um lote de prazos
+  kind: atomic
+  difficulty: foundational
+  estimated_minutes: 20
+  themes:
+  - testing-and-testability
+  competencies:
+    primary:
+    - testing-build-counting-double
+  brief: Conte os prazos ainda futuros usando um único instante para o lote inteiro, com um dublê que
+    revele chamadas extras.
+  constraints:
+  - Use somente a biblioteca padrão e as entradas recebidas.
+  - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
+  acceptance:
+  - Relógio válido é chamado exatamente uma vez, mesmo para lote vazio.
+  - Conta apenas prazos estritamente posteriores ao instante observado.
+  - Relógio nil retorna ErrMissingClock.
+  publication:
+    status: draft
+    author: codex
+  layers:
+  - id: count-deadline-clock-calls.implementation
+    macro_steps:
+    - id: count-deadline-clock-calls.macro
+      kind: macro
+      title: Observar o relógio de um lote de prazos
+      instruction:
+        objective: Conte os prazos ainda futuros usando um único instante para o lote inteiro, com um
+          dublê que revele chamadas extras.
+        scope: Uma competência contextualizada da origem.
+      children:
+      - id: count-deadline-clock-calls.meso
+        kind: meso
+        title: Casos observáveis e implementação
+        instruction:
+          objective: Use os casos de aceite para orientar a implementação.
+          scope: Contrato da variante.
+        children:
+        - id: count-deadline-clock-calls.step-1
+          kind: micro
+          title: Construa um dublê que denuncia chamadas extras.
+          instruction:
+            objective: Construa um dublê que denuncia chamadas extras.
+            scope: O valor retornado muda a cada observação do relógio.
+          concepts:
+          - testing-counting-double
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: behavior-1
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
+              correta?
+        - id: count-deadline-clock-calls.step-2
+          kind: micro
+          title: Conte os prazos no mesmo instante.
+          instruction:
+            objective: Conte os prazos no mesmo instante.
+            scope: Verifique lotes mistos, vazios e dependência ausente.
+          concepts:
+          - testing-counting-double
+          evidence:
+            strategies:
+            - test
+          criteria:
+          - id: behavior-2
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
+              correta?
+  fixture:
+  - path: go.mod
+    content: |
+      module codinho-practice/count-deadline-clock-calls
+
+      go 1.25.0
+  - path: exercise.go
+    content: "package exercise\n\nimport (\n\t\"errors\"\n\t\"time\"\n)\n\nvar ErrMissingClock = errors.New(\"\
+      missing clock\")\n\nfunc CountFuture(deadlines []time.Time, clock func() time.Time) (int, error)\
+      \ { return 0, nil }\n"
+  - path: exercise_test.go
+    content: "package exercise\n\nimport (\n\t\"errors\"\n\t\"testing\"\n\t\"time\"\n)\n\nfunc TestVariant(t\
+      \ *testing.T) {\n\tnow := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)\n\tfor _, tc := range []struct\
+      \ {\n\t\tds   []time.Time\n\t\twant int\n\t}{{nil, 0}, {[]time.Time{now.Add(time.Hour), now, now.Add(-time.Hour),\
+      \ now.Add(time.Minute)}, 2}} {\n\t\tcalls := 0\n\t\tgot, err := CountFuture(tc.ds, func() time.Time\
+      \ { calls++; return now.Add(time.Duration(calls-1) * 24 * time.Hour) })\n\t\tif err != nil || got\
+      \ != tc.want || calls != 1 {\n\t\t\tt.Fatalf(\"count=%d calls=%d err=%v\", got, calls, err)\n\t\t\
+      }\n\t}\n\tif _, err := CountFuture(nil, nil); !errors.Is(err, ErrMissingClock) {\n\t\tt.Fatal(err)\n\
+      \t}\n}\n"
+  checks:
+  - id: focused-tests
+    runner: go_test
+    package: ./...
+    test_pattern: ^TestVariant$
+    timeout: 20s
+  variants: []
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: |
+        module codinho-practice/count-deadline-clock-calls
+
+        go 1.25.0
+    - path: exercise.go
+      content: "package exercise\n\nimport (\n\t\"errors\"\n\t\"time\"\n)\n\nvar ErrMissingClock = errors.New(\"\
+        missing clock\")\n\nfunc CountFuture(deadlines []time.Time, clock func() time.Time) (int, error)\
+        \ {\n\tif clock == nil {\n\t\treturn 0, ErrMissingClock\n\t}\n\tnow := clock()\n\tcount := 0\n\
+        \tfor _, d := range deadlines {\n\t\tif d.After(now) {\n\t\t\tcount++\n\t\t}\n\t}\n\treturn count,\
+        \ nil\n}\n"
+    - path: exercise_test.go
+      content: "package exercise\n\nimport (\n\t\"errors\"\n\t\"testing\"\n\t\"time\"\n)\n\nfunc TestVariant(t\
+        \ *testing.T) {\n\tnow := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)\n\tfor _, tc := range []struct\
+        \ {\n\t\tds   []time.Time\n\t\twant int\n\t}{{nil, 0}, {[]time.Time{now.Add(time.Hour), now, now.Add(-time.Hour),\
+        \ now.Add(time.Minute)}, 2}} {\n\t\tcalls := 0\n\t\tgot, err := CountFuture(tc.ds, func() time.Time\
+        \ { calls++; return now.Add(time.Duration(calls-1) * 24 * time.Hour) })\n\t\tif err != nil ||\
+        \ got != tc.want || calls != 1 {\n\t\t\tt.Fatalf(\"count=%d calls=%d err=%v\", got, calls, err)\n\
+        \t\t}\n\t}\n\tif _, err := CountFuture(nil, nil); !errors.Is(err, ErrMissingClock) {\n\t\tt.Fatal(err)\n\
+        \t}\n}\n"
+    expectations:
+    - check_id: focused-tests
+      baseline: test_failure
+      reference: pass
 relations:
 - from: go-testing.select-active-tokens-with-injected-clock
   to: testing-table-cases
@@ -392,4 +1027,28 @@ relations:
   kind: relates_to
 - from: testing-repeatability
   to: go-testing.select-active-tokens-with-injected-clock
+  kind: relates_to
+- from: go-testing.measure-reservation-remaining
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: relates_to
+- from: go-testing.select-active-tokens-with-injected-clock
+  to: go-testing.measure-reservation-remaining
+  kind: relates_to
+- from: go-testing.check-ticket-boundary
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: relates_to
+- from: go-testing.select-active-tokens-with-injected-clock
+  to: go-testing.check-ticket-boundary
+  kind: relates_to
+- from: go-testing.snapshot-readings
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: relates_to
+- from: go-testing.select-active-tokens-with-injected-clock
+  to: go-testing.snapshot-readings
+  kind: relates_to
+- from: go-testing.count-deadline-clock-calls
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: relates_to
+- from: go-testing.select-active-tokens-with-injected-clock
+  to: go-testing.count-deadline-clock-calls
   kind: relates_to

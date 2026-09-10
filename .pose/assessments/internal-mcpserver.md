@@ -1,7 +1,7 @@
 # Component Assessment: internal-mcpserver (`internal/mcpserver`)
 
 > **Mapeamento de Módulo POSE**: `internal/mcpserver`
-> **Data de Avaliação**: 2026-09-10T01:57:42Z | **Baseline Commit**: 0d78c7c03857
+> **Data de Avaliação**: 2026-09-10T02:07:06Z | **Baseline Commit**: b42895c1bac2
 > **Métricas**: 1444 LOC Produção | 2057 LOC Testes | 28 Arquivos Totais
 > **Linguagens**: go
 > **Saúde de Código**: 0 TODOs | 0 FIXMEs | 0 Panics | 0 Stubs

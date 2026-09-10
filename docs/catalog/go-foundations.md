@@ -10,7 +10,7 @@ in-progress: estes números não atestam publicação nem playtest humano.
 A = atômico; C = combinado; F = fatia funcional. Nodes contam macro/meso/micro
 recursivamente, sem incluir o nó de camada.
 
-| Pack | Estado | Desafios | Conceitos | Competências | Nodes |
+| Pack | Estado | Bases | Conceitos | Competências | Nodes |
 |---|---|---|---|---|---|
 | go-first-steps | draft | 7 (7 A / 0 C / 0 F) | 17 | 8 | 14 |
 | go-core | draft | 10 (8 A / 2 C / 0 F) | 9 | 8 | 23 |
@@ -21,7 +21,10 @@ recursivamente, sem incluir o nó de camada.
 | go-testing | draft | 1 (0 A / 1 C / 0 F) | 8 | 5 | 7 |
 
 Total atual: 33 atômicos, 10 combinados e 2 fatias funcionais;
-70 conceitos, 51 competências e 118 step nodes.
+70 conceitos, 51 competências e 118 step nodes nas bases.
+Há também oito variantes atômicas (quatro em I/O e quatro em testes), com
+32 nodes próprios. Elas declaram variant_of e canonical false; não aumentam
+a contagem de bases nem suprem sua profundidade planejada.
 A meta segue 32 + 10 + 2 desafios, 100 conceitos, 60 competências e 300 nodes.
 
 ## Lote go-io
@@ -42,8 +45,8 @@ Cada desafio tem seis níveis de apoio declarados, reflexões, decomposição
 macro/meso/micro e fixture inicial que falha em testes comportamentais. A
 referência privada deve passar pelos mesmos testes. Não há rede nem dependência
 externa; a versão mínima da fixture é Go 1.25. A autoria deste lote é `codex`,
-sem reviewed_by nem playtested. As quatro variantes atômicas planejadas para
-I/O ainda não foram autoradas; não estão sendo contabilizadas como entregues.
+sem reviewed_by nem playtested. As quatro variantes de I/O exercitam leitura fragmentada, campos JSON,
+CSV com aspas e propagação de erros de escrita.
 
 ## Pendências para a entrega fundamental
 
@@ -52,7 +55,7 @@ I/O ainda não foram autoradas; não estão sendo contabilizadas como entregues.
   para ajustar artificialmente a meta. Os sete packs agora somam 45 desafios;
   a distribuição ainda precisa de decisão explícita antes do gate V1.
 - Aprofundar conceitos, competências e decomposição dos desafios existentes.
-- Autorar variantes contextualizadas e revisar pedagogicamente as cinco
+- Revisar pedagogicamente as oito variantes contextualizadas e as cinco
   trilhas compostas, incluindo sua cobertura cruzada.
 - Realizar pré-revisão pedagógica e playtest humano por desafio antes de marcar
   qualquer conteúdo como publicado. A aprovação mecânica das fixtures não
@@ -73,7 +76,9 @@ contagem de chamadas e modificação da saída para detectar aliasing.
 O aluno deve justificar e acrescentar um caso à tabela. Essa parte requer
 observação qualitativa com rubrica: o check automatizado confirma o contrato,
 mas não certifica a qualidade de novos testes nem a autoria do aluno.
-Os quatro cenários variantes planejados ainda não foram entregues.
+As quatro variantes isolam duração restante com relógio injetado, fronteira
+de validade, snapshots sem aliasing e contagem de chamadas ao relógio.
+Todas permanecem draft, sem declaração de revisão humana ou playtest.
 
 ## Complemento go-errors
 

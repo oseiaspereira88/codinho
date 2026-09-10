@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-io
-version: 1.0.0
+version: 1.1.0
 publication:
   status: draft
   author: codex
@@ -580,6 +580,679 @@ challenges:
     - check_id: focused-tests
       baseline: test_failure
       reference: pass
+- schema_version: 1
+  id: go-io.read-fragmented-note
+  version: 1.0.0
+  canonical: false
+  variant_of: go-io.decode-strict-config
+  title: Ler uma nota recebida em fragmentos
+  kind: atomic
+  difficulty: foundational
+  estimated_minutes: 20
+  themes:
+  - io-and-serialization
+  competencies:
+    primary:
+    - io-preserve-reader-errors
+  brief: Recupere o conteúdo completo de uma nota fornecida por Reader, preservando bytes e erros de leitura.
+  constraints:
+  - Use somente a biblioteca padrão e as entradas recebidas.
+  - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
+  acceptance:
+  - Preserva bytes UTF-8 sem interpretar ou alterar o texto.
+  - Acumula leituras parciais até EOF.
+  - Retorna o conteúdo já lido junto do erro original quando a leitura falha.
+  publication:
+    status: draft
+    author: codex
+  layers:
+  - id: read-fragmented-note.implementation
+    macro_steps:
+    - id: read-fragmented-note.macro
+      kind: macro
+      title: Ler uma nota recebida em fragmentos
+      instruction:
+        objective: Recupere o conteúdo completo de uma nota fornecida por Reader, preservando bytes e
+          erros de leitura.
+        scope: Uma competência contextualizada da origem.
+      children:
+      - id: read-fragmented-note.meso
+        kind: meso
+        title: Casos observáveis e implementação
+        instruction:
+          objective: Use os casos de aceite para orientar a implementação.
+          scope: Contrato da variante.
+        children:
+        - id: read-fragmented-note.step-1
+          kind: micro
+          title: Observe o contrato de leitura.
+          instruction:
+            objective: Observe o contrato de leitura.
+            scope: Distingua fim da entrada de falha após bytes úteis.
+          concepts:
+          - io-partial-reads
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: behavior-1
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
+              correta?
+        - id: read-fragmented-note.step-2
+          kind: micro
+          title: Recupere a nota sem perder informação.
+          instruction:
+            objective: Recupere a nota sem perder informação.
+            scope: Valide entrada vazia, fragmentação e erro após conteúdo.
+          concepts:
+          - io-partial-reads
+          evidence:
+            strategies:
+            - test
+          criteria:
+          - id: behavior-2
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
+              correta?
+  fixture:
+  - path: go.mod
+    content: |
+      module codinho-practice/read-fragmented-note
+
+      go 1.25.0
+  - path: exercise.go
+    content: |
+      package exercise
+
+      import "io"
+
+      func ReadNote(r io.Reader) ([]byte, error) { return nil, nil }
+  - path: exercise_test.go
+    content: "package exercise\n\nimport (\n\t\"errors\"\n\t\"io\"\n\t\"strings\"\n\t\"testing\"\n)\n\n\
+      type fragment struct{ r io.Reader }\n\nfunc (f fragment) Read(p []byte) (int, error) {\n\tif len(p)\
+      \ > 1 {\n\t\tp = p[:1]\n\t}\n\treturn f.r.Read(p)\n}\n\ntype broken struct{ err error }\n\nfunc\
+      \ (b broken) Read(p []byte) (int, error) { return copy(p, \"fim\"), b.err }\nfunc TestVariant(t\
+      \ *testing.T) {\n\tfor _, s := range []string{\"\", \"Café ☕\", \"abc\\x00def\"} {\n\t\tgot, err\
+      \ := ReadNote(fragment{strings.NewReader(s)})\n\t\tif err != nil || string(got) != s {\n\t\t\tt.Fatalf(\"\
+      got %q %v\", got, err)\n\t\t}\n\t}\n\twant := errors.New(\"synthetic read error\")\n\tgot, err :=\
+      \ ReadNote(io.MultiReader(strings.NewReader(\"início:\"), broken{want}))\n\tif string(got) != \"\
+      início:fim\" || !errors.Is(err, want) {\n\t\tt.Fatalf(\"lost data/error: %q %v\", got, err)\n\t\
+      }\n}\n"
+  checks:
+  - id: focused-tests
+    runner: go_test
+    package: ./...
+    test_pattern: ^TestVariant$
+    timeout: 20s
+  variants: []
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: |
+        module codinho-practice/read-fragmented-note
+
+        go 1.25.0
+    - path: exercise.go
+      content: |
+        package exercise
+
+        import "io"
+
+        func ReadNote(r io.Reader) ([]byte, error) { return io.ReadAll(r) }
+    - path: exercise_test.go
+      content: "package exercise\n\nimport (\n\t\"errors\"\n\t\"io\"\n\t\"strings\"\n\t\"testing\"\n)\n\
+        \ntype fragment struct{ r io.Reader }\n\nfunc (f fragment) Read(p []byte) (int, error) {\n\tif\
+        \ len(p) > 1 {\n\t\tp = p[:1]\n\t}\n\treturn f.r.Read(p)\n}\n\ntype broken struct{ err error }\n\
+        \nfunc (b broken) Read(p []byte) (int, error) { return copy(p, \"fim\"), b.err }\nfunc TestVariant(t\
+        \ *testing.T) {\n\tfor _, s := range []string{\"\", \"Café ☕\", \"abc\\x00def\"} {\n\t\tgot, err\
+        \ := ReadNote(fragment{strings.NewReader(s)})\n\t\tif err != nil || string(got) != s {\n\t\t\t\
+        t.Fatalf(\"got %q %v\", got, err)\n\t\t}\n\t}\n\twant := errors.New(\"synthetic read error\")\n\
+        \tgot, err := ReadNote(io.MultiReader(strings.NewReader(\"início:\"), broken{want}))\n\tif string(got)\
+        \ != \"início:fim\" || !errors.Is(err, want) {\n\t\tt.Fatalf(\"lost data/error: %q %v\", got,\
+        \ err)\n\t}\n}\n"
+    expectations:
+    - check_id: focused-tests
+      baseline: test_failure
+      reference: pass
+- schema_version: 1
+  id: go-io.decode-weather-fields
+  version: 1.0.0
+  canonical: false
+  variant_of: go-io.decode-strict-config
+  title: Rejeitar campos desconhecidos de uma previsão
+  kind: atomic
+  difficulty: foundational
+  estimated_minutes: 20
+  themes:
+  - io-and-serialization
+  competencies:
+    primary:
+    - io-reject-unknown-fields
+  brief: Decodifique uma previsão com estação e temperatura, rejeitando propriedades desconhecidas ou
+    documentos adicionais.
+  constraints:
+  - Use somente a biblioteca padrão e as entradas recebidas.
+  - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
+  acceptance:
+  - Aceita somente station e celsius, com os tipos declarados na fixture.
+  - Rejeita JSON inválido, campos desconhecidos e qualquer segundo valor.
+  - Aceita espaços após o documento; null não representa uma previsão.
+  publication:
+    status: draft
+    author: codex
+  layers:
+  - id: decode-weather-fields.implementation
+    macro_steps:
+    - id: decode-weather-fields.macro
+      kind: macro
+      title: Rejeitar campos desconhecidos de uma previsão
+      instruction:
+        objective: Decodifique uma previsão com estação e temperatura, rejeitando propriedades desconhecidas
+          ou documentos adicionais.
+        scope: Uma competência contextualizada da origem.
+      children:
+      - id: decode-weather-fields.meso
+        kind: meso
+        title: Casos observáveis e implementação
+        instruction:
+          objective: Use os casos de aceite para orientar a implementação.
+          scope: Contrato da variante.
+        children:
+        - id: decode-weather-fields.step-1
+          kind: micro
+          title: Delimite as propriedades aceitas.
+          instruction:
+            objective: Delimite as propriedades aceitas.
+            scope: Não ignore erros de digitação ou tipos incompatíveis.
+          concepts:
+          - io-json-strict-fields
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: behavior-1
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
+              correta?
+        - id: decode-weather-fields.step-2
+          kind: micro
+          title: Verifique que a entrada contém uma previsão.
+          instruction:
+            objective: Verifique que a entrada contém uma previsão.
+            scope: Cubra propriedades extras, null e conteúdo posterior.
+          concepts:
+          - io-json-strict-fields
+          evidence:
+            strategies:
+            - test
+          criteria:
+          - id: behavior-2
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
+              correta?
+  fixture:
+  - path: go.mod
+    content: |
+      module codinho-practice/decode-weather-fields
+
+      go 1.25.0
+  - path: exercise.go
+    content: "package exercise\n\nimport \"io\"\n\ntype Weather struct {\n\tStation string  `json:\"station\"\
+      `\n\tCelsius float64 `json:\"celsius\"`\n}\n\nfunc DecodeWeather(r io.Reader) (Weather, error) {\
+      \ return Weather{}, nil }\n"
+  - path: exercise_test.go
+    content: "package exercise\n\nimport (\n\t\"strings\"\n\t\"testing\"\n)\n\nfunc TestVariant(t *testing.T)\
+      \ {\n\tgot, err := DecodeWeather(strings.NewReader(`{\"station\":\"Norte\",\"celsius\":-2.5}  `))\n\
+      \tif err != nil || got.Station != \"Norte\" || got.Celsius != -2.5 {\n\t\tt.Fatalf(\"%+v %v\", got,\
+      \ err)\n\t}\n\tfor _, s := range []string{\"\", `null`, `[]`, `{\"station\":\"S\",\"celcius\":2}`,\
+      \ `{\"station\":7}`, `{\"station\":\"S\"} {}`, `{\"station\":\"S\"} false`, `{\"station\":\"S\"\
+      } trailing`} {\n\t\tif _, err := DecodeWeather(strings.NewReader(s)); err == nil {\n\t\t\tt.Fatalf(\"\
+      accepted %q\", s)\n\t\t}\n\t}\n}\n"
+  checks:
+  - id: focused-tests
+    runner: go_test
+    package: ./...
+    test_pattern: ^TestVariant$
+    timeout: 20s
+  variants: []
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: |
+        module codinho-practice/decode-weather-fields
+
+        go 1.25.0
+    - path: exercise.go
+      content: "package exercise\n\nimport (\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"io\"\n)\n\ntype Weather\
+        \ struct {\n\tStation string  `json:\"station\"`\n\tCelsius float64 `json:\"celsius\"`\n}\n\n\
+        func DecodeWeather(r io.Reader) (Weather, error) {\n\tvar w *Weather\n\td := json.NewDecoder(r)\n\
+        \td.DisallowUnknownFields()\n\tif err := d.Decode(&w); err != nil {\n\t\treturn Weather{}, err\n\
+        \t}\n\tif w == nil {\n\t\treturn Weather{}, fmt.Errorf(\"null weather\")\n\t}\n\tvar extra any\n\
+        \tif err := d.Decode(&extra); err != io.EOF {\n\t\tif err == nil {\n\t\t\treturn Weather{}, fmt.Errorf(\"\
+        extra value\")\n\t\t}\n\t\treturn Weather{}, err\n\t}\n\treturn *w, nil\n}\n"
+    - path: exercise_test.go
+      content: "package exercise\n\nimport (\n\t\"strings\"\n\t\"testing\"\n)\n\nfunc TestVariant(t *testing.T)\
+        \ {\n\tgot, err := DecodeWeather(strings.NewReader(`{\"station\":\"Norte\",\"celsius\":-2.5} \
+        \ `))\n\tif err != nil || got.Station != \"Norte\" || got.Celsius != -2.5 {\n\t\tt.Fatalf(\"%+v\
+        \ %v\", got, err)\n\t}\n\tfor _, s := range []string{\"\", `null`, `[]`, `{\"station\":\"S\",\"\
+        celcius\":2}`, `{\"station\":7}`, `{\"station\":\"S\"} {}`, `{\"station\":\"S\"} false`, `{\"\
+        station\":\"S\"} trailing`} {\n\t\tif _, err := DecodeWeather(strings.NewReader(s)); err == nil\
+        \ {\n\t\t\tt.Fatalf(\"accepted %q\", s)\n\t\t}\n\t}\n}\n"
+    expectations:
+    - check_id: focused-tests
+      baseline: test_failure
+      reference: pass
+- schema_version: 1
+  id: go-io.read-quoted-attendees
+  version: 1.0.0
+  canonical: false
+  variant_of: go-io.import-csv-inventory
+  title: Importar nomes de participantes em CSV
+  kind: atomic
+  difficulty: foundational
+  estimated_minutes: 20
+  themes:
+  - io-and-serialization
+  competencies:
+    primary:
+    - io-import-validated-records
+  brief: Importe uma coluna CSV de participantes, preservando campos entre aspas e rejeitando nomes vazios
+    ou duplicados.
+  constraints:
+  - Use somente a biblioteca padrão e as entradas recebidas.
+  - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
+  acceptance:
+  - Exige o cabeçalho exato name e uma coluna por registro.
+  - Apara espaços externos, preserva UTF-8 e vírgulas dentro de campos entre aspas.
+  - Rejeita nomes vazios ou duplicados após aparar.
+  - Em erro retorna resultado nil, sem lista parcial. Cabeçalho sem registros retorna slice vazio não
+    nil.
+  publication:
+    status: draft
+    author: codex
+  layers:
+  - id: read-quoted-attendees.implementation
+    macro_steps:
+    - id: read-quoted-attendees.macro
+      kind: macro
+      title: Importar nomes de participantes em CSV
+      instruction:
+        objective: Importe uma coluna CSV de participantes, preservando campos entre aspas e rejeitando
+          nomes vazios ou duplicados.
+        scope: Uma competência contextualizada da origem.
+      children:
+      - id: read-quoted-attendees.meso
+        kind: meso
+        title: Casos observáveis e implementação
+        instruction:
+          objective: Use os casos de aceite para orientar a implementação.
+          scope: Contrato da variante.
+        children:
+        - id: read-quoted-attendees.step-1
+          kind: micro
+          title: Reconheça a estrutura do CSV.
+          instruction:
+            objective: Reconheça a estrutura do CSV.
+            scope: Valide cabeçalho e largura usando o formato CSV.
+          concepts:
+          - io-csv-quoted-fields
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: behavior-1
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
+              correta?
+        - id: read-quoted-attendees.step-2
+          kind: micro
+          title: Valide os nomes importados.
+          instruction:
+            objective: Valide os nomes importados.
+            scope: Preserve ordem; trate duplicação e falhas sem retorno parcial.
+          concepts:
+          - io-csv-quoted-fields
+          evidence:
+            strategies:
+            - test
+          criteria:
+          - id: behavior-2
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
+              correta?
+  fixture:
+  - path: go.mod
+    content: |
+      module codinho-practice/read-quoted-attendees
+
+      go 1.25.0
+  - path: exercise.go
+    content: |
+      package exercise
+
+      import "io"
+
+      func Attendees(r io.Reader) ([]string, error) { return nil, nil }
+  - path: exercise_test.go
+    content: "package exercise\n\nimport (\n\t\"errors\"\n\t\"io\"\n\t\"reflect\"\n\t\"strings\"\n\t\"\
+      testing\"\n)\n\ntype broken struct{ err error }\n\nfunc (b broken) Read([]byte) (int, error) { return\
+      \ 0, b.err }\nfunc TestVariant(t *testing.T) {\n\tgot, err := Attendees(strings.NewReader(\"name\\\
+      n Café \\n\\\"Silva, Ana\\\"\\n\"))\n\tif err != nil || !reflect.DeepEqual(got, []string{\"Café\"\
+      , \"Silva, Ana\"}) {\n\t\tt.Fatalf(\"%+v %v\", got, err)\n\t}\n\tgot, err = Attendees(strings.NewReader(\"\
+      name\\n\"))\n\tif err != nil || got == nil || len(got) != 0 {\n\t\tt.Fatal(\"empty contract\", got,\
+      \ err)\n\t}\n\tfor _, s := range []string{\"\", \"names\\nA\\n\", \"name\\nA\\n A \\n\", \"name\\\
+      nA\\n  \\n\", \"name\\nA\\nB,C\\n\", \"name\\nA\\n\\\"broken\\n\"} {\n\t\tif got, err := Attendees(strings.NewReader(s));\
+      \ err == nil || got != nil {\n\t\t\tt.Fatalf(\"accepted partial/invalid: %+v %v\", got, err)\n\t\
+      \t}\n\t}\n\twant := errors.New(\"read failure\")\n\tif got, err := Attendees(io.MultiReader(strings.NewReader(\"\
+      name\\nA\\n\"), broken{want})); got != nil || !errors.Is(err, want) {\n\t\tt.Fatalf(\"%+v %v\",\
+      \ got, err)\n\t}\n}\n"
+  checks:
+  - id: focused-tests
+    runner: go_test
+    package: ./...
+    test_pattern: ^TestVariant$
+    timeout: 20s
+  variants: []
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: |
+        module codinho-practice/read-quoted-attendees
+
+        go 1.25.0
+    - path: exercise.go
+      content: "package exercise\n\nimport (\n\t\"encoding/csv\"\n\t\"fmt\"\n\t\"io\"\n\t\"strings\"\n\
+        )\n\nfunc Attendees(r io.Reader) ([]string, error) {\n\td := csv.NewReader(r)\n\th, err := d.Read()\n\
+        \tif err != nil {\n\t\treturn nil, err\n\t}\n\tif len(h) != 1 || h[0] != \"name\" {\n\t\treturn\
+        \ nil, fmt.Errorf(\"invalid header\")\n\t}\n\tout := []string{}\n\tseen := map[string]bool{}\n\
+        \tfor {\n\t\trow, err := d.Read()\n\t\tif err == io.EOF {\n\t\t\treturn out, nil\n\t\t}\n\t\t\
+        if err != nil {\n\t\t\treturn nil, err\n\t\t}\n\t\tname := strings.TrimSpace(row[0])\n\t\tif name\
+        \ == \"\" || seen[name] {\n\t\t\treturn nil, fmt.Errorf(\"invalid name\")\n\t\t}\n\t\tseen[name]\
+        \ = true\n\t\tout = append(out, name)\n\t}\n}\n"
+    - path: exercise_test.go
+      content: "package exercise\n\nimport (\n\t\"errors\"\n\t\"io\"\n\t\"reflect\"\n\t\"strings\"\n\t\
+        \"testing\"\n)\n\ntype broken struct{ err error }\n\nfunc (b broken) Read([]byte) (int, error)\
+        \ { return 0, b.err }\nfunc TestVariant(t *testing.T) {\n\tgot, err := Attendees(strings.NewReader(\"\
+        name\\n Café \\n\\\"Silva, Ana\\\"\\n\"))\n\tif err != nil || !reflect.DeepEqual(got, []string{\"\
+        Café\", \"Silva, Ana\"}) {\n\t\tt.Fatalf(\"%+v %v\", got, err)\n\t}\n\tgot, err = Attendees(strings.NewReader(\"\
+        name\\n\"))\n\tif err != nil || got == nil || len(got) != 0 {\n\t\tt.Fatal(\"empty contract\"\
+        , got, err)\n\t}\n\tfor _, s := range []string{\"\", \"names\\nA\\n\", \"name\\nA\\n A \\n\",\
+        \ \"name\\nA\\n  \\n\", \"name\\nA\\nB,C\\n\", \"name\\nA\\n\\\"broken\\n\"} {\n\t\tif got, err\
+        \ := Attendees(strings.NewReader(s)); err == nil || got != nil {\n\t\t\tt.Fatalf(\"accepted partial/invalid:\
+        \ %+v %v\", got, err)\n\t\t}\n\t}\n\twant := errors.New(\"read failure\")\n\tif got, err := Attendees(io.MultiReader(strings.NewReader(\"\
+        name\\nA\\n\"), broken{want})); got != nil || !errors.Is(err, want) {\n\t\tt.Fatalf(\"%+v %v\"\
+        , got, err)\n\t}\n}\n"
+    expectations:
+    - check_id: focused-tests
+      baseline: test_failure
+      reference: pass
+- schema_version: 1
+  id: go-io.write-result-report
+  version: 1.0.0
+  canonical: false
+  variant_of: go-io.import-csv-inventory
+  title: Propagar falhas ao escrever um relatório
+  kind: atomic
+  difficulty: foundational
+  estimated_minutes: 20
+  themes:
+  - io-and-serialization
+  competencies:
+    primary:
+    - io-preserve-writer-errors
+  brief: Escreva um relatório JSON no Writer recebido e preserve qualquer falha de escrita para o chamador.
+  constraints:
+  - Use somente a biblioteca padrão e as entradas recebidas.
+  - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
+  acceptance:
+  - Codifica o campo processed com o valor recebido e um newline final.
+  - Preserva a identidade de erros retornados pelo Writer.
+  - Não tenta desfazer bytes já aceitos pelo Writer nem usa um destino global.
+  publication:
+    status: draft
+    author: codex
+  layers:
+  - id: write-result-report.implementation
+    macro_steps:
+    - id: write-result-report.macro
+      kind: macro
+      title: Propagar falhas ao escrever um relatório
+      instruction:
+        objective: Escreva um relatório JSON no Writer recebido e preserve qualquer falha de escrita para
+          o chamador.
+        scope: Uma competência contextualizada da origem.
+      children:
+      - id: write-result-report.meso
+        kind: meso
+        title: Casos observáveis e implementação
+        instruction:
+          objective: Use os casos de aceite para orientar a implementação.
+          scope: Contrato da variante.
+        children:
+        - id: write-result-report.step-1
+          kind: micro
+          title: Defina o resultado serializado.
+          instruction:
+            objective: Defina o resultado serializado.
+            scope: Respeite o campo e o destino declarados.
+          concepts:
+          - io-writer-errors
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: behavior-1
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
+              correta?
+        - id: write-result-report.step-2
+          kind: micro
+          title: Propague a falha de saída.
+          instruction:
+            objective: Propague a falha de saída.
+            scope: Teste sucesso e erro de Writer com resultado parcial.
+          concepts:
+          - io-writer-errors
+          evidence:
+            strategies:
+            - test
+          criteria:
+          - id: behavior-2
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
+              correta?
+  fixture:
+  - path: go.mod
+    content: |
+      module codinho-practice/write-result-report
+
+      go 1.25.0
+  - path: exercise.go
+    content: |
+      package exercise
+
+      import "io"
+
+      func WriteReport(w io.Writer, n int) error { return nil }
+  - path: exercise_test.go
+    content: "package exercise\n\nimport (\n\t\"bytes\"\n\t\"errors\"\n\t\"testing\"\n)\n\ntype partial\
+      \ struct {\n\tbuf bytes.Buffer\n\terr error\n}\n\nfunc (p *partial) Write(data []byte) (int, error)\
+      \ { p.buf.Write(data[:1]); return 1, p.err }\nfunc TestVariant(t *testing.T) {\n\tfor _, n := range\
+      \ []int{0, 12} {\n\t\tvar out bytes.Buffer\n\t\tif err := WriteReport(&out, n); err != nil {\n\t\
+      \t\tt.Fatal(err)\n\t\t}\n\t\twant := \"{\\\"processed\\\":0}\\n\"\n\t\tif n == 12 {\n\t\t\twant\
+      \ = \"{\\\"processed\\\":12}\\n\"\n\t\t}\n\t\tif out.String() != want {\n\t\t\tt.Fatalf(\"got %q\"\
+      , out.String())\n\t\t}\n\t}\n\twant := errors.New(\"write failure\")\n\tw := &partial{err: want}\n\
+      \tif err := WriteReport(w, 3); !errors.Is(err, want) || w.buf.Len() != 1 {\n\t\tt.Fatalf(\"lost\
+      \ partial error %v %q\", err, w.buf.String())\n\t}\n}\n"
+  checks:
+  - id: focused-tests
+    runner: go_test
+    package: ./...
+    test_pattern: ^TestVariant$
+    timeout: 20s
+  variants: []
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: |
+        module codinho-practice/write-result-report
+
+        go 1.25.0
+    - path: exercise.go
+      content: "package exercise\n\nimport (\n\t\"encoding/json\"\n\t\"io\"\n)\n\nfunc WriteReport(w io.Writer,\
+        \ n int) error {\n\treturn json.NewEncoder(w).Encode(struct {\n\t\tProcessed int `json:\"processed\"\
+        `\n\t}{n})\n}\n"
+    - path: exercise_test.go
+      content: "package exercise\n\nimport (\n\t\"bytes\"\n\t\"errors\"\n\t\"testing\"\n)\n\ntype partial\
+        \ struct {\n\tbuf bytes.Buffer\n\terr error\n}\n\nfunc (p *partial) Write(data []byte) (int, error)\
+        \ { p.buf.Write(data[:1]); return 1, p.err }\nfunc TestVariant(t *testing.T) {\n\tfor _, n :=\
+        \ range []int{0, 12} {\n\t\tvar out bytes.Buffer\n\t\tif err := WriteReport(&out, n); err != nil\
+        \ {\n\t\t\tt.Fatal(err)\n\t\t}\n\t\twant := \"{\\\"processed\\\":0}\\n\"\n\t\tif n == 12 {\n\t\
+        \t\twant = \"{\\\"processed\\\":12}\\n\"\n\t\t}\n\t\tif out.String() != want {\n\t\t\tt.Fatalf(\"\
+        got %q\", out.String())\n\t\t}\n\t}\n\twant := errors.New(\"write failure\")\n\tw := &partial{err:\
+        \ want}\n\tif err := WriteReport(w, 3); !errors.Is(err, want) || w.buf.Len() != 1 {\n\t\tt.Fatalf(\"\
+        lost partial error %v %q\", err, w.buf.String())\n\t}\n}\n"
+    expectations:
+    - check_id: focused-tests
+      baseline: test_failure
+      reference: pass
 relations:
 - from: go-io.decode-strict-config
   to: io-reader-stream
@@ -640,4 +1313,28 @@ relations:
   kind: relates_to
 - from: io-json-encode
   to: go-io.import-csv-inventory
+  kind: relates_to
+- from: go-io.read-fragmented-note
+  to: go-io.decode-strict-config
+  kind: relates_to
+- from: go-io.decode-strict-config
+  to: go-io.read-fragmented-note
+  kind: relates_to
+- from: go-io.decode-weather-fields
+  to: go-io.decode-strict-config
+  kind: relates_to
+- from: go-io.decode-strict-config
+  to: go-io.decode-weather-fields
+  kind: relates_to
+- from: go-io.read-quoted-attendees
+  to: go-io.import-csv-inventory
+  kind: relates_to
+- from: go-io.import-csv-inventory
+  to: go-io.read-quoted-attendees
+  kind: relates_to
+- from: go-io.write-result-report
+  to: go-io.import-csv-inventory
+  kind: relates_to
+- from: go-io.import-csv-inventory
+  to: go-io.write-result-report
   kind: relates_to

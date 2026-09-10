@@ -6,7 +6,7 @@
 
 | #  | Componente Slug | Módulo / Path | Linguagens | LOC Produção | LOC Testes | Arquivos | Status | Relatório Markdown |
 |----|------------|---------------|-----------|--------------|------------|----------|--------|--------------------|
-| 01 | `root` | `.` | `go, shell` | 13517 | 13565 | 211 | `verified` | [root.md](./root.md) |
+| 01 | `root` | `.` | `go, shell` | 13517 | 13607 | 212 | `verified` | [root.md](./root.md) |
 | 02 | `github-workflows` | `.github/workflows` | `n/a` | 0 | 0 | 0 | `verified` | [github-workflows.md](./github-workflows.md) |
 | 03 | `pose-contracts` | `.pose/contracts` | `n/a` | 0 | 0 | 0 | `verified` | [pose-contracts.md](./pose-contracts.md) |
 | 04 | `cmd-ci-assurance` | `cmd/ci-assurance` | `go` | 79 | 53 | 2 | `verified` | [cmd-ci-assurance.md](./cmd-ci-assurance.md) |

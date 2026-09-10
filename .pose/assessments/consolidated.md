@@ -1,8 +1,8 @@
 # Project Assessment: codinho
 
 > **Gerado por**: POSE Discovery Engine (`pose assess discover`)
-> **Data de Avaliação**: 2026-09-10T01:57:42Z
-> **Baseline Commit**: 0d78c7c03857
+> **Data de Avaliação**: 2026-09-10T02:07:06Z
+> **Baseline Commit**: b42895c1bac2
 
 ---
 
@@ -10,9 +10,9 @@
 
 - **Total de Componentes Auditados**: 10
 - **Linhas de Código de Produção**: 15417
-- **Linhas de Código de Testes**: 17912
-- **Total Geral de Linhas de Código**: 33329
-- **Total de Arquivos Auditados**: 263
+- **Linhas de Código de Testes**: 17954
+- **Total Geral de Linhas de Código**: 33371
+- **Total de Arquivos Auditados**: 264
 - **Completude Dinâmica da Plataforma**: 90.0%
 - **Dívidas Técnicas em Aberto**: 0 TODOs | 0 FIXMEs | 0 Panics | 0 Stubs
 - **Especificações (Specs) em Aberto**: 5
@@ -24,7 +24,7 @@
 
 | # | Componente Slug | Caminho do Módulo | Linguagens | LOC Produção | LOC Testes | Arquivos | TODOs | Completude | Status |
 |---|---|---|---|---|---|---|---|---|---|
-| 01 | `root` | `.` | `go, shell` | 13517 | 13565 | 211 | 0 | 100% | `verified` |
+| 01 | `root` | `.` | `go, shell` | 13517 | 13607 | 212 | 0 | 100% | `verified` |
 | 02 | `github-workflows` | `.github/workflows` | `n/a` | 0 | 0 | 0 | 0 | 100% | `verified` |
 | 03 | `pose-contracts` | `.pose/contracts` | `n/a` | 0 | 0 | 0 | 0 | 100% | `verified` |
 | 04 | `cmd-ci-assurance` | `cmd/ci-assurance` | `go` | 79 | 53 | 2 | 0 | 100% | `verified` |

@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-first-steps
-version: 1.1.0
+version: 1.2.0
 themes:
   - id: slices
     title: Slices e arrays
@@ -74,9 +74,88 @@ competencies:
   - id: avoid-variable-shadowing
     title: Evitar shadowing de variável
 tracks:
-  - id: go-from-zero
-    title: Go do zero
-    themes: [slices, declarations-and-types, tooling]
+- id: go-from-zero
+  title: Go do zero
+  themes:
+  - tooling
+  - declarations-and-types
+  - slices
+  challenge_ids:
+  - go-first-steps.declare-a-minimal-module
+  - go-first-steps.enumerate-weekdays-with-iota
+  - go-first-steps.convert-celsius-to-fahrenheit
+  - go-first-steps.clamp-int-to-byte
+  - go-first-steps.format-rate-limit-message
+  - go-first-steps.avoid-shadowing-named-returns
+  - go-data.slice-filter-preserve-input
+  - go-core.sum-variadic-numbers
+  - go-data-text.lookup-map-value-with-comma-ok
+  - go-errors.wrap-sentinel-error-with-context
+  - go-errors.maintain-memory-catalog
+- id: go-oop-transition
+  title: Transição de orientação a objetos
+  themes:
+  - structs-and-pointers
+  - interfaces
+  - packages-and-apis
+  challenge_ids:
+  - go-core.increment-counter-with-pointer-receiver
+  - go-core.guard-invariant-with-unexported-field
+  - go-core.hide-counter-type-behind-interface
+  - go-type-design.select-validator-true-nil
+  - go-type-design.sum-list-with-nil-safe-receiver
+  - go-type-design.clone-inventory-independently
+  - go-type-design.first-circle-clone
+  - go-core.configure-server-with-functional-options
+  - go-testing.select-active-tokens-with-injected-clock
+  - go-errors.maintain-memory-catalog
+- id: go-practical-fluency
+  title: Fluência prática
+  themes:
+  - control-flow
+  - errors
+  - io-and-serialization
+  challenge_ids:
+  - go-core.find-first-value-at-least
+  - go-data-text.dedupe-preserving-first-occurrence
+  - go-data-text.sum-valid-integers-safely
+  - go-errors.wrap-sentinel-error-with-context
+  - go-errors.extract-field-with-errors-as
+  - go-errors.classify-wrapped-errors
+  - go-io.decode-strict-config
+  - go-io.import-csv-inventory
+  - go-errors.maintain-memory-catalog
+- id: go-data-and-types
+  title: Dados e tipos
+  themes:
+  - slices-arrays-maps
+  - text-and-binary-data
+  - generics
+  challenge_ids:
+  - go-data-text.filter-without-mutating-input
+  - go-data-text.preallocate-slice-with-zero-length
+  - go-data-text.truncate-bytes-at-rune-boundary
+  - go-data-text.title-first-letters-preserving-spacing
+  - go-data-text.quote-csv-field-when-needed
+  - go-data-text.format-names-as-csv-fields
+  - go-type-design.clone-inventory-independently
+  - go-type-design.contains-generic-comparable
+  - go-type-design.map-generic-transform
+  - go-type-design.generic-node-values-nil-safe
+- id: go-testing-and-design
+  title: Testes e design
+  themes:
+  - testing-and-testability
+  - packages-and-apis
+  - errors
+  challenge_ids:
+  - go-type-design.clone-inventory-independently
+  - go-core.guard-invariant-with-unexported-field
+  - go-testing.select-active-tokens-with-injected-clock
+  - go-errors.wrap-sentinel-error-with-context
+  - go-errors.validate-user-joining-all-errors
+  - go-errors.classify-wrapped-errors
+  - go-errors.maintain-memory-catalog
 challenges:
   - schema_version: 1
     id: go-data.slice-filter-preserve-input

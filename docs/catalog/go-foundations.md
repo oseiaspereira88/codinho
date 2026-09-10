@@ -52,9 +52,8 @@ I/O ainda não foram autoradas; não estão sendo contabilizadas como entregues.
   para ajustar artificialmente a meta. Os sete packs agora somam 45 desafios;
   a distribuição ainda precisa de decisão explícita antes do gate V1.
 - Aprofundar conceitos, competências e decomposição dos desafios existentes.
-- Autorar variantes contextualizadas, completar as cinco trilhas previstas e
-  conferir cobertura cruzada. O lote go-io não adiciona trilha isolada que
-  substitua uma das cinco jornadas canônicas.
+- Autorar variantes contextualizadas e revisar pedagogicamente as cinco
+  trilhas compostas, incluindo sua cobertura cruzada.
 - Realizar pré-revisão pedagógica e playtest humano por desafio antes de marcar
   qualquer conteúdo como publicado. A aprovação mecânica das fixtures não
   comprova essa revisão.
@@ -87,3 +86,23 @@ Os quatro cenários variantes planejados ainda não foram entregues.
 Os desafios anteriores mantêm seu conteúdo e sua autoria. Os novos são draft,
 com autor codex; os critérios intermediários são qualitativos e o check final
 verifica o comportamento integrado. Revisão pedagógica e playtest estão pendentes.
+
+## Cinco percursos de autoria
+
+| ID | Percurso | Desafios |
+|---|---|---|
+| go-from-zero | Go do zero | 11 |
+| go-oop-transition | Transição de orientação a objetos | 10 |
+| go-practical-fluency | Fluência prática | 9 |
+| go-data-and-types | Dados e tipos | 10 |
+| go-testing-and-design | Testes e design | 7 |
+
+As sequências reutilizam desafios entre jornadas e não aumentam a contagem
+canônica. São declaradas em go-first-steps e consomem os demais packs.
+O percurso Go do zero preserva seu ID histórico e agora possui membros explícitos.
+
+Para revisar uma jornada não publicada, use o servidor em modo de autoria e
+inicie session_start com track_id. A sessão fixa o percurso e mantém o aviso de
+conteúdo não revisado. Os testes de roteamento atravessam 47 posições entre
+as cinco trilhas usando avanço explícito; isso comprova alcance das instruções,
+sem atestar conclusão pelo aluno, ordem pedagógica ideal ou playtest humano.

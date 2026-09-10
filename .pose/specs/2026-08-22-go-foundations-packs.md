@@ -69,6 +69,8 @@ Oferecer prática desde o primeiro contato até a base necessária para backend,
 - modified: packs/manifest.yaml
 - created: docs/catalog/go-foundations.md
 - modified: .pose/docs.json
+- modified: .pose/indexes/validation-matrix.json
+- created: cmd/codinho/foundation_tracks_integration_test.go
 
 ### Delivery targets
 Nenhum tipado; conteúdo consumido pelo catálogo V1.
@@ -117,6 +119,7 @@ conceitos / ≥60 competências / ≥300 step nodes (R1's threshold em
 `catalog-authoring-quality` R9 `--v1-gate`).
 
 ### Implementation
+- [x] Compor as cinco trilhas previstas usando desafios existentes e verificar início/travessia por MCP real em modo de autoria; não publicar conteúdo nem alterar a contagem canônica.
 - [x] Lote final de autoria go-errors: classificação de erros encadeados (combinado) e catálogo em memória testado (fatia funcional), preservando fontes históricas e autoria; fixture baseline/reference, ordem determinística e isolamento.
 - [x] Lote go-testing: desafio combinado de seleção temporal determinística, clock injetado, casos de fronteira e isolamento de slices; fixtures baseline/reference, avaliação qualitativa intermediária e check final. Consumir knowledge:go-foundations-io-batch.
 - [x] Lote 2026-09-09: criar go-io com decodificação JSON estrita (combinado) e importação CSV validada para JSON (fatia funcional), fixtures baseline/reference e checks sem rede. Autoria nova identifica codex; conteúdo histórico mantém seu autor.
@@ -220,6 +223,7 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
 - Security / Contract: secret scan, path confinement e leak detector.
 
 ### Execution log
+- 2026-09-10 UTC, trilhas fundamentais: cinco percursos explícitos (47 posições reutilizando desafios), início e travessia via MCP real em --authoring. Matriz ampliada para 23/23 checks aprovados; 43/43 checks editoriais verificados. IDs/conteúdo anteriores preservados. O avanço explícito no teste verifica alcance, não playtest humano.
 - 2026-09-10 UTC, complemento go-errors: um combinado e uma fatia funcional draft, oito conceitos, seis competências e 14 nodes. Matriz 22/22 passou, com 43/43 checks editoriais verificados. Comparação dos objetos YAML confirma preservação integral dos desafios, conceitos, competências e relações históricos; versão do pack incrementada para 1.2.0.
 - 2026-09-10 UTC, lote go-testing: um combinado draft, oito conceitos, cinco competências e sete nodes. Matriz completa 22/22 passou; 41/41 checks editoriais verificados, incluindo baseline com falha e referência aprovada. Docs-check sem erros/warnings. Revisão qualitativa e playtest humano permanecem pendentes.
 - Retomada: knowledge:go-foundations-io-batch registra o lote validado e as demandas seguintes.
@@ -1078,7 +1082,7 @@ os sete packs, as cinco trilhas e o playtest real estiverem completos
 ## 7. Final Report
 
 ### Delivered scope
-Autoria parcial dos sete packs presentes no manifest; os lotes go-io, go-testing e complemento go-errors têm fixtures baseline/reference verificadas. Há 45 desafios fundamentais draft (33 atômicos, 10 combinados, duas fatias funcionais), 70 conceitos, 51 competências e 118 nodes. A meta oficial de 44 permanece sem alteração: divergência de distribuição, variantes, aprofundamento, trilhas e playtest humano impedem encerrar esta spec.
+Autoria parcial dos sete packs presentes no manifest; os lotes go-io, go-testing e complemento go-errors têm fixtures baseline/reference verificadas. Há 45 desafios fundamentais draft (33 atômicos, 10 combinados, duas fatias funcionais), 70 conceitos, 51 competências e 118 nodes. A meta oficial de 44 permanece sem alteração: divergência de distribuição, variantes, aprofundamento e playtest humano impedem encerrar esta spec. As cinco trilhas já têm sequências explícitas e roteamento verificado.
 
 ### Files and modules changed
 - Sete packs de fundamentos, manifest e docs/catalog/go-foundations.md. O inventário e os relatórios por lote distinguem autoria, verificação mecânica e publicação.

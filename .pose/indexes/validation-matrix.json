@@ -533,6 +533,19 @@
           ],
           "severity": "required",
           "evidenceClass": "integration"
+        },
+        {
+          "name": "foundation-track-routing",
+          "program": "go",
+          "args": [
+            "test",
+            "./cmd/codinho/...",
+            "-run",
+            "TestFoundationTracksOverRealStdio",
+            "-count=1"
+          ],
+          "severity": "required",
+          "evidenceClass": "integration"
         }
       ]
     }

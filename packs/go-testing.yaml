@@ -391,6 +391,43 @@ challenges:
           reflection:
             optional:
             - Por que comparar apenas o conteúdo antes de modificar a saída não detecta aliasing?
+          children:
+          - id: testable-expiry.verify-empty-result
+            kind: micro
+            action: verify
+            target: boundary_case
+            title: Verificar resultado vazio não nulo
+            instruction:
+              objective: Confirme que nenhuma seleção ativa produz slice vazio comparável, nunca nil.
+              scope: Apenas entradas nil ou sem tokens futuros.
+            concepts:
+            - testing-table-cases
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: empty-result-is-non-nil
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
+          - id: testable-expiry.verify-order-preserved
+            kind: micro
+            action: verify
+            target: output_order
+            title: Verificar ordem dos tokens ativos
+            instruction:
+              objective: Confirme que a seleção mantém a ordem relativa dos tokens que permanecem ativos.
+              scope: Apenas uma entrada mista com tokens antes, no limite e depois.
+            concepts:
+            - testing-input-isolation
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: active-order-preserved
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
   fixture:
   - path: go.mod
     content: |

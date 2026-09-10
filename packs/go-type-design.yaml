@@ -1376,6 +1376,43 @@ challenges:
             reflection:
               optional:
                 - Por que shape.(Circle) sem a forma comma-ok panicaria justamente no caso em que shape é um Square, e não no caso em que é um Circle -- e por que um type switch com um caso default evita esse problema sem precisar de comma-ok?
+            children:
+              - id: model.verify-circle-and-other-shape
+                kind: micro
+                action: verify
+                target: output
+                title: Verificar Circle e tipo alternativo
+                instruction:
+                  objective: Confira a descrição e o booleano para Circle e para outro Shape, garantindo que o segundo caminho não causa panic.
+                  scope: Apenas os dois tipos aceitos pela fixture.
+                concepts: [safe-type-assertion]
+                evidence:
+                  strategies: [compile]
+                criteria:
+                  - id: circle-description-verified
+                    kind: structural
+                  - id: other-shape-rejected-safely
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
+              - id: model.explain-comma-ok
+                kind: micro
+                action: reflect
+                target: decision
+                title: Explicar a forma comma-ok
+                instruction:
+                  objective: Explique como o segundo resultado impede que uma assertion inesperada provoque panic.
+                  scope: Apenas a decisão de tratamento do tipo alternativo.
+                concepts: [safe-type-assertion]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: comma-ok-explained
+                    kind: qualitative
+                completion:
+                  requires_positive_evaluation: false
+                  requires_user_confirmation: true
     fixture:
       - path: go.mod
         content: |

@@ -294,7 +294,7 @@ challenges:
             target: boundary_case
             title: Verificar entrada vazia
             instruction:
-              objective: Confirme que nenhuma entrada mantém o retorno nil quando não há defers registrados.
+              objective: Confirme que entradas nil e vazias retornam nil quando não há defers registrados.
               scope: Apenas o caso de slice nil ou vazio.
             concepts: [defer-execution-order]
             evidence:
@@ -347,11 +347,22 @@ challenges:
                   })
               }
           }
+      - path: review_regression_test.go
+        content: |
+          package closer
+
+          import "testing"
+
+          func TestClosingOrderEmptyAllocated(t *testing.T) {
+              if got := ClosingOrder([]string{}); got != nil {
+                  t.Fatalf("allocated empty input: got %#v, want nil", got)
+              }
+          }
     checks:
       - id: focused-tests
         runner: go_test
         package: ./...
-        test_pattern: ^TestClosingOrder$
+        test_pattern: ^TestClosingOrder
         timeout: 20s
     variants: []
 
@@ -400,6 +411,17 @@ challenges:
                           t.Errorf("ClosingOrder(%v) = %v, want %v", c.resources, got, c.want)
                       }
                   })
+              }
+          }
+      - path: review_regression_test.go
+        content: |
+          package closer
+
+          import "testing"
+
+          func TestClosingOrderEmptyAllocated(t *testing.T) {
+              if got := ClosingOrder([]string{}); got != nil {
+                  t.Fatalf("allocated empty input: got %#v, want nil", got)
               }
           }
       expectations:

@@ -938,11 +938,32 @@ challenges:
       \ ReadNote(io.MultiReader(strings.NewReader(\"início:\"), broken{want}))\n\tif string(got) != \"\
       início:fim\" || !errors.Is(err, want) {\n\t\tt.Fatalf(\"lost data/error: %q %v\", got, err)\n\t\
       }\n}\n"
+  - path: review_regression_test.go
+    content: |
+      package exercise
+
+      import (
+          "io"
+          "testing"
+      )
+
+      type finalBytesReader struct { done bool }
+      func (r *finalBytesReader) Read(p []byte) (int, error) {
+          if r.done { return 0, io.EOF }
+          r.done = true
+          return copy(p, "fim"), io.EOF
+      }
+      func TestVariantBytesWithEOF(t *testing.T) {
+          got, err := ReadNote(&finalBytesReader{})
+          if string(got) != "fim" || err != nil {
+              t.Fatalf("bytes with EOF: got %q, error %v", got, err)
+          }
+      }
   checks:
   - id: focused-tests
     runner: go_test
     package: ./...
-    test_pattern: ^TestVariant$
+    test_pattern: ^TestVariant
     timeout: 20s
   variants: []
   validation:
@@ -970,6 +991,27 @@ challenges:
         \tgot, err := ReadNote(io.MultiReader(strings.NewReader(\"início:\"), broken{want}))\n\tif string(got)\
         \ != \"início:fim\" || !errors.Is(err, want) {\n\t\tt.Fatalf(\"lost data/error: %q %v\", got,\
         \ err)\n\t}\n}\n"
+    - path: review_regression_test.go
+      content: |
+        package exercise
+
+        import (
+            "io"
+            "testing"
+        )
+
+        type finalBytesReader struct { done bool }
+        func (r *finalBytesReader) Read(p []byte) (int, error) {
+            if r.done { return 0, io.EOF }
+            r.done = true
+            return copy(p, "fim"), io.EOF
+        }
+        func TestVariantBytesWithEOF(t *testing.T) {
+            got, err := ReadNote(&finalBytesReader{})
+            if string(got) != "fim" || err != nil {
+                t.Fatalf("bytes with EOF: got %q, error %v", got, err)
+            }
+        }
     expectations:
     - check_id: focused-tests
       baseline: test_failure
@@ -1513,7 +1555,7 @@ challenges:
               objective: Confirme que o relatório JSON termina com exatamente um newline após a codificação.
               scope: Apenas o formato do documento escrito.
             concepts:
-            - io-writer-errors
+            - io-json-encode
             evidence:
               strategies:
               - test
@@ -1528,7 +1570,7 @@ challenges:
             target: writer_error
             title: Verificar identidade do erro de escrita
             instruction:
-              objective: Confirme que a mesma instância de erro do Writer chega ao chamador.
+              objective: Confirme com errors.Is que o erro do Writer pode ser identificado pelo chamador.
               scope: Apenas a propagação de falhas após bytes aceitos.
             concepts:
             - io-writer-errors

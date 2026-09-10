@@ -417,7 +417,7 @@ challenges:
             target: boundary_case
             title: Verificar resultado vazio não nulo
             instruction:
-              objective: Confirme que nenhuma seleção ativa produz slice vazio comparável, nunca nil.
+              objective: Confirme que a seleção sem tokens ativos retorna slice vazio não nil quando o relógio é válido.
               scope: Apenas entradas nil ou sem tokens futuros.
             concepts:
             - testing-table-cases
@@ -716,11 +716,27 @@ challenges:
       \ 0\n\t\t}\n\t\tif err != nil || got != want || calls != 1 {\n\t\t\tt.Fatalf(\"%v %v calls=%d\"\
       , got, err, calls)\n\t\t}\n\t}\n\tif _, err := Remaining(now, nil); !errors.Is(err, ErrMissingClock)\
       \ {\n\t\tt.Fatal(err)\n\t}\n}\n"
+  - path: review_regression_test.go
+    content: |
+      package exercise
+
+      import (
+          "errors"
+          "testing"
+          "time"
+      )
+
+      func TestVariantMissingClockResult(t *testing.T) {
+          got, err := Remaining(time.Time{}, nil)
+          if got != 0 || !errors.Is(err, ErrMissingClock) {
+              t.Fatalf("missing clock: duration=%v error=%v", got, err)
+          }
+      }
   checks:
   - id: focused-tests
     runner: go_test
     package: ./...
-    test_pattern: ^TestVariant$
+    test_pattern: ^TestVariant
     timeout: 20s
   variants: []
   validation:
@@ -743,6 +759,22 @@ challenges:
         \tif want < 0 {\n\t\t\twant = 0\n\t\t}\n\t\tif err != nil || got != want || calls != 1 {\n\t\t\
         \tt.Fatalf(\"%v %v calls=%d\", got, err, calls)\n\t\t}\n\t}\n\tif _, err := Remaining(now, nil);\
         \ !errors.Is(err, ErrMissingClock) {\n\t\tt.Fatal(err)\n\t}\n}\n"
+    - path: review_regression_test.go
+      content: |
+        package exercise
+
+        import (
+            "errors"
+            "testing"
+            "time"
+        )
+
+        func TestVariantMissingClockResult(t *testing.T) {
+            got, err := Remaining(time.Time{}, nil)
+            if got != 0 || !errors.Is(err, ErrMissingClock) {
+                t.Fatalf("missing clock: duration=%v error=%v", got, err)
+            }
+        }
     expectations:
     - check_id: focused-tests
       baseline: test_failure
@@ -899,7 +931,7 @@ challenges:
             title: Verificar conjunto misto de ingressos
             instruction:
               objective: Confirme que apenas ingressos com expiração posterior ao instante observado são válidos.
-              scope: Uma entrada com casos anterior, igual e posterior.
+              scope: Uma tabela de chamadas individuais de Valid, com expiração anterior, igual e posterior ao instante recebido.
             concepts:
             - testing-time-boundaries
             evidence:

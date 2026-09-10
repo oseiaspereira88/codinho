@@ -1176,6 +1176,27 @@ challenges:
             reflection:
               optional:
                 - Por que recover só funciona quando chamado dentro de uma função diferida com defer?
+          - id: model.verify-panic-message-conversion
+            kind: micro
+            action: verify
+            target: error
+            title: Verificar mensagem do panic
+            instruction:
+              objective: Confirme que valores de panic string, inteiro e error produzem erro não nulo com informação útil.
+              scope: Apenas a conversão do valor recuperado em mensagem de erro.
+            concepts: [panic-recover-boundary]
+            evidence:
+              strategies: [test]
+            criteria:
+              - id: panic-value-is-reported
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
     fixture:
       - path: go.mod
         content: |

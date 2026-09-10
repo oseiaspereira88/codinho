@@ -1496,6 +1496,43 @@ challenges:
             reflection:
               optional:
                 - Por que Map precisa de dois parâmetros de tipo (T e U), em vez de só um?
+            children:
+              - id: model.verify-generic-order
+                kind: micro
+                action: verify
+                target: output
+                title: Verificar transformação completa e ordenada
+                instruction:
+                  objective: Confira uma entrada longa e confirme que cada elemento foi transformado exatamente uma vez e permaneceu na ordem original.
+                  scope: Apenas a verificação da saída produzida por Map.
+                concepts: [generic-two-type-parameters]
+                evidence:
+                  strategies: [compile]
+                criteria:
+                  - id: all-elements-transformed
+                    kind: structural
+                  - id: order-preserved
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
+              - id: model.verify-result-isolation
+                kind: micro
+                action: verify
+                target: aliasing
+                title: Verificar isolamento entre entrada e saída
+                instruction:
+                  objective: Altere um elemento da saída e confirme que a slice de entrada não foi modificada.
+                  scope: Apenas o caso de isolamento de armazenamento.
+                concepts: [struct-shallow-copy-aliasing]
+                evidence:
+                  strategies: [compile, source_inspection]
+                criteria:
+                  - id: input-remains-unchanged
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
     fixture:
       - path: go.mod
         content: |

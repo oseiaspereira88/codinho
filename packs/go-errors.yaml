@@ -1682,6 +1682,43 @@ challenges:
             reflection:
               optional:
               - Como distinguir a ordem da busca por tipo da precedência de categorias?
+            children:
+            - id: classify-wrapped-errors.verify-identity-vs-text
+              kind: micro
+              action: verify
+              target: classification
+              title: Verificar identidade distinta de mensagem igual
+              instruction:
+                objective: Confirme que um erro novo com texto igual à sentinela não recebe a categoria da sentinela.
+                scope: Apenas identidade do erro e resultado de classificação.
+              concepts:
+              - error-identity-not-message
+              evidence:
+                strategies:
+                - test
+              criteria:
+              - id: message-does-not-classify
+                kind: structural
+              completion:
+                requires_positive_evaluation: true
+            - id: classify-wrapped-errors.verify-joined-precedence
+              kind: micro
+              action: verify
+              target: classification
+              title: Verificar precedência em erro agregado
+              instruction:
+                objective: Inverta a ordem dos filhos de um erro agregado e confirme que a categoria denied continua prioritária.
+                scope: Apenas erros agregados com causas concorrentes.
+              concepts:
+              - error-joined-tree-order
+              evidence:
+                strategies:
+                - test
+              criteria:
+              - id: denied-precedence-independent-of-order
+                kind: structural
+              completion:
+                requires_positive_evaluation: true
     fixture:
     - path: go.mod
       content: |

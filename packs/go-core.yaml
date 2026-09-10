@@ -1405,6 +1405,27 @@ challenges:
             reflection:
               optional:
                 - Por que impedir a criação de um Percentage inválido depende do campo não ser exportado?
+          - id: model.verify-inclusive-percentage-bounds
+            kind: micro
+            action: verify
+            target: invariant
+            title: Verificar limites inclusivos
+            instruction:
+              objective: Confirme que 0 e 100 são aceitos, enquanto valores imediatamente fora do intervalo falham.
+              scope: Apenas as quatro fronteiras numéricas do construtor.
+            concepts: [unexported-field-invariant]
+            evidence:
+              strategies: [test]
+            criteria:
+              - id: inclusive-bounds-enforced
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
     fixture:
       - path: go.mod
         content: |

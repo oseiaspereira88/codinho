@@ -214,6 +214,16 @@ competencies:
   title: Produzir saída JSON por Writer
 - id: io-preserve-writer-errors
   title: Preservar erros de escrita
+- id: io-read-fragmented-input
+  title: Consumir entrada fragmentada
+- id: io-distinguish-eof
+  title: Distinguir EOF de falha de leitura
+- id: io-validate-document-boundary
+  title: Validar a fronteira de um documento
+- id: io-parse-quoted-fields
+  title: Interpretar campos citados
+- id: io-encode-structured-output
+  title: Codificar saída estruturada
 tracks: []
 challenges:
 - schema_version: 1
@@ -230,6 +240,8 @@ challenges:
     - io-decode-one-json
     - io-reject-unknown-fields
     - io-preserve-reader-errors
+    secondary:
+    - io-validate-document-boundary
   prerequisites: []
   brief: Leia uma configuração do fluxo recebido, aceitando somente um documento válido com nome não vazio
     e tentativas entre zero e cinco.
@@ -767,6 +779,9 @@ challenges:
   competencies:
     primary:
     - io-preserve-reader-errors
+    secondary:
+    - io-read-fragmented-input
+    - io-distinguish-eof
   brief: Recupere o conteúdo completo de uma nota fornecida por Reader, preservando bytes e erros de leitura.
   constraints:
   - Use somente a biblioteca padrão e as entradas recebidas.
@@ -936,6 +951,8 @@ challenges:
   competencies:
     primary:
     - io-reject-unknown-fields
+    secondary:
+    - io-validate-document-boundary
   brief: Decodifique uma previsão com estação e temperatura, rejeitando propriedades desconhecidas ou
     documentos adicionais.
   constraints:
@@ -1098,6 +1115,8 @@ challenges:
   competencies:
     primary:
     - io-import-validated-records
+    secondary:
+    - io-parse-quoted-fields
   brief: Importe uma coluna CSV de participantes, preservando campos entre aspas e rejeitando nomes vazios
     ou duplicados.
   constraints:
@@ -1276,6 +1295,8 @@ challenges:
   competencies:
     primary:
     - io-preserve-writer-errors
+    secondary:
+    - io-encode-structured-output
   brief: Escreva um relatório JSON no Writer recebido e preserve qualquer falha de escrita para o chamador.
   constraints:
   - Use somente a biblioteca padrão e as entradas recebidas.

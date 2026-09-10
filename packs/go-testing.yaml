@@ -941,6 +941,45 @@ challenges:
             optional:
             - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
               correta?
+          children:
+          - id: snapshot-readings.verify-bidirectional-isolation
+            kind: micro
+            action: verify
+            target: aliasing
+            title: Verificar isolamento nos dois sentidos
+            instruction:
+              objective: Mude um elemento do snapshot e depois um elemento da entrada, confirmando que nenhuma alteração atravessa a fronteira.
+              scope: Apenas o comportamento de cópia independente.
+            concepts:
+            - testing-input-isolation
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: output-change-isolated
+              kind: structural
+            - id: input-change-isolated
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
+          - id: snapshot-readings.verify-empty-non-nil
+            kind: micro
+            action: verify
+            target: boundary_case
+            title: Verificar vazio não nil
+            instruction:
+              objective: Confirme que entradas nil e vazias produzem uma slice vazia não nil.
+              scope: Apenas o contrato de entrada sem elementos.
+            concepts:
+            - testing-table-cases
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: empty-result-non-nil
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
   fixture:
   - path: go.mod
     content: |

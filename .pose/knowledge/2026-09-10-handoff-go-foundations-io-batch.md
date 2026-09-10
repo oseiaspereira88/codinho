@@ -29,29 +29,36 @@ não tinha trailer; a atribuição foi registrada por pose report com intervalo
 imutável, sem reescrita do histórico. Depois de novos resultados, executar
 pose index antes de preparar review bundle para atualizar evidências derivadas.
 
-go-foundations-packs segue in-progress. Commit ac886fc adiciona go-io (dois
-desafios draft com baseline/reference), manifest e inventário em
-[go-foundations.md](../../docs/catalog/go-foundations.md). Matriz 22/22 passou;
-após ajuste dos critérios intermediários, validação editorial executou 40/40
-checks com expectativas verificadas. Nenhum playtest humano foi declarado.
+go-foundations-packs segue in-progress. Novos commits: dd17450 (go-testing),
+d4f1638 (classificação de erros e catálogo em memória) e 0d78c7c (cinco trilhas).
+Os sete packs estão presentes, com 45 desafios draft (33 A / 10 C / 2 F),
+70 conceitos, 51 competências e 118 nodes. Consulte o inventário em
+[go-foundations.md](../../docs/catalog/go-foundations.md).
+
+Matriz final 23/23 passou, incluindo foundation-track-routing; 43/43 checks
+editoriais foram verificados com baseline/reference. O teste MCP real percorre
+47 posições nas cinco trilhas em modo de autoria usando override explícito:
+comprova alcance e ordem, não resolução dos exercícios ou playtest humano.
+Conteúdo e autoria históricos foram comparados e preservados. Os novos lotes
+usam autor codex e não têm reviewed_by/playtested humano.
 
 ## Next checks
 
-- Puxar go-testing, ainda ausente: um combinado de testes/design conforme a
-  distribuição atual. Completar também um combinado e uma fatia funcional em
-  go-errors. As quatro variantes contextualizadas de I/O e as quatro de testes
-  ainda estão pendentes; não inventar sua entrega a partir de títulos reservados.
-- Resolver a pergunta enviada ao usuário: manter a meta de 44 com proposta de
-  consolidação ou preservar todos e atualizar para 45? Há 33 atômicos existentes,
-  pois go-first-steps tem sete ante seis planejados. Não houve resposta nesta
-  execução; nenhuma meta ou classificação foi alterada.
-- Completar profundidade editorial: inventário atual 54 conceitos, 40
-  competências, 97 nodes e 42 desafios fundamentais (33 A / 8 C / 1 F).
-- Validar autoria pelo catálogo completo, incluindo baseline que falha e
-  referência que passa, sem exigir o check completo em cada microetapa parcial.
-- Manter autor real: novos desafios desta execução usam codex; não substituir
-  a autoria claude dos desafios históricos. Revisão humana/playtest continuam
-  como gates reais antes de published.
+- Puxar variantes contextualizadas de I/O e testes: quatro de cada ainda
+  pendentes, sem aumentar artificialmente a contagem canônica. Revisar a
+  semântica de variant_of e do gate de distribuição antes da autoria.
+- Aprofundar conceitos, competências e nodes: faltam pelo menos 30 conceitos,
+  nove competências e 182 nodes para as metas atuais, sem inflar a árvore com
+  passos redundantes. Os novos lotes usam critérios qualitativos intermediários
+  e check integrado apenas no último micropasso; revisar o legado com cuidado.
+- Resolver a pergunta enviada ao usuário sobre a meta: manter 44 com proposta
+  concreta de consolidação ou preservar todos e atualizar para 45? Não houve
+  resposta nesta execução; nenhuma meta ou classificação foi alterada. Há
+  sete atômicos em go-first-steps onde a distribuição previa seis.
+- As cinco trilhas já têm membros explícitos. Revisar sua progressão pedagógica
+  e cobertura; o teste de roteamento não constitui aprovação pedagógica.
+- Executar revisão e playtest humanos antes de marcar published. A spec não
+  deve ser fechada enquanto os critérios quantitativos/qualitativos faltarem.
 
 ## Risks
 
@@ -68,4 +75,7 @@ Mesmo agente, com decisões de distribuição e playtest a cargo de @oseiasperei
 
 - [Spec de fundamentos](../specs/2026-08-22-go-foundations-packs.md).
 - [Lote de I/O](../reports/2026-09-09-go-io-authoring-batch.md).
+- [Lote de testes](../reports/2026-09-10-go-testing-authoring-batch.md).
+- [Complemento de erros](../reports/2026-09-10-go-errors-authoring-batch.md).
+- [Cinco trilhas](../reports/2026-09-10-foundation-track-routing.md).
 - [Revisão de rascunhos](../reports/2026-09-09-review-agent-authored-catalog-drafts.md).

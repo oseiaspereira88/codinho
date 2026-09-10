@@ -1,7 +1,7 @@
 # Component Assessment: internal-ciassurance (`internal/ciassurance`)
 
 > **Mapeamento de Módulo POSE**: `internal/ciassurance`
-> **Data de Avaliação**: 2026-09-10T00:33:31Z | **Baseline Commit**: ac886fc02602
+> **Data de Avaliação**: 2026-09-10T01:57:42Z | **Baseline Commit**: 0d78c7c03857
 > **Métricas**: 91 LOC Produção | 277 LOC Testes | 3 Arquivos Totais
 > **Linguagens**: go
 > **Saúde de Código**: 0 TODOs | 0 FIXMEs | 0 Panics | 0 Stubs

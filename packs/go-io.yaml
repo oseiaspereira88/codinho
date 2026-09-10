@@ -1086,6 +1086,43 @@ challenges:
             optional:
             - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
               correta?
+          children:
+          - id: decode-weather-fields.verify-null-document
+            kind: micro
+            action: verify
+            target: json_document
+            title: Verificar documento nulo
+            instruction:
+              objective: Confirme que o valor JSON null não é aceito como previsão utilizável.
+              scope: Apenas a validação do documento decodificado.
+            concepts:
+            - io-json-strict-fields
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: null-is-rejected
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
+          - id: decode-weather-fields.verify-trailing-value
+            kind: micro
+            action: verify
+            target: json_document
+            title: Verificar valor posterior
+            instruction:
+              objective: Confirme que um segundo valor JSON após espaços é rejeitado.
+              scope: Apenas a fronteira do documento completo.
+            concepts:
+            - io-eof-boundary
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: trailing-value-is-rejected
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
   fixture:
   - path: go.mod
     content: |

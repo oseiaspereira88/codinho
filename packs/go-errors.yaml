@@ -1,45 +1,108 @@
 schema_version: 1
 id: go-errors
-version: 1.2.0
+version: 1.3.0
 themes:
   - id: errors
     title: Erros
 concepts:
-  - id: error-wrapping-with-percent-w
-    title: Encadeamento de erro com %w
-    content:
-      version: 1
-      explanation: "O verbo %w na função fmt.Errorf cria um erro que envolve outro erro original, preservando a cadeia de causa para inspeção com errors.Is e errors.As sem perder a mensagem contextual."
-      example:
-        context: "reserva de planetário"
-        code: "var ErrSessaoLotada = errors.New(\"sessao esgotada\")\n\nfunc ReservarCadeiraPlanetario(sessaoID string, cadeira int) error {\n\tif cadeira > 50 {\n\t\treturn fmt.Errorf(\"planetario %s: %w\", sessaoID, ErrSessaoLotada)\n\t}\n\treturn nil\n}"
-        explanation: "O erro retornado inclui o identificador da sessão astronômica no prefixo e preserva a sentinela ErrSessaoLotada intacta para verificação pelo chamador."
-      analogy: "Como colocar uma carta dentro de um envelope timbrado do planetário: o envelope adiciona informações de postagem, mas a carta original permanece intacta lá dentro."
-      relation_refs:
-        - kind: relates_to
-          concept_id: errors-as-type-extraction
-  - id: errors-as-type-extraction
-    title: Extração de tipo com errors.As
-  - id: errors-join-aggregation
-    title: Agregação de erros com errors.Join
-  - id: error-translation-at-boundary
-    title: Tradução de erro em uma fronteira
-  - id: error-classification-precedence
-    title: Precedência na classificação de erros
-  - id: error-identity-not-message
-    title: Identidade de erro versus mensagem
-  - id: error-chain-type-traversal
-    title: Extração de tipos em cadeias de erro
-  - id: error-joined-tree-order
-    title: Ordem de tipos em árvores de erros
-  - id: catalog-zero-value
-    title: Valor zero de catálogo em memória
-  - id: catalog-validation-before-mutation
-    title: Validação anterior à mutação
-  - id: catalog-deterministic-list
-    title: Listagem determinística de mapas
-  - id: catalog-value-snapshots
-    title: Snapshots por valor de catálogo
+- id: error-wrapping-with-percent-w
+  title: Encadeamento de erro com %w
+  content:
+    version: 1
+    explanation: O verbo %w na função fmt.Errorf cria um erro que envolve outro erro original, preservando
+      a cadeia de causa para inspeção com errors.Is e errors.As sem perder a mensagem contextual.
+    example:
+      context: reserva de planetário
+      code: "var ErrSessaoLotada = errors.New(\"sessao esgotada\")\n\nfunc ReservarCadeiraPlanetario(sessaoID\
+        \ string, cadeira int) error {\n\tif cadeira > 50 {\n\t\treturn fmt.Errorf(\"planetario %s: %w\"\
+        , sessaoID, ErrSessaoLotada)\n\t}\n\treturn nil\n}"
+      explanation: O erro retornado inclui o identificador da sessão astronômica no prefixo e preserva
+        a sentinela ErrSessaoLotada intacta para verificação pelo chamador.
+    analogy: 'Como colocar uma carta dentro de um envelope timbrado do planetário: o envelope adiciona
+      informações de postagem, mas a carta original permanece intacta lá dentro.'
+    relation_refs:
+    - kind: relates_to
+      concept_id: errors-as-type-extraction
+- id: errors-as-type-extraction
+  title: Extração de tipo com errors.As
+  content:
+    version: 1
+    explanation: 'errors.As procura um erro atribuível ao tipo apontado pelo destino e preenche esse destino
+      quando encontra uma correspondência. Passe um ponteiro para a variável que receberá o erro: para
+      um tipo *SizeError, use uma variável *SizeError e passe seu endereço. Verifique o booleano antes
+      de acessar campos; converter diretamente o erro externo não atravessa wrapping.'
+    example:
+      context: limite de tamanho de uma imagem
+      code: "package example\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n\t\"testing\"\n)\n\ntype SizeError\
+        \ struct{ Limit int }\n\nfunc (e *SizeError) Error() string { return \"image too large\" }\nfunc\
+        \ TestErrorType(t *testing.T) {\n\terr := fmt.Errorf(\"thumbnail: %w\", &SizeError{Limit: 512})\n\
+        \tvar size *SizeError\n\tif !errors.As(err, &size) || size.Limit != 512 {\n\t\tt.Fatal(\"missing\
+        \ typed error\")\n\t}\n\tvar absent *SizeError\n\tif errors.As(errors.New(\"other failure\"),\
+        \ &absent) {\n\t\tt.Fatal(\"unexpected match\")\n\t}\n}\n"
+      explanation: O destino é **SizeError porque a variável receptora é *SizeError. O teste cobre presença
+        por wrapping e ausência; não compara o texto para identificar o tipo.
+    relation_refs:
+    - kind: relates_to
+      concept_id: error-wrapping-with-percent-w
+- id: errors-join-aggregation
+  title: Agregação de erros com errors.Join
+  content:
+    version: 1
+    explanation: errors.Join reúne falhas independentes sem escolher apenas a primeira. Argumentos nil
+      são ignorados; se todos forem nil, o resultado é nil. errors.Is e errors.As podem percorrer os erros
+      agregados. A mensagem combinada serve para diagnóstico, não deve virar um protocolo de classificação
+      por texto.
+    example:
+      context: checagens independentes de um formulário
+      code: "package example\n\nimport (\n\t\"errors\"\n\t\"testing\"\n)\n\nfunc TestJoinedErrors(t *testing.T)\
+        \ {\n\tname := errors.New(\"name missing\")\n\tage := errors.New(\"age invalid\")\n\terr := errors.Join(name,\
+        \ nil, age)\n\tif !errors.Is(err, name) || !errors.Is(err, age) {\n\t\tt.Fatal(\"lost cause\"\
+        )\n\t}\n\tif errors.Join(nil, nil) != nil {\n\t\tt.Fatal(\"empty aggregation must succeed\")\n\
+        \t}\n}\n"
+      explanation: As duas identidades permanecem consultáveis. O exemplo verifica também que uma agregação
+        sem falhas não produz um erro artificial.
+    relation_refs:
+    - kind: relates_to
+      concept_id: error-identity-not-message
+- id: error-translation-at-boundary
+  title: Tradução de erro em uma fronteira
+  content:
+    version: 1
+    explanation: 'Uma fronteira pode traduzir erros internos para um contrato público estável. Decida
+      quais identidades o chamador deve observar: envolver uma causa interna com %w também a expõe por
+      errors.Is e errors.As. Quando a causa não faz parte do contrato público, devolva a categoria pública
+      e preserve diagnóstico interno apenas no canal autorizado, sem dados sensíveis.'
+    example:
+      context: serviço de reserva de bicicletas
+      code: "package example\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n\t\"strings\"\n\t\"testing\"\n)\n\n\
+        var errStorageOffline = errors.New(\"storage offline\")\nvar ErrUnavailable = errors.New(\"reservation\
+        \ unavailable\")\n\nfunc publicError(err error) error {\n\tif err == nil {\n\t\treturn nil\n\t\
+        }\n\treturn ErrUnavailable\n}\nfunc TestBoundary(t *testing.T) {\n\tinternal := fmt.Errorf(\"\
+        adapter: %w\", errStorageOffline)\n\tgot := publicError(internal)\n\tif !errors.Is(got, ErrUnavailable)\
+        \ || errors.Is(got, errStorageOffline) || strings.Contains(got.Error(), \"adapter\") {\n\t\tt.Fatal(\"\
+        public boundary leaked internals\")\n\t}\n\tif publicError(nil) != nil {\n\t\tt.Fatal(\"success\
+        \ became failure\")\n\t}\n}\n"
+      explanation: Esta fronteira ilustrativa transforma qualquer falha em indisponibilidade. Uma API
+        com mais categorias precisa de mapeamento explícito; a mensagem pública não contém a causa interna.
+    relation_refs:
+    - kind: relates_to
+      concept_id: error-identity-not-message
+- id: error-classification-precedence
+  title: Precedência na classificação de erros
+- id: error-identity-not-message
+  title: Identidade de erro versus mensagem
+- id: error-chain-type-traversal
+  title: Extração de tipos em cadeias de erro
+- id: error-joined-tree-order
+  title: Ordem de tipos em árvores de erros
+- id: catalog-zero-value
+  title: Valor zero de catálogo em memória
+- id: catalog-validation-before-mutation
+  title: Validação anterior à mutação
+- id: catalog-deterministic-list
+  title: Listagem determinística de mapas
+- id: catalog-value-snapshots
+  title: Snapshots por valor de catálogo
 competencies:
   - id: wrap-sentinel-with-context
     title: Encadear um erro sentinela preservando o contexto
@@ -2014,4 +2077,10 @@ relations:
     kind: relates_to
   - from: catalog-value-snapshots
     to: go-errors.maintain-memory-catalog
+    kind: relates_to
+  - from: errors-join-aggregation
+    to: error-identity-not-message
+    kind: relates_to
+  - from: error-translation-at-boundary
+    to: error-identity-not-message
     kind: relates_to

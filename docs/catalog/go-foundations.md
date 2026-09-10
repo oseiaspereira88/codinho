@@ -132,3 +132,11 @@ grafo. Os exemplos distinguem leitura curta de EOF, valor JSON de documento
 semânticas. Cada exemplo é executável isoladamente como teste Go e usa apenas
 memória, sem rede ou arquivos externos. O pack segue draft; as contagens de
 conceitos e desafios permanecem iguais.
+
+## Conteúdo de apoio em erros
+
+O pack go-errors 1.3.0 complementa o conteúdo existente de wrapping com
+explicações e exemplos isolados de errors.As, errors.Join e tradução na
+fronteira. Os exemplos verificam presença e ausência de tipo, preservação de
+causas agregadas, agregação vazia e separação entre erro público e causa interna.
+As contagens e os desafios permanecem iguais; revisão pedagógica está pendente.

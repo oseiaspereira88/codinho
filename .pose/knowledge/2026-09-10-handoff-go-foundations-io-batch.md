@@ -50,7 +50,9 @@ usam autor codex e não têm reviewed_by/playtested humano.
   report e duas modificações documentais declaradas; histórico preservado.
   Avisos globais de arquivos sem atribuição permanecem fora deste lote.
 
-- Continuar conteúdo de apoio nos packs go-errors e go-core. go-testing tem
+- Continuar os oito conceitos restantes de go-errors e depois go-core.
+  errors.As, errors.Join e tradução na fronteira agora têm exemplos isolados;
+  o conteúdo anterior de %w foi preservado. go-testing tem
   conteúdo nos oito conceitos e go-io nos dez, com exemplos Go isolados.
   Esse aprofundamento não altera a contagem de conceitos. O lote de testes
   foi commitado em 237c3bc; consulte os relatórios conceituais de 2026-09-10.
@@ -96,3 +98,5 @@ Mesmo agente, com decisões de distribuição e playtest a cargo de @oseiasperei
 
 - [Conceitos de testes](../reports/2026-09-10-testing-concept-content.md).
 - [Conceitos de I/O](../reports/2026-09-10-io-concept-content.md).
+
+- [Conceitos de erros](../reports/2026-09-10-error-concept-content.md).

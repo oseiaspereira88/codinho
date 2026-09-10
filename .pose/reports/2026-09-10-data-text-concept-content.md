@@ -14,3 +14,11 @@ foi publicado ou avaliado por humano.
 
 Próximo passo: completar os quatro conceitos restantes de go-data-text
 (conjuntos, strconv, capacidade de slice e preservação de espaçamento).
+
+O segundo lote completou esses quatro conceitos. Os exemplos cobrem presença
+com `map[T]struct{}`, erro de parsing, comprimento versus capacidade e
+capitalização preservando separadores. `go run ./cmd/codinho catalog validate
+--checks --json` passou com `diagnostics: null`. Desafios e competências foram
+preservados; revisão humana e publicação continuam pendentes.
+
+Próxima demanda: aprofundar os conceitos sem conteúdo de `go-type-design`.

@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-data-text
-version: 1.1.0
+version: 1.2.0
 themes:
   - id: slices-arrays-maps
     title: Slices, arrays e maps
@@ -122,12 +122,116 @@ concepts:
           concept_id: rune-aware-whitespace-preservation
   - id: set-membership-with-empty-struct-map
     title: Conjunto de pertencimento com map[T]struct{}
+    content:
+      version: 1
+      explanation: Um map[T]struct{} representa presença sem armazenar um valor útil. A escrita usa a struct vazia e a leitura usa comma-ok. O conjunto não preserva ordem; se a saída precisar ser determinística, copie as chaves e ordene separadamente.
+      example:
+        context: permissões de usuário
+        code: |
+          package example
+
+          import "testing"
+
+          func hasAll(roles []string, wanted string) bool {
+              set := make(map[string]struct{}, len(roles))
+              for _, role := range roles { set[role] = struct{}{} }
+              _, ok := set[wanted]
+              return ok
+          }
+
+          func TestSet(t *testing.T) {
+              if !hasAll([]string{"reader", "writer"}, "writer") { t.Fatal("missing role") }
+              if hasAll(nil, "reader") { t.Fatal("unexpected role") }
+          }
+        explanation: A presença é o único dado necessário; struct{} não adiciona carga de valor ao conjunto.
+      relation_refs:
+        - kind: relates_to
+          concept_id: map-comma-ok-lookup
   - id: strconv-error-handling
     title: Tratamento do erro de strconv
+    content:
+      version: 1
+      explanation: strconv retorna o valor convertido junto com um error. Ignore o valor quando o erro não for nil; ele pode ser parcial ou zero e não constitui entrada válida. Defina bitSize e base de forma explícita para tornar o limite do contrato observável.
+      example:
+        context: leitura de quantidade
+        code: |
+          package example
+
+          import (
+              "strconv"
+              "testing"
+          )
+
+          func parseCount(text string) (int, error) {
+              value, err := strconv.Atoi(text)
+              if err != nil { return 0, err }
+              return value, nil
+          }
+
+          func TestParse(t *testing.T) {
+              if got, err := parseCount("12"); err != nil || got != 12 { t.Fatal(got, err) }
+              if _, err := parseCount("12x"); err == nil { t.Fatal("invalid input accepted") }
+          }
+        explanation: O caminho de erro não transforma um prefixo num número aceito.
+      relation_refs:
+        - kind: relates_to
+          concept_id: map-comma-ok-lookup
   - id: slice-preallocation-length-vs-capacity
     title: Pré-alocação de slice — comprimento versus capacidade
+    content:
+      version: 1
+      explanation: make([]T, length, capacity) cria length posições acessíveis e capacidade para crescimento até o limite indicado. Para preencher com append, comece com comprimento zero; começar com length e depois usar append deixa posições zero extras. Capacidade reduz realocações, mas não promete um backing array permanente.
+      example:
+        context: coleta de resultados
+        code: |
+          package example
+
+          import "testing"
+
+          func collect(values []int) []int {
+              out := make([]int, 0, len(values))
+              for _, value := range values { out = append(out, value*2) }
+              return out
+          }
+
+          func TestCollect(t *testing.T) {
+              got := collect([]int{2, 3})
+              if len(got) != 2 || got[0] != 4 || got[1] != 6 { t.Fatal(got) }
+          }
+        explanation: comprimento zero evita itens fictícios; a capacidade reserva espaço para os dois append.
+      relation_refs:
+        - kind: relates_to
+          concept_id: slice-backing-array-aliasing
   - id: rune-aware-whitespace-preservation
     title: Preservação de espaçamento consciente de rune
+    content:
+      version: 1
+      explanation: Normalizar palavras sem destruir o espaçamento exige separar conteúdo e separadores. strings.Fields colapsa espaços e remove bordas; use-o apenas quando essa perda fizer parte do contrato. Para preservar a forma original, percorra runes e transforme apenas a primeira letra de cada trecho não vazio.
+      example:
+        context: títulos com espaçamento editorial
+        code: |
+          package example
+
+          import "testing"
+
+          func capitalize(text string) string {
+              runes := []rune(text)
+              inWord := false
+              for i, r := range runes {
+                  if r == ' ' || r == '\t' { inWord = false; continue }
+                  if !inWord && r >= 'a' && r <= 'z' { runes[i] = r - ('a' - 'A') }
+                  inWord = true
+              }
+              return string(runes)
+          }
+
+          func TestCapitalize(t *testing.T) {
+              if got := capitalize("  café\tcom leite"); got != "  Café\tCom Leite" { t.Fatal(got) }
+          }
+        explanation: O separador original permanece no lugar e a decisão de capitalização conta runes.
+      relation_refs:
+        - kind: relates_to
+          concept_id: utf8-rune-boundary
 competencies:
   - id: filter-without-mutating-input
     title: Filtrar uma coleção sem mutar a entrada
@@ -2539,4 +2643,16 @@ relations:
     kind: relates_to
   - from: csv-field-quoting
     to: rune-aware-whitespace-preservation
+    kind: relates_to
+  - from: set-membership-with-empty-struct-map
+    to: map-comma-ok-lookup
+    kind: relates_to
+  - from: strconv-error-handling
+    to: map-comma-ok-lookup
+    kind: relates_to
+  - from: slice-preallocation-length-vs-capacity
+    to: slice-backing-array-aliasing
+    kind: relates_to
+  - from: rune-aware-whitespace-preservation
+    to: utf8-rune-boundary
     kind: relates_to

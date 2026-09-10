@@ -1,10 +1,31 @@
 schema_version: 1
 id: go-debugging
-version: 1.0.0
+version: 1.1.0
 themes: []
 concepts:
   - id: slice-bounds
     title: Limites de um slice
+    content:
+      version: 1
+      explanation: Uma slice tem índices válidos de zero até len(values)-1. len(values) é a quantidade de elementos, portanto não é um índice válido; usar esse valor diretamente causa panic. Antes de indexar, trate slices vazias quando elas forem permitidas pelo contrato.
+      example:
+        context: último item de uma lista
+        code: |
+          package example
+
+          import "testing"
+
+          func last(values []int) (int, bool) {
+              if len(values) == 0 { return 0, false }
+              return values[len(values)-1], true
+          }
+
+          func TestLast(t *testing.T) {
+              if got, ok := last([]int{1, 2, 3}); !ok || got != 3 { t.Fatal(got, ok) }
+              if _, ok := last(nil); ok { t.Fatal("empty slice accepted") }
+          }
+        explanation: A guarda trata a slice vazia e -1 transforma o comprimento no último índice válido.
+      relation_refs: []
 competencies:
   - id: debug-slice-bounds
     title: Diagnosticar um erro de limite em slice

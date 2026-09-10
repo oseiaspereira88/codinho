@@ -781,6 +781,43 @@ challenges:
             optional:
             - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
               correta?
+          children:
+          - id: check-ticket-boundary.verify-equality
+            kind: micro
+            action: verify
+            target: boundary_case
+            title: Verificar igualdade como expirado
+            instruction:
+              objective: Confirme que o ingresso deixa de ser válido exatamente no instante de expiração.
+              scope: Apenas o caso end igual a now.
+            concepts:
+            - testing-time-boundaries
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: equality-is-expired
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
+          - id: check-ticket-boundary.verify-timezone-equivalence
+            kind: micro
+            action: verify
+            target: boundary_case
+            title: Verificar equivalência entre fusos
+            instruction:
+              objective: Use representações em fusos diferentes para o mesmo instante e confirme resultado idêntico.
+              scope: Apenas a comparação de instantes absolutos.
+            concepts:
+            - testing-time-boundaries
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: timezone-does-not-change-result
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
   fixture:
   - path: go.mod
     content: |

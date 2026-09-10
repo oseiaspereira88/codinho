@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-data-text
-version: 1.0.0
+version: 1.1.0
 themes:
   - id: slices-arrays-maps
     title: Slices, arrays e maps
@@ -9,12 +9,117 @@ themes:
 concepts:
   - id: slice-backing-array-aliasing
     title: Aliasing do backing array de uma slice
+    content:
+      version: 1
+      explanation: Uma slice é um descritor que aponta para um backing array. Duas slices podem compartilhar esse array mesmo quando foram obtidas por fatiamento; escrever em uma pode alterar a outra. append pode reutilizar a capacidade disponível ou alocar outro array, então não use essa operação como garantia de isolamento. Copie explicitamente quando a saída não puder compartilhar armazenamento.
+      example:
+        context: cópia de uma seleção
+        code: |
+          package example
+
+          import "testing"
+
+          func clone(values []int) []int {
+              out := make([]int, len(values))
+              copy(out, values)
+              return out
+          }
+
+          func TestClone(t *testing.T) {
+              input := []int{1, 2, 3}
+              out := clone(input)
+              out[0] = 9
+              if input[0] != 1 { t.Fatal("clone aliases input") }
+          }
+        explanation: copy transfere os valores para um backing array próprio; a alteração posterior da saída não alcança a entrada.
+      relation_refs:
+        - kind: relates_to
+          concept_id: slice-preallocation-length-vs-capacity
   - id: utf8-rune-boundary
     title: Fronteira de rune em UTF-8
+    content:
+      version: 1
+      explanation: String em Go é uma sequência de bytes; UTF-8 pode representar um rune com vários bytes. Cortar por índice de byte pode produzir texto inválido. Converta para []rune quando a regra for baseada em caracteres Unicode, aceitando o custo de uma nova representação.
+      example:
+        context: limite de título
+        code: |
+          package example
+
+          import "testing"
+
+          func prefix(text string, n int) string {
+              runes := []rune(text)
+              if n < 0 { n = 0 }
+              if n > len(runes) { n = len(runes) }
+              return string(runes[:n])
+          }
+
+          func TestPrefix(t *testing.T) {
+              if got := prefix("café", 4); got != "café" { t.Fatal(got) }
+              if got := prefix("café", 3); got != "caf" { t.Fatal(got) }
+          }
+        explanation: O limite conta runes e nunca separa o é em seus bytes.
+      relation_refs:
+        - kind: relates_to
+          concept_id: rune-aware-whitespace-preservation
   - id: map-comma-ok-lookup
     title: Consulta a map com comma-ok
+    content:
+      version: 1
+      explanation: A leitura m[key] devolve o valor zero tanto quando a chave existe com valor zero quanto quando está ausente. A forma value, ok distingue esses casos. Use ok para decisões de presença e não compare o valor com o zero do tipo.
+      example:
+        context: estoque por código
+        code: |
+          package example
+
+          import "testing"
+
+          func quantity(stock map[string]int, code string) (int, bool) {
+              value, ok := stock[code]
+              return value, ok
+          }
+
+          func TestQuantity(t *testing.T) {
+              stock := map[string]int{"A": 0}
+              if value, ok := quantity(stock, "A"); value != 0 || !ok { t.Fatal(value, ok) }
+              if _, ok := quantity(stock, "B"); ok { t.Fatal("unexpected key") }
+          }
+        explanation: O mesmo valor zero representa dois estados, separados pelo booleano ok.
+      relation_refs:
+        - kind: relates_to
+          concept_id: set-membership-with-empty-struct-map
   - id: csv-field-quoting
     title: Regras de citação de campo CSV
+    content:
+      version: 1
+      explanation: Um campo CSV que contém vírgula, aspas ou quebra de linha precisa ser citado; uma aspa interna é representada por duas aspas. O pacote encoding/csv implementa as regras e evita que uma decisão parcial quebre a estrutura de registros. Prefira o Writer a concatenar strings manualmente.
+      example:
+        context: exportação de nomes
+        code: |
+          package example
+
+          import (
+              "encoding/csv"
+              "strings"
+              "testing"
+          )
+
+          func encode(name string) string {
+              var b strings.Builder
+              w := csv.NewWriter(&b)
+              _ = w.Write([]string{name, "ok"})
+              w.Flush()
+              return b.String()
+          }
+
+          func TestEncode(t *testing.T) {
+              if got := encode("Silva, Ana"); got != "\"Silva, Ana\",ok\n" { t.Fatal(got) }
+              if got := encode(`A "B"`); got != `"A ""B""",ok`+"\n" { t.Fatal(got) }
+          }
+        explanation: Writer cita a vírgula e duplica as aspas internas conforme o formato.
+      relation_refs:
+        - kind: relates_to
+          concept_id: rune-aware-whitespace-preservation
   - id: set-membership-with-empty-struct-map
     title: Conjunto de pertencimento com map[T]struct{}
   - id: strconv-error-handling
@@ -2422,4 +2527,16 @@ relations:
     kind: relates_to
   - from: go-data-text.format-names-as-csv-fields
     to: go-data-text.build-scores-from-entries
+    kind: relates_to
+  - from: slice-backing-array-aliasing
+    to: slice-preallocation-length-vs-capacity
+    kind: relates_to
+  - from: utf8-rune-boundary
+    to: rune-aware-whitespace-preservation
+    kind: relates_to
+  - from: map-comma-ok-lookup
+    to: set-membership-with-empty-struct-map
+    kind: relates_to
+  - from: csv-field-quoting
+    to: rune-aware-whitespace-preservation
     kind: relates_to

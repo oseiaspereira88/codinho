@@ -1102,6 +1102,43 @@ challenges:
             reflection:
               optional:
                 - Por que a constraint any não seria suficiente para comparar elementos com == dentro de Contains?
+            children:
+              - id: model.verify-comparable-instantiations
+                kind: micro
+                action: verify
+                target: function
+                title: Verificar instanciações comparáveis
+                instruction:
+                  objective: Execute Contains com int, string, bool e struct comparável, confirmando que a mesma função atende aos quatro tipos.
+                  scope: Apenas as instanciações cobertas pela fixture.
+                concepts: [generic-comparable-constraint]
+                evidence:
+                  strategies: [compile]
+                criteria:
+                  - id: multiple-comparable-types
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
+              - id: model.verify-empty-and-late-match
+                kind: micro
+                action: verify
+                target: boundary_case
+                title: Verificar slice vazia e correspondência tardia
+                instruction:
+                  objective: Confira que uma slice vazia retorna false e que um valor no fim de uma slice longa é encontrado.
+                  scope: Apenas os casos de fronteira de busca.
+                concepts: [generic-comparable-constraint]
+                evidence:
+                  strategies: [compile]
+                criteria:
+                  - id: empty-slice-false
+                    kind: structural
+                  - id: late-match-found
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
     fixture:
       - path: go.mod
         content: |

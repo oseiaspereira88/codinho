@@ -929,6 +929,40 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+          - id: model.inspect-module-with-go-list
+            kind: micro
+            action: verify
+            target: module
+            title: Inspecionar o módulo com uma ferramenta Go
+            instruction:
+              objective: Use uma ferramenta local do Go para confirmar que o module path declarado identifica o pacote do exercício.
+              scope: Somente a inspeção do módulo; não adicione dependências.
+            concepts: [go-modules]
+            evidence:
+              strategies: [source_inspection, compile]
+            criteria:
+              - id: module-resolves
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+          - id: model.confirm-supported-go-version
+            kind: micro
+            action: reflect
+            target: module
+            title: Confirmar a versão suportada
+            instruction:
+              objective: Relacione a diretiva go do exercício à versão mínima declarada pelo contrato, sem confundi-la com a versão instalada.
+              scope: Apenas a justificativa da compatibilidade.
+            concepts: [go-version-directive]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: minimum-version-understood
+                kind: qualitative
+            completion:
+              requires_positive_evaluation: false
+              requires_user_confirmation: true
     variants: []
 
   - schema_version: 1
@@ -1246,6 +1280,41 @@ challenges:
             reflection:
               optional:
                 - O que go vet reportaria se você usasse %s para o número de tentativas?
+            children:
+              - id: model.run-format-check
+                kind: micro
+                action: verify
+                target: package
+                title: Executar a verificação de formatação
+                instruction:
+                  objective: Execute o verificador do pacote e confirme que os verbos usados correspondem aos tipos dos argumentos.
+                  scope: Somente a verificação após implementar a mensagem.
+                concepts: [printf-verb-matching]
+                evidence:
+                  strategies: [compile]
+                criteria:
+                  - id: format-check-passes
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
+              - id: model.compare-message-boundary
+                kind: micro
+                action: verify
+                target: output
+                title: Comparar a mensagem com o contrato
+                instruction:
+                  objective: Compare a mensagem produzida com o texto esperado, incluindo o nome e a quantidade de tentativas.
+                  scope: Apenas a saída observável; não altere a função.
+                concepts: [printf-verb-matching]
+                evidence:
+                  strategies: [compile]
+                criteria:
+                  - id: message-boundary-matches
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
     fixture:
       - path: go.mod
         content: |

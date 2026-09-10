@@ -31,8 +31,9 @@ pose index antes de preparar review bundle para atualizar evidências derivadas.
 
 go-foundations-packs segue in-progress. Novos commits: dd17450 (go-testing),
 d4f1638 (classificação de erros e catálogo em memória) e 0d78c7c (cinco trilhas).
-Os sete packs estão presentes, com 45 desafios draft (33 A / 10 C / 2 F),
-70 conceitos, 51 competências e 118 nodes. Consulte o inventário em
+Os sete packs estão presentes, com 45 bases draft (33 A / 10 C / 2 F),
+70 conceitos, 51 competências e 118 nodes nas bases. Há ainda oito variantes
+atômicas draft e seus 32 nodes, fora da contagem de bases. Consulte o inventário em
 [go-foundations.md](../../docs/catalog/go-foundations.md).
 
 Matriz final 23/23 passou, incluindo foundation-track-routing; 51/51 checks
@@ -44,9 +45,14 @@ usam autor codex e não têm reviewed_by/playtested humano.
 
 ## Next checks
 
-- Continuar o conteúdo de apoio em go-io: go-testing agora tem explanation,
-  example e relation_refs nos oito conceitos existentes, com exemplos Go
-  isolados verificados. Esse aprofundamento não altera a contagem de conceitos.
+- Reconciliar artifact-check da spec: quatro criações de packs não atribuídas
+  e dois documentos não declarados. Consultar o relatório conceitual de I/O;
+  não reclassificar ações nem reescrever histórico sem conferir commits reais.
+
+- Continuar conteúdo de apoio nos packs go-errors e go-core. go-testing tem
+  conteúdo nos oito conceitos e go-io nos dez, com exemplos Go isolados.
+  Esse aprofundamento não altera a contagem de conceitos. O lote de testes
+  foi commitado em 237c3bc; consulte os relatórios conceituais de 2026-09-10.
 
 - Revisar pedagogicamente as oito variantes de I/O/testes agora autoradas.
   Todas usam variant_of, canonical false e uma competência da origem; seus
@@ -86,3 +92,6 @@ Mesmo agente, com decisões de distribuição e playtest a cargo de @oseiasperei
 - [Revisão de rascunhos](../reports/2026-09-09-review-agent-authored-catalog-drafts.md).
 
 - [Oito variantes](../reports/2026-09-10-foundation-variants-authoring-batch.md).
+
+- [Conceitos de testes](../reports/2026-09-10-testing-concept-content.md).
+- [Conceitos de I/O](../reports/2026-09-10-io-concept-content.md).

@@ -120,6 +120,7 @@ conceitos / ≥60 competências / ≥300 step nodes (R1's threshold em
 `catalog-authoring-quality` R9 `--v1-gate`).
 
 ### Implementation
+- [x] Aprofundar os dez conceitos existentes de go-io com explicações, exemplos Go isolados e referências ligadas ao grafo; preservar desafios/fixtures e verificar exemplos e matriz strict. Consumir knowledge:go-foundations-io-batch.
 - [x] Aprofundar os oito conceitos existentes de go-testing com explanation/example e referências conceituais válidas; preservar desafios e fixtures. Validar exemplos Go isolados, catálogo e matriz strict. Consumir knowledge:go-foundations-io-batch.
 - [x] Lote de variantes: quatro atômicas em go-io e quatro em go-testing, com variant_of, canonical false, uma competência compartilhada com a origem e fixtures próprias. Manter 45 bases de autoria; variantes não suprem o déficit de profundidade das bases. Consumir knowledge:go-foundations-io-batch.
 - [x] Compor as cinco trilhas previstas usando desafios existentes e verificar início/travessia por MCP real em modo de autoria; não publicar conteúdo nem alterar a contagem canônica.

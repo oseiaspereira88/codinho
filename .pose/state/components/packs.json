@@ -2,8 +2,8 @@
   "schema_version": 1,
   "component_slug": "packs",
   "path": "packs",
-  "discovered_at": "2026-09-10T02:10:17Z",
-  "baseline_commit": "43dba55c4402",
+  "discovered_at": "2026-09-10T13:26:57Z",
+  "baseline_commit": "237c3bc00b60",
   "metrics": {
     "loc_production": 0,
     "loc_tests": 0,

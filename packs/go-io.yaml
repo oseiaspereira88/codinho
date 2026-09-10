@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-io
-version: 1.1.0
+version: 1.2.0
 publication:
   status: draft
   author: codex
@@ -10,24 +10,197 @@ themes:
 concepts:
 - id: io-reader-stream
   title: Leitura por interface e fluxo
+  content:
+    version: 1
+    explanation: Um io.Reader fornece bytes por chamadas a Read, sem exigir que o consumidor conheça sua
+      origem. Um fluxo pode ser consumido progressivamente e não implica tamanho conhecido ou possibilidade
+      de voltar ao início. io.ReadAll é conveniente para entradas pequenas e confiáveis, mas acumula toda
+      a entrada em memória.
+    example:
+      context: texto em memória
+      code: "package example\n\nimport (\n\t\"io\"\n\t\"strings\"\n\t\"testing\"\n)\n\nfunc TestReader(t\
+        \ *testing.T) {\n\tvar r io.Reader = strings.NewReader(\"vento\")\n\tgot, err := io.ReadAll(r)\n\
+        \tif err != nil || string(got) != \"vento\" {\n\t\tt.Fatalf(\"%q %v\", got, err)\n\t}\n}\n"
+      explanation: O consumidor depende de io.Reader; strings.Reader fornece a origem em memória. A decisão
+        de acumular tudo precisa considerar o limite de tamanho da entrada.
+    relation_refs:
+    - kind: relates_to
+      concept_id: io-partial-reads
 - id: io-partial-reads
   title: Leituras parciais
+  content:
+    version: 1
+    explanation: Read pode preencher apenas parte do buffer, sem que isso signifique fim da entrada. Considere
+      somente os primeiros n bytes retornados e continue conforme o erro. Não interprete o restante do
+      buffer como dados novos nem suponha que uma chamada entregue o documento inteiro.
+    example:
+      context: entrada entregue byte a byte
+      code: "package example\n\nimport (\n\t\"io\"\n\t\"strings\"\n\t\"testing\"\n\t\"testing/iotest\"\
+        \n)\n\nfunc TestFragments(t *testing.T) {\n\tr := iotest.OneByteReader(strings.NewReader(\"sol\"\
+        ))\n\tbuf := make([]byte, 8)\n\tn, err := r.Read(buf)\n\tif n != 1 || err != nil || string(buf[:n])\
+        \ != \"s\" {\n\t\tt.Fatalf(\"n=%d err=%v\", n, err)\n\t}\n\trest, err := io.ReadAll(r)\n\tif err\
+        \ != nil || string(rest) != \"ol\" {\n\t\tt.Fatalf(\"%q %v\", rest, err)\n\t}\n}\n"
+      explanation: Mesmo com espaço para oito bytes, a primeira leitura retorna um. A chamada seguinte
+        ainda encontra conteúdo; uma leitura curta não é EOF.
+    relation_refs:
+    - kind: relates_to
+      concept_id: io-eof-boundary
 - id: io-eof-boundary
   title: Fim de entrada e erros de leitura
+  content:
+    version: 1
+    explanation: Uma leitura pode retornar bytes úteis junto com io.EOF ou outro erro. Processe os n bytes
+      antes de decidir como tratar o erro. EOF informa fim normal do fluxo; não é um documento inválido
+      por si só. Um formato que exige mais dados pode transformar um término precoce em erro de conteúdo.
+    example:
+      context: últimos bytes de uma mensagem
+      code: "package example\n\nimport (\n\t\"io\"\n\t\"testing\"\n)\n\ntype tailReader struct{ offset\
+        \ int }\n\nfunc (r *tailReader) Read(p []byte) (int, error) {\n\tif len(p) == 0 {\n\t\treturn\
+        \ 0, nil\n\t}\n\tn := copy(p, \"ok\"[r.offset:])\n\tr.offset += n\n\tif r.offset == 2 {\n\t\t\
+        return n, io.EOF\n\t}\n\treturn n, nil\n}\nfunc TestLastBytes(t *testing.T) {\n\tr := &tailReader{}\n\
+        \tbuf := make([]byte, 2)\n\tn, err := r.Read(buf)\n\tif n != 2 || string(buf[:n]) != \"ok\" ||\
+        \ err != io.EOF {\n\t\tt.Fatalf(\"n=%d err=%v\", n, err)\n\t}\n}\n"
+      explanation: A chamada devolve conteúdo e EOF juntos. O dublê acompanha os bytes consumidos e também
+        aceita buffers menores, preservando o restante para a próxima chamada.
+    relation_refs:
+    - kind: relates_to
+      concept_id: io-partial-reads
 - id: io-json-decoder
   title: Decodificação JSON a partir de Reader
+  content:
+    version: 1
+    explanation: json.Decoder lê valores JSON de um Reader. Uma chamada a Decode consome um valor, não
+      certifica que a entrada inteira contém somente esse valor. Para um contrato de documento único,
+      é necessário verificar o que vem depois. Uma sequência de valores pode ser válida quando o protocolo
+      permite um fluxo.
+    example:
+      context: sequência de medições
+      code: "package example\n\nimport (\n\t\"encoding/json\"\n\t\"io\"\n\t\"strings\"\n\t\"testing\"\n\
+        )\n\nfunc TestJSONStream(t *testing.T) {\n\td := json.NewDecoder(strings.NewReader(\"12 15\"))\n\
+        \tvar first, second int\n\tif err := d.Decode(&first); err != nil {\n\t\tt.Fatal(err)\n\t}\n\t\
+        if err := d.Decode(&second); err != nil {\n\t\tt.Fatal(err)\n\t}\n\tvar extra int\n\tif err :=\
+        \ d.Decode(&extra); err != io.EOF {\n\t\tt.Fatalf(\"got %v\", err)\n\t}\n\tif first != 12 || second\
+        \ != 15 {\n\t\tt.Fatal(first, second)\n\t}\n}\n"
+      explanation: As duas medições são lidas por chamadas distintas. A terceira encontra EOF; a primeira
+        sozinha não comprovaria ausência de conteúdo adicional.
+    relation_refs:
+    - kind: relates_to
+      concept_id: io-eof-boundary
 - id: io-json-strict-fields
   title: Campos JSON desconhecidos
+  content:
+    version: 1
+    explanation: Ao decodificar um objeto em struct, campos JSON sem correspondência são ignorados por
+      padrão. DisallowUnknownFields transforma esse caso em erro e ajuda a detectar nomes incorretos.
+      Ele não torna campos obrigatórios, não valida regras de negócio e não proíbe por si só valores posteriores.
+    example:
+      context: etiqueta de uma caixa
+      code: "package example\n\nimport (\n\t\"encoding/json\"\n\t\"strings\"\n\t\"testing\"\n)\n\nfunc\
+        \ TestUnknownFields(t *testing.T) {\n\td := json.NewDecoder(strings.NewReader(`{\"label\":\"azul\"\
+        ,\"lable\":\"verde\"}`))\n\td.DisallowUnknownFields()\n\tvar box struct {\n\t\tLabel string `json:\"\
+        label\"`\n\t}\n\tif err := d.Decode(&box); err == nil {\n\t\tt.Fatal(\"unknown field accepted\"\
+        )\n\t}\n}\n"
+      explanation: O campo lable provoca erro. Não se deve confiar no valor parcialmente preenchido depois
+        de uma falha de decodificação.
+    relation_refs:
+    - kind: relates_to
+      concept_id: io-json-decoder
 - id: io-csv-quoted-fields
   title: Campos CSV entre aspas
+  content:
+    version: 1
+    explanation: CSV permite delimitadores e quebras de linha dentro de campos entre aspas. Separar o
+      texto diretamente por vírgulas perde essa estrutura. Use encoding/csv para interpretar o formato
+      e faça a validação do significado dos campos depois da leitura.
+    example:
+      context: descrição de um objeto
+      code: "package example\n\nimport (\n\t\"encoding/csv\"\n\t\"strings\"\n\t\"testing\"\n)\n\nfunc\
+        \ TestQuotedCSV(t *testing.T) {\n\tr := csv.NewReader(strings.NewReader(\"\\\"pedra, azul\\\"\
+        ,2\\n\"))\n\trow, err := r.Read()\n\tif err != nil || len(row) != 2 || row[0] != \"pedra, azul\"\
+        \ || row[1] != \"2\" {\n\t\tt.Fatalf(\"%q %v\", row, err)\n\t}\n}\n"
+      explanation: A vírgula dentro das aspas pertence à descrição. A linha tem dois campos; não três.
+    relation_refs:
+    - kind: relates_to
+      concept_id: io-csv-record-width
 - id: io-writer-errors
   title: Propagação de erros de escrita
+  content:
+    version: 1
+    explanation: Writer.Write informa quantos bytes aceitou e um erro quando não consegue aceitar todos.
+      Uma operação pode deixar saída parcial antes de falhar. Preserve o erro para o chamador e não prometa
+      desfazer bytes já enviados. Verifique n e err ao implementar operações que escrevem diretamente.
+    example:
+      context: destino que recusa dados
+      code: "package example\n\nimport (\n\t\"errors\"\n\t\"io\"\n\t\"testing\"\n)\n\ntype rejectingWriter\
+        \ struct{ err error }\n\nfunc (w rejectingWriter) Write([]byte) (int, error) { return 0, w.err\
+        \ }\nfunc TestWriterFailure(t *testing.T) {\n\twant := errors.New(\"destination unavailable\"\
+        )\n\tvar w io.Writer = rejectingWriter{want}\n\tn, err := w.Write([]byte(\"abc\"))\n\tif n !=\
+        \ 0 || !errors.Is(err, want) {\n\t\tt.Fatalf(\"n=%d err=%v\", n, err)\n\t}\n}\n"
+      explanation: O destino rejeita toda a escrita e devolve a mesma identidade de erro. Outros destinos
+        podem aceitar um prefixo antes da falha.
+    relation_refs:
+    - kind: relates_to
+      concept_id: io-json-encode
 - id: io-validate-before-write
   title: Validar antes de produzir saída
+  content:
+    version: 1
+    explanation: 'Validar toda a entrada antes da primeira escrita impede que uma entrada inválida produza
+      saída parcial. Isso difere de garantir escrita atômica: o destino ainda pode falhar depois de aceitar
+      bytes. Acumular dados para validar também tem custo de memória, que deve ser compatível com o tamanho
+      permitido.'
+    example:
+      context: publicação de um rótulo
+      code: "package example\n\nimport (\n\t\"bytes\"\n\t\"errors\"\n\t\"io\"\n\t\"testing\"\n)\n\nfunc\
+        \ emitLabel(w io.Writer, label string) error {\n\tif label == \"\" {\n\t\treturn errors.New(\"\
+        empty label\")\n\t}\n\t_, err := io.WriteString(w, label)\n\treturn err\n}\nfunc TestValidateFirst(t\
+        \ *testing.T) {\n\tvar out bytes.Buffer\n\tif err := emitLabel(&out, \"\"); err == nil || out.Len()\
+        \ != 0 {\n\t\tt.Fatal(\"invalid input produced output\")\n\t}\n\tif err := emitLabel(&out, \"\
+        azul\"); err != nil || out.String() != \"azul\" {\n\t\tt.Fatal(out.String(), err)\n\t}\n}\n"
+      explanation: A regra de rótulo vazio é verificada antes da escrita. O teste usa memória; não demonstra
+        rollback ou atomicidade de um destino externo.
+    relation_refs:
+    - kind: relates_to
+      concept_id: io-writer-errors
 - id: io-csv-record-width
   title: Largura consistente de registros CSV
+  content:
+    version: 1
+    explanation: csv.Reader pode exigir a mesma quantidade de campos em todos os registros. FieldsPerRecord
+      igual a zero usa a primeira linha como referência; um valor positivo fixa a largura, e um negativo
+      permite larguras variadas. Uma largura correta não garante cabeçalho nem valores semanticamente
+      válidos.
+    example:
+      context: linhas de uma tabela de cores
+      code: "package example\n\nimport (\n\t\"encoding/csv\"\n\t\"errors\"\n\t\"strings\"\n\t\"testing\"\
+        \n)\n\nfunc TestCSVWidth(t *testing.T) {\n\tr := csv.NewReader(strings.NewReader(\"color,count\\\
+        nblue,2,extra\\n\"))\n\tif _, err := r.Read(); err != nil {\n\t\tt.Fatal(err)\n\t}\n\tif _, err\
+        \ := r.Read(); !errors.Is(err, csv.ErrFieldCount) {\n\t\tt.Fatalf(\"got %v\", err)\n\t}\n}\n"
+      explanation: O cabeçalho estabelece dois campos. A linha seguinte viola a largura; o erro não deve
+        ser ignorado mesmo que Read retorne campos junto dele.
+    relation_refs:
+    - kind: relates_to
+      concept_id: io-csv-quoted-fields
 - id: io-json-encode
   title: Codificação JSON em Writer
+  content:
+    version: 1
+    explanation: json.Encoder escreve a representação JSON de um valor no Writer recebido. Encode acrescenta
+      uma quebra de linha e pode falhar tanto na serialização quanto na escrita. Tags definem nomes de
+      campos de structs; campos não exportados não são serializados normalmente. Confira o contrato do
+      formato e propague erros.
+    example:
+      context: serialização de uma cor
+      code: "package example\n\nimport (\n\t\"bytes\"\n\t\"encoding/json\"\n\t\"testing\"\n)\n\nfunc TestJSONOutput(t\
+        \ *testing.T) {\n\tvar out bytes.Buffer\n\tvalue := struct {\n\t\tName string `json:\"name\"`\n\
+        \t}{\"azul\"}\n\tif err := json.NewEncoder(&out).Encode(value); err != nil {\n\t\tt.Fatal(err)\n\
+        \t}\n\tif out.String() != \"{\\\"name\\\":\\\"azul\\\"}\\n\" {\n\t\tt.Fatalf(\"%q\", out.String())\n\
+        \t}\n}\n"
+      explanation: O nome exportado Name aparece como name por causa da tag. O teste inclui a quebra de
+        linha que Encode acrescenta.
+    relation_refs:
+    - kind: relates_to
+      concept_id: io-writer-errors
 competencies:
 - id: io-decode-one-json
   title: Decodificar exatamente um documento JSON
@@ -1337,4 +1510,34 @@ relations:
   kind: relates_to
 - from: go-io.import-csv-inventory
   to: go-io.write-result-report
+  kind: relates_to
+- from: io-reader-stream
+  to: io-partial-reads
+  kind: relates_to
+- from: io-partial-reads
+  to: io-eof-boundary
+  kind: relates_to
+- from: io-eof-boundary
+  to: io-partial-reads
+  kind: relates_to
+- from: io-json-decoder
+  to: io-eof-boundary
+  kind: relates_to
+- from: io-json-strict-fields
+  to: io-json-decoder
+  kind: relates_to
+- from: io-csv-quoted-fields
+  to: io-csv-record-width
+  kind: relates_to
+- from: io-writer-errors
+  to: io-json-encode
+  kind: relates_to
+- from: io-validate-before-write
+  to: io-writer-errors
+  kind: relates_to
+- from: io-csv-record-width
+  to: io-csv-quoted-fields
+  kind: relates_to
+- from: io-json-encode
+  to: io-writer-errors
   kind: relates_to

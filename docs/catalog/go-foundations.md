@@ -123,3 +123,12 @@ profunda e dublês sequenciais versus concorrentes.
 Este aprofundamento mantém as contagens do inventário. Os exemplos foram
 executados como testes Go isolados; sua aprovação não substitui revisão
 pedagógica nem publica o pack draft.
+
+## Conteúdo de apoio em I/O
+
+Os dez conceitos de go-io também têm explicação, exemplo Go e referências no
+grafo. Os exemplos distinguem leitura curta de EOF, valor JSON de documento
+único, validação de entrada de atomicidade de saída e estrutura CSV de regras
+semânticas. Cada exemplo é executável isoladamente como teste Go e usa apenas
+memória, sem rede ou arquivos externos. O pack segue draft; as contagens de
+conceitos e desafios permanecem iguais.

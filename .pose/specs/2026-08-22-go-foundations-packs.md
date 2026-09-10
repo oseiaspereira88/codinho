@@ -144,6 +144,7 @@ conceitos / ≥60 competências / ≥300 step nodes (R1's threshold em
 - [x] Expandir o desafio genérico de pertencimento de go-type-design com nodes de instanciações comparáveis e fronteiras de busca; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir o desafio combinado de clonagem e primeiro Circle de go-type-design com nodes de ordem de busca e isolamento do Registry; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir o desafio de classificação de erros de go-errors com nodes de identidade e precedência agregada; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
+- [x] Expandir o desafio de agregação de erros de go-errors com nodes de identidade das causas e sucesso nil; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Completar conteúdo dos oito conceitos restantes de go-errors com exemplos isolados, relações e preservação de desafios/fixtures; executar exemplos e matriz strict. Consumir knowledge:go-foundations-io-batch.
 - [x] Complementar errors.As, errors.Join e tradução na fronteira em go-errors, preservando o conteúdo de %w e desafios; testar três exemplos isolados e matriz strict. Consumir knowledge:go-foundations-io-batch.
 - [x] Aprofundar os dez conceitos existentes de go-io com explicações, exemplos Go isolados e referências ligadas ao grafo; preservar desafios/fixtures e verificar exemplos e matriz strict. Consumir knowledge:go-foundations-io-batch.

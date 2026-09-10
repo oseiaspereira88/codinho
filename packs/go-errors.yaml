@@ -841,6 +841,41 @@ challenges:
             reflection:
               optional:
                 - Por que retornar só o primeiro erro encontrado perderia informação útil quando várias regras são violadas ao mesmo tempo?
+            children:
+              - id: validate-user.verify-cause-identity
+                kind: micro
+                action: verify
+                target: error
+                title: Verificar identidade de cada causa
+                instruction:
+                  objective: Use errors.Is para confirmar individualmente cada violação no erro agregado.
+                  scope: Apenas as causas sentinela do contrato.
+                concepts: [errors-join-aggregation]
+                evidence:
+                  strategies: [test]
+                criteria:
+                  - id: each-cause-remains-detectable
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
+              - id: validate-user.verify-success-is-nil
+                kind: micro
+                action: verify
+                target: error
+                title: Verificar sucesso sem erro artificial
+                instruction:
+                  objective: Confirme que uma entrada válida retorna nil em vez de um erro agregado vazio.
+                  scope: Apenas o caminho em que nenhuma regra é violada.
+                concepts: [errors-join-aggregation]
+                evidence:
+                  strategies: [test]
+                criteria:
+                  - id: all-valid-returns-nil
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
     fixture:
       - path: go.mod
         content: |

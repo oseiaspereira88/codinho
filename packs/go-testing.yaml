@@ -1136,6 +1136,45 @@ challenges:
             optional:
             - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
               correta?
+          children:
+          - id: count-deadline-clock-calls.verify-empty-batch
+            kind: micro
+            action: verify
+            target: boundary_case
+            title: Verificar lote vazio com uma chamada
+            instruction:
+              objective: Confirme que lote vazio ainda consulta o relógio uma vez e retorna contagem zero.
+              scope: Apenas entrada sem prazos.
+            concepts:
+            - testing-counting-double
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: empty-batch-counted
+              kind: structural
+            - id: empty-batch-one-clock-call
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
+          - id: count-deadline-clock-calls.verify-strict-deadline
+            kind: micro
+            action: verify
+            target: boundary_case
+            title: Verificar prazo exatamente no instante
+            instruction:
+              objective: Confirme que prazo igual ao instante observado não é contado como futuro.
+              scope: Apenas a igualdade entre prazo e relógio.
+            concepts:
+            - testing-time-boundaries
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: equal-deadline-excluded
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
   fixture:
   - path: go.mod
     content: |

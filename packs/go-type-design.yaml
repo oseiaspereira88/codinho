@@ -834,6 +834,43 @@ challenges:
             reflection:
               optional:
                 - Por que tratar o receptor nil já no início da função evita repetir essa checagem para cada nó restante da cadeia, seja a solução recursiva ou iterativa?
+            children:
+              - id: model.verify-chain-boundaries
+                kind: micro
+                action: verify
+                target: function
+                title: Verificar cadeia vazia, unitária e longa
+                instruction:
+                  objective: Confira o resultado para receptor nil, nó único e cadeia com vários nós, incluindo um valor negativo.
+                  scope: Apenas os limites e a soma observável.
+                concepts: [nil-safe-pointer-receiver]
+                evidence:
+                  strategies: [compile]
+                criteria:
+                  - id: nil-chain-verified
+                    kind: structural
+                  - id: long-chain-verified
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
+              - id: model.explain-receiver-guard
+                kind: micro
+                action: reflect
+                target: decision
+                title: Explicar a guarda do receptor
+                instruction:
+                  objective: Explique por que a guarda nil deve ocorrer antes de acessar Value ou Next.
+                  scope: Apenas a justificativa do método nil-safe.
+                concepts: [nil-safe-pointer-receiver]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: receiver-guard-explained
+                    kind: qualitative
+                completion:
+                  requires_positive_evaluation: false
+                  requires_user_confirmation: true
     fixture:
       - path: go.mod
         content: |

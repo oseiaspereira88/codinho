@@ -218,6 +218,7 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
 - Security / Contract: secret scan, path confinement e leak detector.
 
 ### Execution log
+- Retomada: knowledge:go-foundations-io-batch registra o lote validado e as demandas seguintes.
 - 2026-09-09, lote go-io: dois desafios draft, 10 conceitos, 6 competências e 12 nodes adicionados. Matriz completa 22/22 passou; após revisão dos critérios intermediários, catalog validate --checks confirmou 40/40 checks do catálogo, incluindo baseline=test_failure/reference=pass nos dois desafios novos. docs-check sem warnings de inventário. Publicação e playtest permanecem pendentes.
 - 2026-09-09: retomada após agent-authored-catalog-drafts; assess discover --component packs executado. Inventário aponta 33 atômicos fundamentais (go-first-steps tem 7 ante 6 previstos); preservar o conteúdo extra e registrar a divergência no relatório antes de qualquer alteração da distribuição.
 - 2026-08-23: destravada (Decision 2) — `author: claude` liberado como

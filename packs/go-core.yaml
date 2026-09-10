@@ -288,6 +288,22 @@ challenges:
             reflection:
               optional:
                 - Por que a ordem final é o inverso da ordem em que os recursos foram recebidos?
+          - id: model.verify-empty-defer-stack
+            kind: micro
+            action: verify
+            target: boundary_case
+            title: Verificar entrada vazia
+            instruction:
+              objective: Confirme que nenhuma entrada mantém o retorno nil quando não há defers registrados.
+              scope: Apenas o caso de slice nil ou vazio.
+            concepts: [defer-execution-order]
+            evidence:
+              strategies: [test]
+            criteria:
+              - id: empty-input-preserves-nil
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
     fixture:
       - path: go.mod
         content: |

@@ -18,10 +18,10 @@ recursivamente, sem incluir o nó de camada.
 | go-type-design | draft | 8 (6 A / 2 C / 0 F) | 6 | 6 | 16 |
 | go-errors | draft | 5 (4 A / 1 C / 0 F) | 4 | 4 | 10 |
 | go-io | draft | 2 (0 A / 1 C / 1 F) | 10 | 6 | 12 |
-| go-testing | ausente | 0 | 0 | 0 | 0 |
+| go-testing | draft | 1 (0 A / 1 C / 0 F) | 8 | 5 | 7 |
 
-Total atual: 33 atômicos, 8 combinados e 1 fatia funcional;
-54 conceitos, 40 competências e 97 step nodes.
+Total atual: 33 atômicos, 9 combinados e 1 fatia funcional;
+62 conceitos, 45 competências e 104 step nodes.
 A meta segue 32 + 10 + 2 desafios, 100 conceitos, 60 competências e 300 nodes.
 
 ## Lote go-io
@@ -51,8 +51,7 @@ I/O ainda não foram autoradas; não estão sendo contabilizadas como entregues.
   previstos. O conteúdo extra foi preservado; não se alterou sua classificação
   para ajustar artificialmente a meta. Concluir os demais lotes como planejados
   produziria 45 desafios, então a distribuição precisa de decisão explícita.
-- Completar um combinado e uma fatia funcional em `go-errors`, além de
-  `go-testing`; aprofundar conceitos/competências e decomposição existentes.
+- Completar um combinado e uma fatia funcional em `go-errors`; aprofundar conceitos/competências e decomposição existentes.
 - Autorar variantes contextualizadas, completar as cinco trilhas previstas e
   conferir cobertura cruzada. O lote go-io não adiciona trilha isolada que
   substitua uma das cinco jornadas canônicas.
@@ -63,3 +62,16 @@ I/O ainda não foram autoradas; não estão sendo contabilizadas como entregues.
 Validação reproduzível: `go run ./cmd/codinho catalog validate --checks --json`.
 O comando examina o catálogo completo do manifest e compara as expectativas
 baseline/reference; execução real dos checks depende da autorização local.
+
+## Lote go-testing
+
+`go-testing.select-active-tokens-with-injected-clock` combina seleção temporal,
+casos de fronteira e isolamento de slices. Um relógio injetado permite testar
+antes, igualdade e depois sem esperar tempo real. A suíte inclui fuso diferente
+para o mesmo instante, dependência ausente, entrada vazia, preservação da ordem,
+contagem de chamadas e modificação da saída para detectar aliasing.
+
+O aluno deve justificar e acrescentar um caso à tabela. Essa parte requer
+observação qualitativa com rubrica: o check automatizado confirma o contrato,
+mas não certifica a qualidade de novos testes nem a autoria do aluno.
+Os quatro cenários variantes planejados ainda não foram entregues.

@@ -6,4 +6,5 @@ packs:
   - go-errors.yaml
   - go-first-steps.yaml
   - go-io.yaml
+  - go-testing.yaml
   - go-type-design.yaml

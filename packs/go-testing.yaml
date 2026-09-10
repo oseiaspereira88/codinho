@@ -1,0 +1,395 @@
+schema_version: 1
+id: go-testing
+version: 1.0.0
+publication:
+  status: draft
+  author: codex
+themes:
+- id: testing-and-testability
+  title: Testes e testabilidade
+concepts:
+- id: testing-table-cases
+  title: Casos de teste em tabela
+- id: testing-named-subtests
+  title: Subtestes com nomes descritivos
+- id: testing-clock-injection
+  title: Injeção de relógio
+- id: testing-counting-double
+  title: Dublê com contagem de chamadas
+- id: testing-time-boundaries
+  title: Fronteiras temporais
+- id: testing-instant-versus-zone
+  title: Instante versus representação em fuso
+- id: testing-input-isolation
+  title: Verificação de preservação da entrada
+- id: testing-repeatability
+  title: Repetibilidade sem esperas reais
+competencies:
+- id: testing-design-deterministic-time
+  title: Projetar comportamento temporal determinístico
+- id: testing-cover-boundary-cases
+  title: Cobrir antes, igualdade e depois de uma fronteira
+- id: testing-detect-aliasing
+  title: Detectar aliasing observável em testes
+- id: testing-build-counting-double
+  title: Construir um dublê de dependência que conta chamadas
+- id: testing-name-diagnostic-cases
+  title: Nomear casos para diagnosticar falhas
+tracks: []
+challenges:
+- schema_version: 1
+  id: go-testing.select-active-tokens-with-injected-clock
+  version: 1.0.0
+  title: Tornar uma seleção temporal testável
+  kind: combined
+  difficulty: foundational
+  estimated_minutes: 35
+  themes:
+  - testing-and-testability
+  competencies:
+    primary:
+    - testing-design-deterministic-time
+    - testing-cover-boundary-cases
+    - testing-detect-aliasing
+    secondary:
+    - testing-build-counting-double
+    - testing-name-diagnostic-cases
+  prerequisites: []
+  brief: Selecione os tokens ainda válidos em um instante controlável pelo teste, preservando a entrada
+    e a ordem original. Torne os casos de fronteira reproduzíveis sem esperar o tempo passar.
+  constraints:
+  - Use somente a biblioteca padrão e a dependência de relógio da fixture.
+  - Não use time.Now, time.Sleep, rede ou arquivos para determinar o resultado.
+  - Preserve os casos existentes e acrescente um caso de fronteira justificado.
+  acceptance:
+  - Um token só está ativo se sua expiração ocorre estritamente depois do instante observado.
+  - O relógio é chamado exatamente uma vez por operação, inclusive com entrada vazia.
+  - Relógio nil retorna a sentinela ErrMissingClock e resultado nil.
+  - Preserva a ordem dos tokens ativos e todos os dados da entrada.
+  - Retorna slice vazio não nil quando não há tokens ativos.
+  - Alterar um elemento do resultado não altera a entrada.
+  - Os testes demonstram casos antes, na igualdade e depois do limite, sem depender do relógio do sistema.
+  publication:
+    status: draft
+    author: codex
+  layers:
+  - id: testable-expiry.implementation
+    macro_steps:
+    - id: testable-expiry.macro
+      kind: macro
+      title: Estabelecer um contrato temporal testável
+      instruction:
+        objective: Implemente a seleção temporal conforme os critérios de aceite.
+        scope: Contrato, observação do tempo e isolamento dos dados.
+      children:
+      - id: testable-expiry.meso
+        kind: meso
+        title: Casos determinísticos e implementação
+        instruction:
+          objective: Use casos reproduzíveis para orientar a implementação.
+          scope: Limites de validade e efeitos observáveis.
+        children:
+        - id: testable-expiry.step-1
+          kind: micro
+          action: implement
+          target: function
+          title: Planeje os casos da fronteira temporal.
+          instruction:
+            objective: Planeje os casos da fronteira temporal.
+            scope: Explique as expectativas para antes, igualdade e depois; acrescente um caso relevante
+              à tabela sem enfraquecer os existentes.
+          concepts:
+          - testing-table-cases
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: behavior-1
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que erro um teste apenas com datas distantes deixaria passar?
+        - id: testable-expiry.step-2
+          kind: micro
+          action: implement
+          target: function
+          title: Trate a ausência de relógio.
+          instruction:
+            objective: Trate a ausência de relógio.
+            scope: O retorno deve preservar a sentinela prevista na fixture, sem executar uma função nil.
+          concepts:
+          - testing-clock-injection
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: behavior-2
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que uma dependência explícita facilita provocar e observar falhas?
+        - id: testable-expiry.step-3
+          kind: micro
+          action: implement
+          target: function
+          title: Fixe um instante para a operação inteira.
+          instruction:
+            objective: Fixe um instante para a operação inteira.
+            scope: Use o relógio recebido uma única vez, inclusive para entrada vazia.
+          concepts:
+          - testing-counting-double
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: behavior-3
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Como um relógio que avança entre chamadas revela uma dependência escondida?
+        - id: testable-expiry.step-4
+          kind: micro
+          action: implement
+          target: function
+          title: Selecione os tokens ainda válidos.
+          instruction:
+            objective: Selecione os tokens ainda válidos.
+            scope: Preserve a ordem; a igualdade com a expiração já representa um token expirado.
+          concepts:
+          - testing-time-boundaries
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: behavior-4
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Dois fusos diferentes podem representar o mesmo instante?
+        - id: testable-expiry.step-5
+          kind: micro
+          action: implement
+          target: function
+          title: Verifique o isolamento da saída.
+          instruction:
+            objective: Verifique o isolamento da saída.
+            scope: Mudar um elemento retornado não pode modificar a entrada; rode a suíte completa.
+          concepts:
+          - testing-input-isolation
+          evidence:
+            strategies:
+            - test
+          criteria:
+          - id: behavior-5
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que comparar apenas o conteúdo antes de modificar a saída não detecta aliasing?
+  fixture:
+  - path: go.mod
+    content: |
+      module codinho-practice/expiry
+
+      go 1.25.0
+  - path: expiry.go
+    content: "package expiry\n\nimport (\n\t\"errors\"\n\t\"time\"\n)\n\nvar ErrMissingClock = errors.New(\"\
+      missing clock\")\n\ntype Token struct {\n\tID        string\n\tExpiresAt time.Time\n}\n\nfunc Active(tokens\
+      \ []Token, clock func() time.Time) ([]Token, error) { return tokens, nil }\n"
+  - path: expiry_test.go
+    content: "package expiry\n\nimport (\n\t\"errors\"\n\t\"reflect\"\n\t\"testing\"\n\t\"time\"\n)\n\n\
+      func TestActive(t *testing.T) {\n\tnow := time.Date(2026, 1, 2, 12, 0, 0, 0, time.UTC)\n\tcases\
+      \ := []struct {\n\t\tname   string\n\t\ttokens []Token\n\t\twant   []Token\n\t}{\n\t\t{name: \"\
+      nil\", want: []Token{}},\n\t\t{name: \"empty\", tokens: []Token{}, want: []Token{}},\n\t\t{name:\
+      \ \"before\", tokens: []Token{{ID: \"old\", ExpiresAt: now.Add(-time.Nanosecond)}}, want: []Token{}},\n\
+      \t\t{name: \"equal\", tokens: []Token{{ID: \"edge\", ExpiresAt: now}}, want: []Token{}},\n\t\t{name:\
+      \ \"after\", tokens: []Token{{ID: \"new\", ExpiresAt: now.Add(time.Nanosecond)}}, want: []Token{{ID:\
+      \ \"new\", ExpiresAt: now.Add(time.Nanosecond)}}},\n\t\t{name: \"same instant in another zone\"\
+      , tokens: []Token{{ID: \"zone\", ExpiresAt: now.In(time.FixedZone(\"synthetic\", 7200))}}, want:\
+      \ []Token{}},\n\t\t{name: \"mixed preserves order\", tokens: []Token{{ID: \"B\", ExpiresAt: now.Add(time.Hour)},\
+      \ {ID: \"old\", ExpiresAt: now}, {ID: \"A\", ExpiresAt: now.Add(time.Minute)}}, want: []Token{{ID:\
+      \ \"B\", ExpiresAt: now.Add(time.Hour)}, {ID: \"A\", ExpiresAt: now.Add(time.Minute)}}},\n\t}\n\t\
+      for _, tc := range cases {\n\t\tt.Run(tc.name, func(t *testing.T) {\n\t\t\tbefore := append([]Token(nil),\
+      \ tc.tokens...)\n\t\t\tcalls := 0\n\t\t\tclock := func() time.Time { calls++; return now.Add(time.Duration(calls-1)\
+      \ * 24 * time.Hour) }\n\t\t\tgot, err := Active(tc.tokens, clock)\n\t\t\tif err != nil || !reflect.DeepEqual(got,\
+      \ tc.want) {\n\t\t\t\tt.Fatalf(\"got %+v, want %+v, error %v\", got, tc.want, err)\n\t\t\t}\n\t\t\
+      \tif calls != 1 {\n\t\t\t\tt.Fatalf(\"clock calls = %d, want 1\", calls)\n\t\t\t}\n\t\t\tif len(tc.tokens)\
+      \ != len(before) {\n\t\t\t\tt.Fatal(\"input length changed\")\n\t\t\t}\n\t\t\tfor i := range before\
+      \ {\n\t\t\t\tif tc.tokens[i] != before[i] {\n\t\t\t\t\tt.Fatal(\"input changed\")\n\t\t\t\t}\n\t\
+      \t\t}\n\t\t\tif len(got) > 0 {\n\t\t\t\tgot[0].ID = \"changed-output\"\n\t\t\t\tfor i := range before\
+      \ {\n\t\t\t\t\tif tc.tokens[i] != before[i] {\n\t\t\t\t\t\tt.Fatal(\"output aliases input\")\n\t\
+      \t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t})\n\t}\n\tif got, err := Active(nil, nil); !errors.Is(err, ErrMissingClock)\
+      \ || got != nil {\n\t\tt.Fatalf(\"missing clock: %+v %v\", got, err)\n\t}\n}\n"
+  checks:
+  - id: focused-tests
+    runner: go_test
+    package: ./...
+    test_pattern: ^TestActive$
+    timeout: 20s
+  variants: []
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: |
+        module codinho-practice/expiry
+
+        go 1.25.0
+    - path: expiry.go
+      content: "package expiry\n\nimport (\n\t\"errors\"\n\t\"time\"\n)\n\nvar ErrMissingClock = errors.New(\"\
+        missing clock\")\n\ntype Token struct {\n\tID        string\n\tExpiresAt time.Time\n}\n\nfunc\
+        \ Active(tokens []Token, clock func() time.Time) ([]Token, error) {\n\tif clock == nil {\n\t\t\
+        return nil, ErrMissingClock\n\t}\n\tnow := clock()\n\tactive := make([]Token, 0, len(tokens))\n\
+        \tfor _, token := range tokens {\n\t\tif token.ExpiresAt.After(now) {\n\t\t\tactive = append(active,\
+        \ token)\n\t\t}\n\t}\n\treturn active, nil\n}\n"
+    - path: expiry_test.go
+      content: "package expiry\n\nimport (\n\t\"errors\"\n\t\"reflect\"\n\t\"testing\"\n\t\"time\"\n)\n\
+        \nfunc TestActive(t *testing.T) {\n\tnow := time.Date(2026, 1, 2, 12, 0, 0, 0, time.UTC)\n\tcases\
+        \ := []struct {\n\t\tname   string\n\t\ttokens []Token\n\t\twant   []Token\n\t}{\n\t\t{name: \"\
+        nil\", want: []Token{}},\n\t\t{name: \"empty\", tokens: []Token{}, want: []Token{}},\n\t\t{name:\
+        \ \"before\", tokens: []Token{{ID: \"old\", ExpiresAt: now.Add(-time.Nanosecond)}}, want: []Token{}},\n\
+        \t\t{name: \"equal\", tokens: []Token{{ID: \"edge\", ExpiresAt: now}}, want: []Token{}},\n\t\t\
+        {name: \"after\", tokens: []Token{{ID: \"new\", ExpiresAt: now.Add(time.Nanosecond)}}, want: []Token{{ID:\
+        \ \"new\", ExpiresAt: now.Add(time.Nanosecond)}}},\n\t\t{name: \"same instant in another zone\"\
+        , tokens: []Token{{ID: \"zone\", ExpiresAt: now.In(time.FixedZone(\"synthetic\", 7200))}}, want:\
+        \ []Token{}},\n\t\t{name: \"mixed preserves order\", tokens: []Token{{ID: \"B\", ExpiresAt: now.Add(time.Hour)},\
+        \ {ID: \"old\", ExpiresAt: now}, {ID: \"A\", ExpiresAt: now.Add(time.Minute)}}, want: []Token{{ID:\
+        \ \"B\", ExpiresAt: now.Add(time.Hour)}, {ID: \"A\", ExpiresAt: now.Add(time.Minute)}}},\n\t}\n\
+        \tfor _, tc := range cases {\n\t\tt.Run(tc.name, func(t *testing.T) {\n\t\t\tbefore := append([]Token(nil),\
+        \ tc.tokens...)\n\t\t\tcalls := 0\n\t\t\tclock := func() time.Time { calls++; return now.Add(time.Duration(calls-1)\
+        \ * 24 * time.Hour) }\n\t\t\tgot, err := Active(tc.tokens, clock)\n\t\t\tif err != nil || !reflect.DeepEqual(got,\
+        \ tc.want) {\n\t\t\t\tt.Fatalf(\"got %+v, want %+v, error %v\", got, tc.want, err)\n\t\t\t}\n\t\
+        \t\tif calls != 1 {\n\t\t\t\tt.Fatalf(\"clock calls = %d, want 1\", calls)\n\t\t\t}\n\t\t\tif\
+        \ len(tc.tokens) != len(before) {\n\t\t\t\tt.Fatal(\"input length changed\")\n\t\t\t}\n\t\t\t\
+        for i := range before {\n\t\t\t\tif tc.tokens[i] != before[i] {\n\t\t\t\t\tt.Fatal(\"input changed\"\
+        )\n\t\t\t\t}\n\t\t\t}\n\t\t\tif len(got) > 0 {\n\t\t\t\tgot[0].ID = \"changed-output\"\n\t\t\t\
+        \tfor i := range before {\n\t\t\t\t\tif tc.tokens[i] != before[i] {\n\t\t\t\t\t\tt.Fatal(\"output\
+        \ aliases input\")\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t})\n\t}\n\tif got, err := Active(nil,\
+        \ nil); !errors.Is(err, ErrMissingClock) || got != nil {\n\t\tt.Fatalf(\"missing clock: %+v %v\"\
+        , got, err)\n\t}\n}\n"
+    expectations:
+    - check_id: focused-tests
+      baseline: test_failure
+      reference: pass
+relations:
+- from: go-testing.select-active-tokens-with-injected-clock
+  to: testing-table-cases
+  kind: relates_to
+- from: testing-table-cases
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: relates_to
+- from: go-testing.select-active-tokens-with-injected-clock
+  to: testing-named-subtests
+  kind: relates_to
+- from: testing-named-subtests
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: relates_to
+- from: go-testing.select-active-tokens-with-injected-clock
+  to: testing-clock-injection
+  kind: relates_to
+- from: testing-clock-injection
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: relates_to
+- from: go-testing.select-active-tokens-with-injected-clock
+  to: testing-counting-double
+  kind: relates_to
+- from: testing-counting-double
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: relates_to
+- from: go-testing.select-active-tokens-with-injected-clock
+  to: testing-time-boundaries
+  kind: relates_to
+- from: testing-time-boundaries
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: relates_to
+- from: go-testing.select-active-tokens-with-injected-clock
+  to: testing-instant-versus-zone
+  kind: relates_to
+- from: testing-instant-versus-zone
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: relates_to
+- from: go-testing.select-active-tokens-with-injected-clock
+  to: testing-input-isolation
+  kind: relates_to
+- from: testing-input-isolation
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: relates_to
+- from: go-testing.select-active-tokens-with-injected-clock
+  to: testing-repeatability
+  kind: relates_to
+- from: testing-repeatability
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: relates_to

@@ -151,7 +151,8 @@
         "go-foundations"
       ],
       "owns": [
-        "packs/go-io.yaml"
+        "packs/go-io.yaml",
+        "packs/go-testing.yaml"
       ],
       "applies_to": "packs",
       "owner": "@oseiaspereira",

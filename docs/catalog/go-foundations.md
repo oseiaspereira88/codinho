@@ -5,7 +5,7 @@ doc_type: reference
 
 # Catálogo fundamental de Go
 
-Inventário de autoria em 2026-09-09. A spec `go-foundations-packs` permanece
+Inventário de autoria em 2026-09-10 UTC. A spec `go-foundations-packs` permanece
 in-progress: estes números não atestam publicação nem playtest humano.
 A = atômico; C = combinado; F = fatia funcional. Nodes contam macro/meso/micro
 recursivamente, sem incluir o nó de camada.
@@ -16,12 +16,12 @@ recursivamente, sem incluir o nó de camada.
 | go-core | draft | 10 (8 A / 2 C / 0 F) | 9 | 8 | 23 |
 | go-data-text | draft | 10 (8 A / 2 C / 0 F) | 8 | 8 | 22 |
 | go-type-design | draft | 8 (6 A / 2 C / 0 F) | 6 | 6 | 16 |
-| go-errors | draft | 5 (4 A / 1 C / 0 F) | 4 | 4 | 10 |
+| go-errors | draft | 7 (4 A / 2 C / 1 F) | 12 | 10 | 24 |
 | go-io | draft | 2 (0 A / 1 C / 1 F) | 10 | 6 | 12 |
 | go-testing | draft | 1 (0 A / 1 C / 0 F) | 8 | 5 | 7 |
 
-Total atual: 33 atômicos, 9 combinados e 1 fatia funcional;
-62 conceitos, 45 competências e 104 step nodes.
+Total atual: 33 atômicos, 10 combinados e 2 fatias funcionais;
+70 conceitos, 51 competências e 118 step nodes.
 A meta segue 32 + 10 + 2 desafios, 100 conceitos, 60 competências e 300 nodes.
 
 ## Lote go-io
@@ -49,9 +49,9 @@ I/O ainda não foram autoradas; não estão sendo contabilizadas como entregues.
 
 - Resolver a divergência de `go-first-steps`: sete atômicos existentes ante seis
   previstos. O conteúdo extra foi preservado; não se alterou sua classificação
-  para ajustar artificialmente a meta. Concluir os demais lotes como planejados
-  produziria 45 desafios, então a distribuição precisa de decisão explícita.
-- Completar um combinado e uma fatia funcional em `go-errors`; aprofundar conceitos/competências e decomposição existentes.
+  para ajustar artificialmente a meta. Os sete packs agora somam 45 desafios;
+  a distribuição ainda precisa de decisão explícita antes do gate V1.
+- Aprofundar conceitos, competências e decomposição dos desafios existentes.
 - Autorar variantes contextualizadas, completar as cinco trilhas previstas e
   conferir cobertura cruzada. O lote go-io não adiciona trilha isolada que
   substitua uma das cinco jornadas canônicas.
@@ -75,3 +75,15 @@ O aluno deve justificar e acrescentar um caso à tabela. Essa parte requer
 observação qualitativa com rubrica: o check automatizado confirma o contrato,
 mas não certifica a qualidade de novos testes nem a autoria do aluno.
 Os quatro cenários variantes planejados ainda não foram entregues.
+
+## Complemento go-errors
+
+- `go-errors.classify-wrapped-errors`: classificação por identidade/tipo,
+  encadeamento, agregação e precedência explícita, sem comparar mensagens.
+- `go-errors.maintain-memory-catalog`: inserção, consulta, exclusão e listagem
+  por ID, com valor zero utilizável, erros sentinela, validação antes da mutação
+  e snapshots por valor. Não oferece persistência nem concorrência.
+
+Os desafios anteriores mantêm seu conteúdo e sua autoria. Os novos são draft,
+com autor codex; os critérios intermediários são qualitativos e o check final
+verifica o comportamento integrado. Revisão pedagógica e playtest estão pendentes.

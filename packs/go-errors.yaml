@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-errors
-version: 1.1.0
+version: 1.2.0
 themes:
   - id: errors
     title: Erros
@@ -24,6 +24,22 @@ concepts:
     title: Agregação de erros com errors.Join
   - id: error-translation-at-boundary
     title: Tradução de erro em uma fronteira
+  - id: error-classification-precedence
+    title: Precedência na classificação de erros
+  - id: error-identity-not-message
+    title: Identidade de erro versus mensagem
+  - id: error-chain-type-traversal
+    title: Extração de tipos em cadeias de erro
+  - id: error-joined-tree-order
+    title: Ordem de tipos em árvores de erros
+  - id: catalog-zero-value
+    title: Valor zero de catálogo em memória
+  - id: catalog-validation-before-mutation
+    title: Validação anterior à mutação
+  - id: catalog-deterministic-list
+    title: Listagem determinística de mapas
+  - id: catalog-value-snapshots
+    title: Snapshots por valor de catálogo
 competencies:
   - id: wrap-sentinel-with-context
     title: Encadear um erro sentinela preservando o contexto
@@ -33,6 +49,18 @@ competencies:
     title: Agregar erros sem perder nenhum
   - id: translate-error-without-leaking-internals
     title: Traduzir um erro sem vazar detalhes internos
+  - id: classify-wrapped-and-joined-errors
+    title: Classificar erros encadeados e agregados
+  - id: preserve-error-precedence
+    title: Aplicar precedência explícita de categorias
+  - id: distinguish-error-identity
+    title: Distinguir identidade e texto de erro
+  - id: manage-catalog-state
+    title: Gerenciar estado de um catálogo em memória
+  - id: reject-catalog-conflicts
+    title: Rejeitar entradas inválidas e conflitos sem mutar
+  - id: return-isolated-catalog-views
+    title: Retornar visões ordenadas e isoladas
 tracks: []
 challenges:
   - schema_version: 1
@@ -1264,6 +1292,629 @@ challenges:
       - check_id: focused-tests
         baseline: test_failure
         reference: pass
+  - schema_version: 1
+    id: go-errors.classify-wrapped-errors
+    version: 1.0.0
+    title: Classificar erros sem depender da mensagem
+    kind: combined
+    difficulty: foundational
+    estimated_minutes: 35
+    themes:
+    - errors
+    competencies:
+      primary:
+      - classify-wrapped-and-joined-errors
+      - preserve-error-precedence
+      - distinguish-error-identity
+    prerequisites: []
+    brief: Classifique um erro em sucesso, acesso negado, campo inválido ou desconhecido, respeitando a
+      cadeia de causas e uma precedência explícita.
+    constraints:
+    - Use somente a biblioteca padrão.
+    - Não use arquivos ou rede; preserve as assinaturas da fixture.
+    - Não compare mensagens para decidir a categoria de um erro.
+    acceptance:
+    - Erro nil produz ok; a sentinela ErrDenied em qualquer causa produz denied.
+    - 'Sem ErrDenied, o primeiro FieldError encontrado produz invalid: seguido de seu campo.'
+    - Outros erros produzem unknown, mesmo quando sua mensagem é igual à da sentinela.
+    - Em erros agregados, denied tem prioridade independentemente da ordem dos filhos.
+    - Classificar não altera a cadeia recebida.
+    publication:
+      status: draft
+      author: codex
+    layers:
+    - id: classify-wrapped-errors.implementation
+      macro_steps:
+      - id: classify-wrapped-errors.macro
+        kind: macro
+        title: Classificar erros sem depender da mensagem
+        instruction:
+          objective: Classifique um erro em sucesso, acesso negado, campo inválido ou desconhecido, respeitando
+            a cadeia de causas e uma precedência explícita.
+          scope: Contrato observável e isolamento.
+        children:
+        - id: classify-wrapped-errors.meso
+          kind: meso
+          title: Comportamento e tratamento de erros
+          instruction:
+            objective: Implemente o comportamento conforme os critérios de aceite.
+            scope: Resultados, erros e efeitos sobre o estado.
+          children:
+          - id: classify-wrapped-errors.step-1
+            kind: micro
+            action: implement
+            target: function
+            title: Trate a ausência de erro.
+            instruction:
+              objective: Trate a ausência de erro.
+              scope: A classificação de sucesso não deve consultar mensagem alguma.
+            concepts:
+            - error-identity-not-message
+            evidence:
+              strategies:
+              - source_inspection
+            criteria:
+            - id: behavior-1
+              kind: qualitative
+            completion:
+              requires_positive_evaluation: true
+            hints:
+            - level: 1
+              kind: guiding_question
+            - level: 2
+              kind: syntax_recall
+            - level: 3
+              kind: logical_prose
+            - level: 4
+              kind: pseudocode
+            - level: 5
+              kind: partial_code
+            - level: 6
+              kind: solution
+            reflection:
+              optional:
+              - Por que nil precisa de um caso próprio?
+          - id: classify-wrapped-errors.step-2
+            kind: micro
+            action: implement
+            target: function
+            title: Identifique a categoria prioritária.
+            instruction:
+              objective: Identifique a categoria prioritária.
+              scope: Reconheça a sentinela também em causas encadeadas ou agregadas.
+            concepts:
+            - error-classification-precedence
+            evidence:
+              strategies:
+              - source_inspection
+            criteria:
+            - id: behavior-2
+              kind: qualitative
+            completion:
+              requires_positive_evaluation: true
+            hints:
+            - level: 1
+              kind: guiding_question
+            - level: 2
+              kind: syntax_recall
+            - level: 3
+              kind: logical_prose
+            - level: 4
+              kind: pseudocode
+            - level: 5
+              kind: partial_code
+            - level: 6
+              kind: solution
+            reflection:
+              optional:
+              - Por que inverter a ordem dos filhos agregados não muda essa prioridade?
+          - id: classify-wrapped-errors.step-3
+            kind: micro
+            action: implement
+            target: function
+            title: Extraia o campo do erro tipado.
+            instruction:
+              objective: Extraia o campo do erro tipado.
+              scope: Considere encadeamento múltiplo e o primeiro tipo compatível.
+            concepts:
+            - error-chain-type-traversal
+            evidence:
+              strategies:
+              - source_inspection
+            criteria:
+            - id: behavior-3
+              kind: qualitative
+            completion:
+              requires_positive_evaluation: true
+            hints:
+            - level: 1
+              kind: guiding_question
+            - level: 2
+              kind: syntax_recall
+            - level: 3
+              kind: logical_prose
+            - level: 4
+              kind: pseudocode
+            - level: 5
+              kind: partial_code
+            - level: 6
+              kind: solution
+            reflection:
+              optional:
+              - Por que uma asserção de tipo direta pode perder um erro envolvido?
+          - id: classify-wrapped-errors.step-4
+            kind: micro
+            action: implement
+            target: function
+            title: Verifique as classificações residuais.
+            instruction:
+              objective: Verifique as classificações residuais.
+              scope: Texto igual não significa identidade igual; execute os casos completos.
+            concepts:
+            - error-joined-tree-order
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: behavior-4
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
+            hints:
+            - level: 1
+              kind: guiding_question
+            - level: 2
+              kind: syntax_recall
+            - level: 3
+              kind: logical_prose
+            - level: 4
+              kind: pseudocode
+            - level: 5
+              kind: partial_code
+            - level: 6
+              kind: solution
+            reflection:
+              optional:
+              - Como distinguir a ordem da busca por tipo da precedência de categorias?
+    fixture:
+    - path: go.mod
+      content: |
+        module codinho-practice/classify
+
+        go 1.25.0
+    - path: classify.go
+      content: |
+        package classify
+
+        import "errors"
+
+        var ErrDenied = errors.New("denied")
+
+        type FieldError struct{ Field string }
+
+        func (e *FieldError) Error() string { return "invalid field: " + e.Field }
+        func Classify(err error) string     { return "unknown" }
+    - path: classify_test.go
+      content: "package classify\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n\t\"testing\"\n)\n\nfunc TestClassify(t\
+        \ *testing.T) {\n\tfield := &FieldError{Field: \"name\"}\n\twrapped := fmt.Errorf(\"outer: %w\"\
+        , fmt.Errorf(\"inner: %w\", field))\n\tcases := []struct {\n\t\tname string\n\t\terr  error\n\t\t\
+        want string\n\t}{\n\t\t{name: \"nil\", want: \"ok\"},\n\t\t{name: \"sentinel\", err: ErrDenied,\
+        \ want: \"denied\"},\n\t\t{name: \"wrapped sentinel\", err: fmt.Errorf(\"operation: %w\", ErrDenied),\
+        \ want: \"denied\"},\n\t\t{name: \"different error same text\", err: errors.New(\"denied\"), want:\
+        \ \"unknown\"},\n\t\t{name: \"field\", err: field, want: \"invalid:name\"},\n\t\t{name: \"nested\
+        \ field\", err: wrapped, want: \"invalid:name\"},\n\t\t{name: \"other field\", err: &FieldError{Field:\
+        \ \"quantity\"}, want: \"invalid:quantity\"},\n\t\t{name: \"joined field first\", err: errors.Join(field,\
+        \ ErrDenied), want: \"denied\"},\n\t\t{name: \"joined denied first\", err: errors.Join(ErrDenied,\
+        \ field), want: \"denied\"},\n\t\t{name: \"unknown\", err: errors.New(\"unclassified\"), want: \"\
+        unknown\"},\n\t\t{name: \"first field\", err: errors.Join(field, &FieldError{Field: \"quantity\"\
+        }), want: \"invalid:name\"},\n\t}\n\tfor _, tc := range cases {\n\t\tt.Run(tc.name, func(t *testing.T)\
+        \ {\n\t\t\tif got := Classify(tc.err); got != tc.want {\n\t\t\t\tt.Fatalf(\"got %q, want %q\", got,\
+        \ tc.want)\n\t\t\t}\n\t\t})\n\t}\n\tif !errors.Is(wrapped, field) {\n\t\tt.Fatal(\"classification\
+        \ must preserve source chain\")\n\t}\n}\n"
+    checks:
+    - id: focused-tests
+      runner: go_test
+      package: ./...
+      test_pattern: ^TestClassify$
+      timeout: 20s
+    variants: []
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/classify
+
+          go 1.25.0
+      - path: classify.go
+        content: "package classify\n\nimport \"errors\"\n\nvar ErrDenied = errors.New(\"denied\")\n\ntype\
+          \ FieldError struct{ Field string }\n\nfunc (e *FieldError) Error() string { return \"invalid\
+          \ field: \" + e.Field }\nfunc Classify(err error) string {\n\tif err == nil {\n\t\treturn \"ok\"\
+          \n\t}\n\tif errors.Is(err, ErrDenied) {\n\t\treturn \"denied\"\n\t}\n\tvar field *FieldError\n\
+          \tif errors.As(err, &field) && field != nil {\n\t\treturn \"invalid:\" + field.Field\n\t}\n\t\
+          return \"unknown\"\n}\n"
+      - path: classify_test.go
+        content: "package classify\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n\t\"testing\"\n)\n\nfunc TestClassify(t\
+          \ *testing.T) {\n\tfield := &FieldError{Field: \"name\"}\n\twrapped := fmt.Errorf(\"outer: %w\"\
+          , fmt.Errorf(\"inner: %w\", field))\n\tcases := []struct {\n\t\tname string\n\t\terr  error\n\t\
+          \twant string\n\t}{\n\t\t{name: \"nil\", want: \"ok\"},\n\t\t{name: \"sentinel\", err: ErrDenied,\
+          \ want: \"denied\"},\n\t\t{name: \"wrapped sentinel\", err: fmt.Errorf(\"operation: %w\", ErrDenied),\
+          \ want: \"denied\"},\n\t\t{name: \"different error same text\", err: errors.New(\"denied\"), want:\
+          \ \"unknown\"},\n\t\t{name: \"field\", err: field, want: \"invalid:name\"},\n\t\t{name: \"nested\
+          \ field\", err: wrapped, want: \"invalid:name\"},\n\t\t{name: \"other field\", err: &FieldError{Field:\
+          \ \"quantity\"}, want: \"invalid:quantity\"},\n\t\t{name: \"joined field first\", err: errors.Join(field,\
+          \ ErrDenied), want: \"denied\"},\n\t\t{name: \"joined denied first\", err: errors.Join(ErrDenied,\
+          \ field), want: \"denied\"},\n\t\t{name: \"unknown\", err: errors.New(\"unclassified\"), want:\
+          \ \"unknown\"},\n\t\t{name: \"first field\", err: errors.Join(field, &FieldError{Field: \"quantity\"\
+          }), want: \"invalid:name\"},\n\t}\n\tfor _, tc := range cases {\n\t\tt.Run(tc.name, func(t *testing.T)\
+          \ {\n\t\t\tif got := Classify(tc.err); got != tc.want {\n\t\t\t\tt.Fatalf(\"got %q, want %q\"\
+          , got, tc.want)\n\t\t\t}\n\t\t})\n\t}\n\tif !errors.Is(wrapped, field) {\n\t\tt.Fatal(\"classification\
+          \ must preserve source chain\")\n\t}\n}\n"
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
+  - schema_version: 1
+    id: go-errors.maintain-memory-catalog
+    version: 1.0.0
+    title: Manter um catálogo em memória com erros verificáveis
+    kind: functional_slice
+    difficulty: foundational
+    estimated_minutes: 60
+    themes:
+    - errors
+    competencies:
+      primary:
+      - manage-catalog-state
+      - reject-catalog-conflicts
+      - return-isolated-catalog-views
+    prerequisites: []
+    brief: Mantenha um catálogo de produtos em memória com inserção, consulta, exclusão e listagem, preservando
+      estado diante de falhas e retornando erros que o chamador possa reconhecer.
+    constraints:
+    - Use somente a biblioteca padrão.
+    - Não use arquivos ou rede; preserve as assinaturas da fixture.
+    - Não compare mensagens para decidir a categoria de um erro.
+    acceptance:
+    - O valor zero do catálogo pode ser usado sem construtor; instâncias são independentes.
+    - ID e nome não podem ser vazios ou apenas espaços; preço em centavos deve ser positivo. IDs válidos
+      são preservados exatamente como recebidos.
+    - 'Validação precede a verificação de conflito: um produto inválido retorna ErrInvalid mesmo se seu
+      ID já existir.'
+    - Inserir ID existente retorna ErrExists sem sobrescrever o produto.
+    - Consultar ou excluir ID ausente retorna ErrMissing; erros de conflito/ausência incluem o ID e preservam
+      a sentinela para errors.Is.
+    - List retorna cópias ordenadas por ID; resultado vazio é slice não nil.
+    - Mudar o produto de entrada ou os resultados de Get/List não modifica o catálogo.
+    - Excluir remove apenas o ID solicitado; reinserir depois de excluir é permitido.
+    publication:
+      status: draft
+      author: codex
+    layers:
+    - id: maintain-memory-catalog.implementation
+      macro_steps:
+      - id: maintain-memory-catalog.macro
+        kind: macro
+        title: Manter um catálogo em memória com erros verificáveis
+        instruction:
+          objective: Mantenha um catálogo de produtos em memória com inserção, consulta, exclusão e listagem,
+            preservando estado diante de falhas e retornando erros que o chamador possa reconhecer.
+          scope: Contrato observável e isolamento.
+        children:
+        - id: maintain-memory-catalog.meso
+          kind: meso
+          title: Comportamento e tratamento de erros
+          instruction:
+            objective: Implemente o comportamento conforme os critérios de aceite.
+            scope: Resultados, erros e efeitos sobre o estado.
+          children:
+          - id: maintain-memory-catalog.step-1
+            kind: micro
+            action: implement
+            target: function
+            title: Defina o armazenamento privado do catálogo.
+            instruction:
+              objective: Defina o armazenamento privado do catálogo.
+              scope: O valor zero deve ser utilizável e cada instância deve possuir seu próprio estado.
+            concepts:
+            - catalog-zero-value
+            evidence:
+              strategies:
+              - source_inspection
+            criteria:
+            - id: behavior-1
+              kind: qualitative
+            completion:
+              requires_positive_evaluation: true
+            hints:
+            - level: 1
+              kind: guiding_question
+            - level: 2
+              kind: syntax_recall
+            - level: 3
+              kind: logical_prose
+            - level: 4
+              kind: pseudocode
+            - level: 5
+              kind: partial_code
+            - level: 6
+              kind: solution
+            reflection:
+              optional:
+              - O que se pode ler de um mapa nil e o que exige inicialização?
+          - id: maintain-memory-catalog.step-2
+            kind: micro
+            action: implement
+            target: function
+            title: Valide os dados antes de armazenar.
+            instruction:
+              objective: Valide os dados antes de armazenar.
+              scope: IDs, nomes e preços inválidos não podem modificar o estado.
+            concepts:
+            - catalog-validation-before-mutation
+            evidence:
+              strategies:
+              - source_inspection
+            criteria:
+            - id: behavior-2
+              kind: qualitative
+            completion:
+              requires_positive_evaluation: true
+            hints:
+            - level: 1
+              kind: guiding_question
+            - level: 2
+              kind: syntax_recall
+            - level: 3
+              kind: logical_prose
+            - level: 4
+              kind: pseudocode
+            - level: 5
+              kind: partial_code
+            - level: 6
+              kind: solution
+            reflection:
+              optional:
+              - Por que um ID existente não deve esconder a invalidade dos dados recebidos?
+          - id: maintain-memory-catalog.step-3
+            kind: micro
+            action: implement
+            target: function
+            title: Rejeite a inserção de um ID existente.
+            instruction:
+              objective: Rejeite a inserção de um ID existente.
+              scope: Preserve o produto anterior e a identidade do erro de conflito.
+            concepts:
+            - error-identity-not-message
+            evidence:
+              strategies:
+              - source_inspection
+            criteria:
+            - id: behavior-3
+              kind: qualitative
+            completion:
+              requires_positive_evaluation: true
+            hints:
+            - level: 1
+              kind: guiding_question
+            - level: 2
+              kind: syntax_recall
+            - level: 3
+              kind: logical_prose
+            - level: 4
+              kind: pseudocode
+            - level: 5
+              kind: partial_code
+            - level: 6
+              kind: solution
+            reflection:
+              optional:
+              - Como o chamador reconhece um erro com contexto sem comparar strings?
+          - id: maintain-memory-catalog.step-4
+            kind: micro
+            action: implement
+            target: function
+            title: Implemente a consulta de um produto.
+            instruction:
+              objective: Implemente a consulta de um produto.
+              scope: Retorne o valor armazenado ou um erro de ausência com contexto.
+            concepts:
+            - catalog-value-snapshots
+            evidence:
+              strategies:
+              - source_inspection
+            criteria:
+            - id: behavior-4
+              kind: qualitative
+            completion:
+              requires_positive_evaluation: true
+            hints:
+            - level: 1
+              kind: guiding_question
+            - level: 2
+              kind: syntax_recall
+            - level: 3
+              kind: logical_prose
+            - level: 4
+              kind: pseudocode
+            - level: 5
+              kind: partial_code
+            - level: 6
+              kind: solution
+            reflection:
+              optional:
+              - Como o retorno por valor protege os campos deste produto?
+          - id: maintain-memory-catalog.step-5
+            kind: micro
+            action: implement
+            target: function
+            title: Implemente a exclusão de um produto.
+            instruction:
+              objective: Implemente a exclusão de um produto.
+              scope: Não altere outros IDs e sinalize a ausência em exclusões repetidas.
+            concepts:
+            - catalog-validation-before-mutation
+            evidence:
+              strategies:
+              - source_inspection
+            criteria:
+            - id: behavior-5
+              kind: qualitative
+            completion:
+              requires_positive_evaluation: true
+            hints:
+            - level: 1
+              kind: guiding_question
+            - level: 2
+              kind: syntax_recall
+            - level: 3
+              kind: logical_prose
+            - level: 4
+              kind: pseudocode
+            - level: 5
+              kind: partial_code
+            - level: 6
+              kind: solution
+            reflection:
+              optional:
+              - Qual estado deve sobreviver a uma exclusão que falha?
+          - id: maintain-memory-catalog.step-6
+            kind: micro
+            action: implement
+            target: function
+            title: Produza uma listagem determinística.
+            instruction:
+              objective: Produza uma listagem determinística.
+              scope: Ordene por ID sem expor o armazenamento; valide o contrato completo.
+            concepts:
+            - catalog-deterministic-list
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: behavior-6
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
+            hints:
+            - level: 1
+              kind: guiding_question
+            - level: 2
+              kind: syntax_recall
+            - level: 3
+              kind: logical_prose
+            - level: 4
+              kind: pseudocode
+            - level: 5
+              kind: partial_code
+            - level: 6
+              kind: solution
+            reflection:
+              optional:
+              - Por que a ordem de iteração de um mapa não serve como contrato de listagem?
+    fixture:
+    - path: go.mod
+      content: |
+        module codinho-practice/catalog
+
+        go 1.25.0
+    - path: catalog.go
+      content: "package catalog\n\nimport \"errors\"\n\nvar ErrInvalid = errors.New(\"invalid product\"\
+        )\nvar ErrExists = errors.New(\"product exists\")\nvar ErrMissing = errors.New(\"product missing\"\
+        )\n\ntype Product struct {\n\tID         string\n\tName       string\n\tPriceCents int\n}\ntype\
+        \ Catalog struct{}\n\nfunc (c *Catalog) Put(p Product) error            { return nil }\nfunc (c\
+        \ *Catalog) Get(id string) (Product, error) { return Product{}, nil }\nfunc (c *Catalog) Delete(id\
+        \ string) error         { return nil }\nfunc (c *Catalog) List() []Product                { return\
+        \ nil }\n"
+    - path: catalog_test.go
+      content: "package catalog\n\nimport (\n\t\"errors\"\n\t\"reflect\"\n\t\"strings\"\n\t\"testing\"\n\
+        )\n\nfunc TestCatalog(t *testing.T) {\n\tvar c Catalog\n\tif got := c.List(); got == nil || len(got)\
+        \ != 0 {\n\t\tt.Fatalf(\"zero catalog: %+v\", got)\n\t}\n\tmissing := []string{\"missing\", \"another\"\
+        }\n\tfor _, id := range missing {\n\t\tif _, err := c.Get(id); !errors.Is(err, ErrMissing) || !strings.Contains(err.Error(),\
+        \ id) {\n\t\t\tt.Fatalf(\"get %q: %v\", id, err)\n\t\t}\n\t\tif err := c.Delete(id); !errors.Is(err,\
+        \ ErrMissing) || !strings.Contains(err.Error(), id) {\n\t\t\tt.Fatalf(\"delete %q: %v\", id, err)\n\
+        \t\t}\n\t}\n\ta := Product{ID: \"a\", Name: \"Alpha\", PriceCents: 100}\n\tb := Product{ID: \"b\"\
+        , Name: \"Beta\", PriceCents: 200}\n\tif err := c.Put(b); err != nil {\n\t\tt.Fatal(err)\n\t}\n\t\
+        if err := c.Put(a); err != nil {\n\t\tt.Fatal(err)\n\t}\n\ta.Name = \"caller mutation\"\n\toriginalA\
+        \ := Product{ID: \"a\", Name: \"Alpha\", PriceCents: 100}\n\twant := []Product{originalA, b}\n\t\
+        for i := 0; i < 5; i++ {\n\t\tif got := c.List(); !reflect.DeepEqual(got, want) {\n\t\t\tt.Fatalf(\"\
+        ordered list: %+v\", got)\n\t\t}\n\t}\n\tfor _, p := range []Product{{ID: \" \", Name: \"Name\"\
+        , PriceCents: 1}, {ID: \"new\", Name: \" \", PriceCents: 1}, {ID: \"new\", Name: \"Name\", PriceCents:\
+        \ 0}, {ID: \"new\", Name: \"Name\", PriceCents: -1}, {ID: \"a\", Name: \"\", PriceCents: 1}} {\n\
+        \t\tif err := c.Put(p); !errors.Is(err, ErrInvalid) {\n\t\t\tt.Fatalf(\"invalid put: %v\", err)\n\
+        \t\t}\n\t\tif got := c.List(); !reflect.DeepEqual(got, want) {\n\t\t\tt.Fatal(\"invalid put changed\
+        \ catalog\")\n\t\t}\n\t}\n\tif err := c.Put(Product{ID: \"a\", Name: \"Replacement\", PriceCents:\
+        \ 999}); !errors.Is(err, ErrExists) || !strings.Contains(err.Error(), \"a\") {\n\t\tt.Fatalf(\"\
+        duplicate: %v\", err)\n\t}\n\tgot, err := c.Get(\"a\")\n\tif err != nil || got != originalA {\n\t\
+        \tt.Fatalf(\"get: %+v %v\", got, err)\n\t}\n\tgot.Name = \"mutated get\"\n\tlist := c.List()\n\t\
+        list[0].Name = \"mutated list\"\n\tif after := c.List(); !reflect.DeepEqual(after, want) {\n\t\t\
+        t.Fatal(\"returned values alias stored data\")\n\t}\n\tif err := c.Delete(\"a\"); err != nil {\n\
+        \t\tt.Fatal(err)\n\t}\n\tif got := c.List(); !reflect.DeepEqual(got, []Product{b}) {\n\t\tt.Fatalf(\"\
+        delete: %+v\", got)\n\t}\n\tif err := c.Delete(\"a\"); !errors.Is(err, ErrMissing) {\n\t\tt.Fatalf(\"\
+        repeated deletion: %v\", err)\n\t}\n\tif err := c.Put(originalA); err != nil {\n\t\tt.Fatalf(\"\
+        reinsertion: %v\", err)\n\t}\n\tvar other Catalog\n\tif _, err := other.Get(\"b\"); !errors.Is(err,\
+        \ ErrMissing) {\n\t\tt.Fatal(\"catalog instances share state\")\n\t}\n}\n"
+    checks:
+    - id: focused-tests
+      runner: go_test
+      package: ./...
+      test_pattern: ^TestCatalog$
+      timeout: 20s
+    variants: []
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/catalog
+
+          go 1.25.0
+      - path: catalog.go
+        content: "package catalog\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n\t\"sort\"\n\t\"strings\"\n)\n\n\
+          var ErrInvalid = errors.New(\"invalid product\")\nvar ErrExists = errors.New(\"product exists\"\
+          )\nvar ErrMissing = errors.New(\"product missing\")\n\ntype Product struct {\n\tID         string\n\
+          \tName       string\n\tPriceCents int\n}\ntype Catalog struct{ products map[string]Product }\n\
+          \nfunc (c *Catalog) Put(p Product) error {\n\tif strings.TrimSpace(p.ID) == \"\" || strings.TrimSpace(p.Name)\
+          \ == \"\" || p.PriceCents <= 0 {\n\t\treturn fmt.Errorf(\"product %q: %w\", p.ID, ErrInvalid)\n\
+          \t}\n\tif _, ok := c.products[p.ID]; ok {\n\t\treturn fmt.Errorf(\"product %q: %w\", p.ID, ErrExists)\n\
+          \t}\n\tif c.products == nil {\n\t\tc.products = map[string]Product{}\n\t}\n\tc.products[p.ID]\
+          \ = p\n\treturn nil\n}\nfunc (c *Catalog) Get(id string) (Product, error) {\n\tp, ok := c.products[id]\n\
+          \tif !ok {\n\t\treturn Product{}, fmt.Errorf(\"product %q: %w\", id, ErrMissing)\n\t}\n\treturn\
+          \ p, nil\n}\nfunc (c *Catalog) Delete(id string) error {\n\tif _, ok := c.products[id]; !ok {\n\
+          \t\treturn fmt.Errorf(\"product %q: %w\", id, ErrMissing)\n\t}\n\tdelete(c.products, id)\n\treturn\
+          \ nil\n}\nfunc (c *Catalog) List() []Product {\n\tout := make([]Product, 0, len(c.products))\n\
+          \tfor _, p := range c.products {\n\t\tout = append(out, p)\n\t}\n\tsort.Slice(out, func(i, j int)\
+          \ bool { return out[i].ID < out[j].ID })\n\treturn out\n}\n"
+      - path: catalog_test.go
+        content: "package catalog\n\nimport (\n\t\"errors\"\n\t\"reflect\"\n\t\"strings\"\n\t\"testing\"\
+          \n)\n\nfunc TestCatalog(t *testing.T) {\n\tvar c Catalog\n\tif got := c.List(); got == nil ||\
+          \ len(got) != 0 {\n\t\tt.Fatalf(\"zero catalog: %+v\", got)\n\t}\n\tmissing := []string{\"missing\"\
+          , \"another\"}\n\tfor _, id := range missing {\n\t\tif _, err := c.Get(id); !errors.Is(err, ErrMissing)\
+          \ || !strings.Contains(err.Error(), id) {\n\t\t\tt.Fatalf(\"get %q: %v\", id, err)\n\t\t}\n\t\t\
+          if err := c.Delete(id); !errors.Is(err, ErrMissing) || !strings.Contains(err.Error(), id) {\n\t\
+          \t\tt.Fatalf(\"delete %q: %v\", id, err)\n\t\t}\n\t}\n\ta := Product{ID: \"a\", Name: \"Alpha\"\
+          , PriceCents: 100}\n\tb := Product{ID: \"b\", Name: \"Beta\", PriceCents: 200}\n\tif err := c.Put(b);\
+          \ err != nil {\n\t\tt.Fatal(err)\n\t}\n\tif err := c.Put(a); err != nil {\n\t\tt.Fatal(err)\n\t\
+          }\n\ta.Name = \"caller mutation\"\n\toriginalA := Product{ID: \"a\", Name: \"Alpha\", PriceCents:\
+          \ 100}\n\twant := []Product{originalA, b}\n\tfor i := 0; i < 5; i++ {\n\t\tif got := c.List();\
+          \ !reflect.DeepEqual(got, want) {\n\t\t\tt.Fatalf(\"ordered list: %+v\", got)\n\t\t}\n\t}\n\t\
+          for _, p := range []Product{{ID: \" \", Name: \"Name\", PriceCents: 1}, {ID: \"new\", Name: \"\
+          \ \", PriceCents: 1}, {ID: \"new\", Name: \"Name\", PriceCents: 0}, {ID: \"new\", Name: \"Name\"\
+          , PriceCents: -1}, {ID: \"a\", Name: \"\", PriceCents: 1}} {\n\t\tif err := c.Put(p); !errors.Is(err,\
+          \ ErrInvalid) {\n\t\t\tt.Fatalf(\"invalid put: %v\", err)\n\t\t}\n\t\tif got := c.List(); !reflect.DeepEqual(got,\
+          \ want) {\n\t\t\tt.Fatal(\"invalid put changed catalog\")\n\t\t}\n\t}\n\tif err := c.Put(Product{ID:\
+          \ \"a\", Name: \"Replacement\", PriceCents: 999}); !errors.Is(err, ErrExists) || !strings.Contains(err.Error(),\
+          \ \"a\") {\n\t\tt.Fatalf(\"duplicate: %v\", err)\n\t}\n\tgot, err := c.Get(\"a\")\n\tif err !=\
+          \ nil || got != originalA {\n\t\tt.Fatalf(\"get: %+v %v\", got, err)\n\t}\n\tgot.Name = \"mutated\
+          \ get\"\n\tlist := c.List()\n\tlist[0].Name = \"mutated list\"\n\tif after := c.List(); !reflect.DeepEqual(after,\
+          \ want) {\n\t\tt.Fatal(\"returned values alias stored data\")\n\t}\n\tif err := c.Delete(\"a\"\
+          ); err != nil {\n\t\tt.Fatal(err)\n\t}\n\tif got := c.List(); !reflect.DeepEqual(got, []Product{b})\
+          \ {\n\t\tt.Fatalf(\"delete: %+v\", got)\n\t}\n\tif err := c.Delete(\"a\"); !errors.Is(err, ErrMissing)\
+          \ {\n\t\tt.Fatalf(\"repeated deletion: %v\", err)\n\t}\n\tif err := c.Put(originalA); err != nil\
+          \ {\n\t\tt.Fatalf(\"reinsertion: %v\", err)\n\t}\n\tvar other Catalog\n\tif _, err := other.Get(\"\
+          b\"); !errors.Is(err, ErrMissing) {\n\t\tt.Fatal(\"catalog instances share state\")\n\t}\n}\n"
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
 relations:
   - from: go-errors.wrap-sentinel-error-with-context
     to: go-errors.extract-field-with-errors-as
@@ -1315,4 +1966,52 @@ relations:
     kind: relates_to
   - from: errors-as-type-extraction
     to: error-wrapping-with-percent-w
+    kind: relates_to
+  - from: go-errors.classify-wrapped-errors
+    to: error-classification-precedence
+    kind: relates_to
+  - from: error-classification-precedence
+    to: go-errors.classify-wrapped-errors
+    kind: relates_to
+  - from: go-errors.classify-wrapped-errors
+    to: error-identity-not-message
+    kind: relates_to
+  - from: error-identity-not-message
+    to: go-errors.classify-wrapped-errors
+    kind: relates_to
+  - from: go-errors.classify-wrapped-errors
+    to: error-chain-type-traversal
+    kind: relates_to
+  - from: error-chain-type-traversal
+    to: go-errors.classify-wrapped-errors
+    kind: relates_to
+  - from: go-errors.classify-wrapped-errors
+    to: error-joined-tree-order
+    kind: relates_to
+  - from: error-joined-tree-order
+    to: go-errors.classify-wrapped-errors
+    kind: relates_to
+  - from: go-errors.maintain-memory-catalog
+    to: catalog-zero-value
+    kind: relates_to
+  - from: catalog-zero-value
+    to: go-errors.maintain-memory-catalog
+    kind: relates_to
+  - from: go-errors.maintain-memory-catalog
+    to: catalog-validation-before-mutation
+    kind: relates_to
+  - from: catalog-validation-before-mutation
+    to: go-errors.maintain-memory-catalog
+    kind: relates_to
+  - from: go-errors.maintain-memory-catalog
+    to: catalog-deterministic-list
+    kind: relates_to
+  - from: catalog-deterministic-list
+    to: go-errors.maintain-memory-catalog
+    kind: relates_to
+  - from: go-errors.maintain-memory-catalog
+    to: catalog-value-snapshots
+    kind: relates_to
+  - from: catalog-value-snapshots
+    to: go-errors.maintain-memory-catalog
     kind: relates_to

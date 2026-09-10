@@ -844,6 +844,43 @@ challenges:
             optional:
             - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
               correta?
+          children:
+          - id: read-fragmented-note.verify-partial-bytes
+            kind: micro
+            action: verify
+            target: reader
+            title: Verificar o acúmulo de leituras parciais
+            instruction:
+              objective: Confirme que bytes recebidos em fragmentos são acumulados na ordem original.
+              scope: Apenas o processamento parcial até EOF.
+            concepts:
+            - io-partial-reads
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: partial-bytes-processed
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
+          - id: read-fragmented-note.verify-eof-boundary
+            kind: micro
+            action: verify
+            target: reader
+            title: Verificar a fronteira de EOF
+            instruction:
+              objective: Confirme que EOF após o conteúdo é tratado como término normal da leitura.
+              scope: Apenas a distinção entre EOF e erro real.
+            concepts:
+            - io-eof-boundary
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: eof-after-content-handled
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
         - id: read-fragmented-note.step-2
           kind: micro
           title: Recupere a nota sem perder informação.

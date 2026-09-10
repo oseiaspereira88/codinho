@@ -1289,6 +1289,43 @@ challenges:
             optional:
             - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
               correta?
+          children:
+          - id: read-quoted-attendees.verify-quoted-comma
+            kind: micro
+            action: verify
+            target: csv_record
+            title: Verificar vírgula entre aspas
+            instruction:
+              objective: Confirme que uma vírgula dentro de aspas permanece parte do nome importado.
+              scope: Apenas o parsing de campos CSV citados.
+            concepts:
+            - io-csv-quoted-fields
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: quoted-comma-preserved
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
+          - id: read-quoted-attendees.verify-invalid-record
+            kind: micro
+            action: verify
+            target: csv_record
+            title: Verificar registro inválido sem parcial
+            instruction:
+              objective: Confirme que um registro malformado falha sem devolver nomes já acumulados.
+              scope: Apenas a atomicidade do resultado em erro.
+            concepts:
+            - io-csv-quoted-fields
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: invalid-record-clears-result
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
   fixture:
   - path: go.mod
     content: |

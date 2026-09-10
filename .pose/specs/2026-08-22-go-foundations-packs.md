@@ -135,6 +135,7 @@ conceitos / ≥60 competências / ≥300 step nodes (R1's threshold em
 - [x] Expandir o fluxo de go-debugging com nodes de verificação da saída e análise da fronteira vazia, preservando o desafio canônico; validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir a variante `go-io.read-fragmented-note` com nodes de verificação para leituras parciais e fronteira EOF; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir a variante `go-io.decode-weather-fields` com nodes de verificação para documento nulo e valor posterior; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
+- [x] Expandir a variante `go-io.read-quoted-attendees` com nodes de verificação para vírgulas entre aspas e atomicidade em registro inválido; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir o desafio de conversão estreitante de go-first-steps com nodes de verificação de limites e reflexão sobre a ordem das operações; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir os desafios de módulo e formatação de go-first-steps com nodes de inspeção e verificação observável; preservar fixtures e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir o desafio de shadowing e retornos nomeados com nodes de verificação de casos e reflexão sobre escopo; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.

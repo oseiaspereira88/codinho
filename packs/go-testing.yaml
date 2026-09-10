@@ -1249,6 +1249,42 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+          - id: count-deadline-clock-calls.verify-missing-clock
+            kind: micro
+            action: verify
+            target: dependency_boundary
+            title: Verificar relógio ausente
+            instruction:
+              objective: Confirme que uma dependência de relógio nil retorna a sentinela prevista sem panic.
+              scope: Apenas a fronteira de dependência ausente.
+            concepts:
+            - testing-clock-injection
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: missing-clock-is-classified
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
+          - id: count-deadline-clock-calls.verify-single-observation
+            kind: micro
+            action: verify
+            target: counting_double
+            title: Verificar instante único
+            instruction:
+              objective: Confirme que todos os prazos do lote usam o mesmo instante observado pelo dublê.
+              scope: Apenas a contagem em lote misto.
+            concepts:
+            - testing-counting-double
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: one-observation-per-operation
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
   fixture:
   - path: go.mod
     content: |

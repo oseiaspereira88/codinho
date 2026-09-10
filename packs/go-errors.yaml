@@ -2163,6 +2163,46 @@ challenges:
             reflection:
               optional:
               - Por que a ordem de iteração de um mapa não serve como contrato de listagem?
+            children:
+            - id: maintain-memory-catalog.verify-invalid-put-preserves-state
+              kind: micro
+              action: verify
+              target: state
+              title: Verificar rejeição sem mutação
+              instruction:
+                objective: Tente inserir produtos inválidos e confirme que o estado anterior do catálogo permanece intacto.
+                scope: Apenas validação e preservação do estado.
+              concepts:
+              - catalog-validation-before-mutation
+              evidence:
+                strategies:
+                - test
+              criteria:
+              - id: invalid-put-preserves-state
+                kind: structural
+              completion:
+                requires_positive_evaluation: true
+            - id: maintain-memory-catalog.verify-sorted-snapshots
+              kind: micro
+              action: verify
+              target: output
+              title: Verificar snapshots ordenados e isolados
+              instruction:
+                objective: Liste produtos inseridos fora de ordem, altere a lista retornada e confirme ordenação e isolamento.
+                scope: Apenas List e seus valores retornados.
+              concepts:
+              - catalog-deterministic-list
+              - catalog-value-snapshots
+              evidence:
+                strategies:
+                - test
+              criteria:
+              - id: sorted-list-stable
+                kind: structural
+              - id: list-result-isolated
+                kind: structural
+              completion:
+                requires_positive_evaluation: true
     fixture:
     - path: go.mod
       content: |

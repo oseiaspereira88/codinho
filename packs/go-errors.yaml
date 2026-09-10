@@ -584,6 +584,43 @@ challenges:
             reflection:
               optional:
                 - 'Por que err.(*ValidationError) falha quando err é o resultado de fmt.Errorf com %w, mesmo o *ValidationError estando presente no encadeamento?'
+            children:
+              - id: extract-field.verify-deep-wrapping
+                kind: micro
+                action: verify
+                target: error
+                title: Verificar wrapping em múltiplas camadas
+                instruction:
+                  objective: Envolva o ValidationError em duas camadas de contexto e confirme que errors.As ainda encontra o campo.
+                  scope: Apenas a profundidade do encadeamento.
+                concepts: [errors-as-type-extraction]
+                evidence:
+                  strategies: [test]
+                criteria:
+                  - id: deep-wrapping-found
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
+              - id: extract-field.verify-absent-type
+                kind: micro
+                action: verify
+                target: error
+                title: Verificar ausência de tipo compatível
+                instruction:
+                  objective: Confirme que erro não relacionado e nil retornam campo vazio e ok false.
+                  scope: Apenas os caminhos sem ValidationError.
+                concepts: [errors-as-type-extraction]
+                evidence:
+                  strategies: [test]
+                criteria:
+                  - id: absent-type-rejected
+                    kind: structural
+                  - id: nil-rejected
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
     fixture:
       - path: go.mod
         content: |

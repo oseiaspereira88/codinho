@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-core
-version: 1.2.0
+version: 1.3.0
 themes:
   - id: control-flow
     title: Controle de fluxo
@@ -90,12 +90,88 @@ concepts:
         concept_id: constructor-returns-interface
   - id: panic-recover-boundary
     title: Fronteira de recuperação de panic
+    content:
+      version: 1
+      explanation: recover interrompe um panic quando é chamado diretamente por uma função adiada durante
+        o desenrolamento da pilha na mesma goroutine. A função protegida não retoma a instrução que falhou.
+        Use essa fronteira de forma deliberada; falhas esperadas devem normalmente ser retornadas como error,
+        e capturar qualquer panic pode esconder defeitos.
+      example:
+        context: isolamento de uma operação local
+        code: "package example\n\nimport \"testing\"\n\nfunc invoke(run func()) (failed bool) {\n\tdefer func()\
+          \ {\n\t\tif recover() != nil {\n\t\t\tfailed = true\n\t\t}\n\t}()\n\trun()\n\treturn false\n}\n\
+          func TestBoundary(t *testing.T) {\n\treached := false\n\tif !invoke(func() { panic(\"broken\") })\
+          \ {\n\t\tt.Fatal(\"missing recovery\")\n\t}\n\tif invoke(func() { reached = true }) || !reached\
+          \ {\n\t\tt.Fatal(\"normal call\")\n\t}\n}\n"
+        explanation: O retorno nomeado informa a recuperação. A execução normal também é verificada; o exemplo
+          não captura panics de outras goroutines.
+      relation_refs:
+      - kind: relates_to
+        concept_id: defer-execution-order
   - id: unexported-field-invariant
     title: Invariante protegido por campo não exportado
+    content:
+      version: 1
+      explanation: 'Campos não exportados restringem acesso direto ao package que os declara. Um construtor
+        e métodos podem validar transições antes de alterar o estado, mas o próprio package ainda pode escrever
+        nesses campos. Considere o zero value: quando o tipo é exportado, chamadores podem construí-lo sem
+        passar pelo construtor. Não devolva referências mutáveis que permitam contornar a validação.'
+      example:
+        context: saldo não negativo
+        code: "package example\n\nimport (\n\t\"errors\"\n\t\"testing\"\n)\n\ntype Balance struct{ amount\
+          \ int }\n\nfunc (b *Balance) Set(amount int) error {\n\tif amount < 0 {\n\t\treturn errors.New(\"\
+          negative amount\")\n\t}\n\tb.amount = amount\n\treturn nil\n}\nfunc (b Balance) Amount() int { return\
+          \ b.amount }\nfunc TestInvariant(t *testing.T) {\n\tvar b Balance\n\tif b.Amount() != 0 {\n\t\t\
+          t.Fatal(\"zero value\")\n\t}\n\tif err := b.Set(7); err != nil {\n\t\tt.Fatal(err)\n\t}\n\tif err\
+          \ := b.Set(-2); err == nil || b.Amount() != 7 {\n\t\tt.Fatal(\"invalid transition\")\n\t}\n}\n"
+        explanation: O zero value é válido e a validação antecede a escrita. O teste demonstra transições;
+          a restrição de acesso externo decorre da visibilidade do campo no Go.
+      relation_refs:
+      - kind: relates_to
+        concept_id: pointer-vs-value-receiver
   - id: short-circuit-nil-guard
     title: Curto-circuito para evitar acesso a valor nil
+    content:
+      version: 1
+      explanation: Go avalia && e || da esquerda para a direita e só avalia o segundo operando quando necessário.
+        Em p != nil && p.Ready, a verificação de nil protege o acesso seguinte. Em p == nil || !p.Ready, nil
+        já torna a condição verdadeira. Inverter a ordem dos operandos elimina essa proteção; o padrão também
+        não fornece sincronização entre goroutines.
+      example:
+        context: disponibilidade de uma estação
+        code: "package example\n\nimport \"testing\"\n\ntype Station struct{ Ready bool }\n\nfunc available(s\
+          \ *Station) bool { return s != nil && s.Ready }\nfunc TestGuard(t *testing.T) {\n\tfor _, c := range\
+          \ []struct {\n\t\ts    *Station\n\t\twant bool\n\t}{\n\t\t{nil, false}, {&Station{}, false}, {&Station{Ready:\
+          \ true}, true},\n\t} {\n\t\tif got := available(c.s); got != c.want {\n\t\t\tt.Fatalf(\"got %v want\
+          \ %v\", got, c.want)\n\t\t}\n\t}\n}\n"
+        explanation: Os casos distinguem ponteiro ausente, estação inativa e estação pronta. O operando esquerdo
+          impede dereferenciar nil.
+      relation_refs:
+      - kind: relates_to
+        concept_id: pointer-vs-value-receiver
   - id: constructor-returns-interface
     title: Construtor retornando tipo de interface
+    content:
+      version: 1
+      explanation: 'Um construtor pode retornar uma interface para expor um conjunto pequeno de operações
+        e ocultar o tipo concreto. Isso reduz as operações disponíveis pelo contrato estático, mas também
+        pode limitar a evolução da API; interfaces pequenas definidas por consumidores são outra opção. Uma
+        interface só é nil quando não contém tipo dinâmico nem valor: guardar um ponteiro nil dentro dela
+        não produz uma interface nil.'
+      example:
+        context: leitura de uma etiqueta fixa
+        code: "package example\n\nimport \"testing\"\n\ntype Label interface{ Text() string }\ntype fixedLabel\
+          \ struct{ text string }\n\nfunc (l *fixedLabel) Text() string { return l.text }\nfunc NewLabel(text\
+          \ string) Label {\n\tif text == \"\" {\n\t\treturn nil\n\t}\n\treturn &fixedLabel{text: text}\n\
+          }\nfunc TestConstructor(t *testing.T) {\n\tif NewLabel(\"\") != nil {\n\t\tt.Fatal(\"expected absent\
+          \ label\")\n\t}\n\tlabel := NewLabel(\"north\")\n\tif label == nil || label.Text() != \"north\"\
+          \ {\n\t\tt.Fatal(\"label\")\n\t}\n\tvar pointer *fixedLabel\n\tvar boxed Label = pointer\n\tif boxed\
+          \ == nil {\n\t\tt.Fatal(\"typed nil interface\")\n\t}\n}\n"
+        explanation: O caminho vazio retorna nil diretamente. A comparação com um ponteiro nil encaixotado
+          evidencia a armadilha; chamar Text nesse ponteiro causaria panic.
+      relation_refs:
+      - kind: relates_to
+        concept_id: unexported-field-invariant
   - id: functional-options-pattern
     title: Padrão de opções funcionais
     content:
@@ -2436,4 +2512,16 @@ relations:
     kind: relates_to
   - from: pointer-vs-value-receiver
     to: constructor-returns-interface
+    kind: relates_to
+  - from: panic-recover-boundary
+    to: defer-execution-order
+    kind: relates_to
+  - from: unexported-field-invariant
+    to: pointer-vs-value-receiver
+    kind: relates_to
+  - from: short-circuit-nil-guard
+    to: pointer-vs-value-receiver
+    kind: relates_to
+  - from: constructor-returns-interface
+    to: unexported-field-invariant
     kind: relates_to

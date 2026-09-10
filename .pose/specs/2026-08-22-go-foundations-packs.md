@@ -122,7 +122,7 @@ conceitos / ≥60 competências / ≥300 step nodes (R1's threshold em
 `catalog-authoring-quality` R9 `--v1-gate`).
 
 ### Implementation
-- [ ] Completar os oito conceitos sem conteúdo em go-core em dois lotes (fluxo/funções e fronteiras/APIs), com exemplos isolados, relações e preservação estrutural dos desafios; executar exemplos e matriz strict. Consumir knowledge:go-foundations-io-batch.
+- [x] Completar os oito conceitos sem conteúdo em go-core em dois lotes (fluxo/funções e fronteiras/APIs), com exemplos isolados, relações e preservação estrutural dos desafios; executar exemplos e matriz strict. Consumir knowledge:go-foundations-io-batch.
 - [x] Completar conteúdo dos oito conceitos restantes de go-errors com exemplos isolados, relações e preservação de desafios/fixtures; executar exemplos e matriz strict. Consumir knowledge:go-foundations-io-batch.
 - [x] Complementar errors.As, errors.Join e tradução na fronteira em go-errors, preservando o conteúdo de %w e desafios; testar três exemplos isolados e matriz strict. Consumir knowledge:go-foundations-io-batch.
 - [x] Aprofundar os dez conceitos existentes de go-io com explicações, exemplos Go isolados e referências ligadas ao grafo; preservar desafios/fixtures e verificar exemplos e matriz strict. Consumir knowledge:go-foundations-io-batch.
@@ -1097,6 +1097,7 @@ Autoria parcial dos sete packs presentes no manifest; os lotes go-io, go-testing
 - Sete packs de fundamentos, manifest e docs/catalog/go-foundations.md. O inventário e os relatórios por lote distinguem autoria, verificação mecânica e publicação.
 
 ### Validation executed
+- Lotes conceituais de go-core: oito exemplos isolados passaram; comparação estrutural preservou os dez desafios, competências, conteúdo histórico e relações anteriores. Evidência em .pose/reports/2026-09-10-core-concept-content.md.
 - Reconciliação em 2026-09-10: artifact-check strict passou após registrar os intervalos parent..commit de 96d7d59, 77798ee, 0bee17d e 545e227 e declarar as modificações históricas dos dois documentos de revisão. Sem reescrita de commits; avisos globais de arquivos sem atribuição permanecem.
 - Command: pose validate --strict --json .pose/results/delivery-validation.json
 - Result: 23/23 checks aprovados no lote de oito variantes, zero skips; fixtures baseline/reference verificadas.

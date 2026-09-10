@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "input_digest": "sha256:960f2e47f343ba2ce8de742b3fd590bfee46faa0a49f526725fba37d816194eb",
-  "provenance_digest": "sha256:bd258a440d725fd8ba952afd1850d373dac267a12481d6a611f5a1e1452f8800",
+  "input_digest": "sha256:2176a990c28a22962493141018cf322c478af7113cbb67193fd22f5a9f29a043",
+  "provenance_digest": "sha256:d846baf183ad7a2b07fc610348eef7b02995b7c8041834a85c24e314d22f81b9",
   "nodes": [
     {
       "id": "artifact:.agents/skills/codinho/SKILL.md",
@@ -830,10 +830,24 @@
       }
     },
     {
+      "id": "artifact:.pose/reports/2026-09-10-core-concept-content.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/reports/2026-09-10-core-concept-content.md"
+      }
+    },
+    {
       "id": "artifact:.pose/reports/2026-09-10-error-concept-content.md",
       "type": "artifact",
       "attributes": {
         "path": ".pose/reports/2026-09-10-error-concept-content.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/reports/2026-09-10-error-concepts-complement.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/reports/2026-09-10-error-concepts-complement.md"
       }
     },
     {
@@ -3979,14 +3993,6 @@
       }
     },
     {
-      "id": "change-set:cs-44498a656147",
-      "type": "change-set",
-      "attributes": {
-        "diff_digest": "sha256:b880dd71c9468f07abddd8e484310886f2ad4796603003dc916ec05f5e999ad1",
-        "selector": "trailers:go-foundations-packs"
-      }
-    },
-    {
       "id": "change-set:cs-456b1492238d",
       "type": "change-set",
       "attributes": {
@@ -4160,6 +4166,14 @@
       "attributes": {
         "diff_digest": "sha256:8093ef4e7087efaf621f683122bd678f0a4c53aa65c295697f5e4eb8fa34b0cb",
         "selector": "range:adb32358550c3cb916082be8d01b0b780bc3fe77..5cb408727a56b13869bfbc9fb5e4b0afb10e1c5d"
+      }
+    },
+    {
+      "id": "change-set:cs-f85949156365",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:22b1a703b8c189513bb47b64a37a716f6fd84609c0c89e7f135af65b98085e20",
+        "selector": "trailers:go-foundations-packs"
       }
     },
     {
@@ -8774,306 +8788,6 @@
       "type": "changes"
     },
     {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/assessments/README.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/assessments/cmd-ci-assurance.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/assessments/cmd-codinho.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/assessments/consolidated.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/assessments/docs.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/assessments/github-workflows.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/assessments/internal-ciassurance.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/assessments/internal-mcpserver.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/assessments/packs.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/assessments/pose-contracts.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/assessments/root.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/assessments/scripts.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/assessments/technical-debt.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/docs.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/indexes/delivery-integrity.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/indexes/validation-matrix.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/knowledge/2026-08-24-note-agent-batch-review-pattern.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/knowledge/2026-09-10-handoff-go-foundations-io-batch.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/reports/2026-09-09-go-io-authoring-batch.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/reports/2026-09-10-error-concept-content.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/reports/2026-09-10-foundation-track-routing.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/reports/2026-09-10-foundation-variants-authoring-batch.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/reports/2026-09-10-go-errors-authoring-batch.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/reports/2026-09-10-go-testing-authoring-batch.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/reports/2026-09-10-io-concept-content.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/reports/2026-09-10-standard-reconcile-historical-go-core-creation.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/reports/2026-09-10-standard-reconcile-historical-go-data-text-creation.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/reports/2026-09-10-standard-reconcile-historical-go-errors-creation.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/reports/2026-09-10-standard-reconcile-historical-go-type-design-creation.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/reports/2026-09-10-standard-validate-native.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/reports/2026-09-10-testing-concept-content.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/reports/history/standard-reconcile-historical-go-core-creation.jsonl",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/reports/history/standard-reconcile-historical-go-data-text-creation.jsonl",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/reports/history/standard-reconcile-historical-go-errors-creation.jsonl",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/reports/history/standard-reconcile-historical-go-type-design-creation.jsonl",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/reports/history/standard-validate-native.jsonl",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/results/delivery-validation.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/specs/2026-08-22-go-foundations-packs.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/state/components/cmd-ci-assurance.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/state/components/cmd-codinho.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/state/components/docs.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/state/components/github-workflows.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/state/components/internal-ciassurance.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/state/components/internal-mcpserver.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/state/components/packs.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/state/components/pose-contracts.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/state/components/root.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/state/components/scripts.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/state/project-state.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:.pose/state/technical-debt.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:cmd/codinho/foundation_tracks_integration_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:docs/agent-review-workflow.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:docs/catalog/go-foundations.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:docs/content-review-checklist.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:internal/curriculum/foundation_variants_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:packs/go-errors.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:packs/go-first-steps.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:packs/go-io.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:packs/go-testing.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-44498a656147",
-      "to": "artifact:packs/manifest.yaml",
-      "type": "changes"
-    },
-    {
       "from": "change-set:cs-456b1492238d",
       "to": "artifact:.agents/skills/codinho/SKILL.md",
       "type": "changes"
@@ -12666,6 +12380,321 @@
     {
       "from": "change-set:cs-ed6e22f28632",
       "to": "artifact:internal/session/tracks_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/assessments/README.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/assessments/cmd-ci-assurance.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/assessments/cmd-codinho.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/assessments/consolidated.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/assessments/docs.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/assessments/github-workflows.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/assessments/internal-ciassurance.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/assessments/internal-mcpserver.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/assessments/packs.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/assessments/pose-contracts.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/assessments/root.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/assessments/scripts.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/assessments/technical-debt.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/docs.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/indexes/delivery-integrity.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/indexes/validation-matrix.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/knowledge/2026-08-24-note-agent-batch-review-pattern.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/knowledge/2026-09-10-handoff-go-foundations-io-batch.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/2026-09-09-go-io-authoring-batch.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/2026-09-10-core-concept-content.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/2026-09-10-error-concept-content.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/2026-09-10-error-concepts-complement.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/2026-09-10-foundation-track-routing.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/2026-09-10-foundation-variants-authoring-batch.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/2026-09-10-go-errors-authoring-batch.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/2026-09-10-go-testing-authoring-batch.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/2026-09-10-io-concept-content.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/2026-09-10-standard-reconcile-historical-go-core-creation.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/2026-09-10-standard-reconcile-historical-go-data-text-creation.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/2026-09-10-standard-reconcile-historical-go-errors-creation.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/2026-09-10-standard-reconcile-historical-go-type-design-creation.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/2026-09-10-standard-validate-native.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/2026-09-10-testing-concept-content.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/history/standard-reconcile-historical-go-core-creation.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/history/standard-reconcile-historical-go-data-text-creation.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/history/standard-reconcile-historical-go-errors-creation.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/history/standard-reconcile-historical-go-type-design-creation.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/reports/history/standard-validate-native.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/results/delivery-validation.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/specs/2026-08-22-go-foundations-packs.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/state/components/cmd-ci-assurance.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/state/components/cmd-codinho.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/state/components/docs.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/state/components/github-workflows.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/state/components/internal-ciassurance.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/state/components/internal-mcpserver.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/state/components/packs.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/state/components/pose-contracts.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/state/components/root.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/state/components/scripts.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/state/project-state.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:.pose/state/technical-debt.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:cmd/codinho/foundation_tracks_integration_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:docs/agent-review-workflow.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:docs/catalog/go-foundations.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:docs/content-review-checklist.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:internal/curriculum/foundation_variants_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:packs/go-core.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:packs/go-errors.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:packs/go-first-steps.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:packs/go-io.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:packs/go-testing.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-f85949156365",
+      "to": "artifact:packs/manifest.yaml",
       "type": "changes"
     },
     {
@@ -16285,12 +16314,12 @@
     },
     {
       "from": "spec:go-foundations-packs",
-      "to": "change-set:cs-44498a656147",
+      "to": "change-set:cs-59b91565610e",
       "type": "observed-by"
     },
     {
       "from": "spec:go-foundations-packs",
-      "to": "change-set:cs-59b91565610e",
+      "to": "change-set:cs-f85949156365",
       "type": "observed-by"
     },
     {
@@ -23579,275 +23608,6 @@
       "diff_digest": "sha256:7ecdc0bbcd4028c0159755f3daad871deb95358c824dfb85c52563faabaca13a"
     },
     {
-      "id": "cs-44498a656147",
-      "spec": "go-foundations-packs",
-      "selector": "trailers:go-foundations-packs",
-      "base": "6518bebd03b709c5b6af23aaa88eab55d3088456^",
-      "head": "1cd4ef19cc20b9e0e931de1e635303c8dec2ad88",
-      "resolved_base": "de2d1229b23a853e0f268900da9a906926c99923",
-      "resolved_head": "1cd4ef19cc20b9e0e931de1e635303c8dec2ad88",
-      "commits": [
-        "6518bebd03b709c5b6af23aaa88eab55d3088456",
-        "348d9853d2172dfb7268b64f1a120a1bbb591ac0",
-        "edf3269378517d57ce0ad87f77145a11692c41da",
-        "e8cd863e3da3a59f9d215790c499c45621e2af40",
-        "ac886fc02602d452bca409bda6ac69528fc74cd5",
-        "12331fe997abb91687151d64942b9d88af40687d",
-        "dd17450f10d71dd9c5603185693c66b72dbc6c6f",
-        "d4f1638faa78ce35791133b254ba17818d05ff7d",
-        "0d78c7c03857a3dfa53c481d64f6f5c4af5ffe83",
-        "b42895c1bac2803f2ed9c39856af01b6b6323344",
-        "43dba55c4402df7c4bfc7da242e6b21416ff4bf3",
-        "237c3bc00b60c0483b14e3baa89b54350f0c1613",
-        "2eb17141ba8ed8eb5f92e51adc1c3e22937bf175",
-        "2171d72837fd6e626b74425a1bce400bc8633136",
-        "1cd4ef19cc20b9e0e931de1e635303c8dec2ad88"
-      ],
-      "paths": [
-        {
-          "action": "created",
-          "path": ".pose/knowledge/2026-09-10-handoff-go-foundations-io-batch.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-09-go-io-authoring-batch.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-error-concept-content.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-foundation-track-routing.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-foundation-variants-authoring-batch.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-go-errors-authoring-batch.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-go-testing-authoring-batch.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-io-concept-content.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-core-creation.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-data-text-creation.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-errors-creation.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-type-design-creation.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-standard-validate-native.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-testing-concept-content.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/history/standard-reconcile-historical-go-core-creation.jsonl"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/history/standard-reconcile-historical-go-data-text-creation.jsonl"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/history/standard-reconcile-historical-go-errors-creation.jsonl"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/history/standard-reconcile-historical-go-type-design-creation.jsonl"
-        },
-        {
-          "action": "created",
-          "path": "cmd/codinho/foundation_tracks_integration_test.go"
-        },
-        {
-          "action": "created",
-          "path": "docs/catalog/go-foundations.md"
-        },
-        {
-          "action": "created",
-          "path": "internal/curriculum/foundation_variants_test.go"
-        },
-        {
-          "action": "created",
-          "path": "packs/go-io.yaml"
-        },
-        {
-          "action": "created",
-          "path": "packs/go-testing.yaml"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/README.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/cmd-ci-assurance.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/cmd-codinho.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/consolidated.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/docs.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/github-workflows.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/internal-ciassurance.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/internal-mcpserver.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/packs.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/pose-contracts.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/root.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/scripts.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/technical-debt.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/docs.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/indexes/delivery-integrity.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/indexes/validation-matrix.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/knowledge/2026-08-24-note-agent-batch-review-pattern.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/reports/history/standard-validate-native.jsonl"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/results/delivery-validation.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-go-foundations-packs.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/cmd-ci-assurance.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/cmd-codinho.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/docs.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/github-workflows.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/internal-ciassurance.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/internal-mcpserver.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/packs.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/pose-contracts.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/root.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/scripts.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/project-state.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/technical-debt.json"
-        },
-        {
-          "action": "modified",
-          "path": "docs/agent-review-workflow.md"
-        },
-        {
-          "action": "modified",
-          "path": "docs/content-review-checklist.md"
-        },
-        {
-          "action": "modified",
-          "path": "packs/go-errors.yaml"
-        },
-        {
-          "action": "modified",
-          "path": "packs/go-first-steps.yaml"
-        },
-        {
-          "action": "modified",
-          "path": "packs/manifest.yaml"
-        }
-      ],
-      "diff_digest": "sha256:b880dd71c9468f07abddd8e484310886f2ad4796603003dc916ec05f5e999ad1"
-    },
-    {
       "id": "cs-456b1492238d",
       "spec": "learning-practice-debug-modes",
       "selector": "trailers:learning-practice-debug-modes",
@@ -27089,6 +26849,289 @@
       "diff_digest": "sha256:8093ef4e7087efaf621f683122bd678f0a4c53aa65c295697f5e4eb8fa34b0cb"
     },
     {
+      "id": "cs-f85949156365",
+      "spec": "go-foundations-packs",
+      "selector": "trailers:go-foundations-packs",
+      "base": "6518bebd03b709c5b6af23aaa88eab55d3088456^",
+      "head": "831d1783526bef6eb80c791606f1bbeb3dca6c9b",
+      "resolved_base": "de2d1229b23a853e0f268900da9a906926c99923",
+      "resolved_head": "831d1783526bef6eb80c791606f1bbeb3dca6c9b",
+      "commits": [
+        "6518bebd03b709c5b6af23aaa88eab55d3088456",
+        "348d9853d2172dfb7268b64f1a120a1bbb591ac0",
+        "edf3269378517d57ce0ad87f77145a11692c41da",
+        "e8cd863e3da3a59f9d215790c499c45621e2af40",
+        "ac886fc02602d452bca409bda6ac69528fc74cd5",
+        "12331fe997abb91687151d64942b9d88af40687d",
+        "dd17450f10d71dd9c5603185693c66b72dbc6c6f",
+        "d4f1638faa78ce35791133b254ba17818d05ff7d",
+        "0d78c7c03857a3dfa53c481d64f6f5c4af5ffe83",
+        "b42895c1bac2803f2ed9c39856af01b6b6323344",
+        "43dba55c4402df7c4bfc7da242e6b21416ff4bf3",
+        "237c3bc00b60c0483b14e3baa89b54350f0c1613",
+        "2eb17141ba8ed8eb5f92e51adc1c3e22937bf175",
+        "2171d72837fd6e626b74425a1bce400bc8633136",
+        "1cd4ef19cc20b9e0e931de1e635303c8dec2ad88",
+        "d688816f97fce164f26965ddda6c9b83765002bc",
+        "831d1783526bef6eb80c791606f1bbeb3dca6c9b"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": ".pose/knowledge/2026-09-10-handoff-go-foundations-io-batch.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-09-go-io-authoring-batch.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-core-concept-content.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-error-concept-content.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-error-concepts-complement.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-foundation-track-routing.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-foundation-variants-authoring-batch.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-go-errors-authoring-batch.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-go-testing-authoring-batch.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-io-concept-content.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-core-creation.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-data-text-creation.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-errors-creation.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-type-design-creation.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-standard-validate-native.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-testing-concept-content.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/history/standard-reconcile-historical-go-core-creation.jsonl"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/history/standard-reconcile-historical-go-data-text-creation.jsonl"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/history/standard-reconcile-historical-go-errors-creation.jsonl"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/history/standard-reconcile-historical-go-type-design-creation.jsonl"
+        },
+        {
+          "action": "created",
+          "path": "cmd/codinho/foundation_tracks_integration_test.go"
+        },
+        {
+          "action": "created",
+          "path": "docs/catalog/go-foundations.md"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/foundation_variants_test.go"
+        },
+        {
+          "action": "created",
+          "path": "packs/go-io.yaml"
+        },
+        {
+          "action": "created",
+          "path": "packs/go-testing.yaml"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/README.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/cmd-ci-assurance.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/cmd-codinho.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/consolidated.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/docs.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/github-workflows.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/internal-ciassurance.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/internal-mcpserver.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/packs.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/pose-contracts.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/root.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/scripts.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/technical-debt.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/docs.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/delivery-integrity.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/validation-matrix.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/knowledge/2026-08-24-note-agent-batch-review-pattern.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/reports/history/standard-validate-native.jsonl"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/results/delivery-validation.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-go-foundations-packs.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/cmd-ci-assurance.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/cmd-codinho.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/docs.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/github-workflows.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/internal-ciassurance.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/internal-mcpserver.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/packs.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/pose-contracts.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/root.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/scripts.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/project-state.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/technical-debt.json"
+        },
+        {
+          "action": "modified",
+          "path": "docs/agent-review-workflow.md"
+        },
+        {
+          "action": "modified",
+          "path": "docs/content-review-checklist.md"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-core.yaml"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-errors.yaml"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-first-steps.yaml"
+        },
+        {
+          "action": "modified",
+          "path": "packs/manifest.yaml"
+        }
+      ],
+      "diff_digest": "sha256:22b1a703b8c189513bb47b64a37a716f6fd84609c0c89e7f135af65b98085e20"
+    },
+    {
       "id": "cs-f96233eb5851",
       "spec": "go-foundations-packs",
       "selector": "range:77798ee^..77798ee",
@@ -28803,22 +28846,22 @@
       "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
+      "id": "dif-36865d5353c1",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "go-foundations-packs",
+      "path": "cmd/codinho/foundation_tracks_integration_test.go",
+      "change_set": "cs-f85949156365",
+      "message": "changed delivery root cmd/codinho has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
       "id": "dif-38019362c20b",
       "code": "undeclared-delivery",
       "severity": "warning",
       "spec": "reliability-observability-compatibility",
       "path": "cmd/codinho/reliability_test.go",
       "change_set": "cs-cd2ac178ff4e",
-      "message": "changed delivery root cmd/codinho has no delivery declaration",
-      "remediation": "declare a typed delivery target or narrow the attributed change set"
-    },
-    {
-      "id": "dif-3a280445e8e6",
-      "code": "undeclared-delivery",
-      "severity": "warning",
-      "spec": "go-foundations-packs",
-      "path": "cmd/codinho/foundation_tracks_integration_test.go",
-      "change_set": "cs-44498a656147",
       "message": "changed delivery root cmd/codinho has no delivery declaration",
       "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
@@ -29698,9 +29741,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -29715,7 +29758,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -29743,9 +29786,9 @@
       "evidence_class": "build",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -29760,7 +29803,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -29788,9 +29831,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -29805,7 +29848,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -29833,9 +29876,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -29850,7 +29893,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -29878,9 +29921,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -29895,7 +29938,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -29923,9 +29966,9 @@
       "evidence_class": "e2e",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -29940,7 +29983,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -29968,9 +30011,9 @@
       "evidence_class": "reachability",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -29985,7 +30028,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -30013,9 +30056,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -30030,7 +30073,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -30058,9 +30101,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -30075,7 +30118,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -30103,9 +30146,9 @@
       "evidence_class": "build",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -30120,7 +30163,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -30148,9 +30191,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -30165,7 +30208,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -30193,9 +30236,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -30210,7 +30253,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -30238,9 +30281,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -30255,7 +30298,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -30283,9 +30326,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -30300,7 +30343,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -30328,9 +30371,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -30345,7 +30388,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -30373,9 +30416,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -30390,7 +30433,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -30418,9 +30461,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -30435,7 +30478,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -30463,9 +30506,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -30480,7 +30523,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -30508,9 +30551,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -30525,7 +30568,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -30553,9 +30596,9 @@
       "evidence_class": "unit",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -30570,7 +30613,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -30598,9 +30641,9 @@
       "evidence_class": "integration",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -30615,7 +30658,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -30643,9 +30686,9 @@
       "evidence_class": "build",
       "severity": "required",
       "outcome": "pass",
-      "git_head": "2171d72837fd6e626b74425a1bce400bc8633136",
-      "generated_at": "2026-09-10T14:27:12Z",
-      "provenance_digest": "sha256:27abce5163c3770e052e82894d4eb50bd5405746ac34edad35f52775960a53f3",
+      "git_head": "d688816f97fce164f26965ddda6c9b83765002bc",
+      "generated_at": "2026-09-10T15:50:15Z",
+      "provenance_digest": "sha256:00b4f01fd3a2de28370aae9ab46287237365b8563f25e9e6f307f2ac86da12b9",
       "report": ".pose/results/delivery-validation.json",
       "scope_provenance": {
         "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
@@ -30660,7 +30703,7 @@
         "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
         "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
         "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-        "go-foundations-packs": "sha256:6e2a193a76397bedb21f040c3844d12e6e40ffff830826fe92f1e14e2ab820c7",
+        "go-foundations-packs": "sha256:9ea2c73a25c9925b951176a09e524a91f821a57b45ee5892cc3774d47f8f8974",
         "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
         "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
         "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",

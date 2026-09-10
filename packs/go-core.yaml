@@ -1640,6 +1640,27 @@ challenges:
             reflection:
               optional:
                 - Por que checar node != nil antes de node.Value >= min na mesma condição evita panic, mesmo quando algum node é nil?
+          - id: model.verify-found-flag
+            kind: micro
+            action: verify
+            target: return_value
+            title: Verificar valor e flag de busca
+            instruction:
+              objective: Confirme que um valor encontrado igual a zero retorna found true, enquanto ausência retorna zero e found false.
+              scope: Casos de limite com node válido e lista sem correspondência.
+            concepts: [short-circuit-nil-guard]
+            evidence:
+              strategies: [test]
+            criteria:
+              - id: found-flag-distinguishes-zero
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
     fixture:
       - path: go.mod
         content: |

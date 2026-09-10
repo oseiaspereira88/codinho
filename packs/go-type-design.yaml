@@ -574,6 +574,43 @@ challenges:
             reflection:
               optional:
                 - Por que devolver um *strictValidator nil como Validator (mesmo dentro do caso "strict") resulta em uma interface diferente de nil, mas que ainda pode falhar de forma inesperada ao ser usada?
+            children:
+              - id: model.verify-validator-identity
+                kind: micro
+                action: verify
+                target: interface
+                title: Verificar a identidade da interface
+                instruction:
+                  objective: Compare os retornos dos modos conhecido e desconhecido com nil e invoque Validate apenas no validador configurado.
+                  scope: Somente a distinção entre interface nil e interface com tipo dinâmico.
+                concepts: [typed-nil-interface-trap]
+                evidence:
+                  strategies: [compile, source_inspection]
+                criteria:
+                  - id: known-interface-non-nil
+                    kind: structural
+                  - id: unknown-interface-true-nil
+                    kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
+              - id: model.explain-interface-zero-state
+                kind: micro
+                action: reflect
+                target: decision
+                title: Explicar o estado zero da interface
+                instruction:
+                  objective: Explique por que o retorno nil direto é diferente de encaixotar um ponteiro nil em Validator.
+                  scope: Apenas a justificativa do contrato para modo desconhecido.
+                concepts: [typed-nil-interface-trap]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: interface-zero-state-explained
+                    kind: qualitative
+                completion:
+                  requires_positive_evaluation: false
+                  requires_user_confirmation: true
     fixture:
       - path: go.mod
         content: |

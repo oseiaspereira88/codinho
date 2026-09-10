@@ -514,6 +514,30 @@ challenges:
             reflection:
               optional:
                 - Por que Sum() sem nenhum argumento naturalmente retorna 0, mesmo sem tratar esse caso separadamente?
+          - id: model.verify-variadic-call-forms
+            kind: micro
+            action: verify
+            target: function_call
+            title: Comparar argumentos diretos e expansão de slice
+            instruction:
+              objective: Verifique que argumentos diretos e a expansão de um slice com os mesmos valores produzem a soma esperada.
+              scope: Chamadas de Sum com zero, um e vários argumentos, incluindo sinais mistos.
+            concepts: [variadic-parameters]
+            evidence:
+              strategies: [test]
+            criteria:
+              - id: direct-and-expanded-calls-agree
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+            reflection:
+              optional:
+                - O que muda no local dos três pontos entre declarar a função e expandir um slice na chamada?
     fixture:
       - path: go.mod
         content: |
@@ -551,11 +575,38 @@ challenges:
                   })
               }
           }
+      - path: call_forms_test.go
+        content: |
+          package sumvariadic
+
+          import "testing"
+
+          func TestSumCallForms(t *testing.T) {
+              cases := []struct {
+                  name string
+                  direct int
+                  values []int
+                  want int
+              }{
+                  {"zero", Sum(), nil, 0},
+                  {"one", Sum(5), []int{5}, 5},
+                  {"multiple", Sum(1, 2, 3), []int{1, 2, 3}, 6},
+                  {"mixed", Sum(-1, 5, -4), []int{-1, 5, -4}, 0},
+              }
+              for _, tc := range cases {
+                  t.Run(tc.name, func(t *testing.T) {
+                      expanded := Sum(tc.values...)
+                      if tc.direct != tc.want || expanded != tc.want {
+                          t.Fatalf("direct=%d expanded=%d want=%d", tc.direct, expanded, tc.want)
+                      }
+                  })
+              }
+          }
     checks:
       - id: focused-tests
         runner: go_test
         package: ./...
-        test_pattern: ^TestSum$
+        test_pattern: ^TestSum
         timeout: 20s
     variants: []
 
@@ -599,6 +650,33 @@ challenges:
                       got := Sum(c.nums...)
                       if got != c.want {
                           t.Errorf("Sum(%v...) = %d, want %d", c.nums, got, c.want)
+                      }
+                  })
+              }
+          }
+      - path: call_forms_test.go
+        content: |
+          package sumvariadic
+
+          import "testing"
+
+          func TestSumCallForms(t *testing.T) {
+              cases := []struct {
+                  name string
+                  direct int
+                  values []int
+                  want int
+              }{
+                  {"zero", Sum(), nil, 0},
+                  {"one", Sum(5), []int{5}, 5},
+                  {"multiple", Sum(1, 2, 3), []int{1, 2, 3}, 6},
+                  {"mixed", Sum(-1, 5, -4), []int{-1, 5, -4}, 0},
+              }
+              for _, tc := range cases {
+                  t.Run(tc.name, func(t *testing.T) {
+                      expanded := Sum(tc.values...)
+                      if tc.direct != tc.want || expanded != tc.want {
+                          t.Fatalf("direct=%d expanded=%d want=%d", tc.direct, expanded, tc.want)
                       }
                   })
               }

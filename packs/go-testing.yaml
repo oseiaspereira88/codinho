@@ -661,6 +661,24 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+          - id: measure-reservation-remaining.verify-missing-clock
+            kind: micro
+            action: verify
+            target: dependency_boundary
+            title: Verificar relógio nil
+            instruction:
+              objective: Confirme que relógio nil retorna ErrMissingClock e duração zero sem executar chamada inválida.
+              scope: Apenas a dependência ausente.
+            concepts:
+            - testing-clock-injection
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: missing-clock-returns-sentinel
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
   fixture:
   - path: go.mod
     content: |

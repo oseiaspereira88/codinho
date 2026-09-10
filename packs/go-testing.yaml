@@ -357,6 +357,25 @@ challenges:
           reflection:
             optional:
             - Dois fusos diferentes podem representar o mesmo instante?
+          children:
+          - id: testable-expiry.verify-zone-equivalence
+            kind: micro
+            action: verify
+            target: boundary_case
+            title: Verificar equivalência de fusos
+            instruction:
+              objective: Confirme que o fuso usado na representação não altera a validade do mesmo instante absoluto.
+              scope: Apenas o caso equivalente em fusos diferentes.
+            concepts:
+            - testing-time-boundaries
+            evidence:
+              strategies:
+              - test
+            criteria:
+            - id: zone-equivalence-preserved
+              kind: structural
+            completion:
+              requires_positive_evaluation: true
         - id: testable-expiry.step-5
           kind: micro
           action: implement

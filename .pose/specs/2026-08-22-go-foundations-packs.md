@@ -141,6 +141,7 @@ conceitos / ≥60 competências / ≥300 step nodes (R1's threshold em
 - [x] Expandir a variante `go-testing.count-deadline-clock-calls` com nodes de verificação para relógio ausente e observação única do instante; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir a variante `go-testing.measure-reservation-remaining` com node de verificação para relógio nil e sentinela de erro; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir a variante `go-testing.check-ticket-boundary` com node de verificação para conjunto misto de expirações; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
+- [x] Expandir o desafio `go-testing.select-active-tokens-with-injected-clock` com node de verificação para equivalência de fusos; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir o desafio de conversão estreitante de go-first-steps com nodes de verificação de limites e reflexão sobre a ordem das operações; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir os desafios de módulo e formatação de go-first-steps com nodes de inspeção e verificação observável; preservar fixtures e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir o desafio de shadowing e retornos nomeados com nodes de verificação de casos e reflexão sobre escopo; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.

@@ -984,6 +984,27 @@ challenges:
             reflection:
               optional:
                 - Por que um receptor de valor não seria suficiente para o método Increment?
+          - id: model.verify-independent-counter-state
+            kind: micro
+            action: verify
+            target: state
+            title: Verificar estado independente
+            instruction:
+              objective: Confirme que incrementar uma instância não altera a contagem de outra instância de Counter.
+              scope: Duas instâncias criadas separadamente e incrementadas em sequências distintas.
+            concepts: [pointer-vs-value-receiver]
+            evidence:
+              strategies: [test]
+            criteria:
+              - id: instances-do-not-share-state
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
     fixture:
       - path: go.mod
         content: |

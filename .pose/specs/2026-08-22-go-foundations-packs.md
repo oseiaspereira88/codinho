@@ -148,6 +148,7 @@ conceitos / ≥60 competências / ≥300 step nodes (R1's threshold em
 - [x] Conectar os 32 itens isolados do grafo com 39 relações applies_in fundamentadas nas competências e conceitos usados pelos desafios; validar catálogo e matriz strict. Consumir knowledge:go-foundations-io-batch.
 - [x] Aprofundar Sum variádico com comparação entre chamadas diretas e expansão de slice, fixtures para ambas as formas e reflexão sobre o uso de reticências; validar catálogo e matriz strict. Consumir knowledge:go-foundations-io-batch.
 - [x] Aprofundar `go-core.stop-processing-commands-with-labeled-break` com verificação de que comandos após o primeiro `stop` são ignorados; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
+- [x] Aprofundar `go-core.increment-counter-with-pointer-receiver` com verificação de estado independente entre instâncias; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir o desafio de conversão estreitante de go-first-steps com nodes de verificação de limites e reflexão sobre a ordem das operações; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir os desafios de módulo e formatação de go-first-steps com nodes de inspeção e verificação observável; preservar fixtures e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir o desafio de shadowing e retornos nomeados com nodes de verificação de casos e reflexão sobre escopo; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.

@@ -2487,3 +2487,21 @@ relations:
   - from: catalog-value-snapshots
     to: catalog-validation-before-mutation
     kind: relates_to
+  - from: classify-wrapped-and-joined-errors
+    to: go-errors.classify-wrapped-errors
+    kind: applies_in
+  - from: preserve-error-precedence
+    to: go-errors.classify-wrapped-errors
+    kind: applies_in
+  - from: distinguish-error-identity
+    to: go-errors.classify-wrapped-errors
+    kind: applies_in
+  - from: manage-catalog-state
+    to: go-errors.maintain-memory-catalog
+    kind: applies_in
+  - from: reject-catalog-conflicts
+    to: go-errors.maintain-memory-catalog
+    kind: applies_in
+  - from: return-isolated-catalog-views
+    to: go-errors.maintain-memory-catalog
+    kind: applies_in

@@ -1787,3 +1787,12 @@ relations:
   - from: go-modules
     to: go-version-directive
     kind: relates_to
+  - from: slice-filter
+    to: go-data.slice-filter-preserve-input
+    kind: applies_in
+  - from: preserve-input
+    to: go-data.slice-filter-preserve-input
+    kind: applies_in
+  - from: slice-allocation
+    to: go-data.slice-filter-preserve-input
+    kind: applies_in

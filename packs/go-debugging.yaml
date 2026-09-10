@@ -191,3 +191,19 @@ challenges:
           func main() {
               fmt.Println(lastElement([]int{1, 2, 3}))
           }
+relations:
+- from: debug-slice-bounds
+  to: go-debug.slice-off-by-one
+  kind: applies_in
+- from: reproduce-debug-failure
+  to: go-debug.slice-off-by-one
+  kind: applies_in
+- from: locate-index-divergence
+  to: go-debug.slice-off-by-one
+  kind: applies_in
+- from: formulate-debug-hypothesis
+  to: go-debug.slice-off-by-one
+  kind: applies_in
+- from: slice-bounds
+  to: go-debug.slice-off-by-one
+  kind: applies_in

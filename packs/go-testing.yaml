@@ -1617,3 +1617,30 @@ relations:
 - from: testing-repeatability
   to: testing-counting-double
   kind: relates_to
+- from: testing-design-deterministic-time
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: applies_in
+- from: testing-design-deterministic-time
+  to: go-testing.measure-reservation-remaining
+  kind: applies_in
+- from: testing-cover-boundary-cases
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: applies_in
+- from: testing-cover-boundary-cases
+  to: go-testing.check-ticket-boundary
+  kind: applies_in
+- from: testing-detect-aliasing
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: applies_in
+- from: testing-detect-aliasing
+  to: go-testing.snapshot-readings
+  kind: applies_in
+- from: testing-build-counting-double
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: applies_in
+- from: testing-build-counting-double
+  to: go-testing.count-deadline-clock-calls
+  kind: applies_in
+- from: testing-name-diagnostic-cases
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: applies_in

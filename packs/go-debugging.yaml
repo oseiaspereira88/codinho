@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-debugging
-version: 1.1.0
+version: 1.2.0
 themes: []
 concepts:
   - id: slice-bounds
@@ -29,6 +29,12 @@ concepts:
 competencies:
   - id: debug-slice-bounds
     title: Diagnosticar um erro de limite em slice
+  - id: reproduce-debug-failure
+    title: Reproduzir uma falha antes de editar
+  - id: locate-index-divergence
+    title: Localizar a divergência entre índice e limite
+  - id: formulate-debug-hypothesis
+    title: Formular uma hipótese de causa
 tracks: []
 challenges:
   - schema_version: 1
@@ -41,7 +47,7 @@ challenges:
     themes: [slices]
     competencies:
       primary: [debug-slice-bounds]
-      secondary: []
+      secondary: [reproduce-debug-failure, locate-index-divergence, formulate-debug-hypothesis]
     prerequisites: [slice-bounds]
     brief: >
       O programa deveria imprimir o último elemento do slice, mas falha com

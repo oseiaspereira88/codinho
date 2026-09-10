@@ -45,9 +45,10 @@ usam autor codex e não têm reviewed_by/playtested humano.
 
 ## Next checks
 
-- Reconciliar artifact-check da spec: quatro criações de packs não atribuídas
-  e dois documentos não declarados. Consultar o relatório conceitual de I/O;
-  não reclassificar ações nem reescrever histórico sem conferir commits reais.
+- A reconciliação histórica foi verificada em 2026-09-10: artifact-check strict
+  passa, sem erros. Quatro intervalos de criação foram registrados via pose
+  report e duas modificações documentais declaradas; histórico preservado.
+  Avisos globais de arquivos sem atribuição permanecem fora deste lote.
 
 - Continuar conteúdo de apoio nos packs go-errors e go-core. go-testing tem
   conteúdo nos oito conceitos e go-io nos dez, com exemplos Go isolados.

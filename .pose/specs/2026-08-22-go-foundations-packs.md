@@ -59,6 +59,8 @@ Oferecer prática desde o primeiro contato até a base necessária para backend,
 - packs/*.yaml, fixtures embutidas nos desafios e docs/catalog/go-foundations.md
 
 ### Artifacts
+- modified: docs/agent-review-workflow.md
+- modified: docs/content-review-checklist.md
 - modified: packs/go-first-steps.yaml
 - created: packs/go-core.yaml
 - created: packs/go-data-text.yaml
@@ -1092,6 +1094,7 @@ Autoria parcial dos sete packs presentes no manifest; os lotes go-io, go-testing
 - Sete packs de fundamentos, manifest e docs/catalog/go-foundations.md. O inventário e os relatórios por lote distinguem autoria, verificação mecânica e publicação.
 
 ### Validation executed
+- Reconciliação em 2026-09-10: artifact-check strict passou após registrar os intervalos parent..commit de 96d7d59, 77798ee, 0bee17d e 545e227 e declarar as modificações históricas dos dois documentos de revisão. Sem reescrita de commits; avisos globais de arquivos sem atribuição permanecem.
 - Command: pose validate --strict --json .pose/results/delivery-validation.json
 - Result: 23/23 checks aprovados no lote de oito variantes, zero skips; fixtures baseline/reference verificadas.
 - Command: pose docs-check; pose lint-spec go-foundations-packs --ready-check

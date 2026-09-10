@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-type-design
-version: 1.0.0
+version: 1.1.0
 themes:
   - id: structs-and-pointers
     title: Structs e ponteiros
@@ -11,16 +11,174 @@ themes:
 concepts:
   - id: struct-shallow-copy-aliasing
     title: Aliasing em cópia rasa de struct
+    content:
+      version: 1
+      explanation: Copiar uma struct por valor copia o descritor de uma slice, não os elementos do backing array. O valor novo ganha identidade própria para campos escalares, mas alterações nos elementos compartilhados continuam visíveis. Faça uma cópia explícita dos elementos quando o contrato exigir independência.
+      example:
+        context: perfil com etiquetas
+        code: |
+          package example
+
+          import "testing"
+
+          type Profile struct { Name string; Tags []string }
+
+          func clone(p Profile) Profile {
+              tags := append([]string(nil), p.Tags...)
+              p.Tags = tags
+              return p
+          }
+
+          func TestClone(t *testing.T) {
+              original := Profile{Name: "Ana", Tags: []string{"go"}}
+              copy := clone(original)
+              copy.Tags[0] = "rust"
+              if original.Tags[0] != "go" { t.Fatal("shared tags") }
+          }
+        explanation: A nova slice recebe seus próprios elementos e não altera a lista original.
+      relation_refs:
+        - kind: relates_to
+          concept_id: nil-safe-pointer-receiver
   - id: typed-nil-interface-trap
     title: Armadilha do nil tipado dentro de uma interface
+    content:
+      version: 1
+      explanation: Uma interface só é nil quando tipo dinâmico e valor dinâmico estão ausentes. Atribuir um ponteiro nil a uma interface preenche o tipo dinâmico; a comparação com nil então resulta falsa. Verifique o ponteiro antes de encaixotá-lo ou defina claramente o comportamento do método para receptor nil.
+      example:
+        context: resultado opcional
+        code: |
+          package example
+
+          import "testing"
+
+          type Notice interface { Text() string }
+          type notice struct{}
+          func (*notice) Text() string { return "notice" }
+
+          func optional(ok bool) Notice {
+              if !ok { return nil }
+              return (*notice)(nil)
+          }
+
+          func TestTypedNil(t *testing.T) {
+              if optional(false) != nil { t.Fatal("expected true nil") }
+              if optional(true) == nil { t.Fatal("typed nil was lost") }
+          }
+        explanation: O retorno falso é nil real; o retorno verdadeiro contém um ponteiro nil dentro de uma interface não nil.
+      relation_refs:
+        - kind: relates_to
+          concept_id: nil-safe-pointer-receiver
   - id: nil-safe-pointer-receiver
     title: Receptor de ponteiro seguro para nil
+    content:
+      version: 1
+      explanation: "Um método com receptor de ponteiro pode receber nil e decidir um resultado seguro antes de acessar campos. Isso pode ser útil para tipos opcionais, mas não transforma toda API em nil-safe: métodos devem documentar a decisão e evitar esconder estado inválido."
+      example:
+        context: nome de uma etiqueta opcional
+        code: |
+          package example
+
+          import "testing"
+
+          type Tag struct { Value string }
+          func (t *Tag) Text() string {
+              if t == nil { return "" }
+              return t.Value
+          }
+
+          func TestNilReceiver(t *testing.T) {
+              var absent *Tag
+              if absent.Text() != "" { t.Fatal("nil receiver") }
+              if (&Tag{Value: "go"}).Text() != "go" { t.Fatal("value") }
+          }
+        explanation: A guarda precede o acesso a Value e define o retorno para o receptor ausente.
+      relation_refs:
+        - kind: relates_to
+          concept_id: typed-nil-interface-trap
   - id: generic-comparable-constraint
     title: Constraint comparable em funções genéricas
+    content:
+      version: 1
+      explanation: A constraint comparable limita T aos tipos que podem usar == e !=. Isso permite implementar operações de pertencimento sem reflet ou conversões, mas exclui slices, maps e funções, que não são comparáveis. A constraint expressa uma necessidade real da operação.
+      example:
+        context: pertencimento em uma coleção
+        code: |
+          package example
+
+          import "testing"
+
+          func contains[T comparable](values []T, want T) bool {
+              for _, value := range values { if value == want { return true } }
+              return false
+          }
+
+          func TestContains(t *testing.T) {
+              if !contains([]string{"go", "rust"}, "rust") { t.Fatal("missing") }
+              if contains([]int{1, 2}, 3) { t.Fatal("unexpected") }
+          }
+        explanation: A mesma função compara strings e inteiros porque ambos satisfazem comparable.
+      relation_refs:
+        - kind: relates_to
+          concept_id: generic-two-type-parameters
   - id: safe-type-assertion
     title: Type assertion segura com comma-ok
+    content:
+      version: 1
+      explanation: "A forma value, ok := item.(T) informa se o valor dinâmico implementa ou é do tipo T sem panicar. A forma direta item.(T) é apropriada apenas quando a invariância já foi garantida e um panic é realmente o contrato. Trate o caminho falso antes de acessar o valor convertido."
+      example:
+        context: mensagens de eventos
+        code: |
+          package example
+
+          import "testing"
+
+          type Event interface{ event() }
+          type Login struct{ User string }
+          func (Login) event() {}
+
+          func username(event Event) (string, bool) {
+              login, ok := event.(Login)
+              if !ok { return "", false }
+              return login.User, true
+          }
+
+          func TestAssertion(t *testing.T) {
+              name, ok := username(Login{User: "ana"})
+              if !ok || name != "ana" { t.Fatal(name, ok) }
+          }
+        explanation: O comma-ok transforma um tipo inesperado em resultado controlável, sem panic.
+      relation_refs:
+        - kind: relates_to
+          concept_id: typed-nil-interface-trap
   - id: generic-two-type-parameters
     title: Função genérica com dois parâmetros de tipo
+    content:
+      version: 1
+      explanation: Uma função pode declarar parâmetros de tipo independentes e relacioná-los na assinatura. O compilador infere os tipos quando os argumentos tornam a relação inequívoca; explicitar os parâmetros pode ajudar em APIs ambíguas. Mantenha a transformação separada da política de ordenação ou validação.
+      example:
+        context: associação de chaves e valores
+        code: |
+          package example
+
+          import "testing"
+
+          func Pair[K comparable, V any](keys []K, values []V) map[K]V {
+              out := make(map[K]V, len(keys))
+              for i, key := range keys {
+                  if i == len(values) { break }
+                  out[key] = values[i]
+              }
+              return out
+          }
+
+          func TestPair(t *testing.T) {
+              got := Pair([]string{"a", "b"}, []int{1, 2})
+              if got["a"] != 1 || got["b"] != 2 { t.Fatal(got) }
+          }
+        explanation: K precisa ser comparável para chave de map; V pode ser qualquer tipo.
+      relation_refs:
+        - kind: relates_to
+          concept_id: generic-comparable-constraint
 competencies:
   - id: clone-struct-with-independent-slice
     title: Clonar uma struct com slice de forma independente
@@ -2291,4 +2449,22 @@ relations:
     kind: relates_to
   - from: go-type-design.generic-node-values-nil-safe
     to: go-type-design.first-circle-clone
+    kind: relates_to
+  - from: struct-shallow-copy-aliasing
+    to: nil-safe-pointer-receiver
+    kind: relates_to
+  - from: typed-nil-interface-trap
+    to: nil-safe-pointer-receiver
+    kind: relates_to
+  - from: generic-comparable-constraint
+    to: generic-two-type-parameters
+    kind: relates_to
+  - from: safe-type-assertion
+    to: typed-nil-interface-trap
+    kind: relates_to
+  - from: nil-safe-pointer-receiver
+    to: typed-nil-interface-trap
+    kind: relates_to
+  - from: generic-two-type-parameters
+    to: generic-comparable-constraint
     kind: relates_to

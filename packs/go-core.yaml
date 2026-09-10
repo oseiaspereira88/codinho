@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-core
-version: 1.1.0
+version: 1.2.0
 themes:
   - id: control-flow
     title: Controle de fluxo
@@ -11,12 +11,83 @@ themes:
 concepts:
   - id: defer-execution-order
     title: Ordem de execução de defer
+    content:
+      version: 1
+      explanation: 'defer registra uma chamada para quando a função atual terminar. Os argumentos são avaliados
+        no registro; as chamadas executam em ordem inversa. Um retorno nomeado ainda pode ser alterado por
+        uma função adiada. O escopo é a função, não o bloco do laço: acumular defer num laço longo pode reter
+        recursos até o final.'
+      example:
+        context: rastreamento de uma operação
+        code: "package example\n\nimport \"testing\"\n\nfunc trace() (events []int) {\n\tn := 1\n\tdefer func(v\
+          \ int) { events = append(events, v) }(n)\n\tn = 2\n\tdefer func() { events = append(events, n) }()\n\
+          \treturn\n}\nfunc TestTrace(t *testing.T) {\n\tgot := trace()\n\tif len(got) != 2 || got[0] != 2\
+          \ || got[1] != 1 {\n\t\tt.Fatal(got)\n\t}\n}\n"
+        explanation: O segundo defer lê n ao executar; o primeiro conserva o argumento 1. O retorno nomeado
+          recebe as duas alterações antes de chegar ao chamador.
+      relation_refs:
+      - kind: relates_to
+        concept_id: panic-recover-boundary
   - id: variadic-parameters
     title: Parâmetros variádicos
+    content:
+      version: 1
+      explanation: Um parâmetro final ...T recebe zero ou mais argumentos como um slice de T. Ao expandir
+        um slice com s..., a função compartilha seu armazenamento; modificar elementos pode afetar o chamador.
+        Sem argumentos o slice recebido é nil. Decida se a API apenas lê os dados ou permite mutação.
+      example:
+        context: marcação de amostras
+        code: "package example\n\nimport \"testing\"\n\nfunc mark(values ...int) int {\n\tif len(values) ==\
+          \ 0 {\n\t\treturn 0\n\t}\n\tvalues[0]++\n\treturn len(values)\n}\nfunc TestVariadic(t *testing.T)\
+          \ {\n\tif mark() != 0 {\n\t\tt.Fatal(\"empty\")\n\t}\n\tvalues := []int{4, 8}\n\tif mark(values...)\
+          \ != 2 || values[0] != 5 {\n\t\tt.Fatal(values)\n\t}\n\tif mark(10) != 1 {\n\t\tt.Fatal(\"single\
+          \ argument\")\n\t}\n}\n"
+        explanation: A expansão preserva o compartilhamento com values. A chamada sem argumentos é tratada
+          antes de qualquer acesso por índice.
+      relation_refs:
+      - kind: relates_to
+        concept_id: functional-options-pattern
   - id: labeled-break-scope
     title: Escopo de break rotulado
+    content:
+      version: 1
+      explanation: Um break sem rótulo encerra o for, switch ou select mais interno. Dentro de um switch em
+        um laço, ele encerra apenas o switch. Um break com rótulo pode encerrar o laço externo rotulado que
+        contém a instrução. Escolha o alvo de saída de acordo com o trabalho que deve deixar de acontecer.
+      example:
+        context: leitura de uma sequência até um marcador
+        code: "package example\n\nimport \"testing\"\n\nfunc countBeforeStop(words []string) int {\n\tcount\
+          \ := 0\nscan:\n\tfor _, word := range words {\n\t\tswitch word {\n\t\tcase \"stop\":\n\t\t\tbreak\
+          \ scan\n\t\tcase \"skip\":\n\t\t\tcontinue\n\t\t}\n\t\tcount++\n\t}\n\treturn count\n}\nfunc TestStop(t\
+          \ *testing.T) {\n\tif got := countBeforeStop([]string{\"a\", \"skip\", \"stop\", \"b\"}); got !=\
+          \ 1 {\n\t\tt.Fatal(got)\n\t}\n\tif got := countBeforeStop(nil); got != 0 {\n\t\tt.Fatal(got)\n\t\
+          }\n}\n"
+        explanation: O rótulo encerra o for antes de contar stop ou visitar b. O continue ignora skip e segue
+          para a próxima iteração.
+      relation_refs:
+      - kind: relates_to
+        concept_id: short-circuit-nil-guard
   - id: pointer-vs-value-receiver
     title: Receptor de ponteiro versus receptor de valor
+    content:
+      version: 1
+      explanation: Um receptor de valor recebe uma cópia do valor; um receptor de ponteiro permite alterar
+        o objeto apontado. A cópia de uma struct com slices ou maps ainda compartilha os dados referenciados.
+        O method set de T inclui métodos com receptor T; o de *T inclui também os de *T. A chamada automática
+        por endereço em uma variável endereçável não faz T satisfazer interfaces que exigem métodos de *T.
+      example:
+        context: contador de visitas
+        code: "package example\n\nimport \"testing\"\n\ntype Counter struct{ N int }\n\nfunc (c Counter) CopyIncrement()\
+          \ { c.N++ }\nfunc (c *Counter) Increment()    { c.N++ }\n\ntype Incrementer interface{ Increment()\
+          \ }\n\nvar _ Incrementer = (*Counter)(nil)\n\nfunc TestReceivers(t *testing.T) {\n\tc := Counter{N:\
+          \ 3}\n\tc.CopyIncrement()\n\tif c.N != 3 {\n\t\tt.Fatal(c.N)\n\t}\n\tc.Increment()\n\tif c.N !=\
+          \ 4 {\n\t\tt.Fatal(c.N)\n\t}\n\tif _, ok := any(c).(Incrementer); ok {\n\t\tt.Fatal(\"value unexpectedly\
+          \ implements interface\")\n\t}\n}\n"
+        explanation: A cópia não altera N no original. A variável c permite chamada com endereço implícito,
+          mas somente *Counter satisfaz Incrementer.
+      relation_refs:
+      - kind: relates_to
+        concept_id: constructor-returns-interface
   - id: panic-recover-boundary
     title: Fronteira de recuperação de panic
   - id: unexported-field-invariant
@@ -2353,4 +2424,16 @@ relations:
     kind: relates_to
   - from: functional-options-pattern
     to: unexported-field-invariant
+    kind: relates_to
+  - from: defer-execution-order
+    to: panic-recover-boundary
+    kind: relates_to
+  - from: variadic-parameters
+    to: functional-options-pattern
+    kind: relates_to
+  - from: labeled-break-scope
+    to: short-circuit-nil-guard
+    kind: relates_to
+  - from: pointer-vs-value-receiver
+    to: constructor-returns-interface
     kind: relates_to

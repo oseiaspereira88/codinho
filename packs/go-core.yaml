@@ -770,6 +770,27 @@ challenges:
             reflection:
               optional:
                 - Por que um break dentro do switch, sem label, não é suficiente para interromper o laço externo?
+          - id: model.verify-commands-after-stop-ignored
+            kind: micro
+            action: verify
+            target: boundary_case
+            title: Verificar comandos após stop
+            instruction:
+              objective: Confirme que comandos depois do primeiro stop não aparecem no resultado processado.
+              scope: Apenas a sequência com stop no meio da entrada.
+            concepts: [labeled-break-scope]
+            evidence:
+              strategies: [test]
+            criteria:
+              - id: post-stop-commands-ignored
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
     fixture:
       - path: go.mod
         content: |

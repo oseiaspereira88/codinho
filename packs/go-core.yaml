@@ -1857,6 +1857,27 @@ challenges:
             reflection:
               optional:
                 - Por que quem chama NewCounter nunca precisa conhecer o nome do tipo concreto para usar o Counter retornado?
+          - id: model.verify-counter-instance-isolation
+            kind: micro
+            action: verify
+            target: interface
+            title: Verificar isolamento entre contadores
+            instruction:
+              objective: Confirme que dois valores Counter criados separadamente mantêm sequências de incremento independentes.
+              scope: Duas instâncias obtidas pelo construtor exportado.
+            concepts: [constructor-returns-interface]
+            evidence:
+              strategies: [test]
+            criteria:
+              - id: constructed-counters-are-independent
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
     fixture:
       - path: go.mod
         content: |

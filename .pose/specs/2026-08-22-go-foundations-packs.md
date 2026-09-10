@@ -152,6 +152,7 @@ conceitos / ≥60 competências / ≥300 step nodes (R1's threshold em
 - [x] Aprofundar `go-core.recover-from-panic-in-safe-call` com verificação da conversão de valores panic em mensagens de erro úteis; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Aprofundar `go-core.guard-invariant-with-unexported-field` com verificação dos limites inclusivos e valores adjacentes inválidos; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Aprofundar `go-core.find-first-value-at-least` com verificação da distinção entre valor zero encontrado e ausência de correspondência; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
+- [x] Aprofundar `go-core.hide-counter-type-behind-interface` com verificação de isolamento entre contadores construídos separadamente; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir o desafio de conversão estreitante de go-first-steps com nodes de verificação de limites e reflexão sobre a ordem das operações; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir os desafios de módulo e formatação de go-first-steps com nodes de inspeção e verificação observável; preservar fixtures e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir o desafio de shadowing e retornos nomeados com nodes de verificação de casos e reflexão sobre escopo; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.

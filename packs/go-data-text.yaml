@@ -566,6 +566,27 @@ challenges:
             reflection:
               optional:
                 - Por que um corte ingênuo em s[:maxBytes] pode produzir uma string com bytes UTF-8 inválidos no final?
+          - id: model.verify-valid-utf8-prefix
+            kind: micro
+            action: verify
+            target: output
+            title: Verificar prefixo UTF-8 válido
+            instruction:
+              objective: Confirme que cada resultado é um prefixo UTF-8 válido e nunca excede o orçamento de bytes.
+              scope: Cortes ASCII e multibyte próximos ao limite.
+            concepts: [utf8-rune-boundary]
+            evidence:
+              strategies: [test]
+            criteria:
+              - id: result-is-valid-utf8-prefix
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
     fixture:
       - path: go.mod
         content: |

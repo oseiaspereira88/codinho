@@ -1612,9 +1612,9 @@ challenges:
       secondary: []
     prerequisites: []
     brief: >
-      Implemente a soma dos valores de uma lista de strings que
-      representam inteiros, contando separadamente quantas não puderam
-      ser convertidas.
+      Um importador recebe uma coluna de quantidades como texto. Produza o
+      total dos inteiros reconhecidos e um contador separado para os campos
+      que não representam um inteiro.
     constraints:
       - Não usar bibliotecas externas além da biblioteca padrão.
       - Usar o erro retornado por strconv.Atoi para decidir se um campo é inválido, nunca ignorá-lo.
@@ -1622,6 +1622,7 @@ challenges:
       - 'SumValid(["1","2","x","4"]) retorna (7, 1).'
       - 'SumValid(["10","20","30"]) retorna (60, 0).'
       - 'SumValid(["abc","def"]) retorna (0, 2).'
+      - 'SumValid(["999999999999999999999999999999999999999999999999","1"]) retorna (1, 1) — um inteiro fora do alcance de int é inválido e não entra na soma.'
       - SumValid(nil) retorna (0, 0).
       - 'SumValid(["0","5"]) retorna (5, 0) — "0" é um inteiro válido, não um campo inválido.'
     publication:
@@ -1629,59 +1630,160 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
-          - id: model.parse-each-field-checking-error
-            kind: micro
-            action: implement
-            target: function
-            title: Fazer parsing de cada campo verificando o erro
+          - id: model.summarize-valid-and-invalid-fields
+            kind: macro
+            title: Resumir campos válidos e inválidos
             instruction:
-              objective: Percorrer fields e, para cada um, usar strconv.Atoi para tentar convertê-lo, sem ainda decidir o que fazer com o resultado ou o erro.
-              scope: O laço e a chamada a strconv.Atoi para cada campo.
-              constraints:
-                - Usar o erro retornado por strconv.Atoi para decidir se um campo é inválido, nunca ignorá-lo.
+              objective: 'Transformar uma sequência de campos textuais em dois resultados: o total dos inteiros aceitos e a quantidade de campos rejeitados.'
+              scope: O contrato completo de SumValid, incluindo entrada vazia, valores negativos, zero válido e textos não conversíveis.
             concepts: [strconv-error-handling]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection]
             criteria:
-              - id: checks-atoi-error
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-          - id: model.accumulate-sum-and-invalid-count
-            kind: micro
-            action: implement
-            target: function
-            title: Acumular soma e contagem de inválidos
-            instruction:
-              objective: Acumular em sum e invalid o resultado de cada parsing feito no passo anterior, de acordo com se ele funcionou ou falhou.
-              scope: O acúmulo de sum e invalid a partir do resultado de cada parsing.
-              constraints:
-                - Um campo inválido nunca deve contribuir para sum.
-            concepts: [strconv-error-handling]
-            evidence:
-              strategies: [source_inspection, compile]
-            criteria:
-              - id: accumulates-sum-and-invalid-separately
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-              - level: 3
-                kind: logical_prose
-            reflection:
-              optional:
-                - Por que ignorar o erro de strconv.Atoi e usar o valor retornado mesmo assim não causaria um panic, mas ainda seria um bug?
+              - id: sum-valid-contract-is-understood
+                kind: qualitative
+            children:
+              - id: model.separate-conversion-from-aggregation
+                kind: meso
+                title: Separar conversão, classificação e agregação
+                instruction:
+                  objective: Organizar a conversão de cada campo e a atualização independente dos dois resultados.
+                  scope: O percurso de fields, o erro de conversão e os acumuladores sum e invalid.
+                concepts: [strconv-error-handling]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: parsing-and-aggregation-decisions-are-separated
+                    kind: qualitative
+                children:
+                  - id: model.parse-each-field-checking-error
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Fazer parsing de cada campo verificando o erro
+                    instruction:
+                      objective: Percorrer fields e obter o inteiro e o erro correspondentes a cada campo.
+                      scope: O laço e a chamada a strconv.Atoi para cada campo, sem atualizar ainda os acumuladores.
+                      constraints:
+                        - Manter o erro retornado por strconv.Atoi disponível para classificar o campo no passo seguinte.
+                    concepts: [strconv-error-handling]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: checks-atoi-error
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.accumulate-sum-and-invalid-count
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Acumular os inteiros convertidos
+                    instruction:
+                      objective: Somar em sum cada valor cuja conversão terminou sem erro.
+                      scope: A atualização de sum a partir do resultado de cada parsing.
+                      constraints:
+                        - Um campo inválido nunca deve contribuir para sum.
+                    concepts: [strconv-error-handling]
+                    evidence:
+                      strategies: [source_inspection, compile, test]
+                    criteria:
+                      - id: accumulates-sum-and-invalid-separately
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.count-invalid-fields
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Contar campos sem conversão válida
+                    instruction:
+                      objective: Incrementar invalid para cada campo cuja conversão terminou com erro, sem alterar sum nesse caminho.
+                      scope: A classificação do erro e a atualização de invalid.
+                      constraints:
+                        - O contador invalid deve aumentar uma vez por campo não conversível.
+                    concepts: [strconv-error-handling]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: counts-invalid-fields
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que ignorar o erro de strconv.Atoi e usar o valor retornado mesmo assim não causaria um panic, mas ainda seria um bug?
+                  - id: model.verify-zero-and-invalid-boundary
+                    kind: micro
+                    action: verify
+                    target: boundary_case
+                    title: Verificar zero válido e erro de parsing
+                    instruction:
+                      objective: Confirme que o texto "0" entra no total e que um texto não conversível entra apenas na contagem de inválidos.
+                      scope: Casos de fronteira que distinguem valor convertido igual a zero de erro de conversão.
+                    concepts: [strconv-error-handling]
+                    evidence:
+                      strategies: [test]
+                    criteria:
+                      - id: zero-is-valid-and-errors-are-counted
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
     fixture:
       - path: go.mod
         content: |
@@ -1713,6 +1815,7 @@ challenges:
                   {"mixed valid and invalid", []string{"1", "2", "x", "4"}, 7, 1},
                   {"all valid", []string{"10", "20", "30"}, 60, 0},
                   {"all invalid", []string{"abc", "def"}, 0, 2},
+                  {"range error is invalid", []string{"999999999999999999999999999999999999999999999999", "1"}, 1, 1},
                   {"empty", nil, 0, 0},
                   {"negative numbers parse", []string{"-3", "5"}, 2, 0},
                   {"valid zero is not invalid", []string{"0", "5"}, 5, 0},
@@ -1778,6 +1881,7 @@ challenges:
                   {"mixed valid and invalid", []string{"1", "2", "x", "4"}, 7, 1},
                   {"all valid", []string{"10", "20", "30"}, 60, 0},
                   {"all invalid", []string{"abc", "def"}, 0, 2},
+                  {"range error is invalid", []string{"999999999999999999999999999999999999999999999999", "1"}, 1, 1},
                   {"empty", nil, 0, 0},
                   {"negative numbers parse", []string{"-3", "5"}, 2, 0},
                   {"valid zero is not invalid", []string{"0", "5"}, 5, 0},
@@ -1808,9 +1912,9 @@ challenges:
       secondary: []
     prerequisites: []
     brief: >
-      Implemente uma função que constrói uma slice com os quadrados dos
-      números pares entre 0 e n-1, sem reservar espaço para os números
-      que acabam excluídos.
+      Um relatório numérico precisa devolver somente os quadrados dos
+      números pares entre 0 e n-1, mantendo a ordem em que foram encontrados
+      e o comprimento correspondente à quantidade realmente incluída.
     constraints:
       - Não usar bibliotecas externas.
       - Pré-alocar com make usando comprimento 0 e capacidade n.
@@ -1823,60 +1927,129 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
-          - id: model.preallocate-zero-length-capacity-n
-            kind: micro
-            action: declare
-            target: function
-            title: Pré-alocar com capacidade n e comprimento 0
+          - id: model.build-even-square-report
+            kind: macro
+            title: Construir o relatório de quadrados pares
             instruction:
-              objective: Declarar a slice de saída de forma que ela já reserve espaço para até n elementos, mas comece sem nenhum elemento ainda.
-              scope: Somente a criação da slice de saída.
-              constraints:
-                - Pré-alocar com make usando comprimento 0 e capacidade n.
-                - Não preencher a slice ainda.
+              objective: Produzir uma slice ordenada de quadrados pares sem confundir posições reservadas com elementos presentes.
+              scope: O contrato completo de EvenSquares, incluindo n zero, entrada com pares e a fronteira de capacidade.
             concepts: [slice-preallocation-length-vs-capacity]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection]
             criteria:
-              - id: preallocates-zero-length-capacity-n
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-          - id: model.append-even-squares-in-order
-            kind: micro
-            action: implement
-            target: function
-            title: Acrescentar o quadrado de cada número par
-            instruction:
-              objective: Percorrer de 0 a n-1 e, para cada número par, acrescentar seu quadrado à saída.
-              scope: O laço que preenche a saída.
-              constraints:
-                - Números ímpares não podem gerar nenhuma entrada na saída.
-            concepts: [slice-preallocation-length-vs-capacity]
-            evidence:
-              strategies: [source_inspection, compile]
-            criteria:
-              - id: appends-only-even-squares
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-              - level: 3
-                kind: logical_prose
-            reflection:
-              optional:
-                - Por que make([]int, n) seguido de append produziria um resultado com comprimento errado aqui, já que nem todo número entra na saída?
+              - id: even-square-contract-is-understood
+                kind: qualitative
+            children:
+              - id: model.separate-output-size-from-population
+                kind: meso
+                title: Separar capacidade reservada e população da saída
+                instruction:
+                  objective: Organizar a reserva de espaço e o preenchimento apenas das posições que representam números pares.
+                  scope: Criação da saída, percurso de 0 a n-1 e retorno com comprimento observável.
+                concepts: [slice-preallocation-length-vs-capacity]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: output-size-decisions-are-separated
+                    kind: qualitative
+                children:
+                  - id: model.preallocate-zero-length-capacity-n
+                    kind: micro
+                    action: declare
+                    target: function
+                    title: Pré-alocar com capacidade n e comprimento 0
+                    instruction:
+                      objective: Declarar a slice de saída reservando espaço para até n elementos, mas começando sem nenhum elemento.
+                      scope: Somente a criação da slice de saída.
+                      constraints:
+                        - Pré-alocar com make usando comprimento 0 e capacidade n.
+                        - Não preencher a slice ainda.
+                    concepts: [slice-preallocation-length-vs-capacity]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: preallocates-zero-length-capacity-n
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.append-even-squares-in-order
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Acrescentar o quadrado de cada número par
+                    instruction:
+                      objective: Acrescentar à saída o quadrado de cada número par do intervalo de 0 a n-1.
+                      scope: O laço que filtra os números e preenche a saída na ordem de entrada.
+                      constraints:
+                        - Números ímpares não podem gerar nenhuma entrada na saída.
+                    concepts: [slice-preallocation-length-vs-capacity]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: appends-only-even-squares
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.verify-length-and-capacity-boundary
+                    kind: micro
+                    action: verify
+                    target: boundary_case
+                    title: Verificar comprimento e capacidade distintos
+                    instruction:
+                      objective: Confirme que o comprimento corresponde somente aos quadrados produzidos, enquanto a capacidade continua sendo n.
+                      scope: Entradas com números pares e ímpares, incluindo n zero e n sete.
+                    concepts: [slice-preallocation-length-vs-capacity]
+                    evidence:
+                      strategies: [test]
+                    criteria:
+                      - id: filtered-length-and-exact-capacity
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que make([]int, n) seguido de append produziria um resultado com comprimento errado aqui, já que nem todo número entra na saída?
     fixture:
       - path: go.mod
         content: |
@@ -1888,7 +2061,7 @@ challenges:
           package squares
 
           // EvenSquares returns the squares of the even numbers from 0 to n-1, in
-          // order, pre-allocating its capacity to at most n without reserving
+          // order, pre-allocating its capacity to exactly n without reserving
           // space for numbers that end up excluded.
           func EvenSquares(n int) []int {
               panic("not implemented")
@@ -1909,6 +2082,7 @@ challenges:
                   want []int
               }{
                   {"six", 6, []int{0, 4, 16}},
+                  {"seven", 7, []int{0, 4, 16, 36}},
                   {"one", 1, []int{0}},
                   {"two", 2, []int{0}},
               }
@@ -1958,7 +2132,7 @@ challenges:
           package squares
 
           // EvenSquares returns the squares of the even numbers from 0 to n-1, in
-          // order, pre-allocating its capacity to at most n without reserving
+          // order, pre-allocating its capacity to exactly n without reserving
           // space for numbers that end up excluded.
           func EvenSquares(n int) []int {
               out := make([]int, 0, n)
@@ -1985,6 +2159,7 @@ challenges:
                   want []int
               }{
                   {"six", 6, []int{0, 4, 16}},
+                  {"seven", 7, []int{0, 4, 16, 36}},
                   {"one", 1, []int{0}},
                   {"two", 2, []int{0}},
               }
@@ -2043,6 +2218,8 @@ challenges:
       - 'TitleFirstLetters(" go is fun") retorna " Go Is Fun", preservando o espaço inicial.'
       - 'TitleFirstLetters("go   ") retorna "Go   ", preservando os espaços finais.'
       - 'TitleFirstLetters("go\tis fun") retorna "Go\tIs Fun" -- tabulação também separa palavras e é preservada.'
+      - 'TitleFirstLetters("go\nis fun") retorna "Go\nIs Fun" -- uma quebra de linha também é preservada como separador.'
+      - 'TitleFirstLetters("élan\u00a0vital") retorna "Élan\u00a0Vital" -- preserva o espaço não separável e capitaliza letras não-ASCII.'
       - 'TitleFirstLetters("élan vital") retorna "Élan Vital" -- a capitalização funciona para letras não-ASCII.'
       - 'TitleFirstLetters("") retorna "".'
     publication:
@@ -2050,60 +2227,129 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
-          - id: model.track-word-start-across-whitespace
-            kind: micro
-            action: implement
-            target: function
-            title: Percorrer s marcando o início de cada palavra
+          - id: model.capitalize-words-without-normalizing-spacing
+            kind: macro
+            title: Capitalizar palavras sem normalizar o espaçamento
             instruction:
-              objective: Identificar, para cada caractere de s, se ele é o primeiro caractere não-espaço de uma palavra, tratando qualquer caractere de espaço em branco (inclusive tabulação) como separador, sem ainda transformar nenhum caractere.
-              scope: O laço sobre os caracteres de s e a identificação de início de palavra.
-              constraints:
-                - Não transformar nenhum caractere ainda.
+              objective: Transformar somente o início de cada palavra e devolver o texto com a mesma sequência de separadores e caracteres restantes.
+              scope: O contrato completo de TitleFirstLetters, incluindo bordas, tabs, quebras de linha, Unicode e entrada vazia.
             concepts: [rune-aware-whitespace-preservation]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection]
             criteria:
-              - id: tracks-word-start-across-whitespace
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-          - id: model.build-result-preserving-original-runes
-            kind: micro
-            action: implement
-            target: function
-            title: Construir o resultado capitalizando só o início de cada palavra
-            instruction:
-              objective: Construir o resultado mantendo cada caractere de s exatamente como está, exceto o início de cada palavra identificado no passo anterior, que deve ser convertido para maiúscula -- inclusive quando é uma letra não-ASCII.
-              scope: A construção do resultado a partir do laço do passo anterior.
-              constraints:
-                - Não usar strings.Fields seguido de strings.Join para reconstruir o resultado.
-                - Nenhum caractere pode ser removido ou reordenado, incluindo espaços nas pontas.
-            concepts: [rune-aware-whitespace-preservation]
-            evidence:
-              strategies: [source_inspection, compile]
-            criteria:
-              - id: capitalizes-only-word-start
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-              - level: 3
-                kind: logical_prose
-            reflection:
-              optional:
-                - Por que strings.Fields seguido de strings.Join com um único espaço destruiria espaçamento original com múltiplos espaços?
+              - id: title-case-contract-is-understood
+                kind: qualitative
+            children:
+              - id: model.separate-word-boundaries-from-rune-transformation
+                kind: meso
+                title: Separar fronteiras de palavra e transformação de rune
+                instruction:
+                  objective: Organizar a identificação dos separadores e a transformação localizada das letras iniciais.
+                  scope: Percurso de s, preservação byte a byte dos separadores e capitalização Unicode.
+                concepts: [rune-aware-whitespace-preservation]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: word-boundary-decisions-are-separated
+                    kind: qualitative
+                children:
+                  - id: model.track-word-start-across-whitespace
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Percorrer s marcando o início de cada palavra
+                    instruction:
+                      objective: Identificar, durante o percurso de s, quais posições iniciam uma palavra depois de um separador.
+                      scope: O laço sobre os caracteres de s e a identificação de início de palavra, sem transformar caracteres ainda.
+                      constraints:
+                        - Tratar qualquer caractere reconhecido como espaço em branco, inclusive tabulação e quebra de linha, como separador.
+                    concepts: [rune-aware-whitespace-preservation]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: tracks-word-start-across-whitespace
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.build-result-preserving-original-runes
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Construir o resultado capitalizando só o início de cada palavra
+                    instruction:
+                      objective: Construir o resultado mantendo cada caractere de s, exceto a letra inicial de cada palavra, que deve ser convertida para maiúscula.
+                      scope: A transformação localizada no percurso e a devolução do texto, incluindo letras não-ASCII.
+                      constraints:
+                        - Não usar strings.Fields seguido de strings.Join para reconstruir o resultado.
+                        - Nenhum caractere pode ser removido ou reordenado, incluindo espaços nas pontas.
+                    concepts: [rune-aware-whitespace-preservation]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: capitalizes-only-word-start
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.verify-whitespace-and-unicode-boundaries
+                    kind: micro
+                    action: verify
+                    target: boundary_case
+                    title: Verificar separadores e letras Unicode
+                    instruction:
+                      objective: Confirme que separadores variados permanecem no lugar e que a primeira letra Unicode de cada palavra é capitalizada.
+                      scope: Espaços múltiplos, bordas, tabulação, quebra de linha, espaço não separável e entrada vazia.
+                    concepts: [rune-aware-whitespace-preservation]
+                    evidence:
+                      strategies: [test]
+                    criteria:
+                      - id: preserves-whitespace-and-capitalizes-unicode
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que strings.Fields seguido de strings.Join com um único espaço destruiria espaçamento original com múltiplos espaços?
     fixture:
       - path: go.mod
         content: |
@@ -2140,6 +2386,8 @@ challenges:
                   {"leading space preserved", " go is fun", " Go Is Fun"},
                   {"trailing space preserved", "go   ", "Go   "},
                   {"tab preserved", "go\tis fun", "Go\tIs Fun"},
+                  {"line break preserved", "go\nis fun", "Go\nIs Fun"},
+                  {"non-ASCII whitespace preserved", "élan\u00a0vital", "Élan\u00a0Vital"},
                   {"unicode letter capitalized", "élan vital", "Élan Vital"},
               }
               for _, c := range cases {
@@ -2212,6 +2460,8 @@ challenges:
                   {"leading space preserved", " go is fun", " Go Is Fun"},
                   {"trailing space preserved", "go   ", "Go   "},
                   {"tab preserved", "go\tis fun", "Go\tIs Fun"},
+                  {"line break preserved", "go\nis fun", "Go\nIs Fun"},
+                  {"non-ASCII whitespace preserved", "élan\u00a0vital", "Élan\u00a0Vital"},
                   {"unicode letter capitalized", "élan vital", "Élan Vital"},
               }
               for _, c := range cases {
@@ -2240,10 +2490,11 @@ challenges:
       secondary: []
     prerequisites: [strconv-error-handling, map-comma-ok-lookup]
     brief: >
-      Implemente a construção de um placar a partir de entradas no
-      formato "nome:placar": placares que não convertem para inteiro
-      contam como inválidos, e apenas o primeiro placar válido de cada
-      nome é mantido -- mesmo quando esse primeiro placar é exatamente 0.
+      Um placar chega como uma sequência de entradas textuais no formato
+      "nome:placar". Construa os resultados válidos por nome e preserve, em
+      ordem de chegada, as entradas com formato inválido ou placar que não
+      pôde ser interpretado; mantenha o primeiro placar válido de cada nome,
+      inclusive quando for 0.
     constraints:
       - Não usar bibliotecas externas além da biblioteca padrão.
       - Uma entrada sem o separador ":" ou cujo placar não converte para inteiro conta como inválida.
@@ -2254,66 +2505,168 @@ challenges:
       - 'BuildScores(["alice:0","alice:50"]) mantém scores["alice"] igual a (0, true) via comma-ok -- a duplicata não sobrescreve o primeiro placar, mesmo sendo 0.'
       - Um nome nunca mencionado em nenhuma entrada válida está ausente do map (comma-ok retorna false), não presente com valor 0.
       - 'BuildScores(["bob:not-an-int","bob:5"]) retorna scores["bob"] igual a (5, true) -- a entrada inválida não impede a válida seguinte de ser registrada.'
+      - 'BuildScores(["bob:"]) não registra bob e inclui "bob:" em invalidEntries.'
       - BuildScores(nil) retorna scores e invalidEntries vazios.
     publication:
       author: claude
     layers:
       - id: understanding
         macro_steps:
-          - id: model.parse-entry-into-name-and-score
-            kind: micro
-            action: implement
-            target: function
-            title: Separar nome e placar de cada entrada, tratando falhas como inválidas
+          - id: model.build-score-index-from-text
+            kind: macro
+            title: Construir um índice de placares a partir de texto
             instruction:
-              objective: Para cada entrada, separar o nome do placar pelo separador ":" e tentar converter o placar para inteiro, registrando a entrada original em invalidEntries sempre que o formato ou a conversão falhar.
-              scope: O laço sobre entries e a separação/conversão de cada uma.
-              constraints:
-                - Uma entrada sem o separador ":" ou cujo placar não converte para inteiro conta como inválida.
-            concepts: [strconv-error-handling]
+              objective: Transformar entradas textuais em um índice que conserva o primeiro placar válido por nome e uma sequência ordenada de falhas.
+              scope: O contrato completo de BuildScores, incluindo formato inválido, zero válido, duplicatas, entrada vazia e nomes ausentes.
+            concepts: [strconv-error-handling, map-comma-ok-lookup]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection]
             criteria:
-              - id: parses-name-and-score-tracking-invalid
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-          - id: model.record-first-valid-score-with-comma-ok
-            kind: micro
-            action: implement
-            target: function
-            title: Registrar só o primeiro placar válido de cada nome
-            instruction:
-              objective: Para cada entrada que converteu com sucesso, verificar com comma-ok se o nome já tem um placar registrado e, se não tiver, gravar o novo placar.
-              scope: A gravação em scores a partir do resultado do passo anterior.
-              constraints:
-                - Verificar com comma-ok se um nome já tem um placar registrado antes de gravar, nunca comparando o placar existente com zero.
-                - Uma entrada que falhou na conversão não pode marcar o nome como já tendo um placar.
-            concepts: [map-comma-ok-lookup]
-            evidence:
-              strategies: [source_inspection, compile]
-            criteria:
-              - id: keeps-first-valid-score-via-comma-ok
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-              - level: 3
-                kind: logical_prose
-            reflection:
-              optional:
-                - Por que comparar scores[name] com 0 para decidir se o nome já tem um placar quebraria justamente o caso em que o primeiro placar válido é 0?
+              - id: score-index-contract-is-understood
+                kind: qualitative
+            children:
+              - id: model.separate-input-validation-from-score-retention
+                kind: meso
+                title: Separar validação da entrada e retenção do placar
+                instruction:
+                  objective: Organizar a leitura, a classificação das falhas e a decisão de guardar apenas o primeiro valor válido.
+                  scope: Percurso de entries, invalidEntries em ordem e consulta de presença em scores.
+                concepts: [strconv-error-handling, map-comma-ok-lookup]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: validation-and-retention-decisions-are-separated
+                    kind: qualitative
+                children:
+                  - id: model.parse-entry-into-name-and-score
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Separar nome e placar de cada entrada
+                    instruction:
+                      objective: Para cada entrada, obter o nome, o texto do placar e o resultado da conversão para inteiro.
+                      scope: O laço sobre entries e a separação/conversão de cada uma, sem ainda atualizar os resultados.
+                      constraints:
+                        - Uma entrada sem o separador ":" ou cujo placar não converte para inteiro deve ser identificada como inválida.
+                    concepts: [strconv-error-handling]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: parses-name-and-score-tracking-invalid
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.record-invalid-entry-in-order
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Registrar falhas na ordem de entrada
+                    instruction:
+                      objective: Acrescentar a entrada original a invalidEntries quando seu formato ou placar não for válido.
+                      scope: A atualização de invalidEntries no caminho de falha, preservando a ordem de entries.
+                      constraints:
+                        - Uma entrada inválida nunca pode ocupar o lugar de um placar válido posterior do mesmo nome.
+                    concepts: [strconv-error-handling]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: records-invalid-entries-in-order
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.record-first-valid-score-with-comma-ok
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Registrar só o primeiro placar válido de cada nome
+                    instruction:
+                      objective: Para cada placar convertido com sucesso, guardar o valor somente se o nome ainda não estiver presente em scores.
+                      scope: A gravação em scores a partir do resultado válido do passo anterior.
+                      constraints:
+                        - Verificar com comma-ok se um nome já tem um placar registrado antes de gravar, nunca comparando o placar existente com zero.
+                        - Uma entrada que falhou na conversão não pode marcar o nome como já tendo um placar.
+                    concepts: [map-comma-ok-lookup]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: keeps-first-valid-score-via-comma-ok
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que comparar scores[name] com 0 para decidir se o nome já tem um placar quebraria justamente o caso em que o primeiro placar válido é 0?
+                  - id: model.verify-zero-score-and-invalid-predecessor
+                    kind: micro
+                    action: verify
+                    target: boundary_case
+                    title: Verificar zero válido e falha anterior
+                    instruction:
+                      objective: Confirme que um zero válido ocupa seu nome e que uma falha anterior não impede o primeiro placar válido seguinte.
+                      scope: Casos de duplicata com zero e de entrada inválida antes de uma entrada válida para o mesmo nome.
+                    concepts: [map-comma-ok-lookup, strconv-error-handling]
+                    evidence:
+                      strategies: [test]
+                    criteria:
+                      - id: zero-and-invalid-predecessor-preserve-first-valid-score
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
     fixture:
       - path: go.mod
         content: |
@@ -2385,6 +2738,17 @@ challenges:
                       t.Errorf(`scores["bob"] = (%d, %v), want (5, true)`, v, ok)
                   }
                   wantInvalid := []string{"bob:not-an-int"}
+                  if !reflect.DeepEqual(invalidEntries, wantInvalid) {
+                      t.Errorf("invalidEntries = %v, want %v", invalidEntries, wantInvalid)
+                  }
+              })
+
+              t.Run("empty score is invalid", func(t *testing.T) {
+                  scores, invalidEntries := BuildScores([]string{"bob:"})
+                  if _, ok := scores["bob"]; ok {
+                      t.Error(`scores["bob"] should be absent for an empty score`)
+                  }
+                  wantInvalid := []string{"bob:"}
                   if !reflect.DeepEqual(invalidEntries, wantInvalid) {
                       t.Errorf("invalidEntries = %v, want %v", invalidEntries, wantInvalid)
                   }
@@ -2491,6 +2855,17 @@ challenges:
                       t.Errorf("invalidEntries = %v, want %v", invalidEntries, wantInvalid)
                   }
               })
+
+              t.Run("empty score is invalid", func(t *testing.T) {
+                  scores, invalidEntries := BuildScores([]string{"bob:"})
+                  if _, ok := scores["bob"]; ok {
+                      t.Error(`scores["bob"] should be absent for an empty score`)
+                  }
+                  wantInvalid := []string{"bob:"}
+                  if !reflect.DeepEqual(invalidEntries, wantInvalid) {
+                      t.Errorf("invalidEntries = %v, want %v", invalidEntries, wantInvalid)
+                  }
+              })
           }
       expectations:
       - check_id: focused-tests
@@ -2509,128 +2884,278 @@ challenges:
       secondary: []
     prerequisites: [slice-preallocation-length-vs-capacity, rune-aware-whitespace-preservation, csv-field-quoting]
     brief: >
-      Implemente a formatação de uma lista de nomes para um relatório
-      CSV: cada nome não vazio é capitalizado e citado quando necessário,
-      nomes vazios são ignorados, e a saída é pré-alocada com a
-      capacidade da lista de entrada.
+      Um relatório CSV recebe uma lista de nomes. Formate cada nome diferente
+      da string vazia, capitalizando suas palavras e citando o campo quando o
+      conteúdo exigir, sem perder o espaçamento original.
     constraints:
       - Não usar bibliotecas externas além da biblioteca padrão.
       - Pré-alocar a saída com make usando comprimento 0 e capacidade len(names).
       - Apenas a string vazia "" é ignorada -- um nome composto só de espaços não é ignorado.
       - Preservar exatamente o espaçamento original de cada nome ao capitalizá-lo.
+      - Vírgula, aspas, quebra de linha ou retorno de carro exigem um campo CSV citado; aspas internas devem ser escapadas.
     acceptance:
       - 'FormatNames(["", "alice smith", "o''brien, jane", ""]) retorna ["Alice Smith", "\"O''brien, Jane\""], nessa ordem.'
       - A capacidade da slice retornada é exatamente len(names), mesmo quando nomes vazios são ignorados.
       - 'FormatNames(["  bob   smith  "]) retorna ["  Bob   Smith  "], preservando os espaços internos e das pontas.'
       - 'FormatNames(["   "]) retorna ["   "] -- um nome só de espaços não é ignorado.'
       - 'FormatNames([`say "hi" john`]) retorna [`"Say ""hi"" John"`] -- aspas internas são dobradas depois de capitalizar.'
+      - 'FormatNames([`say "hi", john`]) retorna [`"Say ""hi"", John"`] -- vírgula e aspas internas são tratadas no mesmo campo.'
+      - 'FormatNames(["line\nbreak"]) retorna ["\"Line\nBreak\""] -- uma quebra de linha torna o campo CSV citado e permanece no conteúdo.'
+      - 'FormatNames(["line\rbreak"]) retorna ["\"Line\rBreak\""] -- retorno de carro também exige citação.'
+      - 'FormatNames(["élan\tvital"]) retorna ["Élan\tVital"] -- a capitalização preserva tabulação e letras não-ASCII.'
       - FormatNames(nil) retorna uma slice vazia.
     publication:
       author: claude
     layers:
       - id: understanding
         macro_steps:
-          - id: model.preallocate-output-with-capacity
-            kind: micro
-            action: declare
-            target: function
-            title: Pré-alocar a saída com capacidade len(names)
+          - id: model.format-name-list-as-csv-fields
+            kind: macro
+            title: Formatar nomes para um relatório CSV
             instruction:
-              objective: Declarar a slice de saída de forma que ela já reserve espaço para até len(names) elementos, mas comece sem nenhum elemento.
-              scope: Somente a criação da slice de saída.
-              constraints:
-                - Pré-alocar a saída com make usando comprimento 0 e capacidade len(names).
-            concepts: [slice-preallocation-length-vs-capacity]
+              objective: Transformar a lista de nomes em campos CSV capitalizados, preservando o conteúdo permitido e a capacidade da saída.
+              scope: O contrato completo de FormatNames, incluindo strings vazias, espaços, Unicode, caracteres especiais e entrada nil.
+            concepts: [slice-preallocation-length-vs-capacity, rune-aware-whitespace-preservation, csv-field-quoting]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection]
             criteria:
-              - id: preallocates-output-with-capacity
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-          - id: model.skip-only-empty-string-names
-            kind: micro
-            action: implement
-            target: function
-            title: Percorrer names ignorando só a string vazia
-            instruction:
-              objective: Percorrer names, ignorando um nome sem gerar entrada na saída somente quando ele for exatamente a string vazia -- um nome composto só de espaços deve continuar sendo processado normalmente.
-              scope: O laço sobre names e a decisão de ignorar ou não cada nome.
-              constraints:
-                - Apenas a string vazia "" é ignorada -- um nome composto só de espaços não é ignorado.
-            concepts: [slice-preallocation-length-vs-capacity]
-            evidence:
-              strategies: [source_inspection, compile]
-            criteria:
-              - id: skips-only-empty-string-names
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-          - id: model.title-case-each-name
-            kind: micro
-            action: implement
-            target: function
-            title: Capitalizar cada nome não vazio preservando espaçamento
-            instruction:
-              objective: Para cada nome não vazio, capitalizar a primeira letra de cada palavra, preservando exatamente o espaçamento original.
-              scope: A transformação de cada nome antes de acrescentá-lo à saída.
-              constraints:
-                - Preservar exatamente o espaçamento original de cada nome.
-            concepts: [rune-aware-whitespace-preservation]
-            evidence:
-              strategies: [source_inspection, compile]
-            criteria:
-              - id: title-cases-each-name
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-          - id: model.quote-as-csv-field
-            kind: micro
-            action: implement
-            target: function
-            title: Citar o nome capitalizado como campo CSV quando necessário
-            instruction:
-              objective: Formatar cada nome já capitalizado como um campo CSV, citando-o e escapando aspas internas apenas quando ele contém vírgula, aspas ou quebra de linha.
-              scope: A formatação final de cada nome antes de acrescentá-lo à saída.
-              constraints:
-                - Um nome sem vírgula, aspas ou quebra de linha deve permanecer sem alterações.
-            concepts: [csv-field-quoting]
-            evidence:
-              strategies: [source_inspection, compile]
-            criteria:
-              - id: quotes-csv-field-when-needed
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-              - level: 3
-                kind: logical_prose
-            reflection:
-              optional:
-                - Por que citar antes de capitalizar produziria um resultado diferente de capitalizar antes de citar, mesmo levando ao mesmo campo final neste caso?
+              - id: formatted-name-list-contract-is-understood
+                kind: qualitative
+            children:
+              - id: model.separate-selection-transformation-and-encoding
+                kind: meso
+                title: Separar seleção, capitalização e codificação CSV
+                instruction:
+                  objective: Organizar a saída reservada, a seleção de nomes, a transformação textual e a codificação do campo final.
+                  scope: Percurso de names, preservação do espaçamento e regras de citação do relatório.
+                concepts: [slice-preallocation-length-vs-capacity, rune-aware-whitespace-preservation, csv-field-quoting]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: formatting-decisions-are-separated
+                    kind: qualitative
+                children:
+                  - id: model.preallocate-output-with-capacity
+                    kind: micro
+                    action: declare
+                    target: function
+                    title: Pré-alocar a saída com capacidade len(names)
+                    instruction:
+                      objective: Declarar a slice de saída reservando espaço para até len(names) elementos, mas começando sem nenhum elemento.
+                      scope: Somente a criação da slice de saída.
+                      constraints:
+                        - Pré-alocar a saída com make usando comprimento 0 e capacidade len(names).
+                    concepts: [slice-preallocation-length-vs-capacity]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: preallocates-output-with-capacity
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.skip-only-empty-string-names
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Percorrer names ignorando só a string vazia
+                    instruction:
+                      objective: Omitir uma entrada somente quando seu valor for exatamente a string vazia.
+                      scope: O laço sobre names e a decisão de ignorar ou não cada nome.
+                      constraints:
+                        - Apenas a string vazia "" é ignorada; um nome composto só de espaços deve continuar sendo processado normalmente.
+                    concepts: [slice-preallocation-length-vs-capacity]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: skips-only-empty-string-names
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.title-case-each-name
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Capitalizar cada nome não vazio preservando espaçamento
+                    instruction:
+                      objective: Capitalizar a primeira letra de cada palavra de cada nome que será emitido.
+                      scope: A transformação de cada nome antes de acrescentá-lo à saída, incluindo separadores e letras não-ASCII.
+                      constraints:
+                        - Preservar exatamente o espaçamento original de cada nome.
+                    concepts: [rune-aware-whitespace-preservation]
+                    evidence:
+                      strategies: [source_inspection, compile, test]
+                    criteria:
+                      - id: title-cases-each-name
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.quote-as-csv-field
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Decidir quando citar um campo CSV
+                    instruction:
+                      objective: Envolver um nome capitalizado em aspas quando seu conteúdo exigir um campo CSV citado.
+                      scope: A decisão de citação para vírgula, aspa, quebra de linha ou retorno de carro.
+                      constraints:
+                        - Um nome sem vírgula, aspas, quebra de linha ou retorno de carro deve permanecer sem alterações.
+                    concepts: [csv-field-quoting]
+                    evidence:
+                      strategies: [source_inspection, compile, test]
+                    criteria:
+                      - id: quotes-csv-field-when-needed
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.escape-quotes-in-csv-field
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Escapar aspas internas do campo citado
+                    instruction:
+                      objective: Representar cada aspa interna de um campo CSV citado com o escape exigido pelo formato.
+                      scope: A transformação das aspas internas depois que o nome já foi capitalizado e a necessidade de citação foi decidida.
+                      constraints:
+                        - Aspas internas devem ser escapadas sem remover ou reordenar o restante do nome.
+                    concepts: [csv-field-quoting]
+                    evidence:
+                      strategies: [source_inspection, compile, test]
+                    criteria:
+                      - id: escapes-internal-quotes
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.verify-capacity-and-special-field-boundaries
+                    kind: micro
+                    action: verify
+                    target: boundary_case
+                    title: Verificar capacidade após omitir entradas
+                    instruction:
+                      objective: Confirme que omitir strings vazias não reduz a capacidade reservada da saída.
+                      scope: Entradas com strings vazias, nomes comuns e nomes compostos só de espaços.
+                    concepts: [slice-preallocation-length-vs-capacity]
+                    evidence:
+                      strategies: [test]
+                    criteria:
+                      - id: capacity-after-skipping-empty-names
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.verify-csv-special-and-unicode-boundaries
+                    kind: micro
+                    action: verify
+                    target: boundary_case
+                    title: Verificar campos CSV especiais e Unicode
+                    instruction:
+                      objective: Confirme que caracteres especiais de CSV permanecem no conteúdo e recebem a codificação necessária, sem perder letras Unicode ou tabulações.
+                      scope: Vírgula, aspas, quebra de linha, retorno de carro, tabulação e letras não-ASCII.
+                    concepts: [csv-field-quoting, rune-aware-whitespace-preservation]
+                    evidence:
+                      strategies: [test]
+                    criteria:
+                      - id: special-fields-preserve-content
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que citar antes de capitalizar produziria um resultado diferente de capitalizar antes de citar, mesmo levando ao mesmo campo final neste caso?
     fixture:
       - path: go.mod
         content: |
@@ -2683,10 +3208,10 @@ challenges:
                   }
               })
 
-              t.Run("all blank", func(t *testing.T) {
+              t.Run("all empty strings", func(t *testing.T) {
                   got := FormatNames([]string{"", ""})
                   if len(got) != 0 {
-                      t.Errorf("FormatNames(all blank) = %v, want empty", got)
+                      t.Errorf("FormatNames(all empty strings) = %v, want empty", got)
                   }
               })
 
@@ -2718,6 +3243,38 @@ challenges:
                   want := []string{`"Say ""hi"" John"`}
                   if !reflect.DeepEqual(got, want) {
                       t.Errorf("FormatNames(...) = %v, want %v", got, want)
+                  }
+              })
+
+              t.Run("comma and internal quotes are escaped together", func(t *testing.T) {
+                  got := FormatNames([]string{`say "hi", john`})
+                  want := []string{`"Say ""hi"", John"`}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("FormatNames(...) = %v, want %v", got, want)
+                  }
+              })
+
+              t.Run("line break is quoted and preserved", func(t *testing.T) {
+                  got := FormatNames([]string{"line\nbreak"})
+                  want := []string{"\"Line\nBreak\""}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("FormatNames(...) = %q, want %q", got, want)
+                  }
+              })
+
+              t.Run("carriage return is quoted and preserved", func(t *testing.T) {
+                  got := FormatNames([]string{"line\rbreak"})
+                  want := []string{"\"Line\rBreak\""}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("FormatNames(...) = %q, want %q", got, want)
+                  }
+              })
+
+              t.Run("unicode letters and tab are preserved", func(t *testing.T) {
+                  got := FormatNames([]string{"élan\tvital"})
+                  want := []string{"Élan\tVital"}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("FormatNames(...) = %q, want %q", got, want)
                   }
               })
           }
@@ -2809,10 +3366,10 @@ challenges:
                   }
               })
 
-              t.Run("all blank", func(t *testing.T) {
+              t.Run("all empty strings", func(t *testing.T) {
                   got := FormatNames([]string{"", ""})
                   if len(got) != 0 {
-                      t.Errorf("FormatNames(all blank) = %v, want empty", got)
+                      t.Errorf("FormatNames(all empty strings) = %v, want empty", got)
                   }
               })
 
@@ -2844,6 +3401,38 @@ challenges:
                   want := []string{`"Say ""hi"" John"`}
                   if !reflect.DeepEqual(got, want) {
                       t.Errorf("FormatNames(...) = %v, want %v", got, want)
+                  }
+              })
+
+              t.Run("comma and internal quotes are escaped together", func(t *testing.T) {
+                  got := FormatNames([]string{`say "hi", john`})
+                  want := []string{`"Say ""hi"", John"`}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("FormatNames(...) = %v, want %v", got, want)
+                  }
+              })
+
+              t.Run("line break is quoted and preserved", func(t *testing.T) {
+                  got := FormatNames([]string{"line\nbreak"})
+                  want := []string{"\"Line\nBreak\""}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("FormatNames(...) = %q, want %q", got, want)
+                  }
+              })
+
+              t.Run("carriage return is quoted and preserved", func(t *testing.T) {
+                  got := FormatNames([]string{"line\rbreak"})
+                  want := []string{"\"Line\rBreak\""}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("FormatNames(...) = %q, want %q", got, want)
+                  }
+              })
+
+              t.Run("unicode letters and tab are preserved", func(t *testing.T) {
+                  got := FormatNames([]string{"élan\tvital"})
+                  want := []string{"Élan\tVital"}
+                  if !reflect.DeepEqual(got, want) {
+                      t.Errorf("FormatNames(...) = %q, want %q", got, want)
                   }
               })
           }

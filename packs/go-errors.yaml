@@ -321,6 +321,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.wrap-not-found-with-context
             kind: micro
             action: implement
@@ -347,6 +355,12 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - Por que fmt.Errorf com %v em vez de %w produz uma mensagem idêntica, mas quebra errors.Is?
@@ -371,6 +385,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
     fixture:
       - path: go.mod
         content: |
@@ -591,6 +613,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.return-field-or-not-found
             kind: micro
             action: implement
@@ -617,6 +647,12 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - 'Por que err.(*ValidationError) falha quando err é o resultado de fmt.Errorf com %w, mesmo o *ValidationError estando presente no encadeamento?'
@@ -627,6 +663,14 @@ challenges:
                     kind: guiding_question
                   - level: 2
                     kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
                 kind: micro
                 action: verify
                 target: error
@@ -649,19 +693,55 @@ challenges:
                     kind: guiding_question
                   - level: 2
                     kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
                 kind: micro
                 action: verify
                 target: error
                 title: Verificar ausência de tipo compatível
                 instruction:
-                  objective: Confirme que erro não relacionado e nil retornam campo vazio e ok false.
-                  scope: Apenas os caminhos sem ValidationError.
+                  objective: Confirme que um erro não relacionado retorna campo vazio e ok false.
+                  scope: Apenas o caminho sem ValidationError.
                 concepts: [errors-as-type-extraction]
                 evidence:
                   strategies: [test]
                 criteria:
                   - id: absent-type-rejected
                     kind: structural
+                completion:
+                  requires_positive_evaluation: true
+                  requires_user_confirmation: false
+              - id: extract-field.verify-nil-input
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
+                kind: micro
+                action: verify
+                target: error
+                title: Verificar entrada nil
+                instruction:
+                  objective: Confirme que uma entrada nil retorna campo vazio e ok false sem causar panic.
+                  scope: Apenas o caminho em que err é nil.
+                concepts: [errors-as-type-extraction]
+                evidence:
+                  strategies: [test]
+                criteria:
                   - id: nil-rejected
                     kind: structural
                 completion:
@@ -931,6 +1011,14 @@ challenges:
                     kind: guiding_question
                   - level: 2
                     kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
                 kind: micro
                 action: verify
                 target: error
@@ -953,6 +1041,14 @@ challenges:
                     kind: guiding_question
                   - level: 2
                     kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
                 kind: micro
                 action: verify
                 target: error
@@ -1218,6 +1314,14 @@ challenges:
                     kind: guiding_question
                   - level: 2
                     kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
                 kind: micro
                 action: verify
                 target: error
@@ -1242,6 +1346,14 @@ challenges:
                     kind: guiding_question
                   - level: 2
                     kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
                 kind: micro
                 action: verify
                 target: error
@@ -1454,6 +1566,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.join-missing-key-errors
             kind: micro
             action: implement
@@ -1480,6 +1600,12 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - Por que encadear ErrNotFound em cada erro individual, em vez de só uma vez no final, é o que permite errors.Is continuar funcionando depois do errors.Join?

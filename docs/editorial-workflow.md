@@ -17,7 +17,7 @@ python3 scripts/editorial.py init \
   --run-dir /tmp/codinho-editorial-run \
   --model gpt-5.6-luna --reasoning high --parallelism 3 --batch-size 5
 python3 scripts/editorial.py status --run-dir /tmp/codinho-editorial-run
-python3 scripts/editorial.py run --run-dir /tmp/codinho-editorial-run
+python3 scripts/editorial.py run --run-dir /tmp/codinho-editorial-run --limit-batches 1
 ```
 
 Escolha configuração antes da execução; defaults conservadores usam um autor.
@@ -45,15 +45,32 @@ automática de exit code zero. Mudanças posteriores invalidam o digest aprovado
 Revisão por comando é controle operacional, não autenticação contra um agente
 malicioso. Aplique o checklist e não execute review dentro do autor.
 
-Cada fila contém spec e tasks com id, title, paths e acceptance. Preserve IDs
-entre rodadas. Paths são arquivos exatos relativos ao repo. Tarefas que dependem
-de mudanças integradas devem entrar em uma execução posterior baseada no novo
-HEAD. Não execute a fila inteira antes de triar dependências e gates humanos.
+Cada fila contém spec e tasks com id, title, paths, acceptance e, opcionalmente,
+depends_on (IDs anteriores). Preserve IDs entre rodadas. Paths são arquivos
+exatos relativos ao repo. Cada run despacha uma onda de até parallelism lotes
+prontos; aguarde revisão e integração antes de chamar run novamente.
+Dependências exigem integração dos pré-requisitos. Lotes que compartilham arquivos
+aguardam os anteriores. O tamanho de lote é um máximo: dependências também
+separam lotes. Cada lote novo captura o HEAD atual; sua base fica fixa nas revisões.
+Execuções antigas preservam sua fila original: inicialize uma subfila atualizada
+com tarefas restantes para adotar dependências adicionadas posteriormente.
+Não marque gates humanos como satisfeitos por ordem de execução.
+
+Auditorias sem alterações podem ser aprovadas com evidência. Sua integração
+registra no_changes e o commit auditado, sem criar commit vazio, e exige que
+o HEAD continue igual à base auditada.
 
 Falha/timeout preserva worktree e logs. Retome o lote pela sessão registrada;
 se não houver sessão utilizável, investigue a falha antes de iniciar outra.
 Conflitos de integração não autorizam sobrescrita: reconcilie, valide e revise
 o novo patch. Integração exige árvore principal limpa.
+Use revise em um lote approved para revogar a aprovação e pedir correções.
+Após interrupção, use recover --run-dir ... --batch ...: ele recusa recuperação
+se o PID do autor ainda existir e recupera a sessão dos logs antes de permitir
+revise. Execuções legadas sem PID exigem diagnóstico manual. Falha de commit
+preserva o índice em integration-failed. Corrija a causa do hook/commit, conclua
+o commit com o trailer da fila e use reconcile --run-dir ... --batch ...:
+o comando verifica pai, digest exato e trailer antes de registrar integrated.
 
 ## Validação e piloto
 

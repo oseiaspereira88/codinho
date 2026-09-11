@@ -114,7 +114,7 @@ class EditorialTest(unittest.TestCase):
         self.assertEqual((self.repo / 'a.txt').read_text(), 'user edit\n')
 
     def test_parallel_run_isolated_batches(self):
-        tasks = [dict(id=str(i), title='Edit', paths=['a.txt'], acceptance=['x']) for i in range(4)]
+        tasks = [dict(id=str(i), title='Edit', paths=[f'{i}.txt'], acceptance=['x']) for i in range(4)]
         self.initialize(tasks=tasks)
         active = peak = 0
         lock = threading.Lock()
@@ -127,7 +127,10 @@ class EditorialTest(unittest.TestCase):
                 peak = max(peak, active)
             try:
                 time.sleep(0.05)
-                return original(config, folder)
+                state = editorial.read(folder / 'state.json')
+                state['status'] = 'awaiting-review'
+                editorial.save(folder / 'state.json', state)
+                return state
             finally:
                 with lock:
                     active -= 1
@@ -138,7 +141,7 @@ class EditorialTest(unittest.TestCase):
         self.assertEqual(peak, 2)
         for i in range(1, 5):
             state = editorial.read(self.batch(f'batch-{i:03d}') / 'state.json')
-            self.assertEqual(state['status'], 'awaiting-review')
+            self.assertEqual(state['status'], 'awaiting-review' if i <= 2 else 'pending')
         self.assertEqual((self.repo / 'a.txt').read_text(), 'initial\n')
 
     def test_timeout_preserves_work(self):
@@ -156,6 +159,81 @@ class EditorialTest(unittest.TestCase):
             self.assertEqual(editorial.main(['run', '--run-dir', str(self.run), '--limit-batches', '1']), 0)
         self.assertEqual(editorial.read(self.batch() / 'state.json')['status'], 'awaiting-review')
         self.assertEqual(editorial.read(self.batch('batch-002') / 'state.json')['status'], 'pending')
+
+    def test_hidden_staged_path_is_rejected(self):
+        config = self.initialize()
+        editorial.execute(config, self.batch())
+        work = self.batch() / 'worktree'
+        (work / 'outside.txt').write_text('hidden change')
+        editorial.git(work, 'add', 'outside.txt')
+        (work / 'outside.txt').unlink()
+        with self.assertRaisesRegex(ValueError, 'out-of-scope'):
+            editorial.review(config, self.batch(), 'approve', 'Reviewed')
+
+    def test_retry_before_worktree_and_session_exist(self):
+        config = self.initialize()
+        with patch.object(editorial, 'git', side_effect=OSError('worktree unavailable')):
+            self.assertEqual(editorial.execute(config, self.batch())['status'], 'failed')
+        self.assertEqual(editorial.execute(config, self.batch(), 'Retry')['status'], 'awaiting-review')
+
+    def test_no_change_audit_and_empty_evidence(self):
+        config = self.initialize()
+        self.fake.write_text(FAKE.replace('pathlib.Path("a.txt").write_text("revised\\n" if "resume" in sys.argv else "edited\\n")', 'pass'))
+        editorial.execute(config, self.batch())
+        with self.assertRaisesRegex(ValueError, 'nonempty'):
+            editorial.review(config, self.batch(), 'approve', ' ')
+        editorial.review(config, self.batch(), 'approve', 'Audit confirms existing content')
+        self.assertTrue(editorial.integrate(config, self.batch())['no_changes'])
+
+    def test_dependencies_wait_for_integration_and_use_new_base(self):
+        tasks = [dict(id='first', title='Edit', paths=['a.txt'], acceptance=['x']),
+                 dict(id='second', title='Edit', paths=['a.txt'], acceptance=['x'], depends_on=['first'])]
+        config = self.initialize(tasks=tasks, batch_size=5)
+        folders = sorted(self.run.glob('batch-*/state.json'))
+        self.assertEqual(editorial.ready_batches(folders, 8), [self.batch()])
+        editorial.execute(config, self.batch())
+        self.assertEqual(editorial.ready_batches(folders, 8), [])
+        editorial.review(config, self.batch(), 'approve', 'Checks passed')
+        first = editorial.integrate(config, self.batch())
+        self.assertEqual(editorial.ready_batches(folders, 8), [self.batch('batch-002')])
+        state = editorial.execute(config, self.batch('batch-002'))
+        self.assertEqual(state['base'], first['commit'])
+
+    def test_approved_delivery_can_be_revised(self):
+        config = self.initialize()
+        editorial.execute(config, self.batch())
+        editorial.review(config, self.batch(), 'approve', 'Checked')
+        state = editorial.execute(config, self.batch(), 'Reconsider approval')
+        self.assertEqual(state['status'], 'awaiting-review')
+        self.assertNotIn('approved_digest', state)
+
+    def test_recover_rejects_live_author_and_restores_explicit_session(self):
+        config = self.initialize()
+        state = editorial.execute(config, self.batch())
+        state.update(status='running', author_pid=os.getpid())
+        state.pop('session_id')
+        editorial.save(self.batch() / 'state.json', state)
+        with self.assertRaisesRegex(ValueError, 'still exists'):
+            editorial.recover(config, self.batch())
+        with patch.object(editorial.os, 'kill', side_effect=ProcessLookupError):
+            result = editorial.recover(config, self.batch())
+        self.assertEqual(result['status'], 'failed')
+        self.assertEqual(result['session_id'], '12345678-1234-1234-1234-123456789abc')
+
+    def test_reconcile_failed_commit(self):
+        config = self.initialize()
+        editorial.execute(config, self.batch())
+        editorial.review(config, self.batch(), 'approve', 'Checked')
+        hook = self.repo / '.git/hooks/pre-commit'
+        hook.write_text('#!/bin/sh\nexit 1\n')
+        hook.chmod(0o755)
+        with self.assertRaisesRegex(ValueError, 'commit failed'):
+            editorial.integrate(config, self.batch())
+        with self.assertRaisesRegex(ValueError, 'clean target'):
+            editorial.reconcile(config, self.batch())
+        hook.unlink()
+        editorial.git(self.repo, 'commit', '-m', 'Manual integration', '-m', 'POSE-Spec: example')
+        self.assertEqual(editorial.reconcile(config, self.batch())['status'], 'integrated')
 
 
 if __name__ == '__main__':

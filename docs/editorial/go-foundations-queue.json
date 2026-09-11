@@ -78,6 +78,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -93,6 +100,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -108,6 +122,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -123,6 +144,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -138,6 +166,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -153,6 +188,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -168,6 +210,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -183,6 +232,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -198,6 +254,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -213,6 +276,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -228,6 +298,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -243,6 +320,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -258,6 +342,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -273,6 +364,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -288,6 +386,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -303,6 +408,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -318,6 +430,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -333,6 +452,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -348,6 +474,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -363,6 +496,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -378,6 +518,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -393,6 +540,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -408,6 +562,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -423,6 +584,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -438,6 +606,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -453,6 +628,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -468,6 +650,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação functional_slice e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -483,6 +672,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -498,6 +694,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -513,6 +716,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -528,6 +738,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -543,6 +760,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -558,6 +782,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -573,6 +804,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -588,6 +826,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação functional_slice e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -603,6 +848,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Preservar canonical:false e variant_of; verificar competência compartilhada e contexto distinto da origem, sem usar variante para esconder falta de profundidade da base.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -618,6 +870,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Preservar canonical:false e variant_of; verificar competência compartilhada e contexto distinto da origem, sem usar variante para esconder falta de profundidade da base.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -633,6 +892,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Preservar canonical:false e variant_of; verificar competência compartilhada e contexto distinto da origem, sem usar variante para esconder falta de profundidade da base.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -648,6 +914,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Preservar canonical:false e variant_of; verificar competência compartilhada e contexto distinto da origem, sem usar variante para esconder falta de profundidade da base.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -663,6 +936,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -678,6 +958,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Preservar canonical:false e variant_of; verificar competência compartilhada e contexto distinto da origem, sem usar variante para esconder falta de profundidade da base.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -693,6 +980,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Preservar canonical:false e variant_of; verificar competência compartilhada e contexto distinto da origem, sem usar variante para esconder falta de profundidade da base.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -708,6 +1002,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Preservar canonical:false e variant_of; verificar competência compartilhada e contexto distinto da origem, sem usar variante para esconder falta de profundidade da base.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -723,6 +1024,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Preservar canonical:false e variant_of; verificar competência compartilhada e contexto distinto da origem, sem usar variante para esconder falta de profundidade da base.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -738,6 +1046,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -753,6 +1068,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -768,6 +1090,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -783,6 +1112,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -798,6 +1134,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -813,6 +1156,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -828,6 +1178,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -843,6 +1200,13 @@
         "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
         "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
         "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ],
+      "depends_on": [
+        "pilot-load-value-empty",
+        "pilot-finder-zero",
+        "pilot-score-nil-map",
+        "pilot-options-final-validation",
+        "pilot-command-reference-control-flow"
       ]
     },
     {
@@ -856,6 +1220,60 @@
         "Distribuir propostas por pack com exemplos executáveis, relações, critérios distintos e referências oficiais; não criar sinônimos para inflar contagem.",
         "Recontar macro/meso/micro após auditorias; mapear decisões ausentes para alcançar pelo menos 300 nodes contextualizados sem usar variantes para mascarar bases rasas.",
         "Mapear pelo menos 60 competências fundamentais; baseline scoped 56, global 60. Identificar as quatro lacunas sem contar competências do protótipo de depuração."
+      ],
+      "depends_on": [
+        "audit-go-core.close-resources-in-defer-order",
+        "audit-go-core.sum-variadic-numbers",
+        "audit-go-core.stop-processing-commands-with-labeled-break",
+        "audit-go-core.increment-counter-with-pointer-receiver",
+        "audit-go-core.recover-from-panic-in-safe-call",
+        "audit-go-core.guard-invariant-with-unexported-field",
+        "audit-go-core.find-first-value-at-least",
+        "audit-go-core.hide-counter-type-behind-interface",
+        "audit-go-core.run-commands-with-cleanup-and-recovery",
+        "audit-go-core.configure-server-with-functional-options",
+        "audit-go-data-text.filter-without-mutating-input",
+        "audit-go-data-text.truncate-bytes-at-rune-boundary",
+        "audit-go-data-text.lookup-map-value-with-comma-ok",
+        "audit-go-data-text.quote-csv-field-when-needed",
+        "audit-go-data-text.dedupe-preserving-first-occurrence",
+        "audit-go-data-text.sum-valid-integers-safely",
+        "audit-go-data-text.preallocate-slice-with-zero-length",
+        "audit-go-data-text.title-first-letters-preserving-spacing",
+        "audit-go-data-text.build-scores-from-entries",
+        "audit-go-data-text.format-names-as-csv-fields",
+        "audit-go-errors.wrap-sentinel-error-with-context",
+        "audit-go-errors.extract-field-with-errors-as",
+        "audit-go-errors.validate-user-joining-all-errors",
+        "audit-go-errors.translate-error-at-boundary",
+        "audit-go-errors.load-and-validate-required-keys",
+        "audit-go-errors.classify-wrapped-errors",
+        "audit-go-errors.maintain-memory-catalog",
+        "audit-go-first-steps.enumerate-weekdays-with-iota",
+        "audit-go-first-steps.convert-celsius-to-fahrenheit",
+        "audit-go-first-steps.declare-a-minimal-module",
+        "audit-go-first-steps.clamp-int-to-byte",
+        "audit-go-first-steps.format-rate-limit-message",
+        "audit-go-first-steps.avoid-shadowing-named-returns",
+        "audit-go-io.decode-strict-config",
+        "audit-go-io.import-csv-inventory",
+        "audit-go-io.read-fragmented-note",
+        "audit-go-io.decode-weather-fields",
+        "audit-go-io.read-quoted-attendees",
+        "audit-go-io.write-result-report",
+        "audit-go-testing.select-active-tokens-with-injected-clock",
+        "audit-go-testing.measure-reservation-remaining",
+        "audit-go-testing.check-ticket-boundary",
+        "audit-go-testing.snapshot-readings",
+        "audit-go-testing.count-deadline-clock-calls",
+        "audit-go-type-design.clone-inventory-independently",
+        "audit-go-type-design.select-validator-true-nil",
+        "audit-go-type-design.sum-list-with-nil-safe-receiver",
+        "audit-go-type-design.contains-generic-comparable",
+        "audit-go-type-design.describe-if-circle-safely",
+        "audit-go-type-design.map-generic-transform",
+        "audit-go-type-design.first-circle-clone",
+        "audit-go-type-design.generic-node-values-nil-safe"
       ]
     },
     {
@@ -870,6 +1288,9 @@
         "Executar exemplos e catalog validate --checks; vincular conceitos a competências e desafios reais, sem conceitos decorativos.",
         "Garantir pelo menos oito conceitos e cinco competências no pack, com semânticas distintas; preservar autoria histórica e IDs.",
         "Registrar novas contagens e comprovar que competências essenciais possuem mais de um contexto."
+      ],
+      "depends_on": [
+        "plan-concept-depth"
       ]
     },
     {
@@ -884,6 +1305,9 @@
         "Executar exemplos e catalog validate --checks; vincular conceitos a competências e desafios reais, sem conceitos decorativos.",
         "Garantir pelo menos oito conceitos e cinco competências no pack, com semânticas distintas; preservar autoria histórica e IDs.",
         "Registrar novas contagens e comprovar que competências essenciais possuem mais de um contexto."
+      ],
+      "depends_on": [
+        "plan-concept-depth"
       ]
     },
     {
@@ -898,6 +1322,9 @@
         "Executar exemplos e catalog validate --checks; vincular conceitos a competências e desafios reais, sem conceitos decorativos.",
         "Garantir pelo menos oito conceitos e cinco competências no pack, com semânticas distintas; preservar autoria histórica e IDs.",
         "Registrar novas contagens e comprovar que competências essenciais possuem mais de um contexto."
+      ],
+      "depends_on": [
+        "plan-concept-depth"
       ]
     },
     {
@@ -912,6 +1339,9 @@
         "Executar exemplos e catalog validate --checks; vincular conceitos a competências e desafios reais, sem conceitos decorativos.",
         "Garantir pelo menos oito conceitos e cinco competências no pack, com semânticas distintas; preservar autoria histórica e IDs.",
         "Registrar novas contagens e comprovar que competências essenciais possuem mais de um contexto."
+      ],
+      "depends_on": [
+        "plan-concept-depth"
       ]
     },
     {
@@ -926,6 +1356,9 @@
         "Executar exemplos e catalog validate --checks; vincular conceitos a competências e desafios reais, sem conceitos decorativos.",
         "Garantir pelo menos oito conceitos e cinco competências no pack, com semânticas distintas; preservar autoria histórica e IDs.",
         "Registrar novas contagens e comprovar que competências essenciais possuem mais de um contexto."
+      ],
+      "depends_on": [
+        "plan-concept-depth"
       ]
     },
     {
@@ -940,6 +1373,9 @@
         "Executar exemplos e catalog validate --checks; vincular conceitos a competências e desafios reais, sem conceitos decorativos.",
         "Garantir pelo menos oito conceitos e cinco competências no pack, com semânticas distintas; preservar autoria histórica e IDs.",
         "Registrar novas contagens e comprovar que competências essenciais possuem mais de um contexto."
+      ],
+      "depends_on": [
+        "plan-concept-depth"
       ]
     },
     {
@@ -954,6 +1390,9 @@
         "Executar exemplos e catalog validate --checks; vincular conceitos a competências e desafios reais, sem conceitos decorativos.",
         "Garantir pelo menos oito conceitos e cinco competências no pack, com semânticas distintas; preservar autoria histórica e IDs.",
         "Registrar novas contagens e comprovar que competências essenciais possuem mais de um contexto."
+      ],
+      "depends_on": [
+        "plan-concept-depth"
       ]
     },
     {
@@ -968,6 +1407,15 @@
         "Verificar Go do zero, transição orientada a objetos, fluência prática, dados e tipos, testes e design; justificar seleção e ordem dos desafios.",
         "Executar os testes de início e travessia MCP; provar pré-requisitos e alcance de cada percurso.",
         "Reconciliar referências após lotes de conteúdo; não chamar travessia automatizada de playtest humano."
+      ],
+      "depends_on": [
+        "concepts-go-core",
+        "concepts-go-data-text",
+        "concepts-go-errors",
+        "concepts-go-first-steps",
+        "concepts-go-io",
+        "concepts-go-testing",
+        "concepts-go-type-design"
       ]
     },
     {
@@ -980,6 +1428,15 @@
         "Registrar medição: sete packs possuem 45 entradas sem canonical:false; uma é go-data.slice-filter-preserve-input; excluí-la conceitualmente dá 44 fundamentais, 32 atômicos/10 combinados/2 fatias.",
         "Registrar go-debug.slice-off-by-one fora dos sete packs; preservar IDs e sessões.",
         "Sinalizar decisão humana pendente sobre classificação/migração/publicação dos protótipos e aceite da distribuição; não reclassificar ou excluir silenciosamente para atingir meta."
+      ],
+      "depends_on": [
+        "concepts-go-core",
+        "concepts-go-data-text",
+        "concepts-go-errors",
+        "concepts-go-first-steps",
+        "concepts-go-io",
+        "concepts-go-testing",
+        "concepts-go-type-design"
       ]
     },
     {
@@ -995,6 +1452,69 @@
         "Auditar nil, zero values, aliasing, UTF-8, method sets, interface nil, wrapping e testabilidade; mostrar pelo menos dois contextos por competência essencial.",
         "Executar catalog validate --checks, catalog --v1-gate conforme help atual e pose validate --strict; distinguir falha por draft/gate humano de defeito de conteúdo.",
         "Verificar ausência de rede/secrets/paths externos nas fixtures, versão mínima Go, duplicação e vazamento de solução; registrar limitações."
+      ],
+      "depends_on": [
+        "audit-go-core.close-resources-in-defer-order",
+        "audit-go-core.sum-variadic-numbers",
+        "audit-go-core.stop-processing-commands-with-labeled-break",
+        "audit-go-core.increment-counter-with-pointer-receiver",
+        "audit-go-core.recover-from-panic-in-safe-call",
+        "audit-go-core.guard-invariant-with-unexported-field",
+        "audit-go-core.find-first-value-at-least",
+        "audit-go-core.hide-counter-type-behind-interface",
+        "audit-go-core.run-commands-with-cleanup-and-recovery",
+        "audit-go-core.configure-server-with-functional-options",
+        "audit-go-data-text.filter-without-mutating-input",
+        "audit-go-data-text.truncate-bytes-at-rune-boundary",
+        "audit-go-data-text.lookup-map-value-with-comma-ok",
+        "audit-go-data-text.quote-csv-field-when-needed",
+        "audit-go-data-text.dedupe-preserving-first-occurrence",
+        "audit-go-data-text.sum-valid-integers-safely",
+        "audit-go-data-text.preallocate-slice-with-zero-length",
+        "audit-go-data-text.title-first-letters-preserving-spacing",
+        "audit-go-data-text.build-scores-from-entries",
+        "audit-go-data-text.format-names-as-csv-fields",
+        "audit-go-errors.wrap-sentinel-error-with-context",
+        "audit-go-errors.extract-field-with-errors-as",
+        "audit-go-errors.validate-user-joining-all-errors",
+        "audit-go-errors.translate-error-at-boundary",
+        "audit-go-errors.load-and-validate-required-keys",
+        "audit-go-errors.classify-wrapped-errors",
+        "audit-go-errors.maintain-memory-catalog",
+        "audit-go-first-steps.enumerate-weekdays-with-iota",
+        "audit-go-first-steps.convert-celsius-to-fahrenheit",
+        "audit-go-first-steps.declare-a-minimal-module",
+        "audit-go-first-steps.clamp-int-to-byte",
+        "audit-go-first-steps.format-rate-limit-message",
+        "audit-go-first-steps.avoid-shadowing-named-returns",
+        "audit-go-io.decode-strict-config",
+        "audit-go-io.import-csv-inventory",
+        "audit-go-io.read-fragmented-note",
+        "audit-go-io.decode-weather-fields",
+        "audit-go-io.read-quoted-attendees",
+        "audit-go-io.write-result-report",
+        "audit-go-testing.select-active-tokens-with-injected-clock",
+        "audit-go-testing.measure-reservation-remaining",
+        "audit-go-testing.check-ticket-boundary",
+        "audit-go-testing.snapshot-readings",
+        "audit-go-testing.count-deadline-clock-calls",
+        "audit-go-type-design.clone-inventory-independently",
+        "audit-go-type-design.select-validator-true-nil",
+        "audit-go-type-design.sum-list-with-nil-safe-receiver",
+        "audit-go-type-design.contains-generic-comparable",
+        "audit-go-type-design.describe-if-circle-safely",
+        "audit-go-type-design.map-generic-transform",
+        "audit-go-type-design.first-circle-clone",
+        "audit-go-type-design.generic-node-values-nil-safe",
+        "concepts-go-core",
+        "concepts-go-data-text",
+        "concepts-go-errors",
+        "concepts-go-first-steps",
+        "concepts-go-io",
+        "concepts-go-testing",
+        "concepts-go-type-design",
+        "audit-tracks",
+        "disposition-count-prototypes"
       ]
     },
     {
@@ -1007,6 +1527,9 @@
         "Criar roteiro identificável por desafio e variante, com preparação de workspace, sessão MCP, duração observada, autor e revisor humano distintos.",
         "Referenciar evidências automatizadas e dúvidas pedagógicas por item para revisão humana final.",
         "Manter reviewed_by, playtested e status:published inalterados sem evidência real; marcar gate humano pendente, jamais como tarefa automatizada concluída."
+      ],
+      "depends_on": [
+        "audit-global-gates"
       ]
     },
     {
@@ -1020,6 +1543,9 @@
         "Exigir decisão documentada de distribuição e revisão/playtest humanos reais antes de recomendar publicação.",
         "Reconciliar documentação antiga com medição atual, referenciando spec e follow-ups; manter spec in-progress se qualquer gate faltar.",
         "Encaminhar ao coordenador atualização da spec, assess discover --update-state e checks de fechamento somente quando a entrega real existir."
+      ],
+      "depends_on": [
+        "prepare-human-review-playtest"
       ]
     }
   ]

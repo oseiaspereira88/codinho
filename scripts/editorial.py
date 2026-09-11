@@ -37,7 +37,8 @@ def clean(repo):
 def valid_path(path):
     return (isinstance(path, str) and bool(path) and
             not PurePosixPath(path).is_absolute() and
-            all(part not in ('.', '..', '.git') for part in path.split('/')) and
+            all(part not in ('', '.', '..', '.git') for part in path.split('/')) and
+            not path.startswith(':') and
             not any(c in path for c in '\n\r\0\\*?['))
 
 
@@ -49,6 +50,8 @@ def init(args):
     if root == repo or repo in root.parents:
         raise ValueError('run-dir must be outside the repository')
     queue = read(args.queue)
+    if not isinstance(queue, dict):
+        raise ValueError('queue must be an object')
     if not re.fullmatch(r'[a-z0-9][a-z0-9-]*', queue.get('spec', '')):
         raise ValueError('queue requires a valid POSE spec slug')
     tasks = queue.get('tasks')
@@ -58,6 +61,9 @@ def init(args):
     for task in tasks:
         if not isinstance(task, dict) or not isinstance(task.get('id'), str) or not task['id'] or task['id'] in ids:
             raise ValueError('task IDs must be nonempty and unique')
+        deps = task.get('depends_on', [])
+        if not isinstance(deps, list) or not all(isinstance(d, str) and d in ids for d in deps):
+            raise ValueError('depends_on must reference earlier task IDs')
         ids.add(task['id'])
         if not isinstance(task.get('title'), str) or not task['title'].strip():
             raise ValueError('task requires title')
@@ -75,11 +81,21 @@ def init(args):
                   timeout_seconds=args.timeout_seconds, codex=args.codex)
     root.mkdir(parents=True)
     save(root / 'config.json', config)
-    for i in range(0, len(tasks), args.batch_size):
-        name = f'batch-{i // args.batch_size + 1:03d}'
+    batches = []
+    current = []
+    for task in tasks:
+        if current and (len(current) == args.batch_size or
+                        set(task.get('depends_on', [])) & {t['id'] for t in current}):
+            batches.append(current)
+            current = []
+        current.append(task)
+    if current:
+        batches.append(current)
+    for i, batch in enumerate(batches, 1):
+        name = f'batch-{i:03d}'
         folder = root / name
         folder.mkdir()
-        save(folder / 'state.json', dict(id=name, status='pending', tasks=tasks[i:i + args.batch_size], attempts=0))
+        save(folder / 'state.json', dict(id=name, status='pending', tasks=batch, attempts=0))
     return config
 
 
@@ -91,10 +107,12 @@ def folder_for(root, batch):
 
 def snapshot(config, folder, state):
     work = folder / 'worktree'
-    if git(work, 'rev-parse', 'HEAD').decode().strip() != config['base']:
+    base = state.get('base', config['base'])
+    if git(work, 'rev-parse', 'HEAD').decode().strip() != base:
         raise ValueError('author must not commit; worktree HEAD changed')
     allowed = {p for t in state['tasks'] for p in t['paths']}
-    changed = set(git(work, 'diff', '--name-only', '-z', config['base']).decode().strip('\0').split('\0'))
+    changed = set(git(work, 'diff', '--name-only', '-z', base).decode().strip('\0').split('\0'))
+    changed.update(git(work, 'diff', '--cached', '--name-only', '-z', base).decode().strip('\0').split('\0'))
     changed.update(git(work, 'ls-files', '--others', '--exclude-standard', '-z').decode().strip('\0').split('\0'))
     changed.discard('')
     if changed - allowed:
@@ -105,7 +123,7 @@ def snapshot(config, folder, state):
             raise ValueError('symlink/path escape: ' + name)
     if changed:
         git(work, 'add', '--all', '--', *sorted(changed))
-    patch = git(work, 'diff', '--cached', '--binary', config['base'])
+    patch = git(work, 'diff', '--cached', '--binary', base)
     return patch, hashlib.sha256(patch).hexdigest()
 
 
@@ -115,15 +133,19 @@ def execute(config, folder, feedback=None):
     if feedback is None:
         if state['status'] != 'pending':
             raise ValueError('only pending batches may start')
-    elif state['status'] not in ('changes-requested', 'failed', 'awaiting-review'):
+    elif state['status'] not in ('changes-requested', 'failed', 'awaiting-review', 'approved'):
         raise ValueError('batch is not revisable')
     state.pop('approved_digest', None)
     state['attempts'] += 1
     state['status'] = 'running'
     save(folder / 'state.json', state)
     try:
+        if feedback is None:
+            if not clean(config['repo']):
+                raise ValueError('dispatch target must be clean')
+            state['base'] = git(config['repo'], 'rev-parse', 'HEAD').decode().strip()
         if feedback is None or not work.exists():
-            git(config['repo'], 'worktree', 'add', '--detach', str(work), config['base'])
+            git(config['repo'], 'worktree', 'add', '--detach', str(work), state.get('base', config['base']))
         command = [config['codex'], 'exec']
         if feedback is not None and state.get('session_id'):
             session = str(uuid.UUID(state['session_id']))
@@ -148,6 +170,8 @@ def execute(config, folder, feedback=None):
         with log.open('wb') as output, log.with_suffix('.stderr').open('wb') as errors:
             proc = subprocess.Popen(command, cwd=work, stdin=subprocess.PIPE, stdout=output,
                                     stderr=errors, start_new_session=True, env=env)
+            state['author_pid'] = proc.pid
+            save(folder / 'state.json', state)
             try:
                 proc.communicate(prompt.encode(), timeout=config['timeout_seconds'])
             except subprocess.TimeoutExpired:
@@ -181,7 +205,35 @@ def execute(config, folder, feedback=None):
     return state
 
 
+def recover(config, folder):
+    state = read(folder / 'state.json')
+    if state['status'] != 'running':
+        raise ValueError('recover requires an interrupted running batch')
+    pid = state.get('author_pid')
+    if not pid:
+        raise ValueError('missing author PID; inspect legacy execution manually')
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        pass
+    else:
+        raise ValueError('author process still exists; recovery refused')
+    log = folder / f'attempt-{state["attempts"]:03d}.jsonl'
+    for line in log.read_text().splitlines():
+        try:
+            event = json.loads(line)
+            if event.get('type') == 'thread.started':
+                state['session_id'] = str(uuid.UUID(event['thread_id']))
+        except (ValueError, KeyError):
+            continue
+    state.update(status='failed', error='interrupted execution recovered; revise required')
+    save(folder / 'state.json', state)
+    return state
+
+
 def review(config, folder, decision, feedback):
+    if decision not in ('approve', 'request-changes') or not feedback.strip():
+        raise ValueError('review requires a valid decision and nonempty evidence')
     state = read(folder / 'state.json')
     if state['status'] != 'awaiting-review':
         raise ValueError('only delivered batches may be reviewed')
@@ -191,8 +243,6 @@ def review(config, folder, decision, feedback):
     state.setdefault('reviews', []).append(dict(decision=decision, feedback=feedback, digest=digest))
     state['status'] = 'approved' if decision == 'approve' else 'changes-requested'
     if decision == 'approve':
-        if not patch:
-            raise ValueError('cannot approve an empty delivery')
         state['approved_digest'] = digest
     save(folder / 'state.json', state)
     return state
@@ -208,8 +258,17 @@ def integrate(config, folder):
     repo = config['repo']
     if not clean(repo):
         raise ValueError('integration target must be clean')
+    if not patch:
+        base = state.get('base', config['base'])
+        if git(repo, 'rev-parse', 'HEAD').decode().strip() != base:
+            raise ValueError('no-change audit is stale; target HEAD changed')
+        state.update(status='integrated', commit=base, no_changes=True)
+        save(folder / 'state.json', state)
+        return state
     patch_path = folder / 'approved.patch'
     patch_path.write_bytes(patch)
+    state['integration_base'] = git(repo, 'rev-parse', 'HEAD').decode().strip()
+    save(folder / 'state.json', state)
     git(repo, 'apply', '--check', '--index', str(patch_path))
     git(repo, 'apply', '--index', str(patch_path))
     try:
@@ -224,10 +283,47 @@ def integrate(config, folder):
     return state
 
 
+def reconcile(config, folder):
+    state = read(folder / 'state.json')
+    if state['status'] != 'integration-failed' or not clean(config['repo']):
+        raise ValueError('reconcile requires integration-failed and a clean target')
+    repo = config['repo']
+    head = git(repo, 'rev-parse', 'HEAD').decode().strip()
+    parents = git(repo, 'rev-list', '--parents', '-n', '1', head).decode().split()[1:]
+    if parents != [state.get('integration_base')]:
+        raise ValueError('manual commit must directly follow integration base')
+    patch = git(repo, 'diff', '--binary', state['integration_base'], head)
+    if hashlib.sha256(patch).hexdigest() != state['approved_digest']:
+        raise ValueError('manual commit differs from approved patch')
+    message = git(repo, 'log', '-1', '--format=%B').decode().splitlines()
+    if 'POSE-Spec: ' + config['queue']['spec'] not in message:
+        raise ValueError('manual commit requires the matching POSE-Spec trailer')
+    state.update(status='integrated', commit=head)
+    save(folder / 'state.json', state)
+    return state
+
+
+def ready_batches(folders, limit):
+    states = [(p.parent, read(p)) for p in folders]
+    completed = {t['id'] for _, s in states if s['status'] == 'integrated' for t in s['tasks']}
+    selected = []
+    occupied = {p for _, s in states if s['status'] not in ('pending', 'integrated')
+                for t in s['tasks'] for p in t['paths']}
+    for folder, state in states:
+        paths = {p for t in state['tasks'] for p in t['paths']}
+        deps = {d for t in state['tasks'] for d in t.get('depends_on', [])}
+        if state['status'] == 'pending' and deps <= completed and not paths & occupied:
+            if len(selected) < limit:
+                selected.append(folder)
+        if state['status'] != 'integrated':
+            occupied.update(paths)
+    return selected
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
-    for name in ('init', 'status', 'run', 'revise', 'review', 'integrate'):
+    for name in ('init', 'status', 'run', 'revise', 'review', 'integrate', 'recover', 'reconcile'):
         p = commands.add_parser(name)
         p.add_argument('--run-dir', required=True)
         if name == 'init':
@@ -238,7 +334,7 @@ def main(argv=None):
             p.add_argument('--batch-size', type=int, default=5)
             p.add_argument('--timeout-seconds', type=int, default=1800)
             p.add_argument('--codex', default='codex')
-        if name in ('revise', 'review', 'integrate'):
+        if name in ('revise', 'review', 'integrate', 'recover', 'reconcile'):
             p.add_argument('--batch', required=True)
         if name == 'run':
             p.add_argument('--limit-batches', type=int)
@@ -262,11 +358,12 @@ def main(argv=None):
                 if args.command == 'status':
                     result = [read(p) for p in folders]
                 elif args.command == 'run':
-                    pending = [p.parent for p in folders if read(p)['status'] == 'pending']
+                    limit = config['parallelism']
                     if args.limit_batches is not None:
                         if args.limit_batches < 1:
                             raise ValueError('limit-batches must be positive')
-                        pending = pending[:args.limit_batches]
+                        limit = min(limit, args.limit_batches)
+                    pending = ready_batches(folders, limit)
                     with concurrent.futures.ThreadPoolExecutor(max_workers=config['parallelism']) as pool:
                         result = list(pool.map(lambda p: execute(config, p), pending))
                 else:
@@ -275,6 +372,10 @@ def main(argv=None):
                         result = execute(config, folder, args.feedback)
                     elif args.command == 'review':
                         result = review(config, folder, args.decision, args.feedback)
+                    elif args.command == 'recover':
+                        result = recover(config, folder)
+                    elif args.command == 'reconcile':
+                        result = reconcile(config, folder)
                     else:
                         result = integrate(config, folder)
         print(json.dumps(result, ensure_ascii=False, indent=2))

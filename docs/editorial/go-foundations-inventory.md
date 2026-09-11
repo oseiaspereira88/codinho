@@ -77,8 +77,9 @@ menos oito conceitos, respeitando o piso registrado na spec.
 Revise todos os lotes antes de executar `audit-global-gates`. Execute
 `prepare-human-review-playtest` depois da consolidação técnica e
 `prepare-publication-closeout` somente com a disposição explícita dos gates.
-Essas dependências são de planejamento; a fila não afirma que sua ordem
-sozinho as impõe. O coordenador deve despachar somente tarefas prontas.
+Essas dependências constam de depends_on na fila; o executor aguarda integração
+dos pré-requisitos antes do despacho. O coordenador continua responsável por
+avaliar os gates humanos e a qualidade das evidências.
 
 ## Regras de execução e aceite
 

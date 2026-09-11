@@ -9,6 +9,9 @@ Each `SKILL.md` uses YAML frontmatter with `name`, `description`, and
 
 ## Catalog
 
+Editoração em lotes: [editorial-coordinator](editorial-coordinator/SKILL.md),
+com [guia de operação](../../docs/editorial-workflow.md).
+
 | Skill | Task type | Primary workflow | Base rules |
 |---|---|---|---|
 | [pose-feature](pose-feature/SKILL.md) | Feature or non-trivial refactor | [feature.md](../../.pose/workflows/feature.md) | security, documentation-style, and domain rules |

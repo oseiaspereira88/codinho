@@ -157,6 +157,22 @@
       "applies_to": "packs",
       "owner": "@oseiaspereira",
       "last_reviewed_at": "2026-09-09"
+    },
+    {
+      "path": "docs/editorial-workflow.md",
+      "doc_type": "howto",
+      "topics": ["editorial", "codex"],
+      "owns": ["scripts/editorial.py", ".agents/skills/editorial-coordinator"],
+      "applies_to": ".",
+      "owner": "@pose-maintainers"
+    },
+    {
+      "path": "docs/editorial/go-foundations-inventory.md",
+      "doc_type": "reference",
+      "topics": ["editorial", "catalog", "go-foundations"],
+      "owns": ["docs/editorial/go-foundations-queue.json"],
+      "applies_to": "docs/editorial",
+      "owner": "@pose-maintainers"
     }
   ]
 }

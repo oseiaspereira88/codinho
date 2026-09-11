@@ -1,0 +1,1026 @@
+{
+  "version": 1,
+  "spec": "go-foundations-packs",
+  "tasks": [
+    {
+      "id": "pilot-load-value-empty",
+      "title": "Provar chave presente com valor vazio em LoadValue",
+      "paths": [
+        "packs/go-errors.yaml"
+      ],
+      "acceptance": [
+        "Limitar a edição a go-errors.wrap-sentinel-error-with-context.",
+        "Adicionar o mesmo teste às fixtures baseline e reference: chave existente com string vazia retorna string vazia e erro nil; chave ausente continua preservando errors.Is.",
+        "Demonstrar que um mutante que trata valor vazio como ausência falha; registrar comando e saída.",
+        "Executar catalog validate --checks; não preencher metadados humanos de publicação."
+      ]
+    },
+    {
+      "id": "pilot-finder-zero",
+      "title": "Provar valor zero encontrado em FindFirstAtLeast",
+      "paths": [
+        "packs/go-core.yaml"
+      ],
+      "acceptance": [
+        "Limitar a edição a go-core.find-first-value-at-least.",
+        "Testar nó Value:0 com min:0 retornando (0,true), contrastando com (0,false) na ausência; manter fixtures baseline/reference alinhadas.",
+        "Demonstrar falha de mutante que deriva found de value != 0; executar checks e registrar evidência."
+      ]
+    },
+    {
+      "id": "pilot-score-nil-map",
+      "title": "Provar consulta em mapa nil em Score",
+      "paths": [
+        "packs/go-data-text.yaml"
+      ],
+      "acceptance": [
+        "Limitar a edição a go-data-text.lookup-map-value-with-comma-ok.",
+        "Testar mapa nil retornando (0,false) sem panic nas duas fixtures.",
+        "Demonstrar falha de mutante que escreve no mapa antes de consultar; executar checks e registrar evidência."
+      ]
+    },
+    {
+      "id": "pilot-options-final-validation",
+      "title": "Provar validação final das opções funcionais",
+      "paths": [
+        "packs/go-core.yaml"
+      ],
+      "acceptance": [
+        "Limitar a edição a go-core.configure-server-with-functional-options.",
+        "Testar WithPort(0) seguido de WithPort(443) com sucesso e sequência inversa com erro nas duas fixtures.",
+        "Demonstrar falha de mutante que valida cada opção antes de aplicar a próxima; preservar defaults e ordem contratada.",
+        "Executar checks e registrar evidência."
+      ]
+    },
+    {
+      "id": "pilot-command-reference-control-flow",
+      "title": "Alinhar referência RunCommands ao contrato switch e labeled break",
+      "paths": [
+        "packs/go-core.yaml"
+      ],
+      "acceptance": [
+        "Limitar a edição a go-core.run-commands-with-cleanup-and-recovery.",
+        "Revisar constraints e implementar switch e break rotulado na referência conforme a técnica explicitamente exigida.",
+        "Preservar a limpeza após panic, recuperação local e parada observável por spy; executar checks.",
+        "Registrar inspeção de código da técnica, distinguindo-a da cobertura comportamental; não alegar prova sintática por teste de saída."
+      ]
+    },
+    {
+      "id": "audit-go-core.close-resources-in-defer-order",
+      "title": "Revisar integralmente go-core.close-resources-in-defer-order",
+      "paths": [
+        "packs/go-core.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-core.close-resources-in-defer-order e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-core.sum-variadic-numbers",
+      "title": "Revisar integralmente go-core.sum-variadic-numbers",
+      "paths": [
+        "packs/go-core.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-core.sum-variadic-numbers e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-core.stop-processing-commands-with-labeled-break",
+      "title": "Revisar integralmente go-core.stop-processing-commands-with-labeled-break",
+      "paths": [
+        "packs/go-core.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-core.stop-processing-commands-with-labeled-break e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-core.increment-counter-with-pointer-receiver",
+      "title": "Revisar integralmente go-core.increment-counter-with-pointer-receiver",
+      "paths": [
+        "packs/go-core.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-core.increment-counter-with-pointer-receiver e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-core.recover-from-panic-in-safe-call",
+      "title": "Revisar integralmente go-core.recover-from-panic-in-safe-call",
+      "paths": [
+        "packs/go-core.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-core.recover-from-panic-in-safe-call e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-core.guard-invariant-with-unexported-field",
+      "title": "Revisar integralmente go-core.guard-invariant-with-unexported-field",
+      "paths": [
+        "packs/go-core.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-core.guard-invariant-with-unexported-field e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-core.find-first-value-at-least",
+      "title": "Revisar integralmente go-core.find-first-value-at-least",
+      "paths": [
+        "packs/go-core.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-core.find-first-value-at-least e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-core.hide-counter-type-behind-interface",
+      "title": "Revisar integralmente go-core.hide-counter-type-behind-interface",
+      "paths": [
+        "packs/go-core.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-core.hide-counter-type-behind-interface e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-core.run-commands-with-cleanup-and-recovery",
+      "title": "Revisar integralmente go-core.run-commands-with-cleanup-and-recovery",
+      "paths": [
+        "packs/go-core.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-core.run-commands-with-cleanup-and-recovery e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-core.configure-server-with-functional-options",
+      "title": "Revisar integralmente go-core.configure-server-with-functional-options",
+      "paths": [
+        "packs/go-core.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-core.configure-server-with-functional-options e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-data-text.filter-without-mutating-input",
+      "title": "Revisar integralmente go-data-text.filter-without-mutating-input",
+      "paths": [
+        "packs/go-data-text.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-data-text.filter-without-mutating-input e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-data-text.truncate-bytes-at-rune-boundary",
+      "title": "Revisar integralmente go-data-text.truncate-bytes-at-rune-boundary",
+      "paths": [
+        "packs/go-data-text.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-data-text.truncate-bytes-at-rune-boundary e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-data-text.lookup-map-value-with-comma-ok",
+      "title": "Revisar integralmente go-data-text.lookup-map-value-with-comma-ok",
+      "paths": [
+        "packs/go-data-text.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-data-text.lookup-map-value-with-comma-ok e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-data-text.quote-csv-field-when-needed",
+      "title": "Revisar integralmente go-data-text.quote-csv-field-when-needed",
+      "paths": [
+        "packs/go-data-text.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-data-text.quote-csv-field-when-needed e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-data-text.dedupe-preserving-first-occurrence",
+      "title": "Revisar integralmente go-data-text.dedupe-preserving-first-occurrence",
+      "paths": [
+        "packs/go-data-text.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-data-text.dedupe-preserving-first-occurrence e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-data-text.sum-valid-integers-safely",
+      "title": "Revisar integralmente go-data-text.sum-valid-integers-safely",
+      "paths": [
+        "packs/go-data-text.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-data-text.sum-valid-integers-safely e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-data-text.preallocate-slice-with-zero-length",
+      "title": "Revisar integralmente go-data-text.preallocate-slice-with-zero-length",
+      "paths": [
+        "packs/go-data-text.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-data-text.preallocate-slice-with-zero-length e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-data-text.title-first-letters-preserving-spacing",
+      "title": "Revisar integralmente go-data-text.title-first-letters-preserving-spacing",
+      "paths": [
+        "packs/go-data-text.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-data-text.title-first-letters-preserving-spacing e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-data-text.build-scores-from-entries",
+      "title": "Revisar integralmente go-data-text.build-scores-from-entries",
+      "paths": [
+        "packs/go-data-text.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-data-text.build-scores-from-entries e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-data-text.format-names-as-csv-fields",
+      "title": "Revisar integralmente go-data-text.format-names-as-csv-fields",
+      "paths": [
+        "packs/go-data-text.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-data-text.format-names-as-csv-fields e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-errors.wrap-sentinel-error-with-context",
+      "title": "Revisar integralmente go-errors.wrap-sentinel-error-with-context",
+      "paths": [
+        "packs/go-errors.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-errors.wrap-sentinel-error-with-context e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-errors.extract-field-with-errors-as",
+      "title": "Revisar integralmente go-errors.extract-field-with-errors-as",
+      "paths": [
+        "packs/go-errors.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-errors.extract-field-with-errors-as e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-errors.validate-user-joining-all-errors",
+      "title": "Revisar integralmente go-errors.validate-user-joining-all-errors",
+      "paths": [
+        "packs/go-errors.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-errors.validate-user-joining-all-errors e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-errors.translate-error-at-boundary",
+      "title": "Revisar integralmente go-errors.translate-error-at-boundary",
+      "paths": [
+        "packs/go-errors.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-errors.translate-error-at-boundary e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-errors.load-and-validate-required-keys",
+      "title": "Revisar integralmente go-errors.load-and-validate-required-keys",
+      "paths": [
+        "packs/go-errors.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-errors.load-and-validate-required-keys e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-errors.classify-wrapped-errors",
+      "title": "Revisar integralmente go-errors.classify-wrapped-errors",
+      "paths": [
+        "packs/go-errors.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-errors.classify-wrapped-errors e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-errors.maintain-memory-catalog",
+      "title": "Revisar integralmente go-errors.maintain-memory-catalog",
+      "paths": [
+        "packs/go-errors.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-errors.maintain-memory-catalog e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação functional_slice e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-first-steps.enumerate-weekdays-with-iota",
+      "title": "Revisar integralmente go-first-steps.enumerate-weekdays-with-iota",
+      "paths": [
+        "packs/go-first-steps.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-first-steps.enumerate-weekdays-with-iota e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-first-steps.convert-celsius-to-fahrenheit",
+      "title": "Revisar integralmente go-first-steps.convert-celsius-to-fahrenheit",
+      "paths": [
+        "packs/go-first-steps.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-first-steps.convert-celsius-to-fahrenheit e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-first-steps.declare-a-minimal-module",
+      "title": "Revisar integralmente go-first-steps.declare-a-minimal-module",
+      "paths": [
+        "packs/go-first-steps.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-first-steps.declare-a-minimal-module e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-first-steps.clamp-int-to-byte",
+      "title": "Revisar integralmente go-first-steps.clamp-int-to-byte",
+      "paths": [
+        "packs/go-first-steps.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-first-steps.clamp-int-to-byte e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-first-steps.format-rate-limit-message",
+      "title": "Revisar integralmente go-first-steps.format-rate-limit-message",
+      "paths": [
+        "packs/go-first-steps.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-first-steps.format-rate-limit-message e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-first-steps.avoid-shadowing-named-returns",
+      "title": "Revisar integralmente go-first-steps.avoid-shadowing-named-returns",
+      "paths": [
+        "packs/go-first-steps.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-first-steps.avoid-shadowing-named-returns e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-io.decode-strict-config",
+      "title": "Revisar integralmente go-io.decode-strict-config",
+      "paths": [
+        "packs/go-io.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-io.decode-strict-config e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-io.import-csv-inventory",
+      "title": "Revisar integralmente go-io.import-csv-inventory",
+      "paths": [
+        "packs/go-io.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-io.import-csv-inventory e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação functional_slice e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-io.read-fragmented-note",
+      "title": "Revisar integralmente go-io.read-fragmented-note",
+      "paths": [
+        "packs/go-io.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-io.read-fragmented-note e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Preservar canonical:false e variant_of; verificar competência compartilhada e contexto distinto da origem, sem usar variante para esconder falta de profundidade da base.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-io.decode-weather-fields",
+      "title": "Revisar integralmente go-io.decode-weather-fields",
+      "paths": [
+        "packs/go-io.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-io.decode-weather-fields e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Preservar canonical:false e variant_of; verificar competência compartilhada e contexto distinto da origem, sem usar variante para esconder falta de profundidade da base.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-io.read-quoted-attendees",
+      "title": "Revisar integralmente go-io.read-quoted-attendees",
+      "paths": [
+        "packs/go-io.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-io.read-quoted-attendees e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Preservar canonical:false e variant_of; verificar competência compartilhada e contexto distinto da origem, sem usar variante para esconder falta de profundidade da base.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-io.write-result-report",
+      "title": "Revisar integralmente go-io.write-result-report",
+      "paths": [
+        "packs/go-io.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-io.write-result-report e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Preservar canonical:false e variant_of; verificar competência compartilhada e contexto distinto da origem, sem usar variante para esconder falta de profundidade da base.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-testing.select-active-tokens-with-injected-clock",
+      "title": "Revisar integralmente go-testing.select-active-tokens-with-injected-clock",
+      "paths": [
+        "packs/go-testing.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-testing.select-active-tokens-with-injected-clock e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-testing.measure-reservation-remaining",
+      "title": "Revisar integralmente go-testing.measure-reservation-remaining",
+      "paths": [
+        "packs/go-testing.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-testing.measure-reservation-remaining e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Preservar canonical:false e variant_of; verificar competência compartilhada e contexto distinto da origem, sem usar variante para esconder falta de profundidade da base.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-testing.check-ticket-boundary",
+      "title": "Revisar integralmente go-testing.check-ticket-boundary",
+      "paths": [
+        "packs/go-testing.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-testing.check-ticket-boundary e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Preservar canonical:false e variant_of; verificar competência compartilhada e contexto distinto da origem, sem usar variante para esconder falta de profundidade da base.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-testing.snapshot-readings",
+      "title": "Revisar integralmente go-testing.snapshot-readings",
+      "paths": [
+        "packs/go-testing.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-testing.snapshot-readings e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Preservar canonical:false e variant_of; verificar competência compartilhada e contexto distinto da origem, sem usar variante para esconder falta de profundidade da base.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-testing.count-deadline-clock-calls",
+      "title": "Revisar integralmente go-testing.count-deadline-clock-calls",
+      "paths": [
+        "packs/go-testing.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-testing.count-deadline-clock-calls e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Preservar canonical:false e variant_of; verificar competência compartilhada e contexto distinto da origem, sem usar variante para esconder falta de profundidade da base.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-type-design.clone-inventory-independently",
+      "title": "Revisar integralmente go-type-design.clone-inventory-independently",
+      "paths": [
+        "packs/go-type-design.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-type-design.clone-inventory-independently e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-type-design.select-validator-true-nil",
+      "title": "Revisar integralmente go-type-design.select-validator-true-nil",
+      "paths": [
+        "packs/go-type-design.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-type-design.select-validator-true-nil e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-type-design.sum-list-with-nil-safe-receiver",
+      "title": "Revisar integralmente go-type-design.sum-list-with-nil-safe-receiver",
+      "paths": [
+        "packs/go-type-design.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-type-design.sum-list-with-nil-safe-receiver e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-type-design.contains-generic-comparable",
+      "title": "Revisar integralmente go-type-design.contains-generic-comparable",
+      "paths": [
+        "packs/go-type-design.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-type-design.contains-generic-comparable e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-type-design.describe-if-circle-safely",
+      "title": "Revisar integralmente go-type-design.describe-if-circle-safely",
+      "paths": [
+        "packs/go-type-design.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-type-design.describe-if-circle-safely e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-type-design.map-generic-transform",
+      "title": "Revisar integralmente go-type-design.map-generic-transform",
+      "paths": [
+        "packs/go-type-design.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-type-design.map-generic-transform e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação atomic e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-type-design.first-circle-clone",
+      "title": "Revisar integralmente go-type-design.first-circle-clone",
+      "paths": [
+        "packs/go-type-design.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-type-design.first-circle-clone e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "audit-go-type-design.generic-node-values-nil-safe",
+      "title": "Revisar integralmente go-type-design.generic-node-values-nil-safe",
+      "paths": [
+        "packs/go-type-design.yaml"
+      ],
+      "acceptance": [
+        "Limitar alterações ao desafio go-type-design.generic-node-values-nil-safe e às suas fixtures; reaproveitar correções do piloto sem duplicar nodes.",
+        "Aplicar docs/content-review-checklist.md e docs/content-authoring.md: briefing sem solução, uma intenção por micro, critérios observáveis, hints 1–6 progressivos, reflexão causal e disclosure correto.",
+        "Reconciliar cada verificação prometida com testes executáveis ou inspeção explícita; executar baseline e referência e mutantes representativos das fronteiras do desafio.",
+        "Revisar macro/meso/micro contextualizados, conceitos e pré-requisitos; ampliar somente decisões pedagógicas ausentes, registrar contagens antes/depois e preservar IDs.",
+        "Registrar classificação combined e cobertura de competências; não alterar contagem canônica sem decisão registrada.",
+        "Entregar achados, correções e evidências ao revisor primário; manter revisão humana e playtest pendentes."
+      ]
+    },
+    {
+      "id": "plan-concept-depth",
+      "title": "Planejar expansão não redundante dos conceitos e nodes",
+      "paths": [
+        "docs/catalog/go-foundations.md"
+      ],
+      "acceptance": [
+        "Mapear os conceitos existentes aos temas A–M e listar lacunas reais até pelo menos 100 conceitos nos sete packs; baseline scoped 70, global 71.",
+        "Distribuir propostas por pack com exemplos executáveis, relações, critérios distintos e referências oficiais; não criar sinônimos para inflar contagem.",
+        "Recontar macro/meso/micro após auditorias; mapear decisões ausentes para alcançar pelo menos 300 nodes contextualizados sem usar variantes para mascarar bases rasas.",
+        "Mapear pelo menos 60 competências fundamentais; baseline scoped 56, global 60. Identificar as quatro lacunas sem contar competências do protótipo de depuração."
+      ]
+    },
+    {
+      "id": "concepts-go-core",
+      "title": "Executar expansão conceitual de go-core",
+      "paths": [
+        "packs/go-core.yaml"
+      ],
+      "acceptance": [
+        "Consumir o plano aprovado em docs/catalog/go-foundations.md; se ausente, devolver pendência sem inventar uma alocação.",
+        "Revisar todo conteúdo conceitual do pack e autorar as lacunas aprovadas com explanation, exemplo isolado executável, explicação do exemplo e relações semânticas válidas.",
+        "Executar exemplos e catalog validate --checks; vincular conceitos a competências e desafios reais, sem conceitos decorativos.",
+        "Garantir pelo menos oito conceitos e cinco competências no pack, com semânticas distintas; preservar autoria histórica e IDs.",
+        "Registrar novas contagens e comprovar que competências essenciais possuem mais de um contexto."
+      ]
+    },
+    {
+      "id": "concepts-go-data-text",
+      "title": "Executar expansão conceitual de go-data-text",
+      "paths": [
+        "packs/go-data-text.yaml"
+      ],
+      "acceptance": [
+        "Consumir o plano aprovado em docs/catalog/go-foundations.md; se ausente, devolver pendência sem inventar uma alocação.",
+        "Revisar todo conteúdo conceitual do pack e autorar as lacunas aprovadas com explanation, exemplo isolado executável, explicação do exemplo e relações semânticas válidas.",
+        "Executar exemplos e catalog validate --checks; vincular conceitos a competências e desafios reais, sem conceitos decorativos.",
+        "Garantir pelo menos oito conceitos e cinco competências no pack, com semânticas distintas; preservar autoria histórica e IDs.",
+        "Registrar novas contagens e comprovar que competências essenciais possuem mais de um contexto."
+      ]
+    },
+    {
+      "id": "concepts-go-errors",
+      "title": "Executar expansão conceitual de go-errors",
+      "paths": [
+        "packs/go-errors.yaml"
+      ],
+      "acceptance": [
+        "Consumir o plano aprovado em docs/catalog/go-foundations.md; se ausente, devolver pendência sem inventar uma alocação.",
+        "Revisar todo conteúdo conceitual do pack e autorar as lacunas aprovadas com explanation, exemplo isolado executável, explicação do exemplo e relações semânticas válidas.",
+        "Executar exemplos e catalog validate --checks; vincular conceitos a competências e desafios reais, sem conceitos decorativos.",
+        "Garantir pelo menos oito conceitos e cinco competências no pack, com semânticas distintas; preservar autoria histórica e IDs.",
+        "Registrar novas contagens e comprovar que competências essenciais possuem mais de um contexto."
+      ]
+    },
+    {
+      "id": "concepts-go-first-steps",
+      "title": "Executar expansão conceitual de go-first-steps",
+      "paths": [
+        "packs/go-first-steps.yaml"
+      ],
+      "acceptance": [
+        "Consumir o plano aprovado em docs/catalog/go-foundations.md; se ausente, devolver pendência sem inventar uma alocação.",
+        "Revisar todo conteúdo conceitual do pack e autorar as lacunas aprovadas com explanation, exemplo isolado executável, explicação do exemplo e relações semânticas válidas.",
+        "Executar exemplos e catalog validate --checks; vincular conceitos a competências e desafios reais, sem conceitos decorativos.",
+        "Garantir pelo menos oito conceitos e cinco competências no pack, com semânticas distintas; preservar autoria histórica e IDs.",
+        "Registrar novas contagens e comprovar que competências essenciais possuem mais de um contexto."
+      ]
+    },
+    {
+      "id": "concepts-go-io",
+      "title": "Executar expansão conceitual de go-io",
+      "paths": [
+        "packs/go-io.yaml"
+      ],
+      "acceptance": [
+        "Consumir o plano aprovado em docs/catalog/go-foundations.md; se ausente, devolver pendência sem inventar uma alocação.",
+        "Revisar todo conteúdo conceitual do pack e autorar as lacunas aprovadas com explanation, exemplo isolado executável, explicação do exemplo e relações semânticas válidas.",
+        "Executar exemplos e catalog validate --checks; vincular conceitos a competências e desafios reais, sem conceitos decorativos.",
+        "Garantir pelo menos oito conceitos e cinco competências no pack, com semânticas distintas; preservar autoria histórica e IDs.",
+        "Registrar novas contagens e comprovar que competências essenciais possuem mais de um contexto."
+      ]
+    },
+    {
+      "id": "concepts-go-testing",
+      "title": "Executar expansão conceitual de go-testing",
+      "paths": [
+        "packs/go-testing.yaml"
+      ],
+      "acceptance": [
+        "Consumir o plano aprovado em docs/catalog/go-foundations.md; se ausente, devolver pendência sem inventar uma alocação.",
+        "Revisar todo conteúdo conceitual do pack e autorar as lacunas aprovadas com explanation, exemplo isolado executável, explicação do exemplo e relações semânticas válidas.",
+        "Executar exemplos e catalog validate --checks; vincular conceitos a competências e desafios reais, sem conceitos decorativos.",
+        "Garantir pelo menos oito conceitos e cinco competências no pack, com semânticas distintas; preservar autoria histórica e IDs.",
+        "Registrar novas contagens e comprovar que competências essenciais possuem mais de um contexto."
+      ]
+    },
+    {
+      "id": "concepts-go-type-design",
+      "title": "Executar expansão conceitual de go-type-design",
+      "paths": [
+        "packs/go-type-design.yaml"
+      ],
+      "acceptance": [
+        "Consumir o plano aprovado em docs/catalog/go-foundations.md; se ausente, devolver pendência sem inventar uma alocação.",
+        "Revisar todo conteúdo conceitual do pack e autorar as lacunas aprovadas com explanation, exemplo isolado executável, explicação do exemplo e relações semânticas válidas.",
+        "Executar exemplos e catalog validate --checks; vincular conceitos a competências e desafios reais, sem conceitos decorativos.",
+        "Garantir pelo menos oito conceitos e cinco competências no pack, com semânticas distintas; preservar autoria histórica e IDs.",
+        "Registrar novas contagens e comprovar que competências essenciais possuem mais de um contexto."
+      ]
+    },
+    {
+      "id": "audit-tracks",
+      "title": "Revisar as cinco trilhas e seus percursos",
+      "paths": [
+        "packs/go-first-steps.yaml",
+        "cmd/codinho/foundation_tracks_integration_test.go",
+        "docs/catalog/go-foundations.md"
+      ],
+      "acceptance": [
+        "Verificar Go do zero, transição orientada a objetos, fluência prática, dados e tipos, testes e design; justificar seleção e ordem dos desafios.",
+        "Executar os testes de início e travessia MCP; provar pré-requisitos e alcance de cada percurso.",
+        "Reconciliar referências após lotes de conteúdo; não chamar travessia automatizada de playtest humano."
+      ]
+    },
+    {
+      "id": "disposition-count-prototypes",
+      "title": "Reconciliar 44 versus 45 e o destino dos protótipos",
+      "paths": [
+        "docs/catalog/go-foundations.md"
+      ],
+      "acceptance": [
+        "Registrar medição: sete packs possuem 45 entradas sem canonical:false; uma é go-data.slice-filter-preserve-input; excluí-la conceitualmente dá 44 fundamentais, 32 atômicos/10 combinados/2 fatias.",
+        "Registrar go-debug.slice-off-by-one fora dos sete packs; preservar IDs e sessões.",
+        "Sinalizar decisão humana pendente sobre classificação/migração/publicação dos protótipos e aceite da distribuição; não reclassificar ou excluir silenciosamente para atingir meta."
+      ]
+    },
+    {
+      "id": "audit-global-gates",
+      "title": "Consolidar cobertura, contagens e gates técnicos",
+      "paths": [
+        "docs/catalog/go-foundations.md",
+        "internal/curriculum/foundation_variants_test.go"
+      ],
+      "acceptance": [
+        "Consumir todos os lotes aprovados; registrar versão/commit, comandos, totais globais e fundamentais, variantes, protótipos e quantidade publicada.",
+        "Verificar >=100 conceitos, >=60 competências e >=300 nodes contextualizados no escopo correto; manter déficit explícito se faltar.",
+        "Auditar nil, zero values, aliasing, UTF-8, method sets, interface nil, wrapping e testabilidade; mostrar pelo menos dois contextos por competência essencial.",
+        "Executar catalog validate --checks, catalog --v1-gate conforme help atual e pose validate --strict; distinguir falha por draft/gate humano de defeito de conteúdo.",
+        "Verificar ausência de rede/secrets/paths externos nas fixtures, versão mínima Go, duplicação e vazamento de solução; registrar limitações."
+      ]
+    },
+    {
+      "id": "prepare-human-review-playtest",
+      "title": "Preparar revisão humana e playtest de cada conteúdo",
+      "paths": [
+        "docs/catalog/go-foundations.md"
+      ],
+      "acceptance": [
+        "Criar roteiro identificável por desafio e variante, com preparação de workspace, sessão MCP, duração observada, autor e revisor humano distintos.",
+        "Referenciar evidências automatizadas e dúvidas pedagógicas por item para revisão humana final.",
+        "Manter reviewed_by, playtested e status:published inalterados sem evidência real; marcar gate humano pendente, jamais como tarefa automatizada concluída."
+      ]
+    },
+    {
+      "id": "prepare-publication-closeout",
+      "title": "Preparar reconciliação e fechamento da spec fundamental",
+      "paths": [
+        "docs/catalog/go-foundations.md"
+      ],
+      "acceptance": [
+        "Montar trace R1–R10 com links para evidência dos lotes e listar gates pendentes de concept-content-authoring/catalog-publication-integrity.",
+        "Exigir decisão documentada de distribuição e revisão/playtest humanos reais antes de recomendar publicação.",
+        "Reconciliar documentação antiga com medição atual, referenciando spec e follow-ups; manter spec in-progress se qualquer gate faltar.",
+        "Encaminhar ao coordenador atualização da spec, assess discover --update-state e checks de fechamento somente quando a entrega real existir."
+      ]
+    }
+  ]
+}

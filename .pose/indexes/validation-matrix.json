@@ -296,6 +296,13 @@
     ".": {
       "checks": [
         {
+          "name": "editorial-batch-engine",
+          "program": "python3",
+          "args": ["-m", "unittest", "discover", "-s", "scripts", "-p", "test_editorial.py"],
+          "severity": "required",
+          "evidenceClass": "integration"
+        },
+        {
           "name": "build",
           "program": "go",
           "args": [

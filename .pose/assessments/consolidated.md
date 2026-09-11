@@ -1,8 +1,8 @@
 # Project Assessment: codinho
 
 > **Gerado por**: POSE Discovery Engine (`pose assess discover`)
-> **Data de Avaliação**: 2026-09-10T21:59:09Z
-> **Baseline Commit**: 08fd832bc22b
+> **Data de Avaliação**: 2026-09-11T03:05:05Z
+> **Baseline Commit**: 9caef5c1a585
 
 ---
 
@@ -13,9 +13,9 @@
 - **Linhas de Código de Testes**: 17954
 - **Total Geral de Linhas de Código**: 33371
 - **Total de Arquivos Auditados**: 264
-- **Completude Dinâmica da Plataforma**: 90.0%
+- **Completude Dinâmica da Plataforma**: 88.0%
 - **Dívidas Técnicas em Aberto**: 0 TODOs | 0 FIXMEs | 0 Panics | 0 Stubs
-- **Especificações (Specs) em Aberto**: 5
+- **Especificações (Specs) em Aberto**: 6
 - **Gaps de Integração Identificados**: 0
 
 ---

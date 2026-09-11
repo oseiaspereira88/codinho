@@ -5,6 +5,10 @@ doc_type: howto
 
 # Fluxo de autor/revisor entre agentes
 
+Para lotes paralelos com configuração de modelo/reasoning e sessões explícitas,
+use a [esteira editorial](editorial-workflow.md). O script descrito abaixo é o
+fluxo sequencial legado: seu resume --last não deve coordenar autores paralelos.
+
 Padrão para quando dois processos de IA independentes colaboram na autoria
 de conteúdo do catálogo (ou em qualquer outra tarefa que se beneficie de
 uma segunda opinião automatizada antes da revisão humana): um agente

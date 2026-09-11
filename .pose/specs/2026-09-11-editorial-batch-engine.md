@@ -71,11 +71,11 @@ Conflitos entre patches do mesmo pack exigem nova integração revisada.
 - [x] Inspecionar fluxo e consumir knowledge:go-foundations-io-batch.
 - [x] Executar assess discover para scripts.
 ### Implementation
-- [ ] Implementar executor e testes.
-- [ ] Versionar skill e inventário.
+- [x] Implementar executor e testes.
+- [x] Versionar skill e inventário.
 - [ ] Executar, revisar e integrar piloto.
 ### Validation
-- [ ] Executar testes, matriz strict e revisão do mecanismo.
+- [x] Executar testes, matriz strict e revisão do mecanismo.
 
 ## 5. Decisions
 Worktree por lote, sessões explícitas e integração serial. ADR:
@@ -90,7 +90,15 @@ Backend falso para concorrência e falhas; piloto real para operação integrada
 - pose check --strict
 - git diff --check
 ### Execution log
-Em implementação; piloto ainda pendente.
+Commits `060b4f3`, `41957a2` e `6b6a799` versionam o mecanismo, a retomada sem
+sessão e a recriação de worktree. Os testes determinísticos passaram (7 casos),
+assim como `pose check --strict`, `pose lint-spec editorial-batch-engine
+--ready-check` e `git diff --check`. O piloto foi inicializado em
+`/tmp/codinho-editorial-pilot-20260911` com lote 5, paralelismo 1,
+`gpt-5.6-luna`/`high`; a sessão explícita
+`01a08e8e-a271-7623-b501-727b3cb8ebf8` foi capturada, mas o provedor recusou a
+execução por limite de uso. O lote permanece `failed` com worktree e logs
+preservados para `revise` posterior.
 
 ## 7. Final Report
 Em implementação. Fechamento exige R1–R8 e evidências do piloto.

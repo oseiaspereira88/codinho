@@ -280,60 +280,100 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
-          - id: model.declare-independent-output-slice
-            kind: micro
-            action: declare
-            target: function
-            title: Declarar a saída independente do backing array de nums
+          - id: model.filter-with-independent-result
+            kind: macro
+            title: Construir uma filtragem sem aliasing
             instruction:
-              objective: Declarar a slice de saída de forma que ela nunca reaproveite o backing array de nums, sem ainda percorrer os elementos de nums.
-              scope: Somente a declaração da variável de saída.
-              constraints:
-                - A slice de retorno não pode reaproveitar o backing array de nums.
-                - Não percorrer nums ainda.
+              objective: Produzir uma coleção filtrada sem alterar nem compartilhar o armazenamento da entrada.
+              scope: Contrato completo de Filter, da saída independente aos casos sem resultados.
             concepts: [slice-backing-array-aliasing]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection]
             criteria:
-              - id: output-independent-of-input-backing-array
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-          - id: model.append-accepted-values-in-order
-            kind: micro
-            action: implement
-            target: function
-            title: Percorrer nums e acrescentar os valores aceitos
-            instruction:
-              objective: Percorrer nums e, para cada elemento aceito por keep, acrescentá-lo à saída, preservando a ordem original.
-              scope: O laço sobre nums e a construção da saída.
-              constraints:
-                - Preservar a ordem original dos elementos aceitos.
-            concepts: [slice-backing-array-aliasing]
-            evidence:
-              strategies: [source_inspection, compile]
-            criteria:
-              - id: filter-preserves-order
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-              - level: 3
-                kind: logical_prose
-            reflection:
-              optional:
-                - Por que escrever o resultado de volta em nums[i], mesmo devolvendo nums[:n], mutaria a slice que o chamador ainda enxerga?
+              - id: filter-contract-is-understood
+                kind: qualitative
+            children:
+              - id: model.build-independent-filter-result
+                kind: meso
+                title: Separar saída, percurso e fronteiras da filtragem
+                instruction:
+                  objective: Organizar a construção da saída e a preservação da entrada em decisões verificáveis.
+                  scope: Declaração da saída, percurso ordenado e resultados vazios.
+                concepts: [slice-backing-array-aliasing]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: filter-decisions-are-separated
+                    kind: qualitative
+                children:
+                  - id: model.declare-independent-output-slice
+                    kind: micro
+                    action: declare
+                    target: function
+                    title: Declarar a saída independente do backing array de nums
+                    instruction:
+                      objective: Declarar a slice de saída de forma que ela nunca reaproveite o backing array de nums, sem ainda percorrer os elementos de nums.
+                      scope: Somente a declaração da variável de saída.
+                      constraints:
+                        - A slice de retorno não pode reaproveitar o backing array de nums.
+                        - Não percorrer nums ainda.
+                    concepts: [slice-backing-array-aliasing]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: output-independent-of-input-backing-array
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.append-accepted-values-in-order
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Percorrer nums e acrescentar os valores aceitos
+                    instruction:
+                      objective: Construir a saída na ordem dos valores aceitos por keep.
+                      scope: O laço sobre nums e a construção da saída.
+                      constraints:
+                        - Preservar a ordem original dos elementos aceitos.
+                    concepts: [slice-backing-array-aliasing]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: filter-preserves-order
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que escrever o resultado de volta em nums[i], mesmo devolvendo nums[:n], mutaria a slice que o chamador ainda enxerga?
     fixture:
       - path: go.mod
         content: |
@@ -513,80 +553,131 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
-          - id: model.return-unchanged-when-within-limit
-            kind: micro
-            action: implement
-            target: function
-            title: Retornar s sem alterações quando já cabe no limite
+          - id: model.truncate-with-rune-boundary
+            kind: macro
+            title: Truncar texto respeitando orçamento e runes
             instruction:
-              objective: Implementar o caso em que s já cabe em maxBytes (len(s) <= maxBytes), retornando s sem alterações.
-              scope: Somente a verificação de que s já cabe no limite.
-              constraints:
-                - Não implementar ainda o truncamento em si.
+              objective: Produzir um prefixo de texto dentro do orçamento de bytes sem quebrar um rune UTF-8.
+              scope: Contrato completo de TruncateBytes, incluindo limites que cortam antes, dentro e depois de runes.
             concepts: [utf8-rune-boundary]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection]
             criteria:
-              - id: returns-unchanged-when-already-within-limit
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-          - id: model.truncate-at-rune-boundary
-            kind: micro
-            action: implement
-            target: function
-            title: Truncar recuando até a fronteira de rune mais próxima
-            instruction:
-              objective: Quando s não cabe em maxBytes, truncar em maxBytes e, se isso cair no meio de um rune multibyte, recuar até o início do rune mais próximo, garantindo que o resultado nunca quebre um rune.
-              scope: O corte em maxBytes e o recuo até uma fronteira de rune válida.
-              constraints:
-                - O resultado nunca pode terminar no meio de um rune multibyte.
-            concepts: [utf8-rune-boundary]
-            evidence:
-              strategies: [source_inspection, compile]
-            criteria:
-              - id: truncates-at-rune-boundary
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-              - level: 3
-                kind: logical_prose
-            reflection:
-              optional:
-                - Por que um corte ingênuo em s[:maxBytes] pode produzir uma string com bytes UTF-8 inválidos no final?
-          - id: model.verify-valid-utf8-prefix
-            kind: micro
-            action: verify
-            target: output
-            title: Verificar prefixo UTF-8 válido
-            instruction:
-              objective: Confirme que cada resultado é um prefixo UTF-8 válido e nunca excede o orçamento de bytes.
-              scope: Cortes ASCII e multibyte próximos ao limite.
-            concepts: [utf8-rune-boundary]
-            evidence:
-              strategies: [test]
-            criteria:
-              - id: result-is-valid-utf8-prefix
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
+              - id: truncation-contract-is-understood
+                kind: qualitative
+            children:
+              - id: model.apply-byte-budget-safely
+                kind: meso
+                title: Separar orçamento de bytes e fronteira de rune
+                instruction:
+                  objective: Organizar o caminho sem truncamento, o corte inicial e a validação da fronteira UTF-8.
+                  scope: Limites não positivos, encaixe completo e prefixos ASCII ou multibyte.
+                concepts: [utf8-rune-boundary]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: byte-and-rune-decisions-are-separated
+                    kind: qualitative
+                children:
+                  - id: model.return-unchanged-when-within-limit
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Retornar s sem alterações quando já cabe no limite
+                    instruction:
+                      objective: Implementar o caso em que s já cabe em maxBytes (len(s) <= maxBytes), retornando s sem alterações.
+                      scope: Somente a verificação de que s já cabe no limite.
+                      constraints:
+                        - Não implementar ainda o truncamento em si.
+                    concepts: [utf8-rune-boundary]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: returns-unchanged-when-already-within-limit
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.truncate-at-rune-boundary
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Truncar recuando até a fronteira de rune mais próxima
+                    instruction:
+                      objective: Escolher um prefixo de no máximo maxBytes que termine em uma fronteira de rune válida.
+                      scope: O corte em maxBytes e o recuo até uma fronteira de rune válida.
+                      constraints:
+                        - O resultado nunca pode terminar no meio de um rune multibyte.
+                    concepts: [utf8-rune-boundary]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: truncates-at-rune-boundary
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que um corte ingênuo em s[:maxBytes] pode produzir uma string com bytes UTF-8 inválidos no final?
+                  - id: model.verify-valid-utf8-prefix
+                    kind: micro
+                    action: verify
+                    target: output
+                    title: Verificar prefixo UTF-8 válido
+                    instruction:
+                      objective: Confirmar que cada resultado é um prefixo UTF-8 válido dentro do orçamento de bytes.
+                      scope: Cortes ASCII e multibyte próximos ao limite.
+                    concepts: [utf8-rune-boundary]
+                    evidence:
+                      strategies: [test]
+                    criteria:
+                      - id: result-is-valid-utf8-prefix
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Que evidência distingue um prefixo que apenas respeita o número de bytes de um prefixo que também continua válido em UTF-8?
     fixture:
       - path: go.mod
         content: |
@@ -607,7 +698,10 @@ challenges:
         content: |
           package trunc
 
-          import "testing"
+          import (
+              "testing"
+              "unicode/utf8"
+          )
 
           func TestTruncateBytes(t *testing.T) {
               cases := []struct {
@@ -620,6 +714,8 @@ challenges:
                   {"exact fit", "hello", 5, "hello"},
                   {"backs off mid-rune, 2-byte char", "café", 4, "caf"},
                   {"backs off mid-rune, 3-byte char", "日本語", 4, "日"},
+                  {"stops before first rune when budget is too small", "日本語", 1, ""},
+                  {"keeps an exact rune boundary", "日本語", 3, "日"},
                   {"empty string", "", 5, ""},
                   {"zero budget", "ab", 0, ""},
                   {"ascii truncation, no rune issue", "hello world", 5, "hello"},
@@ -632,6 +728,9 @@ challenges:
                       }
                       if len(got) > c.maxBytes {
                           t.Errorf("TruncateBytes(%q, %d) = %q with %d bytes, want at most %d", c.s, c.maxBytes, got, len(got), c.maxBytes)
+                      }
+                      if !utf8.ValidString(got) {
+                          t.Errorf("TruncateBytes(%q, %d) = %q, want valid UTF-8", c.s, c.maxBytes, got)
                       }
                   })
               }
@@ -678,7 +777,10 @@ challenges:
         content: |
           package trunc
 
-          import "testing"
+          import (
+              "testing"
+              "unicode/utf8"
+          )
 
           func TestTruncateBytes(t *testing.T) {
               cases := []struct {
@@ -691,6 +793,8 @@ challenges:
                   {"exact fit", "hello", 5, "hello"},
                   {"backs off mid-rune, 2-byte char", "café", 4, "caf"},
                   {"backs off mid-rune, 3-byte char", "日本語", 4, "日"},
+                  {"stops before first rune when budget is too small", "日本語", 1, ""},
+                  {"keeps an exact rune boundary", "日本語", 3, "日"},
                   {"empty string", "", 5, ""},
                   {"zero budget", "ab", 0, ""},
                   {"ascii truncation, no rune issue", "hello world", 5, "hello"},
@@ -703,6 +807,9 @@ challenges:
                       }
                       if len(got) > c.maxBytes {
                           t.Errorf("TruncateBytes(%q, %d) = %q with %d bytes, want at most %d", c.s, c.maxBytes, got, len(got), c.maxBytes)
+                      }
+                      if !utf8.ValidString(got) {
+                          t.Errorf("TruncateBytes(%q, %d) = %q, want valid UTF-8", c.s, c.maxBytes, got)
                       }
                   })
               }
@@ -739,80 +846,131 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
-          - id: model.lookup-with-comma-ok
-            kind: micro
-            action: implement
-            target: function
-            title: Consultar scores com comma-ok
+          - id: model.distinguish-map-value-and-presence
+            kind: macro
+            title: Distinguir valor e presença em um placar
             instruction:
-              objective: Consultar scores[name] usando o padrão comma-ok, obtendo o valor e se a chave existe.
-              scope: A consulta ao mapa.
-              constraints:
-                - Usar o padrão comma-ok (value, ok := scores[name]) para verificar se a chave existe.
+              objective: Consultar um placar preservando a diferença entre o valor zero e a ausência da chave.
+              scope: Contrato completo de Score, incluindo chaves vazias e mapas nil.
             concepts: [map-comma-ok-lookup]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection]
             criteria:
-              - id: uses-comma-ok-lookup
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-          - id: model.return-comma-ok-result-directly
-            kind: micro
-            action: implement
-            target: function
-            title: Devolver exatamente o resultado da consulta
-            instruction:
-              objective: Devolver exatamente o valor e o booleano obtidos da consulta comma-ok, sem usar o valor zero como sinal de ausência.
-              scope: O retorno da função.
-              constraints:
-                - Não usar scores[name] == 0 como sinal de que a chave não existe.
-            concepts: [map-comma-ok-lookup]
-            evidence:
-              strategies: [source_inspection, compile]
-            criteria:
-              - id: never-uses-zero-value-as-absence-signal
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-              - level: 3
-                kind: logical_prose
-            reflection:
-              optional:
-                - Por que scores[name] == 0 não é suficiente para saber se name foi pontuado?
-          - id: model.verify-nil-map-absence
-            kind: micro
-            action: verify
-            target: boundary_case
-            title: Verificar mapa nil
-            instruction:
-              objective: Confirme que consultar um mapa nil retorna o valor zero e scored false sem panic.
-              scope: Apenas a consulta de uma chave em mapa sem armazenamento.
-            concepts: [map-comma-ok-lookup]
-            evidence:
-              strategies: [test]
-            criteria:
-              - id: nil-map-is-absent
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
+              - id: map-presence-contract-is-understood
+                kind: qualitative
+            children:
+              - id: model.return-presence-aware-score
+                kind: meso
+                title: Separar consulta, retorno e fronteira de ausência
+                instruction:
+                  objective: Organizar a consulta do mapa, o retorno dos dois resultados e a verificação de mapas sem armazenamento.
+                  scope: Padrão comma-ok, valor zero presente e ausência em mapa nil.
+                concepts: [map-comma-ok-lookup]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: score-decisions-are-separated
+                    kind: qualitative
+                children:
+                  - id: model.lookup-with-comma-ok
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Consultar scores com comma-ok
+                    instruction:
+                      objective: Consultar scores[name] usando o padrão comma-ok, obtendo o valor e se a chave existe.
+                      scope: A consulta ao mapa.
+                      constraints:
+                        - Usar o padrão comma-ok (value, ok := scores[name]) para verificar se a chave existe.
+                    concepts: [map-comma-ok-lookup]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: uses-comma-ok-lookup
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.return-comma-ok-result-directly
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Devolver exatamente o resultado da consulta
+                    instruction:
+                      objective: Devolver exatamente o valor e o booleano obtidos da consulta comma-ok, sem usar o valor zero como sinal de ausência.
+                      scope: O retorno da função.
+                      constraints:
+                        - Não usar scores[name] == 0 como sinal de que a chave não existe.
+                    concepts: [map-comma-ok-lookup]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: never-uses-zero-value-as-absence-signal
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que scores[name] == 0 não é suficiente para saber se name foi pontuado?
+                  - id: model.verify-nil-map-absence
+                    kind: micro
+                    action: verify
+                    target: boundary_case
+                    title: Verificar mapa nil
+                    instruction:
+                      objective: Confirmar que consultar um mapa nil retorna o valor zero e scored false sem panic.
+                      scope: Apenas a consulta de uma chave em mapa sem armazenamento.
+                    concepts: [map-comma-ok-lookup]
+                    evidence:
+                      strategies: [test]
+                    criteria:
+                      - id: nil-map-is-absent
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que uma leitura em mapa nil é segura, mas uma atribuição ao mesmo mapa mudaria o tipo de falha observado?
     fixture:
       - path: go.mod
         content: |
@@ -953,80 +1111,131 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
-          - id: model.return-unchanged-when-no-special-chars
-            kind: micro
-            action: implement
-            target: function
-            title: Retornar s sem alterações quando não há caracteres especiais
+          - id: model.format-csv-field-by-boundary
+            kind: macro
+            title: Formatar um campo CSV por suas fronteiras
             instruction:
-              objective: Detectar se s contém vírgula, aspas duplas ou quebra de linha (\n ou \r), retornando s sem alterações quando nenhum desses caracteres está presente.
-              scope: A detecção de caracteres especiais e o caminho sem alterações.
-              constraints:
-                - Retornar s sem alterações quando ele não contém vírgula, aspas ou quebra de linha (\n ou \r).
+              objective: Produzir um único campo CSV preservando texto simples e escapando campos que exigem citação.
+              scope: Contrato completo de CSVField, incluindo caracteres especiais isolados e combinados.
             concepts: [csv-field-quoting]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection]
             criteria:
-              - id: returns-unchanged-when-no-special-chars
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-          - id: model.escape-and-wrap-quoted-field
-            kind: micro
-            action: implement
-            target: function
-            title: Escapar aspas internas e envolver em aspas
-            instruction:
-              objective: Quando s precisa ser citado, dobrar cada aspas dupla interna e envolver o resultado inteiro em aspas duplas.
-              scope: O caminho em que s precisa ser citado.
-              constraints:
-                - Toda aspas dupla interna deve ser dobrada antes de envolver o campo em aspas.
-            concepts: [csv-field-quoting]
-            evidence:
-              strategies: [source_inspection, compile]
-            criteria:
-              - id: escapes-and-wraps-quoted-field
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-              - level: 3
-                kind: logical_prose
-            reflection:
-              optional:
-                - Por que uma aspas dupla interna precisa ser dobrada, e não só o campo inteiro envolvido em aspas?
-          - id: model.verify-all-csv-specials
-            kind: micro
-            action: verify
-            target: output
-            title: Verificar caracteres especiais combinados
-            instruction:
-              objective: Confirme que vírgula, aspas, newline e retorno de carro acionam citação e preservam o conteúdo escapado.
-              scope: Campos com um ou mais caracteres especiais.
-            concepts: [csv-field-quoting]
-            evidence:
-              strategies: [test]
-            criteria:
-              - id: special-characters-are-quoted
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
+              - id: csv-field-contract-is-understood
+                kind: qualitative
+            children:
+              - id: model.choose-csv-representation
+                kind: meso
+                title: Separar detecção, escape e verificação CSV
+                instruction:
+                  objective: Organizar a escolha entre retorno literal e campo citado com conteúdo escapado.
+                  scope: Texto sem especiais, caracteres que exigem citação e combinações de fronteira.
+                concepts: [csv-field-quoting]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: csv-representation-decisions-are-separated
+                    kind: qualitative
+                children:
+                  - id: model.return-unchanged-when-no-special-chars
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Retornar s sem alterações quando não há caracteres especiais
+                    instruction:
+                      objective: Detectar se s contém vírgula, aspas duplas ou quebra de linha (\n ou \r), retornando s sem alterações quando nenhum desses caracteres está presente.
+                      scope: A detecção de caracteres especiais e o caminho sem alterações.
+                      constraints:
+                        - Retornar s sem alterações quando ele não contém vírgula, aspas ou quebra de linha (\n ou \r).
+                    concepts: [csv-field-quoting]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: returns-unchanged-when-no-special-chars
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.escape-and-wrap-quoted-field
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Escapar aspas internas e envolver em aspas
+                    instruction:
+                      objective: Transformar um campo que exige citação em uma representação com aspas internas escapadas.
+                      scope: O caminho em que s precisa ser citado.
+                      constraints:
+                        - Toda aspas dupla interna deve ser dobrada antes de envolver o campo em aspas.
+                    concepts: [csv-field-quoting]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: escapes-and-wraps-quoted-field
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que uma aspas dupla interna precisa ser dobrada, e não só o campo inteiro envolvido em aspas?
+                  - id: model.verify-all-csv-specials
+                    kind: micro
+                    action: verify
+                    target: output
+                    title: Verificar caracteres especiais combinados
+                    instruction:
+                      objective: Confirmar que cada caractere especial aciona citação e preserva o conteúdo escapado.
+                      scope: Campos com um ou mais caracteres especiais.
+                    concepts: [csv-field-quoting]
+                    evidence:
+                      strategies: [test]
+                    criteria:
+                      - id: special-characters-are-quoted
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Como uma tabela de casos distingue um campo simples de outro que combina vírgula, quebra de linha e aspas?
     fixture:
       - path: go.mod
         content: |
@@ -1168,59 +1377,99 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
-          - id: model.track-seen-values-with-set
-            kind: micro
-            action: implement
-            target: function
-            title: Acompanhar valores já vistos com um set
+          - id: model.dedupe-with-ordered-output
+            kind: macro
+            title: Deduplicar sem perder a ordem de chegada
             instruction:
-              objective: Percorrer items e, para cada valor, verificar se ele já foi visto usando um map[string]struct{}, registrando os valores conforme são vistos pela primeira vez.
-              scope: A criação e a consulta do set de valores vistos.
-              constraints:
-                - Usar um map[string]struct{} para acompanhar quais valores já apareceram.
+              objective: Produzir uma lista sem duplicatas, usando pertencimento para decidir inclusões e a entrada para definir a ordem.
+              scope: Contrato completo de Dedupe, incluindo entradas únicas, repetidas, vazias e nil.
             concepts: [set-membership-with-empty-struct-map]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection]
             criteria:
-              - id: uses-set-to-track-seen-values
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-          - id: model.build-output-in-original-order
-            kind: micro
-            action: implement
-            target: function
-            title: Construir a saída na ordem da primeira ocorrência
-            instruction:
-              objective: Construir a saída acrescentando cada valor a primeira vez que ele é visto, preservando a ordem original de items -- nunca a ordem de iteração de um map.
-              scope: A construção da saída durante o mesmo laço sobre items.
-              constraints:
-                - A ordem do resultado deve seguir a primeira ocorrência de cada valor, não a ordem de iteração de um map.
-            concepts: [set-membership-with-empty-struct-map]
-            evidence:
-              strategies: [source_inspection, compile]
-            criteria:
-              - id: preserves-first-occurrence-order
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-              - level: 3
-                kind: logical_prose
-            reflection:
-              optional:
-                - Por que construir a saída percorrendo um map no final, em vez de durante o laço sobre items, arriscaria perder a ordem original?
+              - id: dedupe-contract-is-understood
+                kind: qualitative
+            children:
+              - id: model.track-membership-and-order
+                kind: meso
+                title: Separar pertencimento e ordem da saída
+                instruction:
+                  objective: Organizar o conjunto de valores vistos e a construção da saída no percurso original da entrada.
+                  scope: Set com map[string]struct{}, primeira ocorrência e retorno para entradas vazias.
+                concepts: [set-membership-with-empty-struct-map]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: dedupe-decisions-are-separated
+                    kind: qualitative
+                children:
+                  - id: model.track-seen-values-with-set
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Acompanhar valores já vistos com um set
+                    instruction:
+                      objective: Modelar o pertencimento dos valores com um map[string]struct{}.
+                      scope: A criação e a consulta do set de valores vistos.
+                      constraints:
+                        - Usar um map[string]struct{} para acompanhar quais valores já apareceram.
+                    concepts: [set-membership-with-empty-struct-map]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: uses-set-to-track-seen-values
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.build-output-in-original-order
+                    kind: micro
+                    action: implement
+                    target: function
+                    title: Construir a saída na ordem da primeira ocorrência
+                    instruction:
+                      objective: Acrescentar cada valor à saída na primeira ocorrência, preservando a ordem original de items.
+                      scope: A construção da saída durante o mesmo laço sobre items.
+                      constraints:
+                        - A ordem do resultado deve seguir a primeira ocorrência de cada valor, não a ordem de iteração de um map.
+                    concepts: [set-membership-with-empty-struct-map]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: preserves-first-occurrence-order
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que construir a saída percorrendo um map no final, em vez de durante o laço sobre items, arriscaria perder a ordem original?
     fixture:
       - path: go.mod
         content: |
@@ -1298,10 +1547,10 @@ challenges:
           // value's first occurrence and preserving the original order.
           func Dedupe(items []string) []string {
               var out []string
-              seen := make(map[string]bool)
+              seen := make(map[string]struct{})
               for _, item := range items {
-                  if !seen[item] {
-                      seen[item] = true
+                  if _, ok := seen[item]; !ok {
+                      seen[item] = struct{}{}
                       out = append(out, item)
                   }
               }

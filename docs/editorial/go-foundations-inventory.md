@@ -94,7 +94,8 @@ Não redispare os 13 lotes pendentes da execução antiga: sua cópia da fila
 antecede a inclusão de depends_on.
 
 Configure tamanho de lote, paralelismo, modelo e reasoning ao iniciar o
-mecanismo. Use cinco tarefas e `gpt-5.6-luna` com reasoning `high` no piloto.
+mecanismo. O piloto histórico usou cinco tarefas e `gpt-5.6-luna` com
+reasoning `high`; novas execuções usam o perfil padrão `gpt-5.6-luna`/`max`.
 Considere `paths` o limite de escrita; leia referências sem ampliar esse
 limite. Várias tarefas editam desafios distintos no mesmo YAML: use isolamento
 por lote e integre serialmente com revisão das diferenças para evitar perda

@@ -12,7 +12,7 @@ editorial-batch-engine; não atribua correções de conteúdo a ela.
 ## Configurar e distribuir
 
 - Respeite modelo, reasoning, tamanho de lote e paralelismo escolhidos pelo usuário.
-  Se não especificados: gpt-5.6-luna, high, cinco tarefas, um autor no piloto.
+  Se não especificados: gpt-5.6-luna, reasoning max, cinco tarefas, um autor no piloto.
 - Separe bases, variantes e protótipos antes de comparar metas da spec.
 - Defina tarefas completas com IDs, arquivos permitidos e aceite executável.
   Não invente nodes para atingir contagem nem trate ausência de warnings como

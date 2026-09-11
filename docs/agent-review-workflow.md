@@ -45,7 +45,7 @@ iniciar ou retomar uma sessão não-interativa e sandboxed de um backend
 no script, sem tocar quem o chama.
 
 O backend `codex` fixa explicitamente `model="gpt-5.6-luna"` e
-`model_reasoning_effort="high"` (via `-c` no `codex exec`) em vez de
+`model_reasoning_effort="max"` (via `-c` no `codex exec`) em vez de
 depender do default de `~/.codex/config.toml` — esse é o modelo padrão do
 revisor neste projeto. Fixar no script em vez de confiar no config global
 evita que a propriedade "modelo/fornecedor independente do autor" da

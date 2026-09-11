@@ -19,7 +19,8 @@ Versionar esteira editorial com fila, autores Codex isolados e revisão primári
 Entregar lotes completos com evidência, retomada e commits rastreáveis.
 ### Constraints
 Configurar modelo, reasoning, paralelismo e tamanho do lote na inicialização.
-Padrões: gpt-5.6-luna, high, um autor, cinco tarefas; até oito autores.
+Padrões atuais: gpt-5.6-luna, reasoning max, um autor, cinco tarefas; até oito
+autores.
 ### Non-goals
 Substituir playtest humano ou alterar metas de go-foundations-packs.
 

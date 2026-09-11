@@ -44,7 +44,7 @@ case "$agent" in
     # implicit dependency on whatever the local global config happens to
     # say would make the "adversarial, independent model" property of the
     # review silently fragile to unrelated config changes.
-    codex_model=(-c model="gpt-5.6-luna" -c model_reasoning_effort="high")
+    codex_model=(-c model="gpt-5.6-luna" -c model_reasoning_effort="max")
     case "$mode" in
       new)
         # -s workspace-write: lets the agent run build/test/validate commands.

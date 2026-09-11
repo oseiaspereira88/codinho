@@ -15,14 +15,15 @@ ou uma nova chave API. A conta deve permitir o modelo escolhido.
 python3 scripts/editorial.py init \
   --queue docs/editorial/go-foundations-queue.json \
   --run-dir /tmp/codinho-editorial-run \
-  --model gpt-5.6-luna --reasoning high --parallelism 3 --batch-size 5 \
+  --model gpt-5.6-luna --reasoning max --parallelism 3 --batch-size 5 \
   --completed-task pilot-load-value-empty \
   --completed-task pilot-finder-zero
 python3 scripts/editorial.py status --run-dir /tmp/codinho-editorial-run
 python3 scripts/editorial.py run --run-dir /tmp/codinho-editorial-run --limit-batches 1
 ```
 
-Escolha configuração antes da execução; defaults conservadores usam um autor.
+Escolha a configuração antes da execução. O perfil padrão usa o modelo
+`gpt-5.6-luna` com reasoning `max` e um autor.
 Use `--completed-task <id>` para iniciar uma nova execução após integrar tarefas
 de uma fila anterior; o ID permanece no histórico, mas libera dependências da
 nova execução sem redisparar conteúdo já integrado.
@@ -91,9 +92,10 @@ o comando verifica pai, digest exato e trailer antes de registrar integrated.
 python3 -m unittest discover -s scripts -p test_editorial.py
 ```
 
-Os testes usam backend falso e repositórios temporários. O piloto real usa cinco
-tarefas e luna/high; o coordenador verifica cada uma e registra o resultado na
-spec. Execução iniciada não significa execução concluída: aguarde exit code e
+Os testes usam backend falso e repositórios temporários. O piloto histórico usou
+cinco tarefas e luna/high; novas execuções usam o perfil padrão luna/max. O
+coordenador verifica cada uma e registra o resultado na spec. Execução iniciada
+não significa execução concluída: aguarde exit code e
 evidência final. Matriz completa após integração é um gate adicional.
 
 Consulte [inventário](editorial/go-foundations-inventory.md) e

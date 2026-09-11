@@ -68,6 +68,19 @@ class EditorialTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.initialize()
 
+    def test_cli_defaults_to_luna_max_profile(self):
+        self.queue.write_text(json.dumps(dict(
+            spec='example',
+            tasks=[dict(id='a', title='Edit', paths=['a.txt'], acceptance=['meaningful content'])],
+        )))
+        with contextlib.chdir(self.repo), contextlib.redirect_stdout(None):
+            self.assertEqual(editorial.main([
+                'init', '--queue', str(self.queue), '--run-dir', str(self.run),
+            ]), 0)
+        config = editorial.read(self.run / 'config.json')
+        self.assertEqual(config['model'], 'gpt-5.6-luna')
+        self.assertEqual(config['reasoning'], 'max')
+
     def test_run_review_resume_integrate(self):
         config = self.initialize()
         state = editorial.execute(config, self.batch())

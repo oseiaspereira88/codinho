@@ -345,7 +345,7 @@ def main(argv=None):
         if name == 'init':
             p.add_argument('--queue', required=True)
             p.add_argument('--model', default='gpt-5.6-luna')
-            p.add_argument('--reasoning', choices=('low', 'medium', 'high', 'xhigh', 'max'), default='high')
+            p.add_argument('--reasoning', choices=('low', 'medium', 'high', 'xhigh', 'max'), default='max')
             p.add_argument('--parallelism', type=int, default=1)
             p.add_argument('--batch-size', type=int, default=5)
             p.add_argument('--timeout-seconds', type=int, default=1800)

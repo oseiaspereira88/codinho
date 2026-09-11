@@ -7,6 +7,7 @@ supersedes:          # slug of the superseded spec (when applicable)
 depends_on:          # prerequisites, inline list: other-spec, milestone:<roadmap>/<id>, roadmap:<slug>
 priority:            # integer >= 0 (lower = higher priority); ordering preference, not a blocker
 components:          # optional, inline comma-separated list: modules/components touched (e.g. mcp-server, cli) — used by pose_list_specs' `components` filter
+task_type:           # optional: feature | bugfix | refactor — a key of taskTypes in .pose/policy/dor.json; selects the sections the Definition of Ready requires (default: defaultTaskType)
 delivers:            # optional typed refs: surface:id, contract:id, capability:id, infrastructure:id, governance:id
 ---
 
@@ -191,17 +192,26 @@ Missing or orphaned IDs fail `pose lint-spec --strict` on done specs. -->
 ### Follow-ups
 
 <!--
-Every follow-up starts with a bracketed disposition. When the spec is marked
-`status: done`, every follow-up MUST have one (use `[open]` for the untriaged
-ones — `pose followups --open` aggregates them).
+One format, one bullet per follow-up:
+
+  - [<disposition>] <what remains and why> (owner:@alias crit:low|medium|high review:YYYY-MM-DD)
+
+The ownership group is required on [open] items and must be the LAST thing on
+the bullet, in parentheses. The bullet may wrap onto indented lines. Ownership
+written any other way — after a dash, mid-sentence, without parentheses — is
+ignored: the item reads as unowned, with no criticality and no review date, and
+never becomes overdue. `pose lint-spec` warns when it sees that.
 
 Valid dispositions:
-  [open]                  not yet triaged (live backlog)
+  [open]                  live backlog without a dedicated spec (needs the ownership group)
   [spawned: <slug>]       became/seeded a new spec
   [covered: <slug>]       already covered by another existing spec
   [duplicate: <slug>]     same follow-up already triaged in another spec
   [done]                  resolved directly, without a separate spec
   [wont-do: <reason>]     consciously discarded
+
+When the spec is marked `status: done`, every follow-up MUST have a
+disposition — `pose followups --open` aggregates the open ones.
 -->
 
 - [open] 

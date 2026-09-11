@@ -13,7 +13,7 @@ Close a spec lifecycle and triage every follow-up without silently losing intent
 
 ## Required reading
 
-1. The spec under `.pose/specs/<slug>.md` or `.pose/specs/<slug>/spec.md`.
+1. The spec — `.pose/specs/YYYY-MM-DD-<slug>.md` by default, or `YYYY-MM-DD-<slug>/spec.md` and `<slug>/spec.md` in folder layouts.
 2. [`.pose/templates/spec.md`](../../../.pose/templates/spec.md).
 3. [AGENTS.md](../../../AGENTS.md).
 
@@ -35,6 +35,18 @@ when transitioning to `done`.
 | `[wont-do: <reason>]` | Intentionally declined with rationale |
 
 `[open]` is a deliberate live disposition, not an untriaged item.
+
+Every follow-up is one bullet in one format — the only one POSE reads:
+
+```markdown
+- [open] <what remains and why> (owner:@alias crit:low|medium|high review:YYYY-MM-DD)
+```
+
+The ownership group is required on `[open]` items and must be the last thing on
+the bullet, in parentheses; the bullet may wrap onto indented lines. Ownership
+written any other way — after a dash, mid-sentence, without parentheses — is
+ignored: the item reads as unowned, with no criticality or review date, and
+never becomes overdue. `pose lint-spec` warns when it sees that.
 
 ## Deterministic, semantic, and human triage
 
@@ -98,3 +110,4 @@ when transitioning to `done`.
 - Treating lexical candidates as semantic verdicts.
 - Deleting history instead of using `wont-do`.
 - Using `open` as a dumping ground when no real intent remains.
+- Writing ownership anywhere but the trailing `(owner:… crit:… review:…)` group.

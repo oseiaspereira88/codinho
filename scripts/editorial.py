@@ -125,8 +125,8 @@ def execute(config, folder, feedback=None):
         if feedback is None:
             git(config['repo'], 'worktree', 'add', '--detach', str(work), config['base'])
         command = [config['codex'], 'exec']
-        if feedback is not None:
-            session = str(uuid.UUID(state.get('session_id', '')))
+        if feedback is not None and state.get('session_id'):
+            session = str(uuid.UUID(state['session_id']))
             command += ['resume', session]
         command += ['--json', '-m', config['model'], '-c',
                     'model_reasoning_effort=' + json.dumps(config['reasoning']),

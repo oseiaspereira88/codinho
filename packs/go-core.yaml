@@ -219,9 +219,9 @@ challenges:
       secondary: []
     prerequisites: []
     brief: >
-      Implemente uma função que registra o fechamento de vários recursos
-      usando defer, preservando a ordem real em que o Go executa defers
-      empilhados.
+      Uma rotina de encerramento recebe nomes de recursos e precisa devolver
+      a sequência observável em que eles seriam fechados, tanto para listas
+      com vários itens quanto para uma entrada sem recursos.
     constraints:
       - Não usar bibliotecas externas.
       - Usar defer para registrar o fechamento de cada recurso.
@@ -240,8 +240,8 @@ challenges:
             target: function
             title: Agendar uma ação com defer para cada recurso
             instruction:
-              objective: Percorrer os recursos recebidos e, para cada um, usar defer para agendar uma ação referenciando o recurso correto, sem se preocupar ainda com o valor de retorno.
-              scope: O corpo da função, sem tratar ainda o retorno.
+              objective: Registrar uma ação de fechamento para cada recurso recebido.
+              scope: O laço que percorre os recursos, sem tratar ainda o retorno.
               constraints:
                 - Usar defer dentro do laço, um agendamento por recurso.
                 - Não implementar ainda o valor de retorno.
@@ -259,14 +259,22 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.build-order-from-defer-execution
             kind: micro
             action: implement
             target: function
             title: Formar o retorno a partir da execução real dos defers
             instruction:
-              objective: Completar a função para que o retorno nomeado order reflita a ordem em que os defers agendados no passo anterior realmente executam, e devolver esse resultado.
-              scope: O corpo da função e o valor de retorno.
+              objective: Fazer cada ação registrada acrescentar seu recurso ao retorno quando for executada.
+              scope: O retorno nomeado e a função adiada que o atualiza.
               constraints:
                 - Usar defer para registrar o fechamento de cada recurso.
             concepts: [defer-execution-order]
@@ -285,6 +293,12 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - Por que a ordem final é o inverso da ordem em que os recursos foram recebidos?
@@ -294,6 +308,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: boundary_case
@@ -319,8 +341,7 @@ challenges:
         content: |
           package closer
 
-          // ClosingOrder returns the order resources would be closed in,
-          // registering each closure with defer.
+          // ClosingOrder reports the order in which resources would be closed.
           func ClosingOrder(resources []string) (order []string) {
               panic("not implemented")
           }
@@ -446,8 +467,9 @@ challenges:
       secondary: []
     prerequisites: []
     brief: >
-      Implemente uma função que soma uma quantidade variável de números
-      inteiros, incluindo quando nenhum argumento é passado.
+      Uma função de totalização precisa produzir um resultado consistente
+      quando recebe nenhum, um ou vários números inteiros, inclusive com
+      valores positivos e negativos.
     constraints:
       - Não usar bibliotecas externas.
       - O parâmetro deve ser variádico, não um slice explícito obrigatório.
@@ -467,7 +489,7 @@ challenges:
             target: function
             title: Declarar a assinatura variádica de Sum
             instruction:
-              objective: Declarar a função Sum com um parâmetro variádico de inteiros, retornando int, sem implementar a soma ainda.
+              objective: Declarar Sum com uma assinatura que aceite zero ou mais inteiros e retorne int.
               scope: A assinatura da função e um corpo mínimo que compile.
               constraints:
                 - Não implementar a soma ainda.
@@ -485,13 +507,21 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.implement-sum-logic
             kind: micro
             action: implement
             target: function
             title: Implementar a soma dos números recebidos
             instruction:
-              objective: Implementar a soma de todos os números recebidos, incluindo quando nenhum argumento é passado.
+              objective: Somar todos os números recebidos e devolver o total.
               scope: Somente o corpo da função.
               constraints:
                 - Não usar bibliotecas externas.
@@ -511,6 +541,12 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - Por que Sum() sem nenhum argumento naturalmente retorna 0, mesmo sem tratar esse caso separadamente?
@@ -535,6 +571,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - O que muda no local dos três pontos entre declarar a função e expandir um slice na chamada?
@@ -698,9 +742,9 @@ challenges:
       secondary: []
     prerequisites: []
     brief: >
-      Implemente uma função que processa uma lista de comandos usando
-      switch, interrompendo o laço externo assim que encontra o comando
-      "stop" — não apenas o switch.
+      Um processador percorre comandos em sequência e deve devolver apenas
+      os comandos aceitos antes do primeiro marcador "stop", sem considerar
+      o marcador ou o restante da entrada.
     constraints:
       - Não usar bibliotecas externas.
       - Usar switch para decidir o que fazer com cada comando.
@@ -721,8 +765,8 @@ challenges:
             target: function
             title: Decidir o que fazer com cada comando usando switch
             instruction:
-              objective: Percorrer os comandos usando um switch que, por padrão, acrescenta o comando ao resultado, e identifica o caso do comando de parada sem ainda interromper o laço externo.
-              scope: O corpo da função, sem tratar ainda a interrupção do laço externo.
+              objective: Usar um switch para distinguir o comando "stop" dos demais comandos.
+              scope: O dispatch de cada comando, sem tratar ainda a saída do laço.
               constraints:
                 - Usar switch para decidir o que fazer com cada comando.
             concepts: [labeled-break-scope]
@@ -739,13 +783,21 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.escape-outer-loop-on-stop
             kind: micro
             action: implement
             target: function
             title: Garantir que o comando de parada interrompa o laço externo
             instruction:
-              objective: Ajustar o laço e o caso de parada para que a interrupção realmente encerre o laço externo usando um break rotulado, não apenas o switch.
+              objective: Fazer o caso "stop" encerrar o laço que percorre os comandos.
               scope: O laço externo e o caso de parada dentro do switch.
               constraints:
                 - Usar break rotulado (labeled break) para sair do laço externo a partir do switch.
@@ -767,6 +819,12 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - Por que um break dentro do switch, sem label, não é suficiente para interromper o laço externo?
@@ -791,6 +849,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
     fixture:
       - path: go.mod
         content: |
@@ -801,8 +867,8 @@ challenges:
         content: |
           package commands
 
-          // ProcessUntilStop processes commands in order, stopping before
-          // the "stop" command and everything after it.
+          // ProcessUntilStop returns commands processed before the first
+          // "stop" command.
           func ProcessUntilStop(commands []string) (processed []string) {
               panic("not implemented")
           }
@@ -914,9 +980,8 @@ challenges:
       secondary: []
     prerequisites: []
     brief: >
-      Implemente um contador cujo método Increment precisa alterar o
-      estado entre chamadas sucessivas, sem interferir em outras
-      instâncias.
+      Um contador precisa conservar sua própria contagem entre chamadas
+      sucessivas e manter essa contagem separada da de outros contadores.
     constraints:
       - Não usar bibliotecas externas.
       - Usar um receptor de ponteiro para Increment.
@@ -955,6 +1020,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.implement-increment-logic
             kind: micro
             action: implement
@@ -981,6 +1054,12 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - Por que um receptor de valor não seria suficiente para o método Increment?
@@ -1005,6 +1084,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
     fixture:
       - path: go.mod
         content: |
@@ -1107,9 +1194,9 @@ challenges:
       secondary: []
     prerequisites: []
     brief: >
-      Implemente uma função que executa outra função com segurança,
-      convertendo um panic em um erro em vez de deixar o programa
-      quebrar.
+      Uma fronteira de execução recebe uma função que pode concluir
+      normalmente ou falhar abruptamente. O chamador precisa distinguir os
+      dois resultados sem perder o valor produzido no caminho normal.
     constraints:
       - Não usar bibliotecas externas além da biblioteca padrão.
       - Usar defer e recover para capturar o panic.
@@ -1147,6 +1234,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.recover-panic-into-error
             kind: micro
             action: implement
@@ -1173,6 +1268,12 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - Por que recover só funciona quando chamado dentro de uma função diferida com defer?
@@ -1197,6 +1298,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
     fixture:
       - path: go.mod
         content: |
@@ -1207,8 +1316,7 @@ challenges:
         content: |
           package safecall
 
-          // SafeCall runs fn, converting any panic into an error instead
-          // of letting it crash the caller.
+          // SafeCall executes fn and reports an abrupt failure as an error.
           func SafeCall(fn func() int) (result int, err error) {
               panic("not implemented")
           }

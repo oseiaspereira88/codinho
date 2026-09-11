@@ -702,6 +702,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.declare-weekday-constants
             kind: micro
             action: declare
@@ -726,6 +734,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - Por que iota evita reatribuir valores manualmente quando só a ordem relativa importa?
@@ -758,6 +774,141 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/enumerate-weekdays-with-iota
+
+          go 1.25.0
+      - path: weekday.go
+        content: |
+          package weekdays
+
+          type Weekday int
+
+          const (
+              Monday Weekday = iota
+              Tuesday
+              Wednesday
+              Thursday
+              Friday
+              Saturday
+              Sunday
+          )
+
+          func IsWeekday(d Weekday) bool {
+              panic("not implemented")
+          }
+      - path: weekday_test.go
+        content: |
+          package weekdays
+
+          import "testing"
+
+          func TestWeekdayEnumeration(t *testing.T) {
+              days := []Weekday{Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday}
+              for i, got := range days {
+                  if got != Weekday(i) {
+                      t.Errorf("day %d = %d, want %d", i, got, i)
+                  }
+              }
+
+              cases := []struct {
+                  name string
+                  day  Weekday
+                  want bool
+              }{
+                  {"monday", Monday, true},
+                  {"friday", Friday, true},
+                  {"saturday", Saturday, false},
+                  {"sunday", Sunday, false},
+                  {"before enumeration", Weekday(-1), false},
+                  {"after enumeration", Weekday(7), false},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      if got := IsWeekday(c.day); got != c.want {
+                          t.Errorf("IsWeekday(%d) = %v, want %v", c.day, got, c.want)
+                      }
+                  })
+              }
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestWeekdayEnumeration$
+        timeout: 20s
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/enumerate-weekdays-with-iota
+
+          go 1.25.0
+      - path: weekday.go
+        content: |
+          package weekdays
+
+          type Weekday int
+
+          const (
+              Monday Weekday = iota
+              Tuesday
+              Wednesday
+              Thursday
+              Friday
+              Saturday
+              Sunday
+          )
+
+          func IsWeekday(d Weekday) bool {
+              return d >= Monday && d <= Friday
+          }
+      - path: weekday_test.go
+        content: |
+          package weekdays
+
+          import "testing"
+
+          func TestWeekdayEnumeration(t *testing.T) {
+              days := []Weekday{Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday}
+              for i, got := range days {
+                  if got != Weekday(i) {
+                      t.Errorf("day %d = %d, want %d", i, got, i)
+                  }
+              }
+
+              cases := []struct {
+                  name string
+                  day  Weekday
+                  want bool
+              }{
+                  {"monday", Monday, true},
+                  {"friday", Friday, true},
+                  {"saturday", Saturday, false},
+                  {"sunday", Sunday, false},
+                  {"before enumeration", Weekday(-1), false},
+                  {"after enumeration", Weekday(7), false},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      if got := IsWeekday(c.day); got != c.want {
+                          t.Errorf("IsWeekday(%d) = %v, want %v", c.day, got, c.want)
+                      }
+                  })
+              }
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
     variants: []
 
   - schema_version: 1
@@ -814,6 +965,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - Por que declarar um tipo nomeado Celsius em vez de usar float64 diretamente na assinatura?
@@ -846,6 +1005,107 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/convert-celsius-to-fahrenheit
+
+          go 1.25.0
+      - path: temperature.go
+        content: |
+          package temperature
+
+          type Celsius float64
+
+          func CelsiusToFahrenheit(c Celsius) float64 {
+              panic("not implemented")
+          }
+      - path: temperature_test.go
+        content: |
+          package temperature
+
+          import (
+              "math"
+              "testing"
+          )
+
+          func TestCelsiusToFahrenheit(t *testing.T) {
+              cases := []struct {
+                  name string
+                  in   Celsius
+                  want float64
+              }{
+                  {"freezing point", 0, 32},
+                  {"boiling point", 100, 212},
+                  {"fractional value", 36.6, 97.88},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      if got := CelsiusToFahrenheit(c.in); math.Abs(got-c.want) > 0.01 {
+                          t.Errorf("CelsiusToFahrenheit(%v) = %v, want %v", c.in, got, c.want)
+                      }
+                  })
+              }
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestCelsiusToFahrenheit$
+        timeout: 20s
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/convert-celsius-to-fahrenheit
+
+          go 1.25.0
+      - path: temperature.go
+        content: |
+          package temperature
+
+          type Celsius float64
+
+          func CelsiusToFahrenheit(c Celsius) float64 {
+              return float64(c)*9/5 + 32
+          }
+      - path: temperature_test.go
+        content: |
+          package temperature
+
+          import (
+              "math"
+              "testing"
+          )
+
+          func TestCelsiusToFahrenheit(t *testing.T) {
+              cases := []struct {
+                  name string
+                  in   Celsius
+                  want float64
+              }{
+                  {"freezing point", 0, 32},
+                  {"boiling point", 100, 212},
+                  {"fractional value", 36.6, 97.88},
+              }
+              for _, c := range cases {
+                  t.Run(c.name, func(t *testing.T) {
+                      if got := CelsiusToFahrenheit(c.in); math.Abs(got-c.want) > 0.01 {
+                          t.Errorf("CelsiusToFahrenheit(%v) = %v, want %v", c.in, got, c.want)
+                      }
+                  })
+              }
+          }
+      expectations:
+      - check_id: focused-tests
+        baseline: test_failure
+        reference: pass
     variants: []
 
   - schema_version: 1
@@ -898,6 +1158,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - Por que o module path importa mesmo em um exercício pequeno e local?
@@ -929,12 +1197,26 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.inspect-module-with-go-list
             hints:
               - level: 1
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: module
@@ -968,6 +1250,98 @@ challenges:
             completion:
               requires_positive_evaluation: false
               requires_user_confirmation: true
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/incorrect-module
+
+          go 1.24.0
+      - path: module_contract_test.go
+        content: |
+          package modulecontract
+
+          import (
+              "os"
+              "strings"
+              "testing"
+          )
+
+          func TestModuleContract(t *testing.T) {
+              data, err := os.ReadFile("go.mod")
+              if err != nil {
+                  t.Fatal(err)
+              }
+              contents := string(data)
+              for _, want := range []string{
+                  "module codinho-practice/declare-a-minimal-module",
+                  "go 1.25.0",
+              } {
+                  if !strings.Contains(contents, want) {
+                      t.Errorf("go.mod is missing %q", want)
+                  }
+              }
+              if strings.Contains(contents, "require ") {
+                  t.Error("go.mod must not declare external dependencies")
+              }
+          }
+    checks:
+      - id: module-contract
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestModuleContract$
+        timeout: 20s
+    validation:
+      reference_fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/declare-a-minimal-module
+
+          go 1.25.0
+      - path: module_contract_test.go
+        content: |
+          package modulecontract
+
+          import (
+              "os"
+              "strings"
+              "testing"
+          )
+
+          func TestModuleContract(t *testing.T) {
+              data, err := os.ReadFile("go.mod")
+              if err != nil {
+                  t.Fatal(err)
+              }
+              contents := string(data)
+              for _, want := range []string{
+                  "module codinho-practice/declare-a-minimal-module",
+                  "go 1.25.0",
+              } {
+                  if !strings.Contains(contents, want) {
+                      t.Errorf("go.mod is missing %q", want)
+                  }
+              }
+              if strings.Contains(contents, "require ") {
+                  t.Error("go.mod must not declare external dependencies")
+              }
+          }
+      expectations:
+      - check_id: module-contract
+        baseline: test_failure
+        reference: pass
     variants: []
 
   - schema_version: 1
@@ -1023,6 +1397,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.clamp-int-to-valid-byte-range
             kind: micro
             action: implement
@@ -1050,6 +1432,12 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.convert-clamped-value-to-byte
             kind: micro
             action: implement
@@ -1078,6 +1466,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - O que aconteceria com o resultado se a conversão para byte fosse feita antes do ajuste, e não depois?
@@ -1087,6 +1483,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: function
@@ -1096,7 +1500,7 @@ challenges:
               scope: Somente os valores -1, 120 e 256; não altere a implementação.
             concepts: [narrowing-conversion-overflow]
             evidence:
-              strategies: [compile]
+              strategies: [test]
             criteria:
               - id: lower-bound-verified
                 kind: structural
@@ -1124,6 +1528,19 @@ challenges:
             completion:
               requires_positive_evaluation: false
               requires_user_confirmation: true
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
     fixture:
       - path: go.mod
         content: |
@@ -1152,7 +1569,9 @@ challenges:
                   want byte
               }{
                   {"below range", -10, 0},
+                  {"just below range", -1, 0},
                   {"above range", 300, 255},
+                  {"just above range", 256, 255},
                   {"within range", 120, 120},
                   {"lower bound", 0, 0},
                   {"upper bound", 255, 255},
@@ -1209,7 +1628,9 @@ challenges:
                   want byte
               }{
                   {"below range", -10, 0},
+                  {"just below range", -1, 0},
                   {"above range", 300, 255},
+                  {"just above range", 256, 255},
                   {"within range", 120, 120},
                   {"lower bound", 0, 0},
                   {"upper bound", 255, 255},
@@ -1287,6 +1708,12 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - O que go vet reportaria se você usasse %s para o número de tentativas?
@@ -1297,6 +1724,14 @@ challenges:
                     kind: guiding_question
                   - level: 2
                     kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
                 kind: micro
                 action: verify
                 target: package
@@ -1306,7 +1741,7 @@ challenges:
                   scope: Somente a verificação após implementar a mensagem.
                 concepts: [printf-verb-matching]
                 evidence:
-                  strategies: [compile]
+                  strategies: [test]
                 criteria:
                   - id: format-check-passes
                     kind: structural
@@ -1319,6 +1754,14 @@ challenges:
                     kind: guiding_question
                   - level: 2
                     kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
                 kind: micro
                 action: verify
                 target: output
@@ -1328,7 +1771,7 @@ challenges:
                   scope: Apenas a saída observável; não altere a função.
                 concepts: [printf-verb-matching]
                 evidence:
-                  strategies: [compile]
+                  strategies: [test]
                 criteria:
                   - id: message-boundary-matches
                     kind: structural

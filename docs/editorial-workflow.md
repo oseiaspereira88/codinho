@@ -15,12 +15,17 @@ ou uma nova chave API. A conta deve permitir o modelo escolhido.
 python3 scripts/editorial.py init \
   --queue docs/editorial/go-foundations-queue.json \
   --run-dir /tmp/codinho-editorial-run \
-  --model gpt-5.6-luna --reasoning high --parallelism 3 --batch-size 5
+  --model gpt-5.6-luna --reasoning high --parallelism 3 --batch-size 5 \
+  --completed-task pilot-load-value-empty \
+  --completed-task pilot-finder-zero
 python3 scripts/editorial.py status --run-dir /tmp/codinho-editorial-run
 python3 scripts/editorial.py run --run-dir /tmp/codinho-editorial-run --limit-batches 1
 ```
 
 Escolha configuração antes da execução; defaults conservadores usam um autor.
+Use `--completed-task <id>` para iniciar uma nova execução após integrar tarefas
+de uma fila anterior; o ID permanece no histórico, mas libera dependências da
+nova execução sem redisparar conteúdo já integrado.
 Para o piloto, acrescente `--limit-batches 1` ao comando run.
 Até oito autores são permitidos pelo executor, sujeitos à capacidade da conta,
 memória e permissões locais. O limite dos subagentes nativos da sessão não é o

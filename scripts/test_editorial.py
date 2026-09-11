@@ -51,7 +51,7 @@ class EditorialTest(unittest.TestCase):
         self.queue.write_text(json.dumps(dict(spec='example', tasks=tasks)))
         values = dict(run_dir=str(self.run), queue=str(self.queue), parallelism=2,
                       batch_size=1, timeout_seconds=10, model='gpt-5.6-luna',
-                      reasoning='high', codex=str(self.fake))
+                      reasoning='high', codex=str(self.fake), completed_task=[])
         values.update(overrides)
         with contextlib.chdir(self.repo):
             return editorial.init(argparse.Namespace(**values))
@@ -190,14 +190,21 @@ class EditorialTest(unittest.TestCase):
                  dict(id='second', title='Edit', paths=['a.txt'], acceptance=['x'], depends_on=['first'])]
         config = self.initialize(tasks=tasks, batch_size=5)
         folders = sorted(self.run.glob('batch-*/state.json'))
-        self.assertEqual(editorial.ready_batches(folders, 8), [self.batch()])
+        self.assertEqual(editorial.ready_batches(config, folders, 8), [self.batch()])
         editorial.execute(config, self.batch())
-        self.assertEqual(editorial.ready_batches(folders, 8), [])
+        self.assertEqual(editorial.ready_batches(config, folders, 8), [])
         editorial.review(config, self.batch(), 'approve', 'Checks passed')
         first = editorial.integrate(config, self.batch())
-        self.assertEqual(editorial.ready_batches(folders, 8), [self.batch('batch-002')])
+        self.assertEqual(editorial.ready_batches(config, folders, 8), [self.batch('batch-002')])
         state = editorial.execute(config, self.batch('batch-002'))
         self.assertEqual(state['base'], first['commit'])
+
+    def test_completed_task_unblocks_first_remaining_batches(self):
+        tasks = [dict(id='pilot', title='Pilot', paths=['pilot.txt'], acceptance=['x']),
+                 dict(id='first', title='First', paths=['a.txt'], acceptance=['x'], depends_on=['pilot'])]
+        config = self.initialize(tasks=tasks, completed_task=['pilot'])
+        self.assertEqual(editorial.read(self.batch() / 'state.json')['tasks'][0]['id'], 'first')
+        self.assertEqual(editorial.ready_batches(config, sorted(self.run.glob('batch-*/state.json')), 1), [self.batch()])
 
     def test_approved_delivery_can_be_revised(self):
         config = self.initialize()

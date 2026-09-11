@@ -54,15 +54,22 @@ def init(args):
         raise ValueError('queue must be an object')
     if not re.fullmatch(r'[a-z0-9][a-z0-9-]*', queue.get('spec', '')):
         raise ValueError('queue requires a valid POSE spec slug')
-    tasks = queue.get('tasks')
-    if not isinstance(tasks, list) or not tasks:
+    source_tasks = queue.get('tasks')
+    if not isinstance(source_tasks, list) or not source_tasks:
         raise ValueError('queue requires tasks')
+    source_ids = {task.get('id') for task in source_tasks if isinstance(task, dict)}
+    completed = set(args.completed_task)
+    if not completed <= source_ids:
+        raise ValueError('completed-task must identify queue tasks')
+    tasks = [task for task in source_tasks if task.get('id') not in completed]
+    if not tasks:
+        raise ValueError('queue has no remaining tasks')
     ids = set()
     for task in tasks:
         if not isinstance(task, dict) or not isinstance(task.get('id'), str) or not task['id'] or task['id'] in ids:
             raise ValueError('task IDs must be nonempty and unique')
         deps = task.get('depends_on', [])
-        if not isinstance(deps, list) or not all(isinstance(d, str) and d in ids for d in deps):
+        if not isinstance(deps, list) or not all(isinstance(d, str) and (d in ids or d in completed) for d in deps):
             raise ValueError('depends_on must reference earlier task IDs')
         ids.add(task['id'])
         if not isinstance(task.get('title'), str) or not task['title'].strip():
@@ -78,7 +85,8 @@ def init(args):
     config = dict(repo=str(repo), base=git(repo, 'rev-parse', 'HEAD').decode().strip(),
                   queue=queue, model=args.model, reasoning=args.reasoning,
                   parallelism=args.parallelism, batch_size=args.batch_size,
-                  timeout_seconds=args.timeout_seconds, codex=args.codex)
+                  timeout_seconds=args.timeout_seconds, codex=args.codex,
+                  completed_task_ids=sorted(completed))
     root.mkdir(parents=True)
     save(root / 'config.json', config)
     batches = []
@@ -306,9 +314,10 @@ def reconcile(config, folder):
     return state
 
 
-def ready_batches(folders, limit):
+def ready_batches(config, folders, limit):
     states = [(p.parent, read(p)) for p in folders]
-    completed = {t['id'] for _, s in states if s['status'] == 'integrated' for t in s['tasks']}
+    completed = set(config.get('completed_task_ids', []))
+    completed.update(t['id'] for _, s in states if s['status'] == 'integrated' for t in s['tasks'])
     selected = []
     occupied = {p for _, s in states if s['status'] not in ('pending', 'integrated')
                 for t in s['tasks'] for p in t['paths']}
@@ -337,6 +346,7 @@ def main(argv=None):
             p.add_argument('--batch-size', type=int, default=5)
             p.add_argument('--timeout-seconds', type=int, default=1800)
             p.add_argument('--codex', default='codex')
+            p.add_argument('--completed-task', action='append', default=[])
         if name in ('revise', 'review', 'integrate', 'recover', 'reconcile'):
             p.add_argument('--batch', required=True)
         if name == 'run':
@@ -366,7 +376,7 @@ def main(argv=None):
                         if args.limit_batches < 1:
                             raise ValueError('limit-batches must be positive')
                         limit = min(limit, args.limit_batches)
-                    pending = ready_batches(folders, limit)
+                    pending = ready_batches(config, folders, limit)
                     with concurrent.futures.ThreadPoolExecutor(max_workers=config['parallelism']) as pool:
                         result = list(pool.map(lambda p: execute(config, p), pending))
                 else:

@@ -270,24 +270,26 @@ challenges:
       children:
       - id: decode-strict-config.meso
         kind: meso
-        title: Transformação e tratamento de falhas
+        title: Decodificação, fronteira e validação da configuração
         instruction:
-          objective: Implemente o contrato de transformação definido no briefing.
-          scope: Entrada, validação e retorno.
+          objective: Separe a forma JSON, a fronteira do documento e as regras dos valores.
+          scope: Uma configuração única recebida por io.Reader, incluindo falhas de entrada.
         children:
         - id: decode-strict-config.step-1
           kind: micro
           action: implement
           target: function
-          title: Leia a configuração a partir da entrada recebida.
+          title: Decodifique o primeiro documento da entrada.
           instruction:
-            objective: Leia a configuração a partir da entrada recebida.
-            scope: Documento inicial; aceite leituras fragmentadas.
+            objective: Decodifique o primeiro documento JSON da entrada recebida.
+            scope: Use o Reader como fluxo; a implementação deve aceitar leituras fragmentadas e manter
+              a falha de leitura observável.
           concepts:
           - io-json-decoder
           evidence:
             strategies:
             - source_inspection
+            - test
           criteria:
           - id: behavior-1
             kind: qualitative
@@ -308,20 +310,22 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Por que uma única chamada a Read não garante um documento completo?
+            - Por que tratar o Reader como uma única leitura pode perder bytes ou esconder a identidade de uma falha?
         - id: decode-strict-config.step-2
           kind: micro
           action: implement
           target: function
-          title: Rejeite campos que não pertencem à configuração.
+          title: Rejeite propriedades desconhecidas.
           instruction:
-            objective: Rejeite campos que não pertencem à configuração.
-            scope: Nomes das propriedades de entrada.
+            objective: Rejeite propriedades JSON que não pertencem à configuração.
+            scope: Compare os nomes recebidos com os campos declarados, sem transformar a validação em
+              uma regra de valores.
           concepts:
           - io-json-strict-fields
           evidence:
             strategies:
             - source_inspection
+            - test
           criteria:
           - id: behavior-2
             kind: qualitative
@@ -342,20 +346,22 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Como um erro de digitação poderia passar despercebido?
+            - Por que rejeitar uma propriedade desconhecida evita que um erro de digitação pareça uma configuração válida?
         - id: decode-strict-config.step-3
           kind: micro
           action: implement
           target: function
-          title: Rejeite conteúdo adicional após a configuração.
+          title: Confirme o fim do documento.
           instruction:
-            objective: Rejeite conteúdo adicional após a configuração.
-            scope: O fluxo inteiro, incluindo espaços finais e falhas tardias.
+            objective: Confirme que não existe um segundo valor ou texto após a configuração.
+            scope: Aceite espaços finais, mas trate conteúdo posterior e falhas tardias do Reader como
+              parte do contrato.
           concepts:
           - io-eof-boundary
           evidence:
             strategies:
             - source_inspection
+            - test
           criteria:
           - id: behavior-3
             kind: qualitative
@@ -376,15 +382,16 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Qual é a diferença entre espaços finais e um segundo valor JSON?
+            - Por que testar uma segunda decodificação distingue espaços finais de um segundo valor JSON e de uma falha tardia?
         - id: decode-strict-config.step-4
           kind: micro
           action: implement
           target: function
-          title: Valide os valores da configuração.
+          title: Aplique as regras dos valores.
           instruction:
-            objective: Valide os valores da configuração.
-            scope: Nome não vazio e limite de tentativas.
+            objective: Aplique as regras de nome e de faixa de tentativas.
+            scope: Depois da forma JSON ser aceita, rejeite nome vazio ou em branco e tentativas fora de
+              zero a cinco.
           concepts:
           - io-reader-stream
           evidence:
@@ -410,7 +417,7 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Por que JSON sintaticamente válido ainda pode ser uma configuração inválida?
+            - Por que separar a validação semântica da decodificação permite aceitar JSON bem formado sem aceitar uma configuração inválida?
   fixture:
   - path: go.mod
     content: |
@@ -533,24 +540,25 @@ challenges:
       children:
       - id: import-csv-inventory.meso
         kind: meso
-        title: Transformação e tratamento de falhas
+        title: Leitura, validação e serialização do inventário
         instruction:
-          objective: Implemente o contrato de transformação definido no briefing.
-          scope: Entrada, validação e retorno.
+          objective: Transforme o CSV em inventário somente depois de validar todos os registros.
+          scope: Cabeçalho, registros, memória de validação e Writer de saída.
         children:
         - id: import-csv-inventory.step-1
           kind: micro
           action: implement
           target: function
-          title: Verifique o cabeçalho do inventário.
+          title: Confirme o cabeçalho do inventário.
           instruction:
-            objective: Verifique o cabeçalho do inventário.
-            scope: Colunas e ordem exigidas pelo contrato.
+            objective: Confirme que o cabeçalho contém exatamente name e quantity nessa ordem.
+            scope: Valide os nomes e a largura antes de considerar qualquer registro.
           concepts:
           - io-csv-record-width
           evidence:
             strategies:
             - source_inspection
+            - test
           criteria:
           - id: behavior-1
             kind: qualitative
@@ -571,20 +579,21 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Por que validar os nomes além da quantidade de colunas?
+            - Por que validar nomes e ordem, além da quantidade de colunas, impede que colunas semanticamente trocadas sejam aceitas?
         - id: import-csv-inventory.step-2
           kind: micro
           action: implement
           target: function
-          title: Leia os registros respeitando o formato CSV.
+          title: Leia os registros como CSV.
           instruction:
-            objective: Leia os registros respeitando o formato CSV.
-            scope: Aspas, vírgulas em campos e falhas de leitura.
+            objective: Leia cada registro usando as regras do formato CSV.
+            scope: Preserve aspas, vírgulas internas e falhas de leitura sem interpretar a linha manualmente.
           concepts:
           - io-csv-quoted-fields
           evidence:
             strategies:
             - source_inspection
+            - test
           criteria:
           - id: behavior-2
             kind: qualitative
@@ -605,20 +614,22 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Por que separar cada linha por vírgulas quebra um CSV válido?
+            - Por que separar uma linha por vírgulas perde a fronteira de um campo citado?
         - id: import-csv-inventory.step-3
           kind: micro
           action: implement
           target: function
-          title: Valide cada registro antes de aceitar o inventário.
+          title: Valide os registros antes da saída.
           instruction:
-            objective: Valide cada registro antes de aceitar o inventário.
-            scope: Nomes aparados únicos e quantidades positivas; ainda sem escrita.
+            objective: Valide os nomes e as quantidades de todos os registros antes de escrever.
+            scope: Apara nomes, detecte duplicatas e exija quantidades positivas representáveis por int;
+              mantenha o Writer intocado enquanto a entrada não termina.
           concepts:
           - io-validate-before-write
           evidence:
             strategies:
             - source_inspection
+            - test
           criteria:
           - id: behavior-3
             kind: qualitative
@@ -639,15 +650,16 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - O que acontece com a saída quando a última linha é inválida?
+            - Por que adiar a escrita até a última linha ser validada evita que uma falha tardia deixe saída parcial de entrada inválida?
         - id: import-csv-inventory.step-4
           kind: micro
           action: implement
           target: function
-          title: Produza o array JSON no destino recebido.
+          title: Escreva o inventário validado.
           instruction:
-            objective: Produza o array JSON no destino recebido.
-            scope: Ordem original, entrada vazia e erros do Writer.
+            objective: Escreva o array JSON validado no Writer recebido.
+            scope: Preserve a ordem, represente uma entrada sem registros como array vazio e propague
+              a identidade de uma falha de escrita.
           concepts:
           - io-writer-errors
           evidence:
@@ -673,7 +685,7 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Por que a função não promete desfazer bytes já aceitos pelo Writer?
+            - Por que propagar um erro de escrita não permite prometer rollback dos bytes que o Writer já aceitou?
   fixture:
   - path: go.mod
     content: |
@@ -802,21 +814,22 @@ challenges:
       instruction:
         objective: Recupere o conteúdo completo de uma nota fornecida por Reader, preservando bytes e
           erros de leitura.
-        scope: Uma competência contextualizada da origem.
+        scope: Uma nota livre entregue em fragmentos por um Reader; não há formato interno para interpretar.
       children:
       - id: read-fragmented-note.meso
         kind: meso
-        title: Casos observáveis e implementação
+        title: Consumo incremental de uma nota
         instruction:
-          objective: Use os casos de aceite para orientar a implementação.
-          scope: Contrato da variante.
+          objective: Modele o consumo incremental da nota até EOF ou falha.
+          scope: Bytes, EOF e erro original no contexto de uma nota sem estrutura.
         children:
         - id: read-fragmented-note.step-1
           kind: micro
-          title: Observe o contrato de leitura.
+          title: Distinga EOF de falha de leitura.
           instruction:
-            objective: Observe o contrato de leitura.
-            scope: Distingua fim da entrada de falha após bytes úteis.
+            objective: Distinga o fim normal da entrada de uma falha de leitura.
+            scope: Considere bytes entregues antes ou junto do erro; o contexto é uma nota livre, não um
+              documento a ser interpretado.
           concepts:
           - io-partial-reads
           evidence:
@@ -842,8 +855,7 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
-              correta?
+            - Por que a ordem entre processar bytes e interpretar EOF ou outro erro determina se a nota fica completa e se a causa é preservada?
           children:
           - id: read-fragmented-note.verify-partial-bytes
             hints:
@@ -851,6 +863,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: reader
@@ -874,6 +894,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: reader
@@ -893,10 +921,11 @@ challenges:
               requires_positive_evaluation: true
         - id: read-fragmented-note.step-2
           kind: micro
-          title: Recupere a nota sem perder informação.
+          title: Acumule os bytes da nota.
           instruction:
-            objective: Recupere a nota sem perder informação.
-            scope: Valide entrada vazia, fragmentação e erro após conteúdo.
+            objective: Acumule os bytes recebidos na ordem original.
+            scope: Retorne entrada vazia e fragmentada normalmente; quando houver falha após conteúdo,
+              devolva os bytes já lidos junto do erro original.
           concepts:
           - io-partial-reads
           evidence:
@@ -922,8 +951,7 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
-              correta?
+            - Por que devolver os bytes já recebidos junto do erro é diferente de descartar a nota ao encontrar a primeira falha?
   fixture:
   - path: go.mod
     content: |
@@ -1063,21 +1091,22 @@ challenges:
       instruction:
         objective: Decodifique uma previsão com estação e temperatura, rejeitando propriedades desconhecidas
           ou documentos adicionais.
-        scope: Uma competência contextualizada da origem.
+        scope: Uma previsão Weather com station e celsius, recebida como documento JSON único.
       children:
       - id: decode-weather-fields.meso
         kind: meso
-        title: Casos observáveis e implementação
+        title: Forma estrita e fronteira da previsão
         instruction:
-          objective: Use os casos de aceite para orientar a implementação.
-          scope: Contrato da variante.
+          objective: Combine a forma declarada da previsão com a validação do documento único.
+          scope: Propriedades, tipos, null, espaços finais e valores posteriores do contexto meteorológico.
         children:
         - id: decode-weather-fields.step-1
           kind: micro
           title: Delimite as propriedades aceitas.
           instruction:
-            objective: Delimite as propriedades aceitas.
-            scope: Não ignore erros de digitação ou tipos incompatíveis.
+            objective: Delimite as propriedades JSON aceitas pela previsão.
+            scope: Aceite somente station e celsius com os tipos da struct; não ignore erros de digitação
+              nem tipos incompatíveis.
           concepts:
           - io-json-strict-fields
           evidence:
@@ -1103,14 +1132,14 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
-              correta?
+            - Por que rejeitar tanto um nome de propriedade com erro quanto um tipo incompatível protege o contrato da previsão?
         - id: decode-weather-fields.step-2
           kind: micro
-          title: Verifique que a entrada contém uma previsão.
+          title: Confirme a fronteira da previsão.
           instruction:
-            objective: Verifique que a entrada contém uma previsão.
-            scope: Cubra propriedades extras, null e conteúdo posterior.
+            objective: Confirme que a entrada representa uma previsão única.
+            scope: Rejeite null e conteúdo posterior, mantendo espaços finais válidos; propriedades extras
+              pertencem à decisão do passo anterior.
           concepts:
           - io-json-strict-fields
           evidence:
@@ -1136,8 +1165,7 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
-              correta?
+            - Por que validar o valor decodificado e a fronteira do fluxo separadamente evita aceitar uma previsão nula ou acompanhada de outro documento?
           children:
           - id: decode-weather-fields.verify-null-document
             hints:
@@ -1145,6 +1173,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: json_document
@@ -1168,6 +1204,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: json_document
@@ -1276,21 +1320,21 @@ challenges:
       instruction:
         objective: Importe uma coluna CSV de participantes, preservando campos entre aspas e rejeitando
           nomes vazios ou duplicados.
-        scope: Uma competência contextualizada da origem.
+        scope: Uma coluna name de participantes, com nomes humanos que podem conter vírgulas entre aspas.
       children:
       - id: read-quoted-attendees.meso
         kind: meso
-        title: Casos observáveis e implementação
+        title: Parsing e integridade da lista de participantes
         instruction:
-          objective: Use os casos de aceite para orientar a implementação.
-          scope: Contrato da variante.
+          objective: Preserve os registros CSV enquanto valida a lista de participantes.
+          scope: Cabeçalho, campos citados, normalização, duplicação e resultado nil em erro.
         children:
         - id: read-quoted-attendees.step-1
           kind: micro
-          title: Reconheça a estrutura do CSV.
+          title: Confirme a estrutura do CSV.
           instruction:
-            objective: Reconheça a estrutura do CSV.
-            scope: Valide cabeçalho e largura usando o formato CSV.
+            objective: Confirme o cabeçalho e a largura do CSV.
+            scope: Exija uma coluna chamada name e use o parser CSV para tratar a forma dos registros.
           concepts:
           - io-csv-quoted-fields
           evidence:
@@ -1316,14 +1360,13 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
-              correta?
+            - Por que conferir cabeçalho e largura antes de normalizar nomes evita atribuir significado a registros de outro formato?
         - id: read-quoted-attendees.step-2
           kind: micro
-          title: Valide os nomes importados.
+          title: Valide os nomes dos participantes.
           instruction:
-            objective: Valide os nomes importados.
-            scope: Preserve ordem; trate duplicação e falhas sem retorno parcial.
+            objective: Valide os nomes dos participantes na ordem recebida.
+            scope: Apara espaços, detecte vazio e duplicação e devolva nil quando qualquer registro falhar.
           concepts:
           - io-csv-quoted-fields
           evidence:
@@ -1349,8 +1392,7 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
-              correta?
+            - Por que acumular o resultado e só expô-lo ao final mantém o contrato nil quando uma linha posterior falha?
           children:
           - id: read-quoted-attendees.verify-quoted-comma
             hints:
@@ -1358,6 +1400,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: csv_record
@@ -1381,6 +1431,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: csv_record

@@ -186,8 +186,8 @@ challenges:
     - testing-build-counting-double
     - testing-name-diagnostic-cases
   prerequisites: []
-  brief: Selecione os tokens ainda válidos em um instante controlável pelo teste, preservando a entrada
-    e a ordem original. Torne os casos de fronteira reproduzíveis sem esperar o tempo passar.
+  brief: Uma rotina precisa decidir quais tokens continuam válidos quando o instante observado é fornecido
+    pelo teste. Os casos-limite devem ser repetíveis e a entrada deve permanecer intacta.
   constraints:
   - Use somente a biblioteca padrão e a dependência de relógio da fixture.
   - Não use time.Now, time.Sleep, rede ou arquivos para determinar o resultado.
@@ -226,9 +226,9 @@ challenges:
           target: function
           title: Planeje os casos da fronteira temporal.
           instruction:
-            objective: Planeje os casos da fronteira temporal.
-            scope: Explique as expectativas para antes, igualdade e depois; acrescente um caso relevante
-              à tabela sem enfraquecer os existentes.
+            objective: Defina a tabela de casos temporais.
+            scope: Registre expectativas observáveis para antes, igualdade e depois do limite, incluindo
+              o caso adicional já presente na fixture.
           concepts:
           - testing-table-cases
           evidence:
@@ -387,8 +387,8 @@ challenges:
           target: function
           title: Verifique o isolamento da saída.
           instruction:
-            objective: Verifique o isolamento da saída.
-            scope: Mudar um elemento retornado não pode modificar a entrada; rode a suíte completa.
+            objective: Mantenha a saída independente da entrada.
+            scope: A evidência deve mutar um elemento retornado e confirmar que a entrada permanece igual.
           concepts:
           - testing-input-isolation
           evidence:
@@ -453,7 +453,7 @@ challenges:
               objective: Confirme que a seleção mantém a ordem relativa dos tokens que permanecem ativos.
               scope: Apenas uma entrada mista com tokens antes, no limite e depois.
             concepts:
-            - testing-input-isolation
+            - testing-table-cases
             evidence:
               strategies:
               - test
@@ -560,8 +560,8 @@ challenges:
   competencies:
     primary:
     - testing-design-deterministic-time
-  brief: Calcule o tempo restante de uma reserva usando um relógio controlado pelo teste, sem retornar
-    durações negativas.
+  brief: Uma reserva precisa informar quanto tempo ainda resta em relação a um instante escolhido pelo
+    teste, inclusive quando já terminou ou está no limite.
   constraints:
   - Use somente a biblioteca padrão e as entradas recebidas.
   - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
@@ -621,8 +621,7 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
-              correta?
+            - Por que fixar o instante observado torna os casos de limite repetíveis sem esperar o relógio do sistema?
         - id: measure-reservation-remaining.step-2
           kind: micro
           title: Calcule a duração observável.
@@ -631,6 +630,7 @@ challenges:
             scope: Cubra limite, expiração, futuro e ausência da dependência.
           concepts:
           - testing-clock-injection
+          - testing-time-boundaries
           evidence:
             strategies:
             - test
@@ -654,8 +654,7 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
-              correta?
+            - Por que o resultado precisa ser limitado depois de calcular a diferença, em vez de apenas testar um caso futuro?
           children:
           - id: measure-reservation-remaining.verify-nonnegative-result
             hints:
@@ -828,8 +827,8 @@ challenges:
   - Use somente a biblioteca padrão e as entradas recebidas.
   - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
   acceptance:
-  - Válido somente antes da expiração; na igualdade já está expirado.
-  - Fusos diferentes que representam o mesmo instante têm o mesmo resultado.
+  - Um ingresso válido é observado antes da expiração; na igualdade ou depois dela, o resultado é falso.
+  - Representações em fusos diferentes que correspondem ao mesmo instante produzem o mesmo resultado.
   publication:
     status: draft
     author: codex
@@ -859,6 +858,7 @@ challenges:
             scope: Diferencie um nanossegundo antes, igualdade e um nanossegundo depois.
           concepts:
           - testing-time-boundaries
+          - testing-table-cases
           evidence:
             strategies:
             - source_inspection
@@ -1001,12 +1001,33 @@ challenges:
 
       func Valid(end, now time.Time) bool { return true }
   - path: exercise_test.go
-    content: "package exercise\n\nimport (\n\t\"testing\"\n\t\"time\"\n)\n\nfunc TestVariant(t *testing.T)\
-      \ {\n\tend := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)\n\tfor _, tc := range []struct {\n\t\t\
-      delta time.Duration\n\t\twant  bool\n\t}{{-time.Nanosecond, true}, {0, false}, {time.Nanosecond,\
-      \ false}} {\n\t\tif got := Valid(end, end.Add(tc.delta)); got != tc.want {\n\t\t\tt.Fatalf(\"delta\
-      \ %v: %v\", tc.delta, got)\n\t\t}\n\t}\n\tif Valid(end, end.In(time.FixedZone(\"synthetic\", -10800)))\
-      \ {\n\t\tt.Fatal(\"same instant treated differently\")\n\t}\n}\n"
+    content: |
+      package exercise
+
+      import (
+          "testing"
+          "time"
+      )
+
+      func TestVariant(t *testing.T) {
+          end := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
+          for _, tc := range []struct {
+              delta time.Duration
+              want  bool
+          }{{-time.Nanosecond, true}, {0, false}, {time.Nanosecond, false}} {
+              if got := Valid(end, end.Add(tc.delta)); got != tc.want {
+                  t.Fatalf("delta %v: %v", tc.delta, got)
+              }
+          }
+          zone := time.FixedZone("synthetic", -10800)
+          before := end.Add(-time.Nanosecond)
+          if !Valid(end, before) || !Valid(end.In(zone), before) {
+              t.Fatal("same instant before expiry treated differently")
+          }
+          if Valid(end, end.In(zone)) || Valid(end.In(zone), end) {
+              t.Fatal("same instant at expiry treated as valid")
+          }
+      }
   checks:
   - id: focused-tests
     runner: go_test
@@ -1029,12 +1050,33 @@ challenges:
 
         func Valid(end, now time.Time) bool { return now.Before(end) }
     - path: exercise_test.go
-      content: "package exercise\n\nimport (\n\t\"testing\"\n\t\"time\"\n)\n\nfunc TestVariant(t *testing.T)\
-        \ {\n\tend := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)\n\tfor _, tc := range []struct {\n\t\
-        \tdelta time.Duration\n\t\twant  bool\n\t}{{-time.Nanosecond, true}, {0, false}, {time.Nanosecond,\
-        \ false}} {\n\t\tif got := Valid(end, end.Add(tc.delta)); got != tc.want {\n\t\t\tt.Fatalf(\"\
-        delta %v: %v\", tc.delta, got)\n\t\t}\n\t}\n\tif Valid(end, end.In(time.FixedZone(\"synthetic\"\
-        , -10800))) {\n\t\tt.Fatal(\"same instant treated differently\")\n\t}\n}\n"
+      content: |
+        package exercise
+
+        import (
+            "testing"
+            "time"
+        )
+
+        func TestVariant(t *testing.T) {
+            end := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
+            for _, tc := range []struct {
+                delta time.Duration
+                want  bool
+            }{{-time.Nanosecond, true}, {0, false}, {time.Nanosecond, false}} {
+                if got := Valid(end, end.Add(tc.delta)); got != tc.want {
+                    t.Fatalf("delta %v: %v", tc.delta, got)
+                }
+            }
+            zone := time.FixedZone("synthetic", -10800)
+            before := end.Add(-time.Nanosecond)
+            if !Valid(end, before) || !Valid(end.In(zone), before) {
+                t.Fatal("same instant before expiry treated differently")
+            }
+            if Valid(end, end.In(zone)) || Valid(end.In(zone), end) {
+                t.Fatal("same instant at expiry treated as valid")
+            }
+        }
     expectations:
     - check_id: focused-tests
       baseline: test_failure
@@ -1053,7 +1095,8 @@ challenges:
   competencies:
     primary:
     - testing-detect-aliasing
-  brief: Produza um snapshot de leituras que possa ser modificado sem alterar o slice original.
+  brief: Uma rotina precisa devolver leituras para uso posterior sem que mudanças em uma versão alterem
+    a outra.
   constraints:
   - Use somente a biblioteca padrão e as entradas recebidas.
   - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
@@ -1112,8 +1155,7 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
-              correta?
+            - Por que comparar os valores uma única vez não prova que duas slices deixaram de compartilhar armazenamento?
         - id: snapshot-readings.step-2
           kind: micro
           title: Produza o snapshot independente.
@@ -1122,6 +1164,7 @@ challenges:
             scope: Cubra mutações em ambas as direções e entrada vazia.
           concepts:
           - testing-input-isolation
+          - testing-table-cases
           evidence:
             strategies:
             - test
@@ -1277,13 +1320,14 @@ challenges:
   competencies:
     primary:
     - testing-build-counting-double
-  brief: Conte os prazos ainda futuros usando um único instante para o lote inteiro, com um dublê que
-    revele chamadas extras.
+  brief: Conte quantos prazos de um lote ainda estão futuros em relação a uma observação controlável pelo
+    teste.
   constraints:
   - Use somente a biblioteca padrão e as entradas recebidas.
   - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
   acceptance:
   - Relógio válido é chamado exatamente uma vez, mesmo para lote vazio.
+  - Lote vazio retorna contagem zero.
   - Conta apenas prazos estritamente posteriores ao instante observado.
   - Relógio nil retorna ErrMissingClock.
   publication:
@@ -1338,8 +1382,7 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
-              correta?
+            - Como uma dependência que muda a cada leitura ajuda a distinguir uma observação por operação de uma por elemento?
         - id: count-deadline-clock-calls.step-2
           kind: micro
           title: Conte os prazos no mesmo instante.
@@ -1371,8 +1414,7 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
-              correta?
+            - Por que a igualdade precisa ser um caso separado do prazo imediatamente posterior?
           children:
           - id: count-deadline-clock-calls.verify-empty-batch
             hints:

@@ -2436,6 +2436,27 @@ challenges:
             reflection:
               optional:
                 - Por que validar só depois de aplicar todos os opts, em vez de validar dentro de cada WithPort individualmente?
+          - id: model.verify-defaults-and-overrides
+            kind: micro
+            action: verify
+            target: constructor
+            title: Verificar padrões e sobrescritas
+            instruction:
+              objective: Confirme que os padrões são mantidos quando nenhuma opção é fornecida e que a última opção prevalece quando há repetição.
+              scope: NewServer sem opções e com duas opções de porta em sequência.
+            concepts: [functional-options-pattern]
+            evidence:
+              strategies: [test]
+            criteria:
+              - id: defaults-and-order-are-observable
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
     fixture:
       - path: go.mod
         content: |

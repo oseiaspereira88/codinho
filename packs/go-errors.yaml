@@ -350,6 +350,27 @@ challenges:
             reflection:
               optional:
                 - Por que fmt.Errorf com %v em vez de %w produz uma mensagem idêntica, mas quebra errors.Is?
+          - id: model.verify-present-empty-value
+            kind: micro
+            action: verify
+            target: map_lookup
+            title: Verificar valor vazio presente
+            instruction:
+              objective: Confirme que uma chave presente com valor vazio retorna valor vazio e erro nil, sem ser confundida com ausência.
+              scope: Apenas a distinção entre chave presente e chave inexistente.
+            concepts: [error-wrapping-with-percent-w]
+            evidence:
+              strategies: [test]
+            criteria:
+              - id: empty-present-value-is-success
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
     fixture:
       - path: go.mod
         content: |

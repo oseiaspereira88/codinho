@@ -792,6 +792,27 @@ challenges:
             reflection:
               optional:
                 - Por que scores[name] == 0 não é suficiente para saber se name foi pontuado?
+          - id: model.verify-nil-map-absence
+            kind: micro
+            action: verify
+            target: boundary_case
+            title: Verificar mapa nil
+            instruction:
+              objective: Confirme que consultar um mapa nil retorna o valor zero e scored false sem panic.
+              scope: Apenas a consulta de uma chave em mapa sem armazenamento.
+            concepts: [map-comma-ok-lookup]
+            evidence:
+              strategies: [test]
+            criteria:
+              - id: nil-map-is-absent
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
     fixture:
       - path: go.mod
         content: |

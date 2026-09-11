@@ -2123,6 +2123,29 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+          - id: model.verify-cleanup-and-continue
+            kind: micro
+            action: verify
+            target: control_flow
+            title: Verificar limpeza e continuidade após panic
+            instruction:
+              objective: Confirme que um comando que panica registra fechamento e que o próximo comando ainda é executado.
+              scope: Sequência com comando normal, comando que panica e comando posterior.
+            concepts: [panic-recover-boundary, defer-execution-order]
+            evidence:
+              strategies: [test]
+            criteria:
+              - id: panic-command-closes
+                kind: structural
+              - id: following-command-runs
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
     fixture:
       - path: go.mod
         content: |

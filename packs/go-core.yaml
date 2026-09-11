@@ -1443,9 +1443,9 @@ challenges:
       secondary: []
     prerequisites: []
     brief: >
-      Implemente um tipo Percentage cujo valor só pode ser criado dentro
-      de um intervalo válido, impedindo a criação direta com um valor
-      fora desse intervalo.
+      Uma API de porcentagens precisa manter seus valores dentro de um
+      intervalo válido e informar ao chamador quando a entrada é rejeitada.
+      Uma porcentagem aceita também deve poder ser consultada pela API.
     constraints:
       - Não usar bibliotecas externas além da biblioteca padrão.
       - O campo que guarda o valor não pode ser exportado.
@@ -1463,9 +1463,9 @@ challenges:
             kind: micro
             action: declare
             target: named_type
-            title: Declarar Percentage com campo não exportado e acessor
+            title: Definir a representação pública de Percentage
             instruction:
-              objective: Declarar o tipo Percentage com um campo não exportado guardando o valor e um método Value que o expõe, sem declarar NewPercentage ainda.
+              objective: Definir Percentage para que seu valor possa ser consultado pela API, sem declarar NewPercentage ainda.
               scope: A declaração do tipo Percentage e do método Value.
               constraints:
                 - O campo que guarda o valor não pode ser exportado.
@@ -1484,13 +1484,21 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.validate-percentage-range
             kind: micro
             action: implement
             target: function
-            title: Declarar e validar o intervalo em NewPercentage
+            title: Implementar NewPercentage com intervalo válido
             instruction:
-              objective: Declarar e implementar NewPercentage para validar que v está entre 0 e 100 (inclusive), retornando erro caso contrário, e criando o Percentage através do campo não exportado quando válido.
+              objective: Fazer NewPercentage aceitar valores de 0 a 100, inclusive, e rejeitar os demais.
               scope: A assinatura e o corpo de NewPercentage.
               constraints:
                 - NewPercentage deve validar o intervalo antes de criar o valor.
@@ -1510,6 +1518,12 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - Por que impedir a criação de um Percentage inválido depende do campo não ser exportado?
@@ -1534,6 +1548,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
     fixture:
       - path: go.mod
         content: |
@@ -1677,9 +1699,9 @@ challenges:
       secondary: []
     prerequisites: []
     brief: >
-      Implemente uma função que percorre uma lista de nós, alguns deles
-      nulos, e retorna o primeiro valor que atende a um mínimo, sem nunca
-      acessar um campo de um nó nulo.
+      Uma busca em uma sequência de nodes precisa ignorar entradas ausentes,
+      encontrar o primeiro valor que atinge um mínimo e distinguir um valor
+      encontrado da ausência de resultado.
     constraints:
       - Não usar bibliotecas externas.
       - Verificar nilidade e o valor mínimo em uma única condição, usando curto-circuito, sem acessar Value de um node nil.
@@ -1700,7 +1722,7 @@ challenges:
             target: function
             title: Percorrer nodes ignorando elementos nil
             instruction:
-              objective: Percorrer nodes ignorando elementos nil, sem nunca acessar Value de um node nil, e sem aplicar ainda o filtro de valor mínimo.
+              objective: Percorrer a sequência considerando apenas nodes presentes, sem decidir ainda se o valor atende ao mínimo.
               scope: O corpo da função, sem aplicar ainda o filtro min.
               constraints:
                 - Não acessar Value de um node nil.
@@ -1719,13 +1741,21 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.apply-minimum-filter
             kind: micro
             action: implement
             target: function
             title: Aplicar o filtro de valor mínimo
             instruction:
-              objective: Aplicar o filtro de valor mínimo sobre os nodes não nulos e retornar o primeiro Value que atende, junto com found indicando se algum foi encontrado.
+              objective: Fazer a busca devolver o primeiro Value que atende ao mínimo e o indicador correspondente.
               scope: O corpo da função e o valor de retorno.
               constraints:
                 - Verificar nilidade e o valor mínimo em uma única condição, usando curto-circuito.
@@ -1745,6 +1775,12 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - Por que checar node != nil antes de node.Value >= min na mesma condição evita panic, mesmo quando algum node é nil?
@@ -1769,6 +1805,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
     fixture:
       - path: go.mod
         content: |
@@ -1900,8 +1944,10 @@ challenges:
       secondary: []
     prerequisites: []
     brief: >
-      Implemente um contador cujo construtor exportado devolve uma
-      interface, sem nunca expor o tipo concreto que a implementa.
+      Uma biblioteca de contagem precisa atualizar o estado entre chamadas,
+      enquanto oferece ao consumidor somente as operações necessárias para
+      usar cada contador. Instâncias diferentes devem conservar estados
+      independentes.
     constraints:
       - Não usar bibliotecas externas.
       - NewCounter deve retornar o tipo Counter, não o tipo concreto.
@@ -1918,9 +1964,9 @@ challenges:
             kind: micro
             action: implement
             target: function
-            title: Implementar Increment para mutar e devolver a nova contagem
+            title: Implementar Increment para devolver a nova contagem
             instruction:
-              objective: Implementar Increment para aumentar a contagem interna em um e devolver o novo valor.
+              objective: Fazer Increment aumentar a contagem associada à instância e devolver o novo valor.
               scope: Somente o corpo do método Increment.
               constraints:
                 - Não usar bibliotecas externas.
@@ -1938,13 +1984,21 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.implement-new-counter
             kind: micro
             action: implement
             target: function
-            title: Implementar NewCounter devolvendo Counter
+            title: Construir um novo contador pela API pública
             instruction:
-              objective: Implementar NewCounter para construir e devolver um novo contador, expondo-o apenas através do tipo Counter.
+              objective: Fazer NewCounter entregar um contador novo que possa ser usado pelo contrato público.
               scope: Somente o corpo de NewCounter.
               constraints:
                 - NewCounter deve retornar o tipo Counter, não o tipo concreto.
@@ -1964,6 +2018,12 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - Por que quem chama NewCounter nunca precisa conhecer o nome do tipo concreto para usar o Counter retornado?
@@ -1988,6 +2048,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
     fixture:
       - path: go.mod
         content: |
@@ -2112,10 +2180,10 @@ challenges:
       secondary: []
     prerequisites: [defer-execution-order, labeled-break-scope, panic-recover-boundary]
     brief: >
-      Implemente uma função que roda uma lista de comandos em ordem,
-      registrando cada execução, sempre fechando (limpando) cada comando
-      que começa a rodar mesmo se ele panicar, e parando imediatamente ao
-      encontrar o comando "stop", sem tocar nos comandos restantes.
+      Um executor de comandos precisa produzir um relatório por comando
+      processado, registrar início, sucesso ou falha e encerramento, e
+      respeitar um marcador de parada. O relatório deve permanecer completo
+      mesmo quando uma execução falha abruptamente.
     constraints:
       - Não usar bibliotecas externas além da biblioteca padrão.
       - Usar switch e break rotulado para parar o laço externo ao encontrar "stop".
@@ -2135,9 +2203,9 @@ challenges:
             kind: micro
             action: implement
             target: function
-            title: Parar o laço externo ao encontrar stop
+            title: Encerrar no primeiro comando stop
             instruction:
-              objective: Percorrer commands usando um switch que identifica o comando "stop" e, com break rotulado, interrompe o laço externo imediatamente ao encontrá-lo, sem processar esse comando nem os seguintes. Para os demais comandos, só identificar o caso default por enquanto, sem processá-los ainda.
+              objective: Fazer o processamento terminar no primeiro comando "stop", sem incluir esse comando nem os seguintes no relatório.
               scope: O laço externo e o switch, sem processar ainda os comandos que não são "stop".
               constraints:
                 - Usar switch e break rotulado para parar o laço externo ao encontrar "stop".
@@ -2156,6 +2224,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.schedule-closed-entry-with-defer
             kind: micro
             action: implement
@@ -2180,13 +2256,21 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.recover-panic-per-command
             kind: micro
             action: implement
             target: function
-            title: Recuperar o panic de run por comando
+            title: Tratar falhas de run por comando
             instruction:
-              objective: Envolver a chamada a run com recover, convertendo um panic em uma entrada "failed:<comando>:<mensagem>" em vez de deixar o panic propagar e interromper os comandos seguintes.
+              objective: Fazer um panic em run produzir uma entrada "failed:<comando>:<mensagem>" e permitir que o próximo comando seja processado.
               scope: O tratamento do panic ao redor da chamada a run.
               constraints:
                 - Usar recover para converter um panic de run em uma entrada de falha, sem interromper os comandos seguintes.
@@ -2206,6 +2290,12 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - Por que o recover precisa estar em uma função separada chamada uma vez por comando, e não só uma vez no início de RunCommands?
@@ -2233,13 +2323,21 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.verify-cleanup-and-continue
             kind: micro
             action: verify
             target: control_flow
-            title: Verificar limpeza e continuidade após panic
+            title: Verificar isolamento da falha entre comandos
             instruction:
-              objective: Confirme que um comando que panica registra fechamento e que o próximo comando ainda é executado.
+              objective: 'Confirmar que a falha de um comando fica isolada: seu fechamento é registrado e o seguinte é executado.'
               scope: Sequência com comando normal, comando que panica e comando posterior.
             concepts: [panic-recover-boundary, defer-execution-order]
             evidence:
@@ -2256,6 +2354,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
     fixture:
       - path: go.mod
         content: |
@@ -2473,10 +2579,10 @@ challenges:
       secondary: []
     prerequisites: [variadic-parameters, unexported-field-invariant]
     brief: >
-      Implemente a configuração de um Server usando o padrão de opções
-      funcionais: funções que devolvem uma Option mutando o Server através
-      de um ponteiro, aplicadas em ordem sobre valores padrão, com o
-      resultado final validado antes de ser devolvido.
+      Um servidor deve ser construído com uma configuração útil por padrão,
+      aceitar ajustes opcionais em sequência e rejeitar o resultado quando a
+      porta final não puder ser usada. A configuração aceita deve permanecer
+      consultável pela API.
     constraints:
       - Não usar bibliotecas externas além da biblioteca padrão.
       - Os campos de Server não podem ser exportados.
@@ -2498,9 +2604,9 @@ challenges:
             kind: micro
             action: implement
             target: function
-            title: Declarar WithHost e WithPort mutando o Server via ponteiro
+            title: Fazer WithHost e WithPort configurarem o servidor
             instruction:
-              objective: Implementar WithHost e WithPort para devolver uma Option que, quando aplicada, muta o campo correspondente do Server recebido por ponteiro.
+              objective: Fazer cada construtor de opção configurar o valor correspondente quando aplicado ao Server.
               scope: O corpo de WithHost e WithPort.
               constraints:
                 - Os campos de Server não podem ser exportados.
@@ -2518,6 +2624,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.apply-options-over-defaults
             kind: micro
             action: implement
@@ -2543,6 +2657,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.validate-final-port
             kind: micro
             action: implement
@@ -2569,6 +2691,12 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - Por que validar só depois de aplicar todos os opts, em vez de validar dentro de cada WithPort individualmente?
@@ -2593,6 +2721,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
     fixture:
       - path: go.mod
         content: |

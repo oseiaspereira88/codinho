@@ -370,11 +370,14 @@ def main(argv=None):
             if args.command == 'status':
                 print(json.dumps([read(p) for p in sorted(root.glob('batch-*/state.json'))], ensure_ascii=False, indent=2))
                 return 0
-            if args.command == 'revise':
+            if args.command in ('revise', 'recover'):
                 folder = folder_for(root, args.batch)
                 with (folder / 'author.lock').open('a') as lock:
                     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-                    result = execute(config, folder, args.feedback)
+                    if args.command == 'revise':
+                        result = execute(config, folder, args.feedback)
+                    else:
+                        result = recover(config, folder)
                 print(json.dumps(result, ensure_ascii=False, indent=2))
                 return int(result.get('status') == 'failed')
             with (root / 'coordinator.lock').open('a') as lock:

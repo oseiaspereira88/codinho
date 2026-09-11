@@ -122,7 +122,7 @@ def execute(config, folder, feedback=None):
     state['status'] = 'running'
     save(folder / 'state.json', state)
     try:
-        if feedback is None:
+        if feedback is None or not work.exists():
             git(config['repo'], 'worktree', 'add', '--detach', str(work), config['base'])
         command = [config['codex'], 'exec']
         if feedback is not None and state.get('session_id'):

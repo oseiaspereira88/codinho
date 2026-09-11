@@ -1696,6 +1696,7 @@ challenges:
                   wantFound bool
               }{
                   {"skips nil and finds match", []*Node{nil, {Value: 3}, {Value: 10}}, 5, 10, true},
+                  {"zero value is found when it meets minimum", []*Node{{Value: 0}}, 0, 0, true},
                   {"all nil returns not found", []*Node{nil, nil}, 0, 0, false},
                   {"first element already matches", []*Node{{Value: 7}, {Value: 1}}, 5, 7, true},
                   {"empty slice", nil, 0, 0, false},
@@ -1759,6 +1760,7 @@ challenges:
                   wantFound bool
               }{
                   {"skips nil and finds match", []*Node{nil, {Value: 3}, {Value: 10}}, 5, 10, true},
+                  {"zero value is found when it meets minimum", []*Node{{Value: 0}}, 0, 0, true},
                   {"all nil returns not found", []*Node{nil, nil}, 0, 0, false},
                   {"first element already matches", []*Node{{Value: 7}, {Value: 1}}, 5, 7, true},
                   {"empty slice", nil, 0, 0, false},
@@ -2258,21 +2260,24 @@ challenges:
           // -- even when run panics. It stops immediately, without running or
           // closing any further commands, as soon as it reaches "stop".
           func RunCommands(commands []string, run func(string) int) (report []string) {
+          stop:
               for _, command := range commands {
-                  if command == "stop" {
-                      break
-                  }
-                  func() {
-                      report = append(report, "start:"+command)
-                      defer func() { report = append(report, "closed:"+command) }()
-                      defer func() {
-                          if value := recover(); value != nil {
-                              report = append(report, fmt.Sprintf("failed:%s:%v", command, value))
-                          }
+                  switch command {
+                  case "stop":
+                      break stop
+                  default:
+                      func() {
+                          report = append(report, "start:"+command)
+                          defer func() { report = append(report, "closed:"+command) }()
+                          defer func() {
+                              if value := recover(); value != nil {
+                                  report = append(report, fmt.Sprintf("failed:%s:%v", command, value))
+                              }
+                          }()
+                          result := run(command)
+                          report = append(report, fmt.Sprintf("ok:%s:%d", command, result))
                       }()
-                      result := run(command)
-                      report = append(report, fmt.Sprintf("ok:%s:%d", command, result))
-                  }()
+                  }
               }
               return
           }
@@ -2559,6 +2564,23 @@ challenges:
                   }
               })
 
+              t.Run("valid later option replaces earlier invalid option", func(t *testing.T) {
+                  s, err := server.NewServer(server.WithPort(0), server.WithPort(443))
+                  if err != nil {
+                      t.Fatalf("err = %v, want nil after final port is set to 443", err)
+                  }
+                  if s.Port() != 443 {
+                      t.Fatalf("Port() = %d, want 443", s.Port())
+                  }
+              })
+
+              t.Run("invalid later option rejects final configuration", func(t *testing.T) {
+                  _, err := server.NewServer(server.WithPort(443), server.WithPort(0))
+                  if err == nil {
+                      t.Fatal("err = nil, want error for final port 0")
+                  }
+              })
+
               t.Run("rejects port zero", func(t *testing.T) {
                   _, err := server.NewServer(server.WithPort(0))
                   if err == nil {
@@ -2661,6 +2683,23 @@ challenges:
                   }
                   if s.Port() != 443 {
                       t.Fatalf("Port() = %d, want 443", s.Port())
+                  }
+              })
+
+              t.Run("valid later option replaces earlier invalid option", func(t *testing.T) {
+                  s, err := server.NewServer(server.WithPort(0), server.WithPort(443))
+                  if err != nil {
+                      t.Fatalf("err = %v, want nil after final port is set to 443", err)
+                  }
+                  if s.Port() != 443 {
+                      t.Fatalf("Port() = %d, want 443", s.Port())
+                  }
+              })
+
+              t.Run("invalid later option rejects final configuration", func(t *testing.T) {
+                  _, err := server.NewServer(server.WithPort(443), server.WithPort(0))
+                  if err == nil {
+                      t.Fatal("err = nil, want error for final port 0")
                   }
               })
 

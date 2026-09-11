@@ -840,18 +840,20 @@ challenges:
 
               cases := []struct {
                   name      string
+                  scores    map[string]int
                   who       string
                   wantScore int
                   wantOk    bool
               }{
-                  {"scored exactly zero counts as scored", "alice", 0, true},
-                  {"scored nonzero", "bob", 7, true},
-                  {"never scored", "carol", 0, false},
-                  {"empty string key present counts as scored", "", 0, true},
+                  {"scored exactly zero counts as scored", scores, "alice", 0, true},
+                  {"scored nonzero", scores, "bob", 7, true},
+                  {"never scored", scores, "carol", 0, false},
+                  {"empty string key present counts as scored", scores, "", 0, true},
+                  {"nil map has no scored name", nil, "alice", 0, false},
               }
               for _, c := range cases {
                   t.Run(c.name, func(t *testing.T) {
-                      gotScore, gotOk := Score(scores, c.who)
+                      gotScore, gotOk := Score(c.scores, c.who)
                       if gotScore != c.wantScore || gotOk != c.wantOk {
                           t.Errorf("Score(scores, %q) = (%d, %v), want (%d, %v)", c.who, gotScore, gotOk, c.wantScore, c.wantOk)
                       }
@@ -895,18 +897,20 @@ challenges:
 
               cases := []struct {
                   name      string
+                  scores    map[string]int
                   who       string
                   wantScore int
                   wantOk    bool
               }{
-                  {"scored exactly zero counts as scored", "alice", 0, true},
-                  {"scored nonzero", "bob", 7, true},
-                  {"never scored", "carol", 0, false},
-                  {"empty string key present counts as scored", "", 0, true},
+                  {"scored exactly zero counts as scored", scores, "alice", 0, true},
+                  {"scored nonzero", scores, "bob", 7, true},
+                  {"never scored", scores, "carol", 0, false},
+                  {"empty string key present counts as scored", scores, "", 0, true},
+                  {"nil map has no scored name", nil, "alice", 0, false},
               }
               for _, c := range cases {
                   t.Run(c.name, func(t *testing.T) {
-                      gotScore, gotOk := Score(scores, c.who)
+                      gotScore, gotOk := Score(c.scores, c.who)
                       if gotScore != c.wantScore || gotOk != c.wantOk {
                           t.Errorf("Score(scores, %q) = (%d, %v), want (%d, %v)", c.who, gotScore, gotOk, c.wantScore, c.wantOk)
                       }

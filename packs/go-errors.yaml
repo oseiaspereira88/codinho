@@ -402,7 +402,7 @@ challenges:
           )
 
           func TestLoadValue(t *testing.T) {
-              store := map[string]string{"a": "1", "b": "2", "c": "3", "d": "4", "e": "5"}
+              store := map[string]string{"a": "1", "b": "2", "c": "3", "d": "4", "e": "5", "empty": ""}
 
               for key, want := range store {
                   key, want := key, want
@@ -413,6 +413,13 @@ challenges:
                       }
                   })
               }
+
+              t.Run("present empty value is not missing", func(t *testing.T) {
+                  got, err := LoadValue(store, "empty")
+                  if got != "" || err != nil {
+                      t.Fatalf("LoadValue(store, %q) = (%q, %v), want (empty, nil)", "empty", got, err)
+                  }
+              })
 
               t.Run("missing key wraps ErrNotFound and mentions the key", func(t *testing.T) {
                   _, err := LoadValue(store, "missing")
@@ -436,6 +443,7 @@ challenges:
                       t.Errorf("err.Error() = %q, does not mention the key", err.Error())
                   }
               })
+
           }
     checks:
       - id: focused-tests
@@ -484,7 +492,7 @@ challenges:
           )
 
           func TestLoadValue(t *testing.T) {
-              store := map[string]string{"a": "1", "b": "2", "c": "3", "d": "4", "e": "5"}
+              store := map[string]string{"a": "1", "b": "2", "c": "3", "d": "4", "e": "5", "empty": ""}
 
               for key, want := range store {
                   key, want := key, want
@@ -516,6 +524,13 @@ challenges:
                   }
                   if !strings.Contains(err.Error(), "another-missing-key") {
                       t.Errorf("err.Error() = %q, does not mention the key", err.Error())
+                  }
+              })
+
+              t.Run("present empty value is not missing", func(t *testing.T) {
+                  got, err := LoadValue(store, "empty")
+                  if got != "" || err != nil {
+                      t.Fatalf("LoadValue(store, %q) = (%q, %v), want (empty, nil)", "empty", got, err)
                   }
               })
           }

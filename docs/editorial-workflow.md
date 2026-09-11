@@ -26,6 +26,9 @@ Escolha configuração antes da execução; defaults conservadores usam um autor
 Use `--completed-task <id>` para iniciar uma nova execução após integrar tarefas
 de uma fila anterior; o ID permanece no histórico, mas libera dependências da
 nova execução sem redisparar conteúdo já integrado.
+Use `--task <id>` uma vez por tarefa para formar uma subfila em ordem explícita.
+Isso permite colocar lotes de packs distintos na mesma onda, sem cruzar seus
+arquivos permitidos.
 Para o piloto, acrescente `--limit-batches 1` ao comando run.
 Até oito autores são permitidos pelo executor, sujeitos à capacidade da conta,
 memória e permissões locais. O limite dos subagentes nativos da sessão não é o

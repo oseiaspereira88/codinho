@@ -61,7 +61,11 @@ def init(args):
     completed = set(args.completed_task)
     if not completed <= source_ids:
         raise ValueError('completed-task must identify queue tasks')
-    tasks = [task for task in source_tasks if task.get('id') not in completed]
+    selected = args.task or [task.get('id') for task in source_tasks]
+    if len(selected) != len(set(selected)) or not set(selected) <= source_ids:
+        raise ValueError('task must identify unique queue tasks')
+    by_id = {task['id']: task for task in source_tasks}
+    tasks = [by_id[task_id] for task_id in selected if task_id not in completed]
     if not tasks:
         raise ValueError('queue has no remaining tasks')
     ids = set()
@@ -347,6 +351,7 @@ def main(argv=None):
             p.add_argument('--timeout-seconds', type=int, default=1800)
             p.add_argument('--codex', default='codex')
             p.add_argument('--completed-task', action='append', default=[])
+            p.add_argument('--task', action='append', default=[])
         if name in ('revise', 'review', 'integrate', 'recover', 'reconcile'):
             p.add_argument('--batch', required=True)
         if name == 'run':

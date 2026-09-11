@@ -51,7 +51,7 @@ class EditorialTest(unittest.TestCase):
         self.queue.write_text(json.dumps(dict(spec='example', tasks=tasks)))
         values = dict(run_dir=str(self.run), queue=str(self.queue), parallelism=2,
                       batch_size=1, timeout_seconds=10, model='gpt-5.6-luna',
-                      reasoning='high', codex=str(self.fake), completed_task=[])
+                      reasoning='high', codex=str(self.fake), completed_task=[], task=[])
         values.update(overrides)
         with contextlib.chdir(self.repo):
             return editorial.init(argparse.Namespace(**values))
@@ -205,6 +205,12 @@ class EditorialTest(unittest.TestCase):
         config = self.initialize(tasks=tasks, completed_task=['pilot'])
         self.assertEqual(editorial.read(self.batch() / 'state.json')['tasks'][0]['id'], 'first')
         self.assertEqual(editorial.ready_batches(config, sorted(self.run.glob('batch-*/state.json')), 1), [self.batch()])
+
+    def test_selected_tasks_keep_requested_order(self):
+        tasks = [dict(id='one', title='One', paths=['one.txt'], acceptance=['x']),
+                 dict(id='two', title='Two', paths=['two.txt'], acceptance=['x'])]
+        self.initialize(tasks=tasks, task=['two'])
+        self.assertEqual(editorial.read(self.batch() / 'state.json')['tasks'][0]['id'], 'two')
 
     def test_approved_delivery_can_be_revised(self):
         config = self.initialize()

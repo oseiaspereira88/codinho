@@ -83,6 +83,16 @@ avaliar os gates humanos e a qualidade das evidências.
 
 ## Regras de execução e aceite
 
+Piloto integrado em `eeb5aac` após revisão primária do coordenador root:
+cinco tarefas iniciais concluídas com gpt-5.6-luna/high. Quatro mutantes
+falharam nos novos casos; a referência de RunCommands foi inspecionada quanto
+a switch/break rotulado, defer e recover. Catálogo: 51 checks declarados e
+51 verificados. Matriz POSE posterior passou. A fila preserva as 70 tarefas
+como inventário; ao iniciar outra execução, selecione as 65 restantes e
+remova dependências do piloto já integrado, registrando esse commit como base.
+Não redispare os 13 lotes pendentes da execução antiga: sua cópia da fila
+antecede a inclusão de depends_on.
+
 Configure tamanho de lote, paralelismo, modelo e reasoning ao iniciar o
 mecanismo. Use cinco tarefas e `gpt-5.6-luna` com reasoning `high` no piloto.
 Considere `paths` o limite de escrita; leia referências sem ampliar esse

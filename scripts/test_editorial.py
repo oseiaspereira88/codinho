@@ -116,6 +116,7 @@ class EditorialTest(unittest.TestCase):
     def test_parallel_run_isolated_batches(self):
         tasks = [dict(id=str(i), title='Edit', paths=[f'{i}.txt'], acceptance=['x']) for i in range(4)]
         self.initialize(tasks=tasks)
+        self.fake.write_text(FAKE.replace('"a.txt"', 'json.loads(prompt.splitlines()[1])[0]["paths"][0]'))
         active = peak = 0
         lock = threading.Lock()
         original = editorial.execute
@@ -127,10 +128,7 @@ class EditorialTest(unittest.TestCase):
                 peak = max(peak, active)
             try:
                 time.sleep(0.05)
-                state = editorial.read(folder / 'state.json')
-                state['status'] = 'awaiting-review'
-                editorial.save(folder / 'state.json', state)
-                return state
+                return original(config, folder)
             finally:
                 with lock:
                     active -= 1
@@ -142,6 +140,8 @@ class EditorialTest(unittest.TestCase):
         for i in range(1, 5):
             state = editorial.read(self.batch(f'batch-{i:03d}') / 'state.json')
             self.assertEqual(state['status'], 'awaiting-review' if i <= 2 else 'pending')
+            if i <= 2:
+                self.assertEqual((self.batch(f'batch-{i:03d}') / f'worktree/{i-1}.txt').read_text(), 'edited\n')
         self.assertEqual((self.repo / 'a.txt').read_text(), 'initial\n')
 
     def test_timeout_preserves_work(self):
@@ -221,9 +221,14 @@ class EditorialTest(unittest.TestCase):
         self.assertEqual(result['session_id'], '12345678-1234-1234-1234-123456789abc')
 
     def test_reconcile_failed_commit(self):
+        (self.repo / 'a.txt').write_text(''.join(f'line {i}\n' for i in range(30)))
+        editorial.git(self.repo, 'commit', '-am', 'Long document')
+        self.fake.write_text(FAKE.replace('"edited\\n"', 'pathlib.Path("a.txt").read_text().replace("line 0\\n", "edited\\n")'))
         config = self.initialize()
         editorial.execute(config, self.batch())
         editorial.review(config, self.batch(), 'approve', 'Checked')
+        (self.repo / 'a.txt').write_text((self.repo / 'a.txt').read_text().replace('line 28\n', 'independent\n'))
+        editorial.git(self.repo, 'commit', '-am', 'Independent edit')
         hook = self.repo / '.git/hooks/pre-commit'
         hook.write_text('#!/bin/sh\nexit 1\n')
         hook.chmod(0o755)

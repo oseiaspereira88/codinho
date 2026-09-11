@@ -19,6 +19,10 @@ editorial-batch-engine; não atribua correções de conteúdo a ela.
   evidência de qualidade pedagógica.
 - Use scripts/editorial.py; cada lote recebe worktree, sessão e logs próprios.
   Não retome com --last. O autor não aprova nem integra seu próprio lote.
+- Declare depends_on na fila. Execute uma onda por run; integre seus lotes
+  antes de puxar dependentes. O executor evita sobreposição de arquivos e
+  captura o HEAD atual em cada lote novo. Preserve a fila das execuções antigas;
+  migre somente tarefas restantes para uma nova execução quando necessário.
 
 ## Revisar e continuar
 
@@ -33,6 +37,9 @@ editorial-batch-engine; não atribua correções de conteúdo a ela.
   validação aplicável e faça commits com POSE-Spec da fila.
 - Ao terminar um lote, puxe o próximo. Em retomadas, consulte status e os logs;
   não refaça trabalho integrado nem execute simultaneamente dois controladores.
+- Use recover para running interrompido sem autor vivo; use reconcile após
+  concluir manualmente um commit que falhou, preservando patch e trailer.
+  Auditorias sem diff exigem evidência e HEAD igual à base auditada.
 - Não preencha reviewed_by/playtested humanos. Pendências humanas ou de decisão
   permanecem explícitas e impedem fechar a spec quando seus gates as exigirem.
 

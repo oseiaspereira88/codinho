@@ -82,7 +82,7 @@ Conflitos entre patches do mesmo pack exigem nova integração revisada.
 ### Implementation
 - [x] Implementar executor e testes.
 - [x] Versionar skill e inventário.
-- [ ] Executar, revisar e integrar piloto.
+- [x] Executar, revisar e integrar piloto.
 ### Validation
 - [ ] Executar testes, matriz strict e revisão do mecanismo.
 
@@ -126,6 +126,23 @@ terminou com SUCCESS; 14 testes do executor passaram. Recurrence-check: zero
 chaves acima do limiar. Piloto retomado na mesma sessão e entregue para revisão:
 51 checks declarados/verificados, quatro mutantes falhando nos casos novos;
 diff limitado a go-core, go-errors e go-data-text, inspecionado pelo coordenador.
+
+Piloto aprovado pelo coordenador root e integrado em `eeb5aac`, digest
+`3e0419805edac00494d5047e42ad1eaa555fa95314d14a447c2c0dd19d5abba2`.
+Nova matriz após integração: SUCCESS, incluindo 14 testes do executor;
+evidência em `.pose/results/editorial-review-validation.json`.
+Permanecem pendentes a atestação POSE final e as 65 tarefas editoriais seguintes;
+revisão humana/playtest/publicação não foram realizados.
+
+Segunda revisão independente reproduziu reconcile rejeitando alterações
+independentes no mesmo arquivo: corrigido com digest capturado no índice após
+aplicar ao destino; regressão incluída entre os 14 testes, todos passando após
+o ajuste. A matriz estruturada acima precede esse ajuste final; a regressão
+direcionada posterior o cobre. Limitações aceitas para continuidade: atualização
+de base exige nova subfila; interrupção antes de registrar PID exige diagnóstico
+manual. Essas limitações estão documentadas no guia e impedem alegar recuperação
+automática universal. Decisão técnica: aprovado com reservas operacionais;
+atestação POSE formal ainda pendente, sem fechamento da spec.
 
 ## 7. Final Report
 Em implementação. Fechamento exige R1–R10 e evidências do piloto.

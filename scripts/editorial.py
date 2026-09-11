@@ -271,6 +271,9 @@ def integrate(config, folder):
     save(folder / 'state.json', state)
     git(repo, 'apply', '--check', '--index', str(patch_path))
     git(repo, 'apply', '--index', str(patch_path))
+    state['integration_digest'] = hashlib.sha256(
+        git(repo, 'diff', '--cached', '--binary', state['integration_base'])).hexdigest()
+    save(folder / 'state.json', state)
     try:
         git(repo, 'commit', '-m', 'feat(content): editorial ' + state['id'],
             '-m', 'POSE-Spec: ' + config['queue']['spec'])
@@ -293,7 +296,7 @@ def reconcile(config, folder):
     if parents != [state.get('integration_base')]:
         raise ValueError('manual commit must directly follow integration base')
     patch = git(repo, 'diff', '--binary', state['integration_base'], head)
-    if hashlib.sha256(patch).hexdigest() != state['approved_digest']:
+    if hashlib.sha256(patch).hexdigest() != state.get('integration_digest', state['approved_digest']):
         raise ValueError('manual commit differs from approved patch')
     message = git(repo, 'log', '-1', '--format=%B').decode().splitlines()
     if 'POSE-Spec: ' + config['queue']['spec'] not in message:

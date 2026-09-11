@@ -64,6 +64,11 @@ Falha/timeout preserva worktree e logs. Retome o lote pela sessão registrada;
 se não houver sessão utilizável, investigue a falha antes de iniciar outra.
 Conflitos de integração não autorizam sobrescrita: reconcilie, valide e revise
 o novo patch. Integração exige árvore principal limpa.
+Se a reconciliação exigir mudar a base, ou uma auditoria sem diff ficar
+obsoleta, inicialize uma nova subfila dessas tarefas no HEAD atual e faça nova
+revisão. revise mantém a base original; não faça rebase nem altere state.json
+manualmente para preservar aprovação. Interrupções anteriores ao registro do
+PID também exigem diagnóstico manual antes de criar a execução substituta.
 Use revise em um lote approved para revogar a aprovação e pedir correções.
 Após interrupção, use recover --run-dir ... --batch ...: ele recusa recuperação
 se o PID do autor ainda existir e recupera a sessão dos logs antes de permitir

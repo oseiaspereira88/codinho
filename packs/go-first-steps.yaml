@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-first-steps
-version: 1.7.0
+version: 1.8.0
 themes:
   - id: slices
     title: Slices e arrays
@@ -653,7 +653,7 @@ tracks:
   - go-first-steps.clamp-int-to-byte
   - go-first-steps.format-rate-limit-message
   - go-first-steps.avoid-shadowing-named-returns
-  - go-data.slice-filter-preserve-input
+  - go-data-text.filter-without-mutating-input
   - go-core.sum-variadic-numbers
   - go-data-text.lookup-map-value-with-comma-ok
   - go-errors.wrap-sentinel-error-with-context

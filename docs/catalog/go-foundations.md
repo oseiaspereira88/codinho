@@ -35,22 +35,31 @@ micro-node, mas esse node não é creditado antes de sua disposição explícita
 | `go-debugging` (fora do escopo) | protótipo | 1 protótipo | 1 | 4 | 1/1/4 = 6 | 0/0/0 |
 | **Manifest completo** | — | **46 bases/protótipo + 8 variantes** | **105** | **64** | **40/40/207 = 287** | **9/9/38 = 56** |
 
-As 44 bases canônicas preservam a distribuição histórica de 32 atômicos, 10
-combinados e 2 fatias funcionais. O inventário carregado tem uma 45ª base
-atômica histórica, `go-data.slice-filter-preserve-input`; ela
-continua no pack para preservar IDs e histórico, mas não é mais membro da
+Os sete packs contêm **45 entradas que não estão marcadas
+`canonical: false`**; as oito entradas restantes são variantes de I/O/testes
+marcadas `canonical: false`. A medição de 45 é inventário, não a meta
+fundamental: uma dessas entradas é o protótipo histórico
+`go-data.slice-filter-preserve-input`. Excluindo-o conceitualmente, sem
+removê-lo do pack, a distribuição fundamental fica em **44 entradas: 32
+atômicos, 10 combinados e 2 fatias funcionais**. O protótipo continua fora da
 trilha `go-from-zero`, que usa o desafio canônico
-`go-data-text.filter-without-mutating-input`. As quatro variantes de I/O e as
-quatro de testes mantêm `variant_of` e `canonical: false` e não financiam a
-meta de profundidade. O protótipo de depuração e suas quatro competências
-também não financiam a meta fundamental.
+`go-data-text.filter-without-mutating-input`.
+
+O segundo protótipo, `go-debug.slice-off-by-one`, está no pack
+`go-debugging`, fora dos sete packs fundamentais. Os IDs dos dois protótipos e
+as sessões existentes permanecem preservados; esta reconciliação não renomeia,
+remove nem migra esses registros. A classificação, eventual migração e
+publicação dos protótipos, assim como o aceite humano da distribuição 32/10/2,
+continuam pendentes; nenhum deles deve ser reclassificado ou excluído
+silenciosamente para atingir a meta.
 
 ### Regra de crédito
 
 Há três projeções que devem permanecer visíveis em toda auditoria:
 
 1. **Escopo fundamental:** sete packs, 104 conceitos e 60 competências hoje;
-   45 bases e 8 variantes permanecem inventariadas separadamente.
+   45 entradas não marcadas `canonical: false` permanecem inventariadas,
+   sendo 44 fundamentais e um protótipo histórico, além das 8 variantes.
 2. **Crédito de profundidade:** nodes de bases, sem as oito variantes e sem o
    micro-node do protótipo histórico até a decisão de disposição.
 3. **Manifesto:** inclui `go-debugging` e as variantes para fins de inventário,
@@ -398,13 +407,17 @@ playtest ponta a ponta continuam pendentes pelo checklist.
 
 - A árvore é reutilizada por granularidade e por trilhas; não criar packs por
   senioridade nem duplicar desafios para obter mais nodes.
-- O conteúdo histórico mantém IDs, autores e fixtures. Em particular,
+- O conteúdo histórico mantém IDs, autores, fixtures e sessões. Em particular,
   `go-data.slice-filter-preserve-input` não será apagado por estar além da
-  distribuição prevista, e `go-debug.slice-off-by-one` permanece fora do
-  escopo fundamental.
+  distribuição prevista, e `go-debug.slice-off-by-one` permanece no pack
+  `go-debugging`, fora dos sete packs fundamentais.
 - As oito variantes continuam contextualizadas, mas com `variant_of` e
   `canonical: false`; não serão contadas como novos desafios, competências ou
   profundidade das bases.
+- A classificação, eventual migração e publicação dos dois protótipos, assim
+  como o aceite humano da distribuição 32/10/2, continuam pendentes. Até essa
+  decisão, nenhum protótipo será reclassificado ou excluído silenciosamente
+  para atingir a meta.
 - Nenhum `publication.reviewed_by`, `playtested: true` ou
   `status: published` será preenchido por autoria automatizada. O checklist
   exige pessoa diferente do autor e playtest honesto; ambos estão pendentes.

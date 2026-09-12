@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-data-text
-version: 1.2.0
+version: 1.3.0
 themes:
   - id: slices-arrays-maps
     title: Slices, arrays e maps
@@ -232,6 +232,200 @@ concepts:
       relation_refs:
         - kind: relates_to
           concept_id: utf8-rune-boundary
+  - id: array-value-copy
+    title: Cópia de array por valor
+    content:
+      version: 1
+      explanation: 'Atribuir um array a outra variável copia todos os seus elementos, portanto alterar a cópia não alcança o array original. Uma slice tem outro contrato: ela é uma janela sobre um backing array e duas janelas podem compartilhar as mesmas posições. Escolha o tipo e a operação conforme o contrato de independência esperado.'
+      example:
+        context: snapshot de coordenadas
+        code: |
+          package example
+
+          import "testing"
+
+          func TestArrayCopyAndSliceView(t *testing.T) {
+              original := [3]int{1, 2, 3}
+              copied := original
+              copied[0] = 9
+              if original[0] != 1 {
+                  t.Fatalf("array assignment shared storage: %v", original)
+              }
+
+              backing := [3]int{1, 2, 3}
+              first := backing[:]
+              second := backing[:]
+              second[0] = 9
+              if first[0] != 9 {
+                  t.Fatalf("slice views did not share backing array: %v", first)
+              }
+          }
+        explanation: A atribuição do array preserva o valor original, enquanto as duas slices observam a alteração feita no mesmo backing array.
+      relation_refs:
+        - kind: contrasts_with
+          concept_id: slice-backing-array-aliasing
+        - kind: relates_to
+          concept_id: slice-declaration
+  - id: append-reallocation-boundary
+    title: Fronteira de realocação de append
+    content:
+      version: 1
+      explanation: 'append pode reutilizar o backing array enquanto existe capacidade disponível depois do comprimento. Quando a nova quantidade ultrapassa essa capacidade, a operação precisa de outro armazenamento; o fator exato de crescimento não faz parte do contrato. Para exigir isolamento, não dependa de uma realocação incidental: copie explicitamente ou reserve um backing array próprio.'
+      example:
+        context: janela de amostras
+        code: |
+          package example
+
+          import "testing"
+
+          func TestAppendStorageBoundary(t *testing.T) {
+              backing := [5]int{1, 2, 0, 0, 0}
+              view := backing[:2:4]
+
+              withinCapacity := append(view, 3)
+              withinCapacity[0] = 9
+              if backing[0] != 9 {
+                  t.Fatalf("append with capacity left did not reuse storage: %v", backing)
+              }
+
+              beyondCapacity := append(withinCapacity, 4, 5)
+              beyondCapacity[0] = 7
+              if backing[0] != 9 {
+                  t.Fatalf("append beyond capacity still aliases backing array: %v", backing)
+              }
+          }
+        explanation: A primeira append cabe na capacidade restante e altera o array compartilhado; a segunda excede a capacidade e deixa a nova slice independente.
+      relation_refs:
+        - kind: deepens_into
+          concept_id: slice-backing-array-aliasing
+        - kind: relates_to
+          concept_id: slice-preallocation-length-vs-capacity
+  - id: map-delete-and-clear
+    title: Remoção seletiva e limpeza de map
+    content:
+      version: 1
+      explanation: delete remove uma chave específica e não produz erro quando ela já está ausente. clear remove todas as entradas de um map sem alterar seu tipo; depois da limpeza, um map não nil continua pronto para receber novas chaves. As duas operações também são seguras em um map nil, embora ele continue nil e não aceite atribuição.
+      example:
+        context: permissões temporárias
+        code: |
+          package example
+
+          import "testing"
+
+          func TestMapRemoval(t *testing.T) {
+              permissions := map[string]struct{}{
+                  "read":  {},
+                  "write": {},
+              }
+              delete(permissions, "read")
+              delete(permissions, "missing")
+              if _, ok := permissions["read"]; ok {
+                  t.Fatal("selectively deleted permission is still present")
+              }
+              if _, ok := permissions["write"]; !ok {
+                  t.Fatal("delete removed an unrelated permission")
+              }
+
+              clear(permissions)
+              if len(permissions) != 0 {
+                  t.Fatalf("clear left entries: %v", permissions)
+              }
+              permissions["audit"] = struct{}{}
+              if _, ok := permissions["audit"]; !ok {
+                  t.Fatal("cleared non-nil map was not reusable")
+              }
+
+              var absent map[string]int
+              delete(absent, "anything")
+              clear(absent)
+              if absent != nil {
+                  t.Fatal("clear changed a nil map")
+              }
+          }
+        explanation: delete preserva a permissão não removida, clear esvazia o mapa reutilizável e as operações não transformam um mapa nil em mapa gravável.
+      relation_refs:
+        - kind: deepens_into
+          concept_id: map-comma-ok-lookup
+        - kind: relates_to
+          concept_id: set-membership-with-empty-struct-map
+  - id: strings-builder-output
+    title: Saída incremental com strings.Builder
+    content:
+      version: 1
+      explanation: strings.Builder acumula fragmentos de texto sem exigir uma concatenação completa a cada etapa. Seu valor zero já pode ser usado e String devolve o texto acumulado até aquele momento; a saída vazia de um builder sem escritas é uma string vazia. Não copie um Builder depois de começar a usá-lo, e defina separadamente o separador entre fragmentos.
+      example:
+        context: resumo de itens
+        code: |
+          package example
+
+          import (
+              "strings"
+              "testing"
+          )
+
+          func summarize(labels []string) string {
+              var builder strings.Builder
+              for i, label := range labels {
+                  if i > 0 {
+                      builder.WriteString(" / ")
+                  }
+                  builder.WriteString(label)
+              }
+              return builder.String()
+          }
+
+          func TestBuilderOutput(t *testing.T) {
+              if got := summarize([]string{"azul", "médio", "fosco"}); got != "azul / médio / fosco" {
+                  t.Fatalf("summary = %q", got)
+              }
+              if got := summarize(nil); got != "" {
+                  t.Fatalf("empty summary = %q", got)
+              }
+          }
+        explanation: O builder recebe cada fragmento e o separador somente entre itens; sem escritas, seu valor zero produz a string vazia.
+      relation_refs:
+        - kind: relates_to
+          concept_id: rune-aware-whitespace-preservation
+        - kind: relates_to
+          concept_id: utf8-rune-boundary
+  - id: regexp-submatch-contract
+    title: Contrato de match e submatches de regexp
+    content:
+      version: 1
+      explanation: regexp.FindStringSubmatch devolve o match completo na posição zero e os grupos capturados nas posições seguintes. Um grupo opcional que não participou aparece como string vazia dentro de um resultado não nil; uma entrada que não casa com a expressão inteira produz nil. Distinga esses estados antes de interpretar ou converter qualquer submatch.
+      example:
+        context: identificadores de inventário
+        code: |
+          package example
+
+          import (
+              "regexp"
+              "testing"
+          )
+
+          func TestSubmatchContract(t *testing.T) {
+              pattern := regexp.MustCompile(`^([A-Z]{2})(?:-([0-9]{3}))?$`)
+
+              complete := pattern.FindStringSubmatch("SP-042")
+              if len(complete) != 3 || complete[0] != "SP-042" || complete[1] != "SP" || complete[2] != "042" {
+                  t.Fatalf("complete match = %#v", complete)
+              }
+
+              optional := pattern.FindStringSubmatch("RJ")
+              if len(optional) != 3 || optional[0] != "RJ" || optional[1] != "RJ" || optional[2] != "" {
+                  t.Fatalf("optional submatch = %#v", optional)
+              }
+
+              if absent := pattern.FindStringSubmatch("sp-042"); absent != nil {
+                  t.Fatalf("invalid inventory ID matched: %#v", absent)
+              }
+          }
+        explanation: O primeiro item contém o match completo e os dois grupos; no segundo, o grupo opcional é vazio mas o resultado existe; a grafia inválida retorna nil.
+      relation_refs:
+        - kind: relates_to
+          concept_id: strconv-error-handling
+        - kind: relates_to
+          concept_id: rune-aware-whitespace-preservation
 competencies:
   - id: filter-without-mutating-input
     title: Filtrar uma coleção sem mutar a entrada
@@ -374,6 +568,134 @@ challenges:
                     reflection:
                       optional:
                         - Por que escrever o resultado de volta em nums[i], mesmo devolvendo nums[:n], mutaria a slice que o chamador ainda enxerga?
+          - id: model.contrast-array-copy-and-slice-growth
+            kind: macro
+            title: Contrastar cópia de array e crescimento de slice
+            instruction:
+              objective: Distinguir cópia de valores e compartilhamento de armazenamento ao trabalhar com arrays e slices.
+              scope: Atribuição de arrays, capacidade disponível e realocação durante append.
+            concepts: [array-value-copy, append-reallocation-boundary, slice-backing-array-aliasing]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: array-and-append-boundaries-are-understood
+                kind: qualitative
+            children:
+              - id: model.inspect-array-and-append-storage
+                kind: meso
+                title: Observar fronteiras de armazenamento
+                instruction:
+                  objective: Organizar a análise da atribuição de array e das duas situações de capacidade de uma slice.
+                  scope: Cópia por valor, append que cabe e append que ultrapassa a capacidade disponível.
+                concepts: [array-value-copy, append-reallocation-boundary, slice-backing-array-aliasing]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: storage-boundaries-are-separated
+                    kind: qualitative
+                children:
+                  - id: model.explain-array-assignment-copy
+                    kind: micro
+                    action: analyze
+                    target: storage_semantics
+                    title: Explicar a cópia produzida por uma atribuição de array
+                    instruction:
+                      objective: Explicar por que modificar um array atribuído a outra variável não altera o array original.
+                      scope: O efeito da atribuição de um array antes de qualquer operação sobre uma slice.
+                      constraints:
+                        - Não generalizar a cópia por valor de arrays para slices que apenas compartilham uma janela.
+                    concepts: [array-value-copy, slice-backing-array-aliasing]
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: array-assignment-is-independent
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que a atribuição de um array pode isolar elementos escalares, enquanto duas slices do mesmo array continuam observando a mesma alteração?
+                  - id: model.identify-append-within-capacity
+                    kind: micro
+                    action: analyze
+                    target: storage_semantics
+                    title: Identificar append dentro da capacidade disponível
+                    instruction:
+                      objective: Identificar o caso em que append cabe na capacidade restante da slice.
+                      scope: A reutilização potencial do backing array antes de ultrapassar a capacidade.
+                      constraints:
+                        - Considerar len e cap da slice, sem depender do fator de crescimento escolhido pelo runtime.
+                    concepts: [append-reallocation-boundary, slice-backing-array-aliasing]
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: append-may-reuse-available-capacity
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.identify-append-beyond-capacity
+                    kind: micro
+                    action: analyze
+                    target: storage_semantics
+                    title: Identificar append além da capacidade disponível
+                    instruction:
+                      objective: Identificar o caso em que append ultrapassa a capacidade disponível da slice.
+                      scope: A separação do armazenamento observável depois de exceder cap.
+                      constraints:
+                        - Não tratar o tamanho exato da nova capacidade como parte do contrato da linguagem.
+                    concepts: [append-reallocation-boundary, slice-backing-array-aliasing]
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: append-beyond-capacity-separates-storage
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que uma realocação observada depois de append não é uma garantia adequada para uma API que promete não compartilhar armazenamento?
     fixture:
       - path: go.mod
         content: |
@@ -2512,6 +2834,102 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
+          - id: model.inspect-map-and-match-boundaries
+            kind: macro
+            title: Inspecionar fronteiras de estado e correspondência
+            instruction:
+              objective: Distinguir a remoção de estado de um mapa da interpretação de correspondências em texto estruturado.
+              scope: Chaves selecionadas, limpeza completa, match de regexp e submatches opcionais.
+            concepts: [map-delete-and-clear, regexp-submatch-contract, map-comma-ok-lookup]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: map-and-match-boundaries-are-understood
+                kind: qualitative
+            children:
+              - id: model.separate-map-lifecycle-from-text-matching
+                kind: meso
+                title: Separar lifecycle do map e contrato do match
+                instruction:
+                  objective: Organizar a observação de remoções no índice e a leitura de grupos capturados em uma entrada textual.
+                  scope: Efeito de delete, efeito de clear e distinção entre match não nulo e ausência de match.
+                concepts: [map-delete-and-clear, regexp-submatch-contract, map-comma-ok-lookup]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: state-and-match-decisions-are-separated
+                    kind: qualitative
+                children:
+                  - id: model.observe-selective-delete-and-clear
+                    kind: micro
+                    action: analyze
+                    target: map_lifecycle
+                    title: Observar remoção seletiva e limpeza do map
+                    instruction:
+                      objective: Distinguir o efeito de delete sobre uma chave do efeito de clear sobre todas as chaves.
+                      scope: Operações de remoção e consultas de presença depois de cada operação.
+                      constraints:
+                        - Manter separado o caso de uma chave ausente do caso em que o mapa inteiro foi limpo.
+                    concepts: [map-delete-and-clear, map-comma-ok-lookup]
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: delete-and-clear-effects-are-distinguished
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que delete é adequado para retirar uma chave específica, enquanto clear expressa uma decisão diferente sobre o estado completo do mapa?
+                  - id: model.inspect-regexp-submatch-for-entry-lines
+                    kind: micro
+                    action: analyze
+                    target: parser
+                    title: Distinguir match completo de submatches
+                    instruction:
+                      objective: Distinguir o match completo, os grupos capturados e a ausência de match em uma linha estruturada.
+                      scope: Resultado de FindStringSubmatch antes de converter qualquer campo numérico.
+                      constraints:
+                        - Tratar um grupo opcional vazio como diferente de um resultado nil.
+                    concepts: [regexp-submatch-contract, strconv-error-handling]
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: regexp-match-and-submatches-are-distinguished
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que uma captura opcional vazia ainda indica que a expressão casou, enquanto nil indica que a linha inteira não casou?
           - id: model.build-score-index-from-text
             kind: macro
             title: Construir um índice de placares a partir de texto
@@ -3156,6 +3574,41 @@ challenges:
                     reflection:
                       optional:
                         - Por que citar antes de capitalizar produziria um resultado diferente de capitalizar antes de citar, mesmo levando ao mesmo campo final neste caso?
+                  - id: model.inspect-builder-for-text-output
+                    kind: micro
+                    action: analyze
+                    target: output
+                    title: Observar acumulação incremental de texto
+                    instruction:
+                      objective: Identificar como strings.Builder acumula fragmentos e separadores em uma saída textual.
+                      scope: Valor zero do builder, escritas sequenciais e conversão final para string.
+                      constraints:
+                        - Separar a acumulação dos fragmentos da decisão de citar um campo CSV.
+                    concepts: [strings-builder-output, csv-field-quoting]
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: builder-accumulation-is-distinguished-from-quoting
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que acumular fragmentos com um builder é uma decisão diferente de aplicar as regras de escape de um campo CSV?
     fixture:
       - path: go.mod
         content: |
@@ -3561,3 +4014,138 @@ relations:
   - from: rune-aware-whitespace-preservation
     to: utf8-rune-boundary
     kind: relates_to
+  - from: array-value-copy
+    to: slice-backing-array-aliasing
+    kind: contrasts_with
+  - from: slice-backing-array-aliasing
+    to: array-value-copy
+    kind: contrasts_with
+  - from: array-value-copy
+    to: slice-declaration
+    kind: relates_to
+  - from: slice-declaration
+    to: array-value-copy
+    kind: relates_to
+  - from: append-reallocation-boundary
+    to: slice-backing-array-aliasing
+    kind: deepens_into
+  - from: append-reallocation-boundary
+    to: slice-preallocation-length-vs-capacity
+    kind: relates_to
+  - from: slice-preallocation-length-vs-capacity
+    to: append-reallocation-boundary
+    kind: relates_to
+  - from: map-delete-and-clear
+    to: map-comma-ok-lookup
+    kind: deepens_into
+  - from: map-delete-and-clear
+    to: set-membership-with-empty-struct-map
+    kind: relates_to
+  - from: set-membership-with-empty-struct-map
+    to: map-delete-and-clear
+    kind: relates_to
+  - from: strings-builder-output
+    to: rune-aware-whitespace-preservation
+    kind: relates_to
+  - from: rune-aware-whitespace-preservation
+    to: strings-builder-output
+    kind: relates_to
+  - from: strings-builder-output
+    to: utf8-rune-boundary
+    kind: relates_to
+  - from: utf8-rune-boundary
+    to: strings-builder-output
+    kind: relates_to
+  - from: regexp-submatch-contract
+    to: strconv-error-handling
+    kind: relates_to
+  - from: strconv-error-handling
+    to: regexp-submatch-contract
+    kind: relates_to
+  - from: regexp-submatch-contract
+    to: rune-aware-whitespace-preservation
+    kind: relates_to
+  - from: rune-aware-whitespace-preservation
+    to: regexp-submatch-contract
+    kind: relates_to
+  - from: filter-without-mutating-input
+    to: array-value-copy
+    kind: relates_to
+  - from: preallocate-slice-with-zero-length
+    to: append-reallocation-boundary
+    kind: relates_to
+  - from: distinguish-zero-value-from-absence
+    to: map-delete-and-clear
+    kind: relates_to
+  - from: quote-csv-field-when-needed
+    to: strings-builder-output
+    kind: relates_to
+  - from: parse-integers-with-error-handling
+    to: regexp-submatch-contract
+    kind: relates_to
+  - from: array-value-copy
+    to: go-data-text.filter-without-mutating-input
+    kind: applies_in
+  - from: append-reallocation-boundary
+    to: go-data-text.filter-without-mutating-input
+    kind: applies_in
+  - from: append-reallocation-boundary
+    to: go-data-text.preallocate-slice-with-zero-length
+    kind: applies_in
+  - from: map-delete-and-clear
+    to: go-data-text.lookup-map-value-with-comma-ok
+    kind: applies_in
+  - from: map-delete-and-clear
+    to: go-data-text.build-scores-from-entries
+    kind: applies_in
+  - from: strings-builder-output
+    to: go-data-text.quote-csv-field-when-needed
+    kind: applies_in
+  - from: strings-builder-output
+    to: go-data-text.format-names-as-csv-fields
+    kind: applies_in
+  - from: regexp-submatch-contract
+    to: go-data-text.build-scores-from-entries
+    kind: applies_in
+  - from: filter-without-mutating-input
+    to: go-data-text.filter-without-mutating-input
+    kind: applies_in
+  - from: truncate-string-at-rune-boundary
+    to: go-data-text.truncate-bytes-at-rune-boundary
+    kind: applies_in
+  - from: distinguish-zero-value-from-absence
+    to: go-data-text.lookup-map-value-with-comma-ok
+    kind: applies_in
+  - from: distinguish-zero-value-from-absence
+    to: go-data-text.build-scores-from-entries
+    kind: applies_in
+  - from: quote-csv-field-when-needed
+    to: go-data-text.quote-csv-field-when-needed
+    kind: applies_in
+  - from: quote-csv-field-when-needed
+    to: go-data-text.format-names-as-csv-fields
+    kind: applies_in
+  - from: dedupe-preserving-first-occurrence
+    to: go-data-text.dedupe-preserving-first-occurrence
+    kind: applies_in
+  - from: dedupe-preserving-first-occurrence
+    to: go-data-text.build-scores-from-entries
+    kind: applies_in
+  - from: parse-integers-with-error-handling
+    to: go-data-text.sum-valid-integers-safely
+    kind: applies_in
+  - from: parse-integers-with-error-handling
+    to: go-data-text.build-scores-from-entries
+    kind: applies_in
+  - from: preallocate-slice-with-zero-length
+    to: go-data-text.preallocate-slice-with-zero-length
+    kind: applies_in
+  - from: preallocate-slice-with-zero-length
+    to: go-data-text.format-names-as-csv-fields
+    kind: applies_in
+  - from: title-first-letters-preserving-spacing
+    to: go-data-text.title-first-letters-preserving-spacing
+    kind: applies_in
+  - from: title-first-letters-preserving-spacing
+    to: go-data-text.format-names-as-csv-fields
+    kind: applies_in

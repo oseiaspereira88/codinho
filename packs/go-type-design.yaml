@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-type-design
-version: 1.1.0
+version: 1.2.0
 themes:
   - id: structs-and-pointers
     title: Structs e ponteiros
@@ -179,6 +179,362 @@ concepts:
       relation_refs:
         - kind: relates_to
           concept_id: generic-comparable-constraint
+  - id: struct-embedding-promotion
+    title: Promoção de membros por embedding
+    content:
+      version: 1
+      explanation: >
+        Quando uma struct embute outra, os campos e métodos do tipo embutido
+        podem ser usados por um selector da struct externa como membros
+        promovidos. A promoção é uma conveniência de seleção, não herança: o
+        tipo interno continua existindo e pode ser acessado explicitamente.
+        Se dois tipos embutidos promovem o mesmo nome no mesmo nível, o
+        selector direto fica ambíguo e o caminho explícito é necessário.
+      example:
+        context: ficha de manutenção de equipamento
+        code: |
+          package example
+
+          import "testing"
+
+          type Audit struct {
+              UpdatedBy string
+          }
+
+          func (a Audit) Stamp() string {
+              return "updated-by:" + a.UpdatedBy
+          }
+
+          type Equipment struct {
+              Audit
+              Serial string
+          }
+
+          type LocalName struct{ Name string }
+          type RemoteName struct{ Name string }
+          type Asset struct {
+              LocalName
+              RemoteName
+          }
+
+          func TestEmbeddingPromotion(t *testing.T) {
+              equipment := Equipment{
+                  Audit:  Audit{UpdatedBy: "ops"},
+                  Serial: "EQ-7",
+              }
+              if equipment.UpdatedBy != "ops" || equipment.Stamp() != "updated-by:ops" {
+                  t.Fatalf("promoted members = (%q, %q)", equipment.UpdatedBy, equipment.Stamp())
+              }
+
+              asset := Asset{
+                  LocalName:  LocalName{Name: "local"},
+                  RemoteName: RemoteName{Name: "remote"},
+              }
+              if asset.LocalName.Name == asset.RemoteName.Name {
+                  t.Fatal("explicit paths should preserve distinct names")
+              }
+          }
+        explanation: O campo UpdatedBy e o método Stamp podem ser selecionados diretamente em Equipment. Em Asset, os dois nomes Name entram em conflito no mesmo nível; os selectors explícitos deixam a intenção inequívoca.
+      relation_refs:
+        - kind: relates_to
+          concept_id: struct-shallow-copy-aliasing
+        - kind: deepens_into
+          concept_id: structs
+  - id: struct-tags-reflection
+    title: Metadados de struct observáveis por reflexão
+    content:
+      version: 1
+      explanation: >
+        Uma struct tag é uma string de metadados associada à declaração de um
+        campo. Pacotes como encoding/json e ferramentas de reflexão podem ler
+        essa informação, mas a tag não muda o tipo, o nome Go ou o zero value
+        do campo. Use Lookup quando a diferença entre uma tag ausente e uma
+        tag presente com valor vazio fizer parte do contrato.
+      example:
+        context: ficha de empréstimo de biblioteca
+        code: |
+          package example
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          type Loan struct {
+              Code   string `json:"code" catalog:"identifier"`
+              Closed bool   `json:"closed,omitempty"`
+          }
+
+          func TestStructTags(t *testing.T) {
+              field, ok := reflect.TypeOf(Loan{}).FieldByName("Code")
+              if !ok {
+                  t.Fatal("Code field missing")
+              }
+              if got := field.Tag.Get("json"); got != "code" {
+                  t.Fatalf("json tag = %q, want code", got)
+              }
+              if got := field.Tag.Get("catalog"); got != "identifier" {
+                  t.Fatalf("catalog tag = %q, want identifier", got)
+              }
+              if _, ok := reflect.TypeOf(Loan{}).FieldByName("Missing"); ok {
+                  t.Fatal("unexpected field found")
+              }
+          }
+        explanation: A reflexão encontra a declaração de Code e lê cada namespace de tag separadamente. Os metadados orientam consumidores, mas não criam um campo Go chamado code nem alteram o tipo string.
+      relation_refs:
+        - kind: relates_to
+          concept_id: structs
+        - kind: relates_to
+          concept_id: field-types
+  - id: method-set-addressability
+    title: Addressability e method sets
+    content:
+      version: 1
+      explanation: >
+        O compilador pode tomar o endereço implicitamente quando um método de
+        ponteiro é chamado em uma variável endereçável. Isso não muda o method
+        set do tipo de valor e não torna um elemento de map endereçável: uma
+        chamada de método de ponteiro nesse elemento é rejeitada. Separe a
+        conveniência sintática da chamada da satisfação de uma interface.
+      example:
+        context: calibração de medidores
+        code: |
+          package example
+
+          import (
+              "go/ast"
+              "go/parser"
+              "go/token"
+              "go/types"
+              "testing"
+          )
+
+          type Meter struct {
+              value int
+          }
+
+          func (m *Meter) Calibrate(delta int) {
+              m.value += delta
+          }
+
+          func TestAddressabilityAndMethodSet(t *testing.T) {
+              meter := Meter{}
+              meter.Calibrate(2)
+              if meter.value != 2 {
+                  t.Fatalf("addressable value = %d, want 2", meter.value)
+              }
+
+              source := `package sample
+
+          type Meter struct{}
+
+          func (*Meter) Calibrate() {}
+
+          func use() {
+              meters := map[string]Meter{"primary": {}}
+              meters["primary"].Calibrate()
+          }`
+              fileSet := token.NewFileSet()
+              file, err := parser.ParseFile(fileSet, "sample.go", source, 0)
+              if err != nil {
+                  t.Fatal(err)
+              }
+              _, checkErr := (&types.Config{}).Check("sample", fileSet, []*ast.File{file}, nil)
+              if checkErr == nil {
+                  t.Fatal("map element unexpectedly accepted a pointer method call")
+              }
+          }
+        explanation: A variável meter é endereçável, então a chamada de Calibrate pode obter seu endereço automaticamente. O trecho analisado por go/types usa um elemento de map, que não pode ser endereçado para formar a mesma chamada e por isso falha na compilação.
+      relation_refs:
+        - kind: deepens_into
+          concept_id: pointer-vs-value-receiver
+        - kind: relates_to
+          concept_id: nil-safe-pointer-receiver
+  - id: compile-time-interface-satisfaction
+    title: Satisfação de interface verificada em compilação
+    content:
+      version: 1
+      explanation: >
+        Uma atribuição ou declaração var _ Interface = Implementation{}
+        transforma a satisfação de uma interface em uma decisão verificada
+        pelo compilador. A falha aparece antes de qualquer type assertion ou
+        valor em runtime, o que torna mudanças no contrato detectáveis perto
+        da implementação. O valor concreto ainda pode ser usado por uma API
+        que recebe a interface depois da verificação.
+      example:
+        context: formato de recibos
+        code: |
+          package example
+
+          import (
+              "go/ast"
+              "go/parser"
+              "go/token"
+              "go/types"
+              "testing"
+          )
+
+          type Formatter interface {
+              Format() string
+          }
+
+          type Receipt struct {
+              Number string
+          }
+
+          func (r Receipt) Format() string {
+              return "receipt:" + r.Number
+          }
+
+          var _ Formatter = Receipt{}
+
+          func render(formatter Formatter) string {
+              return formatter.Format()
+          }
+
+          func TestCompileTimeSatisfaction(t *testing.T) {
+              if got := render(Receipt{Number: "42"}); got != "receipt:42" {
+                  t.Fatalf("rendered receipt = %q", got)
+              }
+
+              source := `package sample
+
+          type Formatter interface { Format() string }
+          type Broken struct{}
+          var _ Formatter = Broken{}
+          `
+              fileSet := token.NewFileSet()
+              file, err := parser.ParseFile(fileSet, "sample.go", source, 0)
+              if err != nil {
+                  t.Fatal(err)
+              }
+              _, checkErr := (&types.Config{}).Check("sample", fileSet, []*ast.File{file}, nil)
+              if checkErr == nil {
+                  t.Fatal("a type without Format unexpectedly satisfied Formatter")
+              }
+          }
+        explanation: Receipt satisfaz Formatter por sua declaração de Format e a linha var _ mantém essa garantia no código compilável. O segundo trecho é analisado separadamente por go/types; Broken não possui o método exigido e falha antes de qualquer execução.
+      relation_refs:
+        - kind: contrasts_with
+          concept_id: safe-type-assertion
+        - kind: relates_to
+          concept_id: typed-nil-interface-trap
+  - id: interface-composition-consumer
+    title: Composição de interface pelo consumidor
+    content:
+      version: 1
+      explanation: >
+        O consumidor deve declarar a menor interface que sua operação precisa,
+        mesmo quando o produtor oferece métodos adicionais. Interfaces também
+        podem ser compostas por embedding quando um contrato maior realmente
+        exige os contratos menores. Um fake que implementa só a interface do
+        consumidor torna esse limite explícito e mantém o teste independente
+        do tipo concreto do produtor.
+      example:
+        context: renderização de avisos de viagem
+        code: |
+          package example
+
+          import "testing"
+
+          type Labeler interface {
+              Label() string
+          }
+
+          type DetailedNotice struct {
+              text string
+              id   string
+          }
+
+          func (n DetailedNotice) Label() string { return n.text }
+          func (n DetailedNotice) ID() string    { return n.id }
+
+          type fakeLabeler struct{ text string }
+
+          func (f fakeLabeler) Label() string { return f.text }
+
+          func renderNotice(labeler Labeler) string {
+              return "notice:" + labeler.Label()
+          }
+
+          func TestConsumerInterface(t *testing.T) {
+              producer := DetailedNotice{text: "platform 2", id: "N-7"}
+              fake := fakeLabeler{text: "test notice"}
+              if got := renderNotice(producer); got != "notice:platform 2" {
+                  t.Fatalf("producer = %q", got)
+              }
+              if got := renderNotice(fake); got != "notice:test notice" {
+                  t.Fatalf("fake = %q", got)
+              }
+          }
+        explanation: renderNotice depende apenas de Labeler. O produtor tem também ID, mas o fake mínimo, com um único método, prova que o consumidor não exige o restante da API concreta.
+      relation_refs:
+        - kind: deepens_into
+          concept_id: constructor-returns-interface
+        - kind: relates_to
+          concept_id: safe-type-assertion
+  - id: generic-underlying-type-constraint
+    title: Constraint baseada no tipo subjacente
+    content:
+      version: 1
+      explanation: >
+        O til em uma constraint, como ~int, permite tipos definidos cujo tipo
+        subjacente é int, sem aceitar tipos arbitrários. A operação genérica
+        pode usar as operações válidas para o conjunto restrito, enquanto uma
+        instanciação com string deve ser rejeitada pelo compilador. ~ não torna
+        tipos nomeados idênticos: a identidade do tipo e suas conversões
+        continuam preservadas.
+      example:
+        context: pontuação de partidas
+        code: |
+          package example
+
+          import (
+              "go/ast"
+              "go/parser"
+              "go/token"
+              "go/types"
+              "testing"
+          )
+
+          type Score int
+
+          func next[T ~int](value T) T {
+              return value + 1
+          }
+
+          func TestUnderlyingTypeConstraint(t *testing.T) {
+              if got := next(Score(7)); got != Score(8) {
+                  t.Fatalf("next score = %v, want 8", got)
+              }
+              if got := next(3); got != 4 {
+                  t.Fatalf("next int = %v, want 4", got)
+              }
+
+              source := `package sample
+
+          type Label string
+
+          func next[T ~int](value T) T { return value }
+
+          var _ = next(Label("final"))
+          `
+              fileSet := token.NewFileSet()
+              file, err := parser.ParseFile(fileSet, "sample.go", source, 0)
+              if err != nil {
+                  t.Fatal(err)
+              }
+              _, checkErr := (&types.Config{}).Check("sample", fileSet, []*ast.File{file}, nil)
+              if checkErr == nil {
+                  t.Fatal("string-based type unexpectedly satisfied ~int")
+              }
+          }
+        explanation: Score é um tipo definido, mas seu tipo subjacente int permite a instanciação de next. Label tem subjacente string; a chamada inválida é verificada por go/types e não chega ao runtime.
+      relation_refs:
+        - kind: deepens_into
+          concept_id: generic-comparable-constraint
+        - kind: relates_to
+          concept_id: generic-two-type-parameters
 competencies:
   - id: clone-struct-with-independent-slice
     title: Clonar uma struct com slice de forma independente
@@ -217,11 +573,98 @@ challenges:
       - CloneInventory(inv) retorna uma Inventory com o mesmo Owner e os mesmos Items, na mesma ordem.
       - Mutar Items do clone nunca altera Items do original, mesmo quando o original tem capacidade excedente.
       - O isolamento vale mesmo quando Items do original está vazio mas tem capacidade excedente (make com comprimento 0 e capacidade maior que 0).
+      - CloneInventory preserva o Source promovido do metadado embutido de Inventory.
     publication:
       author: claude
     layers:
       - id: understanding
         macro_steps:
+          - id: model.inspect-embedded-inventory
+            kind: macro
+            title: Identificar composição e membros promovidos
+            instruction:
+              objective: Distinguir a cópia dos campos de Inventory da seleção de membros que poderiam ser promovidos por embedding.
+              scope: A declaração composta e a construção do valor retornado.
+            concepts: [struct-embedding-promotion, struct-shallow-copy-aliasing]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: composition-and-copy-are-separated
+                kind: qualitative
+            children:
+              - id: model.observe-embedded-inventory-members
+                kind: meso
+                title: Observar seleção de membros da struct
+                instruction:
+                  objective: Relacionar a forma da struct ao modo como seus campos são acessados durante a cópia.
+                  scope: Campos declarados, campos promovidos e armazenamento referenciado por Items.
+                concepts: [struct-embedding-promotion, struct-shallow-copy-aliasing]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: promoted-members-and-shared-storage-distinguished
+                    kind: qualitative
+                children:
+                  - id: model.verify-embedded-member-selection
+                    kind: micro
+                    action: analyze
+                    target: struct_layout
+                    title: Verificar a seleção de membros promovidos
+                    instruction:
+                      objective: Identifique quais selectors acessariam um membro promovido e quais campos de Items ainda exigem isolamento explícito.
+                      scope: A relação entre composição de structs e a slice Items, sem alterar CloneInventory.
+                      constraints:
+                        - Não tratar um membro promovido como herança nem concluir que a cópia de uma slice copia seus elementos.
+                    concepts: [struct-embedding-promotion]
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: promoted-member-selection-is-explained
+                        kind: qualitative
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que promover um campo muda a forma de selecioná-lo, mas não transforma o armazenamento de uma slice em uma cópia profunda?
+          - id: model.inspect-inventory-field-metadata
+            kind: macro
+            title: Inspecionar metadados dos campos do inventário
+            instruction:
+              objective: Separar a identidade dos campos de Inventory dos metadados que consumidores de reflexão podem ler.
+              scope: Declaração dos campos Owner e Items e o contrato de cópia.
+            concepts: [struct-tags-reflection, struct-shallow-copy-aliasing]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: field-metadata-is-separated-from-copy
+                kind: qualitative
+            children:
+              - id: model.observe-inventory-field-metadata
+                kind: meso
+                title: Relacionar campos e metadados
+                instruction:
+                  objective: Observar como tags de struct seriam lidas sem confundi-las com nomes ou tipos de campos.
+                  scope: Metadados associados à declaração de Inventory.
+                concepts: [struct-tags-reflection]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: field-tags-and-types-are-distinguished
+                    kind: qualitative
           - id: model.copy-items-into-independent-slice
             kind: micro
             action: implement
@@ -360,10 +803,16 @@ challenges:
         content: |
           package inventory
 
+          // InventoryMetadata is embedded so Source is promoted on Inventory.
+          type InventoryMetadata struct {
+              Source string
+          }
+
           // Inventory holds an owner and a list of item names.
           type Inventory struct {
-              Owner string
-              Items []string
+              InventoryMetadata
+              Owner string `json:"owner"`
+              Items []string `json:"items"`
           }
 
           // CloneInventory returns a copy of inv whose Items slice never shares
@@ -420,6 +869,27 @@ challenges:
                   }
               })
 
+              t.Run("promoted metadata and field tags remain observable", func(t *testing.T) {
+                  original := Inventory{
+                      InventoryMetadata: InventoryMetadata{Source: "warehouse"},
+                      Owner:             "bob",
+                      Items:             []string{"map"},
+                  }
+                  clone := CloneInventory(original)
+                  if clone.Source != "warehouse" {
+                      t.Errorf("clone.Source = %q, want warehouse", clone.Source)
+                  }
+                  typ := reflect.TypeOf(Inventory{})
+                  owner, ok := typ.FieldByName("Owner")
+                  if !ok || owner.Tag.Get("json") != "owner" {
+                      t.Errorf("Owner tag = %q, want owner", owner.Tag.Get("json"))
+                  }
+                  items, ok := typ.FieldByName("Items")
+                  if !ok || items.Tag.Get("json") != "items" {
+                      t.Errorf("Items tag = %q, want items", items.Tag.Get("json"))
+                  }
+              })
+
               t.Run("empty items with spare capacity are still independent", func(t *testing.T) {
                   emptyWithCap := Inventory{Owner: "carol", Items: make([]string, 0, 5)}
                   clone := CloneInventory(emptyWithCap)
@@ -457,10 +927,16 @@ challenges:
         content: |
           package inventory
 
+          // InventoryMetadata is embedded so Source is promoted on Inventory.
+          type InventoryMetadata struct {
+              Source string
+          }
+
           // Inventory holds an owner and a list of item names.
           type Inventory struct {
-              Owner string
-              Items []string
+              InventoryMetadata
+              Owner string `json:"owner"`
+              Items []string `json:"items"`
           }
 
           // CloneInventory returns a copy of inv whose Items slice never shares
@@ -520,6 +996,27 @@ challenges:
                   }
               })
 
+              t.Run("promoted metadata and field tags remain observable", func(t *testing.T) {
+                  original := Inventory{
+                      InventoryMetadata: InventoryMetadata{Source: "warehouse"},
+                      Owner:             "bob",
+                      Items:             []string{"map"},
+                  }
+                  clone := CloneInventory(original)
+                  if clone.Source != "warehouse" {
+                      t.Errorf("clone.Source = %q, want warehouse", clone.Source)
+                  }
+                  typ := reflect.TypeOf(Inventory{})
+                  owner, ok := typ.FieldByName("Owner")
+                  if !ok || owner.Tag.Get("json") != "owner" {
+                      t.Errorf("Owner tag = %q, want owner", owner.Tag.Get("json"))
+                  }
+                  items, ok := typ.FieldByName("Items")
+                  if !ok || items.Tag.Get("json") != "items" {
+                      t.Errorf("Items tag = %q, want items", items.Tag.Get("json"))
+                  }
+              })
+
               t.Run("empty items with spare capacity are still independent", func(t *testing.T) {
                   emptyWithCap := Inventory{Owner: "carol", Items: make([]string, 0, 5)}
                   clone := CloneInventory(emptyWithCap)
@@ -570,6 +1067,31 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
+          - id: model.define-minimal-validator-consumer
+            kind: macro
+            title: Definir o contrato mínimo do consumidor
+            instruction:
+              objective: Relacionar o retorno de Validator à menor interface que o consumidor precisa para validar um valor.
+              scope: Interface Validator, implementação strictValidator e SelectValidator.
+            concepts: [interface-composition-consumer, constructor-returns-interface]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: consumer-contract-is-minimal
+                kind: qualitative
+            children:
+              - id: model.observe-validator-interface-boundary
+                kind: meso
+                title: Observar a fronteira entre produtor e consumidor
+                instruction:
+                  objective: Explique por que SelectValidator pode esconder strictValidator e ainda entregar o método que o consumidor usa.
+                  scope: Contrato estático de Validator, sem inspecionar detalhes além de Validate.
+                concepts: [interface-composition-consumer, constructor-returns-interface]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: concrete-type-is-hidden-by-minimal-interface
+                    kind: qualitative
           - id: model.return-configured-validator-for-known-mode
             kind: micro
             action: implement
@@ -882,6 +1404,67 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
+          - id: model.inspect-receiver-addressability
+            kind: macro
+            title: Separar chamada conveniente e method set
+            instruction:
+              objective: Delimitar quando uma chamada de método de ponteiro depende de um valor endereçável e quando o method set permanece diferente.
+              scope: O receptor de Node e a chamada de Sum nos casos da fixture.
+            concepts: [method-set-addressability, nil-safe-pointer-receiver]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: addressability-and-method-set-are-separated
+                kind: qualitative
+            children:
+              - id: model.observe-addressable-receiver-call
+                kind: meso
+                title: Observar a addressability do receiver
+                instruction:
+                  objective: Relacionar a forma da chamada de Sum ao método declarado com receptor de ponteiro.
+                  scope: Chamada do método, tipo do receiver e limite da conversão implícita de endereço.
+                concepts: [method-set-addressability, pointer-vs-value-receiver]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: receiver-call-boundary-is-explained
+                    kind: qualitative
+                children:
+                  - id: model.verify-addressable-receiver-call
+                    kind: micro
+                    action: analyze
+                    target: method_set
+                    title: Verificar chamada em receiver endereçável
+                    instruction:
+                      objective: Explique por que a chamada de Sum é válida para o valor de receiver usado pela fixture e qual limite existiria para um elemento não endereçável.
+                      scope: A chamada do método e o method set, sem alterar a implementação de Sum.
+                      constraints:
+                        - Não confundir uma chamada automática por endereço com uma mudança no method set de Node.
+                    concepts: [method-set-addressability]
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: addressable-call-and-method-set-distinguished
+                        kind: qualitative
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que o compilador pode ajustar uma chamada em uma variável endereçável, mas não pode usar essa mesma conveniência para um elemento de map?
           - id: model.handle-nil-receiver-first
             kind: micro
             action: implement
@@ -1232,6 +1815,67 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
+          - id: model.inspect-defined-types-in-constraints
+            kind: macro
+            title: Inspecionar tipos definidos em constraints
+            instruction:
+              objective: Distinguir a constraint comparable usada pela busca da forma de aceitar tipos definidos pelo tipo subjacente.
+              scope: Declaração genérica de Contains e suas instanciações.
+            concepts: [generic-underlying-type-constraint, generic-comparable-constraint]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: underlying-type-boundary-is-understood
+                kind: qualitative
+            children:
+              - id: model.compare-comparable-and-underlying-constraints
+                kind: meso
+                title: Comparar constraints de operação e de representação
+                instruction:
+                  objective: Relacionar a operação de igualdade da busca ao conjunto de tipos aceitos pela constraint.
+                  scope: Tipos comparáveis, tipos definidos e o uso de ~ quando a API precisa do tipo subjacente.
+                concepts: [generic-underlying-type-constraint, generic-comparable-constraint]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: comparable-and-underlying-contracts-are-distinguished
+                    kind: qualitative
+                children:
+                  - id: model.verify-defined-type-constraint
+                    kind: micro
+                    action: analyze
+                    target: generic_constraint
+                    title: Verificar o limite da constraint para tipos definidos
+                    instruction:
+                      objective: Determine se a operação de Contains exige apenas comparabilidade ou também deve declarar uma constraint baseada no tipo subjacente.
+                      scope: A assinatura genérica e o comportamento que ela promete, sem trocar a operação de busca.
+                      constraints:
+                        - Não criar uma segunda noção de comparable nem aceitar tipos não comparáveis só por serem definidos.
+                    concepts: [generic-underlying-type-constraint]
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: defined-type-constraint-boundary-is-explained
+                        kind: qualitative
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que ~int amplia uma constraint para tipos definidos com subjacente int, mas não substitui a exigência de que a operação seja válida para todos os tipos aceitos?
           - id: model.search-for-target-value
             kind: micro
             action: implement
@@ -1555,6 +2199,67 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
+          - id: model.verify-interface-contract-before-assertion
+            kind: macro
+            title: Verificar contrato de interface antes da assertion
+            instruction:
+              objective: Separar a garantia estática de que Circle satisfaz Shape da decisão dinâmica de qual tipo um Shape contém.
+              scope: Declarações de Shape e Circle e a função DescribeIfCircle.
+            concepts: [compile-time-interface-satisfaction, safe-type-assertion]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: static-and-dynamic-interface-decisions-are-separated
+                kind: qualitative
+            children:
+              - id: model.observe-interface-satisfaction-boundary
+                kind: meso
+                title: Relacionar implementação e valor dinâmico
+                instruction:
+                  objective: Observar como uma implementação pode satisfazer Shape em compilação enquanto a assertion ainda precisa tratar outros valores.
+                  scope: Contrato de Shape, implementação de Circle e caminho de Square.
+                concepts: [compile-time-interface-satisfaction, safe-type-assertion]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: implementation-and-assertion-boundaries-are-distinguished
+                    kind: qualitative
+                children:
+                  - id: model.verify-compile-time-interface-satisfaction
+                    kind: micro
+                    action: analyze
+                    target: interface_contract
+                    title: Verificar satisfação de Shape em compilação
+                    instruction:
+                      objective: Confirme quais métodos fazem Circle satisfazer Shape e explique por que essa garantia não identifica o valor dinâmico recebido por DescribeIfCircle.
+                      scope: A implementação de Circle e o contrato de Shape, sem substituir o comma-ok.
+                      constraints:
+                        - Não tratar a satisfação de uma interface como uma assertion de tipo concreto em runtime.
+                    concepts: [compile-time-interface-satisfaction]
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: compile-time-interface-contract-is-explained
+                        kind: qualitative
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que uma linha de satisfação verificada em compilação não elimina a necessidade de tratar um Square no valor recebido pela função?
           - id: model.check-concrete-type-without-panicking
             kind: micro
             action: implement
@@ -1717,6 +2422,11 @@ challenges:
 
           func (s Square) Area() float64 { return s.Side * s.Side }
 
+          var (
+              _ Shape = Circle{}
+              _ Shape = Square{}
+          )
+
           // DescribeIfCircle returns a description of shape and true if shape is a
           // Circle, or "" and false for any other Shape -- without panicking.
           func DescribeIfCircle(shape Shape) (description string, ok bool) {
@@ -1803,6 +2513,11 @@ challenges:
           }
 
           func (s Square) Area() float64 { return s.Side * s.Side }
+
+          var (
+              _ Shape = Circle{}
+              _ Shape = Square{}
+          )
 
           // DescribeIfCircle returns a description of shape and true if shape is a
           // Circle, or "" and false for any other Shape -- without panicking.
@@ -2200,6 +2915,31 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
+          - id: model.compare-consumer-interface-contexts
+            kind: macro
+            title: Comparar consumidores de interfaces pequenas
+            instruction:
+              objective: Comparar o contrato mínimo devolvido por uma função de seleção com o contrato Shape consumido pelo registro de formas.
+              scope: Interfaces Validator e Shape e seus tipos concretos.
+            concepts: [interface-composition-consumer, compile-time-interface-satisfaction]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: interface-consumer-contexts-are-compared
+                kind: qualitative
+            children:
+              - id: model.relate-interface-contract-to-registry
+                kind: meso
+                title: Relacionar contrato pequeno e composição de tipos
+                instruction:
+                  objective: Identifique o método mínimo usado por cada consumidor e separe essa escolha da assertion do tipo concreto.
+                  scope: Contratos de Shape e os desafios que os consomem.
+                concepts: [interface-composition-consumer, compile-time-interface-satisfaction]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: minimal-interface-and-concrete-type-are-distinguished
+                    kind: qualitative
           - id: model.clone-shapes-independently
             kind: micro
             action: implement
@@ -2353,6 +3093,11 @@ challenges:
 
           func (s Square) Area() float64 { return s.Side * s.Side }
 
+          var (
+              _ Shape = Circle{}
+              _ Shape = Square{}
+          )
+
           // Registry holds a named collection of shapes.
           type Registry struct {
               Name   string
@@ -2490,6 +3235,11 @@ challenges:
           }
 
           func (s Square) Area() float64 { return s.Side * s.Side }
+
+          var (
+              _ Shape = Circle{}
+              _ Shape = Square{}
+          )
 
           // Registry holds a named collection of shapes.
           type Registry struct {
@@ -2643,7 +3393,7 @@ challenges:
               scope: Somente o tratamento do receptor nil.
               constraints:
                 - Chamar Values em um *Node[T] nil não pode panicar.
-            concepts: [nil-safe-pointer-receiver]
+            concepts: [nil-safe-pointer-receiver, method-set-addressability]
             evidence:
               strategies: [source_inspection, compile]
             criteria:
@@ -3004,3 +3754,141 @@ relations:
   - from: generic-two-type-parameters
     to: generic-comparable-constraint
     kind: relates_to
+  - from: struct-embedding-promotion
+    to: struct-shallow-copy-aliasing
+    kind: relates_to
+  - from: struct-shallow-copy-aliasing
+    to: struct-embedding-promotion
+    kind: relates_to
+  - from: struct-embedding-promotion
+    to: structs
+    kind: deepens_into
+  - from: struct-tags-reflection
+    to: structs
+    kind: relates_to
+  - from: structs
+    to: struct-tags-reflection
+    kind: relates_to
+  - from: struct-tags-reflection
+    to: field-types
+    kind: relates_to
+  - from: field-types
+    to: struct-tags-reflection
+    kind: relates_to
+  - from: method-set-addressability
+    to: pointer-vs-value-receiver
+    kind: deepens_into
+  - from: method-set-addressability
+    to: nil-safe-pointer-receiver
+    kind: relates_to
+  - from: nil-safe-pointer-receiver
+    to: method-set-addressability
+    kind: relates_to
+  - from: compile-time-interface-satisfaction
+    to: safe-type-assertion
+    kind: contrasts_with
+  - from: safe-type-assertion
+    to: compile-time-interface-satisfaction
+    kind: contrasts_with
+  - from: compile-time-interface-satisfaction
+    to: typed-nil-interface-trap
+    kind: relates_to
+  - from: typed-nil-interface-trap
+    to: compile-time-interface-satisfaction
+    kind: relates_to
+  - from: interface-composition-consumer
+    to: constructor-returns-interface
+    kind: deepens_into
+  - from: interface-composition-consumer
+    to: safe-type-assertion
+    kind: relates_to
+  - from: safe-type-assertion
+    to: interface-composition-consumer
+    kind: relates_to
+  - from: generic-underlying-type-constraint
+    to: generic-comparable-constraint
+    kind: deepens_into
+  - from: generic-underlying-type-constraint
+    to: generic-two-type-parameters
+    kind: relates_to
+  - from: generic-two-type-parameters
+    to: generic-underlying-type-constraint
+    kind: relates_to
+  - from: clone-struct-with-independent-slice
+    to: struct-embedding-promotion
+    kind: relates_to
+  - from: struct-embedding-promotion
+    to: clone-struct-with-independent-slice
+    kind: relates_to
+  - from: handle-nil-receiver-safely
+    to: method-set-addressability
+    kind: relates_to
+  - from: method-set-addressability
+    to: handle-nil-receiver-safely
+    kind: relates_to
+  - from: assert-type-without-panicking
+    to: compile-time-interface-satisfaction
+    kind: relates_to
+  - from: compile-time-interface-satisfaction
+    to: assert-type-without-panicking
+    kind: relates_to
+  - from: return-true-nil-interface
+    to: interface-composition-consumer
+    kind: relates_to
+  - from: interface-composition-consumer
+    to: return-true-nil-interface
+    kind: relates_to
+  - from: implement-generic-membership-check
+    to: generic-underlying-type-constraint
+    kind: relates_to
+  - from: generic-underlying-type-constraint
+    to: implement-generic-membership-check
+    kind: relates_to
+  - from: implement-generic-transform
+    to: generic-underlying-type-constraint
+    kind: relates_to
+  - from: generic-underlying-type-constraint
+    to: implement-generic-transform
+    kind: relates_to
+  - from: struct-embedding-promotion
+    to: go-type-design.clone-inventory-independently
+    kind: applies_in
+  - from: struct-tags-reflection
+    to: go-type-design.clone-inventory-independently
+    kind: applies_in
+  - from: method-set-addressability
+    to: go-type-design.sum-list-with-nil-safe-receiver
+    kind: applies_in
+  - from: method-set-addressability
+    to: go-type-design.generic-node-values-nil-safe
+    kind: applies_in
+  - from: compile-time-interface-satisfaction
+    to: go-type-design.describe-if-circle-safely
+    kind: applies_in
+  - from: compile-time-interface-satisfaction
+    to: go-type-design.first-circle-clone
+    kind: applies_in
+  - from: interface-composition-consumer
+    to: go-type-design.select-validator-true-nil
+    kind: applies_in
+  - from: interface-composition-consumer
+    to: go-type-design.first-circle-clone
+    kind: applies_in
+  - from: generic-underlying-type-constraint
+    to: go-type-design.contains-generic-comparable
+    kind: applies_in
+  - from: clone-struct-with-independent-slice
+    to: go-type-design.first-circle-clone
+    kind: applies_in
+  - from: return-true-nil-interface
+    to: go-type-design.first-circle-clone
+    kind: applies_in
+  - from: handle-nil-receiver-safely
+    to: go-type-design.generic-node-values-nil-safe
+    kind: applies_in
+  - from: assert-type-without-panicking
+    to: go-type-design.first-circle-clone
+    kind: applies_in
+  - from: implement-generic-transform
+    to: go-type-design.generic-node-values-nil-safe
+    kind: applies_in

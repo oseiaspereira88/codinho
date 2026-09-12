@@ -427,49 +427,247 @@ playtest ponta a ponta continuam pendentes pelo checklist.
   O `--v1-gate` global é uma etapa posterior e seus limiares maiores não devem
   ser alegados como satisfeitos por este plano.
 
-## 9. Evidência desta tarefa
+## 9. Auditoria global da execução editorial (`audit-global-gates`)
 
-Nesta tarefa foram editados somente os três paths autorizados: a membership da
-trilha em `packs/go-first-steps.yaml`, a prova MCP em
-`cmd/codinho/foundation_tracks_integration_test.go` e este documento. A medição
-que sustenta a reconciliação foi:
+Esta seção registra a evidência desta tarefa no estado medido em 2026-09-12
+UTC. Os únicos paths autorizados e editados neste lote foram este documento e
+`internal/curriculum/foundation_variants_test.go`; não houve commit, integração,
+alteração de estado do coordenador ou promoção editorial. A referência de
+conteúdo é `HEAD d345aabe7e4a384ce8b27b4b76d28865124462d8`, com o lote-piloto
+herdado em `eeb5aace249d03f8d44ca61692368652ea4fa347`.
 
-- `go run ./cmd/codinho catalog validate --json`: catálogo estruturalmente
-  carregável; 14 temas, 105 conceitos, 64 competências, 5 trilhas, 54
-  entradas de desafio e 343 step nodes no manifest.
-- Contagem reconciliada: sete packs com 104 conceitos, 60 competências, 45
-  bases e 8 variantes; 281 nodes de bases, 280 creditáveis sem o micro-node
-  histórico, e 56 nodes de variantes. O protótipo `go-debugging` permanece
-  separado do escopo fundamental.
-- As cinco trilhas somam 47 posições e 37 IDs distintos; o percurso `go-from-zero`
-  está em `go-first-steps` 1.8.0 e usa o desafio canônico de filtro.
+### 9.1 Lotes aprovados, versões e escopo
 
-Checks executados neste lote:
+A fila de `audit-global-gates` declara 61 dependências. A auditoria consumiu o
+conteúdo presente para todos os 61 IDs: 52 auditorias de desafios, 7 lotes de
+conceitos e 2 reconciliações. Os IDs ficam registrados abaixo para que a
+cobertura não dependa apenas de contagens agregadas:
 
-- `go run ./cmd/codinho catalog validate --json`: passou, sem diagnósticos ou
-  findings editoriais; o catálogo atual permanece em draft.
-- `go run ./cmd/codinho catalog validate --checks --json`: passou com 54 checks
-  declarados e 54 verificados; cada baseline e referência teve o resultado
-  esperado.
-- `env GOFLAGS=-buildvcs=false go test ./cmd/codinho -run
-  '^TestFoundationTracksOverRealStdio$' -count=1 -v`: passou; cada uma das
-  cinco trilhas iniciou e alcançou todos os seus IDs esperados via MCP stdio.
-- `pose docs-check`: passou (`declared=16`, `undeclared=0`, `stale=0`,
-  `errors=0`, `warnings=0`). O comando ainda reporta dois avisos
-  `REVIEW_PENDING` históricos em `docs/compatibility.md`, fora deste path.
-- `env GOFLAGS=-buildvcs=false go test ./...` e
-  `env GOFLAGS=-buildvcs=false go test -race -count=1 ./...`: passaram; também
-  passaram `env GOFLAGS=-buildvcs=false go vet ./...` e
-  `bash scripts/ci/check-format.sh`.
-- `env GOFLAGS=-buildvcs=false pose validate --strict --stack go`: a matriz
-  executou os checks de Go, docs, catálogo, integrações e Python, mas terminou
-  com falha requerida porque `govulncheck ./...` não está instalado no ambiente
-  (`command not found`).
-- `git diff --check`: passou.
+- Core (10): `audit-go-core.close-resources-in-defer-order`,
+  `audit-go-core.sum-variadic-numbers`,
+  `audit-go-core.stop-processing-commands-with-labeled-break`,
+  `audit-go-core.increment-counter-with-pointer-receiver`,
+  `audit-go-core.recover-from-panic-in-safe-call`,
+  `audit-go-core.guard-invariant-with-unexported-field`,
+  `audit-go-core.find-first-value-at-least`,
+  `audit-go-core.hide-counter-type-behind-interface`,
+  `audit-go-core.run-commands-with-cleanup-and-recovery` e
+  `audit-go-core.configure-server-with-functional-options`.
+- Dados/texto (10): `audit-go-data-text.filter-without-mutating-input`,
+  `audit-go-data-text.truncate-bytes-at-rune-boundary`,
+  `audit-go-data-text.lookup-map-value-with-comma-ok`,
+  `audit-go-data-text.quote-csv-field-when-needed`,
+  `audit-go-data-text.dedupe-preserving-first-occurrence`,
+  `audit-go-data-text.sum-valid-integers-safely`,
+  `audit-go-data-text.preallocate-slice-with-zero-length`,
+  `audit-go-data-text.title-first-letters-preserving-spacing`,
+  `audit-go-data-text.build-scores-from-entries` e
+  `audit-go-data-text.format-names-as-csv-fields`.
+- Erros (7): `audit-go-errors.wrap-sentinel-error-with-context`,
+  `audit-go-errors.extract-field-with-errors-as`,
+  `audit-go-errors.validate-user-joining-all-errors`,
+  `audit-go-errors.translate-error-at-boundary`,
+  `audit-go-errors.load-and-validate-required-keys`,
+  `audit-go-errors.classify-wrapped-errors` e
+  `audit-go-errors.maintain-memory-catalog`.
+- Primeiros passos (6): `audit-go-first-steps.enumerate-weekdays-with-iota`,
+  `audit-go-first-steps.convert-celsius-to-fahrenheit`,
+  `audit-go-first-steps.declare-a-minimal-module`,
+  `audit-go-first-steps.clamp-int-to-byte`,
+  `audit-go-first-steps.format-rate-limit-message` e
+  `audit-go-first-steps.avoid-shadowing-named-returns`.
+- I/O (6): `audit-go-io.decode-strict-config`,
+  `audit-go-io.import-csv-inventory`, `audit-go-io.read-fragmented-note`,
+  `audit-go-io.decode-weather-fields`, `audit-go-io.read-quoted-attendees` e
+  `audit-go-io.write-result-report`.
+- Testes (5): `audit-go-testing.select-active-tokens-with-injected-clock`,
+  `audit-go-testing.measure-reservation-remaining`,
+  `audit-go-testing.check-ticket-boundary`,
+  `audit-go-testing.snapshot-readings` e
+  `audit-go-testing.count-deadline-clock-calls`.
+- Design de tipos (8): `audit-go-type-design.clone-inventory-independently`,
+  `audit-go-type-design.select-validator-true-nil`,
+  `audit-go-type-design.sum-list-with-nil-safe-receiver`,
+  `audit-go-type-design.contains-generic-comparable`,
+  `audit-go-type-design.describe-if-circle-safely`,
+  `audit-go-type-design.map-generic-transform`,
+  `audit-go-type-design.first-circle-clone` e
+  `audit-go-type-design.generic-node-values-nil-safe`.
+- Conceitos (7): `concepts-go-core`, `concepts-go-data-text`,
+  `concepts-go-errors`, `concepts-go-first-steps`, `concepts-go-io`,
+  `concepts-go-testing` e `concepts-go-type-design`.
+- Reconciliações (2): `audit-tracks` e `disposition-count-prototypes`.
 
-Uma execução sem `GOFLAGS=-buildvcs=false` falhou somente nos testes de
-integração que fazem build do binário: o checkout local devolveu exit 128 ao
-obter o status VCS. A flag desabilita apenas o stamping VCS do build e deixou a
-mesma suíte passar; essa limitação ambiental permanece registrada para o
-revisor. A aprovação mecânica não completa os 24 nodes restantes nem comprova
-revisão humana/playtest.
+As versões carregadas no manifest são:
+
+| Pack | Versão | Escopo nesta auditoria |
+|---|---:|---|
+| `go-first-steps` | 1.8.0 | fundamental; também hospeda as cinco trilhas |
+| `go-core` | 1.4.0 | fundamental |
+| `go-data-text` | 1.3.0 | fundamental |
+| `go-errors` | 1.5.0 | fundamental |
+| `go-io` | 1.3.0 | fundamental; quatro variantes |
+| `go-testing` | 1.3.0 | fundamental; quatro variantes |
+| `go-type-design` | 1.2.0 | fundamental |
+| `go-debugging` | 1.2.0 | fora do escopo; um protótipo preservado |
+
+O schema do manifest é 1.0.0. As versões dos packs e os IDs dos protótipos
+foram apenas auditados; nenhum registro foi renomeado, removido ou promovido.
+
+### 9.2 Ledger global, fundamental, variantes e publicação
+
+`catalog validate --json` reporta a projeção completa abaixo. A segunda linha
+separa os sete packs fundamentais; a terceira mantém o pack de debugging fora
+do cálculo de profundidade fundamental.
+
+| Projeção | Conceitos | Competências | Trilhas | Desafios | Nodes |
+|---|---:|---:|---:|---:|---:|
+| Manifest completo | 105 | 64 | 5 | 54 | 343 |
+| Sete packs fundamentais | 104 | 60 | 5 reutilizadas | 45 bases + 8 variantes | 281 bases brutos; 280 creditáveis |
+| `go-debugging` fora do escopo | 1 | 4 | — | 1 protótipo | 6 |
+| Variantes fundamentais | — | — | — | 8 (`canonical: false`) | 56 (`9/9/38`) |
+| Publicados | 0 | 0 | 0 | 0 | 0 |
+| Elegíveis para publicação | 0 | 0 | 0 | 0 | 0 |
+
+O inventário global por tipo é 41 atômicos, 10 combinados, 1 debug e 2
+`functional_slice`. Nos sete packs, as 45 bases incluem 33 atômicos, 10
+combinados e 2 fatias funcionais; removendo conceitualmente o protótipo
+histórico `go-data.slice-filter-preserve-input`, o plano fundamental fica em
+44 entradas: 32 atômicos, 10 combinados e 2 fatias funcionais. As oito
+variantes continuam fora da contagem de desafios novos e de profundidade.
+
+Os protótipos estão nos escopos corretos e permanecem distintos:
+
+- `go-data.slice-filter-preserve-input` está em `go-first-steps`, é a entrada
+  histórica com um micro-node não creditado e não participa de `go-from-zero`;
+- `go-debug.slice-off-by-one` está em `go-debugging`, tem 6 nodes e não é
+  contado na cobertura fundamental;
+- nenhuma das duas entradas é variante, e a disposição/publicação de ambas
+  continua pendente de decisão humana.
+
+### 9.3 Gates quantitativos
+
+| Gate da spec `go-foundations-packs` | Resultado | Evidência |
+|---|---|---|
+| Pelo menos 100 conceitos fundamentais | PASS — 104 | `TestFoundationCatalogAudit` |
+| Pelo menos 60 competências fundamentais | PASS — 60 | `TestFoundationCatalogAudit` |
+| Pelo menos 300 nodes contextualizados creditáveis | PENDÊNCIA — 280; déficit explícito de 20 | bases `39/39/202`, sem variantes e sem o micro histórico |
+
+O ledger de planejamento da seção 5 ainda aponta o alvo mais estrito de 304
+nodes de bases creditáveis; contra esse alvo, o déficit é 24. Assim, o limiar
+de 300 da spec não foi alegado como satisfeito, e o alvo operacional de 304
+também permanece aberto. O teste registra esse déficit como log de auditoria,
+sem transformar uma pendência conhecida em falha estrutural do catálogo.
+
+### 9.4 Auditoria de cobertura técnica e contextos essenciais
+
+Os seguintes contextos foram auditados nos briefs, critérios, fixtures,
+referências privadas e conteúdo conceitual. O validador de checks executou os
+checks declarados; o teste novo também impede que variantes ou o protótipo
+histórico paguem a meta de bases.
+
+| Tema auditado | Contextos representativos |
+|---|---|
+| `nil` e zero values | `go-core.find-first-value-at-least`, `go-type-design.sum-list-with-nil-safe-receiver`, `go-type-design.generic-node-values-nil-safe`, `go-data-text.lookup-map-value-with-comma-ok` |
+| Aliasing e isolamento | `go-data-text.filter-without-mutating-input`, `go-type-design.clone-inventory-independently`, `go-type-design.first-circle-clone`, `go-testing.snapshot-readings` |
+| UTF-8 e fronteiras de rune | `go-data-text.truncate-bytes-at-rune-boundary`, `go-data-text.title-first-letters-preserving-spacing`, `go-io.read-fragmented-note`, `go-io.read-quoted-attendees` |
+| Method sets e addressability | `go-core.increment-counter-with-pointer-receiver`, `go-core.hide-counter-type-behind-interface`, conceito `method-set-addressability` |
+| Interface nil/typed nil | `go-type-design.select-validator-true-nil`, `go-type-design.first-circle-clone`, `go-type-design.describe-if-circle-safely` |
+| Wrapping e identidade de erro | `go-errors.wrap-sentinel-error-with-context`, `go-errors.extract-field-with-errors-as`, `go-errors.classify-wrapped-errors`, `go-errors.translate-error-at-boundary` |
+| Testabilidade e controle do tempo/lifecycle | `go-testing.select-active-tokens-with-injected-clock`, `go-testing.measure-reservation-remaining`, `go-testing.count-deadline-clock-calls`, `go-testing.check-ticket-boundary` |
+
+As dez competências essenciais com profundidade contextual mínima têm pelo
+menos dois desafios distintos cada. O conjunto abaixo é a saída registrada por
+`TestFoundationCatalogAudit`; variantes podem aparecer como um contexto
+pedagógico, mas não entram no crédito de profundidade das bases.
+
+| Competência essencial | Dois ou mais contextos verificados |
+|---|---|
+| `clone-struct-with-independent-slice` | `go-type-design.clone-inventory-independently`; `go-type-design.first-circle-clone` |
+| `control-closure-capture` | `go-core.configure-server-with-functional-options`; `go-core.run-commands-with-cleanup-and-recovery` |
+| `control-test-cleanup-lifecycle` | `go-testing.measure-reservation-remaining`; `go-testing.select-active-tokens-with-injected-clock` |
+| `define-package-api-boundary` | `go-core.configure-server-with-functional-options`; `go-core.hide-counter-type-behind-interface` |
+| `distinguish-zero-value-from-absence` | `go-data-text.build-scores-from-entries`; `go-data-text.lookup-map-value-with-comma-ok` |
+| `inspect-go-toolchain-context` | `go-first-steps.declare-a-minimal-module`; `go-first-steps.format-rate-limit-message` |
+| `return-true-nil-interface` | `go-type-design.first-circle-clone`; `go-type-design.select-validator-true-nil` |
+| `testing-design-deterministic-time` | `go-testing.measure-reservation-remaining`; `go-testing.select-active-tokens-with-injected-clock` |
+| `testing-detect-aliasing` | `go-testing.select-active-tokens-with-injected-clock`; `go-testing.snapshot-readings` |
+| `wrap-sentinel-with-context` | `go-errors.load-and-validate-required-keys`; `go-errors.wrap-sentinel-error-with-context` |
+
+### 9.5 Comandos, gates técnicos e interpretação
+
+O help atual do CLI mostra `catalog validate` como subcomando. Portanto, a
+forma válida de exercer o flag pedido é `catalog validate --v1-gate`; não há
+um flag equivalente em `catalog` sem o subcomando `validate`.
+
+| Comando | Resultado | Interpretação |
+|---|---|---|
+| `go run ./cmd/codinho help` | PASS | help raiz disponível |
+| `go run ./cmd/codinho catalog` | Uso exibido, exit 2 | confirma que o próximo comando válido é `validate` |
+| `go run ./cmd/codinho catalog validate --json` | PASS, exit 0; `diagnostics: null`, `editorial: null` | catálogo estrutural e editorialmente carregável; tudo ainda draft |
+| `go run ./cmd/codinho catalog validate --checks --json` | PASS, exit 0; 54 declarados/54 verificados | baselines produziram os resultados esperados e referências passaram |
+| `go run ./cmd/codinho catalog validate --v1-gate --json` | FAIL, exit 1 | gate global de publicação, detalhado abaixo |
+| `pose validate --strict` | FAIL | falha ambiental no build sem `-buildvcs=false`; `govulncheck` também não está disponível |
+
+O `--v1-gate` usa a projeção elegível publicada, não o inventário draft. Como
+há zero desafios publicados, ele reporta 5 `v1_gate_below_threshold` (0 contra
+160/100/84/12/500), 36 `type_distribution_mismatch` (a política global inclui
+packs futuros e seus tipos) e 1 `v1_check_proof_incomplete` (zero checks
+publicados). Esses findings são gates de publicação/draft e decisão humana,
+não defeitos de conteúdo nos sete packs; já o déficit de 20 nodes acima é uma
+pendência editorial real do escopo fundamental.
+
+### 9.6 Fixtures, compatibilidade, duplicação e vazamento de solução
+
+- Compatibilidade: o `go.mod` raiz e as fixtures positivas/de referência
+  declaram Go 1.25.0. Há uma única fixture de baseline deliberadamente
+  inválida em `go-first-steps.declare-a-minimal-module`, com `go 1.24.0`; a
+  própria aceitação do exercício exige corrigir esse valor para 1.25.0, então
+  ela é um caso negativo pedagógico e não uma dependência publicada. O runner
+  observado foi `go1.26.5-X:nodwarf5 linux/amd64`.
+- Rede, segredos e paths: a varredura das fixtures YAML em `packs/` não
+  encontrou URL, `network: true`, chave privada, token ou segredo material,
+  nem path absoluto, traversal ou path externo. O único match lexical de
+  `secret` foi o campo sintético `secret-label` em
+  `go-errors.yaml`, sem credencial. Os checks usam fixtures locais e biblioteca
+  padrão.
+- Duplicação: `LoadPacks`/`catalog validate` carregou IDs e relações sem
+  diagnóstico; `TestFoundationVariantOrigins` confirma origem, classificação e
+  competência das quatro variantes de cada pack autorizado. Repetições nas
+  cinco trilhas são posições pedagógicas intencionais, não desafios duplicados.
+  A revisão semântica humana de sinônimos continua sendo uma limitação do
+  validador automático.
+- Vazamento de solução: `editorial: null` e os checks automatizados não
+  encontraram solução exposta em brief, critérios ou hints. As implementações
+  de `reference_fixture` são privadas por contrato do runner; stubs com
+  `TODO`/`panic("not implemented")` pertencem ao baseline dos exercícios e não
+  foram tratados como divulgação de solução. Ainda falta a pré-revisão
+  automatizada independente, a revisão por outra pessoa e o playtest humano.
+- Publicação: nenhum `status: published`, `publication.reviewed_by` ou
+  `playtested: true` foi preenchido. A quantidade publicada permanece zero por
+  decisão de governança, não por falha de carregamento.
+
+### 9.7 Checks desta execução e limitações remanescentes
+
+Também foram executados os checks aplicáveis ao código e à documentação:
+
+- `env GOFLAGS=-buildvcs=false go test ./internal/curriculum -run
+  '^TestFoundation(VariantOrigins|CatalogAudit)$' -count=1 -v`: PASS; ledger
+  104/60, 45 bases, 8 variantes, 281 brutos, 280 creditáveis e dez
+  competências essenciais com pelo menos dois contextos.
+- `env GOFLAGS=-buildvcs=false go test ./...`: PASS.
+- `env GOFLAGS=-buildvcs=false go test -race -count=1 ./...`: PASS.
+- `env GOFLAGS=-buildvcs=false go vet ./...`: PASS.
+- `bash scripts/ci/check-format.sh`: PASS.
+- `pose docs-check`: PASS (`declared=16`, `undeclared=0`, `stale=0`,
+  `errors=0`, `warnings=0`); os dois avisos históricos `REVIEW_PENDING` de
+  `docs/compatibility.md` permanecem fora dos paths autorizados.
+- `git diff --check`: PASS.
+
+As limitações que permanecem para a revisão primária são o déficit de 20 nodes
+para o limiar de 300 (24 para o alvo de planejamento 304), os gates globais de
+publicação que corretamente veem zero conteúdo elegível, a ausência de
+`govulncheck` no ambiente e o erro de stamping VCS quando os testes constroem
+sem `GOFLAGS=-buildvcs=false`. A execução com essa flag passou nos testes,
+vet/race e checks editoriais; ela só desabilita metadado VCS do build e não
+altera o conteúdo auditado.

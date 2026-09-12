@@ -1538,7 +1538,8 @@ challenges:
     - io-preserve-writer-errors
     secondary:
     - io-encode-structured-output
-  brief: Escreva um relatório JSON no Writer recebido e preserve qualquer falha de escrita para o chamador.
+  brief: Um processador de métricas precisa publicar um resumo de cada execução no destino fornecido e
+    permitir que o chamador reaja às falhas desse destino.
   constraints:
   - Use somente a biblioteca padrão e as entradas recebidas.
   - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
@@ -1556,28 +1557,28 @@ challenges:
       kind: macro
       title: Propagar falhas ao escrever um relatório
       instruction:
-        objective: Escreva um relatório JSON no Writer recebido e preserve qualquer falha de escrita para
-          o chamador.
-        scope: Uma competência contextualizada da origem.
+        objective: Publique um resumo de processamento no destino recebido e preserve as falhas da saída.
+        scope: Um relatório de uma execução, distinto do inventário CSV da origem, com destino controlado pelo chamador.
       children:
       - id: write-result-report.meso
         kind: meso
-        title: Casos observáveis e implementação
+        title: Representação e falha do destino
         instruction:
-          objective: Use os casos de aceite para orientar a implementação.
-          scope: Contrato da variante.
+          objective: Separe a representação do resumo da reação a uma falha de escrita.
+          scope: Campo processed, codificação JSON, newline final e escrita parcial no Writer recebido.
         children:
         - id: write-result-report.step-1
           kind: micro
           title: Defina o resultado serializado.
           instruction:
-            objective: Defina o resultado serializado.
-            scope: Respeite o campo e o destino declarados.
+            objective: Modele o resumo JSON com o campo processed.
+            scope: Apenas o valor que será codificado e o Writer indicado pelo chamador.
           concepts:
-          - io-writer-errors
+          - io-json-encode
           evidence:
             strategies:
             - source_inspection
+            - test
           criteria:
           - id: behavior-1
             kind: qualitative
@@ -1598,18 +1599,18 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
-              correta?
+            - Por que confirmar o formato do valor antes de observar o Writer separa o contrato de dados do contrato de saída?
         - id: write-result-report.step-2
           kind: micro
           title: Propague a falha de saída.
           instruction:
-            objective: Propague a falha de saída.
-            scope: Teste sucesso e erro de Writer com resultado parcial.
+            objective: Retorne ao chamador a falha produzida pelo Writer.
+            scope: Apenas a propagação do erro depois que parte do relatório pode ter sido aceita.
           concepts:
           - io-writer-errors
           evidence:
             strategies:
+            - source_inspection
             - test
           criteria:
           - id: behavior-2
@@ -1631,8 +1632,7 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
-              correta?
+            - Por que o chamador deve receber o erro do destino mesmo quando o Writer já aceitou parte dos bytes?
           children:
           - id: write-result-report.verify-newline
             hints:
@@ -1640,6 +1640,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: json_output
@@ -1663,6 +1671,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: writer_error

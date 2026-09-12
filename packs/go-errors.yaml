@@ -1813,9 +1813,9 @@ challenges:
       - classify-wrapped-and-joined-errors
       - preserve-error-precedence
       - distinguish-error-identity
-    prerequisites: []
-    brief: Classifique um erro em sucesso, acesso negado, campo inválido ou desconhecido, respeitando a
-      cadeia de causas e uma precedência explícita.
+    prerequisites: [error-wrapping-with-percent-w, errors-join-aggregation, errors-as-type-extraction]
+    brief: Uma camada de validação precisa transformar falhas internas em categorias estáveis, preservando
+      as causas reconhecíveis e uma prioridade definida quando mais de uma causa está presente.
     constraints:
     - Use somente a biblioteca padrão.
     - Não use arquivos ou rede; preserve as assinaturas da fixture.
@@ -1853,13 +1853,14 @@ challenges:
             target: function
             title: Trate a ausência de erro.
             instruction:
-              objective: Trate a ausência de erro.
+              objective: Reconheça a ausência de erro como sucesso.
               scope: A classificação de sucesso não deve consultar mensagem alguma.
             concepts:
             - error-identity-not-message
             evidence:
               strategies:
               - source_inspection
+              - test
             criteria:
             - id: behavior-1
               kind: qualitative
@@ -1887,13 +1888,14 @@ challenges:
             target: function
             title: Identifique a categoria prioritária.
             instruction:
-              objective: Identifique a categoria prioritária.
+              objective: Aplique a precedência da sentinela de acesso negado.
               scope: Reconheça a sentinela também em causas encadeadas ou agregadas.
             concepts:
             - error-classification-precedence
             evidence:
               strategies:
               - source_inspection
+              - test
             criteria:
             - id: behavior-2
               kind: qualitative
@@ -1921,13 +1923,14 @@ challenges:
             target: function
             title: Extraia o campo do erro tipado.
             instruction:
-              objective: Extraia o campo do erro tipado.
+              objective: Extraia o primeiro FieldError encontrado.
               scope: Considere encadeamento múltiplo e o primeiro tipo compatível.
             concepts:
             - error-chain-type-traversal
             evidence:
               strategies:
               - source_inspection
+              - test
             criteria:
             - id: behavior-3
               kind: qualitative
@@ -1953,11 +1956,13 @@ challenges:
             kind: micro
             action: implement
             target: function
-            title: Verifique as classificações residuais.
+            title: Trate os erros não classificados.
             instruction:
-              objective: Verifique as classificações residuais.
-              scope: Texto igual não significa identidade igual; execute os casos completos.
+              objective: Conclua a classificação residual como unknown.
+              scope: Erros que não correspondem a uma categoria conhecida, incluindo mensagens coincidentes
+                com uma sentinela.
             concepts:
+            - error-identity-not-message
             - error-joined-tree-order
             evidence:
               strategies:
@@ -1990,6 +1995,14 @@ challenges:
                   kind: guiding_question
                 - level: 2
                   kind: syntax_recall
+                - level: 3
+                  kind: logical_prose
+                - level: 4
+                  kind: pseudocode
+                - level: 5
+                  kind: partial_code
+                - level: 6
+                  kind: solution
               kind: micro
               action: verify
               target: classification
@@ -2013,12 +2026,20 @@ challenges:
                   kind: guiding_question
                 - level: 2
                   kind: syntax_recall
+                - level: 3
+                  kind: logical_prose
+                - level: 4
+                  kind: pseudocode
+                - level: 5
+                  kind: partial_code
+                - level: 6
+                  kind: solution
               kind: micro
               action: verify
               target: classification
               title: Verificar precedência em erro agregado
               instruction:
-                objective: Inverta a ordem dos filhos de um erro agregado e confirme que a categoria denied continua prioritária.
+                objective: Confirme que a classificação permanece denied nas duas ordens dos filhos de um erro agregado.
                 scope: Apenas erros agregados com causas concorrentes.
               concepts:
               - error-joined-tree-order
@@ -2121,9 +2142,9 @@ challenges:
       - manage-catalog-state
       - reject-catalog-conflicts
       - return-isolated-catalog-views
-    prerequisites: []
-    brief: Mantenha um catálogo de produtos em memória com inserção, consulta, exclusão e listagem, preservando
-      estado diante de falhas e retornando erros que o chamador possa reconhecer.
+    prerequisites: [catalog-zero-value, error-identity-not-message]
+    brief: Uma loja em memória precisa aceitar produtos, permitir consultas e remoções e oferecer uma visão
+      estável do inventário, inclusive quando entradas inválidas ou IDs repetidos são rejeitados.
     constraints:
     - Use somente a biblioteca padrão.
     - Não use arquivos ou rede; preserve as assinaturas da fixture.
@@ -2174,6 +2195,7 @@ challenges:
             evidence:
               strategies:
               - source_inspection
+              - test
             criteria:
             - id: behavior-1
               kind: qualitative
@@ -2201,13 +2223,14 @@ challenges:
             target: function
             title: Valide os dados antes de armazenar.
             instruction:
-              objective: Valide os dados antes de armazenar.
-              scope: IDs, nomes e preços inválidos não podem modificar o estado.
+              objective: Valide os dados antes de armazenar, preservando IDs válidos como recebidos.
+              scope: IDs válidos são preservados exatamente; IDs, nomes e preços inválidos não podem modificar o estado.
             concepts:
             - catalog-validation-before-mutation
             evidence:
               strategies:
               - source_inspection
+              - test
             criteria:
             - id: behavior-2
               kind: qualitative
@@ -2242,6 +2265,7 @@ challenges:
             evidence:
               strategies:
               - source_inspection
+              - test
             criteria:
             - id: behavior-3
               kind: qualitative
@@ -2276,6 +2300,7 @@ challenges:
             evidence:
               strategies:
               - source_inspection
+              - test
             criteria:
             - id: behavior-4
               kind: qualitative
@@ -2310,6 +2335,7 @@ challenges:
             evidence:
               strategies:
               - source_inspection
+              - test
             criteria:
             - id: behavior-5
               kind: qualitative
@@ -2372,6 +2398,14 @@ challenges:
                   kind: guiding_question
                 - level: 2
                   kind: syntax_recall
+                - level: 3
+                  kind: logical_prose
+                - level: 4
+                  kind: pseudocode
+                - level: 5
+                  kind: partial_code
+                - level: 6
+                  kind: solution
               kind: micro
               action: verify
               target: state
@@ -2395,13 +2429,21 @@ challenges:
                   kind: guiding_question
                 - level: 2
                   kind: syntax_recall
+                - level: 3
+                  kind: logical_prose
+                - level: 4
+                  kind: pseudocode
+                - level: 5
+                  kind: partial_code
+                - level: 6
+                  kind: solution
               kind: micro
               action: verify
               target: output
               title: Verificar snapshots ordenados e isolados
               instruction:
-                objective: Liste produtos inseridos fora de ordem, altere a lista retornada e confirme ordenação e isolamento.
-                scope: Apenas List e seus valores retornados.
+                objective: Confirme que List devolve uma visão ordenada e isolada do catálogo.
+                scope: A ordem por ID e a independência da slice retornada.
               concepts:
               - catalog-deterministic-list
               - catalog-value-snapshots
@@ -2457,11 +2499,30 @@ challenges:
         repeated deletion: %v\", err)\n\t}\n\tif err := c.Put(originalA); err != nil {\n\t\tt.Fatalf(\"\
         reinsertion: %v\", err)\n\t}\n\tvar other Catalog\n\tif _, err := other.Get(\"b\"); !errors.Is(err,\
         \ ErrMissing) {\n\t\tt.Fatal(\"catalog instances share state\")\n\t}\n}\n"
+    - path: catalog_valid_id_test.go
+      content: |
+        package catalog
+
+        import "testing"
+
+        func TestValidIDPreservesWhitespace(t *testing.T) {
+            var c Catalog
+            want := Product{ID: " x ", Name: "Trimmed", PriceCents: 1}
+            if err := c.Put(want); err != nil {
+                t.Fatal(err)
+            }
+            if got, err := c.Get(want.ID); err != nil || got != want {
+                t.Fatalf("got %+v, want %+v (err: %v)", got, want, err)
+            }
+            if _, err := c.Get("x"); err == nil {
+                t.Fatal("trimmed ID should not be accepted as a lookup")
+            }
+        }
     checks:
     - id: focused-tests
       runner: go_test
       package: ./...
-      test_pattern: ^TestCatalog$
+      test_pattern: ^(TestCatalog|TestValidIDPreservesWhitespace)$
       timeout: 20s
     variants: []
     validation:
@@ -2487,6 +2548,25 @@ challenges:
           \ nil\n}\nfunc (c *Catalog) List() []Product {\n\tout := make([]Product, 0, len(c.products))\n\
           \tfor _, p := range c.products {\n\t\tout = append(out, p)\n\t}\n\tsort.Slice(out, func(i, j int)\
           \ bool { return out[i].ID < out[j].ID })\n\treturn out\n}\n"
+      - path: catalog_valid_id_test.go
+        content: |
+          package catalog
+
+          import "testing"
+
+          func TestValidIDPreservesWhitespace(t *testing.T) {
+              var c Catalog
+              want := Product{ID: " x ", Name: "Trimmed", PriceCents: 1}
+              if err := c.Put(want); err != nil {
+                  t.Fatal(err)
+              }
+              if got, err := c.Get(want.ID); err != nil || got != want {
+                  t.Fatalf("got %+v, want %+v (err: %v)", got, want, err)
+              }
+              if _, err := c.Get("x"); err == nil {
+                  t.Fatal("trimmed ID should not be accepted as a lookup")
+              }
+          }
       - path: catalog_test.go
         content: "package catalog\n\nimport (\n\t\"errors\"\n\t\"reflect\"\n\t\"strings\"\n\t\"testing\"\
           \n)\n\nfunc TestCatalog(t *testing.T) {\n\tvar c Catalog\n\tif got := c.List(); got == nil ||\

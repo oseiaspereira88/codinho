@@ -207,10 +207,9 @@ challenges:
       secondary: []
     prerequisites: []
     brief: >
-      Implemente a clonagem de um Inventory cuja lista de itens nunca
-      compartilha armazenamento com o original -- copiar a struct por
-      valor não basta, porque o campo slice continuaria apontando para o
-      mesmo backing array.
+      Um inventário precisa ser duplicado para uma operação independente,
+      mantendo o proprietário e a ordem dos itens mesmo quando a lista
+      original reservou espaço extra.
     constraints:
       - Não usar bibliotecas externas.
       - Items do clone não pode compartilhar backing array com Items do original.
@@ -235,7 +234,7 @@ challenges:
                 - Items do clone não pode compartilhar backing array com Items do original.
             concepts: [struct-shallow-copy-aliasing]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection, test]
             criteria:
               - id: items-copied-independently
                 kind: structural
@@ -247,19 +246,27 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.copy-remaining-fields
             kind: micro
             action: implement
             target: function
             title: Copiar os demais campos da struct
             instruction:
-              objective: Copiar Owner e os demais campos de inv para o valor retornado.
-              scope: Os campos de Inventory que não são Items.
+              objective: Preservar Owner no valor retornado.
+              scope: O campo escalar de Inventory que acompanha a nova lista de Items.
               constraints:
                 - Owner deve ser copiado com o mesmo valor de inv.Owner.
             concepts: [struct-shallow-copy-aliasing]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection, test]
             criteria:
               - id: copies-remaining-fields
                 kind: structural
@@ -273,6 +280,12 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - Por que return inv (copiando a struct inteira por valor) não seria suficiente para isolar Items?
@@ -283,6 +296,14 @@ challenges:
                     kind: guiding_question
                   - level: 2
                     kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
                 kind: micro
                 action: verify
                 target: aliasing
@@ -292,7 +313,7 @@ challenges:
                   scope: Apenas o caso de capacidade excedente.
                 concepts: [struct-shallow-copy-aliasing]
                 evidence:
-                  strategies: [compile]
+                  strategies: [test]
                 criteria:
                   - id: spare-capacity-isolated
                     kind: structural
@@ -305,16 +326,24 @@ challenges:
                     kind: guiding_question
                   - level: 2
                     kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
                 kind: micro
                 action: verify
                 target: output
                 title: Verificar preservação do proprietário
                 instruction:
-                  objective: Compare Owner no clone com Owner na entrada e confirme que a cópia profunda da slice não descartou o campo escalar.
-                  scope: Apenas os campos escalares do valor retornado.
+                  objective: Confirme que Owner mantém o valor da entrada no clone.
+                  scope: Apenas o campo Owner do valor retornado.
                 concepts: [struct-shallow-copy-aliasing]
                 evidence:
-                  strategies: [compile]
+                  strategies: [test]
                 criteria:
                   - id: owner-preserved
                     kind: structural
@@ -401,6 +430,11 @@ challenges:
                   cloneData := unsafe.SliceData(clone.Items)
                   if origData != nil && cloneData == origData {
                       t.Error("clone.Items shares backing array with an empty-but-spare-capacity original")
+                  }
+                  clone.Items = append(clone.Items, "potion")
+                  originalView := emptyWithCap.Items[:cap(emptyWithCap.Items)]
+                  if originalView[0] == "potion" {
+                      t.Error("appending to clone.Items changed the original's spare capacity")
                   }
               })
           }
@@ -496,6 +530,11 @@ challenges:
                   cloneData := unsafe.SliceData(clone.Items)
                   if origData != nil && cloneData == origData {
                       t.Error("clone.Items shares backing array with an empty-but-spare-capacity original")
+                  }
+                  clone.Items = append(clone.Items, "potion")
+                  originalView := emptyWithCap.Items[:cap(emptyWithCap.Items)]
+                  if originalView[0] == "potion" {
+                      t.Error("appending to clone.Items changed the original's spare capacity")
                   }
               })
           }

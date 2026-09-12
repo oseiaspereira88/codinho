@@ -1871,14 +1871,15 @@ challenges:
       secondary: []
     prerequisites: [short-variable-declaration]
     brief: >
-      Implemente uma função que analisa uma idade em texto, atualizando os
-      retornos nomeados corretamente mesmo dentro de um bloco condicional
-      aninhado.
+      Uma rotina de cadastro recebe a idade como texto. Ela precisa
+      normalizar a entrada, distinguir ausência de valor de texto inválido e
+      devolver o resultado correto em todos os caminhos.
     constraints:
       - Não usar bibliotecas externas além da biblioteca padrão.
-      - Não redeclarar age/err dentro do bloco condicional.
+      - Atualizar os resultados já declarados pela assinatura; não criar novos age/err no bloco condicional.
     acceptance:
       - ParseAge("25") retorna age 25 e err nil.
+      - ParseAge(" 25 ") retorna age 25 e err nil, ignorando espaços externos.
       - ParseAge("") retorna err não-nil.
       - ParseAge("   ") retorna err não-nil.
       - ParseAge("abc") retorna err não-nil.
@@ -1893,13 +1894,13 @@ challenges:
             target: function
             title: Tratar entrada vazia como erro
             instruction:
-              objective: Implementar a checagem de que raw (após remover espaços) não é vazio, definindo err quando for o caso.
+              objective: Fazer uma entrada sem idade produzir um erro.
               scope: A checagem de entrada vazia, dentro do corpo da função, e os imports necessários.
               constraints:
                 - Não implementar a conversão numérica ainda.
             concepts: [named-return-values]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection, test]
             criteria:
               - id: rejects-empty-input
                 kind: structural
@@ -1911,19 +1912,27 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.parse-and-assign-without-shadowing
             kind: micro
             action: implement
             target: function
             title: Converter e atribuir sem redeclarar dentro do bloco
             instruction:
-              objective: Implementar a conversão do texto restante para age dentro do bloco condicional, atualizando os retornos nomeados age e err sem redeclará-los.
+              objective: Converter o texto restante em age e err sem criar novos nomes no bloco condicional.
               scope: A conversão numérica e os imports necessários.
               constraints:
                 - Não redeclarar age/err dentro do bloco condicional.
             concepts: [variable-shadowing, block-scope]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection, test]
             criteria:
               - id: parses-valid-input
                 kind: structural
@@ -1941,6 +1950,12 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - O que aconteceria com age e err se você tivesse redeclarado os dois dentro do bloco condicional em vez de atualizá-los?
@@ -1951,6 +1966,14 @@ challenges:
                     kind: guiding_question
                   - level: 2
                     kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
                 kind: micro
                 action: verify
                 target: function
@@ -1960,7 +1983,7 @@ challenges:
                   scope: Apenas a observação dos retornos após a implementação.
                 concepts: [named-return-values, variable-shadowing]
                 evidence:
-                  strategies: [compile]
+                  strategies: [test]
                 criteria:
                   - id: valid-case-verified
                     kind: structural
@@ -1970,6 +1993,19 @@ challenges:
                   requires_positive_evaluation: true
                   requires_user_confirmation: false
               - id: model.explain-assignment-scope
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
                 kind: micro
                 action: reflect
                 target: decision
@@ -2015,6 +2051,7 @@ challenges:
                   wantErr bool
               }{
                   {"valid", "25", 25, false},
+                  {"valid with surrounding spaces", " 25 ", 25, false},
                   {"empty", "", 0, true},
                   {"whitespace only", "   ", 0, true},
                   {"not a number", "abc", 0, true},
@@ -2057,7 +2094,14 @@ challenges:
           // ParseAge parses raw as an age, validating it is non-empty and
           // numeric.
           func ParseAge(raw string) (age int, err error) {
-              age, err = strconv.Atoi(strings.TrimSpace(raw))
+              raw = strings.TrimSpace(raw)
+              if raw == "" {
+                  err = strconv.ErrSyntax
+                  return
+              }
+              if age, err = strconv.Atoi(raw); err != nil {
+                  return
+              }
               return
           }
       - path: parseage_test.go
@@ -2074,6 +2118,7 @@ challenges:
                   wantErr bool
               }{
                   {"valid", "25", 25, false},
+                  {"valid with surrounding spaces", " 25 ", 25, false},
                   {"empty", "", 0, true},
                   {"whitespace only", "   ", 0, true},
                   {"not a number", "abc", 0, true},

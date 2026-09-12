@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-io
-version: 1.2.0
+version: 1.3.0
 publication:
   status: draft
   author: codex
@@ -201,6 +201,217 @@ concepts:
     relation_refs:
     - kind: relates_to
       concept_id: io-writer-errors
+- id: bufio-scanner-token-boundary
+  title: Limite de token do bufio.Scanner
+  content:
+    version: 1
+    explanation: bufio.Scanner oferece uma leitura conveniente por tokens, mas interrompe a varredura quando um token não cabe no buffer configurado. Ajuste Buffer quando o limite fizer parte do contrato e trate ErrTooLong como falha de tamanho, não como EOF. A interrupção é irreversível para aquele Scanner; use bufio.Reader ou outra estratégia quando precisar de mais controle sobre tokens grandes ou sobre os bytes que ficaram além da última leitura.
+    example:
+      context: linhas de um log com limite de memória
+      code: |
+        package example
+
+        import (
+            "bufio"
+            "errors"
+            "strings"
+            "testing"
+        )
+
+        func TestScannerTokenBoundary(t *testing.T) {
+            scanner := bufio.NewScanner(strings.NewReader("ok\nlong\n"))
+            scanner.Buffer(make([]byte, 0, 4), 4)
+
+            if !scanner.Scan() || scanner.Text() != "ok" {
+                t.Fatalf("first token = %q", scanner.Text())
+            }
+            if scanner.Scan() {
+                t.Fatal("oversized token was accepted")
+            }
+            if !errors.Is(scanner.Err(), bufio.ErrTooLong) {
+                t.Fatalf("scan error = %v", scanner.Err())
+            }
+        }
+      explanation: O token curto cabe no buffer e é entregue. O token seguinte excede o limite configurado, encerra a varredura e produz ErrTooLong, que é diferente de um fim normal da entrada.
+    relation_refs:
+    - kind: deepens_into
+      concept_id: io-reader-stream
+    - kind: relates_to
+      concept_id: io-partial-reads
+- id: io-short-write-contract
+  title: Contrato de escrita curta
+  content:
+    version: 1
+    explanation: Writer.Write informa quantos bytes aceitou. Se n for menor que len(p), a operação não pode tratar a saída como completa; com erro nil, o chamador deve sinalizar a escrita curta, por exemplo com io.ErrShortWrite. Quando o Writer declara um erro, preserve essa identidade mesmo que também tenha aceitado um prefixo. Nenhum desses caminhos desfaz bytes já enviados.
+    example:
+      context: envio de um lote binário
+      code: |
+        package example
+
+        import (
+            "bytes"
+            "errors"
+            "io"
+            "testing"
+        )
+
+        type prefixWriter struct{ out bytes.Buffer }
+
+        func (w *prefixWriter) Write(p []byte) (int, error) {
+            n := 2
+            if n > len(p) {
+                n = len(p)
+            }
+            _, _ = w.out.Write(p[:n])
+            return n, nil
+        }
+
+        type errorWriter struct {
+            out bytes.Buffer
+            err error
+        }
+
+        func (w *errorWriter) Write(p []byte) (int, error) {
+            _, _ = w.out.Write(p[:1])
+            return 1, w.err
+        }
+
+        func writePacket(w io.Writer, p []byte) error {
+            n, err := w.Write(p)
+            if err != nil {
+                return err
+            }
+            if n != len(p) {
+                return io.ErrShortWrite
+            }
+            return nil
+        }
+
+        func TestShortWriteContract(t *testing.T) {
+            short := &prefixWriter{}
+            if err := writePacket(short, []byte("abcd")); !errors.Is(err, io.ErrShortWrite) || short.out.String() != "ab" {
+                t.Fatalf("short write = %v, output = %q", err, short.out.String())
+            }
+
+            want := errors.New("device unavailable")
+            declared := &errorWriter{err: want}
+            if err := writePacket(declared, []byte("abcd")); !errors.Is(err, want) || declared.out.String() != "a" {
+                t.Fatalf("declared error = %v, output = %q", err, declared.out.String())
+            }
+        }
+      explanation: O primeiro Writer aceita só dois bytes sem declarar erro, então writePacket converte a contagem incompleta em io.ErrShortWrite. O segundo declara uma causa própria, que é devolvida sem ser substituída pela categoria de escrita curta.
+    relation_refs:
+    - kind: deepens_into
+      concept_id: io-writer-errors
+    - kind: relates_to
+      concept_id: io-validate-before-write
+- id: io-limit-reader-boundary
+  title: Fronteira imposta por io.LimitReader
+  content:
+    version: 1
+    explanation: io.LimitReader cria um Reader que expõe no máximo n bytes da fonte e então retorna EOF, mesmo que a fonte ainda possua conteúdo. O EOF dessa camada marca o limite imposto pelo consumidor; ele não prova que a fonte original terminou. Use o limite para tornar o orçamento explícito e trate a possibilidade de que a fonte permaneça posicionada depois do prefixo consumido.
+    example:
+      context: prévia limitada de uma mensagem
+      code: |
+        package example
+
+        import (
+            "io"
+            "strings"
+            "testing"
+        )
+
+        func TestLimitReaderBoundary(t *testing.T) {
+            source := strings.NewReader("abcdef")
+            limited := io.LimitReader(source, 3)
+
+            got, err := io.ReadAll(limited)
+            if err != nil || string(got) != "abc" {
+                t.Fatalf("limited content = %q, err = %v", got, err)
+            }
+            if rest, err := io.ReadAll(source); err != nil || string(rest) != "def" {
+                t.Fatalf("source remainder = %q, err = %v", rest, err)
+            }
+            if n, err := limited.Read(make([]byte, 1)); n != 0 || err != io.EOF {
+                t.Fatalf("limited end = n:%d err:%v", n, err)
+            }
+        }
+      explanation: O Reader limitado entrega apenas o prefixo de três bytes e termina sua própria visão com EOF. A fonte subjacente ainda fornece os três bytes restantes, mostrando que a fronteira veio do limite e não do fim da mensagem.
+    relation_refs:
+    - kind: relates_to
+      concept_id: io-reader-stream
+    - kind: deepens_into
+      concept_id: io-eof-boundary
+- id: json-null-versus-absent
+  title: Ausência, null e zero em JSON
+  content:
+    version: 1
+    explanation: Ao decodificar diretamente um campo escalar de struct, a ausência, null e o valor zero podem convergir para o mesmo estado. Para preservar a decisão do documento, observe a presença com map[string]json.RawMessage e represente um valor não nulo com um ponteiro ou outro estado explícito. Assim, a API pode distinguir o campo que não veio, o campo que veio como null e o campo que trouxe zero.
+    example:
+      context: filtros opcionais de pesquisa
+      code: |
+        package example
+
+        import (
+            "bytes"
+            "encoding/json"
+            "testing"
+        )
+
+        type limitState struct {
+            present bool
+            value   *int
+        }
+
+        func decodeLimit(document string) (limitState, error) {
+            var fields map[string]json.RawMessage
+            if err := json.Unmarshal([]byte(document), &fields); err != nil {
+                return limitState{}, err
+            }
+            raw, present := fields["limit"]
+            if !present {
+                return limitState{}, nil
+            }
+            if bytes.Equal(bytes.TrimSpace(raw), []byte("null")) {
+                return limitState{present: true}, nil
+            }
+            var value int
+            if err := json.Unmarshal(raw, &value); err != nil {
+                return limitState{}, err
+            }
+            return limitState{present: true, value: &value}, nil
+        }
+
+        func TestJSONFieldStates(t *testing.T) {
+            zero := 0
+            cases := []struct {
+                document string
+                present  bool
+                value    *int
+            }{
+                {"{}", false, nil},
+                {`{"limit":null}`, true, nil},
+                {`{"limit":0}`, true, &zero},
+            }
+            for _, tc := range cases {
+                got, err := decodeLimit(tc.document)
+                if err != nil || got.present != tc.present {
+                    t.Fatalf("%s: got %#v, err %v", tc.document, got, err)
+                }
+                if (got.value == nil) != (tc.value == nil) {
+                    t.Fatalf("%s: value presence = %v", tc.document, got.value != nil)
+                }
+                if got.value != nil && *got.value != *tc.value {
+                    t.Fatalf("%s: value = %d, want %d", tc.document, *got.value, *tc.value)
+                }
+            }
+        }
+      explanation: O mapa informa se limit apareceu; o RawMessage permite reconhecer null antes de decodificar o número. Um ponteiro para zero representa o terceiro estado sem confundi-lo com ausência ou null.
+    relation_refs:
+    - kind: deepens_into
+      concept_id: io-json-decoder
+    - kind: relates_to
+      concept_id: io-json-strict-fields
 competencies:
 - id: io-decode-one-json
   title: Decodificar exatamente um documento JSON
@@ -242,6 +453,8 @@ challenges:
     - io-preserve-reader-errors
     secondary:
     - io-validate-document-boundary
+    - io-read-fragmented-input
+    - io-distinguish-eof
   prerequisites: []
   brief: Leia uma configuração do fluxo recebido, aceitando somente um documento válido com nome não vazio
     e tentativas entre zero e cinco.
@@ -418,6 +631,340 @@ challenges:
           reflection:
             optional:
             - Por que separar a validação semântica da decodificação permite aceitar JSON bem formado sem aceitar uma configuração inválida?
+    - id: decode-strict-config.input-boundaries
+      kind: macro
+      title: Delimitar o fluxo de entrada
+      instruction:
+        objective: Compare os limites que podem encerrar uma leitura antes de interpretar a configuração.
+        scope: Token, prefixo limitado, EOF e erro no Reader que alimenta o documento.
+      concepts:
+      - bufio-scanner-token-boundary
+      - io-limit-reader-boundary
+      - io-reader-stream
+      - io-eof-boundary
+      evidence:
+        strategies:
+        - source_inspection
+      criteria:
+      - id: input-boundaries-are-distinguished
+        kind: qualitative
+      children:
+      - id: decode-strict-config.input-boundaries.analysis
+        kind: meso
+        title: Separar limite de token e limite de fluxo
+        instruction:
+          objective: Organize a diferença entre um token que excede o buffer e um Reader que expõe apenas um prefixo.
+          scope: Limites configuráveis e sinais de término no fluxo da configuração.
+        concepts:
+        - bufio-scanner-token-boundary
+        - io-limit-reader-boundary
+        - io-eof-boundary
+        evidence:
+          strategies:
+          - source_inspection
+        criteria:
+        - id: token-and-flow-limits-are-separated
+          kind: qualitative
+        children:
+        - id: decode-strict-config.inspect-scanner-buffer-limit
+          kind: micro
+          action: analyze
+          target: scanner_token
+          title: Identificar a fronteira de token do Scanner
+          instruction:
+            objective: Identifique como um limite de buffer pode impedir a entrega de um token completo.
+            scope: Um token curto e outro maior que o limite configurado, sem trocar a estratégia de decodificação do desafio.
+            constraints:
+            - Não tratar um token grande como se fosse uma indicação de EOF.
+          concepts:
+          - bufio-scanner-token-boundary
+          - io-partial-reads
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: scanner-token-limit-is-recognized
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+            requires_user_confirmation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que um limite de token precisa ser uma decisão explícita quando uma configuração pode conter uma linha longa?
+        - id: decode-strict-config.distinguish-scanner-too-long
+          kind: micro
+          action: analyze
+          target: scanner_error
+          title: Separar token grande de EOF
+          instruction:
+            objective: Diferencie a falha de tamanho de token do término normal de uma entrada.
+            scope: Sinal retornado pelo Scanner depois que a varredura interrompe uma entrada limitada.
+            constraints:
+            - Não usar a ausência de um próximo token como prova suficiente de EOF.
+          concepts:
+          - bufio-scanner-token-boundary
+          - io-eof-boundary
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: scanner-error-is-not-eof
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+            requires_user_confirmation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que confundir ErrTooLong com EOF poderia aceitar uma configuração truncada como se estivesse completa?
+        - id: decode-strict-config.inspect-limited-prefix
+          kind: micro
+          action: analyze
+          target: reader_prefix
+          title: Observar o prefixo exposto por LimitReader
+          instruction:
+            objective: Observe que um Reader limitado entrega somente o prefixo autorizado da fonte.
+            scope: Quantidade de bytes consumidos pela visão limitada e conteúdo ainda existente na fonte.
+            constraints:
+            - Não afirmar que a fonte original terminou apenas porque a visão limitada chegou ao seu fim.
+          concepts:
+          - io-limit-reader-boundary
+          - io-reader-stream
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: limited-prefix-is-recognized
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+            requires_user_confirmation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que informação sobre a fonte permanece fora do Reader limitado e por que isso importa para interpretar o fim do fluxo?
+        - id: decode-strict-config.separate-limit-eof
+          kind: micro
+          action: analyze
+          target: reader_end
+          title: Explicar o EOF imposto pelo limite
+          instruction:
+            objective: Explique por que o EOF do Reader limitado marca o orçamento do consumidor, não necessariamente o fim da fonte.
+            scope: Relação entre o limite aplicado, os bytes restantes e a validação da fronteira do documento.
+            constraints:
+            - Manter separado o EOF produzido pelo limite e um erro originado no Reader subjacente.
+          concepts:
+          - io-limit-reader-boundary
+          - io-eof-boundary
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: imposed-eof-is-distinguished
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+            requires_user_confirmation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que um limite de leitura é útil para controlar memória, mas não deve ser confundido com a validação de um documento completo?
+    - id: decode-strict-config.json-field-states
+      kind: macro
+      title: Distinguir estados de campos JSON
+      instruction:
+        objective: Compare os estados que um campo opcional pode representar durante a decodificação da configuração.
+        scope: Propriedade ausente, null e zero explícito antes das regras de negócio.
+      concepts:
+      - json-null-versus-absent
+      - io-json-decoder
+      - io-json-strict-fields
+      evidence:
+        strategies:
+        - source_inspection
+      criteria:
+      - id: json-field-states-are-distinguished
+        kind: qualitative
+      children:
+      - id: decode-strict-config.json-field-states.analysis
+        kind: meso
+        title: Preservar presença e valor do campo
+        instruction:
+          objective: Organize a diferença entre não receber uma propriedade, receber null e receber o número zero.
+          scope: Estado observável do campo durante a leitura de um objeto JSON.
+        concepts:
+        - json-null-versus-absent
+        - io-json-decoder
+        evidence:
+          strategies:
+          - source_inspection
+        criteria:
+        - id: presence-and-value-are-separated
+          kind: qualitative
+        children:
+        - id: decode-strict-config.inspect-absent-json-field
+          kind: micro
+          action: analyze
+          target: json_presence
+          title: Identificar uma propriedade JSON ausente
+          instruction:
+            objective: Identifique o estado produzido quando a propriedade opcional não aparece no documento.
+            scope: Presença do nome e valor padrão observado, sem transformar ausência em uma regra de validade.
+            constraints:
+            - Não concluir que um valor zero prova que a propriedade foi enviada.
+          concepts:
+          - json-null-versus-absent
+          - io-json-decoder
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: absent-field-is-observable
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+            requires_user_confirmation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que o zero observado em um campo escalar não permite saber sozinho se a propriedade veio no JSON?
+        - id: decode-strict-config.inspect-null-json-field
+          kind: micro
+          action: analyze
+          target: json_null
+          title: Distinguir null de ausência
+          instruction:
+            objective: Distingua uma propriedade explicitamente recebida como null de uma propriedade ausente.
+            scope: Presença do nome e nulidade do valor antes de aplicar limites numéricos.
+            constraints:
+            - Não tratar null como sinônimo automático de zero ou de ausência.
+          concepts:
+          - json-null-versus-absent
+          - io-json-strict-fields
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: null-field-is-distinguished
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+            requires_user_confirmation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Em que contrato de configuração null deveria ser rejeitado, aceito como ausência ou tratado como estado próprio?
+        - id: decode-strict-config.inspect-explicit-zero
+          kind: micro
+          action: analyze
+          target: json_zero
+          title: Preservar o zero explícito
+          instruction:
+            objective: Contraste o zero enviado explicitamente com os estados em que o campo não trouxe um número.
+            scope: Valor numérico presente e sua diferença em relação a ausência e null.
+            constraints:
+            - Não usar somente a comparação com o valor zero para decidir presença.
+          concepts:
+          - json-null-versus-absent
+          - io-json-decoder
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: explicit-zero-is-preserved
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+            requires_user_confirmation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que uma API que precisa distinguir uma configuração omitida de uma configuração zerada deve preservar a presença do campo?
   fixture:
   - path: go.mod
     content: |
@@ -508,6 +1055,9 @@ challenges:
     - io-import-validated-records
     - io-write-json-result
     - io-preserve-writer-errors
+    secondary:
+    - io-parse-quoted-fields
+    - io-encode-structured-output
   prerequisites: []
   brief: Transforme um inventário CSV em um array JSON, preservando a ordem dos registros e evitando qualquer
     escrita enquanto a entrada não for inteiramente validada.
@@ -686,6 +1236,190 @@ challenges:
           reflection:
             optional:
             - Por que propagar um erro de escrita não permite prometer rollback dos bytes que o Writer já aceitou?
+    - id: import-csv-inventory.short-write
+      kind: macro
+      title: Tratar escrita parcial do resultado
+      instruction:
+        objective: Relacione a contagem de bytes aceita pelo Writer às falhas possíveis na saída do inventário.
+        scope: Escrita final do JSON, erro declarado, escrita curta e ausência de rollback.
+      concepts:
+      - io-short-write-contract
+      - io-writer-errors
+      - io-validate-before-write
+      evidence:
+        strategies:
+        - source_inspection
+      criteria:
+      - id: partial-output-contract-is-understood
+        kind: qualitative
+      children:
+      - id: import-csv-inventory.short-write.analysis
+        kind: meso
+        title: Separar contagem aceita e identidade do erro
+        instruction:
+          objective: Organize a diferença entre uma escrita incompleta sem erro e uma falha declarada pelo destino.
+          scope: n, len(p), io.ErrShortWrite e bytes já aceitos no Writer.
+        concepts:
+        - io-short-write-contract
+        - io-writer-errors
+        evidence:
+          strategies:
+          - source_inspection
+        criteria:
+        - id: write-count-and-error-are-separated
+          kind: qualitative
+        children:
+        - id: import-csv-inventory.inspect-write-count
+          kind: micro
+          action: analyze
+          target: writer_count
+          title: Comparar bytes pedidos e aceitos
+          instruction:
+            objective: Compare a quantidade de bytes pedida com a quantidade aceita pelo Writer.
+            scope: Retorno n de Write e comprimento do buffer enviado na saída do inventário.
+            constraints:
+            - Não considerar uma escrita concluída apenas porque o Writer não devolveu um erro.
+          concepts:
+          - io-short-write-contract
+          - io-writer-errors
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: write-count-is-checked
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+            requires_user_confirmation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que n < len(p) é informação de falha mesmo quando err é nil?
+        - id: import-csv-inventory.handle-nil-short-write
+          kind: micro
+          action: analyze
+          target: short_write_signal
+          title: Sinalizar a escrita curta sem erro
+          instruction:
+            objective: Explique qual sinal representa uma escrita incompleta quando o Writer não fornece uma causa própria.
+            scope: Contrato de io.Writer para um prefixo aceito sem erro explícito.
+            constraints:
+            - Não substituir uma causa declarada pelo Writer por uma categoria genérica.
+          concepts:
+          - io-short-write-contract
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: nil-error-short-write-is-signaled
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+            requires_user_confirmation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Como io.ErrShortWrite diferencia uma saída incompleta de um sucesso real sem inventar a causa do destino?
+        - id: import-csv-inventory.preserve-declared-writer-error
+          kind: micro
+          action: analyze
+          target: writer_error
+          title: Preservar o erro declarado pelo Writer
+          instruction:
+            objective: Determine como manter identificável a causa fornecida pelo Writer quando bytes já foram aceitos.
+            scope: Erro não nil retornado junto de uma escrita total ou parcial.
+            constraints:
+            - Não descartar a identidade do erro ao observar uma contagem menor que o pedido.
+          concepts:
+          - io-short-write-contract
+          - io-writer-errors
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: declared-writer-error-is-preserved
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+            requires_user_confirmation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que errors.Is precisa continuar encontrando a causa do destino depois de uma escrita parcial?
+        - id: import-csv-inventory.separate-validation-from-rollback
+          kind: micro
+          action: analyze
+          target: output_recovery
+          title: Separar validação e rollback da saída
+          instruction:
+            objective: Explique por que validar a entrada antes da escrita não torna a saída recuperável após uma falha do destino.
+            scope: Inventário inteiramente validado, bytes aceitos e impossibilidade de desfazer uma escrita externa.
+            constraints:
+            - Não prometer atomicidade do Writer como consequência da validação prévia.
+          concepts:
+          - io-short-write-contract
+          - io-validate-before-write
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: validation-does-not-promise-rollback
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+            requires_user_confirmation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Qual é a diferença entre evitar saída para uma entrada inválida e conseguir reverter bytes aceitos por um destino?
   fixture:
   - path: go.mod
     content: |
@@ -1069,6 +1803,7 @@ challenges:
     primary:
     - io-reject-unknown-fields
     secondary:
+    - io-decode-one-json
     - io-validate-document-boundary
   brief: Decodifique uma previsão com estação e temperatura, rejeitando propriedades desconhecidas ou
     documentos adicionais.
@@ -1537,6 +2272,7 @@ challenges:
     primary:
     - io-preserve-writer-errors
     secondary:
+    - io-write-json-result
     - io-encode-structured-output
   brief: Um processador de métricas precisa publicar um resumo de cada execução no destino fornecido e
     permitir que o chamador reaja às falhas desse destino.
@@ -1913,4 +2649,73 @@ relations:
   kind: applies_in
 - from: io-encode-structured-output
   to: go-io.write-result-report
+  kind: applies_in
+- from: bufio-scanner-token-boundary
+  to: io-reader-stream
+  kind: deepens_into
+- from: bufio-scanner-token-boundary
+  to: io-partial-reads
+  kind: relates_to
+- from: io-partial-reads
+  to: bufio-scanner-token-boundary
+  kind: relates_to
+- from: io-short-write-contract
+  to: io-writer-errors
+  kind: deepens_into
+- from: io-short-write-contract
+  to: io-validate-before-write
+  kind: relates_to
+- from: io-writer-errors
+  to: io-short-write-contract
+  kind: relates_to
+- from: io-validate-before-write
+  to: io-short-write-contract
+  kind: relates_to
+- from: io-limit-reader-boundary
+  to: io-reader-stream
+  kind: relates_to
+- from: io-reader-stream
+  to: io-limit-reader-boundary
+  kind: relates_to
+- from: io-limit-reader-boundary
+  to: io-eof-boundary
+  kind: deepens_into
+- from: json-null-versus-absent
+  to: io-json-decoder
+  kind: deepens_into
+- from: json-null-versus-absent
+  to: io-json-strict-fields
+  kind: relates_to
+- from: io-json-strict-fields
+  to: json-null-versus-absent
+  kind: relates_to
+- from: bufio-scanner-token-boundary
+  to: go-io.decode-strict-config
+  kind: applies_in
+- from: io-short-write-contract
+  to: go-io.import-csv-inventory
+  kind: applies_in
+- from: io-limit-reader-boundary
+  to: go-io.decode-strict-config
+  kind: applies_in
+- from: json-null-versus-absent
+  to: go-io.decode-strict-config
+  kind: applies_in
+- from: io-decode-one-json
+  to: go-io.decode-weather-fields
+  kind: applies_in
+- from: io-write-json-result
+  to: go-io.write-result-report
+  kind: applies_in
+- from: io-read-fragmented-input
+  to: go-io.decode-strict-config
+  kind: applies_in
+- from: io-distinguish-eof
+  to: go-io.decode-strict-config
+  kind: applies_in
+- from: io-parse-quoted-fields
+  to: go-io.import-csv-inventory
+  kind: applies_in
+- from: io-encode-structured-output
+  to: go-io.import-csv-inventory
   kind: applies_in

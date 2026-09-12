@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-core
-version: 1.3.0
+version: 1.4.0
 themes:
   - id: control-flow
     title: Controle de fluxo
@@ -176,17 +176,355 @@ concepts:
     title: Padrão de opções funcionais
     content:
       version: 1
-      explanation: "O padrão de opções funcionais permite configurar structs com parâmetros opcionais extensíveis através de closures aplicadas a um tipo de configuração não exportado ou protegido."
+      explanation: O padrão de opções funcionais representa cada ajuste opcional como uma função que recebe a configuração por ponteiro. O construtor começa com defaults, aplica as opções na ordem recebida e valida o estado final; assim, novas opções não precisam aumentar a lista de parâmetros obrigatórios.
       example:
-        context: "calendário"
-        code: "type EventOption func(*CalendarEvent)\n\nfunc WithReminder(minutes int) EventOption {\n\treturn func(e *CalendarEvent) {\n\t\te.reminderMinutes = minutes\n\t}\n}\n\nfunc NewCalendarEvent(title string, opts ...EventOption) *CalendarEvent {\n\tevent := &CalendarEvent{title: title, reminderMinutes: 15}\n\tfor _, opt := range opts {\n\t\topt(event)\n\t}\n\treturn event\n}"
-        explanation: "Constrói um evento do calendário com valores padrão e aplica opções variádicas sem sobrecarregar a assinatura da função construtora."
+        context: calendário de uma equipe
+        code: |
+          package example
+
+          import "testing"
+
+          type CalendarEvent struct {
+              title            string
+              reminderMinutes  int
+          }
+
+          type EventOption func(*CalendarEvent)
+
+          func WithReminder(minutes int) EventOption {
+              return func(event *CalendarEvent) {
+                  event.reminderMinutes = minutes
+              }
+          }
+
+          func NewCalendarEvent(title string, opts ...EventOption) *CalendarEvent {
+              event := &CalendarEvent{title: title, reminderMinutes: 15}
+              for _, opt := range opts {
+                  opt(event)
+              }
+              return event
+          }
+
+          func TestFunctionalOptions(t *testing.T) {
+              defaultEvent := NewCalendarEvent("retro")
+              if defaultEvent.title != "retro" || defaultEvent.reminderMinutes != 15 {
+                  t.Fatalf("defaults = %#v", defaultEvent)
+              }
+              customEvent := NewCalendarEvent("planning", WithReminder(5), WithReminder(10))
+              if customEvent.reminderMinutes != 10 {
+                  t.Fatalf("last option = %d, want 10", customEvent.reminderMinutes)
+              }
+          }
+        explanation: O teste verifica o default e mostra que a última opção aplicada prevalece. A função do evento é um exemplo completo, por isso o código pode ser executado isoladamente sem depender do desafio de configuração de servidor.
       analogy: "Como preencher uma folha de compromissos: você anota o título obrigatório e marca apenas os lembretes ou cores opcionais que desejar."
       relation_refs:
         - kind: relates_to
           concept_id: variadic-parameters
         - kind: relates_to
           concept_id: unexported-field-invariant
+  - id: if-initializer-scope
+    title: Escopo do inicializador de if
+    content:
+      version: 1
+      explanation: Uma instrução simples antes da condição de if é executada uma vez e cria nomes visíveis na própria condição e nos dois ramos. O nome deixa de existir depois do if, porque o inicializador tem o escopo da instrução inteira, não do bloco que a contém. Esse escopo permite manter uma leitura ou um erro perto da decisão sem vazar uma variável auxiliar para o restante da função.
+      example:
+        context: classificação de temperatura
+        code: |
+          package example
+
+          import (
+              "go/ast"
+              "go/parser"
+              "go/token"
+              "go/types"
+              "strings"
+              "testing"
+          )
+
+          func classifyTemperature(value int) string {
+              if limit := 25; value >= limit {
+                  return "warm"
+              }
+              return "cool"
+          }
+
+          func TestIfInitializerScope(t *testing.T) {
+              if got := classifyTemperature(27); got != "warm" {
+                  t.Fatalf("classifyTemperature(27) = %q", got)
+              }
+
+              source := `package sample
+
+          func classify(value int) int {
+              if limit := 25; value >= limit {
+                  return limit
+              }
+              return limit
+          }`
+              fileSet := token.NewFileSet()
+              file, err := parser.ParseFile(fileSet, "sample.go", source, 0)
+              if err != nil {
+                  t.Fatal(err)
+              }
+              var typeErrors []string
+              _, checkErr := (&types.Config{Error: func(err error) {
+                  typeErrors = append(typeErrors, err.Error())
+              }}).Check("sample", fileSet, []*ast.File{file}, nil)
+              if checkErr == nil || !strings.Contains(strings.Join(typeErrors, "\n"), "undefined: limit") {
+                  t.Fatalf("expected limit to be out of scope, errors=%v check=%v", typeErrors, checkErr)
+              }
+          }
+        explanation: >
+          A função usa limit apenas dentro da decisão. O segundo trecho é analisado em memória por go/types:
+          retornar limit depois do if produz um erro de nome indefinido, evidenciando o limite do escopo sem
+          tornar o exemplo inteiro inválido.
+      relation_refs:
+        - kind: relates_to
+          concept_id: block-scope
+        - kind: relates_to
+          concept_id: short-circuit-nil-guard
+  - id: for-clause-lifecycle
+    title: Ciclo de vida das cláusulas de for
+    content:
+      version: 1
+      explanation: No for clássico, o inicializador ocorre antes da primeira condição, o corpo só roda enquanto a condição é verdadeira e a cláusula posterior roda depois de cada corpo, inclusive quando ele termina com continue. A próxima condição só é avaliada depois do post. Esse ciclo é diferente de range, que fornece a iteração sobre uma coleção.
+      example:
+        context: rastreamento de entregas
+        code: |
+          package example
+
+          import (
+              "strconv"
+              "testing"
+          )
+
+          func deliveryTrace(limit int) []string {
+              events := []string{"init"}
+              i := 0
+              condition := func() bool {
+                  events = append(events, "condition:"+strconv.Itoa(i))
+                  return i < limit
+              }
+              for ; condition(); func() {
+                  events = append(events, "post:"+strconv.Itoa(i))
+                  i++
+              }() {
+                  events = append(events, "body:"+strconv.Itoa(i))
+                  if i == 1 {
+                      events = append(events, "continue")
+                      continue
+                  }
+                  events = append(events, "after:"+strconv.Itoa(i))
+              }
+              return append(events, "done")
+          }
+
+          func TestForClauseLifecycle(t *testing.T) {
+              want := []string{
+                  "init", "condition:0", "body:0", "after:0", "post:0",
+                  "condition:1", "body:1", "continue", "post:1",
+                  "condition:2", "body:2", "after:2", "post:2",
+                  "condition:3", "done",
+              }
+              got := deliveryTrace(3)
+              if len(got) != len(want) {
+                  t.Fatalf("trace length = %d, want %d: %v", len(got), len(want), got)
+              }
+              for i := range want {
+                  if got[i] != want[i] {
+                      t.Fatalf("trace[%d] = %q, want %q: %v", i, got[i], want[i], got)
+                  }
+              }
+          }
+        explanation: O trace torna visível que cada condição ocorre antes do corpo, que post:1 aparece mesmo depois de continue e antes de condition:2, e que a cláusula posterior também acontece na última iteração antes de condition:3 falhar e do evento done.
+      relation_refs:
+        - kind: contrasts_with
+          concept_id: range-loop
+        - kind: relates_to
+          concept_id: labeled-break-scope
+  - id: defer-argument-evaluation
+    title: Avaliação dos argumentos de defer
+    content:
+      version: 1
+      explanation: Ao registrar um defer, os argumentos da chamada são avaliados imediatamente; uma closure sem argumentos pode, por outro lado, ler uma variável quando for executada no retorno da função. Ambas as chamadas ainda obedecem à ordem de execução dos defers, mas seus valores podem representar instantes diferentes.
+      example:
+        context: registro de etiquetas de auditoria
+        code: |
+          package example
+
+          import "testing"
+
+          func auditTrace() (events []string) {
+              label := "before"
+              defer func(captured string) {
+                  events = append(events, "argument:"+captured)
+              }(label)
+              defer func() {
+                  events = append(events, "closure:"+label)
+              }()
+              label = "after"
+              return
+          }
+
+          func TestDeferArgumentEvaluation(t *testing.T) {
+              want := []string{"closure:after", "argument:before"}
+              got := auditTrace()
+              if len(got) != len(want) || got[0] != want[0] || got[1] != want[1] {
+                  t.Fatalf("auditTrace() = %v, want %v", got, want)
+              }
+          }
+        explanation: O argumento da primeira função adiada conserva before no momento do registro. A closure lê label somente durante o retorno e observa after; o trace também deixa explícito que a segunda inscrição executa primeiro.
+      relation_refs:
+        - kind: deepens_into
+          concept_id: defer-execution-order
+  - id: closure-capture-lifetime
+    title: Tempo de vida do estado capturado por closure
+    content:
+      version: 1
+      explanation: >
+        Uma closure pode conservar um ambiente depois que a função que o criou retorna. Cada chamada à fábrica
+        cria um ambiente próprio: duas closures derivadas separadamente podem mudar seus estados sem compartilhar
+        a variável capturada. A captura não transforma automaticamente todos os dados externos em cópias; o
+        contrato depende da variável e do momento em que ela é lida.
+      example:
+        context: placares de partidas
+        code: |
+          package example
+
+          import "testing"
+
+          func newScore(start int) func() int {
+              score := start
+              return func() int {
+                  score++
+                  return score
+              }
+          }
+
+          func TestClosureCaptureLifetime(t *testing.T) {
+              home := newScore(0)
+              away := newScore(100)
+              got := []int{home(), away(), home(), away()}
+              want := []int{1, 101, 2, 102}
+              for i := range want {
+                  if got[i] != want[i] {
+                      t.Fatalf("scores = %v, want %v", got, want)
+                  }
+              }
+          }
+        explanation: Os contadores continuam vivos depois de newScore retornar. As chamadas intercaladas mostram que home e away têm ambientes independentes, em vez de atualizar uma variável global compartilhada.
+      relation_refs:
+        - kind: relates_to
+          concept_id: block-scope
+        - kind: relates_to
+          concept_id: named-return-values
+  - id: method-value-binding
+    title: Ligação de method value ao receiver
+    content:
+      version: 1
+      explanation: Ao obter um method value, o receiver é ligado naquele momento. Para um receiver de valor, essa ligação guarda uma cópia; para um receiver de ponteiro, ela guarda a referência ao objeto e observa suas mudanças posteriores. Obter outro method value depois da mudança produz outra cópia para o receiver de valor.
+      example:
+        context: leituras de um painel
+        code: |
+          package example
+
+          import "testing"
+
+          type Panel struct {
+              value int
+          }
+
+          func (p Panel) Reading() int { return p.value }
+
+          func (p *Panel) Add(delta int) { p.value += delta }
+
+          func TestMethodValueBinding(t *testing.T) {
+              panel := Panel{value: 10}
+              earlyReading := panel.Reading
+              add := panel.Add
+              panel.value = 20
+              lateReading := panel.Reading
+
+              if earlyReading() != 10 {
+                  t.Fatalf("early value method = %d, want 10", earlyReading())
+              }
+              if lateReading() != 20 {
+                  t.Fatalf("late value method = %d, want 20", lateReading())
+              }
+              add(5)
+              if panel.value != 25 {
+                  t.Fatalf("pointer method value = %d, want 25", panel.value)
+              }
+          }
+        explanation: O method value de valor criado antes da alteração lê 10, enquanto o criado depois lê 20. O method value de ponteiro continua ligado ao painel original e a chamada add altera seu estado atual para 25.
+      relation_refs:
+        - kind: deepens_into
+          concept_id: pointer-vs-value-receiver
+  - id: package-import-export-boundary
+    title: Fronteira de importação e exportação entre packages
+    content:
+      version: 1
+      explanation: Um consumidor em outro package só pode referir nomes exportados pelo package produtor. Uma API pública mínima pode devolver uma interface pequena, mantendo o tipo concreto e seus campos não exportados dentro do produtor. O teste do consumidor deve depender do contrato que usa, não de detalhes internos que não lhe pertencem.
+      example:
+        context: cliente de um conversor de unidades
+        code: |
+          package example
+
+          import (
+              "os"
+              "os/exec"
+              "path/filepath"
+              "testing"
+          )
+
+          func TestExternalConsumerUsesMinimalAPI(t *testing.T) {
+              dir := t.TempDir()
+              write := func(name, content string) {
+                  t.Helper()
+                  if err := os.WriteFile(filepath.Join(dir, name), []byte(content), 0600); err != nil {
+                      t.Fatal(err)
+                  }
+              }
+              write("go.mod", "module example.test\n\ngo 1.25.0\n")
+          write("producer.go", `package producer
+
+          type Formatter interface{ Label() string }
+
+          type formatter struct{ unit string }
+
+          func (f *formatter) Label() string {
+              return f.unit
+          }
+
+          func NewFormatter(unit string) Formatter { return &formatter{unit: unit} }
+          `)
+              write("consumer_test.go", `package producer_test
+
+          import (
+              "testing"
+              producer "example.test"
+          )
+
+          func TestConsumer(t *testing.T) {
+              var formatter producer.Formatter = producer.NewFormatter("kilometers")
+              if formatter.Label() != "kilometers" {
+                  t.Fatal("unexpected unit")
+              }
+          }
+          `)
+              command := exec.Command("go", "test", "./...")
+              command.Dir = dir
+              command.Env = append(os.Environ(), "GOTOOLCHAIN=local", "GOFLAGS=-buildvcs=false")
+              if output, err := command.CombinedOutput(); err != nil {
+                  t.Fatalf("external consumer failed: %v\n%s", err, output)
+              }
+          }
+        explanation: O mini-módulo materializa um produtor e um teste externo separado. O consumidor compila referindo apenas Formatter, NewFormatter e Label; formatter e unit permanecem nomes internos do produtor. O próprio exemplo roda o teste do módulo local, sem baixar dependências.
+      relation_refs:
+        - kind: relates_to
+          concept_id: constructor-returns-interface
+        - kind: relates_to
+          concept_id: go-modules
 competencies:
   - id: sequence-cleanup-with-defer
     title: Sequenciar limpeza de recursos com defer
@@ -204,6 +542,10 @@ competencies:
     title: Evitar acesso inválido com avaliação de curto-circuito
   - id: hide-concrete-type-behind-constructor
     title: Esconder o tipo concreto atrás de um construtor de interface
+  - id: control-closure-capture
+    title: Controlar estado capturado por closures
+  - id: define-package-api-boundary
+    title: Definir uma fronteira pública mínima entre packages
 tracks: []
 challenges:
   - schema_version: 1
@@ -245,7 +587,7 @@ challenges:
               constraints:
                 - Usar defer dentro do laço, um agendamento por recurso.
                 - Não implementar ainda o valor de retorno.
-            concepts: [defer-execution-order]
+            concepts: [defer-execution-order, defer-argument-evaluation]
             evidence:
               strategies: [source_inspection, compile]
             criteria:
@@ -277,7 +619,7 @@ challenges:
               scope: O retorno nomeado e a função adiada que o atualiza.
               constraints:
                 - Usar defer para registrar o fechamento de cada recurso.
-            concepts: [defer-execution-order]
+            concepts: [defer-execution-order, defer-argument-evaluation]
             evidence:
               strategies: [source_inspection, compile]
             criteria:
@@ -525,7 +867,7 @@ challenges:
               scope: Somente o corpo da função.
               constraints:
                 - Não usar bibliotecas externas.
-            concepts: [variadic-parameters]
+            concepts: [variadic-parameters, for-clause-lifecycle]
             evidence:
               strategies: [source_inspection, compile]
             criteria:
@@ -1038,7 +1380,7 @@ challenges:
               scope: Somente o corpo do método.
               constraints:
                 - Não usar bibliotecas externas.
-            concepts: [pointer-vs-value-receiver]
+            concepts: [pointer-vs-value-receiver, method-value-binding]
             evidence:
               strategies: [source_inspection, compile]
             criteria:
@@ -1940,7 +2282,7 @@ challenges:
     estimated_minutes: 15
     themes: [packages-and-apis]
     competencies:
-      primary: [hide-concrete-type-behind-constructor]
+      primary: [hide-concrete-type-behind-constructor, define-package-api-boundary]
       secondary: []
     prerequisites: []
     brief: >
@@ -2002,7 +2344,7 @@ challenges:
               scope: Somente o corpo de NewCounter.
               constraints:
                 - NewCounter deve retornar o tipo Counter, não o tipo concreto.
-            concepts: [constructor-returns-interface]
+            concepts: [constructor-returns-interface, package-import-export-boundary]
             evidence:
               strategies: [source_inspection, compile]
             criteria:
@@ -2177,7 +2519,7 @@ challenges:
     themes: [control-flow, functions-and-methods]
     competencies:
       primary: [sequence-cleanup-with-defer, escape-loop-from-switch-with-label, recover-from-panic-at-boundary]
-      secondary: []
+      secondary: [control-closure-capture]
     prerequisites: [defer-execution-order, labeled-break-scope, panic-recover-boundary]
     brief: >
       Um executor de comandos precisa produzir um relatório por comando
@@ -2242,7 +2584,7 @@ challenges:
               scope: A função responsável por processar um único comando, antes de chamar run.
               constraints:
                 - Usar defer para garantir o registro de fechamento de cada comando, mesmo com panic.
-            concepts: [defer-execution-order]
+            concepts: [defer-execution-order, closure-capture-lifetime]
             evidence:
               strategies: [source_inspection, compile]
             criteria:
@@ -2274,7 +2616,7 @@ challenges:
               scope: O tratamento do panic ao redor da chamada a run.
               constraints:
                 - Usar recover para converter um panic de run em uma entrada de falha, sem interromper os comandos seguintes.
-            concepts: [panic-recover-boundary]
+            concepts: [panic-recover-boundary, if-initializer-scope]
             evidence:
               strategies: [source_inspection, compile]
             criteria:
@@ -2575,8 +2917,8 @@ challenges:
     estimated_minutes: 30
     themes: [functions-and-methods, packages-and-apis]
     competencies:
-      primary: [use-variadic-parameters, guard-invariant-with-unexported-field]
-      secondary: []
+      primary: [use-variadic-parameters, guard-invariant-with-unexported-field, control-closure-capture]
+      secondary: [define-package-api-boundary]
     prerequisites: [variadic-parameters, unexported-field-invariant]
     brief: >
       Um servidor deve ser construído com uma configuração útil por padrão,
@@ -2610,7 +2952,7 @@ challenges:
               scope: O corpo de WithHost e WithPort.
               constraints:
                 - Os campos de Server não podem ser exportados.
-            concepts: [functional-options-pattern]
+            concepts: [functional-options-pattern, closure-capture-lifetime]
             evidence:
               strategies: [source_inspection, compile]
             criteria:
@@ -2708,7 +3050,7 @@ challenges:
             instruction:
               objective: Confirme que os padrões são mantidos quando nenhuma opção é fornecida e que a última opção prevalece quando há repetição.
               scope: NewServer sem opções e com duas opções de porta em sequência.
-            concepts: [functional-options-pattern]
+            concepts: [functional-options-pattern, package-import-export-boundary]
             evidence:
               strategies: [test]
             criteria:
@@ -3098,4 +3440,49 @@ relations:
     kind: relates_to
   - from: constructor-returns-interface
     to: unexported-field-invariant
+    kind: relates_to
+  - from: if-initializer-scope
+    to: block-scope
+    kind: relates_to
+  - from: if-initializer-scope
+    to: short-circuit-nil-guard
+    kind: relates_to
+  - from: for-clause-lifecycle
+    to: range-loop
+    kind: contrasts_with
+  - from: range-loop
+    to: for-clause-lifecycle
+    kind: contrasts_with
+  - from: for-clause-lifecycle
+    to: labeled-break-scope
+    kind: relates_to
+  - from: defer-argument-evaluation
+    to: defer-execution-order
+    kind: deepens_into
+  - from: closure-capture-lifetime
+    to: block-scope
+    kind: relates_to
+  - from: closure-capture-lifetime
+    to: named-return-values
+    kind: relates_to
+  - from: method-value-binding
+    to: pointer-vs-value-receiver
+    kind: deepens_into
+  - from: package-import-export-boundary
+    to: constructor-returns-interface
+    kind: relates_to
+  - from: package-import-export-boundary
+    to: go-modules
+    kind: relates_to
+  - from: control-closure-capture
+    to: closure-capture-lifetime
+    kind: relates_to
+  - from: closure-capture-lifetime
+    to: control-closure-capture
+    kind: relates_to
+  - from: define-package-api-boundary
+    to: package-import-export-boundary
+    kind: relates_to
+  - from: package-import-export-boundary
+    to: define-package-api-boundary
     kind: relates_to

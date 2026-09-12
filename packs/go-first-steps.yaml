@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-first-steps
-version: 1.6.0
+version: 1.7.0
 themes:
   - id: slices
     title: Slices e arrays
@@ -401,6 +401,225 @@ concepts:
       relation_refs:
         - kind: relates_to
           concept_id: variable-shadowing
+  - id: go-toolchain-environment
+    title: Contexto efetivo da toolchain Go
+    content:
+      version: 1
+      explanation: O resultado de um comando Go depende do módulo e do alvo efetivos em que ele é executado. GOMOD identifica o arquivo de módulo selecionado, enquanto GOOS e GOARCH descrevem o sistema e a arquitetura do build; runtime expõe o alvo do binário em execução. Registrar esses valores torna diagnósticos reproduzíveis e evita atribuir ao código uma diferença causada pelo ambiente.
+      example:
+        context: diagnóstico de ambiente local
+        code: |
+          package example
+
+          import (
+              "os/exec"
+              "runtime"
+              "strings"
+              "testing"
+          )
+
+          func TestEffectiveToolchainContext(t *testing.T) {
+              output, err := exec.Command("go", "env", "GOMOD", "GOOS", "GOARCH").Output()
+              if err != nil {
+                  t.Fatal(err)
+              }
+              values := strings.Fields(string(output))
+              if len(values) != 3 || values[0] == "" {
+                  t.Fatalf("unexpected go env output: %q", output)
+              }
+              if values[1] != runtime.GOOS || values[2] != runtime.GOARCH {
+                  t.Fatalf("go env target = %v/%v, runtime = %v/%v", values[1], values[2], runtime.GOOS, runtime.GOARCH)
+              }
+          }
+        explanation: O teste consulta o módulo e o alvo que a própria toolchain seleciona e compara o sistema e a arquitetura com o binário em execução, sem fixar valores do computador do leitor.
+      relation_refs:
+        - kind: relates_to
+          concept_id: go-modules
+        - kind: relates_to
+          concept_id: go-build-package-selection
+  - id: gofmt-idempotent-source
+    title: Idempotência da formatação com gofmt
+    content:
+      version: 1
+      explanation: Uma fonte formatada por gofmt deve convergir para uma representação estável. Se a segunda execução ainda modificar bytes, a primeira saída não era o resultado final da ferramenta ou algum passo externo está reescrevendo o arquivo. Idempotência é uma propriedade da transformação de texto, não uma prova de que o programa está correto.
+      example:
+        context: arquivo de configuração gerado
+        code: |
+          package example
+
+          import (
+              "bytes"
+              "os/exec"
+              "testing"
+          )
+
+          func formatSource(t *testing.T, source []byte) []byte {
+              t.Helper()
+              command := exec.Command("gofmt")
+              command.Stdin = bytes.NewReader(source)
+              formatted, err := command.Output()
+              if err != nil {
+                  t.Fatal(err)
+              }
+              return formatted
+          }
+
+          func TestGofmtIsIdempotent(t *testing.T) {
+              source := []byte("package example\nfunc add(a,b int)int{return a+b}\n")
+              once := formatSource(t, source)
+              twice := formatSource(t, once)
+              if bytes.Equal(source, once) || !bytes.Equal(once, twice) {
+                  t.Fatalf("formatting did not converge: once=%q twice=%q", once, twice)
+              }
+          }
+        explanation: A primeira passagem normaliza a fonte deliberadamente irregular e a segunda preserva exatamente os mesmos bytes.
+      relation_refs:
+        - kind: relates_to
+          concept_id: printf-verb-matching
+  - id: go-build-package-selection
+    title: Seleção de packages por go build
+    content:
+      version: 1
+      explanation: >
+        Os padrões de packages do comando go determinam quais diretórios entram em uma operação. Em um módulo, go list ./... torna essa seleção observável e go build ./... compila o conjunto correspondente, incluindo comandos, bibliotecas e packages internos permitidos. O padrão de seleção não é a mesma coisa que o module path: um arquivo go.mod identifica o módulo, mas não cria packages que não existem.
+      example:
+        context: módulo com biblioteca e comando
+        code: |
+          package example
+
+          import (
+              "os"
+              "os/exec"
+              "path/filepath"
+              "reflect"
+              "sort"
+              "strings"
+              "testing"
+          )
+
+          func writeFile(t *testing.T, root, name, content string) {
+              t.Helper()
+              path := filepath.Join(root, name)
+              if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+                  t.Fatal(err)
+              }
+              if err := os.WriteFile(path, []byte(content), 0o644); err != nil {
+                  t.Fatal(err)
+              }
+          }
+
+          func TestBuildPackageSelection(t *testing.T) {
+              root := t.TempDir()
+              writeFile(t, root, "go.mod", "module example.test/catalog\n\ngo 1.25.0\n")
+              writeFile(t, root, "lib/value.go", "package lib\n\nfunc Value() int { return 1 }\n")
+              writeFile(t, root, "internal/format/value.go", "package format\n\nfunc Label() string { return \"ok\" }\n")
+              writeFile(t, root, "cmd/report/main.go", "package main\n\nimport _ \"example.test/catalog/internal/format\"\nimport _ \"example.test/catalog/lib\"\nfunc main() {}\n")
+
+              env := append(os.Environ(), "GOWORK=off", "GOPROXY=off", "GOFLAGS=-buildvcs=false")
+              list := exec.Command("go", "list", "./...")
+              list.Dir, list.Env = root, env
+              output, err := list.Output()
+              if err != nil {
+                  t.Fatal(err)
+              }
+              got := strings.Fields(string(output))
+              sort.Strings(got)
+              want := []string{"example.test/catalog/cmd/report", "example.test/catalog/internal/format", "example.test/catalog/lib"}
+              if !reflect.DeepEqual(got, want) {
+                  t.Fatalf("packages = %v, want %v", got, want)
+              }
+              build := exec.Command("go", "build", "./...")
+              build.Dir, build.Env = root, env
+              if output, err := build.CombinedOutput(); err != nil {
+                t.Fatalf("go build ./...: %v\n%s", err, output)
+              }
+          }
+        explanation: O teste cria três packages locais, observa exatamente os três com go list e confirma que o mesmo conjunto pode ser compilado sem buscar dependências externas.
+      relation_refs:
+        - kind: relates_to
+          concept_id: go-modules
+        - kind: relates_to
+          concept_id: go-toolchain-environment
+  - id: untyped-constant-defaulting
+    title: Default de constante não tipada no contexto de uso
+    content:
+      version: 1
+      explanation: Uma constante numérica declarada sem tipo permanece sem tipo até ser usada em um contexto que exige uma representação. O contexto pode atribuir o mesmo valor a int, float64 ou rune sem conversão explícita; quando uma constante sem tipo é observada como interface, ela recebe seu tipo padrão. Esse default contextual é diferente de converter um valor já tipado durante a execução.
+      example:
+        context: valores de um relatório
+        code: |
+          package example
+
+          import (
+              "reflect"
+              "testing"
+          )
+
+          const count = 3
+          const label = "items"
+
+          func TestUntypedConstantContext(t *testing.T) {
+              var asInt int = count
+              var asFloat float64 = count
+              var asRune rune = count
+              var asString string = label
+              if asInt != 3 || asFloat != 3 || asRune != 3 || asString != "items" {
+                  t.Fatal(asInt, asFloat, asRune, asString)
+              }
+              if reflect.TypeOf(count).Kind() != reflect.Int || reflect.TypeOf(label).Kind() != reflect.String {
+                  t.Fatal("unexpected default type")
+              }
+          }
+        explanation: count é aceito em três tipos numéricos pelo contexto de atribuição e assume int quando passa por interface; label permanece uma string não tipada que só precisa de um contexto textual.
+      relation_refs:
+        - kind: relates_to
+          concept_id: constant-declaration
+        - kind: contrasts_with
+          concept_id: type-conversion
+  - id: numeric-constant-representability
+    title: Representabilidade de constantes numéricas
+    content:
+      version: 1
+      explanation: Uma constante numérica precisa ser representável pelo tipo declarado no momento da compilação. Se o valor literal não couber, o programa é rejeitado antes de executar; isso é diferente de converter uma variável numérica em runtime, quando a conversão pode perder informação sem retornar um erro. Separar essas fronteiras evita tratar um diagnóstico de compilação como se fosse validação de entrada.
+      example:
+        context: validação de uma declaração de limite
+        code: |
+          package example
+
+          import (
+              "go/ast"
+              "go/parser"
+              "go/token"
+              "go/types"
+              "testing"
+          )
+
+          func typeChecks(source string) error {
+              fset := token.NewFileSet()
+              file, err := parser.ParseFile(fset, "snippet.go", source, 0)
+              if err != nil {
+                  return err
+              }
+              _, err = new(types.Config).Check("snippet", fset, []*ast.File{file}, nil)
+              return err
+          }
+
+          func TestNumericConstantRepresentability(t *testing.T) {
+              valid := `package snippet; const limit uint8 = 255`
+              invalid := `package snippet; const limit uint8 = 256`
+              if err := typeChecks(valid); err != nil {
+                  t.Fatalf("representable constant rejected: %v", err)
+              }
+              if err := typeChecks(invalid); err == nil {
+                  t.Fatal("unrepresentable constant accepted")
+              }
+          }
+        explanation: O compilador de tipos aceita o literal 255 em uint8 e rejeita 256 sem executar qualquer conversão ou função de negócio.
+      relation_refs:
+        - kind: contrasts_with
+          concept_id: narrowing-conversion-overflow
+        - kind: relates_to
+          concept_id: type-conversion
 competencies:
   - id: slice-filter
     title: Filtrar um slice
@@ -418,6 +637,8 @@ competencies:
     title: Detectar verbos de formatação incompatíveis com go vet
   - id: avoid-variable-shadowing
     title: Evitar shadowing de variável
+  - id: inspect-go-toolchain-context
+    title: Inspecionar o contexto efetivo da toolchain
 tracks:
 - id: go-from-zero
   title: Go do zero
@@ -677,6 +898,97 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
+          - id: model.resolve-constant-context
+            kind: macro
+            title: Resolver o contexto de constantes
+            instruction:
+              objective: Delimitar como o contexto de uso participa do tipo de uma constante.
+              scope: Declarações constantes do exercício e usos numéricos relacionados.
+            concepts: [untyped-constant-defaulting, constant-declaration]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: constant-context-defined
+                kind: qualitative
+            children:
+              - id: model.observe-contextual-constant-typing
+                kind: meso
+                title: Observar a tipagem contextual
+                instruction:
+                  objective: Relacionar o uso de uma constante sem tipo ao tipo que o contexto exige.
+                  scope: Atribuições numéricas e observação do tipo padrão.
+                concepts: [untyped-constant-defaulting, constant-declaration]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: contextual-typing-is-explained
+                    kind: qualitative
+                children:
+                  - id: model.observe-untyped-constant-context
+                    kind: micro
+                    action: verify
+                    target: constant_use
+                    title: Observar o default contextual de uma constante
+                    instruction:
+                      objective: Observe o tipo que uma constante sem tipo assume em contextos numéricos diferentes.
+                      scope: Somente os usos da constante; não altere a enumeração de dias.
+                      constraints:
+                        - Não inserir conversões explícitas para esconder o tipo escolhido pelo contexto.
+                    concepts: [untyped-constant-defaulting]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: default-type-varies-by-context
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.explain-untyped-constant-defaulting
+                    kind: micro
+                    action: reflect
+                    target: decision
+                    title: Explicar o tipo escolhido pelo contexto
+                    instruction:
+                      objective: Explique como o contexto de uso determina o tipo final de uma constante sem tipo.
+                      scope: Apenas a diferença entre default contextual e conversão explícita.
+                    concepts: [untyped-constant-defaulting, constant-declaration]
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: contextual-defaulting-explained
+                        kind: qualitative
+                    completion:
+                      requires_positive_evaluation: false
+                      requires_user_confirmation: true
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que uma conversão explícita mudaria a pergunta que o exemplo está testando?
           - id: model.declare-weekday-type
             kind: micro
             action: declare
@@ -938,6 +1250,95 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
+          - id: model.separate-static-and-runtime-conversion
+            kind: macro
+            title: Separar conversão estática e conversão em runtime
+            instruction:
+              objective: Delimitar quais limites são verificados pelo compilador e quais dependem da execução.
+              scope: Literais numéricos da fórmula e valores recebidos pela função.
+            concepts: [numeric-constant-representability, type-conversion]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: conversion-boundaries-defined
+                kind: qualitative
+            children:
+              - id: model.inspect-numeric-representability
+                kind: meso
+                title: Inspecionar a representabilidade numérica
+                instruction:
+                  objective: Relacionar a representação dos literais ao tipo usado pela conversão.
+                  scope: Constantes da fórmula e distinção entre compilação e execução.
+                concepts: [numeric-constant-representability, type-conversion]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: representability-boundary-is-explained
+                    kind: qualitative
+                children:
+                  - id: model.inspect-representable-formula-literals
+                    kind: micro
+                    action: verify
+                    target: numeric_constant
+                    title: Verificar a representabilidade dos literais da fórmula
+                    instruction:
+                      objective: Verifique se os literais numéricos usados pela fórmula podem ser representados pelo tipo escolhido.
+                      scope: Apenas a análise dos literais; não altere a fórmula de conversão.
+                    concepts: [numeric-constant-representability]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: formula-literals-are-representable
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.explain-static-runtime-boundary
+                    kind: micro
+                    action: reflect
+                    target: decision
+                    title: Explicar a fronteira entre compilação e runtime
+                    instruction:
+                      objective: Explique a diferença entre uma constante que falha na compilação e um valor recebido que só pode ser validado durante a execução.
+                      scope: Apenas a distinção entre representabilidade e conversão de entrada.
+                    concepts: [numeric-constant-representability, type-conversion]
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: compile-runtime-distinction-explained
+                        kind: qualitative
+                    completion:
+                      requires_positive_evaluation: false
+                      requires_user_confirmation: true
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que um erro de representabilidade não pode ser tratado como se fosse um erro retornado pela função?
           - id: model.declare-celsius-type
             kind: micro
             action: declare
@@ -1118,7 +1519,7 @@ challenges:
     themes: [tooling]
     competencies:
       primary: [initialize-a-go-module]
-      secondary: []
+      secondary: [inspect-go-toolchain-context]
     prerequisites: []
     brief: >
       Inicialize corretamente o módulo Go deste exercício, sem depender de
@@ -1134,6 +1535,102 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
+          - id: model.inspect-toolchain-context
+            kind: macro
+            title: Inspecionar o contexto efetivo da toolchain
+            instruction:
+              objective: Delimitar o contexto que os comandos Go usarão no exercício.
+              scope: Módulo, alvo de compilação e seleção de packages.
+            concepts: [go-toolchain-environment, go-build-package-selection]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: toolchain-context-defined
+                kind: qualitative
+            children:
+              - id: model.reproduce-toolchain-context
+                kind: meso
+                title: Reproduzir o contexto dos comandos Go
+                instruction:
+                  objective: Relacionar os metadados do módulo ao alvo efetivo das ferramentas locais.
+                  scope: Diretório do exercício e comandos de inspeção do módulo.
+                concepts: [go-toolchain-environment, go-modules]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: context-reproduction-is-explained
+                    kind: qualitative
+                children:
+                  - id: model.inspect-effective-go-environment
+                    kind: micro
+                    action: verify
+                    target: toolchain_context
+                    title: Inspecionar o ambiente efetivo do Go
+                    instruction:
+                      objective: Observe GOMOD, GOOS e GOARCH no diretório do exercício.
+                      scope: Apenas a leitura do contexto selecionado; não altere o ambiente.
+                      constraints:
+                        - Não fixar o sistema ou a arquitetura do computador do leitor.
+                    concepts: [go-toolchain-environment]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: effective-context-recorded
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que registrar o módulo e o alvo junto com uma falha torna o diagnóstico reproduzível?
+                  - id: model.inspect-build-package-selection
+                    kind: micro
+                    action: verify
+                    target: package_set
+                    title: Inspecionar a seleção de packages no build
+                    instruction:
+                      objective: Observe os packages selecionados pela operação de build a partir da raiz do módulo.
+                      scope: A saída de go list ./... e go build ./..., sem editar as fontes.
+                      constraints:
+                        - Não adicionar dependências externas ao exercício.
+                    concepts: [go-build-package-selection, go-modules]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: package-selection-observed
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - O que a seleção de packages revela que a simples presença de go.mod não revela?
           - id: model.declare-module-path
             kind: micro
             action: declare
@@ -1373,6 +1870,65 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
+          - id: model.guard-runtime-narrowing
+            kind: macro
+            title: Guardar uma conversão numérica em runtime
+            instruction:
+              objective: Delimitar a fronteira entre uma entrada dinâmica e o tipo de destino da conversão.
+              scope: Valores recebidos por ClampToByte e seus limites representáveis.
+            concepts: [numeric-constant-representability, narrowing-conversion-overflow]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: runtime-boundary-defined
+                kind: qualitative
+            children:
+              - id: model.compare-static-and-runtime-boundaries
+                kind: meso
+                title: Comparar limites estáticos e dinâmicos
+                instruction:
+                  objective: Relacionar um literal verificado na compilação a uma entrada int recebida em runtime.
+                  scope: Fronteira de representabilidade e contrato de ClampToByte.
+                concepts: [numeric-constant-representability, narrowing-conversion-overflow]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: static-runtime-boundary-is-explained
+                    kind: qualitative
+                children:
+                  - id: model.compare-constant-and-runtime-input
+                    kind: micro
+                    action: reflect
+                    target: decision
+                    title: Comparar constante e entrada em runtime
+                    instruction:
+                      objective: Compare o caminho de um literal representável com o caminho de uma entrada int obtida em runtime.
+                      scope: Apenas a distinção entre diagnóstico de compilação e validação antes da conversão.
+                    concepts: [numeric-constant-representability, narrowing-conversion-overflow]
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: static-runtime-input-distinguished
+                        kind: qualitative
+                    completion:
+                      requires_positive_evaluation: false
+                      requires_user_confirmation: true
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que o compilador não pode decidir sozinho se um int recebido em runtime cabe no byte?
           - id: model.declare-clamp-signature
             kind: micro
             action: declare
@@ -1658,7 +2214,7 @@ challenges:
     themes: [tooling]
     competencies:
       primary: [catch-format-verb-mismatches-with-vet]
-      secondary: []
+      secondary: [inspect-go-toolchain-context]
     prerequisites: []
     brief: >
       Implemente uma função que formata uma mensagem de limite de taxa
@@ -1677,6 +2233,97 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
+          - id: model.make-formatting-repeatable
+            kind: macro
+            title: Tornar a formatação da fonte repetível
+            instruction:
+              objective: Estabelecer uma rotina de formatação estável para a fonte do exercício.
+              scope: Formatação da fonte e observação da saída produzida pela ferramenta.
+            concepts: [gofmt-idempotent-source, printf-verb-matching]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: formatting-routine-defined
+                kind: qualitative
+            children:
+              - id: model.verify-source-format-stability
+                kind: meso
+                title: Verificar a estabilidade da fonte formatada
+                instruction:
+                  objective: Confirmar que a fonte converge para uma representação única após a formatação.
+                  scope: Execuções repetidas de gofmt sobre a fonte do exercício.
+                concepts: [gofmt-idempotent-source]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: format-stability-is-explained
+                    kind: qualitative
+                children:
+                  - id: model.apply-gofmt-to-source
+                    kind: micro
+                    action: verify
+                    target: source
+                    title: Aplicar gofmt à fonte
+                    instruction:
+                      objective: Aplicar o formatador padrão à fonte do exercício.
+                      scope: Apenas a formatação do arquivo; não altere a lógica da função.
+                      constraints:
+                        - Não substituir a ferramenta por uma edição manual equivalente.
+                    concepts: [gofmt-idempotent-source]
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: source-is-formatted
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                  - id: model.confirm-gofmt-idempotence
+                    kind: micro
+                    action: verify
+                    target: source
+                    title: Confirmar a idempotência de gofmt
+                    instruction:
+                      objective: Verificar a estabilidade da fonte após repetir o formatador.
+                      scope: Apenas a comparação entre a primeira e a segunda saída de formatação.
+                    concepts: [gofmt-idempotent-source]
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: repeated-format-is-stable
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que uma segunda execução sem mudanças é uma propriedade útil para ferramentas de formatação?
           - id: model.implement-ratelimit-formatting
             kind: micro
             action: implement
@@ -1888,6 +2535,31 @@ challenges:
     layers:
       - id: understanding
         macro_steps:
+          - id: model.trace-return-scope
+            kind: macro
+            title: Rastrear o escopo dos resultados
+            instruction:
+              objective: Delimitar onde os resultados nomeados permanecem acessíveis durante o parsing.
+              scope: Bloco condicional, função e valores devolvidos.
+            concepts: [block-scope, named-return-values]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: return-scope-defined
+                kind: qualitative
+            children:
+              - id: model.connect-conditional-to-return-scope
+                kind: meso
+                title: Conectar bloco condicional e retorno
+                instruction:
+                  objective: Relacionar a duração do escopo condicional à observação dos resultados da função.
+                  scope: Variáveis locais, retornos nomeados e saída do exercício.
+                concepts: [block-scope, named-return-values, variable-shadowing]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: conditional-return-boundary-is-explained
+                    kind: qualitative
           - id: model.validate-empty-input
             kind: micro
             action: implement
@@ -2283,4 +2955,55 @@ relations:
     kind: applies_in
   - from: slice-allocation
     to: go-data.slice-filter-preserve-input
+    kind: applies_in
+  - from: go-toolchain-environment
+    to: go-modules
+    kind: relates_to
+  - from: go-modules
+    to: go-toolchain-environment
+    kind: relates_to
+  - from: go-toolchain-environment
+    to: go-build-package-selection
+    kind: relates_to
+  - from: go-build-package-selection
+    to: go-toolchain-environment
+    kind: relates_to
+  - from: go-build-package-selection
+    to: go-modules
+    kind: relates_to
+  - from: gofmt-idempotent-source
+    to: printf-verb-matching
+    kind: relates_to
+  - from: printf-verb-matching
+    to: gofmt-idempotent-source
+    kind: relates_to
+  - from: untyped-constant-defaulting
+    to: constant-declaration
+    kind: relates_to
+  - from: constant-declaration
+    to: untyped-constant-defaulting
+    kind: relates_to
+  - from: untyped-constant-defaulting
+    to: type-conversion
+    kind: contrasts_with
+  - from: type-conversion
+    to: untyped-constant-defaulting
+    kind: contrasts_with
+  - from: numeric-constant-representability
+    to: narrowing-conversion-overflow
+    kind: contrasts_with
+  - from: narrowing-conversion-overflow
+    to: numeric-constant-representability
+    kind: contrasts_with
+  - from: numeric-constant-representability
+    to: type-conversion
+    kind: relates_to
+  - from: type-conversion
+    to: numeric-constant-representability
+    kind: relates_to
+  - from: inspect-go-toolchain-context
+    to: go-first-steps.declare-a-minimal-module
+    kind: applies_in
+  - from: inspect-go-toolchain-context
+    to: go-first-steps.format-rate-limit-message
     kind: applies_in

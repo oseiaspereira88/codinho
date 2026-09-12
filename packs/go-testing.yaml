@@ -809,6 +809,278 @@ challenges:
           reflection:
             optional:
             - Por que uma propriedade independente da implementação pode encontrar uma falha que a tabela não enumerou?
+    - id: testable-expiry.lifecycle-diagnostic-context.macro
+      kind: macro
+      title: Registrar evidências do lifecycle e do diagnóstico
+      instruction:
+        objective: Registre as condições que tornam o teste localizável e repetível.
+        scope: Nomes de casos, contexto de helpers, callbacks de cleanup e propriedades de fuzz.
+      concepts:
+      - testing-helper-context
+      - testing-cleanup-lifecycle
+      - testing-fuzz-invariant
+      evidence:
+        strategies:
+        - source_inspection
+      criteria:
+      - id: lifecycle-diagnostic-evidence-recorded
+        kind: qualitative
+      children:
+      - id: testable-expiry.lifecycle-diagnostic-context.meso
+        kind: meso
+        title: Mapear o momento de cada evidência
+        instruction:
+          objective: Relacione cada observação ao momento em que o framework a produz.
+          scope: Execução do caso, encerramento do teste e geração de entradas.
+        concepts:
+        - testing-helper-context
+        - testing-cleanup-lifecycle
+        - testing-fuzz-invariant
+        evidence:
+          strategies:
+          - source_inspection
+        criteria:
+        - id: lifecycle-diagnostic-timing-mapped
+          kind: qualitative
+        children:
+        - id: testable-expiry.name-boundary-subtests
+          kind: micro
+          action: verify
+          target: subtest_name
+          title: Verificar nomes dos subtestes de fronteira
+          instruction:
+            objective: Confirme que cada fronteira temporal tem um nome legível no subteste.
+            scope: Os cenários antes, igualdade e depois do instante observado.
+          concepts:
+          - testing-named-subtests
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: temporal-boundary-name-identifies-case
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que o nome do subteste deve revelar a fronteira que falhou?
+        - id: testable-expiry.diagnostic-helper-values
+          kind: micro
+          action: verify
+          target: helper_diagnostic
+          title: Verificar valores no diagnóstico auxiliar
+          instruction:
+            objective: Confirme que a asserção auxiliar informa o valor obtido e o valor esperado.
+            scope: A mensagem produzida pelo helper quando a seleção diverge.
+          concepts:
+          - testing-helper-context
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: helper-diagnostic-includes-observed-and-expected
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que apontar somente a linha do chamador não substitui informar obtido e esperado?
+        - id: testable-expiry.register-cleanup-owner
+          kind: micro
+          action: verify
+          target: cleanup_registration
+          title: Verificar registro no teste proprietário
+          instruction:
+            objective: Confirme que o estado criado por um caso é registrado para cleanup no teste que o possui.
+            scope: O teste pai e cada subteste que cria estado auxiliar.
+          concepts:
+          - testing-cleanup-lifecycle
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: cleanup-registered-on-own-test-scope
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que o teste que cria o estado deve ser o dono do callback de cleanup?
+        - id: testable-expiry.cleanup-after-children
+          kind: micro
+          action: verify
+          target: cleanup_timing
+          title: Verificar cleanup após os subtestes
+          instruction:
+            objective: Confirme que o callback de cleanup observa o fim do corpo e dos subtestes.
+            scope: O instante entre o retorno do corpo e a execução do callback.
+          concepts:
+          - testing-cleanup-lifecycle
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: cleanup-runs-after-body-and-children
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Como observar o trace depois de t.Run ajuda a separar o encerramento do filho e do pai?
+        - id: testable-expiry.seed-fuzz-boundaries
+          kind: micro
+          action: verify
+          target: fuzz_seed
+          title: Verificar seeds de fronteira no fuzz
+          instruction:
+            objective: Confirme que os seeds incluem uma fronteira temporal e uma entrada vazia.
+            scope: Os valores conhecidos fornecidos antes da geração de entradas.
+          concepts:
+          - testing-fuzz-invariant
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: fuzz-seeds-cover-boundary-and-empty
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que seeds conhecidos tornam a propriedade útil também na execução normal do teste?
+        - id: testable-expiry.run-fuzz-property
+          kind: micro
+          action: verify
+          target: fuzz_target
+          title: Verificar entradas geradas pela propriedade
+          instruction:
+            objective: Confirme que a propriedade recebe entradas geradas pelo alvo de fuzz.
+            scope: A função passada ao alvo e o valor gerado pelo framework.
+          concepts:
+          - testing-fuzz-invariant
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: fuzz-target-exercises-generated-input
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que a propriedade precisa aceitar qualquer entrada gerada em vez de apenas os seeds?
+        - id: testable-expiry.check-fuzz-idempotence
+          kind: micro
+          action: verify
+          target: fuzz_invariant
+          title: Verificar estabilidade do resultado normalizado
+          instruction:
+            objective: Confirme que aplicar a seleção ao resultado preserva a propriedade declarada.
+            scope: A repetição da operação sobre uma saída já válida.
+          concepts:
+          - testing-fuzz-invariant
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: fuzz-property-survives-reapplication
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que uma propriedade de estabilidade pode revelar uma implementação que só funciona na primeira passagem?
   fixture:
   - path: go.mod
     content: |

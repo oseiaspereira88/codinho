@@ -644,6 +644,64 @@ challenges:
             reflection:
               optional:
                 - Por que a ordem final é o inverso da ordem em que os recursos foram recebidos?
+          - id: go-core.close-resources-in-defer-order.defer-argument-timing.macro
+            kind: macro
+            title: Distinguir o instante do argumento de defer
+            instruction:
+              objective: Identifique o instante em que um argumento de defer é avaliado.
+              scope: A inscrição da chamada adiada e a execução no retorno da função.
+            concepts: [defer-argument-evaluation]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: defer-argument-timing-defined
+                kind: qualitative
+            children:
+              - id: go-core.close-resources-in-defer-order.defer-argument-timing.meso
+                kind: meso
+                title: Comparar captura imediata e leitura tardia
+                instruction:
+                  objective: Compare o valor fixado na inscrição com o valor lido na execução.
+                  scope: Um argumento escalar e uma closure sem argumentos.
+                concepts: [defer-argument-evaluation]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: defer-argument-capture-is-distinct
+                    kind: qualitative
+                children:
+                  - id: go-core.close-resources-in-defer-order.verify-defer-argument-capture
+                    kind: micro
+                    action: verify
+                    target: deferred_argument
+                    title: Verificar captura do argumento de defer
+                    instruction:
+                      objective: Confirme que o argumento escalar conserva o valor da inscrição.
+                      scope: Apenas o valor passado diretamente à chamada adiada.
+                    concepts: [defer-argument-evaluation]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: deferred-argument-keeps-registration-value
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que uma closure sem argumentos pode observar outro valor quando for executada?
           - id: model.verify-empty-defer-stack
             hints:
               - level: 1
@@ -924,6 +982,64 @@ challenges:
             reflection:
               optional:
                 - O que muda no local dos três pontos entre declarar a função e expandir um slice na chamada?
+          - id: go-core.sum-variadic-numbers.for-clause-lifecycle.macro
+            kind: macro
+            title: Rastrear o ciclo de um for clássico
+            instruction:
+              objective: Rastreie a ordem das cláusulas de um for clássico.
+              scope: Inicializador, condição, corpo, continue e cláusula posterior.
+            concepts: [for-clause-lifecycle]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: for-clause-lifecycle-defined
+                kind: qualitative
+            children:
+              - id: go-core.sum-variadic-numbers.for-clause-lifecycle.meso
+                kind: meso
+                title: Relacionar corpo e cláusula posterior
+                instruction:
+                  objective: Relacione cada retorno ao próximo ponto de avaliação do laço.
+                  scope: O efeito de continue e a ordem da condição seguinte.
+                concepts: [for-clause-lifecycle]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: for-clause-order-is-distinct
+                    kind: qualitative
+                children:
+                  - id: go-core.sum-variadic-numbers.verify-for-post-after-continue
+                    kind: micro
+                    action: verify
+                    target: for_clause_lifecycle
+                    title: Verificar o post depois de continue
+                    instruction:
+                      objective: Confirme que a cláusula posterior ocorre depois do corpo, inclusive após continue.
+                      scope: Apenas a ordem entre corpo, post e nova condição.
+                    concepts: [for-clause-lifecycle]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: for-post-runs-after-continue
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que continue não pula a cláusula posterior do for clássico?
     fixture:
       - path: go.mod
         content: |
@@ -1434,6 +1550,64 @@ challenges:
                 kind: partial_code
               - level: 6
                 kind: solution
+          - id: go-core.increment-counter-with-pointer-receiver.method-value-binding.macro
+            kind: macro
+            title: Observar a ligação de method value
+            instruction:
+              objective: Identifique o receiver ligado ao obter um method value.
+              scope: Receivers de valor e de ponteiro observados antes e depois de uma mutação.
+            concepts: [method-value-binding]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: method-value-binding-defined
+                kind: qualitative
+            children:
+              - id: go-core.increment-counter-with-pointer-receiver.method-value-binding.meso
+                kind: meso
+                title: Comparar ligações feitas em momentos diferentes
+                instruction:
+                  objective: Compare a ligação de um receiver de valor com a de um receiver de ponteiro.
+                  scope: O momento de obter o method value e as mudanças posteriores no objeto.
+                concepts: [method-value-binding]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: method-value-binding-comparison-is-distinct
+                    kind: qualitative
+                children:
+                  - id: go-core.increment-counter-with-pointer-receiver.verify-value-method-binding
+                    kind: micro
+                    action: verify
+                    target: method_value
+                    title: Verificar a cópia do receiver de valor
+                    instruction:
+                      objective: Confirme que um method value de receiver de valor conserva a cópia da obtenção.
+                      scope: Apenas o receiver de valor e uma mutação posterior no valor original.
+                    concepts: [method-value-binding]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: value-method-value-binds-copy
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que obter o method value antes da mutação produz uma observação diferente da chamada direta?
     fixture:
       - path: go.mod
         content: |
@@ -2704,6 +2878,64 @@ challenges:
                 kind: partial_code
               - level: 6
                 kind: solution
+          - id: go-core.run-commands-with-cleanup-and-recovery.if-initializer-scope.macro
+            kind: macro
+            title: Delimitar o escopo do inicializador
+            instruction:
+              objective: Delimite o escopo de um nome criado no inicializador de if.
+              scope: A condição, os ramos e o ponto depois da instrução if.
+            concepts: [if-initializer-scope]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: if-initializer-scope-defined
+                kind: qualitative
+            children:
+              - id: go-core.run-commands-with-cleanup-and-recovery.if-initializer-scope.meso
+                kind: meso
+                title: Localizar a fronteira do nome temporário
+                instruction:
+                  objective: Localize a fronteira de visibilidade do nome temporário.
+                  scope: O inicializador, a condição, os ramos e o código posterior ao if.
+                concepts: [if-initializer-scope]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: if-initializer-boundary-is-distinct
+                    kind: qualitative
+                children:
+                  - id: go-core.run-commands-with-cleanup-and-recovery.verify-if-initializer-boundary
+                    kind: micro
+                    action: verify
+                    target: if_initializer_scope
+                    title: Verificar o limite do inicializador de if
+                    instruction:
+                      objective: Confirme que o nome do inicializador não pode ser usado depois do if.
+                      scope: Apenas a visibilidade do nome fora da instrução if.
+                    concepts: [if-initializer-scope]
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: if-initializer-name-ends-after-if
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que manter o nome no if reduz o alcance de uma variável auxiliar?
     fixture:
       - path: go.mod
         content: |
@@ -3071,6 +3303,64 @@ challenges:
                 kind: partial_code
               - level: 6
                 kind: solution
+          - id: go-core.configure-server-with-functional-options.closure-capture-lifetime.macro
+            kind: macro
+            title: Preservar o valor capturado por uma opção
+            instruction:
+              objective: Identifique o valor que cada closure de opção conserva.
+              scope: A criação de WithHost e WithPort e a aplicação posterior da opção.
+            concepts: [closure-capture-lifetime]
+            evidence:
+              strategies: [source_inspection]
+            criteria:
+              - id: option-closure-capture-defined
+                kind: qualitative
+            children:
+              - id: go-core.configure-server-with-functional-options.closure-capture-lifetime.meso
+                kind: meso
+                title: Comparar opções criadas com argumentos distintos
+                instruction:
+                  objective: Compare a opção criada com cada argumento recebido.
+                  scope: O valor capturado pela closure antes da aplicação em NewServer.
+                concepts: [closure-capture-lifetime]
+                evidence:
+                  strategies: [source_inspection]
+                criteria:
+                  - id: option-closure-capture-is-distinct
+                    kind: qualitative
+                children:
+                  - id: go-core.configure-server-with-functional-options.verify-option-capture
+                    kind: micro
+                    action: verify
+                    target: closure_capture
+                    title: Verificar o argumento próprio de cada opção
+                    instruction:
+                      objective: Confirme que cada opção aplica o argumento de sua própria criação.
+                      scope: Apenas a closure retornada por WithHost ou WithPort.
+                    concepts: [closure-capture-lifetime]
+                    evidence:
+                      strategies: [source_inspection, test]
+                    criteria:
+                      - id: option-closure-keeps-own-argument
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
+                    reflection:
+                      optional:
+                        - Por que cada opção precisa conservar seu próprio argumento até NewServer aplicá-la?
     fixture:
       - path: go.mod
         content: |

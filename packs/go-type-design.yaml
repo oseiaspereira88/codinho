@@ -555,9 +555,9 @@ challenges:
       secondary: []
     prerequisites: []
     brief: >
-      Implemente uma função que escolhe um Validator por modo, devolvendo
-      um nil de interface verdadeiro quando o modo é desconhecido -- não
-      um ponteiro nil embrulhado em uma interface não nil.
+      Um serviço escolhe um validador a partir de um modo. O contrato
+      precisa distinguir uma configuração utilizável de um modo que não
+      oferece validador.
     constraints:
       - Não usar bibliotecas externas além da biblioteca padrão.
       - Quando mode for desconhecido, o retorno deve ser comparável a nil com ==, resultando true.
@@ -574,15 +574,15 @@ challenges:
             kind: micro
             action: implement
             target: function
-            title: Devolver um validador de fato configurado para o modo conhecido
+            title: Entregar um validador utilizável para o modo conhecido
             instruction:
-              objective: Quando mode for "strict", devolver um Validator de fato configurado, capaz de validar sem erro.
+              objective: Fazer SelectValidator("strict") devolver um validador cuja validação conclua sem erro.
               scope: O caso em que mode é "strict".
               constraints:
                 - Não tratar ainda o caso de modo desconhecido.
             concepts: [typed-nil-interface-trap]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection, test]
             criteria:
               - id: returns-configured-validator-for-known-mode
                 kind: structural
@@ -594,19 +594,27 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.return-true-nil-for-unknown-mode
             kind: micro
             action: implement
             target: function
-            title: Devolver um nil de interface verdadeiro para modo desconhecido
+            title: Representar a ausência de validador para modo desconhecido
             instruction:
-              objective: Quando mode não for reconhecido, garantir que o Validator devolvido seja comparável a nil com ==, resultando true.
+              objective: Fazer SelectValidator representar a ausência prevista pelo contrato quando mode não for reconhecido.
               scope: O caso em que mode não é reconhecido.
               constraints:
                 - Quando mode for desconhecido, o retorno deve ser comparável a nil com ==, resultando true.
             concepts: [typed-nil-interface-trap]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection, test]
             criteria:
               - id: returns-true-nil-for-unknown-mode
                 kind: structural
@@ -620,9 +628,15 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
-                - Por que devolver um *strictValidator nil como Validator (mesmo dentro do caso "strict") resulta em uma interface diferente de nil, mas que ainda pode falhar de forma inesperada ao ser usada?
+                - Por que uma interface que recebe um ponteiro nil ainda pode não comparar igual a nil, e que consequência isso teria para quem usa o retorno de um modo não reconhecido?
             children:
               - id: model.verify-validator-identity
                 hints:
@@ -630,16 +644,24 @@ challenges:
                     kind: guiding_question
                   - level: 2
                     kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
                 kind: micro
                 action: verify
                 target: interface
                 title: Verificar a identidade da interface
                 instruction:
-                  objective: Compare os retornos dos modos conhecido e desconhecido com nil e invoque Validate apenas no validador configurado.
-                  scope: Somente a distinção entre interface nil e interface com tipo dinâmico.
+                  objective: Confirme que o retorno tem presença para o modo conhecido e ausência para modos não reconhecidos.
+                  scope: A distinção observável entre validador disponível e ausência de validador.
                 concepts: [typed-nil-interface-trap]
                 evidence:
-                  strategies: [compile, source_inspection]
+                  strategies: [test]
                 criteria:
                   - id: known-interface-non-nil
                     kind: structural
@@ -654,7 +676,7 @@ challenges:
                 target: decision
                 title: Explicar o estado zero da interface
                 instruction:
-                  objective: Explique por que o retorno nil direto é diferente de encaixotar um ponteiro nil em Validator.
+                  objective: Explique por que uma interface sem validador não tem o mesmo estado que uma interface com ponteiro nil.
                   scope: Apenas a justificativa do contrato para modo desconhecido.
                 concepts: [typed-nil-interface-trap]
                 evidence:
@@ -665,6 +687,19 @@ challenges:
                 completion:
                   requires_positive_evaluation: false
                   requires_user_confirmation: true
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
     fixture:
       - path: go.mod
         content: |
@@ -698,9 +733,8 @@ challenges:
               return nil
           }
 
-          // SelectValidator returns a Validator for the given mode, or a true nil
-          // interface (not a nil pointer wrapped in a non-nil interface) when
-          // mode is unknown.
+          // SelectValidator returns a Validator for the given mode, or no
+          // validator when mode is unknown.
           func SelectValidator(mode string) Validator {
               panic("not implemented")
           }
@@ -725,6 +759,13 @@ challenges:
                   v := SelectValidator("unknown")
                   if v != nil {
                       t.Errorf("SelectValidator(\"unknown\") = %#v, want nil interface", v)
+                  }
+              })
+
+              t.Run("any other mode is also absent", func(t *testing.T) {
+                  v := SelectValidator("")
+                  if v != nil {
+                      t.Errorf("SelectValidator(\"\") = %#v, want nil interface", v)
                   }
               })
           }
@@ -770,9 +811,8 @@ challenges:
               return nil
           }
 
-          // SelectValidator returns a Validator for the given mode, or a true nil
-          // interface (not a nil pointer wrapped in a non-nil interface) when
-          // mode is unknown.
+          // SelectValidator returns a Validator for the given mode, or no
+          // validator when mode is unknown.
           func SelectValidator(mode string) Validator {
               if mode == "strict" {
                   return &strictValidator{minLength: 1}
@@ -802,6 +842,13 @@ challenges:
                       t.Errorf("SelectValidator(\"unknown\") = %#v, want nil interface", v)
                   }
               })
+
+              t.Run("any other mode is also absent", func(t *testing.T) {
+                  v := SelectValidator("")
+                  if v != nil {
+                      t.Errorf("SelectValidator(\"\") = %#v, want nil interface", v)
+                  }
+              })
           }
       expectations:
       - check_id: focused-tests
@@ -820,16 +867,16 @@ challenges:
       secondary: []
     prerequisites: []
     brief: >
-      Implemente a soma dos valores de uma lista encadeada de nós, de
-      forma que o método funcione corretamente mesmo quando chamado em
-      um *Node nil, representando uma lista vazia.
+      Uma lista encadeada de inteiros precisa expor uma soma coerente
+      para uma lista vazia, um nó e uma sequência de nós, preservando
+      valores válidos ao longo da cadeia.
     constraints:
       - Não usar bibliotecas externas.
       - Chamar Sum em um *Node nil não pode panicar.
     acceptance:
       - Chamar Sum em um *Node nil retorna 0, sem panicar.
       - Um nó único retorna seu próprio Value.
-      - Uma cadeia de nós retorna a soma de todos os Value, seguindo Next, incluindo valores negativos, valores repetidos (cada nó conta uma vez) e cadeias longas (a soma não pode parar em um prefixo fixo).
+      - Uma cadeia de nós retorna a soma de todos os Value, seguindo Next, incluindo valores zero, negativos, valores repetidos (cada nó conta uma vez) e cadeias longas (a soma não pode parar em um prefixo fixo).
     publication:
       author: claude
     layers:
@@ -839,15 +886,15 @@ challenges:
             kind: micro
             action: implement
             target: function
-            title: Garantir que um receptor nil nunca cause panic
+            title: Definir o resultado para uma lista ausente
             instruction:
-              objective: Garantir que chamar Sum em um receptor nil não acesse nenhum campo e retorne 0.
+              objective: Fazer Sum de um receptor nil produzir a soma neutra 0 sem acessar o receptor.
               scope: Somente o tratamento do receptor nil.
               constraints:
                 - Chamar Sum em um *Node nil não pode panicar.
             concepts: [nil-safe-pointer-receiver]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection, test]
             criteria:
               - id: handles-nil-receiver-first
                 kind: structural
@@ -859,19 +906,27 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.sum-across-the-whole-chain
             kind: micro
             action: implement
             target: function
-            title: Somar Value de n e de todos os nós alcançáveis a partir de Next
+            title: Acumular os valores de toda a cadeia
             instruction:
-              objective: Quando n não é nil, incluir Value de n e de todos os nós alcançáveis a partir de Next no resultado.
+              objective: Acumular Value de cada nó presente até o fim da cadeia.
               scope: O caso em que n não é nil.
               constraints:
                 - Incluir Value de todos os nós da cadeia, seguindo Next até o fim.
             concepts: [nil-safe-pointer-receiver]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection, test]
             criteria:
               - id: sums-across-the-whole-chain
                 kind: structural
@@ -885,9 +940,15 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
-                - Por que tratar o receptor nil já no início da função evita repetir essa checagem para cada nó restante da cadeia, seja a solução recursiva ou iterativa?
+                - Por que a guarda de um receptor nil precisa acontecer antes de qualquer acesso a Value ou Next, e como isso define o caso de lista vazia?
             children:
               - id: model.verify-chain-boundaries
                 hints:
@@ -895,18 +956,34 @@ challenges:
                     kind: guiding_question
                   - level: 2
                     kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
                 kind: micro
                 action: verify
                 target: function
-                title: Verificar cadeia vazia, unitária e longa
+                title: Verificar limites e valores da cadeia
                 instruction:
-                  objective: Confira o resultado para receptor nil, nó único e cadeia com vários nós, incluindo um valor negativo.
-                  scope: Apenas os limites e a soma observável.
+                  objective: Confirme a soma para receptor nil, nó único e cadeias com valores zero, negativos e repetidos, incluindo uma cadeia longa.
+                  scope: Apenas os limites e os valores observáveis da soma.
                 concepts: [nil-safe-pointer-receiver]
                 evidence:
-                  strategies: [compile]
+                  strategies: [test]
                 criteria:
                   - id: nil-chain-verified
+                    kind: structural
+                  - id: single-node-verified
+                    kind: structural
+                  - id: zero-value-verified
+                    kind: structural
+                  - id: negative-value-verified
+                    kind: structural
+                  - id: repeated-values-verified
                     kind: structural
                   - id: long-chain-verified
                     kind: structural
@@ -930,6 +1007,19 @@ challenges:
                 completion:
                   requires_positive_evaluation: false
                   requires_user_confirmation: true
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
     fixture:
       - path: go.mod
         content: |
@@ -946,9 +1036,7 @@ challenges:
               Next  *Node
           }
 
-          // Sum returns the sum of Value across n and all of its Next nodes. It
-          // works correctly even when called on a nil *Node, returning 0 in that
-          // case.
+          // Sum returns the sum of Value across n and all reachable Next nodes.
           func (n *Node) Sum() int {
               panic("not implemented")
           }
@@ -994,6 +1082,13 @@ challenges:
                   }
               })
 
+              t.Run("zero value at the head does not stop the chain", func(t *testing.T) {
+                  n := &Node{Value: 0, Next: &Node{Value: 4}}
+                  if got := n.Sum(); got != 4 {
+                      t.Errorf("Sum() = %d, want 4", got)
+                  }
+              })
+
               t.Run("long chain includes every node, not just a fixed prefix", func(t *testing.T) {
                   const length = 20
                   var head *Node
@@ -1032,9 +1127,7 @@ challenges:
               Next  *Node
           }
 
-          // Sum returns the sum of Value across n and all of its Next nodes. It
-          // works correctly even when called on a nil *Node, returning 0 in that
-          // case.
+          // Sum returns the sum of Value across n and all reachable Next nodes.
           func (n *Node) Sum() int {
               total := 0
               for current := n; current != nil; current = current.Next {
@@ -1084,6 +1177,13 @@ challenges:
                   }
               })
 
+              t.Run("zero value at the head does not stop the chain", func(t *testing.T) {
+                  n := &Node{Value: 0, Next: &Node{Value: 4}}
+                  if got := n.Sum(); got != 4 {
+                      t.Errorf("Sum() = %d, want 4", got)
+                  }
+              })
+
               t.Run("long chain includes every node, not just a fixed prefix", func(t *testing.T) {
                   const length = 20
                   var head *Node
@@ -1114,8 +1214,8 @@ challenges:
       secondary: []
     prerequisites: []
     brief: >
-      Implemente uma função genérica que verifica se um valor está
-      presente em uma slice, funcionando para qualquer tipo comparável.
+      Uma coleção precisa responder se um item pertence a ela, permitindo
+      reutilizar a mesma operação com diferentes tipos de valores.
     constraints:
       - Não usar bibliotecas externas.
       - O parâmetro de tipo deve ter a constraint comparable.
@@ -1138,13 +1238,13 @@ challenges:
             target: function
             title: Verificar se target aparece em items
             instruction:
-              objective: Verificar se target aparece em items, comparando os elementos até encontrar uma correspondência ou concluir que nenhum corresponde.
+              objective: Verificar se target aparece em items, comparando os elementos até decidir a presença do valor.
               scope: O corpo da função.
               constraints:
                 - Comparar cada elemento a target usando igualdade, não apenas verificar o comprimento de items.
             concepts: [generic-comparable-constraint]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection, test]
             criteria:
               - id: searches-for-target-value
                 kind: structural
@@ -1158,6 +1258,12 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
                 - Por que a constraint any não seria suficiente para comparar elementos com == dentro de Contains?
@@ -1168,16 +1274,24 @@ challenges:
                     kind: guiding_question
                   - level: 2
                     kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
                 kind: micro
                 action: verify
                 target: function
                 title: Verificar instanciações comparáveis
                 instruction:
-                  objective: Execute Contains com int, string, bool e struct comparável, confirmando que a mesma função atende aos quatro tipos.
+                  objective: Confirme que uma única Contains aceita as instanciações int, string, bool e struct comparável.
                   scope: Apenas as instanciações cobertas pela fixture.
                 concepts: [generic-comparable-constraint]
                 evidence:
-                  strategies: [compile]
+                  strategies: [test]
                 criteria:
                   - id: multiple-comparable-types
                     kind: structural
@@ -1190,16 +1304,24 @@ challenges:
                     kind: guiding_question
                   - level: 2
                     kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
                 kind: micro
                 action: verify
                 target: boundary_case
                 title: Verificar slice vazia e correspondência tardia
                 instruction:
-                  objective: Confira que uma slice vazia retorna false e que um valor no fim de uma slice longa é encontrado.
+                  objective: 'Confirme os dois limites da busca: uma slice vazia não encontra e o último índice de uma slice longa é encontrado.'
                   scope: Apenas os casos de fronteira de busca.
                 concepts: [generic-comparable-constraint]
                 evidence:
-                  strategies: [compile]
+                  strategies: [test]
                 criteria:
                   - id: empty-slice-false
                     kind: structural
@@ -1208,6 +1330,9 @@ challenges:
                 completion:
                   requires_positive_evaluation: true
                   requires_user_confirmation: false
+                reflection:
+                  optional:
+                    - Por que percorrer apenas um prefixo não satisfaz uma busca que promete considerar qualquer índice da slice?
     fixture:
       - path: go.mod
         content: |
@@ -1415,14 +1540,15 @@ challenges:
       secondary: []
     prerequisites: []
     brief: >
-      Implemente uma função que descreve um Shape quando ele é um
-      Circle, e reporta que não é sem panicar quando ele é qualquer
-      outro tipo que satisfaça Shape.
+      Uma função recebe formas geométricas por uma interface e precisa
+      descrever somente a forma esperada, preservando um resultado neutro
+      para os demais Shapes.
     constraints:
       - Não usar bibliotecas externas além da biblioteca padrão.
       - Verificar o tipo concreto de shape sem panicar quando ele não for Circle.
     acceptance:
       - 'DescribeIfCircle(Circle{Radius: 10}) retorna a descrição exata "circle with radius 10" e ok true (não uma descrição da área).'
+      - 'DescribeIfCircle(Circle{Radius: 2.5}) usa o raio recebido e retorna "circle with radius 2.5" e ok true.'
       - 'DescribeIfCircle(Square{Side: 3}) retorna "" e ok false, sem panicar.'
     publication:
       author: claude
@@ -1433,15 +1559,15 @@ challenges:
             kind: micro
             action: implement
             target: function
-            title: Verificar se shape é um Circle sem panicar quando não for
+            title: Classificar shape sem panicar para tipos diferentes
             instruction:
-              objective: Verificar se shape é um Circle, obtendo o valor concreto quando for e ok false sem panicar quando não for.
+              objective: Classificar shape pelo tipo esperado sem causar falha para outros Shapes.
               scope: A verificação do tipo concreto de shape.
               constraints:
                 - Verificar o tipo concreto de shape sem panicar quando ele não for Circle.
             concepts: [safe-type-assertion]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection, test]
             criteria:
               - id: checks-concrete-type-without-panicking
                 kind: structural
@@ -1453,19 +1579,27 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
           - id: model.build-description-when-circle
             kind: micro
             action: implement
             target: function
-            title: Construir a descrição quando shape é um Circle
+            title: Produzir a descrição a partir do raio
             instruction:
-              objective: Quando shape é um Circle, construir uma descrição que mencione o raio e devolvê-la com ok true.
+              objective: Produzir a descrição baseada no raio do Circle reconhecido.
               scope: O caminho em que shape é um Circle.
               constraints:
-                - A descrição deve mencionar o raio do Circle.
+                - A descrição deve usar o raio recebido, não a área do Circle.
             concepts: [safe-type-assertion]
             evidence:
-              strategies: [source_inspection, compile]
+              strategies: [source_inspection, test]
             criteria:
               - id: builds-description-mentioning-radius
                 kind: structural
@@ -1479,9 +1613,15 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
-                - Por que shape.(Circle) sem a forma comma-ok panicaria justamente no caso em que shape é um Square, e não no caso em que é um Circle -- e por que um type switch com um caso default evita esse problema sem precisar de comma-ok?
+                - Por que uma asserção direta falha quando shape contém um Square, enquanto a forma que devolve um indicador permite escolher a resposta neutra?
             children:
               - id: model.verify-circle-and-other-shape
                 hints:
@@ -1489,20 +1629,30 @@ challenges:
                     kind: guiding_question
                   - level: 2
                     kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
                 kind: micro
                 action: verify
                 target: output
                 title: Verificar Circle e tipo alternativo
                 instruction:
-                  objective: Confira a descrição e o booleano para Circle e para outro Shape, garantindo que o segundo caminho não causa panic.
-                  scope: Apenas os dois tipos aceitos pela fixture.
+                  objective: Confirme a descrição e o indicador para Circle de raios distintos e para um Square, sem causar panic.
+                  scope: Apenas os valores Circle e Square presentes na fixture.
                 concepts: [safe-type-assertion]
                 evidence:
-                  strategies: [compile]
+                  strategies: [test]
                 criteria:
                   - id: circle-description-verified
                     kind: structural
                   - id: other-shape-rejected-safely
+                    kind: structural
+                  - id: circle-radius-is-used
                     kind: structural
                 completion:
                   requires_positive_evaluation: true
@@ -1524,6 +1674,19 @@ challenges:
                 completion:
                   requires_positive_evaluation: false
                   requires_user_confirmation: true
+                hints:
+                  - level: 1
+                    kind: guiding_question
+                  - level: 2
+                    kind: syntax_recall
+                  - level: 3
+                    kind: logical_prose
+                  - level: 4
+                    kind: pseudocode
+                  - level: 5
+                    kind: partial_code
+                  - level: 6
+                    kind: solution
     fixture:
       - path: go.mod
         content: |
@@ -1572,6 +1735,17 @@ challenges:
                       t.Fatal("DescribeIfCircle(Circle{...}) ok = false, want true")
                   }
                   want := "circle with radius 10"
+                  if desc != want {
+                      t.Errorf("description = %q, want %q", desc, want)
+                  }
+              })
+
+              t.Run("circle description uses the supplied radius", func(t *testing.T) {
+                  desc, ok := DescribeIfCircle(Circle{Radius: 2.5})
+                  if !ok {
+                      t.Fatal("DescribeIfCircle(Circle{Radius: 2.5}) ok = false, want true")
+                  }
+                  want := "circle with radius 2.5"
                   if desc != want {
                       t.Errorf("description = %q, want %q", desc, want)
                   }
@@ -1652,6 +1826,17 @@ challenges:
                       t.Fatal("DescribeIfCircle(Circle{...}) ok = false, want true")
                   }
                   want := "circle with radius 10"
+                  if desc != want {
+                      t.Errorf("description = %q, want %q", desc, want)
+                  }
+              })
+
+              t.Run("circle description uses the supplied radius", func(t *testing.T) {
+                  desc, ok := DescribeIfCircle(Circle{Radius: 2.5})
+                  if !ok {
+                      t.Fatal("DescribeIfCircle(Circle{Radius: 2.5}) ok = false, want true")
+                  }
+                  want := "circle with radius 2.5"
                   if desc != want {
                       t.Errorf("description = %q, want %q", desc, want)
                   }

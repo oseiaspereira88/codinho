@@ -5,35 +5,39 @@ doc_type: reference
 
 # Catálogo fundamental de Go — plano e auditoria de trilhas
 
-Tarefas editoriais: `plan-concept-depth` (baseline de expansão) e
-`audit-tracks` (reconciliação dos percursos). Inventário auditado em
-2026-09-12 UTC contra o manifest atual, depois dos lotes conceituais listados
-como dependências. Este documento é um plano de autoria e auditoria, não uma
+Tarefas editoriais: `plan-concept-depth` (baseline de expansão),
+`audit-tracks` (reconciliação dos percursos) e `audit-depth-remediation`
+(reconciliação pós-remediação). Inventário auditado em 2026-09-12 UTC contra o
+manifest atual, depois dos lotes conceituais e dos dois lotes de remediação
+aprovados. Este documento é um plano de autoria e auditoria, não uma
 declaração de publicação: a spec `go-foundations-packs` continua `in-progress`,
 os sete packs continuam em rascunho e revisão humana/playtest continuam
 pendentes.
 
-## 1. Baseline reconciliado
+## 1. Ledger reconciliado após a remediação
 
 Os números abaixo vêm de `go run ./cmd/codinho catalog validate --json` e de
 uma contagem independente das árvores `layers[*].macro_steps`, recursiva. O nó
 de `layer` não entra na contagem. `Base` inclui o conteúdo histórico; entre
 parênteses, quando necessário, aparece o crédito conservador usado para a
 meta: o protótipo histórico `go-data.slice-filter-preserve-input` tem um
-micro-node, mas esse node não é creditado antes de sua disposição explícita.
+micro-node, mas esse node continua não creditado até sua disposição explícita.
+O estado antes da remediação era 281 nodes brutos e 280 creditáveis; os deltas
+dos dois lotes aprovados levam o escopo fundamental a 305 brutos e 304
+creditáveis.
 
 | Pack | Temas A–M | Entradas de base/variantes | Conceitos | Competências | Nodes de base M/Meso/Micro | Nodes de variantes M/Meso/Micro |
 |---|---|---:|---:|---:|---:|---:|
 | `go-first-steps` | A, B, com E/C introdutórios | 7 bases | 22 | 9 | 6/6/31 = 43 (crédito 6/6/30) | 0/0/0 |
-| `go-core` | C, D, K | 10 bases | 15 | 10 | 0/0/33 = 33 | 0/0/0 |
+| `go-core` | C, D, K | 10 bases | 15 | 10 | 5/5/38 = 48 | 0/0/0 |
 | `go-data-text` | E, F | 10 bases | 13 | 8 | 12/12/40 = 64 | 0/0/0 |
 | `go-type-design` | G, H, I | 8 bases | 12 | 6 | 7/7/34 = 48 | 0/0/0 |
 | `go-errors` | J | 7 bases | 17 | 10 | 5/5/35 = 45 | 0/0/0 |
 | `go-io` | L | 2 bases + 4 variantes | 14 | 11 | 5/5/19 = 29 | 4/4/16 = 24 |
-| `go-testing` | M | 1 base + 4 variantes | 11 | 6 | 4/4/11 = 19 | 5/5/22 = 32 |
-| **Sete packs fundamentais** | **A–M** | **45 bases + 8 variantes** | **104** | **60** | **39/39/203 = 281** (**crédito 280**) | **9/9/38 = 56** |
+| `go-testing` | M | 1 base + 4 variantes | 11 | 6 | 5/5/18 = 28 | 5/5/22 = 32 |
+| **Sete packs fundamentais** | **A–M** | **45 bases + 8 variantes** | **104** | **60** | **45/45/215 = 305** (**crédito 304**) | **9/9/38 = 56** |
 | `go-debugging` (fora do escopo) | protótipo | 1 protótipo | 1 | 4 | 1/1/4 = 6 | 0/0/0 |
-| **Manifest completo** | — | **46 bases/protótipo + 8 variantes** | **105** | **64** | **40/40/207 = 287** | **9/9/38 = 56** |
+| **Manifest completo** | — | **46 bases/protótipo + 8 variantes** | **105** | **64** | **46/46/219 = 311** | **9/9/38 = 56** |
 
 Os sete packs contêm **45 entradas que não estão marcadas
 `canonical: false`**; as oito entradas restantes são variantes de I/O/testes
@@ -61,16 +65,19 @@ Há três projeções que devem permanecer visíveis em toda auditoria:
    45 entradas não marcadas `canonical: false` permanecem inventariadas,
    sendo 44 fundamentais e um protótipo histórico, além das 8 variantes.
 2. **Crédito de profundidade:** nodes de bases, sem as oito variantes e sem o
-   micro-node do protótipo histórico até a decisão de disposição.
+   micro-node do protótipo histórico até a decisão de disposição; o resultado
+   atual é 305 brutos e 304 creditáveis.
 3. **Manifesto:** inclui `go-debugging` e as variantes para fins de inventário,
    mas não transforma esses itens em conteúdo fundamental novo.
 
 Os lotes conceituais já alcançaram **104 conceitos e 60 competências nos sete
-packs**. A meta de profundidade continua sendo **304 nodes de bases
-creditáveis**; o baseline atual credita 280, portanto ainda há um déficit
-editorial real de 24 nodes. Com `go-debugging` preservado, o manifesto tem 105
-conceitos, 64 competências e 287 nodes de base; os 56 nodes de variantes
-continuam reportados separadamente.
+packs**. As remediações adicionaram **+6/+6/+12** em macro/meso/micro,
+movendo o escopo fundamental de **39/39/203 = 281 brutos** (**crédito 280**)
+para **45/45/215 = 305 brutos** (**crédito 304**). A meta de 300 e o alvo
+operacional de 304 nodes de bases creditáveis estão satisfeitos. Com
+`go-debugging` preservado, o manifesto tem 105 conceitos, 64 competências e
+311 nodes de base; os 56 nodes de variantes continuam reportados
+separadamente, totalizando 367 nodes no inventário global.
 
 ## 2. Mapa reconciliado dos 104 conceitos e lacunas residuais
 
@@ -214,25 +221,26 @@ Distribuição reconciliada: `go-first-steps` 9, `go-core` 10,
 `go-testing` 6, totalizando 60. `go-debugging` permanece em 4 e aparece
 somente na projeção global.
 
-## 5. Nodes e decisões pedagógicas que faltam
+## 5. Nodes e decisões pedagógicas reconciliados
 
-O alvo abaixo mede somente árvores de bases, excluindo variantes e não
-creditando o micro-node do protótipo histórico. O baseline já incorpora os
-lotes conceituais; macro e meso ainda podem organizar micros existentes quando
-a decisão já está presente, mas nenhum micro novo pode repetir uma intenção
-existente. As adições são números de nodes `macro/meso/micro`; cada micro
-restante terá um verbo, um alvo, uma evidência e um critério observável.
+O quadro abaixo mede somente árvores de bases, excluindo variantes e não
+creditando o micro-node do protótipo histórico. A coluna anterior registra o
+estado imediatamente antes dos dois lotes aprovados; a coluna posterior é o
+estado carregado no manifest atual. As adições são números de nodes
+`macro/meso/micro`; cada micro autorado manteve uma intenção, um alvo, uma
+evidência e um critério observável.
 
-| Pack | Crédito atual M/Meso/Micro | Alvo M/Meso/Micro | Adição | Decisões ausentes a autorar |
+| Pack | Antes da remediação M/Meso/Micro | Depois da remediação M/Meso/Micro | Adição | Decisões cobertas |
 |---|---:|---:|---:|---|
 | `go-first-steps` | 6/6/30 | 6/6/30 | 0/0/0 | Contexto da toolchain, formatação/build, default de constantes e representabilidade já entregues; o micro histórico de filtro não é creditado. |
-| `go-core` | 0/0/33 | 5/5/38 | +5/+5/+5 | Escopo de inicializador, ciclo de `for`, avaliação de argumentos de `defer`, captura de closure, ligação de method value e package consumidor. |
+| `go-core` | 0/0/33 | 5/5/38 | +5/+5/+5 | Escopo de inicializador, ciclo de `for`, avaliação de argumentos de `defer`, captura de closure e ligação de method value; a fronteira com package consumidor já estava coberta pelo conceito e exemplo existentes. |
 | `go-data-text` | 12/12/40 | 12/12/40 | 0/0/0 | Cópia de array, realocação de `append`, remoção/limpeza de map, builder e contrato de submatch já entregues. |
 | `go-type-design` | 7/7/34 | 7/7/34 | 0/0/0 | Embedding/promotion, tags refletidas, addressability/method sets, satisfação em compilação, interface mínima e constraint com `~` já entregues. |
 | `go-errors` | 5/5/35 | 5/5/35 | 0/0/0 | Tipo de erro com dados, hooks customizados `Is`/`As`/`Unwrap` e sucesso nil já entregues. |
 | `go-io` | 5/5/19 | 5/5/19 | 0/0/0 | Buffer/token, short write, limite explícito de Reader e ausência/`null`/zero em JSON já entregues; variantes não contam. |
-| `go-testing` | 4/4/11 | 5/5/18 | +1/+1/+7 | Helper, cleanup, propriedade de fuzz e registro de lifecycle/diagnóstico ainda precisam de decomposição adicional; variantes não contam. |
-| **Total creditável** | **39/39/202 = 280** | **45/45/214 = 304** | **+6/+6/+12 = +24** | **Faltam 24 nodes de bases para a meta; variantes permanecem separadas.** |
+| `go-testing` | 4/4/11 | 5/5/18 | +1/+1/+7 | Nomes de subtestes, diagnóstico de helper, dono e momento de cleanup, seeds de fronteira, entrada gerada e estabilidade da propriedade de fuzz. Variantes não contam. |
+| **Total bruto** | **39/39/203 = 281** | **45/45/215 = 305** | **+6/+6/+12 = +24** | O micro-node do protótipo histórico permanece inventariado, mas não creditado. |
+| **Total creditável** | **39/39/202 = 280** | **45/45/214 = 304** | **+6/+6/+12 = +24** | A meta de 300 e o alvo operacional de 304 estão satisfeitos; variantes e protótipos permanecem separados. |
 
 ### Como os nodes serão autorados
 
@@ -250,11 +258,11 @@ restante terá um verbo, um alvo, uma evidência e um critério observável.
   `contrasts_with` ou `applies_in` quando a direção for justificável. Relações
   de contraste serão recíprocas; `relation_refs` apontará para arestas que
   também existirão no grafo. Não criar um conceito só para preencher uma aresta.
-- A projeção original de 108 nodes adicionais será distribuída nas bases já
+- A projeção original de 108 nodes adicionais foi distribuída nas bases já
   existentes e nas duas fatias funcionais, sem novos desafios canônicos. Os
-  lotes já entregaram 84 nodes creditáveis desde o baseline anterior; restam 24
-  para a meta. A decisão histórica de 44 desafios, cinco trilhas e oito
-  variantes permanece intacta.
+  dois lotes aprovados entregaram os 24 nodes que faltavam desde o baseline
+  anterior, sem alterar a decisão histórica de 44 entradas fundamentais, cinco
+  trilhas e oito variantes.
 
 ## 6. Auditoria das cinco trilhas (`audit-tracks`)
 
@@ -382,22 +390,22 @@ playtest ponta a ponta continuam pendentes pelo checklist.
 
 ## 7. Sequência de execução e gates
 
-1. **Congelar o ledger:** manter o baseline acima por pack e por
+1. **Congelar o ledger:** manter o resultado pós-remediação por pack e por
    `macro/meso/micro`; manter uma linha separada para o protótipo histórico e
    outra para as oito variantes. A disposição dos dois protótipos continua uma
    decisão humana da spec, sem quebrar IDs de sessões.
 2. **Conceitos e competências:** os 34 conceitos e quatro competências das
    seções 3 e 4 estão reconciliados; manter exemplos, relações e referências
    ligados ao conteúdo real ao autorar os nodes restantes.
-3. **Completar árvores de bases:** aplicar a matriz da seção 5; recontar
-   macro/meso/micro após cada pack e alcançar pelo menos 304 creditáveis no
-   conjunto. Variantes podem receber revisão de equivalência, mas não podem
-   reduzir o trabalho das bases nem pagar o déficit.
+3. **Completar árvores de bases:** a matriz da seção 5 foi aplicada; a
+   recontagem pós-remediação alcança 304 creditáveis no conjunto. Variantes
+   podem receber revisão de equivalência, mas não podem reduzir o trabalho das
+   bases nem pagar a meta.
 4. **Verificar:** executar, no estado atual,
    `go run ./cmd/codinho catalog validate --json` e
    `go run ./cmd/codinho catalog validate --checks --json`. Registrar
-   `declared == verified` para checks e guardar as falhas esperadas de baseline
-   contra referências aprovadas. Rodar também `go test ./...` e os exemplos
+   `declared == verified` para checks e separar o `--v1-gate` de publicação dos
+   gates de conteúdo draft. Rodar também `go test ./...` e os exemplos
    isolados; não confundir check aprovado com revisão pedagógica.
 5. **Pré-revisão e humano:** submeter o lote à pré-revisão automatizada
    independente e depois ao revisor humano. Fazer playtest ponta a ponta com
@@ -422,81 +430,45 @@ playtest ponta a ponta continuam pendentes pelo checklist.
   `status: published` será preenchido por autoria automatizada. O checklist
   exige pessoa diferente do autor e playtest honesto; ambos estão pendentes.
 - A spec continua `in-progress` até a disposição dos protótipos, a revisão de
-  duplicações/leaks, a confirmação de 304 nodes no ledger e os gates humanos;
-  104 conceitos e 60 competências já estão reconciliados.
+  duplicações/leaks e os gates humanos; a confirmação de 304 nodes no ledger,
+  104 conceitos e 60 competências já está reconciliada.
   O `--v1-gate` global é uma etapa posterior e seus limiares maiores não devem
   ser alegados como satisfeitos por este plano.
 
-## 9. Auditoria global da execução editorial (`audit-global-gates`)
+## 9. Auditoria da remediação de profundidade (`audit-depth-remediation`)
 
 Esta seção registra a evidência desta tarefa no estado medido em 2026-09-12
 UTC. Os únicos paths autorizados e editados neste lote foram este documento e
 `internal/curriculum/foundation_variants_test.go`; não houve commit, integração,
-alteração de estado do coordenador ou promoção editorial. A referência de
-conteúdo é `HEAD d345aabe7e4a384ce8b27b4b76d28865124462d8`, com o lote-piloto
-herdado em `eeb5aace249d03f8d44ca61692368652ea4fa347`.
+alteração de estado do coordenador ou promoção editorial. A árvore de entrada
+das remediações é `e7ba4533a31b0806b62ec7af89839d72a47ade7d`; o estado após os
+dois lotes aprovados está em `135f532a47e47c66d93a54726ba5e157bc9df9d4`
+(HEAD). O commit de remediação contém os
+dois lotes no mesmo batch editorial; esta auditoria não o altera.
 
-### 9.1 Lotes aprovados, versões e escopo
+### 9.0 Rastreabilidade da auditoria global anterior
 
-A fila de `audit-global-gates` declara 61 dependências. A auditoria consumiu o
-conteúdo presente para todos os 61 IDs: 52 auditorias de desafios, 7 lotes de
-conceitos e 2 reconciliações. Os IDs ficam registrados abaixo para que a
-cobertura não dependa apenas de contagens agregadas:
+A auditoria global `audit-global-gates` foi integrada no commit
+`655e9611278fb2ce67fd4de0f1d7b1d7e3a6091a` e registrou o consumo de seus 61
+dependentes: 52 auditorias de desafios, 7 lotes conceituais e 2 reconciliações.
+Esta seção não duplica aquele ledger; preserva sua proveniência e o atualiza
+com o commit `135f532a47e47c66d93a54726ba5e157bc9df9d4`, que entregou as duas
+remediações de profundidade e sustenta os números atuais 367/305/304.
 
-- Core (10): `audit-go-core.close-resources-in-defer-order`,
-  `audit-go-core.sum-variadic-numbers`,
-  `audit-go-core.stop-processing-commands-with-labeled-break`,
-  `audit-go-core.increment-counter-with-pointer-receiver`,
-  `audit-go-core.recover-from-panic-in-safe-call`,
-  `audit-go-core.guard-invariant-with-unexported-field`,
-  `audit-go-core.find-first-value-at-least`,
-  `audit-go-core.hide-counter-type-behind-interface`,
-  `audit-go-core.run-commands-with-cleanup-and-recovery` e
-  `audit-go-core.configure-server-with-functional-options`.
-- Dados/texto (10): `audit-go-data-text.filter-without-mutating-input`,
-  `audit-go-data-text.truncate-bytes-at-rune-boundary`,
-  `audit-go-data-text.lookup-map-value-with-comma-ok`,
-  `audit-go-data-text.quote-csv-field-when-needed`,
-  `audit-go-data-text.dedupe-preserving-first-occurrence`,
-  `audit-go-data-text.sum-valid-integers-safely`,
-  `audit-go-data-text.preallocate-slice-with-zero-length`,
-  `audit-go-data-text.title-first-letters-preserving-spacing`,
-  `audit-go-data-text.build-scores-from-entries` e
-  `audit-go-data-text.format-names-as-csv-fields`.
-- Erros (7): `audit-go-errors.wrap-sentinel-error-with-context`,
-  `audit-go-errors.extract-field-with-errors-as`,
-  `audit-go-errors.validate-user-joining-all-errors`,
-  `audit-go-errors.translate-error-at-boundary`,
-  `audit-go-errors.load-and-validate-required-keys`,
-  `audit-go-errors.classify-wrapped-errors` e
-  `audit-go-errors.maintain-memory-catalog`.
-- Primeiros passos (6): `audit-go-first-steps.enumerate-weekdays-with-iota`,
-  `audit-go-first-steps.convert-celsius-to-fahrenheit`,
-  `audit-go-first-steps.declare-a-minimal-module`,
-  `audit-go-first-steps.clamp-int-to-byte`,
-  `audit-go-first-steps.format-rate-limit-message` e
-  `audit-go-first-steps.avoid-shadowing-named-returns`.
-- I/O (6): `audit-go-io.decode-strict-config`,
-  `audit-go-io.import-csv-inventory`, `audit-go-io.read-fragmented-note`,
-  `audit-go-io.decode-weather-fields`, `audit-go-io.read-quoted-attendees` e
-  `audit-go-io.write-result-report`.
-- Testes (5): `audit-go-testing.select-active-tokens-with-injected-clock`,
-  `audit-go-testing.measure-reservation-remaining`,
-  `audit-go-testing.check-ticket-boundary`,
-  `audit-go-testing.snapshot-readings` e
-  `audit-go-testing.count-deadline-clock-calls`.
-- Design de tipos (8): `audit-go-type-design.clone-inventory-independently`,
-  `audit-go-type-design.select-validator-true-nil`,
-  `audit-go-type-design.sum-list-with-nil-safe-receiver`,
-  `audit-go-type-design.contains-generic-comparable`,
-  `audit-go-type-design.describe-if-circle-safely`,
-  `audit-go-type-design.map-generic-transform`,
-  `audit-go-type-design.first-circle-clone` e
-  `audit-go-type-design.generic-node-values-nil-safe`.
-- Conceitos (7): `concepts-go-core`, `concepts-go-data-text`,
-  `concepts-go-errors`, `concepts-go-first-steps`, `concepts-go-io`,
-  `concepts-go-testing` e `concepts-go-type-design`.
-- Reconciliações (2): `audit-tracks` e `disposition-count-prototypes`.
+### 9.1 Lotes aprovados, versões, contagens e decisões
+
+Os dois lotes de remediação aprovados foram consumidos. O commit é único porque
+o batch editorial aplicou os dois paths de pack juntos; cada linha mantém o ID
+da tarefa, a versão observada e a contagem independente antes/depois:
+
+| Tarefa | Commit aprovado | Pack/versão observada | Antes M/Meso/Micro | Depois M/Meso/Micro | Decisões cobertas |
+|---|---|---|---:|---:|---|
+| `remediate-depth-go-core` | `135f532a47e47c66d93a54726ba5e157bc9df9d4` | `go-core` 1.4.0 | 0/0/33 | 5/5/38 (+5/+5/+5) | Escopo de inicializador, ciclo de `for`, avaliação de argumentos de `defer`, captura de closure e ligação de method value; a fronteira com package consumidor permaneceu coberta pelo conceito/exemplo existente. |
+| `remediate-depth-go-testing` | `135f532a47e47c66d93a54726ba5e157bc9df9d4` | `go-testing` 1.3.0 | 4/4/11 | 5/5/18 (+1/+1/+7) | Nomes de subtestes, diagnóstico de helper, registro e ordem de cleanup, seeds de fronteira, entradas geradas e estabilidade da propriedade de fuzz. |
+
+O delta combinado é `+6/+6/+12`: o escopo fundamental passou de 281 nodes
+brutos/280 creditáveis para 305/304. Nenhum lote criou desafio, variante ou
+protótipo novo; ambos preservaram IDs, fixtures, relações e o status draft.
 
 As versões carregadas no manifest são:
 
@@ -512,7 +484,8 @@ As versões carregadas no manifest são:
 | `go-debugging` | 1.2.0 | fora do escopo; um protótipo preservado |
 
 O schema do manifest é 1.0.0. As versões dos packs e os IDs dos protótipos
-foram apenas auditados; nenhum registro foi renomeado, removido ou promovido.
+foram auditados no estado pós-remediação; os lotes não alteraram os números de
+versão nem renomearam, removeram ou promoveram registros.
 
 ### 9.2 Ledger global, fundamental, variantes e publicação
 
@@ -522,8 +495,8 @@ do cálculo de profundidade fundamental.
 
 | Projeção | Conceitos | Competências | Trilhas | Desafios | Nodes |
 |---|---:|---:|---:|---:|---:|
-| Manifest completo | 105 | 64 | 5 | 54 | 343 |
-| Sete packs fundamentais | 104 | 60 | 5 reutilizadas | 45 bases + 8 variantes | 281 bases brutos; 280 creditáveis |
+| Manifest completo | 105 | 64 | 5 | 54 | 367 |
+| Sete packs fundamentais | 104 | 60 | 5 reutilizadas | 45 bases + 8 variantes | 305 bases brutos; 304 creditáveis |
 | `go-debugging` fora do escopo | 1 | 4 | — | 1 protótipo | 6 |
 | Variantes fundamentais | — | — | — | 8 (`canonical: false`) | 56 (`9/9/38`) |
 | Publicados | 0 | 0 | 0 | 0 | 0 |
@@ -534,7 +507,8 @@ O inventário global por tipo é 41 atômicos, 10 combinados, 1 debug e 2
 combinados e 2 fatias funcionais; removendo conceitualmente o protótipo
 histórico `go-data.slice-filter-preserve-input`, o plano fundamental fica em
 44 entradas: 32 atômicos, 10 combinados e 2 fatias funcionais. As oito
-variantes continuam fora da contagem de desafios novos e de profundidade.
+variantes continuam fora da contagem de desafios novos e de profundidade; os
+305 nodes brutos incluem o micro histórico, e os 304 creditáveis não.
 
 Os protótipos estão nos escopos corretos e permanecem distintos:
 
@@ -542,8 +516,8 @@ Os protótipos estão nos escopos corretos e permanecem distintos:
   histórica com um micro-node não creditado e não participa de `go-from-zero`;
 - `go-debug.slice-off-by-one` está em `go-debugging`, tem 6 nodes e não é
   contado na cobertura fundamental;
-- nenhuma das duas entradas é variante, e a disposição/publicação de ambas
-  continua pendente de decisão humana.
+- nenhuma das duas entradas é variante, e a classificação, disposição e
+  publicação de ambas continua pendente de decisão humana.
 
 ### 9.3 Gates quantitativos
 
@@ -551,13 +525,13 @@ Os protótipos estão nos escopos corretos e permanecem distintos:
 |---|---|---|
 | Pelo menos 100 conceitos fundamentais | PASS — 104 | `TestFoundationCatalogAudit` |
 | Pelo menos 60 competências fundamentais | PASS — 60 | `TestFoundationCatalogAudit` |
-| Pelo menos 300 nodes contextualizados creditáveis | PENDÊNCIA — 280; déficit explícito de 20 | bases `39/39/202`, sem variantes e sem o micro histórico |
+| Pelo menos 300 nodes contextualizados creditáveis | PASS — 304 | `TestFoundationCatalogAudit`; bases `45/45/214`, sem variantes e sem o micro histórico |
 
-O ledger de planejamento da seção 5 ainda aponta o alvo mais estrito de 304
-nodes de bases creditáveis; contra esse alvo, o déficit é 24. Assim, o limiar
-de 300 da spec não foi alegado como satisfeito, e o alvo operacional de 304
-também permanece aberto. O teste registra esse déficit como log de auditoria,
-sem transformar uma pendência conhecida em falha estrutural do catálogo.
+O ledger de planejamento da seção 5 aponta o alvo operacional de 304 nodes de
+bases creditáveis; após os dois lotes, tanto esse alvo quanto o limiar de 300
+da spec estão satisfeitos. O teste mantém a separação estrutural: variantes
+somam 56 nodes apenas na projeção própria, o micro do protótipo histórico não
+entra nos 304, e o protótipo de `go-debugging` permanece fora do escopo.
 
 ### 9.4 Auditoria de cobertura técnica e contextos essenciais
 
@@ -604,18 +578,19 @@ um flag equivalente em `catalog` sem o subcomando `validate`.
 |---|---|---|
 | `go run ./cmd/codinho help` | PASS | help raiz disponível |
 | `go run ./cmd/codinho catalog` | Uso exibido, exit 2 | confirma que o próximo comando válido é `validate` |
-| `go run ./cmd/codinho catalog validate --json` | PASS, exit 0; `diagnostics: null`, `editorial: null` | catálogo estrutural e editorialmente carregável; tudo ainda draft |
-| `go run ./cmd/codinho catalog validate --checks --json` | PASS, exit 0; 54 declarados/54 verificados | baselines produziram os resultados esperados e referências passaram |
-| `go run ./cmd/codinho catalog validate --v1-gate --json` | FAIL, exit 1 | gate global de publicação, detalhado abaixo |
-| `pose validate --strict` | FAIL | falha ambiental no build sem `-buildvcs=false`; `govulncheck` também não está disponível |
+| `go run ./cmd/codinho catalog validate --json` | PASS, exit 0; `diagnostics: null`, `editorial: null`, `StepNodes: 367` | catálogo estrutural e editorialmente carregável; tudo ainda draft |
+| `go run ./cmd/codinho catalog validate --checks` | PASS, exit 0; 54 declarados/54 verificados | baselines produziram os resultados esperados e referências passaram |
+| `go run ./cmd/codinho catalog validate --v1-gate` | FAIL, exit 1 | gate global de publicação, detalhado abaixo |
+| `pose docs-check` | PASS; `declared=16`, `undeclared=0`, `stale=0`, `errors=0`, `warnings=0` | documentação consistente; avisos históricos continuam fora dos paths autorizados |
+| `pose check --strict` | PASS | estrutura POSE válida em modo estrito |
 
 O `--v1-gate` usa a projeção elegível publicada, não o inventário draft. Como
 há zero desafios publicados, ele reporta 5 `v1_gate_below_threshold` (0 contra
 160/100/84/12/500), 36 `type_distribution_mismatch` (a política global inclui
 packs futuros e seus tipos) e 1 `v1_check_proof_incomplete` (zero checks
 publicados). Esses findings são gates de publicação/draft e decisão humana,
-não defeitos de conteúdo nos sete packs; já o déficit de 20 nodes acima é uma
-pendência editorial real do escopo fundamental.
+não defeitos de conteúdo nos sete packs; o gate editorial de 300/304 nodes
+está satisfeito.
 
 ### 9.6 Fixtures, compatibilidade, duplicação e vazamento de solução
 
@@ -651,23 +626,28 @@ pendência editorial real do escopo fundamental.
 
 Também foram executados os checks aplicáveis ao código e à documentação:
 
-- `env GOFLAGS=-buildvcs=false go test ./internal/curriculum -run
+- `go test ./internal/curriculum -run
   '^TestFoundation(VariantOrigins|CatalogAudit)$' -count=1 -v`: PASS; ledger
-  104/60, 45 bases, 8 variantes, 281 brutos, 280 creditáveis e dez
+  104/60, 45 bases, 8 variantes, 305 brutos, 304 creditáveis e dez
   competências essenciais com pelo menos dois contextos.
-- `env GOFLAGS=-buildvcs=false go test ./...`: PASS.
-- `env GOFLAGS=-buildvcs=false go test -race -count=1 ./...`: PASS.
-- `env GOFLAGS=-buildvcs=false go vet ./...`: PASS.
+- `go test ./...`: FAIL ambiental nos testes de integração que constroem o CLI;
+  o ambiente não conseguiu obter o status VCS e sugeriu `-buildvcs=false`.
+- `go test -race ./...`: FAIL pelo mesmo erro ambiental de stamping VCS.
+- `env GOFLAGS='-mod=readonly -buildvcs=false' go test ./...`: PASS.
+- `env GOFLAGS='-mod=readonly -buildvcs=false' go test -race ./...`: PASS.
+- `go vet ./...`: PASS.
 - `bash scripts/ci/check-format.sh`: PASS.
 - `pose docs-check`: PASS (`declared=16`, `undeclared=0`, `stale=0`,
   `errors=0`, `warnings=0`); os dois avisos históricos `REVIEW_PENDING` de
   `docs/compatibility.md` permanecem fora dos paths autorizados.
+- `pose check --strict`: PASS (`valid POSE structure`).
 - `git diff --check`: PASS.
 
-As limitações que permanecem para a revisão primária são o déficit de 20 nodes
-para o limiar de 300 (24 para o alvo de planejamento 304), os gates globais de
-publicação que corretamente veem zero conteúdo elegível, a ausência de
-`govulncheck` no ambiente e o erro de stamping VCS quando os testes constroem
-sem `GOFLAGS=-buildvcs=false`. A execução com essa flag passou nos testes,
-vet/race e checks editoriais; ela só desabilita metadado VCS do build e não
-altera o conteúdo auditado.
+As limitações que permanecem para a revisão primária são os gates globais de
+publicação que corretamente veem zero conteúdo elegível, o `--v1-gate` abaixo
+dos limiares por causa do estado draft, a ausência de `govulncheck` nesta
+execução e a falha ambiental de stamping VCS nos comandos Go sem
+`-buildvcs=false`. A execução com essa flag passou nos testes, vet/race e
+checks editoriais; ela só desabilita metadado VCS do build e não altera o
+conteúdo auditado. Revisão humana, playtest, classificação dos protótipos e
+publicação continuam pendentes.

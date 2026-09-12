@@ -20,6 +20,10 @@ const (
 	historicalFoundationPrototype = "go-data.slice-filter-preserve-input"
 	outOfScopePrototype           = "go-debug.slice-off-by-one"
 	minimumFoundationNodes        = 300
+	expectedFoundationBases       = 45
+	expectedFoundationVariants    = 8
+	expectedFoundationNodes       = 305
+	expectedCreditedNodes         = 304
 )
 
 var essentialFoundationCompetencies = []string{
@@ -103,8 +107,8 @@ func TestFoundationCatalogAudit(t *testing.T) {
 
 	inventory := ProjectCoverage(NewCatalogFromPacks(packs))
 	publication := ProjectPublicationCoverage(packs)
-	if inventory.Concepts != 105 || inventory.Competencies != 64 || inventory.Challenges != 54 || inventory.StepNodes != 343 {
-		t.Fatalf("global inventory = %+v, want concepts=105 competencies=64 challenges=54 nodes=343", inventory)
+	if inventory.Concepts != 105 || inventory.Competencies != 64 || inventory.Challenges != 54 || inventory.StepNodes != 367 {
+		t.Fatalf("global inventory = %+v, want concepts=105 competencies=64 challenges=54 nodes=367", inventory)
 	}
 	if publication.Published.Challenges != 0 || publication.Eligible.Challenges != 0 {
 		t.Fatalf("published projection = %+v, want no published or eligible challenges", publication)
@@ -159,8 +163,8 @@ func TestFoundationCatalogAudit(t *testing.T) {
 	if len(foundationConcepts) != 104 || len(foundationCompetencies) != 60 {
 		t.Fatalf("foundation coverage = concepts=%d competencies=%d, want 104/60", len(foundationConcepts), len(foundationCompetencies))
 	}
-	if baseChallenges != 45 || variants != 8 || baseNodes != 281 || creditedNodes != 280 {
-		t.Fatalf("foundation ledger = bases=%d variants=%d nodes=%d credited=%d, want 45/8/281/280", baseChallenges, variants, baseNodes, creditedNodes)
+	if baseChallenges != expectedFoundationBases || variants != expectedFoundationVariants || baseNodes != expectedFoundationNodes || creditedNodes != expectedCreditedNodes {
+		t.Fatalf("foundation ledger = bases=%d variants=%d nodes=%d credited=%d, want %d/%d/%d/%d", baseChallenges, variants, baseNodes, creditedNodes, expectedFoundationBases, expectedFoundationVariants, expectedFoundationNodes, expectedCreditedNodes)
 	}
 	if kindCounts["atomic"] != 33 || kindCounts["combined"] != 10 || kindCounts["functional_slice"] != 2 {
 		t.Fatalf("foundation base kinds including preserved prototype = %+v, want atomic=33 combined=10 functional_slice=2", kindCounts)
@@ -201,6 +205,6 @@ func TestFoundationCatalogAudit(t *testing.T) {
 	}
 	t.Logf("foundation audit: concepts=%d competencies=%d bases=%d variants=%d nodes=%d credited_nodes=%d", len(foundationConcepts), len(foundationCompetencies), baseChallenges, variants, baseNodes, creditedNodes)
 	if creditedNodes < minimumFoundationNodes {
-		t.Logf("foundation contextualized-node gate remains below minimum: got=%d want>=%d deficit=%d", creditedNodes, minimumFoundationNodes, minimumFoundationNodes-creditedNodes)
+		t.Fatalf("foundation contextualized-node gate below minimum: got=%d want>=%d deficit=%d", creditedNodes, minimumFoundationNodes, minimumFoundationNodes-creditedNodes)
 	}
 }

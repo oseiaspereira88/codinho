@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-errors
-version: 1.4.0
+version: 1.5.0
 themes:
   - id: errors
     title: Erros
@@ -246,6 +246,249 @@ concepts:
     relation_refs:
     - kind: relates_to
       concept_id: catalog-validation-before-mutation
+- id: custom-error-type-contract
+  title: Contrato de tipo de erro customizado
+  content:
+    version: 1
+    explanation: Um tipo de erro customizado pode carregar dados estruturados que o chamador precisa tratar, além de fornecer uma mensagem para diagnóstico. Exponha esses dados por campos estáveis e recupere o tipo com errors.As; analisar ou reconstruir a mensagem não é um contrato equivalente. O tipo deve documentar quais campos são confiáveis e em que fronteira eles podem ser observados.
+    example:
+      context: validação de remessas
+      code: |
+        package example
+
+        import (
+            "errors"
+            "fmt"
+            "testing"
+        )
+
+        type FieldError struct {
+            Field string
+            Value string
+        }
+
+        func (e *FieldError) Error() string {
+            return fmt.Sprintf("invalid field %s", e.Field)
+        }
+
+        func validateTracking(code string) error {
+            return &FieldError{Field: "tracking", Value: code}
+        }
+
+        func TestFieldErrorContract(t *testing.T) {
+            err := fmt.Errorf("shipment rejected: %w", validateTracking("??"))
+            if err.Error() == "" {
+                t.Fatal("missing diagnostic message")
+            }
+            var fieldErr *FieldError
+            if !errors.As(err, &fieldErr) || fieldErr == nil {
+                t.Fatal("structured error was not exposed")
+            }
+            if fieldErr.Field != "tracking" || fieldErr.Value != "??" {
+                t.Fatalf("unexpected data: %+v", fieldErr)
+            }
+        }
+      explanation: A mensagem confirma que o erro implementa error, mas o teste usa errors.As para recuperar o mesmo tipo e seus dados Field e Value através de uma camada de contexto. O valor inválido não precisa ser extraído do texto.
+    relation_refs:
+    - kind: deepens_into
+      concept_id: errors-as-type-extraction
+    - kind: relates_to
+      concept_id: error-identity-not-message
+- id: errors-is-custom-matcher
+  title: Correspondência customizada com errors.Is
+  content:
+    version: 1
+    explanation: Um erro pode implementar Is para declarar que pertence a uma categoria estável sem ser a mesma instância da sentinela. A implementação deve comparar o alvo e os dados relevantes de forma estreita; mensagens diferentes continuam sendo diagnóstico, não identidade. errors.Is aplica esse contrato enquanto percorre wrapping e não transforma dois erros distintos em um só.
+    example:
+      context: classificação de respostas de gateway
+      code: |
+        package example
+
+        import (
+            "errors"
+            "fmt"
+            "testing"
+        )
+
+        var ErrRetryable = errors.New("retryable")
+
+        type GatewayError struct {
+            Code   int
+            Detail string
+        }
+
+        func (e *GatewayError) Error() string {
+            return fmt.Sprintf("gateway status %d: %s", e.Code, e.Detail)
+        }
+
+        func (e *GatewayError) Is(target error) bool {
+            return target == ErrRetryable && e.Code >= 500
+        }
+
+        func TestCustomIs(t *testing.T) {
+            first := &GatewayError{Code: 503, Detail: "edge-a"}
+            second := &GatewayError{Code: 502, Detail: "edge-b"}
+            if !errors.Is(first, ErrRetryable) || !errors.Is(second, ErrRetryable) {
+                t.Fatal("retryable category was not matched")
+            }
+            if first.Error() == second.Error() || errors.Is(first, second) {
+                t.Fatal("custom matching replaced error identity")
+            }
+            if errors.Is(&GatewayError{Code: 400, Detail: "retryable"}, ErrRetryable) {
+                t.Fatal("non-retryable status matched by message")
+            }
+        }
+      explanation: As duas falhas têm detalhes e identidades diferentes, mas o método Is declara a mesma categoria pública. O status 400 mostra que um texto coincidente não deve produzir uma correspondência.
+    relation_refs:
+    - kind: deepens_into
+      concept_id: error-identity-not-message
+    - kind: relates_to
+      concept_id: error-classification-precedence
+- id: errors-as-custom-matcher
+  title: Exposição controlada com errors.As
+  content:
+    version: 1
+    explanation: Um wrapper pode implementar As para oferecer ao chamador somente um tipo público, sem colocar o tipo interno na cadeia percorrível. O método deve reconhecer a forma de destino suportada, preencher seu ponteiro e devolver false para destinos que não fazem parte do contrato. Isso é uma fronteira de exposição, diferente de simplesmente encontrar qualquer tipo em um wrapping.
+    example:
+      context: validação pública de uma etiqueta
+      code: |
+        package example
+
+        import (
+            "errors"
+            "testing"
+        )
+
+        type PublicFieldError struct {
+            Field string
+        }
+
+        func (e *PublicFieldError) Error() string { return "invalid public field" }
+
+        type internalFieldError struct {
+            field string
+        }
+
+        func (e *internalFieldError) Error() string { return "internal field detail" }
+
+        type boundaryError struct {
+            internal *internalFieldError
+            public   *PublicFieldError
+        }
+
+        func (e *boundaryError) Error() string { return "label rejected" }
+
+        func (e *boundaryError) As(target any) bool {
+            out, ok := target.(**PublicFieldError)
+            if !ok {
+                return false
+            }
+            *out = e.public
+            return true
+        }
+
+        func TestPublicAs(t *testing.T) {
+            err := &boundaryError{
+                internal: &internalFieldError{field: "secret-label"},
+                public:   &PublicFieldError{Field: "label"},
+            }
+            var public *PublicFieldError
+            if !errors.As(err, &public) || public == nil || public.Field != "label" {
+                t.Fatal("public type was not exposed")
+            }
+            var internal *internalFieldError
+            if errors.As(err, &internal) {
+                t.Fatal("internal type crossed the boundary")
+            }
+        }
+      explanation: O método As preenche apenas o destino público; como o erro interno não é retornado por Unwrap, uma busca por ele falha. O exemplo separa o contrato de exposição do detalhe guardado dentro da fronteira.
+    relation_refs:
+    - kind: deepens_into
+      concept_id: errors-as-type-extraction
+    - kind: relates_to
+      concept_id: error-translation-at-boundary
+- id: errors-unwrap-method-contract
+  title: Contrato de Unwrap em erro customizado
+  content:
+    version: 1
+    explanation: Implementar Unwrap() error declara uma única causa linear que errors.Is e errors.As podem atravessar. Retornar nil encerra essa cadeia; não há causa adicional para o chamador descobrir. Esse contrato é diferente de Unwrap() []error usado por árvores de errors.Join e deve ser escolhido conforme a relação entre as falhas.
+    example:
+      context: leitura de registros
+      code: |
+        package example
+
+        import (
+            "errors"
+            "testing"
+        )
+
+        var ErrChecksum = errors.New("invalid checksum")
+
+        type RecordError struct {
+            Cause error
+        }
+
+        func (e *RecordError) Error() string { return "record rejected" }
+        func (e *RecordError) Unwrap() error { return e.Cause }
+
+        func TestLinearUnwrap(t *testing.T) {
+            wrapped := &RecordError{Cause: ErrChecksum}
+            if !errors.Is(wrapped, ErrChecksum) || errors.Unwrap(wrapped) != ErrChecksum {
+                t.Fatal("linear cause was not preserved")
+            }
+            terminal := &RecordError{}
+            if errors.Unwrap(terminal) != nil {
+                t.Fatal("nil cause should end the chain")
+            }
+        }
+      explanation: A causa sentinela é alcançada por errors.Is e pelo Unwrap de uma única camada. Um RecordError sem Cause demonstra que nil é o fim explícito da cadeia, não um erro artificial.
+    relation_refs:
+    - kind: deepens_into
+      concept_id: error-chain-type-traversal
+    - kind: relates_to
+      concept_id: errors-join-aggregation
+- id: nil-error-success-contract
+  title: Contrato de erro nil no sucesso
+  content:
+    version: 1
+    explanation: Uma função que devolve um valor e um error deve retornar error nil no caminho de sucesso, mesmo quando apenas parte dos dados opcionais foi preenchida. Em uma falha, o erro deve ser não nil e o valor devolvido precisa seguir o contrato documentado, geralmente o valor zero. Não confunda a identidade nil com uma mensagem vazia ou com um ponteiro nil armazenado em uma interface.
+    example:
+      context: triagem de etiquetas
+      code: |
+        package example
+
+        import (
+            "errors"
+            "testing"
+        )
+
+        type Label struct {
+            Code string
+            Note string
+        }
+
+        func ValidateLabel(code, note string) (Label, error) {
+            if code == "" {
+                return Label{}, errors.New("code required")
+            }
+            return Label{Code: code, Note: note}, nil
+        }
+
+        func TestNilSuccessContract(t *testing.T) {
+            got, err := ValidateLabel("P-42", "")
+            if err != nil || got.Code != "P-42" || got.Note != "" {
+                t.Fatalf("partial success = (%+v, %v)", got, err)
+            }
+            if _, err := ValidateLabel("", "fragile"); err == nil {
+                t.Fatal("empty code should fail")
+            }
+        }
+      explanation: 'A etiqueta sem observação opcional ainda é um sucesso: o valor útil volta preenchido e error é exatamente nil. A etiqueta sem código segue o caminho de falha e produz um erro não nil.'
+    relation_refs:
+    - kind: relates_to
+      concept_id: error-translation-at-boundary
+    - kind: relates_to
+      concept_id: errors-join-aggregation
 competencies:
   - id: wrap-sentinel-with-context
     title: Encadear um erro sentinela preservando o contexto
@@ -582,6 +825,7 @@ challenges:
     acceptance:
       - 'FieldFromError(ValidateAge(-1)) retorna ("age", true).'
       - FieldFromError encontra o *ValidationError mesmo quando ele foi encadeado por mais de uma camada externa de contexto.
+      - FieldFromError encontra um ValidationError exposto por um método As personalizado.
       - FieldFromError de um erro não relacionado retorna ("", false).
       - FieldFromError(nil) retorna ("", false).
     publication:
@@ -599,7 +843,7 @@ challenges:
               scope: A busca pelo *ValidationError.
               constraints:
                 - Usar errors.As para procurar um *ValidationError em qualquer profundidade do encadeamento, não uma asserção de tipo direta.
-            concepts: [errors-as-type-extraction]
+            concepts: [errors-as-type-extraction, custom-error-type-contract]
             evidence:
               strategies: [source_inspection, compile]
             criteria:
@@ -747,6 +991,50 @@ challenges:
                 completion:
                   requires_positive_evaluation: true
                   requires_user_confirmation: false
+          - id: extract-field.custom-as.macro
+            kind: macro
+            title: Reconhecer um tipo exposto por As
+            instruction:
+              objective: Verifique como a busca de erros pode receber um tipo público exposto por um método As personalizado.
+              scope: A fronteira de exposição usada pela função de extração.
+            children:
+              - id: extract-field.custom-as.meso
+                kind: meso
+                title: Contrato de exposição de tipo
+                instruction:
+                  objective: Confirme o comportamento observável de um erro que oferece um tipo público sob demanda.
+                  scope: O resultado da busca por tipo, sem alterar a assinatura da função.
+                children:
+                  - id: extract-field.verify-custom-as-contract
+                    kind: micro
+                    action: verify
+                    target: error
+                    title: Verificar o tipo público exposto por As
+                    instruction:
+                      objective: Confirme que FieldFromError encontra o ValidationError exposto pelo wrapper sem depender de uma asserção direta.
+                      scope: Apenas o contrato do método As personalizado.
+                    concepts: [errors-as-custom-matcher]
+                    evidence:
+                      strategies: [test]
+                    criteria:
+                      - id: custom-as-exposes-public-type
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - level: 1
+                        kind: guiding_question
+                      - level: 2
+                        kind: syntax_recall
+                      - level: 3
+                        kind: logical_prose
+                      - level: 4
+                        kind: pseudocode
+                      - level: 5
+                        kind: partial_code
+                      - level: 6
+                        kind: solution
     fixture:
       - path: go.mod
         content: |
@@ -766,6 +1054,25 @@ challenges:
 
           func (e *ValidationError) Error() string {
               return fmt.Sprintf("invalid field: %s", e.Field)
+          }
+
+          // publicValidationError exposes a ValidationError through a custom
+          // As method without putting an internal type in the error chain.
+          type publicValidationError struct {
+              field string
+          }
+
+          func (e *publicValidationError) Error() string {
+              return "validation boundary"
+          }
+
+          func (e *publicValidationError) As(target any) bool {
+              out, ok := target.(**ValidationError)
+              if !ok {
+                  return false
+              }
+              *out = &ValidationError{Field: e.field}
+              return true
           }
 
           // ValidateAge returns an error wrapping a *ValidationError when age is
@@ -823,6 +1130,13 @@ challenges:
                       t.Errorf("FieldFromError(nil) = (%q, true), want ok=false", field)
                   }
               })
+
+              t.Run("custom As exposes public validation type", func(t *testing.T) {
+                  field, ok := FieldFromError(&publicValidationError{field: "postal-code"})
+                  if !ok || field != "postal-code" {
+                      t.Errorf("FieldFromError(custom As) = (%q, %v), want (postal-code, true)", field, ok)
+                  }
+              })
           }
     checks:
       - id: focused-tests
@@ -856,6 +1170,25 @@ challenges:
 
           func (e *ValidationError) Error() string {
               return fmt.Sprintf("invalid field: %s", e.Field)
+          }
+
+          // publicValidationError exposes a ValidationError through a custom
+          // As method without putting an internal type in the error chain.
+          type publicValidationError struct {
+              field string
+          }
+
+          func (e *publicValidationError) Error() string {
+              return "validation boundary"
+          }
+
+          func (e *publicValidationError) As(target any) bool {
+              out, ok := target.(**ValidationError)
+              if !ok {
+                  return false
+              }
+              *out = &ValidationError{Field: e.field}
+              return true
           }
 
           // ValidateAge returns an error wrapping a *ValidationError when age is
@@ -915,6 +1248,13 @@ challenges:
                   field, ok := FieldFromError(nil)
                   if ok {
                       t.Errorf("FieldFromError(nil) = (%q, true), want ok=false", field)
+                  }
+              })
+
+              t.Run("custom As exposes public validation type", func(t *testing.T) {
+                  field, ok := FieldFromError(&publicValidationError{field: "postal-code"})
+                  if !ok || field != "postal-code" {
+                      t.Errorf("FieldFromError(custom As) = (%q, %v), want (postal-code, true)", field, ok)
                   }
               })
           }
@@ -1056,7 +1396,7 @@ challenges:
                 instruction:
                   objective: Confirme que uma entrada válida retorna nil em vez de um erro agregado vazio.
                   scope: Apenas o caminho em que nenhuma regra é violada.
-                concepts: [errors-join-aggregation]
+                concepts: [errors-join-aggregation, nil-error-success-contract]
                 evidence:
                   strategies: [test]
                 criteria:
@@ -1235,7 +1575,7 @@ challenges:
     themes: [errors]
     competencies:
       primary: [translate-error-without-leaking-internals]
-      secondary: []
+      secondary: [distinguish-error-identity]
     prerequisites: []
     brief: >
       Implemente uma chamada simulada a um serviço externo que, ao
@@ -1264,7 +1604,7 @@ challenges:
               scope: O caminho em que simulateTimeout é false.
               constraints:
                 - Não tratar ainda o caso de falha simulada.
-            concepts: [error-translation-at-boundary]
+            concepts: [error-translation-at-boundary, nil-error-success-contract]
             evidence:
               strategies: [source_inspection, compile]
             criteria:
@@ -1813,6 +2153,9 @@ challenges:
       - classify-wrapped-and-joined-errors
       - preserve-error-precedence
       - distinguish-error-identity
+      secondary:
+      - extract-wrapped-error-type
+      - aggregate-errors-without-losing-any
     prerequisites: [error-wrapping-with-percent-w, errors-join-aggregation, errors-as-type-extraction]
     brief: Uma camada de validação precisa transformar falhas internas em categorias estáveis, preservando
       as causas reconhecíveis e uma prioridade definida quando mais de uma causa está presente.
@@ -1825,6 +2168,8 @@ challenges:
     - 'Sem ErrDenied, o primeiro FieldError encontrado produz invalid: seguido de seu campo.'
     - Outros erros produzem unknown, mesmo quando sua mensagem é igual à da sentinela.
     - Em erros agregados, denied tem prioridade independentemente da ordem dos filhos.
+    - Um erro com método Is personalizado para ErrDenied produz denied sem depender do texto da mensagem.
+    - 'Um FieldError envolvido por um wrapper com Unwrap() error continua produzindo invalid: com seu campo.'
     - Classificar não altera a cadeia recebida.
     publication:
       status: draft
@@ -2051,6 +2396,94 @@ challenges:
                 kind: structural
               completion:
                 requires_positive_evaluation: true
+      - id: classify-wrapped-errors.custom-is.macro
+        kind: macro
+        title: Reconhecer categorias declaradas por Is
+        instruction:
+          objective: Verifique como errors.Is delega a correspondência de uma categoria ao erro customizado.
+          scope: A classificação de uma falha com dados próprios e uma categoria pública.
+        children:
+        - id: classify-wrapped-errors.custom-is.meso
+          kind: meso
+          title: Correspondência sem comparar mensagens
+          instruction:
+            objective: Confirme que a categoria resulta do contrato Is, não do texto produzido por Error.
+            scope: Erros customizados com códigos diferentes.
+          children:
+          - id: classify-wrapped-errors.verify-custom-is
+            kind: micro
+            action: verify
+            target: classification
+            title: Verificar matcher customizado de Is
+            instruction:
+              objective: Confirme que Classify reconhece ErrDenied quando o erro fornece um método Is personalizado.
+              scope: Apenas a correspondência de categoria e sua independência da mensagem.
+            concepts: [errors-is-custom-matcher]
+            evidence:
+              strategies: [test]
+            criteria:
+              - id: custom-is-category-recognized
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
+      - id: classify-wrapped-errors.custom-unwrap.macro
+        kind: macro
+        title: Atravessar uma causa linear customizada
+        instruction:
+          objective: Verifique como a classificação atravessa uma causa exposta por Unwrap() error.
+          scope: A cadeia linear que contém um FieldError.
+        children:
+        - id: classify-wrapped-errors.custom-unwrap.meso
+          kind: meso
+          title: Contrato de causa única
+          instruction:
+            objective: Confirme que a busca de tipo alcança a causa retornada pelo wrapper e preserva o campo.
+            scope: A travessia de uma única causa, sem alterar a cadeia.
+          children:
+          - id: classify-wrapped-errors.verify-custom-unwrap
+            kind: micro
+            action: verify
+            target: classification
+            title: Verificar causa exposta por Unwrap
+            instruction:
+              objective: Confirme que Classify encontra o FieldError dentro de um wrapper com Unwrap() error.
+              scope: Apenas o percurso da causa linear até o tipo compatível.
+            concepts: [errors-unwrap-method-contract]
+            evidence:
+              strategies: [test]
+            criteria:
+              - id: custom-unwrap-field-recognized
+                kind: structural
+            completion:
+              requires_positive_evaluation: true
+              requires_user_confirmation: false
+            hints:
+              - level: 1
+                kind: guiding_question
+              - level: 2
+                kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
     fixture:
     - path: go.mod
       content: |
@@ -2069,6 +2502,44 @@ challenges:
 
         func (e *FieldError) Error() string { return "invalid field: " + e.Field }
         func Classify(err error) string     { return "unknown" }
+    - path: classify_hooks.go
+      content: |
+        package classify
+
+        type AccessError struct {
+            Code   int
+            Detail string
+        }
+
+        func (e *AccessError) Error() string { return "access failure: " + e.Detail }
+        func (e *AccessError) Is(target error) bool { return target == ErrDenied && e.Code == 403 }
+
+        type chainError struct {
+            label string
+            cause error
+        }
+
+        func (e *chainError) Error() string { return e.label }
+        func (e *chainError) Unwrap() error { return e.cause }
+    - path: classify_hooks_test.go
+      content: |
+        package classify
+
+        import "testing"
+
+        func TestClassifyCustomHooks(t *testing.T) {
+            if got := Classify(&AccessError{Code: 403, Detail: "policy mismatch"}); got != "denied" {
+                t.Fatalf("custom Is matcher: got %q, want denied", got)
+            }
+            if got := Classify(&AccessError{Code: 401, Detail: "denied"}); got != "unknown" {
+                t.Fatalf("custom Is overmatched: got %q, want unknown", got)
+            }
+            field := &FieldError{Field: "name"}
+            wrapped := &chainError{label: "adapter context", cause: field}
+            if got := Classify(wrapped); got != "invalid:name" {
+                t.Fatalf("custom Unwrap: got %q, want invalid:name", got)
+            }
+        }
     - path: classify_test.go
       content: "package classify\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n\t\"testing\"\n)\n\nfunc TestClassify(t\
         \ *testing.T) {\n\tfield := &FieldError{Field: \"name\"}\n\twrapped := fmt.Errorf(\"outer: %w\"\
@@ -2090,7 +2561,7 @@ challenges:
     - id: focused-tests
       runner: go_test
       package: ./...
-      test_pattern: ^TestClassify$
+      test_pattern: ^TestClassify(CustomHooks)?$
       timeout: 20s
     variants: []
     validation:
@@ -2107,6 +2578,44 @@ challenges:
           \n\t}\n\tif errors.Is(err, ErrDenied) {\n\t\treturn \"denied\"\n\t}\n\tvar field *FieldError\n\
           \tif errors.As(err, &field) && field != nil {\n\t\treturn \"invalid:\" + field.Field\n\t}\n\t\
           return \"unknown\"\n}\n"
+      - path: classify_hooks.go
+        content: |
+          package classify
+
+          type AccessError struct {
+              Code   int
+              Detail string
+          }
+
+          func (e *AccessError) Error() string { return "access failure: " + e.Detail }
+          func (e *AccessError) Is(target error) bool { return target == ErrDenied && e.Code == 403 }
+
+          type chainError struct {
+              label string
+              cause error
+          }
+
+          func (e *chainError) Error() string { return e.label }
+          func (e *chainError) Unwrap() error { return e.cause }
+      - path: classify_hooks_test.go
+        content: |
+          package classify
+
+          import "testing"
+
+          func TestClassifyCustomHooks(t *testing.T) {
+              if got := Classify(&AccessError{Code: 403, Detail: "policy mismatch"}); got != "denied" {
+                  t.Fatalf("custom Is matcher: got %q, want denied", got)
+              }
+              if got := Classify(&AccessError{Code: 401, Detail: "denied"}); got != "unknown" {
+                  t.Fatalf("custom Is overmatched: got %q, want unknown", got)
+              }
+              field := &FieldError{Field: "name"}
+              wrapped := &chainError{label: "adapter context", cause: field}
+              if got := Classify(wrapped); got != "invalid:name" {
+                  t.Fatalf("custom Unwrap: got %q, want invalid:name", got)
+              }
+          }
       - path: classify_test.go
         content: "package classify\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n\t\"testing\"\n)\n\nfunc TestClassify(t\
           \ *testing.T) {\n\tfield := &FieldError{Field: \"name\"}\n\twrapped := fmt.Errorf(\"outer: %w\"\
@@ -2728,6 +3237,36 @@ relations:
     kind: relates_to
   - from: catalog-value-snapshots
     to: catalog-validation-before-mutation
+    kind: relates_to
+  - from: custom-error-type-contract
+    to: errors-as-type-extraction
+    kind: deepens_into
+  - from: custom-error-type-contract
+    to: error-identity-not-message
+    kind: relates_to
+  - from: errors-is-custom-matcher
+    to: error-identity-not-message
+    kind: deepens_into
+  - from: errors-is-custom-matcher
+    to: error-classification-precedence
+    kind: relates_to
+  - from: errors-as-custom-matcher
+    to: errors-as-type-extraction
+    kind: deepens_into
+  - from: errors-as-custom-matcher
+    to: error-translation-at-boundary
+    kind: relates_to
+  - from: errors-unwrap-method-contract
+    to: error-chain-type-traversal
+    kind: deepens_into
+  - from: errors-unwrap-method-contract
+    to: errors-join-aggregation
+    kind: relates_to
+  - from: nil-error-success-contract
+    to: error-translation-at-boundary
+    kind: relates_to
+  - from: nil-error-success-contract
+    to: errors-join-aggregation
     kind: relates_to
   - from: classify-wrapped-and-joined-errors
     to: go-errors.classify-wrapped-errors

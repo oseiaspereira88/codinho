@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-testing
-version: 1.2.0
+version: 1.3.0
 publication:
   status: draft
   author: codex
@@ -155,6 +155,158 @@ concepts:
     relation_refs:
     - kind: relates_to
       concept_id: testing-counting-double
+- id: testing-helper-context
+  title: Contexto de helper em testes
+  content:
+    version: 1
+    explanation: t.Helper marca a função atual como auxiliar para o framework de testes. Quando essa função registra uma falha, o diagnóstico omite a moldura do helper e aponta para o chamador que precisa ser corrigido. Isso melhora a localização da falha, mas não altera a asserção nem torna o teste determinístico; o helper ainda deve incluir obtido e esperado na mensagem.
+    example:
+      context: diagnóstico de respostas HTTP
+      code: |
+        package example
+
+        import (
+            "os"
+            "os/exec"
+            "regexp"
+            "runtime"
+            "strings"
+            "testing"
+        )
+
+        func assertStatus(t *testing.T, got, want int) {
+            t.Helper()
+            if got != want {
+                t.Fatalf("status = %d, want %d", got, want)
+            }
+        }
+
+        func status(code int) int {
+            if code >= 200 && code < 300 {
+                return 1
+            }
+            return 0
+        }
+
+        func TestHelperContext(t *testing.T) {
+            cmd := exec.Command(os.Args[0], "-test.run=^TestHelperFailure$", "-test.v")
+            cmd.Env = append(os.Environ(), "HELPER_CHILD=1")
+            output, err := cmd.CombinedOutput()
+            if err == nil {
+                t.Fatal("the child test should fail")
+            }
+
+            report := string(output)
+            if !strings.Contains(report, "TestHelperFailure/redirect_response") {
+                t.Fatalf("subtest name missing from report: %s", report)
+            }
+            line := regexp.MustCompile(`caller-line=(\d+)`).FindStringSubmatch(report)
+            if len(line) != 2 || !strings.Contains(report, "helper_test.go:"+line[1]+":") {
+                t.Fatalf("helper did not point at caller: %s", report)
+            }
+        }
+
+        func TestHelperFailure(t *testing.T) {
+            if os.Getenv("HELPER_CHILD") == "" {
+                t.Skip("run by TestHelperContext")
+            }
+            t.Run("redirect response", func(t *testing.T) {
+                _, _, callerLine, _ := runtime.Caller(0)
+                t.Logf("caller-line=%d", callerLine+2)
+                assertStatus(t, status(302), 1)
+            })
+        }
+      explanation: O teste pai inicia um filho que falha de propósito. A saída precisa manter o nome redirect response e apontar para a linha da chamada de assertStatus, não para o corpo do helper; assim o exemplo observa o efeito de t.Helper sem deixar uma suíte sempre falhando.
+    relation_refs:
+    - kind: deepens_into
+      concept_id: testing-named-subtests
+    - kind: relates_to
+      concept_id: testing-repeatability
+- id: testing-cleanup-lifecycle
+  title: Lifecycle de cleanup em testes
+  content:
+    version: 1
+    explanation: t.Cleanup registra uma função para o lifecycle do teste corrente. Os callbacks executam depois do corpo e dos subtestes desse teste, em ordem LIFO; um cleanup de subteste termina antes do cleanup do pai. A garantia pertence ao framework de testes, portanto não é a mesma coisa que um defer dentro da função sob teste.
+    example:
+      context: descarte de um lote de trabalho
+      code: |
+        package example
+
+        import (
+            "reflect"
+            "testing"
+        )
+
+        func TestCleanupLifecycle(t *testing.T) {
+            var trace []string
+            if !t.Run("batch", func(t *testing.T) {
+                t.Cleanup(func() { trace = append(trace, "batch cleanup") })
+                if !t.Run("item", func(t *testing.T) {
+                    t.Cleanup(func() { trace = append(trace, "item first") })
+                    t.Cleanup(func() { trace = append(trace, "item second") })
+                    trace = append(trace, "item body")
+                }) {
+                    t.Fatal("item subtest failed")
+                }
+            }) {
+                t.Fatal("batch subtest failed")
+            }
+
+            want := []string{"item body", "item second", "item first", "batch cleanup"}
+            if !reflect.DeepEqual(trace, want) {
+                t.Fatalf("cleanup trace = %v, want %v", trace, want)
+            }
+        }
+      explanation: O corpo é registrado antes dos callbacks; os dois cleanups do item executam em ordem inversa, e só depois o cleanup do batch. A verificação ocorre após t.Run, quando todos os callbacks aninhados já terminaram.
+    relation_refs:
+    - kind: relates_to
+      concept_id: testing-repeatability
+    - kind: relates_to
+      concept_id: testing-counting-double
+- id: testing-fuzz-invariant
+  title: Invariante em teste de fuzz
+  content:
+    version: 1
+    explanation: Um teste de fuzz declara uma propriedade que deve continuar verdadeira para muitas entradas, em vez de enumerar somente resultados individuais. f.Add registra seeds conhecidos; o mesmo alvo pode rodar esses seeds no teste normal e receber entradas geradas durante uma sessão de fuzz. A propriedade precisa ser independente o bastante da implementação para revelar uma mutação que viole o contrato.
+    example:
+      context: normalização de rótulos
+      code: |
+        package example
+
+        import (
+            "strings"
+            "testing"
+        )
+
+        func canonicalLabel(input string) string {
+            return strings.Join(strings.Fields(input), " ")
+        }
+
+        func isCanonicalLabel(value string) bool {
+            return value == strings.TrimSpace(value) &&
+                !strings.Contains(value, "  ") &&
+                !strings.ContainsAny(value, "\t\n\r")
+        }
+
+        func FuzzCanonicalLabel(f *testing.F) {
+            f.Add("  go   testing ")
+            f.Add("")
+            f.Fuzz(func(t *testing.T, input string) {
+                got := canonicalLabel(input)
+                if !isCanonicalLabel(got) {
+                    t.Fatalf("non-canonical label %q", got)
+                }
+                if canonicalLabel(got) != got {
+                    t.Fatalf("normalization is not stable for %q", input)
+                }
+            })
+        }
+      explanation: Os seeds cobrem uma entrada com espaços e o caso vazio; a propriedade exige saída sem bordas ou separadores repetidos e permanece válida para entradas geradas. Uma mutação que devolva a entrada sem normalizar falha já no seed conhecido.
+    relation_refs:
+    - kind: deepens_into
+      concept_id: testing-table-cases
+    - kind: relates_to
+      concept_id: testing-repeatability
 competencies:
 - id: testing-design-deterministic-time
   title: Projetar comportamento temporal determinístico
@@ -166,6 +318,8 @@ competencies:
   title: Construir um dublê de dependência que conta chamadas
 - id: testing-name-diagnostic-cases
   title: Nomear casos para diagnosticar falhas
+- id: control-test-cleanup-lifecycle
+  title: Controlar cleanup no lifecycle de um teste
 tracks: []
 challenges:
 - schema_version: 1
@@ -185,6 +339,7 @@ challenges:
     secondary:
     - testing-build-counting-double
     - testing-name-diagnostic-cases
+    - control-test-cleanup-lifecycle
   prerequisites: []
   brief: Uma rotina precisa decidir quais tokens continuam válidos quando o instante observado é fornecido
     pelo teste. Os casos-limite devem ser repetíveis e a entrada deve permanecer intacta.
@@ -462,6 +617,198 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+    - id: testable-expiry.diagnostic-context.macro
+      kind: macro
+      title: Tornar o diagnóstico dos casos acionável
+      instruction:
+        objective: Estruture falhas de teste para localizar o caso que precisa de correção.
+        scope: Relação entre subteste nomeado, helper de asserção e mensagem observável.
+      concepts:
+      - testing-helper-context
+      evidence:
+        strategies:
+        - source_inspection
+      criteria:
+      - id: diagnostic-context-defined
+        kind: qualitative
+      children:
+      - id: testable-expiry.diagnostic-context.meso
+        kind: meso
+        title: Separar cenário e asserção
+        instruction:
+          objective: Relacione a chamada da asserção ao cenário que falhou.
+          scope: Localização da falha e nome do subteste, sem alterar o contrato de Active.
+        concepts:
+        - testing-helper-context
+        evidence:
+          strategies:
+          - source_inspection
+        criteria:
+        - id: diagnostic-context-related
+          kind: qualitative
+        children:
+        - id: testable-expiry.verify-helper-location
+          kind: micro
+          action: verify
+          target: diagnostic_context
+          title: Verificar localização da falha auxiliar
+          instruction:
+            objective: Confirme que uma falha registrada por um helper aponta para a chamada no caso nomeado.
+            scope: Apenas a linha do chamador e o nome legível do subteste.
+          concepts:
+          - testing-helper-context
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: helper-location-is-observable
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que apontar para a chamada, em vez do corpo do helper, reduz o custo de localizar o caso que falhou?
+    - id: testable-expiry.cleanup-context.macro
+      kind: macro
+      title: Controlar o lifecycle das preparações de teste
+      instruction:
+        objective: Delimite o cleanup associado aos casos aninhados do teste.
+        scope: Registro, ordem LIFO e escopo entre o caso pai e seus subtestes.
+      concepts:
+      - testing-cleanup-lifecycle
+      evidence:
+        strategies:
+        - source_inspection
+      criteria:
+      - id: cleanup-lifecycle-defined
+        kind: qualitative
+      children:
+      - id: testable-expiry.cleanup-context.meso
+        kind: meso
+        title: Observar escopo e ordem do cleanup
+        instruction:
+          objective: Relacione cada callback ao teste que o registrou.
+          scope: Encerramento de subtestes e do caso pai, sem usar defer dentro de Active.
+        concepts:
+        - testing-cleanup-lifecycle
+        evidence:
+          strategies:
+          - source_inspection
+        criteria:
+        - id: cleanup-scope-related
+          kind: qualitative
+        children:
+        - id: testable-expiry.verify-cleanup-order
+          kind: micro
+          action: verify
+          target: test_lifecycle
+          title: Verificar ordem do cleanup dos subtestes
+          instruction:
+            objective: Confirme que callbacks de um subteste terminam antes do cleanup do caso pai e em ordem LIFO.
+            scope: Apenas a ordem e o escopo observáveis no teste.
+          concepts:
+          - testing-cleanup-lifecycle
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: cleanup-order-and-scope-observable
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que o momento do cleanup importa quando um subteste compartilha um dublê ou um trace com o pai?
+    - id: testable-expiry.fuzz-property.macro
+      kind: macro
+      title: Generalizar a propriedade da seleção
+      instruction:
+        objective: Formule uma propriedade que possa ser exercitada por muitas entradas de teste.
+        scope: Diferença entre enumerar fronteiras e declarar um invariante observável.
+      concepts:
+      - testing-fuzz-invariant
+      evidence:
+        strategies:
+        - source_inspection
+      criteria:
+      - id: fuzz-property-defined
+        kind: qualitative
+      children:
+      - id: testable-expiry.fuzz-property.meso
+        kind: meso
+        title: Separar exemplos e propriedade
+        instruction:
+          objective: Relacione os casos de fronteira a uma propriedade geral da operação.
+          scope: Entradas geradas, resultado observável e independência da implementação.
+        concepts:
+        - testing-fuzz-invariant
+        evidence:
+          strategies:
+          - source_inspection
+        criteria:
+        - id: fuzz-property-related
+          kind: qualitative
+        children:
+        - id: testable-expiry.verify-fuzz-invariant
+          kind: micro
+          action: verify
+          target: property
+          title: Verificar invariante para entradas geradas
+          instruction:
+            objective: Especifique um invariante da seleção que permaneça válido para entradas geradas.
+            scope: Apenas propriedades observáveis de validade, ordem e preservação da entrada.
+          concepts:
+          - testing-fuzz-invariant
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: generated-input-property-is-observable
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que uma propriedade independente da implementação pode encontrar uma falha que a tabela não enumerou?
   fixture:
   - path: go.mod
     content: |
@@ -560,6 +907,8 @@ challenges:
   competencies:
     primary:
     - testing-design-deterministic-time
+    secondary:
+    - control-test-cleanup-lifecycle
   brief: Uma reserva precisa informar quanto tempo ainda resta em relação a um instante escolhido pelo
     teste, inclusive quando já terminou ou está no limite.
   constraints:
@@ -727,6 +1076,70 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+    - id: measure-reservation-remaining.cleanup-context.macro
+      kind: macro
+      title: Encerrar o estado dos casos de reserva
+      instruction:
+        objective: Organize o cleanup do estado auxiliar usado pelos casos da variante.
+        scope: Escopo de subtestes e ordem de callbacks, sem alterar o contrato de Remaining.
+      concepts:
+      - testing-cleanup-lifecycle
+      evidence:
+        strategies:
+        - source_inspection
+      criteria:
+      - id: reservation-cleanup-defined
+        kind: qualitative
+      children:
+      - id: measure-reservation-remaining.cleanup-context.meso
+        kind: meso
+        title: Isolar o estado entre casos
+        instruction:
+          objective: Relacione o encerramento de cada caso ao estado que ele registrou.
+          scope: Cleanup do subteste e do pai, sem introduzir espera real.
+        concepts:
+        - testing-cleanup-lifecycle
+        evidence:
+          strategies:
+          - source_inspection
+        criteria:
+        - id: reservation-cleanup-related
+          kind: qualitative
+        children:
+        - id: measure-reservation-remaining.verify-cleanup-scope
+          kind: micro
+          action: verify
+          target: test_lifecycle
+          title: Verificar cleanup entre casos de reserva
+          instruction:
+            objective: Confirme que o estado de um caso é liberado no escopo correto antes do próximo caso.
+            scope: Apenas o lifecycle observável dos testes da variante.
+          concepts:
+          - testing-cleanup-lifecycle
+          evidence:
+            strategies:
+            - source_inspection
+          criteria:
+          - id: reservation-cleanup-scope-observable
+            kind: qualitative
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Como um cleanup no escopo errado poderia contaminar a medição do caso seguinte?
   fixture:
   - path: go.mod
     content: |
@@ -1685,4 +2098,64 @@ relations:
   kind: applies_in
 - from: testing-name-diagnostic-cases
   to: go-testing.select-active-tokens-with-injected-clock
+  kind: applies_in
+- from: testing-helper-context
+  to: testing-named-subtests
+  kind: deepens_into
+- from: testing-helper-context
+  to: testing-name-diagnostic-cases
+  kind: relates_to
+- from: testing-name-diagnostic-cases
+  to: testing-helper-context
+  kind: relates_to
+- from: testing-helper-context
+  to: testing-repeatability
+  kind: relates_to
+- from: testing-repeatability
+  to: testing-helper-context
+  kind: relates_to
+- from: testing-cleanup-lifecycle
+  to: testing-repeatability
+  kind: relates_to
+- from: testing-repeatability
+  to: testing-cleanup-lifecycle
+  kind: relates_to
+- from: testing-cleanup-lifecycle
+  to: testing-counting-double
+  kind: relates_to
+- from: testing-counting-double
+  to: testing-cleanup-lifecycle
+  kind: relates_to
+- from: testing-fuzz-invariant
+  to: testing-table-cases
+  kind: deepens_into
+- from: testing-fuzz-invariant
+  to: testing-repeatability
+  kind: relates_to
+- from: testing-repeatability
+  to: testing-fuzz-invariant
+  kind: relates_to
+- from: control-test-cleanup-lifecycle
+  to: testing-cleanup-lifecycle
+  kind: relates_to
+- from: testing-cleanup-lifecycle
+  to: control-test-cleanup-lifecycle
+  kind: relates_to
+- from: testing-helper-context
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: applies_in
+- from: testing-cleanup-lifecycle
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: applies_in
+- from: testing-cleanup-lifecycle
+  to: go-testing.measure-reservation-remaining
+  kind: applies_in
+- from: testing-fuzz-invariant
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: applies_in
+- from: control-test-cleanup-lifecycle
+  to: go-testing.select-active-tokens-with-injected-clock
+  kind: applies_in
+- from: control-test-cleanup-lifecycle
+  to: go-testing.measure-reservation-remaining
   kind: applies_in

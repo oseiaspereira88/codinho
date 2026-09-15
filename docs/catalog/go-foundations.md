@@ -9,7 +9,8 @@ Tarefas editoriais: `plan-concept-depth` (baseline de expansão),
 `audit-tracks` (reconciliação dos percursos) e `audit-depth-remediation`
 (reconciliação pós-remediação). Inventário auditado em 2026-09-12 UTC contra o
 manifest atual, depois dos lotes conceituais e dos dois lotes de remediação
-aprovados. Este documento é um plano de autoria e auditoria, não uma
+aprovados; a reconciliação de fechamento foi conferida em 2026-09-15 UTC.
+Este documento é um plano de autoria e auditoria, não uma
 declaração de publicação: a spec `go-foundations-packs` continua `in-progress`,
 os sete packs continuam em rascunho e revisão humana/playtest continuam
 pendentes.
@@ -581,7 +582,7 @@ um flag equivalente em `catalog` sem o subcomando `validate`.
 | `go run ./cmd/codinho catalog validate --json` | PASS, exit 0; `diagnostics: null`, `editorial: null`, `StepNodes: 367` | catálogo estrutural e editorialmente carregável; tudo ainda draft |
 | `go run ./cmd/codinho catalog validate --checks` | PASS, exit 0; 54 declarados/54 verificados | baselines produziram os resultados esperados e referências passaram |
 | `go run ./cmd/codinho catalog validate --v1-gate` | FAIL, exit 1 | gate global de publicação, detalhado abaixo |
-| `pose docs-check` | PASS; `declared=16`, `undeclared=0`, `stale=0`, `errors=0`, `warnings=0` | documentação consistente; avisos históricos continuam fora dos paths autorizados |
+| `pose docs-check` | PASS; resumo `declared=16`, `undeclared=0`, `stale=0`, `errors=0`, `warnings=0`; imprime 2 linhas `REVIEW_PENDING` | documentação sem erro; os dois registros históricos de `docs/compatibility.md` (triggers `concept-content-authoring` e `learning-track-composition`) continuam pendentes |
 | `pose check --strict` | PASS | estrutura POSE válida em modo estrito |
 
 O `--v1-gate` usa a projeção elegível publicada, não o inventário draft. Como
@@ -876,3 +877,164 @@ agente. Até que cada ficha tenha uma sessão MCP real, um autor e um revisor
 humano distintos, início/fim observados e julgamento pedagógico registrado,
 `reviewed_by`, `playtested` e `publication.status: published` devem continuar
 inalterados.
+
+## 11. Preparação de reconciliação e fechamento (`prepare-publication-closeout`)
+
+Esta seção é a entrega documental da tarefa `prepare-publication-closeout`,
+dependente de `prepare-human-review-playtest`. Ela prepara o material para a
+revisão primária e o coordenador, mas não fecha a spec, não altera seu estado e
+não recomenda publicação. A ausência de uma decisão humana ou de evidência real
+mantém `go-foundations-packs` em `in-progress`.
+
+### 11.1 Estado reconciliado em 2026-09-15 UTC
+
+A medição desta execução separa inventário, rascunhos, publicação e conteúdo
+elegível. O comando global encontrou `105` conceitos, `64` competências, `5`
+trilhas, `54` desafios e `367` nodes; todos os `54` desafios continuam draft,
+com `0` publicados e `0` elegíveis. No recorte dos sete packs, o teste de
+auditoria preserva `104` conceitos, `60` competências, `45` bases, `8`
+variantes, `305` nodes brutos e `304` nodes creditáveis. A base ainda contém o
+protótipo histórico de filtro; sua exclusão conceitual produz a distribuição
+pretendida de `32` atômicos, `10` combinados e `2` fatias funcionais.
+
+| Projeção | Resultado atual | Interpretação de fechamento |
+|---|---:|---|
+| Manifest completo | `105` conceitos / `64` competências / `54` desafios / `367` nodes | Inventário carregável, ainda sem conteúdo elegível. |
+| Sete packs fundamentais | `104` conceitos / `60` competências / `45` bases + `8` variantes | Metas quantitativas de conteúdo atendidas no recorte documentado; variantes não pagam profundidade. |
+| Profundidade fundamental | `305` brutos / `304` creditáveis | O limiar de `300` da spec e o alvo operacional de `304` estão atendidos. |
+| Publicação | `0` publicados / `0` elegíveis / `54` drafts | Gate de publicação não atendido. |
+| Revisão/playtest | `0` fichas humanas concluídas nesta execução | Gate `HUMAN_REVIEW_PLAYTEST_PENDING`. |
+
+Evidência executável desta reconciliação:
+
+- `go run ./cmd/codinho catalog validate --json`: PASS, `diagnostics: null`,
+  `editorial: null`, cobertura global `105/64/5/54/367`.
+- `go run ./cmd/codinho catalog validate --checks --json`: PASS, `54`
+  checks declarados e `54` verificados; cada resultado mantém cenário,
+  expectativa, resultado e digest.
+- `go run ./cmd/codinho catalog validate --v1-gate`: FAIL, exit `1`, como
+  esperado para `0` conteúdo publicado/elegível; o relatório mostra os
+  limiares globais, a distribuição publicada e a prova de checks publicados
+  ainda não satisfeitos.
+- `go test ./internal/curriculum -run
+  '^TestFoundation(VariantOrigins|CatalogAudit)$' -count=1 -v`: PASS; o
+  `TestFoundationCatalogAudit` registra `104/60`, `45` bases, `8` variantes,
+  `305` nodes e `304` creditáveis.
+- `pose docs-check`: PASS com resumo `declared=16`, `undeclared=0`, `stale=0`,
+  `errors=0` e `warnings=0`; a saída imprime dois registros históricos
+  `REVIEW_PENDING`, que não são convertidos em aprovação.
+- `pose check --strict` e `git diff --check`: PASS.
+
+As duas linhas `REVIEW_PENDING` impressas pelo `docs-check` pertencem aos
+triggers históricos de `docs/compatibility.md`; elas não são erros do documento
+nem evidência de revisão concluída. A execução de 2026-09-15 acima é a medição
+corrente e deixa essa pendência visível.
+
+### 11.2 Trace R1–R10 da spec `go-foundations-packs`
+
+O trace abaixo usa os R-IDs da seção Requirements da [spec de fundamentos](../../.pose/specs/2026-08-22-go-foundations-packs.md#2-requirements).
+“Atendido no draft” descreve conteúdo ou prova técnica disponível; não equivale
+a publicação nem a aceite pedagógico.
+
+| R-ID | Situação atual | Evidência dos lotes | Gate ou decisão que falta |
+|---|---|---|---|
+| R1 | **Pendente para publicação.** Os sete packs e as cinco trilhas existem como draft; `published=0` e `eligible=0`. | [go-first-steps: estrutura](../../.pose/reports/2026-09-10-first-steps-structure-content.md), [go-core](../../.pose/reports/2026-09-10-core-concept-content.md), [go-data-text](../../.pose/reports/2026-09-10-data-text-concept-content.md), [go-type-design](../../.pose/reports/2026-09-10-type-design-concept-content.md), [go-errors](../../.pose/reports/2026-09-10-go-errors-authoring-batch.md), [go-io](../../.pose/reports/2026-09-09-go-io-authoring-batch.md), [go-testing](../../.pose/reports/2026-09-10-go-testing-authoring-batch.md), [trilhas](../../.pose/reports/2026-09-10-foundation-track-routing.md). | Completar pré-revisão independente, revisão/playtest humanos e os metadados verdadeiros antes de recomendar `published`. |
+| R2 | **Atendido no draft.** A seção 2 reconcilia os temas A–M e os conceitos nos sete packs. | [go-first-steps](../../.pose/reports/2026-09-10-first-steps-concept-content.md), [runtime](../../.pose/reports/2026-09-10-first-steps-runtime-content.md), [estrutura](../../.pose/reports/2026-09-10-first-steps-structure-content.md), [go-core](../../.pose/reports/2026-09-10-core-concept-content.md), [go-data-text](../../.pose/reports/2026-09-10-data-text-concept-content.md), [go-type-design](../../.pose/reports/2026-09-10-type-design-concept-content.md), [go-errors](../../.pose/reports/2026-09-10-error-concept-content.md), [go-io](../../.pose/reports/2026-09-10-io-concept-content.md), [go-testing](../../.pose/reports/2026-09-10-testing-concept-content.md). | Revisar semanticamente se cada exemplo conceitual permanece distinto do desafio e não revela a solução. |
+| R3 | **Parcial.** O recorte conceitual tem `32` atômicos depois da exclusão do protótipo histórico; o armazenamento ainda mostra `33` bases atômicas até a decisão de disposição. | [inventário editorial histórico](../editorial/go-foundations-inventory.md), [ledger de protótipos e distribuição](#1-ledger-reconciliado-após-a-remediação), [fila de disposição](../editorial/go-foundations-queue.json). | Registrar a decisão humana sobre `go-data.slice-filter-preserve-input` e manter seus IDs/sessões sem reclassificação silenciosa. |
+| R4 | **Atendido no draft.** Há `10` desafios combinados no recorte fundamental, com critérios e árvores verificadas. | [complemento go-errors](../../.pose/reports/2026-09-10-go-errors-authoring-batch.md), [lote go-io](../../.pose/reports/2026-09-09-go-io-authoring-batch.md), [lote go-testing](../../.pose/reports/2026-09-10-go-testing-authoring-batch.md), [auditoria global](#9-auditoria-da-remediação-de-profundidade-audit-depth-remediation). | Fazer revisão humana das intenções, hints, critérios e reflexões; a contagem não autoriza publicação. |
+| R5 | **Atendido no draft.** As duas fatias funcionais são o importador validado de `go-io` e o catálogo em memória de `go-errors`. | [importador CSV/JSON](../../.pose/reports/2026-09-09-go-io-authoring-batch.md), [catálogo em memória](../../.pose/reports/2026-09-10-go-errors-authoring-batch.md), [nodes do catálogo](../../.pose/reports/2026-09-10-errors-catalog-nodes.md). | Confirmar em playtest que o escopo funcional é compreensível, observável e não exige arquitetura não declarada. |
+| R6 | **Atendido quantitativamente no draft.** A remediação chegou a `45/45/214` nodes de bases creditáveis e `305` brutos com o micro histórico separado; a suficiência pedagógica continua humana. | [auditoria de profundidade](#9-auditoria-da-remediação-de-profundidade-audit-depth-remediation), [nodes de go-core](../../.pose/reports/2026-09-10-core-defer-empty-node.md), [nodes de go-testing](../../.pose/reports/2026-09-10-testing-clock-call-nodes.md), [regra de autoria](../content-authoring.md#sequência-e-alternativas-da-árvore). | Revisar se cada micro tem uma intenção, evidência e critério próprios e se os hints sobem em custo real. |
+| R7 | **Atendido mecanicamente no draft.** `catalog validate --checks` verificou `54/54`; as oito variantes têm `variant_of`, `canonical: false` e fixtures próprias. | [revisão de hints](../../.pose/reports/2026-09-10-catalog-hint-review.md), [revisão de regressões](../../.pose/reports/2026-09-10-catalog-luna-review.md), [lote de variantes](../../.pose/reports/2026-09-10-foundation-variants-authoring-batch.md). | Completar julgamento humano sobre brief, leakage, micropassos, reflexões e equivalência das variantes. |
+| R8 | **Atendido tecnicamente no draft.** As cinco trilhas têm `47` posições e o roteamento MCP real foi atravessado em modo de autoria. | [roteamento das cinco trilhas](../../.pose/reports/2026-09-10-foundation-track-routing.md), [auditoria das trilhas](#6-auditoria-das-cinco-trilhas-audit-tracks). | Fazer playtest humano da progressão; a travessia com `override` prova alcance, não aprendizagem nem publicação. |
+| R9 | **Atendido tecnicamente no draft.** Nil, zero values, aliasing, UTF-8, method sets, interface nil, wrapping e tempo determinístico têm contextos registrados; as dez competências essenciais têm pelo menos dois contextos. | [cobertura técnica](#94-auditoria-de-cobertura-técnica-e-contextos-essenciais), [conteúdo conceitual revisado](../../.pose/reports/2026-09-09-review-concept-content-authoring.md), [relações de aplicação](../../.pose/reports/2026-09-10-catalog-relations-review.md). | Confirmar por revisão humana que os contextos ensinam decisões causais sem duplicação semântica. |
+| R10 | **Pendente.** Não há sessões MCP humanas, durações observadas, `reviewed_by` distinto ou `playtested: true` registrados para as `54` linhas. | [roteiro por desafio](#10-roteiro-de-revisão-humana-e-playtest-prepare-human-review-playtest), [checklist editorial](../content-review-checklist.md), [revisão técnica de publication-integrity](../../.pose/reports/2026-09-08-review-catalog-publication-integrity.md). | Exigir um revisor humano diferente de cada autor, playtest ponta a ponta e evidência real antes de publicar. |
+
+### 11.3 Gates pendentes de `concept-content-authoring` e `catalog-publication-integrity`
+
+As duas specs de infraestrutura editorial estão `done` quanto à implementação
+e à revisão técnica registrada, mas isso não fecha a curadoria dos sete packs.
+Os gates abaixo pertencem ao uso dessas capacidades no catálogo fundamental.
+
+| Spec / gate | Evidência disponível | Estado e condição de saída |
+|---|---|---|
+| `concept-content-authoring`: conteúdo canônico versionado, schema/loader, projeção MCP e não divulgação | [spec](../../.pose/specs/2026-09-07-concept-content-authoring.md), [revisão independente](../../.pose/reports/2026-09-09-review-concept-content-authoring.md) | Implementação **done**. Não provar, por contagem ou teste estrutural, a qualidade semântica de todos os exemplos; manter revisão humana dos conceitos como gate do pack. |
+| `concept-content-authoring`: distinção dos exemplos contra briefs, fixtures e soluções | A própria revisão registra que a amostra não substitui a curadoria integral; [guia de autoria](../content-authoring.md#conteúdo-de-conceitos-content) delimita o contrato. | **Pendente.** Revisar cada exemplo autorado em contexto diferente e registrar leaks, sobreposição e decisão do revisor. |
+| `catalog-publication-integrity`: projeções, distribuição, provas privadas e MCP publicado | [spec](../../.pose/specs/2026-09-07-catalog-publication-integrity.md), [revisão técnica aprovada](../../.pose/reports/2026-09-08-review-catalog-publication-integrity.md) | Implementação **done** e tecnicamente aprovada; o catálogo real ainda tem zero elegíveis. Não usar a aprovação da capability como aprovação dos packs. |
+| `catalog-publication-integrity`: pré-revisão automatizada independente dos `54` itens | [checklist](../content-review-checklist.md), [roteiro da dependência](#10-roteiro-de-revisão-humana-e-playtest-prepare-human-review-playtest) | **Pendente nesta execução.** O autor não substitui nem inicia outro agente para preencher esse gate. |
+| `catalog-publication-integrity`: revisão e playtest humanos distintos | [fichas de resultado](#103-modelo-de-resultado-humano-e-gate) e [checklist](../content-review-checklist.md#playtest) | **Pendente.** Completar as `54` fichas com sessão MCP real, workspace isolado, início/fim, duração observada, checks, pistas, reflexões e achados. |
+| `catalog-publication-integrity`: checks publicados e gate V1 | Execução corrente de `catalog validate --v1-gate`: `0` publicados, `0` elegíveis e `0` checks publicados; [guia de publicação](../content-authoring.md#publicação-publication) | **Bloqueado por estado draft.** Só reexecutar como gate de publicação depois de existir conteúdo humano efetivamente revisado e publicado. |
+| Fechamento da spec fundamental e reconciliação de follow-ups | [follow-up da spec de conceitos](../../.pose/specs/2026-09-07-concept-content-authoring.md#7-final-report), [follow-up da spec de publicação](../../.pose/specs/2026-09-07-catalog-publication-integrity.md#7-final-report), [follow-up da spec fundamental](../../.pose/specs/2026-08-22-go-foundations-packs.md#7-final-report) | **Pendente.** O coordenador deve atualizar a spec fundamental, preservar os follow-ups aplicáveis e só mudar para `done` quando nenhum gate acima faltar. |
+
+### 11.4 Decisão requerida antes de qualquer recomendação de publicação
+
+Não recomendar publicação neste estado. Antes de emitir uma recomendação, o
+coordenador deve obter e registrar uma decisão humana, na spec ou em decisão
+referenciada por ela, com pelo menos:
+
+- responsável, data UTC, opções consideradas e racional;
+- aceite ou alteração explícita da distribuição `32` atômicos, `10`
+  combinados e `2` fatias funcionais;
+- disposição de `go-data.slice-filter-preserve-input` e
+  `go-debug.slice-off-by-one`, incluindo escopo, autor, versão e impacto nos
+  IDs/sessões;
+- tratamento das oito variantes como derivados `canonical: false`, sem
+  contá-las como novos desafios;
+- efeito da decisão nas contagens, na spec e nos follow-ups.
+
+Também deve exigir revisão/playtest humanos reais para as `54` linhas do
+manifesto: `53` entradas dos sete packs fundamentais (45 bases e 8 variantes)
+mais o protótipo de debugging. O revisor deve ser diferente do autor, preparar
+um workspace isolado, executar a sessão MCP real sem `override` para fabricar
+conclusão, observar a duração e registrar a ficha da seção 10.3. Só depois de
+todas as fichas aprovadas será legítimo preencher `reviewed_by`,
+`playtested: true` e `publication.status: published`, seguido da validação dos
+checks publicados. Uma pré-revisão automatizada, `catalog validate` ou uma
+travessia MCP automatizada não substitui nenhuma dessas decisões.
+
+### 11.5 Reconciliação documental e follow-ups preservados
+
+Os documentos antigos continuam úteis como histórico imutável do estágio em que
+foram escritos. A tabela abaixo evita que seus números intermediários sejam
+apresentados como a medição corrente.
+
+| Fonte histórica | Registro antigo | Reconciliação atual |
+|---|---|---|
+| [Inventário editorial de 2026-09-11](../editorial/go-foundations-inventory.md) no commit `9caef5c1a585813076d4a4bc3957d71c0e1a2fe2` | `70` conceitos, `56` competências, `53` entradas nos sete packs, `167` nodes de bases e `53` de variantes; `220` nodes nos sete packs. | Depois dos lotes conceituais, variantes e remediações: `104/60`, `45` bases, `8` variantes, `305` brutos e `304` creditáveis no escopo fundamental. Preservar a linha histórica e usar este documento para a leitura atual. |
+| [Handoff `go-foundations-io-batch`](../../.pose/knowledge/2026-09-10-handoff-go-foundations-io-batch.md) | Estágio intermediário com `45` bases, `70` conceitos, `51` competências e `118` nodes de bases, além de `32` nodes das variantes. | Os lotes posteriores de conceitos e profundidade estão consumidos nas seções 3–5 e 9; o handoff não é evidência de fechamento. |
+| [Spec `go-foundations-packs` §6/§7](../../.pose/specs/2026-08-22-go-foundations-packs.md#6-validation) | O `Results summary`, o trace e o `Final Report` ainda dizem autoria parcial, `70/51/118` e requisito pendente. A lista de tarefas também conserva checkboxes históricos não atualizados. | O estado corrente foi medido em 2026-09-15 e está neste trace; o coordenador deve reconciliar `Execution log`, `Results summary`, `Requirement trace`, `Known gaps` e `Follow-ups` da spec sem reescrever o histórico. |
+| [Spec `concept-content-authoring`](../../.pose/specs/2026-09-07-concept-content-authoring.md) e [spec `catalog-publication-integrity`](../../.pose/specs/2026-09-07-catalog-publication-integrity.md) | Implementações `done` com follow-up `v1-integrated-acceptance`; as revisões técnicas explicitam que amostra, inventário e provas automatizadas não são curadoria humana do catálogo. | Tratar esses follow-ups como dependências de integração da V1, não como autorização para publicar os drafts fundamentais. Manter os gates da seção 11.3 abertos. |
+
+Follow-ups que permanecem acionáveis:
+
+- Reexecutar `v1-integrated-acceptance` no candidato composto, como já
+  referenciado pelas specs de conteúdo conceitual e integridade de publicação.
+- Registrar as sessões reais e a amostra humana dos sete packs, conforme o
+  follow-up de `go-foundations-packs` e o roteiro da seção 10.
+- Decidir a distribuição/protótipos e atualizar a spec fundamental somente
+  depois de haver evidência para essa decisão.
+
+### 11.6 Encaminhamento ao coordenador
+
+Não executar ações de coordenador nesta tarefa. Após a entrega real da revisão,
+do playtest e da decisão de distribuição, o coordenador deve:
+
+1. atualizar a [spec fundamental](../../.pose/specs/2026-08-22-go-foundations-packs.md)
+   com o trace final, o `completed_at` somente se aplicável e a disposição de
+   cada follow-up;
+2. executar `pose assess discover --update-state` para recalcular métricas e
+   atualizar os artefatos de assessment/state;
+3. executar os checks de fechamento aplicáveis, incluindo
+   `pose artifact-check --spec go-foundations-packs --strict`,
+   `pose lint-spec go-foundations-packs --ready-check`,
+   `pose validate --strict --json .pose/results/delivery-validation.json`,
+   `pose docs-check`, `pose check --strict`, `catalog validate --checks` e o
+   `catalog validate --v1-gate` final;
+4. comparar claims e observed, versões, commits e evidência humana, sem contar
+   inventário draft como publicação;
+5. manter `status: in-progress` e devolver pendências se qualquer gate faltar;
+   só então considerar closeout e recomendação de publicação.
+
+Este lote não executou `assess discover --update-state`, não alterou a spec nem
+o estado do coordenador e não preencheu qualquer metadado humano. A medição e os
+checks desta seção são evidência de reconciliação documental; não são um
+closeout da spec.

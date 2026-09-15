@@ -1,6 +1,6 @@
 schema_version: 1
 id: go-first-steps
-version: 1.8.0
+version: 1.9.0
 themes:
   - id: slices
     title: Slices e arrays
@@ -1929,38 +1929,6 @@ challenges:
                     reflection:
                       optional:
                         - Por que o compilador não pode decidir sozinho se um int recebido em runtime cabe no byte?
-          - id: model.declare-clamp-signature
-            kind: micro
-            action: declare
-            target: function
-            title: Declarar a assinatura de ClampToByte
-            instruction:
-              objective: Declarar a função ClampToByte com um parâmetro int e retorno byte, sem implementar o corpo ainda.
-              scope: Somente a assinatura da função.
-              constraints:
-                - Não implementar a lógica de conversão ainda.
-            concepts: [type-conversion]
-            evidence:
-              strategies: [source_inspection, compile]
-            criteria:
-              - id: signature-matches
-                kind: structural
-            completion:
-              requires_positive_evaluation: true
-              requires_user_confirmation: false
-            hints:
-              - level: 1
-                kind: guiding_question
-              - level: 2
-                kind: syntax_recall
-              - level: 3
-                kind: logical_prose
-              - level: 4
-                kind: pseudocode
-              - level: 5
-                kind: partial_code
-              - level: 6
-                kind: solution
           - id: model.clamp-int-to-valid-byte-range
             kind: micro
             action: implement

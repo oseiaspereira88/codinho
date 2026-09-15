@@ -22,8 +22,8 @@ const (
 	minimumFoundationNodes        = 300
 	expectedFoundationBases       = 45
 	expectedFoundationVariants    = 8
-	expectedFoundationNodes       = 305
-	expectedCreditedNodes         = 304
+	expectedFoundationNodes       = 304
+	expectedCreditedNodes         = 303
 )
 
 var essentialFoundationCompetencies = []string{
@@ -107,8 +107,8 @@ func TestFoundationCatalogAudit(t *testing.T) {
 
 	inventory := ProjectCoverage(NewCatalogFromPacks(packs))
 	publication := ProjectPublicationCoverage(packs)
-	if inventory.Concepts != 105 || inventory.Competencies != 64 || inventory.Challenges != 54 || inventory.StepNodes != 367 {
-		t.Fatalf("global inventory = %+v, want concepts=105 competencies=64 challenges=54 nodes=367", inventory)
+	if inventory.Concepts != 105 || inventory.Competencies != 64 || inventory.Challenges != 54 || inventory.StepNodes != 366 {
+		t.Fatalf("global inventory = %+v, want concepts=105 competencies=64 challenges=54 nodes=366", inventory)
 	}
 	if publication.Published.Challenges != 0 || publication.Eligible.Challenges != 0 {
 		t.Fatalf("published projection = %+v, want no published or eligible challenges", publication)

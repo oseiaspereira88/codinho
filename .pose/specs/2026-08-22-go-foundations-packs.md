@@ -72,6 +72,9 @@ Oferecer prática desde o primeiro contato até a base necessária para backend,
 - created: docs/catalog/go-foundations.md
 - modified: .pose/docs.json
 - modified: .pose/indexes/validation-matrix.json
+- modified: .pose/assessments/consolidated.md
+- modified: .pose/assessments/packs.md
+- modified: .pose/state/components/packs.json
 - created: cmd/codinho/foundation_tracks_integration_test.go
 - created: internal/curriculum/foundation_variants_test.go
 
@@ -160,6 +163,7 @@ conceitos / ≥60 competências / ≥300 step nodes (R1's threshold em
 - [x] Aprofundar `go-data-text.quote-csv-field-when-needed` com verificação combinada de caracteres especiais CSV; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Aprofundar `go-core.run-commands-with-cleanup-and-recovery` com verificação de limpeza após panic e continuidade do comando seguinte; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir o desafio de conversão estreitante de go-first-steps com nodes de verificação de limites e reflexão sobre a ordem das operações; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
+- [x] Remover o micropasso redundante de declaração da assinatura em `go-first-steps.clamp-int-to-byte`, já fornecida pela fixture; preservar o ID, a fixture, os checks e o estado draft, incrementar o pack para 1.9.0 e validar a meta de 300 nodes creditáveis.
 - [x] Expandir os desafios de módulo e formatação de go-first-steps com nodes de inspeção e verificação observável; preservar fixtures e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir o desafio de shadowing e retornos nomeados com nodes de verificação de casos e reflexão sobre escopo; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
 - [x] Expandir o desafio genérico de transformação de go-type-design com nodes de verificação de ordem e isolamento; preservar fixture e validar catálogo. Consumir knowledge:go-foundations-io-batch.
@@ -287,6 +291,7 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
 - Security / Contract: secret scan, path confinement e leak detector.
 
 ### Execution log
+- 2026-09-15 UTC, correção de qualidade em `go-first-steps.clamp-int-to-byte`: removido o micropasso `model.declare-clamp-signature`, que repetia a assinatura já presente na fixture. O desafio e suas fixtures/checks permaneceram intactos; o pack passou a 1.9.0. A auditoria corrente passou a 366 nodes no manifesto, 304 brutos e 303 creditáveis nos sete packs; o gate de 300 continua satisfeito. Revisão humana, playtest, disposição dos protótipos e publicação permanecem pendentes.
 - 2026-09-10 UTC, trilhas fundamentais: cinco percursos explícitos (47 posições reutilizando desafios), início e travessia via MCP real em --authoring. Matriz ampliada para 23/23 checks aprovados; 43/43 checks editoriais verificados. IDs/conteúdo anteriores preservados. O avanço explícito no teste verifica alcance, não playtest humano.
 - 2026-09-10 UTC, complemento go-errors: um combinado e uma fatia funcional draft, oito conceitos, seis competências e 14 nodes. Matriz 22/22 passou, com 43/43 checks editoriais verificados. Comparação dos objetos YAML confirma preservação integral dos desafios, conceitos, competências e relações históricos; versão do pack incrementada para 1.2.0.
 - 2026-09-10 UTC, lote go-testing: um combinado draft, oito conceitos, cinco competências e sete nodes. Matriz completa 22/22 passou; 41/41 checks editoriais verificados, incluindo baseline com falha e referência aprovada. Docs-check sem erros/warnings. Revisão qualitativa e playtest humano permanecem pendentes.
@@ -1124,10 +1129,11 @@ os sete packs, as cinco trilhas e o playtest real estiverem completos
 
 ### Known gaps
 - Retenção e transferência serão comprovadas no aceite integrado.
-- `go-first-steps.clamp-int-to-byte` (checkpoint 2, já aprovado/comitado)
-  tem o mesmo micropasso redundante de "declarar assinatura" identificado
-  e corrigido no checkpoint 3 — não foi revisitado; considerar corrigir
-  num lote futuro antes do playtest humano.
+- `go-first-steps.clamp-int-to-byte` (checkpoint 2, já aprovado/comitado):
+  correção concluída em 2026-09-15. O micropasso redundante de "declarar
+  assinatura" foi removido, preservando o ID do desafio, a fixture, os checks,
+  o estado draft e a distinção entre assinatura fornecida e implementação
+  avaliada; o pack foi incrementado para 1.9.0.
 - Achado ao iniciar o pack go-data-text (2026-08-25): `packs/go-first-
   steps.yaml` tem um item pré-existente, `go-data.slice-filter-preserve-
   input` (tema `slices`, fora do escopo A/B deste pack pela matriz de

@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-10T16:16:29Z",
+  "generated_at": "2026-09-15T17:55:46Z",
   "mode": "strict",
-  "git_head": "831d1783526bef6eb80c791606f1bbeb3dca6c9b",
-  "matrix_sha256": "sha256:cb8c559d1bcdcccbe429eded6723c342494bf16517caa6a6c24b39bea20ea0d2",
-  "provenance_digest": "sha256:d846baf183ad7a2b07fc610348eef7b02995b7c8041834a85c24e314d22f81b9",
+  "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+  "matrix_sha256": "sha256:5a986b2c158283b65a5ab2be78e1c78d3eff569facacff04de6b7399e6fd61fb",
+  "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
   "scope_provenance": {
     "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
     "agent-authored-catalog-drafts": "sha256:28e51824d08d51b8d58d9459261f9ba0c0bba2e76d4793110a8443e03d76c848",
@@ -15,10 +15,11 @@
     "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
     "concept-content-authoring": "sha256:4de96f4b51a29edfe5c67f7b2dcd72e86f0d0d16d9609072c6a156a19d312a06",
     "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+    "editorial-batch-engine": "sha256:d3d90832865e5f329ff1d7207607fd6128c7b1e56694ed31542364651af7d60d",
     "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
     "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
     "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
-    "go-foundations-packs": "sha256:a57cd2007d31b1eb0f5797c71b124c2afe2c79cdfe05cb22dbb425e0239feb70",
+    "go-foundations-packs": "sha256:048f64cd982c93e01ff0251d5e322d429f2eace1bca031a4aba0bedf1bfe2a81",
     "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
     "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
     "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
@@ -40,8 +41,8 @@
   },
   "outcome": "pass",
   "counts": {
-    "executed": 23,
-    "passed": 23,
+    "executed": 24,
+    "passed": 24,
     "failed": 0,
     "optional_failed": 0,
     "errored": 0,
@@ -60,7 +61,7 @@
       "severity": "required",
       "evidence_class": "build",
       "outcome": "pass",
-      "duration_seconds": 0.413398663
+      "duration_seconds": 0.343823366
     },
     {
       "id": "./go/test",
@@ -77,8 +78,8 @@
       "severity": "required",
       "evidence_class": "unit",
       "outcome": "pass",
-      "duration_seconds": 11.590735955,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/ci-assurance\t1.064s\nok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t10.462s\nok  \tgithub.com/oseiaspereira88/codinho/internal/application\t5.339s\nok  \tgithub.com/oseiaspereira88/codinho/internal/assessment\t1.044s\nok  \tgithub.com/oseiaspereira88/codinho/internal/assistance\t1.060s\nok  \tgithub.com/oseiaspereira88/codinho/internal/checks\t5.443s\nok  \tgithub.com/oseiaspereira88/codinho/internal/ciassurance\t1.156s\nok  \tgithub.com/oseiaspereira88/codinho/internal/cli\t1.144s\n?   \tgithub.com/oseiaspereira88/codinho/internal/config\t[no test files]\nok  \tgithub.com/oseiaspereira88/codinho/internal/curriculum\t2.365s\nok  \tgithub.com/oseiaspereira88/codinho/internal/diagnostics\t1.057s\nok  \tgithub.com/oseiaspereira88/codinho/internal/drafts\t1.076s\nok  \tgithub.com/oseiaspereira88/codinho/internal/eventstore\t1.077s\nok  \tgithub.com/oseiaspereira88/codinho/internal/evidence\t1.047s\nok  \tgithub.com/oseiaspereira88/codinho/internal/fixtures\t1.051s\nok  \tgithub.com/oseiaspereira88/codinho/internal/learning\t1.043s\nok  \tgithub.com/oseiaspereira88/codinho/internal/mastery\t1.025s\nok  \tgithub.com/oseiaspereira88/codinho/internal/mcpserver\t9.820s\nok  \tgithub.com/oseiaspereira88/codinho/internal/recommendation\t1.009s\nok  \tgithub.com/oseiaspereira88/codinho/internal/security\t1.012s\nok  \tgithub.com/oseiaspereira88/codinho/internal/session\t1.376s\nok  \tgithub.com/oseiaspereira88/codinho/internal/workspace\t1.081s\n"
+      "duration_seconds": 12.569980569,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/ci-assurance\t1.048s\nok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t11.912s\nok  \tgithub.com/oseiaspereira88/codinho/internal/application\t5.470s\nok  \tgithub.com/oseiaspereira88/codinho/internal/assessment\t1.028s\nok  \tgithub.com/oseiaspereira88/codinho/internal/assistance\t1.036s\nok  \tgithub.com/oseiaspereira88/codinho/internal/checks\t5.420s\nok  \tgithub.com/oseiaspereira88/codinho/internal/ciassurance\t1.170s\nok  \tgithub.com/oseiaspereira88/codinho/internal/cli\t1.153s\n?   \tgithub.com/oseiaspereira88/codinho/internal/config\t[no test files]\nok  \tgithub.com/oseiaspereira88/codinho/internal/curriculum\t4.027s\nok  \tgithub.com/oseiaspereira88/codinho/internal/diagnostics\t1.063s\nok  \tgithub.com/oseiaspereira88/codinho/internal/drafts\t1.066s\nok  \tgithub.com/oseiaspereira88/codinho/internal/eventstore\t1.088s\nok  \tgithub.com/oseiaspereira88/codinho/internal/evidence\t1.047s\nok  \tgithub.com/oseiaspereira88/codinho/internal/fixtures\t1.040s\nok  \tgithub.com/oseiaspereira88/codinho/internal/learning\t1.033s\nok  \tgithub.com/oseiaspereira88/codinho/internal/mastery\t1.009s\nok  \tgithub.com/oseiaspereira88/codinho/internal/mcpserver\t10.158s\nok  \tgithub.com/oseiaspereira88/codinho/internal/recommendation\t1.009s\nok  \tgithub.com/oseiaspereira88/codinho/internal/security\t1.011s\nok  \tgithub.com/oseiaspereira88/codinho/internal/session\t1.471s\nok  \tgithub.com/oseiaspereira88/codinho/internal/workspace\t1.146s\n"
     },
     {
       "id": "./go/vet",
@@ -93,7 +94,28 @@
       "severity": "required",
       "evidence_class": "build",
       "outcome": "pass",
-      "duration_seconds": 0.170654806
+      "duration_seconds": 0.117375646
+    },
+    {
+      "id": "./go/editorial-batch-engine",
+      "module": ".",
+      "stack": "go",
+      "name": "editorial-batch-engine",
+      "program": "python3",
+      "args": [
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts",
+        "-p",
+        "test_editorial.py"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "pass",
+      "duration_seconds": 2.055750313,
+      "output": ".................\n----------------------------------------------------------------------\nRan 17 tests in 1.954s\n\nOK\n"
     },
     {
       "id": "./go/build",
@@ -108,7 +130,7 @@
       "severity": "required",
       "evidence_class": "build",
       "outcome": "pass",
-      "duration_seconds": 0.350272036
+      "duration_seconds": 0.047820965
     },
     {
       "id": "./go/catalog-publication-integrity",
@@ -126,8 +148,8 @@
       "severity": "required",
       "evidence_class": "integration",
       "outcome": "pass",
-      "duration_seconds": 1.380115912,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t1.028s\n"
+      "duration_seconds": 1.064700027,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.852s\n"
     },
     {
       "id": "./go/published-catalog-proof",
@@ -146,8 +168,8 @@
       "severity": "required",
       "evidence_class": "integration",
       "outcome": "pass",
-      "duration_seconds": 0.124111164,
-      "output": "…    \"suggestion\": \"declare ao menos uma relation (relates_to, applies_in, deepens_into, contrasts_with, commonly_fails_with, evidences)\"\n    },\n    {\n      \"file\": \"go-testing.yaml\",\n      \"item\": \"testing-build-counting-double\",\n      \"rule\": \"relation_isolated\",\n      \"severity\": \"warning\",\n      \"detail\": \"item sem nenhuma relation além de requires/prerequisites\",\n      \"suggestion\": \"declare ao menos uma relation (relates_to, applies_in, deepens_into, contrasts_with, commonly_fails_with, evidences)\"\n    },\n    {\n      \"file\": \"go-testing.yaml\",\n      \"item\": \"testing-cover-boundary-cases\",\n      \"rule\": \"relation_isolated\",\n      \"severity\": \"warning\",\n      \"detail\": \"item sem nenhuma relation além de requires/prerequisites\",\n      \"suggestion\": \"declare ao menos uma relation (relates_to, applies_in, deepens_into, contrasts_with, commonly_fails_with, evidences)\"\n    },\n    {\n      \"file\": \"go-testing.yaml\",\n      \"item\": \"testing-design-deterministic-time\",\n      \"rule\": \"relation_isolated\",\n      \"severity\": \"warning\",\n      \"detail\": \"item sem nenhuma relation além de requires/prerequisites\",\n      \"suggestion\": \"declare ao menos uma relation (relates_to, applies_in, deepens_into, contrasts_with, commonly_fails_with, evidences)\"\n    },\n    {\n      \"file\": \"go-testing.yaml\",\n      \"item\": \"testing-detect-aliasing\",\n      \"rule\": \"relation_isolated\",\n      \"severity\": \"warning\",\n      \"detail\": \"item sem nenhuma relation além de requires/prerequisites\",\n      \"suggestion\": \"declare ao menos uma relation (relates_to, applies_in, deepens_into, contrasts_with, commonly_fails_with, evidences)\"\n    },\n    {\n      \"file\": \"go-testing.yaml\",\n      \"item\": \"testing-name-diagnostic-cases\",\n      \"rule\": \"relation_isolated\",\n      \"severity\": \"warning\",\n      \"detail\": \"item sem nenhuma relation além de requires/prerequisites\",\n      \"suggestion\": \"declare ao menos uma relation (relates_to, applies_in, deepens_into, contrasts_with, commonly_fails_with, evidences)\"\n    },\n    {\n      \"file\": \"go-first-steps.yaml\",\n      \"item\": \"zero-values\",\n      \"rule\": \"relation_isolated\",\n      \"severity\": \"warning\",\n      \"detail\": \"item sem nenhuma relation além de requires/prerequisites\",\n      \"suggestion\": \"declare ao menos uma relation (relates_to, applies_in, deepens_into, contrasts_with, commonly_fails_with, evidences)\"\n    }\n  ],\n  \"coverage\": {\n    \"Themes\": 14,\n    \"Concepts\": 71,\n    \"Competencies\": 52,\n    \"Tracks\": 5,\n    \"Challenges\": 54,\n    \"StepNodes\": 154,\n    \"ByDifficulty\": {\n      \"foundational\": 47,\n      \"intermediate\": 7\n    },\n    \"ByChallengeKind\": {\n      \"atomic\": 41,\n      \"combined\": 10,\n      \"debug\": 1,\n      \"functional_slice\": 2\n    }\n  },\n  \"publication\": {\n    \"inventory\": {\n      \"Themes\": 14,\n      \"Concepts\": 71,\n      \"Competencies\": 52,\n      \"Tracks\": 5,\n      \"Challenges\": 54,\n      \"StepNodes\": 154,\n      \"ByDifficulty\": {\n        \"foundational\": 47,\n        \"intermediate\": 7\n      },\n      \"ByChallengeKind\": {\n        \"atomic\": 41,\n        \"combined\": 10,\n        \"debug\": 1,\n        \"functional_slice\": 2\n      }\n    },\n    \"drafts\": {\n      \"Themes\": 14,\n      \"Concepts\": 71,\n      \"Competencies\": 52,\n      \"Tracks\": 5,\n      \"Challenges\": 54,\n      \"StepNodes\": 154,\n      \"ByDifficulty\": {\n        \"foundational\": 47,\n        \"intermediate\": 7\n      },\n      \"ByChallengeKind\": {\n        \"atomic\": 41,\n        \"combined\": 10,\n        \"debug\": 1,\n        \"functional_slice\": 2\n      }\n    },\n    \"published\": {\n      \"Themes\": 0,\n      \"Concepts\": 0,\n      \"Competencies\": 0,\n      \"Tracks\": 0,\n      \"Challenges\": 0,\n      \"StepNodes\": 0,\n      \"ByDifficulty\": {},\n      \"ByChallengeKind\": {}\n    },\n    \"eligible\": {\n      \"Themes\": 0,\n      \"Concepts\": 0,\n      \"Competencies\": 0,\n      \"Tracks\": 0,\n      \"Challenges\": 0,\n      \"StepNodes\": 0,\n      \"ByDifficulty\": {},\n      \"ByChallengeKind\": {}\n    }\n  },\n  \"proof\": {\n    \"code_revision\": \"unknown\",\n    \"code_modified\": false,\n    \"go_version\": \"go1.26.5-X:nodwarf5\",\n    \"declared_checks\": 0,\n    \"verified_checks\": 0,\n    \"results\": []\n  }\n}\n"
+      "duration_seconds": 0.141371628,
+      "output": "{\n  \"diagnostics\": null,\n  \"editorial\": null,\n  \"coverage\": {\n    \"Themes\": 14,\n    \"Concepts\": 105,\n    \"Competencies\": 64,\n    \"Tracks\": 5,\n    \"Challenges\": 54,\n    \"StepNodes\": 366,\n    \"ByDifficulty\": {\n      \"foundational\": 47,\n      \"intermediate\": 7\n    },\n    \"ByChallengeKind\": {\n      \"atomic\": 41,\n      \"combined\": 10,\n      \"debug\": 1,\n      \"functional_slice\": 2\n    }\n  },\n  \"publication\": {\n    \"inventory\": {\n      \"Themes\": 14,\n      \"Concepts\": 105,\n      \"Competencies\": 64,\n      \"Tracks\": 5,\n      \"Challenges\": 54,\n      \"StepNodes\": 366,\n      \"ByDifficulty\": {\n        \"foundational\": 47,\n        \"intermediate\": 7\n      },\n      \"ByChallengeKind\": {\n        \"atomic\": 41,\n        \"combined\": 10,\n        \"debug\": 1,\n        \"functional_slice\": 2\n      }\n    },\n    \"drafts\": {\n      \"Themes\": 14,\n      \"Concepts\": 105,\n      \"Competencies\": 64,\n      \"Tracks\": 5,\n      \"Challenges\": 54,\n      \"StepNodes\": 366,\n      \"ByDifficulty\": {\n        \"foundational\": 47,\n        \"intermediate\": 7\n      },\n      \"ByChallengeKind\": {\n        \"atomic\": 41,\n        \"combined\": 10,\n        \"debug\": 1,\n        \"functional_slice\": 2\n      }\n    },\n    \"published\": {\n      \"Themes\": 0,\n      \"Concepts\": 0,\n      \"Competencies\": 0,\n      \"Tracks\": 0,\n      \"Challenges\": 0,\n      \"StepNodes\": 0,\n      \"ByDifficulty\": {},\n      \"ByChallengeKind\": {}\n    },\n    \"eligible\": {\n      \"Themes\": 0,\n      \"Concepts\": 0,\n      \"Competencies\": 0,\n      \"Tracks\": 0,\n      \"Challenges\": 0,\n      \"StepNodes\": 0,\n      \"ByDifficulty\": {},\n      \"ByChallengeKind\": {}\n    }\n  },\n  \"proof\": {\n    \"code_revision\": \"unknown\",\n    \"code_modified\": false,\n    \"go_version\": \"go1.26.5-X:nodwarf5\",\n    \"declared_checks\": 0,\n    \"verified_checks\": 0,\n    \"results\": []\n  }\n}\n"
     },
     {
       "id": "./go/session-recovery",
@@ -165,8 +187,8 @@
       "severity": "required",
       "evidence_class": "integration",
       "outcome": "pass",
-      "duration_seconds": 0.680961003,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.465s\n"
+      "duration_seconds": 0.691505559,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.471s\n"
     },
     {
       "id": "./go/session-tree-progression",
@@ -184,8 +206,8 @@
       "severity": "required",
       "evidence_class": "integration",
       "outcome": "pass",
-      "duration_seconds": 0.619031333,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.416s\n"
+      "duration_seconds": 0.632089242,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.419s\n"
     },
     {
       "id": "./go/evaluation-evidence",
@@ -203,8 +225,8 @@
       "severity": "required",
       "evidence_class": "integration",
       "outcome": "pass",
-      "duration_seconds": 0.798647181,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.592s\n"
+      "duration_seconds": 0.893936727,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.644s\n"
     },
     {
       "id": "./go/mcp-contract",
@@ -222,8 +244,8 @@
       "severity": "required",
       "evidence_class": "integration",
       "outcome": "pass",
-      "duration_seconds": 1.122982207,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/internal/mcpserver\t0.898s\n"
+      "duration_seconds": 1.139538534,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/internal/mcpserver\t0.901s\n"
     },
     {
       "id": "./go/tutor-skill-routing",
@@ -241,8 +263,8 @@
       "severity": "required",
       "evidence_class": "integration",
       "outcome": "pass",
-      "duration_seconds": 0.854702594,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.612s\n"
+      "duration_seconds": 0.694648687,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.464s\n"
     },
     {
       "id": "./go/cli-reachability",
@@ -260,8 +282,8 @@
       "severity": "required",
       "evidence_class": "reachability",
       "outcome": "pass",
-      "duration_seconds": 0.556793322,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.333s\n"
+      "duration_seconds": 0.575743535,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.349s\n"
     },
     {
       "id": "./go/cli-e2e",
@@ -279,8 +301,8 @@
       "severity": "required",
       "evidence_class": "e2e",
       "outcome": "pass",
-      "duration_seconds": 0.666704588,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.417s\n"
+      "duration_seconds": 0.621925666,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.364s\n"
     },
     {
       "id": "./go/govulncheck",
@@ -293,7 +315,7 @@
       ],
       "severity": "required",
       "outcome": "pass",
-      "duration_seconds": 2.57440562,
+      "duration_seconds": 4.134816542,
       "output": "No vulnerabilities found.\n"
     },
     {
@@ -312,8 +334,8 @@
       "severity": "required",
       "evidence_class": "integration",
       "outcome": "pass",
-      "duration_seconds": 1.079347046,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.776s\n"
+      "duration_seconds": 0.854904272,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.641s\n"
     },
     {
       "id": "./go/startup-budget",
@@ -331,8 +353,8 @@
       "severity": "required",
       "evidence_class": "integration",
       "outcome": "pass",
-      "duration_seconds": 0.772814679,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.501s\n"
+      "duration_seconds": 0.545564814,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.329s\n"
     },
     {
       "id": "./go/smoke-install",
@@ -350,8 +372,8 @@
       "severity": "required",
       "evidence_class": "integration",
       "outcome": "pass",
-      "duration_seconds": 0.756640233,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.389s\n"
+      "duration_seconds": 0.513604433,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.312s\n"
     },
     {
       "id": "./go/ci-assurance",
@@ -367,8 +389,8 @@
       "severity": "required",
       "evidence_class": "integration",
       "outcome": "pass",
-      "duration_seconds": 0.156452482,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/internal/ciassurance\t0.043s\n"
+      "duration_seconds": 0.146489109,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/internal/ciassurance\t0.037s\n"
     },
     {
       "id": "./go/catalog",
@@ -387,8 +409,8 @@
       "severity": "required",
       "evidence_class": "integration",
       "outcome": "pass",
-      "duration_seconds": 12.67919936,
-      "output": "…     \"digest\": \"a87b642a4e29a948c76dcdaa65347105f7604a53f971bcf5bd81d4c16de15987\",\n        \"expected\": \"test_failure\",\n        \"actual\": \"test_failure\",\n        \"verified\": true\n      },\n      {\n        \"pack_id\": \"go-type-design\",\n        \"pack_version\": \"1.0.0\",\n        \"challenge_id\": \"go-type-design.contains-generic-comparable\",\n        \"challenge_version\": \"1.0.0\",\n        \"check_id\": \"focused-tests\",\n        \"scenario\": \"reference\",\n        \"digest\": \"6132d767e6bc3f2a54cfa9af77ae6d7d6779d381808e14a9455723e62b56cbb3\",\n        \"expected\": \"pass\",\n        \"actual\": \"pass\",\n        \"verified\": true\n      },\n      {\n        \"pack_id\": \"go-type-design\",\n        \"pack_version\": \"1.0.0\",\n        \"challenge_id\": \"go-type-design.describe-if-circle-safely\",\n        \"challenge_version\": \"1.0.0\",\n        \"check_id\": \"focused-tests\",\n        \"scenario\": \"baseline\",\n        \"digest\": \"52dbfc425f56d42ddeaa3ee57c68a710d545d3a7ad4e24737bbb3247b3f199ce\",\n        \"expected\": \"test_failure\",\n        \"actual\": \"test_failure\",\n        \"verified\": true\n      },\n      {\n        \"pack_id\": \"go-type-design\",\n        \"pack_version\": \"1.0.0\",\n        \"challenge_id\": \"go-type-design.describe-if-circle-safely\",\n        \"challenge_version\": \"1.0.0\",\n        \"check_id\": \"focused-tests\",\n        \"scenario\": \"reference\",\n        \"digest\": \"cf514da662595556469716042bbde6d90d31a79c10737de7e93d3c0b3a389530\",\n        \"expected\": \"pass\",\n        \"actual\": \"pass\",\n        \"verified\": true\n      },\n      {\n        \"pack_id\": \"go-type-design\",\n        \"pack_version\": \"1.0.0\",\n        \"challenge_id\": \"go-type-design.map-generic-transform\",\n        \"challenge_version\": \"1.0.0\",\n        \"check_id\": \"focused-tests\",\n        \"scenario\": \"baseline\",\n        \"digest\": \"238a71aed7f40cc156204b4716e555904f69bb647c62ffb1e4f2333f64bd5fc7\",\n        \"expected\": \"test_failure\",\n        \"actual\": \"test_failure\",\n        \"verified\": true\n      },\n      {\n        \"pack_id\": \"go-type-design\",\n        \"pack_version\": \"1.0.0\",\n        \"challenge_id\": \"go-type-design.map-generic-transform\",\n        \"challenge_version\": \"1.0.0\",\n        \"check_id\": \"focused-tests\",\n        \"scenario\": \"reference\",\n        \"digest\": \"56fd90894fe14dddc8fd9f3bca73c660dde31d5ef496798254dfe22fb3af7bee\",\n        \"expected\": \"pass\",\n        \"actual\": \"pass\",\n        \"verified\": true\n      },\n      {\n        \"pack_id\": \"go-type-design\",\n        \"pack_version\": \"1.0.0\",\n        \"challenge_id\": \"go-type-design.first-circle-clone\",\n        \"challenge_version\": \"1.0.0\",\n        \"check_id\": \"focused-tests\",\n        \"scenario\": \"baseline\",\n        \"digest\": \"143233f49330c4e498417179dc2599df0d45e6671c4f8b18bc24392b66747818\",\n        \"expected\": \"test_failure\",\n        \"actual\": \"test_failure\",\n        \"verified\": true\n      },\n      {\n        \"pack_id\": \"go-type-design\",\n        \"pack_version\": \"1.0.0\",\n        \"challenge_id\": \"go-type-design.first-circle-clone\",\n        \"challenge_version\": \"1.0.0\",\n        \"check_id\": \"focused-tests\",\n        \"scenario\": \"reference\",\n        \"digest\": \"104394f4919f61ab3668e806dfbf6bb618070596603782a7894161938286eccb\",\n        \"expected\": \"pass\",\n        \"actual\": \"pass\",\n        \"verified\": true\n      },\n      {\n        \"pack_id\": \"go-type-design\",\n        \"pack_version\": \"1.0.0\",\n        \"challenge_id\": \"go-type-design.generic-node-values-nil-safe\",\n        \"challenge_version\": \"1.0.0\",\n        \"check_id\": \"focused-tests\",\n        \"scenario\": \"baseline\",\n        \"digest\": \"2579351d41904e8ebcd747e013a4a59b05a35019201e1121cb0a1d3d92f8a70b\",\n        \"expected\": \"test_failure\",\n        \"actual\": \"test_failure\",\n        \"verified\": true\n      },\n      {\n        \"pack_id\": \"go-type-design\",\n        \"pack_version\": \"1.0.0\",\n        \"challenge_id\": \"go-type-design.generic-node-values-nil-safe\",\n        \"challenge_version\": \"1.0.0\",\n        \"check_id\": \"focused-tests\",\n        \"scenario\": \"reference\",\n        \"digest\": \"b8bc49a5683a775fddf561779ddd2067e59c9402a0ae9f47da6080911d4d493d\",\n        \"expected\": \"pass\",\n        \"actual\": \"pass\",\n        \"verified\": true\n      }\n    ]\n  }\n}\n"
+      "duration_seconds": 12.746813482,
+      "output": "…     \"digest\": \"a87b642a4e29a948c76dcdaa65347105f7604a53f971bcf5bd81d4c16de15987\",\n        \"expected\": \"test_failure\",\n        \"actual\": \"test_failure\",\n        \"verified\": true\n      },\n      {\n        \"pack_id\": \"go-type-design\",\n        \"pack_version\": \"1.2.0\",\n        \"challenge_id\": \"go-type-design.contains-generic-comparable\",\n        \"challenge_version\": \"1.0.0\",\n        \"check_id\": \"focused-tests\",\n        \"scenario\": \"reference\",\n        \"digest\": \"6132d767e6bc3f2a54cfa9af77ae6d7d6779d381808e14a9455723e62b56cbb3\",\n        \"expected\": \"pass\",\n        \"actual\": \"pass\",\n        \"verified\": true\n      },\n      {\n        \"pack_id\": \"go-type-design\",\n        \"pack_version\": \"1.2.0\",\n        \"challenge_id\": \"go-type-design.describe-if-circle-safely\",\n        \"challenge_version\": \"1.0.0\",\n        \"check_id\": \"focused-tests\",\n        \"scenario\": \"baseline\",\n        \"digest\": \"fc881337344caa69ebbdde765ff87be4fb01599580025eb963481f4355a46c58\",\n        \"expected\": \"test_failure\",\n        \"actual\": \"test_failure\",\n        \"verified\": true\n      },\n      {\n        \"pack_id\": \"go-type-design\",\n        \"pack_version\": \"1.2.0\",\n        \"challenge_id\": \"go-type-design.describe-if-circle-safely\",\n        \"challenge_version\": \"1.0.0\",\n        \"check_id\": \"focused-tests\",\n        \"scenario\": \"reference\",\n        \"digest\": \"60446eb4082dcb94654c68ccfbf02a59672701b372a1fb28b1d394e143c9c87a\",\n        \"expected\": \"pass\",\n        \"actual\": \"pass\",\n        \"verified\": true\n      },\n      {\n        \"pack_id\": \"go-type-design\",\n        \"pack_version\": \"1.2.0\",\n        \"challenge_id\": \"go-type-design.map-generic-transform\",\n        \"challenge_version\": \"1.0.0\",\n        \"check_id\": \"focused-tests\",\n        \"scenario\": \"baseline\",\n        \"digest\": \"238a71aed7f40cc156204b4716e555904f69bb647c62ffb1e4f2333f64bd5fc7\",\n        \"expected\": \"test_failure\",\n        \"actual\": \"test_failure\",\n        \"verified\": true\n      },\n      {\n        \"pack_id\": \"go-type-design\",\n        \"pack_version\": \"1.2.0\",\n        \"challenge_id\": \"go-type-design.map-generic-transform\",\n        \"challenge_version\": \"1.0.0\",\n        \"check_id\": \"focused-tests\",\n        \"scenario\": \"reference\",\n        \"digest\": \"56fd90894fe14dddc8fd9f3bca73c660dde31d5ef496798254dfe22fb3af7bee\",\n        \"expected\": \"pass\",\n        \"actual\": \"pass\",\n        \"verified\": true\n      },\n      {\n        \"pack_id\": \"go-type-design\",\n        \"pack_version\": \"1.2.0\",\n        \"challenge_id\": \"go-type-design.first-circle-clone\",\n        \"challenge_version\": \"1.0.0\",\n        \"check_id\": \"focused-tests\",\n        \"scenario\": \"baseline\",\n        \"digest\": \"43ec9a37646b43954488c398219ca6f785e96d8bb37e74e1791c304924a3dce1\",\n        \"expected\": \"test_failure\",\n        \"actual\": \"test_failure\",\n        \"verified\": true\n      },\n      {\n        \"pack_id\": \"go-type-design\",\n        \"pack_version\": \"1.2.0\",\n        \"challenge_id\": \"go-type-design.first-circle-clone\",\n        \"challenge_version\": \"1.0.0\",\n        \"check_id\": \"focused-tests\",\n        \"scenario\": \"reference\",\n        \"digest\": \"e3f7e9c2f4b74137a0c19a49875cc42283b97533b9b8cbe27b3a355e79eb0356\",\n        \"expected\": \"pass\",\n        \"actual\": \"pass\",\n        \"verified\": true\n      },\n      {\n        \"pack_id\": \"go-type-design\",\n        \"pack_version\": \"1.2.0\",\n        \"challenge_id\": \"go-type-design.generic-node-values-nil-safe\",\n        \"challenge_version\": \"1.0.0\",\n        \"check_id\": \"focused-tests\",\n        \"scenario\": \"baseline\",\n        \"digest\": \"2579351d41904e8ebcd747e013a4a59b05a35019201e1121cb0a1d3d92f8a70b\",\n        \"expected\": \"test_failure\",\n        \"actual\": \"test_failure\",\n        \"verified\": true\n      },\n      {\n        \"pack_id\": \"go-type-design\",\n        \"pack_version\": \"1.2.0\",\n        \"challenge_id\": \"go-type-design.generic-node-values-nil-safe\",\n        \"challenge_version\": \"1.0.0\",\n        \"check_id\": \"focused-tests\",\n        \"scenario\": \"reference\",\n        \"digest\": \"b8bc49a5683a775fddf561779ddd2067e59c9402a0ae9f47da6080911d4d493d\",\n        \"expected\": \"pass\",\n        \"actual\": \"pass\",\n        \"verified\": true\n      }\n    ]\n  }\n}\n"
     },
     {
       "id": "./go/concept-content-capability",
@@ -406,7 +428,7 @@
       "severity": "required",
       "evidence_class": "integration",
       "outcome": "pass",
-      "duration_seconds": 0.551479987,
+      "duration_seconds": 0.535402352,
       "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.318s\n"
     },
     {
@@ -425,8 +447,8 @@
       "severity": "required",
       "evidence_class": "integration",
       "outcome": "pass",
-      "duration_seconds": 0.609384871,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.372s\n"
+      "duration_seconds": 0.542368433,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.342s\n"
     },
     {
       "id": "./go/agent-authored-catalog-drafts",
@@ -444,8 +466,8 @@
       "severity": "required",
       "evidence_class": "integration",
       "outcome": "pass",
-      "duration_seconds": 0.579706239,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.350s\n"
+      "duration_seconds": 0.559556005,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.349s\n"
     },
     {
       "id": "./go/foundation-track-routing",
@@ -463,8 +485,8 @@
       "severity": "required",
       "evidence_class": "integration",
       "outcome": "pass",
-      "duration_seconds": 0.602111254,
-      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.388s\n"
+      "duration_seconds": 0.814568017,
+      "output": "ok  \tgithub.com/oseiaspereira88/codinho/cmd/codinho\t0.576s\n"
     }
   ]
 }

@@ -291,6 +291,14 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
 - Security / Contract: secret scan, path confinement e leak detector.
 
 ### Execution log
+- 2026-09-15 UTC, reconciliação do relatório da spec: o estado técnico atual foi
+  alinhado com a auditoria corrente — 105 conceitos, 64 competências, 5
+  trilhas, 54 desafios e 366 nodes no manifesto; nos sete packs, 104 conceitos,
+  60 competências, 45 bases, 8 variantes, 304 nodes brutos e 303 creditáveis.
+  Todos os desafios continuam draft, com 0 publicados e 0 elegíveis. A
+  reprodução de `go-data.slice-filter-preserve-input` com
+  `workspace prepare --dry-run` confirmou a ausência de fixture; sua disposição
+  continua uma decisão humana separada.
 - 2026-09-15 UTC, correção de qualidade em `go-first-steps.clamp-int-to-byte`: removido o micropasso `model.declare-clamp-signature`, que repetia a assinatura já presente na fixture. O desafio e suas fixtures/checks permaneceram intactos; o pack passou a 1.9.0. A auditoria corrente passou a 366 nodes no manifesto, 304 brutos e 303 creditáveis nos sete packs; o gate de 300 continua satisfeito. Revisão humana, playtest, disposição dos protótipos e publicação permanecem pendentes.
 - 2026-09-10 UTC, trilhas fundamentais: cinco percursos explícitos (47 posições reutilizando desafios), início e travessia via MCP real em --authoring. Matriz ampliada para 23/23 checks aprovados; 43/43 checks editoriais verificados. IDs/conteúdo anteriores preservados. O avanço explícito no teste verifica alcance, não playtest humano.
 - 2026-09-10 UTC, complemento go-errors: um combinado e uma fatia funcional draft, oito conceitos, seis competências e 14 nodes. Matriz 22/22 passou, com 43/43 checks editoriais verificados. Comparação dos objetos YAML confirma preservação integral dos desafios, conceitos, competências e relações históricos; versão do pack incrementada para 1.2.0.
@@ -1055,12 +1063,18 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
   restantes de 7).
 
 ### Results summary
-Baseline da auditoria de 2026-09-07 UTC: 38 desafios fundamentais no HEAD
-d758744, mais um combinado em go-errors no worktree do usuário, totalizando
-39 canônicos autorados de 44. Há ainda dois protótipos fora dessa contagem
-(go-data.slice-filter-preserve-input e go-debug.slice-off-by-one). Os 41 itens
-carregados no worktree têm zero publicação confirmada. Os checkpoints abaixo
-são histórico de autoria/pré-revisão, não comprovação de publicação ou do gate.
+O estado corrente, medido em 2026-09-15 UTC, contém 105 conceitos, 64
+competências, 5 trilhas, 54 desafios e 366 nodes no manifesto. Os sete packs
+fundamentais contêm 45 bases, incluindo o protótipo histórico de filtro, mais
+8 variantes; excluindo conceitualmente esse protótipo, a distribuição pretendida
+é 44 desafios — 32 atômicos, 10 combinados e 2 fatias funcionais. O recorte
+fundamental mede 104 conceitos, 60 competências, 304 nodes brutos e 303
+creditáveis. Os 54 desafios continuam draft: há 0 publicados e 0 elegíveis.
+Revisão humana, playtest, disposição dos protótipos e publicação permanecem
+pendentes.
+
+Os checkpoints abaixo são histórico de autoria e pré-revisão; não são
+comprovação de publicação nem substituem os gates humanos.
 
 Histórico de autoria: checkpoints de conteúdo real em cinco packs,
 com contagem reconciliada no baseline acima. Três em go-first-steps (checkpoint 1 declarações/tipos,
@@ -1122,10 +1136,13 @@ chamado — corrigido com um `spy`) — reforçando que a pré-revisão continua
 encontrando problemas reais mesmo com o padrão de conteúdo já maduro.
 
 ### Requirement trace
-Pendente — spec em progresso (checkpoint 1 de N; ver Execution log e
-Results summary). O trace por R-ID será preenchido no fechamento, quando
-os sete packs, as cinco trilhas e o playtest real estiverem completos
-(Definition of Done desta spec).
+Parcial — a spec permanece `in-progress`. O trace corrente por R-ID está em
+[`docs/catalog/go-foundations.md`, seção 11.2](../../docs/catalog/go-foundations.md#112-trace-r1r10-da-spec-go-foundations-packs):
+R1 e R10 continuam pendentes para publicação e revisão/playtest humanos; R3 é
+parcial por causa da disposição dos protótipos; R2 e R4–R9 estão atendidos no
+draft ou tecnicamente verificados, sujeitos à curadoria humana. O fechamento
+exige atualizar este trace somente depois de obter as decisões e evidências
+reais previstas na Definition of Done.
 
 ### Known gaps
 - Retenção e transferência serão comprovadas no aceite integrado.
@@ -1141,23 +1158,46 @@ os sete packs, as cinco trilhas e o playtest real estiverem completos
   exemplo ilustrativo de PROJECT.md §14.8: o único macro_step
   (`model.declare-user-struct`) é sobre declarar uma struct `User`, sem
   nenhuma relação com filtrar slices, e o desafio não tem `fixture:`
-  apesar do `checks` apontar para `TestFilter`. Não foi tocado nesta
-  sessão (fora do escopo do checkpoint corrente, e não é um problema
-  introduzido por este trabalho) — considerar removê-lo ou reautorá-lo
-  corretamente antes do playtest humano; `packs/go-data-text.yaml` já
-  cobre o mesmo conceito de forma real e correta, com ids distintos
-  (`go-data-text.filter-without-mutating-input`), então não há
-  dependência de conteúdo bloqueada por este gap.
+  apesar do `checks` apontar para `TestFilter`. A reprodução de
+  `go run ./cmd/codinho workspace prepare go-data.slice-filter-preserve-input
+  --dest <dir> --dry-run --json` em 2026-09-15 falhou com
+  `fixtures: challenge declares no fixture files`. O item permanece fora da
+  autoria corrente: antes do playtest, uma decisão humana deve escolher entre
+  removê-lo, reautorizá-lo ou migrá-lo, preservando IDs e sessões conforme
+  aplicável; `packs/go-data-text.yaml` já cobre o mesmo conceito de forma real
+  e correta, com IDs distintos (`go-data-text.filter-without-mutating-input`).
 
 ## 7. Final Report
 
 ### Delivered scope
-Autoria parcial dos sete packs presentes no manifest; os lotes go-io, go-testing e complemento go-errors têm fixtures baseline/reference verificadas. Há 45 desafios fundamentais draft (33 atômicos, 10 combinados, duas fatias funcionais), 70 conceitos, 51 competências e 118 nodes. A meta oficial de 44 permanece sem alteração: divergência de distribuição, aprofundamento e playtest humano impedem encerrar esta spec. As cinco trilhas já têm sequências explícitas e roteamento verificado. Oito variantes atômicas de I/O/testes acrescentam 32 nodes próprios, sem aumentar as 45 bases de autoria.
+Autoria técnica e reconciliação dos sete packs presentes no manifest foram
+entregues em draft. O estado medido é de 104 conceitos, 60 competências, 45
+bases, 8 variantes e 304 nodes brutos/303 creditáveis no recorte fundamental;
+no manifesto completo são 105 conceitos, 64 competências, 5 trilhas, 54
+desafios e 366 nodes. As cinco trilhas têm sequências explícitas e roteamento
+verificado. A distribuição pretendida de 44 desafios continua dependente da
+disposição do protótipo histórico, e nenhum conteúdo está publicado ou
+elegível: revisão humana, playtest e os demais gates permanecem abertos.
 
 ### Files and modules changed
 - Sete packs de fundamentos, manifest e docs/catalog/go-foundations.md. O inventário e os relatórios por lote distinguem autoria, verificação mecânica e publicação.
 
 ### Validation executed
+- `go run ./cmd/codinho catalog validate --json` e `--checks --json`: PASS;
+  cobertura global `105/64/5/54/366`, com 54 checks declarados e 54
+  verificados.
+- `env GOFLAGS='-mod=readonly -buildvcs=false' go test ./...` e `env
+  GOFLAGS='-mod=readonly -buildvcs=false' go test -race ./...`, `go vet
+  ./...` e o check de formato: PASS.
+- `PATH="/home/go/go/bin:$PATH" pose validate --strict`: PASS, 24/24 checks
+  da matriz; `govulncheck` não encontrou vulnerabilidades.
+- `pose docs-check`, `pose check --strict` e
+  `pose lint-spec go-foundations-packs --ready-check`: PASS. A saída de
+  `docs-check` mantém apenas dois registros históricos `REVIEW_PENDING`, sem
+  convertê-los em aprovação.
+- `go run ./cmd/codinho workspace prepare` em modo dry-run: o protótipo de
+  debugging materializa sua fixture; o protótipo de filtro falha por ausência
+  de fixture, conforme o gap acima.
 - Lotes conceituais de go-core: oito exemplos isolados passaram; comparação estrutural preservou os dez desafios, competências, conteúdo histórico e relações anteriores. Evidência em .pose/reports/2026-09-10-core-concept-content.md.
 - Reconciliação em 2026-09-10: artifact-check strict passou após registrar os intervalos parent..commit de 96d7d59, 77798ee, 0bee17d e 545e227 e declarar as modificações históricas dos dois documentos de revisão. Sem reescrita de commits; avisos globais de arquivos sem atribuição permanecem.
 - Command: pose validate --strict --json .pose/results/delivery-validation.json

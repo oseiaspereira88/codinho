@@ -2158,17 +2158,19 @@ challenges:
     - io-import-validated-records
     secondary:
     - io-parse-quoted-fields
-  brief: Importe uma coluna CSV de participantes, preservando campos entre aspas e rejeitando nomes vazios
-    ou duplicados.
+  prerequisites: []
+  brief: Uma equipe de eventos recebe os nomes de participantes em uma única coluna CSV. Faça a função
+    devolver uma lista confiável ou sinalizar que a entrada não pode ser aceita.
   constraints:
   - Use somente a biblioteca padrão e as entradas recebidas.
   - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
   acceptance:
-  - Exige o cabeçalho exato name e uma coluna por registro.
-  - Apara espaços externos, preserva UTF-8 e vírgulas dentro de campos entre aspas.
-  - Rejeita nomes vazios ou duplicados após aparar.
-  - Em erro retorna resultado nil, sem lista parcial. Cabeçalho sem registros retorna slice vazio não
-    nil.
+  - Aceita somente o cabeçalho name e registros com uma única coluna; rejeita cabeçalho ou largura incompatíveis.
+  - Preserva a ordem e o conteúdo UTF-8 dos nomes; espaços externos não fazem parte do nome retornado, inclusive
+    quando o campo contém vírgula entre aspas.
+  - Rejeita nomes vazios ou duplicados depois da normalização, sem expor registros anteriores.
+  - Ao falhar na leitura ou validação, retorna slice nil e um erro; com cabeçalho válido sem registros retorna
+    slice vazio não nil.
   publication:
     status: draft
     author: codex
@@ -2177,33 +2179,37 @@ challenges:
     macro_steps:
     - id: read-quoted-attendees.macro
       kind: macro
-      title: Importar nomes de participantes em CSV
+      title: Ler uma lista de participantes
       instruction:
-        objective: Importe uma coluna CSV de participantes, preservando campos entre aspas e rejeitando
-          nomes vazios ou duplicados.
-        scope: Uma coluna name de participantes, com nomes humanos que podem conter vírgulas entre aspas.
+        objective: Construa o fluxo de leitura e validação da lista de participantes recebida.
+        scope: Uma única coluna name, registros em ordem e um resultado confiável para o chamador.
       children:
       - id: read-quoted-attendees.meso
         kind: meso
-        title: Parsing e integridade da lista de participantes
+        title: Formato e integridade da lista
         instruction:
-          objective: Preserve os registros CSV enquanto valida a lista de participantes.
-          scope: Cabeçalho, campos citados, normalização, duplicação e resultado nil em erro.
+          objective: Separe o reconhecimento do formato da decisão de aceitar cada nome.
+          scope: Cabeçalho, largura, normalização, duplicação e atomicidade do resultado.
         children:
         - id: read-quoted-attendees.step-1
           kind: micro
-          title: Confirme a estrutura do CSV.
+          action: implement
+          target: function
+          title: Reconheça o formato da entrada.
           instruction:
-            objective: Confirme o cabeçalho e a largura do CSV.
-            scope: Exija uma coluna chamada name e use o parser CSV para tratar a forma dos registros.
+            objective: Reconheça a entrada como uma coluna name válida.
+            scope: A estrutura de uma entrada com uma única coluna; cabeçalho ou registros com outra largura não
+              pertencem a este contrato.
           concepts:
           - io-csv-quoted-fields
+          - io-csv-record-width
           evidence:
             strategies:
             - source_inspection
+            - test
           criteria:
           - id: behavior-1
-            kind: qualitative
+            kind: structural
           completion:
             requires_positive_evaluation: true
           hints:
@@ -2224,10 +2230,12 @@ challenges:
             - Por que conferir cabeçalho e largura antes de normalizar nomes evita atribuir significado a registros de outro formato?
         - id: read-quoted-attendees.step-2
           kind: micro
-          title: Valide os nomes dos participantes.
+          action: implement
+          target: function
+          title: Decida quais nomes entram no resultado.
           instruction:
-            objective: Valide os nomes dos participantes na ordem recebida.
-            scope: Apara espaços, detecte vazio e duplicação e devolva nil quando qualquer registro falhar.
+            objective: Decida se cada nome pode entrar no resultado.
+            scope: Validação dos nomes na ordem recebida, incluindo a regra de não expor prefixos inválidos.
           concepts:
           - io-csv-quoted-fields
           evidence:
@@ -2253,7 +2261,7 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Por que acumular o resultado e só expô-lo ao final mantém o contrato nil quando uma linha posterior falha?
+            - Por que manter o acumulado privado até a última leitura impede que um erro posterior seja confundido com uma lista válida?
           children:
           - id: read-quoted-attendees.verify-quoted-comma
             hints:
@@ -2286,6 +2294,9 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+            reflection:
+              optional:
+              - Por que a largura observada depois de interpretar o registro, e não a contagem de vírgulas no texto bruto, mostra que o nome foi preservado?
           - id: read-quoted-attendees.verify-invalid-record
             hints:
               - level: 1
@@ -2317,6 +2328,9 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+            reflection:
+              optional:
+              - Por que devolver nil quando a falha aparece depois de um nome aceito evita que o chamador confunda um prefixo válido com uma importação completa?
   fixture:
   - path: go.mod
     content: |

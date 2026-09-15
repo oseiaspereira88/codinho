@@ -1862,15 +1862,17 @@ challenges:
     secondary:
     - io-decode-one-json
     - io-validate-document-boundary
-  brief: Decodifique uma previsão com estação e temperatura, rejeitando propriedades desconhecidas ou
-    documentos adicionais.
+  prerequisites: []
+  brief: Uma estação meteorológica envia uma previsão JSON a um consumidor que precisa separar um documento
+    utilizável de entradas com dados desconhecidos ou conteúdo além da previsão.
   constraints:
   - Use somente a biblioteca padrão e as entradas recebidas.
   - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
   acceptance:
-  - Aceita somente station e celsius, com os tipos declarados na fixture.
-  - Rejeita JSON inválido, campos desconhecidos e qualquer segundo valor.
-  - Aceita espaços após o documento; null não representa uma previsão.
+  - Decodifica um objeto com station como texto e celsius como número; um campo desconhecido ou tipo incompatível gera erro.
+  - Retorna erro para JSON malformado, um valor JSON que não seja uma previsão e qualquer segundo valor ou
+    texto diferente de espaços após o documento.
+  - Aceita espaços finais e rejeita null como previsão.
   publication:
     status: draft
     author: codex
@@ -1894,16 +1896,20 @@ challenges:
         children:
         - id: decode-weather-fields.step-1
           kind: micro
+          action: implement
+          target: function
           title: Delimite as propriedades aceitas.
           instruction:
             objective: Delimite as propriedades JSON aceitas pela previsão.
             scope: Aceite somente station e celsius com os tipos da struct; não ignore erros de digitação
               nem tipos incompatíveis.
           concepts:
+          - io-json-decoder
           - io-json-strict-fields
           evidence:
             strategies:
             - source_inspection
+            - test
           criteria:
           - id: behavior-1
             kind: qualitative
@@ -1927,13 +1933,16 @@ challenges:
             - Por que rejeitar tanto um nome de propriedade com erro quanto um tipo incompatível protege o contrato da previsão?
         - id: decode-weather-fields.step-2
           kind: micro
+          action: implement
+          target: function
           title: Confirme a fronteira da previsão.
           instruction:
             objective: Confirme que a entrada representa uma previsão única.
             scope: Rejeite null e conteúdo posterior, mantendo espaços finais válidos; propriedades extras
               pertencem à decisão do passo anterior.
           concepts:
-          - io-json-strict-fields
+          - io-json-decoder
+          - io-eof-boundary
           evidence:
             strategies:
             - test
@@ -1981,7 +1990,7 @@ challenges:
               objective: Confirme que o valor JSON null não é aceito como previsão utilizável.
               scope: Apenas a validação do documento decodificado.
             concepts:
-            - io-json-strict-fields
+            - io-json-decoder
             evidence:
               strategies:
               - test
@@ -2012,6 +2021,7 @@ challenges:
               objective: Confirme que um segundo valor JSON após espaços é rejeitado.
               scope: Apenas a fronteira do documento completo.
             concepts:
+            - io-json-decoder
             - io-eof-boundary
             evidence:
               strategies:
@@ -2032,13 +2042,30 @@ challenges:
       `\n\tCelsius float64 `json:\"celsius\"`\n}\n\nfunc DecodeWeather(r io.Reader) (Weather, error) {\
       \ return Weather{}, nil }\n"
   - path: exercise_test.go
-    content: "package exercise\n\nimport (\n\t\"strings\"\n\t\"testing\"\n)\n\nfunc TestVariant(t *testing.T)\
-      \ {\n\tgot, err := DecodeWeather(strings.NewReader(`{\"station\":\"Norte\",\"celsius\":-2.5}  `))\n\
-      \tif err != nil || got.Station != \"Norte\" || got.Celsius != -2.5 {\n\t\tt.Fatalf(\"%+v %v\", got,\
-      \ err)\n\t}\n\tfor _, s := range []string{\"\", `null`, `[]`, `{\"station\":\"S\",\"celcius\":2}`,\
-      \ `{\"station\":7}`, `{\"station\":\"S\"} {}`, `{\"station\":\"S\"} false`, `{\"station\":\"S\"\
-      } trailing`} {\n\t\tif _, err := DecodeWeather(strings.NewReader(s)); err == nil {\n\t\t\tt.Fatalf(\"\
-      accepted %q\", s)\n\t\t}\n\t}\n}\n"
+    content: |
+      package exercise
+
+      import (
+          "strings"
+          "testing"
+      )
+
+      func TestVariant(t *testing.T) {
+          got, err := DecodeWeather(strings.NewReader(`{"station":"Norte","celsius":-2.5}  `))
+          if err != nil || got.Station != "Norte" || got.Celsius != -2.5 {
+              t.Fatalf("%+v %v", got, err)
+          }
+          got, err = DecodeWeather(strings.NewReader(`{"station":"Equador","celsius":0}`))
+          if err != nil || got.Station != "Equador" || got.Celsius != 0 {
+              t.Fatalf("zero temperature: %+v %v", got, err)
+          }
+          for _, s := range []string{"", `{`, `null`, `[]`, `{"station":"S","celcius":2}`, `{"station":7}`, `{"station":"S","celsius":"cold"}`, `{"station":"S"} {}`, `{"station":"S"} false`, `{"station":"S"} trailing`} {
+              if _, err := DecodeWeather(strings.NewReader(s)); err == nil {
+                  t.Fatalf("accepted %q", s)
+              }
+          }
+      }
+
   checks:
   - id: focused-tests
     runner: go_test
@@ -2054,21 +2081,63 @@ challenges:
 
         go 1.25.0
     - path: exercise.go
-      content: "package exercise\n\nimport (\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"io\"\n)\n\ntype Weather\
-        \ struct {\n\tStation string  `json:\"station\"`\n\tCelsius float64 `json:\"celsius\"`\n}\n\n\
-        func DecodeWeather(r io.Reader) (Weather, error) {\n\tvar w *Weather\n\td := json.NewDecoder(r)\n\
-        \td.DisallowUnknownFields()\n\tif err := d.Decode(&w); err != nil {\n\t\treturn Weather{}, err\n\
-        \t}\n\tif w == nil {\n\t\treturn Weather{}, fmt.Errorf(\"null weather\")\n\t}\n\tvar extra any\n\
-        \tif err := d.Decode(&extra); err != io.EOF {\n\t\tif err == nil {\n\t\t\treturn Weather{}, fmt.Errorf(\"\
-        extra value\")\n\t\t}\n\t\treturn Weather{}, err\n\t}\n\treturn *w, nil\n}\n"
+      content: |
+        package exercise
+
+        import (
+            "encoding/json"
+            "fmt"
+            "io"
+        )
+
+        type Weather struct {
+            Station string  `json:"station"`
+            Celsius float64 `json:"celsius"`
+        }
+
+        func DecodeWeather(r io.Reader) (Weather, error) {
+            var w *Weather
+            d := json.NewDecoder(r)
+            d.DisallowUnknownFields()
+            if err := d.Decode(&w); err != nil {
+                return Weather{}, err
+            }
+            if w == nil {
+                return Weather{}, fmt.Errorf("null weather")
+            }
+            var extra any
+            if err := d.Decode(&extra); err != io.EOF {
+                if err == nil {
+                    return Weather{}, fmt.Errorf("extra value")
+                }
+                return Weather{}, err
+            }
+            return *w, nil
+        }
     - path: exercise_test.go
-      content: "package exercise\n\nimport (\n\t\"strings\"\n\t\"testing\"\n)\n\nfunc TestVariant(t *testing.T)\
-        \ {\n\tgot, err := DecodeWeather(strings.NewReader(`{\"station\":\"Norte\",\"celsius\":-2.5} \
-        \ `))\n\tif err != nil || got.Station != \"Norte\" || got.Celsius != -2.5 {\n\t\tt.Fatalf(\"%+v\
-        \ %v\", got, err)\n\t}\n\tfor _, s := range []string{\"\", `null`, `[]`, `{\"station\":\"S\",\"\
-        celcius\":2}`, `{\"station\":7}`, `{\"station\":\"S\"} {}`, `{\"station\":\"S\"} false`, `{\"\
-        station\":\"S\"} trailing`} {\n\t\tif _, err := DecodeWeather(strings.NewReader(s)); err == nil\
-        \ {\n\t\t\tt.Fatalf(\"accepted %q\", s)\n\t\t}\n\t}\n}\n"
+      content: |
+        package exercise
+
+        import (
+            "strings"
+            "testing"
+        )
+
+        func TestVariant(t *testing.T) {
+            got, err := DecodeWeather(strings.NewReader(`{"station":"Norte","celsius":-2.5}  `))
+            if err != nil || got.Station != "Norte" || got.Celsius != -2.5 {
+                t.Fatalf("%+v %v", got, err)
+            }
+            got, err = DecodeWeather(strings.NewReader(`{"station":"Equador","celsius":0}`))
+            if err != nil || got.Station != "Equador" || got.Celsius != 0 {
+                t.Fatalf("zero temperature: %+v %v", got, err)
+            }
+            for _, s := range []string{"", `{`, `null`, `[]`, `{"station":"S","celcius":2}`, `{"station":7}`, `{"station":"S","celsius":"cold"}`, `{"station":"S"} {}`, `{"station":"S"} false`, `{"station":"S"} trailing`} {
+                if _, err := DecodeWeather(strings.NewReader(s)); err == nil {
+                    t.Fatalf("accepted %q", s)
+                }
+            }
+        }
     expectations:
     - check_id: focused-tests
       baseline: test_failure

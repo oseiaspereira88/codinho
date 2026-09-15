@@ -1528,14 +1528,15 @@ challenges:
     secondary:
     - io-read-fragmented-input
     - io-distinguish-eof
-  brief: Recupere o conteúdo completo de uma nota fornecida por Reader, preservando bytes e erros de leitura.
+  brief: Uma caixa de entrada recebe uma nota livre de um Reader que pode entregá-la em fragmentos. Faça a função
+    atender esse fluxo para o chamador.
   constraints:
   - Use somente a biblioteca padrão e as entradas recebidas.
   - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
   acceptance:
-  - Preserva bytes UTF-8 sem interpretar ou alterar o texto.
-  - Acumula leituras parciais até EOF.
-  - Retorna o conteúdo já lido junto do erro original quando a leitura falha.
+  - Devolve exatamente os bytes recebidos, inclusive uma sequência UTF-8 que atravesse mais de um fragmento, na mesma ordem.
+  - Continua consumindo após leituras parciais e encerra sem erro quando o Reader sinaliza EOF.
+  - Quando uma leitura falha depois de entregar conteúdo, devolve o prefixo já recebido e mantém a causa encontrável com errors.Is.
   publication:
     status: draft
     author: codex
@@ -1546,29 +1547,30 @@ challenges:
       kind: macro
       title: Ler uma nota recebida em fragmentos
       instruction:
-        objective: Recupere o conteúdo completo de uma nota fornecida por Reader, preservando bytes e
-          erros de leitura.
-        scope: Uma nota livre entregue em fragmentos por um Reader; não há formato interno para interpretar.
+        objective: Atenda ao fluxo de uma nota livre recebida por um Reader que pode entregá-la em fragmentos.
+        scope: Uma nota livre sem formato interno; o chamador precisa distinguir término normal de falha de entrada.
       children:
       - id: read-fragmented-note.meso
         kind: meso
         title: Consumo incremental de uma nota
         instruction:
-          objective: Modele o consumo incremental da nota até EOF ou falha.
-          scope: Bytes, EOF e erro original no contexto de uma nota sem estrutura.
+          objective: Organize a decisão para cada resultado de leitura da nota.
+          scope: Bytes entregues, EOF, falha original e ordem do conteúdo no contexto de uma nota sem estrutura.
         children:
         - id: read-fragmented-note.step-1
           kind: micro
           title: Distinga EOF de falha de leitura.
           instruction:
             objective: Distinga o fim normal da entrada de uma falha de leitura.
-            scope: Considere bytes entregues antes ou junto do erro; o contexto é uma nota livre, não um
-              documento a ser interpretado.
+            scope: Considere bytes entregues antes ou junto de EOF ou de outro erro; a nota é livre e não deve
+              ser interpretada como documento.
           concepts:
           - io-partial-reads
+          - io-eof-boundary
           evidence:
             strategies:
             - source_inspection
+            - test
           criteria:
           - id: behavior-1
             kind: qualitative
@@ -1611,7 +1613,7 @@ challenges:
             title: Verificar o acúmulo de leituras parciais
             instruction:
               objective: Confirme que bytes recebidos em fragmentos são acumulados na ordem original.
-              scope: Apenas o processamento parcial até EOF.
+              scope: Apenas leituras curtas que ainda têm conteúdo; não interprete o tamanho de um fragmento como término da nota.
             concepts:
             - io-partial-reads
             evidence:
@@ -1622,6 +1624,9 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+            reflection:
+              optional:
+              - Por que uma leitura curta que ainda entrega conteúdo exige outra chamada antes de concluir que a nota terminou?
           - id: read-fragmented-note.verify-eof-boundary
             hints:
               - level: 1
@@ -1653,15 +1658,19 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+            reflection:
+              optional:
+              - Por que tratar bytes acompanhados de EOF como parte válida da nota evita perder seu final?
         - id: read-fragmented-note.step-2
           kind: micro
-          title: Acumule os bytes da nota.
+          title: Acumule a nota sem descartar bytes válidos.
           instruction:
-            objective: Acumule os bytes recebidos na ordem original.
-            scope: Retorne entrada vazia e fragmentada normalmente; quando houver falha após conteúdo,
-              devolva os bytes já lidos junto do erro original.
+            objective: Construa o resultado completo da nota a partir dos bytes recebidos.
+            scope: Inclua entrada vazia, fragmentos sucessivos e o prefixo entregue antes de uma falha; devolva
+              ao chamador a causa dessa falha.
           concepts:
           - io-partial-reads
+          - io-eof-boundary
           evidence:
             strategies:
             - test
@@ -1731,6 +1740,30 @@ challenges:
               t.Fatalf("bytes with EOF: got %q, error %v", got, err)
           }
       }
+  - path: reader_error_test.go
+    content: |
+      package exercise
+
+      import (
+          "errors"
+          "io"
+          "strings"
+          "testing"
+      )
+
+      type zeroByteFailure struct{ err error }
+
+      func (r zeroByteFailure) Read([]byte) (int, error) {
+          return 0, r.err
+      }
+
+      func TestVariantReadErrorAfterContent(t *testing.T) {
+          want := errors.New("synthetic read error after content")
+          got, err := ReadNote(io.MultiReader(strings.NewReader("início:"), zeroByteFailure{want}))
+          if string(got) != "início:" || !errors.Is(err, want) {
+              t.Fatalf("lost data/error: %q %v", got, err)
+          }
+      }
   checks:
   - id: focused-tests
     runner: go_test
@@ -1782,6 +1815,30 @@ challenges:
             got, err := ReadNote(&finalBytesReader{})
             if string(got) != "fim" || err != nil {
                 t.Fatalf("bytes with EOF: got %q, error %v", got, err)
+            }
+        }
+    - path: reader_error_test.go
+      content: |
+        package exercise
+
+        import (
+            "errors"
+            "io"
+            "strings"
+            "testing"
+        )
+
+        type zeroByteFailure struct{ err error }
+
+        func (r zeroByteFailure) Read([]byte) (int, error) {
+            return 0, r.err
+        }
+
+        func TestVariantReadErrorAfterContent(t *testing.T) {
+            want := errors.New("synthetic read error after content")
+            got, err := ReadNote(io.MultiReader(strings.NewReader("início:"), zeroByteFailure{want}))
+            if string(got) != "início:" || !errors.Is(err, want) {
+                t.Fatalf("lost data/error: %q %v", got, err)
             }
         }
     expectations:

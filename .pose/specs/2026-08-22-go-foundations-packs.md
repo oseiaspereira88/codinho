@@ -61,7 +61,9 @@ Oferecer prática desde o primeiro contato até a base necessária para backend,
 ### Artifacts
 - modified: docs/agent-review-workflow.md
 - modified: docs/content-review-checklist.md
+- modified: docs/editorial/go-foundations-queue.json
 - modified: packs/go-first-steps.yaml
+- modified: packs/go-debugging.yaml
 - created: packs/go-core.yaml
 - created: packs/go-data-text.yaml
 - created: packs/go-type-design.yaml
@@ -308,6 +310,11 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
   de classificação, publicação ou contagem de nodes. A decisão preserva o
   handoff `knowledge:go-foundations-io-batch` e aplica o padrão de evitar um
   micro redundante registrado em `knowledge:agent-batch-review-pattern`.
+- 2026-09-15 UTC, reconciliação do inventário de artifacts: declarados como
+  `modified` `docs/editorial/go-foundations-queue.json` e
+  `packs/go-debugging.yaml`, ambos alterados por commits históricos com este
+  slug. A declaração corrige o escopo de atribuição do artifact-check sem
+  alterar conteúdo, classificação, publicação ou gates humanos.
 - 2026-09-15 UTC, correção de qualidade em `go-first-steps.clamp-int-to-byte`: removido o micropasso `model.declare-clamp-signature`, que repetia a assinatura já presente na fixture. O desafio e suas fixtures/checks permaneceram intactos; o pack passou a 1.9.0. A auditoria corrente passou a 366 nodes no manifesto, 304 brutos e 303 creditáveis nos sete packs; o gate de 300 continua satisfeito. Revisão humana, playtest, disposição dos protótipos e publicação permanecem pendentes.
 - 2026-09-10 UTC, trilhas fundamentais: cinco percursos explícitos (47 posições reutilizando desafios), início e travessia via MCP real em --authoring. Matriz ampliada para 23/23 checks aprovados; 43/43 checks editoriais verificados. IDs/conteúdo anteriores preservados. O avanço explícito no teste verifica alcance, não playtest humano.
 - 2026-09-10 UTC, complemento go-errors: um combinado e uma fatia funcional draft, oito conceitos, seis competências e 14 nodes. Matriz 22/22 passou, com 43/43 checks editoriais verificados. Comparação dos objetos YAML confirma preservação integral dos desafios, conceitos, competências e relações históricos; versão do pack incrementada para 1.2.0.

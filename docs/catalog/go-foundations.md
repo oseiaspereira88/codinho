@@ -651,3 +651,228 @@ execução e a falha ambiental de stamping VCS nos comandos Go sem
 checks editoriais; ela só desabilita metadado VCS do build e não altera o
 conteúdo auditado. Revisão humana, playtest, classificação dos protótipos e
 publicação continuam pendentes.
+
+## 10. Roteiro de revisão humana e playtest (`prepare-human-review-playtest`)
+
+Esta seção é um artefato de preparação para a revisão primária, não um relato
+de revisão concluída. Ela identifica as 53 entradas dos sete packs
+fundamentais (45 bases, incluindo o protótipo histórico, e oito variantes) e
+mantém também o protótipo de `go-debugging` para que nenhum desafio do
+manifesto fique sem destino explícito. Cada linha é uma ficha independente:
+deve ser executada por uma pessoa que não seja o autor da linha e deve guardar
+a evidência da sessão real.
+
+O estado observado antes desta tarefa permanece intacto: os 54 desafios são
+rascunhos na projeção do catálogo (`publication.status` ausente conta como
+rascunho), nenhum tem `publication.reviewed_by`, nenhum tem
+`playtested: true` e a contagem publicada é zero. Esta seção não preenche
+esses campos e não recomenda publicação. `PENDENTE` abaixo significa que a
+execução humana ainda não ocorreu; não é um resultado positivo automatizado.
+
+### 10.1 Protocolo comum da ficha
+
+Use os seguintes passos para cada ID, sem compartilhar o workspace entre
+itens:
+
+1. Confirme o ID, a versão, o título, o `author`, `variant_of` (se houver),
+   as fixtures e os checks com `catalog_get` ou `catalog show`. O autor é o
+   valor já existente no pack; quando o pack não declara autoria histórica,
+   registre essa lacuna em vez de inventar um nome.
+2. A partir da raiz do repositório, crie um destino temporário novo e rode
+   `go run ./cmd/codinho workspace prepare <challenge-id> --dest <destino>`.
+   Não use `--overwrite`. A exceção `WS-empty` abaixo é intencional para o
+   único protótipo sem fixture distribuída.
+3. Inicie o servidor com `go run ./cmd/codinho serve --authoring`, conecte um
+   host MCP real e execute `catalog_get` seguido de
+   `session_start({challenge_id: <ID>, mode: practice, depth: micro,
+   help: progressive, evaluation: on_demand, request_id: <ID>})`. Para
+   `go-debug.slice-off-by-one`, use `mode: debug` e preserve a ordem de
+   reprodução, localização, hipótese, observação e menor correção. O modo
+   `--authoring` é necessário porque o conteúdo ainda é draft; registre o
+   aviso `content_provenance: draft` retornado pelo servidor.
+4. Guarde `session_id` e a revisão inicial. Consulte `session_get` antes de
+   inferir o passo ativo e `instruction_get` para cada instrução. Para cada
+   passo, faça `workspace_observe` antes de qualquer avaliação, deixe o
+   participante tentar, observe novamente, rode somente o check declarado
+   com `check_run`, leia a evidência com `evidence_get`, e só então registre
+   avaliação/reflexão e avance. Não use `override` para fabricar conclusão.
+5. Encerre com `session_finish` por escolha explícita da pessoa. Na ficha,
+   registre o `session_id`, os `evidence_id`, os checks executados, as pistas
+   usadas, a resposta às reflexões, os achados e a decisão do revisor.
+   Registre também `started_at_utc`, `finished_at_utc` e
+   `observed_duration`; nunca copie `estimated_minutes` para esse último
+   campo.
+
+O campo `A/H` das tabelas é `autor no pack / revisor humano`. Enquanto a
+execução não existir, o segundo valor fica como `PENDENTE (distinto de A)`.
+O revisor primário deve substituir o marcador pelo handle real somente depois
+de executar a sessão e julgar o conteúdo; esse registro editorial não deve ser
+copiado para `publication.reviewed_by` antes da decisão de publicação. A
+mesma pessoa pode revisar mais de uma linha, desde que continue distinta do
+autor de cada linha.
+
+Os marcadores de evidência automatizada usados por item são:
+
+- `E1`: `go run ./cmd/codinho catalog validate --json`, executado nesta
+  rodada com `diagnostics: null`, 54 desafios, 367 nodes, 54 drafts e zero
+  publicados.
+- `E2-F`: `go run ./cmd/codinho catalog validate --checks --json`, check
+  `focused-tests`, baseline esperado `test_failure` e referência `pass`;
+  ambos foram verificados.
+- `E2-C`: o mesmo comando e check, com baseline esperado `compile_failure` e
+  referência `pass`.
+- `E2-M`: o mesmo comando, `module-contract`, baseline esperado
+  `test_failure` e referência `pass`.
+- `E2-MF`: o mesmo comando, `message-content` (`test_failure` → `pass`) e
+  `format-safety` (`pass` → `pass`), todos verificados.
+- `E4`: `go test ./internal/curriculum -run
+  '^TestFoundation(VariantOrigins|CatalogAudit)$' -count=1 -v`, que
+  reconcilia origem/classificação das variantes e o ledger fundamental.
+- `E5`: `env GOFLAGS='-mod=readonly -buildvcs=false' go test
+  ./cmd/codinho -run '^TestFoundationTracksOverRealStdio$' -count=1`,
+  verificação de roteamento MCP dos cinco percursos. Como a própria
+  implementação do teste registra, travessia com `override` é uma prova de
+  alcance, não um playtest humano.
+
+Essas evidências automatizadas só provam estrutura, expectativa de fixture,
+checks ou roteamento. As perguntas nas linhas são deliberadamente deixadas
+para o revisor humano, que deve registrar se o brief não entrega a solução,
+se cada micro tem uma intenção, se os hints sobem em custo real, se os
+critérios são observáveis e se a reflexão exige causalidade. Para variantes,
+compare ainda o contexto com `variant_of` sem contar a variante como novo
+desafio canônico.
+
+### 10.2 Fichas por desafio e variante
+
+`WS(ID)` significa o comando de preparação do passo 2 com o ID da própria
+linha e um destino temporário exclusivo. `WS-empty(ID)` significa iniciar um
+diretório temporário vazio, sem copiar `validation.reference_fixture`; o
+protótipo histórico não declara `fixture`, e `workspace prepare` deve ser
+registrado como não aplicável por `ErrEmptyFixture`. `S(ID)` significa a
+sessão MCP do passo 3 para esse ID. Em `tempo`, `E` é a estimativa registrada
+no catálogo e `O` é a duração observada exigida, ainda pendente.
+
+#### `go-core`
+
+| Conteúdo | Workspace | Sessão | Tempo | A/H | Evidência automatizada | Dúvida pedagógica para registrar |
+|---|---|---|---|---|---|---|
+| `go-core.close-resources-in-defer-order` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa distingue a ordem LIFO do momento em que o argumento de `defer` é capturado e explica por que a entrada vazia conserva o contrato? |
+| `go-core.sum-variadic-numbers` (base) | `WS(ID)` | `S(ID)` | E 10 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-C` — `focused-tests` | A pessoa reconhece a diferença entre uma assinatura variádica e um slice obrigatório e explica o caso sem argumentos? |
+| `go-core.stop-processing-commands-with-labeled-break` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa consegue explicar por que um `break` sem label não encerra o laço externo ao sair do `switch`? |
+| `go-core.increment-counter-with-pointer-receiver` (base) | `WS(ID)` | `S(ID)` | E 10 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-C` — `focused-tests` | A pessoa relaciona o receiver escolhido à persistência do estado entre chamadas e identifica a cópia indevida? |
+| `go-core.recover-from-panic-in-safe-call` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa explica em que fronteira a recuperação precisa ocorrer e como o caminho normal se diferencia do caminho de `panic`? |
+| `go-core.guard-invariant-with-unexported-field` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-C` — `focused-tests` | A pessoa explica como a API impede estados inválidos sem depender de acesso externo ao campo e por que a validação ocorre no ponto observado? |
+| `go-core.find-first-value-at-least` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa separa o valor zero do indicador de que um nó foi encontrado, inclusive para `min: 0` e lista nil? |
+| `go-core.hide-counter-type-behind-interface` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa consegue justificar o menor contrato que o consumidor precisa e o que deixa de ser parte da API pública? |
+| `go-core.run-commands-with-cleanup-and-recovery` (base) | `WS(ID)` | `S(ID)` | E 35 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa distingue limpeza garantida, recuperação local e parada do laço; a técnica pedida está compreensível sem o teste fingir provar a sintaxe? |
+| `go-core.configure-server-with-functional-options` (base) | `WS(ID)` | `S(ID)` | E 30 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa percebe por que uma opção intermediariamente inválida pode ser corrigida por uma posterior, enquanto a configuração final inválida deve falhar? |
+
+#### `go-data-text`
+
+| Conteúdo | Workspace | Sessão | Tempo | A/H | Evidência automatizada | Dúvida pedagógica para registrar |
+|---|---|---|---|---|---|---|
+| `go-data-text.filter-without-mutating-input` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa testa independência da saída, preserva ordem e explica por que uma igualdade inicial não prova ausência de aliasing? |
+| `go-data-text.truncate-bytes-at-rune-boundary` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa explica a diferença entre limite em bytes e limite em runes e o que torna uma fronteira UTF-8 válida? |
+| `go-data-text.lookup-map-value-with-comma-ok` (base) | `WS(ID)` | `S(ID)` | E 10 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa distingue chave ausente de valor zero e prevê o comportamento de uma consulta em map nil sem escrever nele? |
+| `go-data-text.quote-csv-field-when-needed` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa identifica quais caracteres mudam a representação CSV e explica por que a decisão não deve ser uma simples concatenação? |
+| `go-data-text.dedupe-preserving-first-occurrence` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa consegue explicar como a primeira ocorrência vence sem perder a ordem de entrada nem confundir deduplicação com ordenação? |
+| `go-data-text.sum-valid-integers-safely` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa distingue zero válido de erro de parsing e explica como o contrato trata entradas válidas e inválidas na mesma sequência? |
+| `go-data-text.preallocate-slice-with-zero-length` (base) | `WS(ID)` | `S(ID)` | E 10 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa explica por que capacidade e comprimento têm papéis diferentes e por que uma slice de comprimento zero não pode ser indexada? |
+| `go-data-text.title-first-letters-preserving-spacing` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa preserva espaços e fronteiras Unicode ao capitalizar e consegue explicar por que normalizar whitespace seria outro comportamento? |
+| `go-data-text.build-scores-from-entries` (base) | `WS(ID)` | `S(ID)` | E 30 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa explica como o placar escolhe o primeiro valor válido e separa ausência, valor zero e erro de uma entrada? |
+| `go-data-text.format-names-as-csv-fields` (base) | `WS(ID)` | `S(ID)` | E 30 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa consegue explicar a interação entre capitalização, preservação de campos e escaping CSV sem misturar responsabilidades? |
+
+#### `go-first-steps`
+
+| Conteúdo | Workspace | Sessão | Tempo | A/H | Evidência automatizada | Dúvida pedagógica para registrar |
+|---|---|---|---|---|---|---|
+| `go-data.slice-filter-preserve-input` (protótipo histórico) | `WS-empty(ID)` | `S(ID)` | E 15 min; O PENDENTE | `autoria histórica não declarada / PENDENTE (atribuir autor antes)` | `E1`, `E2-F` — `focused-tests` com baseline privado | A pessoa entende que preservar a entrada também exige discutir o armazenamento compartilhado da saída; a ausência de starter torna o briefing executável sem revelar referência? |
+| `go-first-steps.enumerate-weekdays-with-iota` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa explica a sequência produzida por `iota` e por que a regra de dia útil não precisa comparar strings? |
+| `go-first-steps.convert-celsius-to-fahrenheit` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa identifica onde a conversão inteira perderia precisão e justifica o tipo usado no cálculo? |
+| `go-first-steps.declare-a-minimal-module` (base) | `WS(ID)` | `S(ID)` | E 10 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-M` — `module-contract` | A pessoa diferencia o módulo declarado, a versão da linguagem e o diretório efetivo, sem tratar a criação do arquivo como compreensão do contrato? |
+| `go-first-steps.clamp-int-to-byte` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa explica a diferença entre limitar o domínio antes da conversão e aceitar wraparound silencioso? |
+| `go-first-steps.format-rate-limit-message` (base) | `WS(ID)` | `S(ID)` | E 10 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-MF` — `message-content`, `format-safety` | A pessoa distingue conteúdo correto da mensagem de segurança de tipos dos verbos de formatação e explica o que cada check prova? |
+| `go-first-steps.avoid-shadowing-named-returns` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa localiza a variável que esconde o retorno nomeado e explica por que o fluxo de erro pode devolver um valor diferente do esperado? |
+
+#### `go-errors`
+
+| Conteúdo | Workspace | Sessão | Tempo | A/H | Evidência automatizada | Dúvida pedagógica para registrar |
+|---|---|---|---|---|---|---|
+| `go-errors.wrap-sentinel-error-with-context` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa explica por que `errors.Is` preserva a categoria mesmo quando a mensagem ganha contexto e por que comparar texto seria frágil? |
+| `go-errors.extract-field-with-errors-as` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa consegue explicar como dados estruturados atravessam o encadeamento e por que a extração não depende da mensagem? |
+| `go-errors.validate-user-joining-all-errors` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa explica o benefício de retornar todas as violações e como a árvore de erros afeta a classificação? |
+| `go-errors.translate-error-at-boundary` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa identifica quais detalhes devem parar na fronteira e quais propriedades semânticas o consumidor ainda precisa observar? |
+| `go-errors.load-and-validate-required-keys` (base) | `WS(ID)` | `S(ID)` | E 25 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa diferencia chave ausente de chave presente com valor vazio e mantém a identidade do erro de entrada ao agregar faltas? |
+| `go-errors.classify-wrapped-errors` (base) | `WS(ID)` | `S(ID)` | E 35 min; O PENDENTE | `codex / PENDENTE (≠ codex)` | `E1`, `E2-F` — `focused-tests` | A pessoa consegue explicar a precedência entre identidade, classificação e tipo ao atravessar wrappers e joins, sem usar a mensagem como protocolo? |
+| `go-errors.maintain-memory-catalog` (base) | `WS(ID)` | `S(ID)` | E 60 min; O PENDENTE | `codex / PENDENTE (≠ codex)` | `E1`, `E2-F` — `focused-tests` | A pessoa explica por que validar antes de mutar, retornar snapshots isolados e distinguir zero de ausência são contratos diferentes do catálogo? |
+
+#### `go-io`
+
+| Conteúdo | Workspace | Sessão | Tempo | A/H | Evidência automatizada | Dúvida pedagógica para registrar |
+|---|---|---|---|---|---|---|
+| `go-io.decode-strict-config` (base) | `WS(ID)` | `S(ID)` | E 30 min; O PENDENTE | `codex / PENDENTE (≠ codex)` | `E1`, `E2-F` — `focused-tests` | A pessoa separa erro do Reader, documento adicional, campo desconhecido e regra de domínio sem transformar um `Decode` bem-sucedido em documento completo? |
+| `go-io.import-csv-inventory` (base) | `WS(ID)` | `S(ID)` | E 50 min; O PENDENTE | `codex / PENDENTE (≠ codex)` | `E1`, `E2-F` — `focused-tests` | A pessoa explica como validar largura/valores antes de escrever e o que o contrato garante quando o writer faz uma escrita curta? |
+| `go-io.read-fragmented-note` (variante de `go-io.decode-strict-config`) | `WS(ID)` | `S(ID)` | E 20 min; O PENDENTE | `codex / PENDENTE (≠ codex)` | `E1`, `E2-F` — `focused-tests`; `E4` origem | A variante torna visível a diferença entre leitura parcial e EOF sem repetir integralmente o desafio de configuração? |
+| `go-io.decode-weather-fields` (variante de `go-io.decode-strict-config`) | `WS(ID)` | `S(ID)` | E 20 min; O PENDENTE | `codex / PENDENTE (≠ codex)` | `E1`, `E2-F` — `focused-tests`; `E4` origem | O contexto de previsão deixa claro o contrato de campo desconhecido e acrescenta decisão real, sem apenas renomear o exemplo da origem? |
+| `go-io.read-quoted-attendees` (variante de `go-io.import-csv-inventory`) | `WS(ID)` | `S(ID)` | E 20 min; O PENDENTE | `codex / PENDENTE (≠ codex)` | `E1`, `E2-F` — `focused-tests`; `E4` origem | A pessoa percebe por que nomes citados exigem parser CSV e por que separar por vírgula não preserva campos? |
+| `go-io.write-result-report` (variante de `go-io.import-csv-inventory`) | `WS(ID)` | `S(ID)` | E 20 min; O PENDENTE | `codex / PENDENTE (≠ codex)` | `E1`, `E2-F` — `focused-tests`; `E4` origem | A variante evidencia a propagação de falha do writer e o estado parcial sem duplicar a validação de entrada da origem? |
+
+#### `go-testing`
+
+| Conteúdo | Workspace | Sessão | Tempo | A/H | Evidência automatizada | Dúvida pedagógica para registrar |
+|---|---|---|---|---|---|---|
+| `go-testing.select-active-tokens-with-injected-clock` (base) | `WS(ID)` | `S(ID)` | E 35 min; O PENDENTE | `codex / PENDENTE (≠ codex)` | `E1`, `E2-F` — `focused-tests` | A pessoa explica a fronteira estrita antes/igual/depois, uma única observação do relógio e o isolamento da saída? |
+| `go-testing.measure-reservation-remaining` (variante de `go-testing.select-active-tokens-with-injected-clock`) | `WS(ID)` | `S(ID)` | E 20 min; O PENDENTE | `codex / PENDENTE (≠ codex)` | `E1`, `E2-F` — `focused-tests`; `E4` origem | O cálculo do tempo restante exige distinguir duração negativa, igualdade e instante injetado, em vez de só trocar o domínio do exemplo? |
+| `go-testing.check-ticket-boundary` (variante de `go-testing.select-active-tokens-with-injected-clock`) | `WS(ID)` | `S(ID)` | E 20 min; O PENDENTE | `codex / PENDENTE (≠ codex)` | `E1`, `E2-F` — `focused-tests`; `E4` origem | A pessoa explica por que validade na igualdade é uma decisão de contrato e como fusos diferentes podem representar o mesmo instante? |
+| `go-testing.snapshot-readings` (variante de `go-testing.select-active-tokens-with-injected-clock`) | `WS(ID)` | `S(ID)` | E 20 min; O PENDENTE | `codex / PENDENTE (≠ codex)` | `E1`, `E2-F` — `focused-tests`; `E4` origem | A pessoa prova isolamento mutando entrada e saída em momentos distintos, sem confundir igualdade de conteúdo com independência? |
+| `go-testing.count-deadline-clock-calls` (variante de `go-testing.select-active-tokens-with-injected-clock`) | `WS(ID)` | `S(ID)` | E 20 min; O PENDENTE | `codex / PENDENTE (≠ codex)` | `E1`, `E2-F` — `focused-tests`; `E4` origem | O dublê que muda a cada chamada torna claro por que o lote deve compartilhar um instante e ainda consultar o relógio no lote vazio? |
+
+#### `go-type-design`
+
+| Conteúdo | Workspace | Sessão | Tempo | A/H | Evidência automatizada | Dúvida pedagógica para registrar |
+|---|---|---|---|---|---|---|
+| `go-type-design.clone-inventory-independently` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa distingue cópia rasa da independência da slice interna e testa mutações nos dois sentidos? |
+| `go-type-design.select-validator-true-nil` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa explica como um valor tipado nil pode tornar uma interface não nil e por que o contrato exige nil verdadeiro? |
+| `go-type-design.sum-list-with-nil-safe-receiver` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa justifica o comportamento de um receiver nil e diferencia segurança deliberada de um panic oculto? |
+| `go-type-design.contains-generic-comparable` (base) | `WS(ID)` | `S(ID)` | E 10 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa explica por que a constraint precisa permitir comparação e quais tipos não podem ser aceitos pelo contrato? |
+| `go-type-design.describe-if-circle-safely` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa usa o resultado da assertion para separar tipo esperado, tipo diferente e ausência sem provocar panic? |
+| `go-type-design.map-generic-transform` (base) | `WS(ID)` | `S(ID)` | E 15 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa explica o papel dos dois tipos genéricos e como a transformação preserva ordem e contrato de entrada? |
+| `go-type-design.first-circle-clone` (base) | `WS(ID)` | `S(ID)` | E 30 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa consegue separar clonagem independente, assertion segura e retorno nil sem tratar um caso combinado como três soluções desconexas? |
+| `go-type-design.generic-node-values-nil-safe` (base) | `WS(ID)` | `S(ID)` | E 25 min; O PENDENTE | `claude / PENDENTE (≠ claude)` | `E1`, `E2-F` — `focused-tests` | A pessoa explica como generics e receiver nil-safe interagem e qual parte do contrato pertence à lista, não à constraint? |
+
+#### `go-debugging` fora do escopo fundamental
+
+| Conteúdo | Workspace | Sessão | Tempo | A/H | Evidência automatizada | Dúvida pedagógica para registrar |
+|---|---|---|---|---|---|---|
+| `go-debug.slice-off-by-one` (protótipo debug) | `WS(ID)` — fixture `main.go` | `S(ID; mode=debug)` | E 20 min; O PENDENTE | `autoria histórica não declarada / PENDENTE (atribuir autor antes)` | `E1` — sem check declarado; a execução do programa e a menor correção são evidência humana exigida | A pessoa reproduz antes de editar, localiza a primeira divergência, formula a hipótese e considera honestamente a fronteira vazia sem ampliar a correção? |
+
+### 10.3 Modelo de resultado humano e gate
+
+Para cada linha, o revisor humano deve anexar ao relatório primário:
+
+```text
+ID/versão:
+autor no pack:
+revisor humano:
+session_id:
+content_provenance:
+started_at_utc:
+finished_at_utc:
+observed_duration:
+workspace_manifest/evidence_ids:
+checks e resultados:
+pistas usadas e nível máximo:
+reflexões respondidas:
+achados pedagógicos:
+decisão: pendente | pedir correção | pronto para revisão de publicação
+```
+
+O gate desta tarefa permanece `HUMAN_REVIEW_PLAYTEST_PENDING` para todas as
+54 linhas. A validação automatizada `E1`/`E2`/`E4`/`E5` não altera esse estado,
+não autentica uma pessoa, não mede duração observada e não autoriza
+publicação. A pré-revisão automatizada independente também continua
+pendente nesta execução, pois este autor não a substitui nem inicia outro
+agente. Até que cada ficha tenha uma sessão MCP real, um autor e um revisor
+humano distintos, início/fim observados e julgamento pedagógico registrado,
+`reviewed_by`, `playtested` e `publication.status: published` devem continuar
+inalterados.

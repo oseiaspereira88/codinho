@@ -495,8 +495,10 @@ As versões carregadas no manifest são:
 | `go-debugging` | 1.2.0 | fora do escopo; um protótipo preservado |
 
 O schema do manifest é 1.0.0. As versões dos packs e os IDs dos protótipos
-foram auditados no estado pós-remediação; os lotes não alteraram os números de
-versão nem renomearam, removeram ou promoveram registros.
+foram auditados no estado pós-remediação. Em 2026-09-15, o protótipo de filtro
+teve a versão do desafio incrementada para 1.2.0 e seu micropasso incoerente foi
+substituído; a versão do pack permaneceu 1.9.0, sem renomear, remover ou
+promover registros.
 
 ### 9.2 Ledger global, fundamental, variantes e publicação
 
@@ -506,8 +508,8 @@ do cálculo de profundidade fundamental.
 
 | Projeção | Conceitos | Competências | Trilhas | Desafios | Nodes |
 |---|---:|---:|---:|---:|---:|
-| Manifest completo | 105 | 64 | 5 | 54 | 367 |
-| Sete packs fundamentais | 104 | 60 | 5 reutilizadas | 45 bases + 8 variantes | 305 bases brutos; 304 creditáveis |
+| Manifest completo | 105 | 64 | 5 | 54 | 366 |
+| Sete packs fundamentais | 104 | 60 | 5 reutilizadas | 45 bases + 8 variantes | 304 bases brutos; 303 creditáveis |
 | `go-debugging` fora do escopo | 1 | 4 | — | 1 protótipo | 6 |
 | Variantes fundamentais | — | — | — | 8 (`canonical: false`) | 56 (`9/9/38`) |
 | Publicados | 0 | 0 | 0 | 0 | 0 |
@@ -519,12 +521,13 @@ combinados e 2 fatias funcionais; removendo conceitualmente o protótipo
 histórico `go-data.slice-filter-preserve-input`, o plano fundamental fica em
 44 entradas: 32 atômicos, 10 combinados e 2 fatias funcionais. As oito
 variantes continuam fora da contagem de desafios novos e de profundidade; os
-305 nodes brutos incluem o micro histórico, e os 304 creditáveis não.
+304 nodes brutos incluem o micro histórico, e os 303 creditáveis não.
 
 Os protótipos estão nos escopos corretos e permanecem distintos:
 
-- `go-data.slice-filter-preserve-input` está em `go-first-steps`, é a entrada
-  histórica com um micro-node não creditado e não participa de `go-from-zero`;
+- `go-data.slice-filter-preserve-input` está em `go-first-steps`, teve seu
+  micropasso incoerente substituído em 2026-09-15 (versão 1.2.0), continua com
+  um micro-node não creditado e não participa de `go-from-zero`;
 - `go-debug.slice-off-by-one` está em `go-debugging`, tem 6 nodes e não é
   contado na cobertura fundamental;
 - nenhuma das duas entradas é variante, e a classificação, disposição e
@@ -536,13 +539,14 @@ Os protótipos estão nos escopos corretos e permanecem distintos:
 |---|---|---|
 | Pelo menos 100 conceitos fundamentais | PASS — 104 | `TestFoundationCatalogAudit` |
 | Pelo menos 60 competências fundamentais | PASS — 60 | `TestFoundationCatalogAudit` |
-| Pelo menos 300 nodes contextualizados creditáveis | PASS — 304 | `TestFoundationCatalogAudit`; bases `45/45/214`, sem variantes e sem o micro histórico |
+| Pelo menos 300 nodes contextualizados creditáveis | PASS — 303 | `TestFoundationCatalogAudit`; bases `45/45/214`, sem variantes e sem o micro histórico |
 
-O ledger de planejamento da seção 5 aponta o alvo operacional de 304 nodes de
-bases creditáveis; após os dois lotes, tanto esse alvo quanto o limiar de 300
-da spec estão satisfeitos. O teste mantém a separação estrutural: variantes
-somam 56 nodes apenas na projeção própria, o micro do protótipo histórico não
-entra nos 304, e o protótipo de `go-debugging` permanece fora do escopo.
+O ledger de planejamento da seção 5 registrou o alvo operacional de 304 nodes
+de bases creditáveis no snapshot pós-remediação. Depois da remoção do
+micropasso redundante, a leitura corrente é 303; o limiar de 300 da spec
+continua satisfeito. O teste mantém a separação estrutural: variantes somam 56
+nodes apenas na projeção própria, o micro do protótipo histórico não entra nos
+303, e o protótipo de `go-debugging` permanece fora do escopo.
 
 ### 9.4 Auditoria de cobertura técnica e contextos essenciais
 
@@ -589,7 +593,7 @@ um flag equivalente em `catalog` sem o subcomando `validate`.
 |---|---|---|
 | `go run ./cmd/codinho help` | PASS | help raiz disponível |
 | `go run ./cmd/codinho catalog` | Uso exibido, exit 2 | confirma que o próximo comando válido é `validate` |
-| `go run ./cmd/codinho catalog validate --json` | PASS, exit 0; `diagnostics: null`, `editorial: null`, `StepNodes: 367` | catálogo estrutural e editorialmente carregável; tudo ainda draft |
+| `go run ./cmd/codinho catalog validate --json` | PASS, exit 0; `diagnostics: null`, `editorial: null`, `StepNodes: 366` | catálogo estrutural e editorialmente carregável; tudo ainda draft |
 | `go run ./cmd/codinho catalog validate --checks` | PASS, exit 0; 54 declarados/54 verificados | baselines produziram os resultados esperados e referências passaram |
 | `go run ./cmd/codinho catalog validate --v1-gate` | FAIL, exit 1 | gate global de publicação, detalhado abaixo |
 | `pose docs-check` | PASS; resumo `declared=16`, `undeclared=0`, `stale=0`, `errors=0`, `warnings=0`; imprime 2 linhas `REVIEW_PENDING` | documentação sem erro; os dois registros históricos de `docs/compatibility.md` (triggers `concept-content-authoring` e `learning-track-composition`) continuam pendentes |
@@ -639,7 +643,7 @@ Também foram executados os checks aplicáveis ao código e à documentação:
 
 - `go test ./internal/curriculum -run
   '^TestFoundation(VariantOrigins|CatalogAudit)$' -count=1 -v`: PASS; ledger
-  104/60, 45 bases, 8 variantes, 305 brutos, 304 creditáveis e dez
+  104/60, 45 bases, 8 variantes, 304 brutos, 303 creditáveis e dez
   competências essenciais com pelo menos dois contextos.
 - `go test ./...`: FAIL ambiental nos testes de integração que constroem o CLI;
   o ambiente não conseguiu obter o status VCS e sugeriu `-buildvcs=false`.
@@ -725,7 +729,7 @@ autor de cada linha.
 Os marcadores de evidência automatizada usados por item são:
 
 - `E1`: `go run ./cmd/codinho catalog validate --json`, executado nesta
-  rodada com `diagnostics: null`, 54 desafios, 367 nodes, 54 drafts e zero
+  rodada com `diagnostics: null`, 54 desafios, 366 nodes, 54 drafts e zero
   publicados.
 - `E2-F`: `go run ./cmd/codinho catalog validate --checks --json`, check
   `focused-tests`, baseline esperado `test_failure` e referência `pass`;

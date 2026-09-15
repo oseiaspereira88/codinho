@@ -725,7 +725,7 @@ tracks:
 challenges:
   - schema_version: 1
     id: go-data.slice-filter-preserve-input
-    version: 1.1.0
+    version: 1.2.0
     title: Filtrar valores sem alterar a entrada
     kind: atomic
     difficulty: foundational
@@ -736,35 +736,41 @@ challenges:
       secondary: [slice-allocation]
     prerequisites: [slice-declaration, range-loop]
     brief: >
-      Produza apenas os valores aceitos preservando a ordem e a coleção recebida.
+      Implemente Filter para produzir apenas os valores aceitos, preservando a
+      ordem e a coleção recebida.
     constraints:
       - Não alterar a coleção de entrada.
+      - A saída não pode compartilhar o armazenamento da entrada.
     acceptance:
-      - A saída contém apenas valores aceitos.
-      - A ordem original é preservada.
-      - A entrada permanece inalterada.
+      - 'Filter([1,2,3,4], par) retorna [2,4], preservando a ordem.'
+      - Após a chamada, a slice recebida permanece com os mesmos valores, na mesma ordem.
+      - A slice retornada não compartilha o armazenamento da entrada.
+      - Filter com nenhum valor aceito retorna uma slice vazia.
+      - Filter(nil, keep) retorna uma slice vazia.
     layers:
       - id: understanding
         macro_steps:
-          - id: model.declare-user-struct
+          - id: model.filter-values-with-independent-output
             kind: micro
-            action: declare
-            target: named_type
-            title: Declarar a struct User
+            action: implement
+            target: function
+            title: Implementar o filtro sem compartilhar a entrada
             instruction:
-              objective: Declarar o tipo User conforme a especificação fornecida.
-              scope: Somente a declaração da struct.
+              objective: Implementar Filter para construir a saída com os valores aceitos, preservando a entrada e a ordem original.
+              scope: O comportamento completo de Filter, incluindo saída vazia e entrada nil.
               constraints:
-                - Não adicionar métodos.
-                - Não implementar validações.
-                - Não criar construtores.
-            concepts: [named-types, structs, field-types, zero-values]
+                - Não alterar a coleção recebida.
+                - Não compartilhar o armazenamento da entrada na saída.
+                - Não usar bibliotecas externas.
+            concepts: [slice-declaration, range-loop, slice-backing-array-aliasing]
             evidence:
               strategies: [source_inspection, compile]
             criteria:
-              - id: type-exists
+              - id: filtered-output-is-correct
                 kind: structural
-              - id: fields-match
+              - id: input-remains-unchanged
+                kind: structural
+              - id: output-does-not-share-input-storage
                 kind: structural
             completion:
               requires_positive_evaluation: true
@@ -776,9 +782,15 @@ challenges:
                 kind: syntax_recall
               - level: 3
                 kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             reflection:
               optional:
-                - Qual é o valor zero de dois campos escolhidos?
+                - Por que verificar apenas os valores atuais da entrada não prova que a saída não compartilha o armazenamento?
     checks:
       - id: focused-tests
         runner: go_test

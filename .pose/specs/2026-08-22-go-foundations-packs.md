@@ -299,6 +299,15 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
   reprodução de `go-data.slice-filter-preserve-input` com
   `workspace prepare --dry-run` confirmou a ausência de fixture; sua disposição
   continua uma decisão humana separada.
+- 2026-09-15 UTC, correção do protótipo histórico de filtro: o passo que
+  declarava uma `User` sem relação com o desafio foi substituído por um único
+  micropasso coerente com `Filter`, seus critérios de saída, preservação e
+  armazenamento independente. O ID foi preservado, a versão do desafio passou
+  a 1.2.0, o `baseline_fixture` privado continuou verificando o check declarado
+  e a ausência de fixture distribuída permaneceu intencional; não houve mudança
+  de classificação, publicação ou contagem de nodes. A decisão preserva o
+  handoff `knowledge:go-foundations-io-batch` e aplica o padrão de evitar um
+  micro redundante registrado em `knowledge:agent-batch-review-pattern`.
 - 2026-09-15 UTC, correção de qualidade em `go-first-steps.clamp-int-to-byte`: removido o micropasso `model.declare-clamp-signature`, que repetia a assinatura já presente na fixture. O desafio e suas fixtures/checks permaneceram intactos; o pack passou a 1.9.0. A auditoria corrente passou a 366 nodes no manifesto, 304 brutos e 303 creditáveis nos sete packs; o gate de 300 continua satisfeito. Revisão humana, playtest, disposição dos protótipos e publicação permanecem pendentes.
 - 2026-09-10 UTC, trilhas fundamentais: cinco percursos explícitos (47 posições reutilizando desafios), início e travessia via MCP real em --authoring. Matriz ampliada para 23/23 checks aprovados; 43/43 checks editoriais verificados. IDs/conteúdo anteriores preservados. O avanço explícito no teste verifica alcance, não playtest humano.
 - 2026-09-10 UTC, complemento go-errors: um combinado e uma fatia funcional draft, oito conceitos, seis competências e 14 nodes. Matriz 22/22 passou, com 43/43 checks editoriais verificados. Comparação dos objetos YAML confirma preservação integral dos desafios, conceitos, competências e relações históricos; versão do pack incrementada para 1.2.0.
@@ -1154,18 +1163,20 @@ reais previstas na Definition of Done.
 - Achado ao iniciar o pack go-data-text (2026-08-25): `packs/go-first-
   steps.yaml` tem um item pré-existente, `go-data.slice-filter-preserve-
   input` (tema `slices`, fora do escopo A/B deste pack pela matriz de
-  distribuição), que é um resquício quebrado — parece cópia literal do
-  exemplo ilustrativo de PROJECT.md §14.8: o único macro_step
-  (`model.declare-user-struct`) é sobre declarar uma struct `User`, sem
-  nenhuma relação com filtrar slices, e o desafio não tem `fixture:`
-  apesar do `checks` apontar para `TestFilter`. A reprodução de
-  `go run ./cmd/codinho workspace prepare go-data.slice-filter-preserve-input
-  --dest <dir> --dry-run --json` em 2026-09-15 falhou com
-  `fixtures: challenge declares no fixture files`. O item permanece fora da
-  autoria corrente: antes do playtest, uma decisão humana deve escolher entre
-  removê-lo, reautorizá-lo ou migrá-lo, preservando IDs e sessões conforme
-  aplicável; `packs/go-data-text.yaml` já cobre o mesmo conceito de forma real
-  e correta, com IDs distintos (`go-data-text.filter-without-mutating-input`).
+  distribuição), que inicialmente era um resquício quebrado — cópia literal do
+  exemplo ilustrativo de PROJECT.md §14.8: o único passo declarava uma struct
+  `User` sem relação com filtrar slices, e o desafio não tinha `fixture:`
+  apesar do `checks` apontar para `TestFilter`. Em 2026-09-15, esse passo foi
+  reautorizado como um micropasso coerente com `Filter`, preservando o ID e
+  mantendo o `baseline_fixture` privado; a versão do desafio passou a 1.2.0.
+  A reprodução de `go run ./cmd/codinho workspace prepare
+  go-data.slice-filter-preserve-input --dest <dir> --dry-run --json` continua
+  falhando com `fixtures: challenge declares no fixture files`, conforme a
+  alternativa documentada para protótipos sem starter distribuído. Antes do
+  playtest, uma decisão humana ainda deve escolher entre removê-lo,
+  reautorizá-lo ou migrá-lo, preservando IDs e sessões conforme aplicável;
+  `packs/go-data-text.yaml` já cobre o mesmo conceito de forma real e correta,
+  com IDs distintos (`go-data-text.filter-without-mutating-input`).
 
 ## 7. Final Report
 

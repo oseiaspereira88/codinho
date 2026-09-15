@@ -2414,15 +2414,18 @@ challenges:
     secondary:
     - io-write-json-result
     - io-encode-structured-output
-  brief: Um processador de métricas precisa publicar um resumo de cada execução no destino fornecido e
-    permitir que o chamador reaja às falhas desse destino.
+  prerequisites: []
+  brief: Um serviço de métricas fecha uma execução e precisa publicar um resumo no destino recebido,
+    deixando o chamador decidir como reagir se esse destino falhar.
   constraints:
   - Use somente a biblioteca padrão e as entradas recebidas.
   - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
   acceptance:
-  - Codifica o campo processed com o valor recebido e um newline final.
-  - Preserva a identidade de erros retornados pelo Writer.
-  - Não tenta desfazer bytes já aceitos pelo Writer nem usa um destino global.
+  - Para cada valor recebido, escreve no Writer fornecido um objeto JSON com processed igual ao valor e
+    exatamente um newline final.
+  - Quando o Writer aceita um prefixo e devolve erro, retorna uma causa que errors.Is reconhece e deixa o
+    prefixo aceito no destino.
+  - Toda saída vai para o Writer recebido; a função não usa destino global nem desfaz bytes já aceitos.
   publication:
     status: draft
     author: codex
@@ -2433,22 +2436,25 @@ challenges:
       kind: macro
       title: Propagar falhas ao escrever um relatório
       instruction:
-        objective: Publique um resumo de processamento no destino recebido e preserve as falhas da saída.
+        objective: Publique o resumo de uma execução no Writer recebido e deixe a falha do destino observável ao chamador.
         scope: Um relatório de uma execução, distinto do inventário CSV da origem, com destino controlado pelo chamador.
       children:
       - id: write-result-report.meso
         kind: meso
         title: Representação e falha do destino
         instruction:
-          objective: Separe a representação do resumo da reação a uma falha de escrita.
+          objective: Separe a forma do relatório da reação a uma falha do destino.
           scope: Campo processed, codificação JSON, newline final e escrita parcial no Writer recebido.
         children:
         - id: write-result-report.step-1
           kind: micro
+          action: implement
+          target: function
           title: Defina o resultado serializado.
           instruction:
-            objective: Modele o resumo JSON com o campo processed.
-            scope: Apenas o valor que será codificado e o Writer indicado pelo chamador.
+            objective: Represente o resumo com o campo processed e o valor recebido.
+            scope: Apenas a forma do objeto de saída; escreva no Writer indicado pelo chamador e não invente
+              campos adicionais.
           concepts:
           - io-json-encode
           evidence:
@@ -2457,7 +2463,7 @@ challenges:
             - test
           criteria:
           - id: behavior-1
-            kind: qualitative
+            kind: structural
           completion:
             requires_positive_evaluation: true
           hints:
@@ -2478,10 +2484,13 @@ challenges:
             - Por que confirmar o formato do valor antes de observar o Writer separa o contrato de dados do contrato de saída?
         - id: write-result-report.step-2
           kind: micro
+          action: implement
+          target: function
           title: Propague a falha de saída.
           instruction:
-            objective: Retorne ao chamador a falha produzida pelo Writer.
-            scope: Apenas a propagação do erro depois que parte do relatório pode ter sido aceita.
+            objective: Retorne ao chamador o erro produzido ao publicar o relatório.
+            scope: Apenas a propagação da falha depois que o destino pode ter aceitado um prefixo; não
+              transforme a falha em sucesso nem desfaça bytes aceitos.
           concepts:
           - io-writer-errors
           evidence:
@@ -2541,6 +2550,9 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+            reflection:
+              optional:
+              - Por que observar a quebra de linha final, além de um JSON válido, fixa o protocolo que o próximo consumidor receberá?
           - id: write-result-report.verify-writer-identity
             hints:
               - level: 1
@@ -2566,12 +2578,16 @@ challenges:
             - io-writer-errors
             evidence:
               strategies:
+              - source_inspection
               - test
             criteria:
             - id: writer-error-is-identical
               kind: structural
             completion:
               requires_positive_evaluation: true
+            reflection:
+              optional:
+              - Por que manter o erro identificável e os bytes aceitos no destino evita que o chamador trate uma saída parcial como sucesso completo?
   fixture:
   - path: go.mod
     content: |

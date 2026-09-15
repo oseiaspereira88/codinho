@@ -310,6 +310,19 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
   de classificação, publicação ou contagem de nodes. A decisão preserva o
   handoff `knowledge:go-foundations-io-batch` e aplica o padrão de evitar um
   micro redundante registrado em `knowledge:agent-batch-review-pattern`.
+- 2026-09-15 UTC, a pré-revisão Codex independente focal rejeitou o protótipo
+  por duas lacunas reais na prova privada: a entrada tinha `cap == len`, então
+  não detectava uma saída posicionada na capacidade excedente do backing array,
+  e o caso de saída vazia exercitava apenas entrada `nil`. A correção espelhou
+  nos dois cenários (`baseline_fixture` e `reference_fixture`) uma entrada
+  `make([]int, 6, 20)`, a checagem do intervalo completo via
+  `unsafe.SliceData` e uma entrada não-nula com todos os valores rejeitados.
+  O validador do catálogo confirmou `baseline=test_failure` e
+  `reference=pass`, ambos verificados; o mutante de janela de capacidade foi
+  reprovado pela checagem de armazenamento e a implementação de referência
+  passou com `-count=1`. A segunda pré-revisão independente aprovou o fix sem
+  ressalvas. Este resultado é apenas técnico e não encerra revisão humana,
+  playtest, disposição do protótipo ou publicação.
 - 2026-09-15 UTC, reconciliação do inventário de artifacts: declarados como
   `modified` `docs/editorial/go-foundations-queue.json` e
   `packs/go-debugging.yaml`, ambos alterados por commits históricos com este

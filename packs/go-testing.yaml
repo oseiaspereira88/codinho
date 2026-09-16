@@ -1637,13 +1637,15 @@ challenges:
   competencies:
     primary:
     - testing-cover-boundary-cases
-  brief: Informe se um ingresso ainda é válido no instante recebido, cobrindo a fronteira exata de expiração.
+  prerequisites: []
+  brief: Um serviço de acesso recebe o fim da validade de um ingresso e um instante observado pelo teste; torne a decisão verificável nos casos ao redor do encerramento.
   constraints:
   - Use somente a biblioteca padrão e as entradas recebidas.
   - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
   acceptance:
-  - Um ingresso válido é observado antes da expiração; na igualdade ou depois dela, o resultado é falso.
-  - Representações em fusos diferentes que correspondem ao mesmo instante produzem o mesmo resultado.
+  - Quando o instante observado é anterior ao fim da validade, Valid retorna true.
+  - Quando o instante observado é igual ou posterior ao fim da validade, Valid retorna false.
+  - Trocar a representação de end ou now por outra em fuso diferente, sem mudar o instante, não altera o resultado.
   publication:
     status: draft
     author: codex
@@ -1654,64 +1656,35 @@ challenges:
       kind: macro
       title: Testar o instante de validade de um ingresso
       instruction:
-        objective: Informe se um ingresso ainda é válido no instante recebido, cobrindo a fronteira exata
-          de expiração.
-        scope: Uma competência contextualizada da origem.
+        objective: Estabeleça a decisão de validade de um ingresso em torno do seu encerramento.
+        scope: Um ingresso de evento, o fim da validade e o instante observado; não altere contratos fora de Valid.
       children:
       - id: check-ticket-boundary.meso
         kind: meso
         title: Casos observáveis e implementação
         instruction:
-          objective: Use os casos de aceite para orientar a implementação.
-          scope: Contrato da variante.
+          objective: Separe os casos próximos do encerramento da regra de decisão.
+          scope: Uma entrada por chamada de Valid, com fronteira temporal fixa e representações alternativas do mesmo instante.
         children:
         - id: check-ticket-boundary.step-1
           kind: micro
-          title: Modele casos próximos da fronteira.
+          action: implement
+          target: test_cases
+          title: Modele uma tabela de casos de validade.
           instruction:
-            objective: Modele casos próximos da fronteira.
-            scope: Diferencie um nanossegundo antes, igualdade e um nanossegundo depois.
+            objective: Defina os casos de validade ao redor do encerramento do ingresso.
+            scope: Inclua um instante imediatamente anterior, o instante de igualdade e um imediatamente posterior; use um instante fixo do teste.
           concepts:
-          - testing-time-boundaries
           - testing-table-cases
+          - testing-time-boundaries
           evidence:
             strategies:
             - source_inspection
+            - test
           criteria:
           - id: behavior-1
             kind: qualitative
-          completion:
-            requires_positive_evaluation: true
-          hints:
-          - level: 1
-            kind: guiding_question
-          - level: 2
-            kind: syntax_recall
-          - level: 3
-            kind: logical_prose
-          - level: 4
-            kind: pseudocode
-          - level: 5
-            kind: partial_code
-          - level: 6
-            kind: solution
-          reflection:
-            optional:
-            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
-              correta?
-        - id: check-ticket-boundary.step-2
-          kind: micro
-          title: Implemente a decisão de validade.
-          instruction:
-            objective: Implemente a decisão de validade.
-            scope: Use instantes, sem comparar strings ou relógio global.
-          concepts:
-          - testing-time-boundaries
-          evidence:
-            strategies:
-            - test
-          criteria:
-          - id: behavior-2
+          - id: boundary-table-distinguishes-three-relations
             kind: structural
           completion:
             requires_positive_evaluation: true
@@ -1730,8 +1703,45 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
-              correta?
+            - Por que casos imediatamente antes, na igualdade e depois do limite tornam o contrato da fronteira verificável sem esperar o relógio real?
+        - id: check-ticket-boundary.step-2
+          kind: micro
+          action: implement
+          target: function
+          title: Implemente a regra de validade do ingresso.
+          instruction:
+            objective: Implemente a regra de validade do ingresso.
+            scope: Use a relação entre os dois instantes recebidos; não derive a decisão do texto ou do fuso de apresentação.
+          concepts:
+          - testing-time-boundaries
+          - testing-instant-versus-zone
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: behavior-2
+            kind: structural
+          - id: validity-boundary-is-strict
+            kind: structural
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: syntax_recall
+          - level: 3
+            kind: logical_prose
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que uma regra baseada na relação entre instantes continua válida quando a mesma hora é apresentada em outro fuso?
           children:
           - id: check-ticket-boundary.verify-equality
             hints:
@@ -1739,6 +1749,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: boundary_case
@@ -1756,21 +1774,33 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+            reflection:
+              optional:
+              - Por que o caso de igualdade precisa ser afirmado separadamente de um caso distante para fixar a regra da fronteira?
           - id: check-ticket-boundary.verify-timezone-equivalence
             hints:
               - level: 1
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: boundary_case
             title: Verificar equivalência entre fusos
             instruction:
-              objective: Use representações em fusos diferentes para o mesmo instante e confirme resultado idêntico.
+              objective: Compare o resultado de representações em fusos diferentes para o mesmo instante.
               scope: Apenas a comparação de instantes absolutos.
             concepts:
             - testing-time-boundaries
+            - testing-instant-versus-zone
             evidence:
               strategies:
               - test
@@ -1779,20 +1809,32 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+            reflection:
+              optional:
+              - Por que mudar o fuso sem mudar o instante é diferente de mudar a hora civil observada pelo contrato?
           - id: check-ticket-boundary.verify-mixed-cases
             hints:
               - level: 1
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: boundary_case
-            title: Verificar conjunto misto de ingressos
+            title: Verificar tabela de casos mistos
             instruction:
-              objective: Confirme que apenas ingressos com expiração posterior ao instante observado são válidos.
-              scope: Uma tabela de chamadas individuais de Valid, com expiração anterior, igual e posterior ao instante recebido.
+              objective: Confirme que a tabela classifica separadamente os instantes anterior, igual e posterior ao fim da validade.
+              scope: Chamadas individuais a Valid com o mesmo fim e com o instante observado variando entre as três relações.
             concepts:
+            - testing-table-cases
             - testing-time-boundaries
             evidence:
               strategies:
@@ -1802,6 +1844,9 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+            reflection:
+              optional:
+              - Por que reunir as três relações numa tabela ajuda a detectar uma regra que acerta apenas um cenário?
   fixture:
   - path: go.mod
     content: |
@@ -1827,20 +1872,37 @@ challenges:
       func TestVariant(t *testing.T) {
           end := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
           for _, tc := range []struct {
-              delta time.Duration
+              name  string
+              now   time.Time
               want  bool
-          }{{-time.Nanosecond, true}, {0, false}, {time.Nanosecond, false}} {
-              if got := Valid(end, end.Add(tc.delta)); got != tc.want {
-                  t.Fatalf("delta %v: %v", tc.delta, got)
-              }
+          }{
+              {name: "just-before-expiry", now: end.Add(-time.Nanosecond), want: true},
+              {name: "at-expiry", now: end, want: false},
+              {name: "just-after-expiry", now: end.Add(time.Nanosecond), want: false},
+          } {
+              t.Run(tc.name, func(t *testing.T) {
+                  if got := Valid(end, tc.now); got != tc.want {
+                      t.Fatalf("now=%v: got %v, want %v", tc.now, got, tc.want)
+                  }
+              })
           }
           zone := time.FixedZone("synthetic", -10800)
-          before := end.Add(-time.Nanosecond)
-          if !Valid(end, before) || !Valid(end.In(zone), before) {
-              t.Fatal("same instant before expiry treated differently")
-          }
-          if Valid(end, end.In(zone)) || Valid(end.In(zone), end) {
-              t.Fatal("same instant at expiry treated as valid")
+          for _, tc := range []struct {
+              name string
+              end  time.Time
+              now  time.Time
+              want bool
+          }{
+              {name: "end-in-zone-before-expiry", end: end.In(zone), now: end.Add(-time.Nanosecond), want: true},
+              {name: "now-in-zone-before-expiry", end: end, now: end.Add(-time.Nanosecond).In(zone), want: true},
+              {name: "end-in-zone-at-expiry", end: end.In(zone), now: end, want: false},
+              {name: "now-in-zone-at-expiry", end: end, now: end.In(zone), want: false},
+          } {
+              t.Run(tc.name, func(t *testing.T) {
+                  if got := Valid(tc.end, tc.now); got != tc.want {
+                      t.Fatalf("end=%v now=%v: got %v, want %v", tc.end, tc.now, got, tc.want)
+                  }
+              })
           }
       }
   checks:
@@ -1876,20 +1938,37 @@ challenges:
         func TestVariant(t *testing.T) {
             end := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
             for _, tc := range []struct {
-                delta time.Duration
+                name  string
+                now   time.Time
                 want  bool
-            }{{-time.Nanosecond, true}, {0, false}, {time.Nanosecond, false}} {
-                if got := Valid(end, end.Add(tc.delta)); got != tc.want {
-                    t.Fatalf("delta %v: %v", tc.delta, got)
-                }
+            }{
+                {name: "just-before-expiry", now: end.Add(-time.Nanosecond), want: true},
+                {name: "at-expiry", now: end, want: false},
+                {name: "just-after-expiry", now: end.Add(time.Nanosecond), want: false},
+            } {
+                t.Run(tc.name, func(t *testing.T) {
+                    if got := Valid(end, tc.now); got != tc.want {
+                        t.Fatalf("now=%v: got %v, want %v", tc.now, got, tc.want)
+                    }
+                })
             }
             zone := time.FixedZone("synthetic", -10800)
-            before := end.Add(-time.Nanosecond)
-            if !Valid(end, before) || !Valid(end.In(zone), before) {
-                t.Fatal("same instant before expiry treated differently")
-            }
-            if Valid(end, end.In(zone)) || Valid(end.In(zone), end) {
-                t.Fatal("same instant at expiry treated as valid")
+            for _, tc := range []struct {
+                name string
+                end  time.Time
+                now  time.Time
+                want bool
+            }{
+                {name: "end-in-zone-before-expiry", end: end.In(zone), now: end.Add(-time.Nanosecond), want: true},
+                {name: "now-in-zone-before-expiry", end: end, now: end.Add(-time.Nanosecond).In(zone), want: true},
+                {name: "end-in-zone-at-expiry", end: end.In(zone), now: end, want: false},
+                {name: "now-in-zone-at-expiry", end: end, now: end.In(zone), want: false},
+            } {
+                t.Run(tc.name, func(t *testing.T) {
+                    if got := Valid(tc.end, tc.now); got != tc.want {
+                        t.Fatalf("end=%v now=%v: got %v, want %v", tc.end, tc.now, got, tc.want)
+                    }
+                })
             }
         }
     expectations:

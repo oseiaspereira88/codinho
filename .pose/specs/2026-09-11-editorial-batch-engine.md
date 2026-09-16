@@ -54,8 +54,10 @@ scripts, skills e docs/editorial. Conteúdo piloto pertence a go-foundations-pac
 - modified: .gitignore
 - modified: .pose/indexes/validation-matrix.json
 - modified: .pose/assessments/consolidated.md
+- modified: .pose/assessments/integrations.md
 - modified: .pose/assessments/scripts.md
 - modified: .pose/state/components/scripts.json
+- modified: .pose/state/integrations.json
 - modified: .pose/docs.json
 - modified: .pose/assessments/technical-debt.md
 - modified: .pose/state/technical-debt.json

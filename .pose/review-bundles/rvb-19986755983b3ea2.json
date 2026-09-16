@@ -1,0 +1,926 @@
+{
+  "schema_version": 1,
+  "bundle_id": "rvb-19986755983b3ea2",
+  "bundle_digest": "sha256:19986755983b3ea2116ecdff4304c3420ad348d6678c3807a8ec29e8bdce076d",
+  "state": "sealed",
+  "sealed_at": "2026-09-16T02:24:56Z",
+  "payload": {
+    "scope": {
+      "ref": "spec:editorial-batch-engine",
+      "kind": "spec",
+      "slug": "editorial-batch-engine",
+      "components": [
+        "docs",
+        "scripts"
+      ],
+      "sections": [
+        {
+          "kind": "semantic-section",
+          "path": "decisions",
+          "digest": "sha256:4124fc51d6140087897c4b349e2724aae78de48d8dd5e7e40e8367c645d32c27",
+          "reason": "governed semantic review input"
+        },
+        {
+          "kind": "semantic-section",
+          "path": "intent",
+          "digest": "sha256:e9360f012ba3fc6b99c66145483960fce83de8c0cdfb070147158730a2179b2c",
+          "reason": "governed semantic review input"
+        },
+        {
+          "kind": "semantic-section",
+          "path": "requirements",
+          "digest": "sha256:d3f0f6c580e7f036135662ebe2bc3473668e791a0fd01f92c05b9f561a8c2a2f",
+          "reason": "governed semantic review input"
+        },
+        {
+          "kind": "semantic-section",
+          "path": "technical plan",
+          "digest": "sha256:e7ee2ae2d262ed35f9093959c2136f34a39cad31a728ff1a17585065fce61c5c",
+          "reason": "governed semantic review input"
+        }
+      ]
+    },
+    "subject": {
+      "change_sets": [
+        "cs-d25cc43f9c92"
+      ],
+      "base": "9caef5c1a585813076d4a4bc3957d71c0e1a2fe2",
+      "head": "f061bc615c6dfb5788f6d9e1ccbe1623e4a68dd4",
+      "patch_digest": "sha256:9ef6a050a004424364845130105eabc2ae87b61c30188199196259adfe4f9ee5",
+      "tree_digest": "sha256:ca38fc7c158c3a9757763537e9fbcc7e521e327d859649c910e8382fdfcf981b",
+      "entries": [
+        {
+          "action": "created",
+          "path": ".agents/skills/editorial-author/SKILL.md",
+          "class": "governance",
+          "digest": "sha256:385db00f3dc5c016e58a8006a7e556a5f3061a7b09c475b790b08d108fbbab12",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": ".agents/skills/editorial-coordinator/SKILL.md",
+          "class": "governance",
+          "digest": "sha256:a28966842c73a6c48181eac79c40f53902c1335ae181ce66f6bf5bd11c587353",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": ".pose/adr/2026-09-11-editorial-worktrees-and-explicit-sessions.md",
+          "class": "governance",
+          "digest": "sha256:c2a7a3e5d628247ba9a7967064765a645d08f52f3af0ba90e8f90534a45a3e26",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "docs/editorial-workflow.md",
+          "class": "implementation",
+          "digest": "sha256:82deb3462b7c566c187a88f982656f0079a04b087e53b1e107715ea785be644a",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "docs/editorial/go-foundations-inventory.md",
+          "class": "implementation",
+          "digest": "sha256:2b225aafae19e08b51b73007c848283eec01e5364b06fd7f274d522abb9ae9ff",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "docs/editorial/go-foundations-queue.json",
+          "class": "implementation",
+          "digest": "sha256:6788f121a7e11e1b6576346a1b5386f71c17beaee0b015e98a046a6541b83e73",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "scripts/editorial.py",
+          "class": "implementation",
+          "digest": "sha256:8b88eb801e979bf0b56888b8290421d176fa0e9da706a857d9a6ae1eb89f4b72",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "scripts/test_editorial.py",
+          "class": "implementation",
+          "digest": "sha256:910053daaaa64c8c6b7128399ef363b960100ff7d75b16c482bee57bb9c9f2bd",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": ".agents/skills/README.md",
+          "class": "governance",
+          "digest": "sha256:f1ffd38416d4b0b0981a36f73c6fe93685b19d6c202e0d7717e7bbd02343d5b5",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": ".gitignore",
+          "class": "governance",
+          "digest": "sha256:e789ef8f723cd450d3f8835dae75f2aa4bc57d04199eaa7f1bd02d1023f7a3ec",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/docs.json",
+          "class": "governance",
+          "digest": "sha256:efbbaf2563560c3bb82c288905c3217e2384cb75173ecc0464a0cb6e9488f795",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/validation-matrix.json",
+          "class": "governance",
+          "digest": "sha256:5a986b2c158283b65a5ab2be78e1c78d3eff569facacff04de6b7399e6fd61fb",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "docs/agent-review-workflow.md",
+          "class": "implementation",
+          "digest": "sha256:bedb5689c9f50e9a048aa0ab5760d5aa0dd2f081a2a4d0d08f91cb813a67d16c",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "scripts/agent-review.sh",
+          "class": "implementation",
+          "digest": "sha256:a0d361ab42b16fd9241fcc3a2eed256494f13565430acead2239e81db2f943e6",
+          "reason": "attributed implementation path in the immutable change set"
+        }
+      ]
+    },
+    "plan": {
+      "plan_digest": "sha256:b9e1c6fa417027df878db131949ede11960cbba84306ca2dbd86eebac3ec68bc",
+      "independence": "same-actor-separate-execution",
+      "components": [
+        {
+          "id": "docs",
+          "path": "docs",
+          "kind": "module",
+          "domain": "documentation",
+          "owner": "@oseiaspereira",
+          "criticality": "high",
+          "validation_profile": "baseline",
+          "sources": [
+            "artifact:editorial-batch-engine:docs/agent-review-workflow.md",
+            "artifact:editorial-batch-engine:docs/editorial-workflow.md",
+            "artifact:editorial-batch-engine:docs/editorial/go-foundations-inventory.md",
+            "artifact:editorial-batch-engine:docs/editorial/go-foundations-queue.json",
+            "observed:editorial-batch-engine:docs/agent-review-workflow.md",
+            "observed:editorial-batch-engine:docs/editorial-workflow.md",
+            "observed:editorial-batch-engine:docs/editorial/go-foundations-inventory.md",
+            "observed:editorial-batch-engine:docs/editorial/go-foundations-queue.json",
+            "spec:editorial-batch-engine:component:docs"
+          ]
+        },
+        {
+          "id": "scripts",
+          "path": "scripts",
+          "kind": "module",
+          "domain": "distribution",
+          "owner": "@oseiaspereira",
+          "criticality": "high",
+          "validation_profile": "baseline",
+          "sources": [
+            "artifact:editorial-batch-engine:scripts/agent-review.sh",
+            "artifact:editorial-batch-engine:scripts/editorial.py",
+            "artifact:editorial-batch-engine:scripts/test_editorial.py",
+            "observed:editorial-batch-engine:scripts/editorial.py",
+            "observed:editorial-batch-engine:scripts/test_editorial.py",
+            "spec:editorial-batch-engine:component:scripts"
+          ]
+        }
+      ],
+      "criteria": [
+        {
+          "id": "compatibility",
+          "description": "Public CLI, file and MCP contracts are compatible or explicitly migrated.",
+          "required": true,
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "correctness",
+          "description": "Functional and negative behavior is correct.",
+          "required": true,
+          "evidence_classes": [
+            "build",
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "cross-component-integration",
+          "description": "Observed component boundaries and contracts are integrated and covered by current evidence.",
+          "required": true,
+          "evidence_classes": [
+            "integration"
+          ],
+          "profiles": [
+            "synthetic:cross-component"
+          ]
+        },
+        {
+          "id": "documentation",
+          "description": "Operational docs, templates and scaffold match runtime behavior.",
+          "required": true,
+          "rules": [
+            "documentation-style"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "operability",
+          "description": "Errors, explanations and remediation are actionable.",
+          "required": true,
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "requirements",
+          "description": "Every requirement has current, relevant evidence.",
+          "required": true,
+          "evidence_classes": [
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "scope",
+          "description": "The implementation matches the approved spec scope.",
+          "required": true,
+          "rules": [
+            "documentation-style"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "security",
+          "description": "Inputs, paths, evidence and authority boundaries are safe.",
+          "required": true,
+          "rules": [
+            "security"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        }
+      ],
+      "tools": [
+        {
+          "id": "artifact-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "artifact-check",
+            "--spec",
+            "editorial-batch-engine",
+            "--strict"
+          ],
+          "rationale": "reconcile declared artifacts with Git-observed provenance",
+          "criteria": [
+            "requirements",
+            "scope"
+          ],
+          "preconditions": [
+            "artifacts-attributed"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            "docs"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": "docs",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            "scripts"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": "scripts",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-integrate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "assess",
+            "integrate"
+          ],
+          "rationale": "inspect providers, consumers and inter-component contract gaps",
+          "evidence_classes": [
+            "integration"
+          ],
+          "criteria": [
+            "cross-component-integration"
+          ],
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-tech-debt",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "tech-debt"
+          ],
+          "rationale": "inspect unresolved TODO, FIXME, panic and stub findings",
+          "criteria": [
+            "correctness"
+          ],
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "closeout-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "closeout-check",
+            "spec:editorial-batch-engine"
+          ],
+          "rationale": "verify remaining hierarchical closeout blockers",
+          "preconditions": [
+            "review-complete"
+          ]
+        },
+        {
+          "id": "history-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "history-check",
+            "--strict"
+          ],
+          "rationale": "verify append-only governance history",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "knowledge-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "knowledge-check",
+            "--strict"
+          ],
+          "rationale": "verify knowledge schema, sensitivity and lifecycle",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "review-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "review-check",
+            "spec:editorial-batch-engine"
+          ],
+          "rationale": "verify exact review-plan coverage and freshness",
+          "preconditions": [
+            "review-complete"
+          ]
+        },
+        {
+          "id": "skills-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "skills-check",
+            "--strict"
+          ],
+          "rationale": "verify distributed skill and workflow conformance",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            "docs"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": "docs",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            "scripts"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": "scripts",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "build",
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "criteria": [
+            "correctness",
+            "requirements"
+          ],
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            "docs"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "build",
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "component": "docs",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            "scripts"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "build",
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "component": "scripts",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        }
+      ],
+      "selected_profiles": [
+        {
+          "ref": "spec-closeout@1",
+          "category": "base",
+          "order": 0,
+          "source": ".pose/review-profiles/spec-closeout.json",
+          "rationale": "selected by terminal scope policy"
+        }
+      ]
+    },
+    "evidence": [
+      {
+        "id": "./go/agent-authored-catalog-drafts",
+        "module": ".",
+        "check": "agent-authored-catalog-drafts",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/build",
+        "module": ".",
+        "check": "build",
+        "evidence_class": "build",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/catalog",
+        "module": ".",
+        "check": "catalog",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/catalog-publication-integrity",
+        "module": ".",
+        "check": "catalog-publication-integrity",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/ci-assurance",
+        "module": ".",
+        "check": "ci-assurance",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/cli-e2e",
+        "module": ".",
+        "check": "cli-e2e",
+        "evidence_class": "e2e",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/cli-reachability",
+        "module": ".",
+        "check": "cli-reachability",
+        "evidence_class": "reachability",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/concept-content-capability",
+        "module": ".",
+        "check": "concept-content-capability",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/editorial-batch-engine",
+        "module": ".",
+        "check": "editorial-batch-engine",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/evaluation-evidence",
+        "module": ".",
+        "check": "evaluation-evidence",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/format",
+        "module": ".",
+        "check": "format",
+        "evidence_class": "build",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/foundation-track-routing",
+        "module": ".",
+        "check": "foundation-track-routing",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/learning-track-composition",
+        "module": ".",
+        "check": "learning-track-composition",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/mcp-contract",
+        "module": ".",
+        "check": "mcp-contract",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/published-catalog-proof",
+        "module": ".",
+        "check": "published-catalog-proof",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/session-recovery",
+        "module": ".",
+        "check": "session-recovery",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/session-tree-progression",
+        "module": ".",
+        "check": "session-tree-progression",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/smoke-install",
+        "module": ".",
+        "check": "smoke-install",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/startup-budget",
+        "module": ".",
+        "check": "startup-budget",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/stdout-purity",
+        "module": ".",
+        "check": "stdout-purity",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/test",
+        "module": ".",
+        "check": "test",
+        "evidence_class": "unit",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/tutor-skill-routing",
+        "module": ".",
+        "check": "tutor-skill-routing",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/vet",
+        "module": ".",
+        "check": "vet",
+        "evidence_class": "build",
+        "outcome": "pass",
+        "git_head": "496a8baa55efc1f4dabaa96fb091bcd1db7d2d9c",
+        "provenance_digest": "sha256:2e518058064249d1e5f9f8466a93c7834d0e477f40a34c0a144fb6eb096617a1",
+        "report": ".pose/results/delivery-validation.json"
+      }
+    ],
+    "governing_contracts": [
+      "component-aware",
+      "evidence-vocabulary",
+      "review-bundles"
+    ],
+    "gates": {
+      "accepted_risk_severities": [
+        "low"
+      ],
+      "allow_criterion_reuse": true
+    },
+    "consumed_inputs": [
+      {
+        "kind": "governed-config",
+        "path": ".pose/indexes/validation-matrix.json",
+        "digest": "sha256:5a986b2c158283b65a5ab2be78e1c78d3eff569facacff04de6b7399e6fd61fb",
+        "reason": "consumed review policy or validation contract"
+      },
+      {
+        "kind": "governed-config",
+        "path": ".pose/policy/review.json",
+        "digest": "sha256:0a0536853ba9fbf8d7da5fb77371e4d1c19ea9fab06606aa7b8d03947379fd40",
+        "reason": "consumed review policy or validation contract"
+      },
+      {
+        "kind": "review-plan",
+        "path": "spec-closeout@1",
+        "digest": "sha256:b9e1c6fa417027df878db131949ede11960cbba84306ca2dbd86eebac3ec68bc",
+        "reason": "effective component-aware plan contract"
+      },
+      {
+        "kind": "review-profile",
+        "path": ".pose/review-profiles/spec-closeout.json",
+        "digest": "sha256:b5858075a81dbb654c37c77b9c9b45793507592eb669411287b3c2510632a138",
+        "reason": "selected by effective review plan"
+      },
+      {
+        "kind": "rule",
+        "path": ".pose/rules/documentation-style.md",
+        "digest": "sha256:5c5c666fc6c796cf9ae3876d25d3fd4fa523d121892459dc0d681d73da1d60ae",
+        "reason": "selected by effective review criterion"
+      },
+      {
+        "kind": "rule",
+        "path": ".pose/rules/security.md",
+        "digest": "sha256:1cbf29c12d09cad0799e2d8715e94f84a49ee8fa09867bb5f12a544f8df43774",
+        "reason": "selected by effective review criterion"
+      },
+      {
+        "kind": "schema",
+        "path": "review-bundle@1",
+        "digest": "sha256:e7c9643ec88eccb2a6dea3ee3291c351983d78e1d2fa44b61399514c5021bcb0",
+        "reason": "canonical bundle and attestation schema identity"
+      },
+      {
+        "kind": "tool-catalog",
+        "path": "native-review-tools@1",
+        "digest": "sha256:b9e1c6fa417027df878db131949ede11960cbba84306ca2dbd86eebac3ec68bc",
+        "reason": "closed resolved native tool contract"
+      }
+    ]
+  },
+  "excluded_inputs": [
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/consolidated.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/scripts.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/technical-debt.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/contributions/20260911-pose-review-policy-schema-field.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/results/editorial-review-validation.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/scripts.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/technical-debt.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-section",
+      "path": "final report",
+      "digest": "sha256:d827671f7e18004e090832cfc828a2a4c14480c30ba3844bbc850baa0855999a",
+      "reason": "operational closeout content is verified by its own gate"
+    },
+    {
+      "kind": "derived-section",
+      "path": "tasks",
+      "digest": "sha256:61d56d850886219297f73280e4b94dbef46ce492c6a1941733ffed532dd36535",
+      "reason": "operational closeout content is verified by its own gate"
+    },
+    {
+      "kind": "derived-section",
+      "path": "validation",
+      "digest": "sha256:1212f543f352eecfdd6144cb48de695c0725eb157b265187262393d9c2df004b",
+      "reason": "operational closeout content is verified by its own gate"
+    },
+    {
+      "kind": "lifecycle",
+      "path": "/home/go/GolandProjects/codinho/.pose/specs/2026-09-11-editorial-batch-engine.md",
+      "reason": "status and completed_at do not define the reviewed semantic subject"
+    },
+    {
+      "kind": "semantic-scope",
+      "path": ".pose/specs/2026-09-11-editorial-batch-engine.md",
+      "reason": "attributed path is outside the semantic review subject"
+    }
+  ],
+  "warnings": [
+    "sealed evidence ran against a commit other than the subject head f061bc615c6d; it is current by provenance, not by having observed this change: build:./go/build, build:./go/format, build:./go/vet, e2e:./go/cli-e2e, integration:./go/agent-authored-catalog-drafts, integration:./go/catalog, integration:./go/catalog-publication-integrity, integration:./go/ci-assurance, integration:./go/concept-content-capability, integration:./go/editorial-batch-engine, integration:./go/evaluation-evidence, integration:./go/foundation-track-routing, integration:./go/learning-track-composition, integration:./go/mcp-contract, integration:./go/published-catalog-proof, integration:./go/session-recovery, integration:./go/session-tree-progression, integration:./go/smoke-install, integration:./go/startup-budget, integration:./go/stdout-purity, integration:./go/tutor-skill-routing, reachability:./go/cli-reachability, unit:./go/test",
+    "unmapped review component path:.agents/skills/README.md",
+    "unmapped review component path:.agents/skills/editorial-author/SKILL.md",
+    "unmapped review component path:.agents/skills/editorial-coordinator/SKILL.md",
+    "unmapped review component path:.gitignore",
+    "unmapped review component path:.pose/assessments/consolidated.md",
+    "unmapped review component path:.pose/assessments/integrations.md",
+    "unmapped review component path:.pose/assessments/scripts.md",
+    "unmapped review component path:.pose/assessments/technical-debt.md",
+    "unmapped review component path:.pose/docs.json",
+    "unmapped review component path:.pose/indexes/validation-matrix.json",
+    "unmapped review component path:.pose/knowledge/2026-09-16-decision-log-escalation-validate-native.md",
+    "unmapped review component path:.pose/reports/history/interventions.jsonl",
+    "unmapped review component path:.pose/results/editorial-review-validation.json",
+    "unmapped review component path:.pose/state/components/scripts.json",
+    "unmapped review component path:.pose/state/integrations.json",
+    "unmapped review component path:.pose/state/technical-debt.json",
+    "unmapped review component path:.pose/workflows/review.md",
+    "unmapped review component path:.pose/workflows/validate-native-evidence.md"
+  ],
+  "path": ".pose/review-bundles/rvb-19986755983b3ea2.json"
+}

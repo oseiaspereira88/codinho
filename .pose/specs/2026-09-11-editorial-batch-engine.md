@@ -169,5 +169,12 @@ evidência nativa foi produzida no commit `f061bc...`. O handoff
 preserva a próxima ação: repetir a matriz em ambiente com caches graváveis e
 rede disponível, sem declarar revisão humana, playtest ou publicação.
 
+A execução nativa posterior em `74fc7d2`, com `GOCACHE` e `GOMODCACHE` fora do
+repositório, passou o formato e o teste do executor (17 casos), mas registrou
+21 falhas de checks Go por DNS bloqueado ao baixar dependências e um erro de
+`govulncheck`. A evidência estruturada está em
+`.pose/results/editorial-native-validation-current.json`; a limitação é
+ambiental e permanece aberta para reexecução com cache pré-aquecido e rede.
+
 ## 7. Final Report
 Em implementação. Fechamento exige R1–R10 e evidências do piloto.

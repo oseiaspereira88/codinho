@@ -64,7 +64,7 @@ Levar a fluência fundamental até comportamentos backend reais sem saltar diret
 - created: packs/go-concurrency-context.yaml
 - created: packs/go-http.yaml
 - created: packs/go-database.yaml
-- created: testdata/packs/backend/
+- created: testdata/packs/backend/README.md
 - created: docs/catalog/go-backend.md
 - created: docs/editorial/go-backend-inventory.md
 - created: docs/editorial/go-backend-queue.json

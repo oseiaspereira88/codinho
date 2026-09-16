@@ -9,6 +9,14 @@
       "digest": "sha256:00d3588ba2a4c8ed03d847e38dcde646377b9e55350ae16b40b19a4bc1d33e5d"
     },
     {
+      "spec": "agent-authored-catalog-drafts",
+      "category": "added",
+      "breaking": true,
+      "body": "Pratique conteúdo gerado pelo tutor com consentimento explícito e aviso de\nrascunho. Submeta, revise e remova rascunhos pelo MCP; o estado local preserva\nas sessões e inclui a quarentena no export/purge. Evidências de rascunhos ou\nhistóricos sem proveniência verificável deixam de contar na maestria revisada,\nsem apagar eventos anteriores. A publicação continua exigindo revisão humana.",
+      "path": "agent-authored-catalog-drafts.md",
+      "digest": "sha256:da21800dc24b797d4b299d19f7bdf015c45b3165018fd3770047bdd081858261"
+    },
+    {
       "spec": "assistance-hints-detours",
       "category": "added",
       "breaking": false,

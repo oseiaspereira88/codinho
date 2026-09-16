@@ -614,7 +614,7 @@
       ],
       "path": ".pose/specs/2026-08-24-agent-authored-catalog-drafts.md",
       "priority": 75,
-      "status": "in-progress"
+      "status": "done"
     },
     "architecture-decision-baseline": {
       "depends_on": null,
@@ -677,6 +677,12 @@
       "path": ".pose/specs/2026-08-22-curriculum-graph-path-recommendation.md",
       "priority": 120,
       "status": "done"
+    },
+    "editorial-batch-engine": {
+      "depends_on": null,
+      "path": ".pose/specs/2026-09-11-editorial-batch-engine.md",
+      "priority": 100,
+      "status": "in-progress"
     },
     "evaluation-evidence-lineage": {
       "depends_on": [

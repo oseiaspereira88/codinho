@@ -1,0 +1,1629 @@
+{
+  "schema_version": 1,
+  "bundle_id": "rvb-75e96b8abe40fb57",
+  "bundle_digest": "sha256:75e96b8abe40fb57b0aa1ec28f16cdacc349854c777a722e62a71af1002ebeb3",
+  "state": "sealed",
+  "sealed_at": "2026-09-16T03:30:39Z",
+  "payload": {
+    "scope": {
+      "ref": "spec:go-foundations-packs",
+      "kind": "spec",
+      "slug": "go-foundations-packs",
+      "depends_on": [
+        "catalog-authoring-quality",
+        "curriculum-graph-path-recommendation"
+      ],
+      "components": [
+        "curriculum-content"
+      ],
+      "sections": [
+        {
+          "kind": "semantic-section",
+          "path": "decisions",
+          "digest": "sha256:6cfedb264f599e3c4c7547f2ecf94df535ff2fda3563b8047570f4245b01454f",
+          "reason": "governed semantic review input"
+        },
+        {
+          "kind": "semantic-section",
+          "path": "intent",
+          "digest": "sha256:fbe7861ff73c3d194e16c71ea36a9b8b6c9303b52bda1f25961cc69440aa44d1",
+          "reason": "governed semantic review input"
+        },
+        {
+          "kind": "semantic-section",
+          "path": "requirements",
+          "digest": "sha256:e2444229b09cc7a8ee225adea51a04f6a12e2184fb2413fb711b4c19769c96dd",
+          "reason": "governed semantic review input"
+        },
+        {
+          "kind": "semantic-section",
+          "path": "technical plan",
+          "digest": "sha256:25854284ddb35918a393fd8d60fda787565cfe1a3889dc5e1ad9e18a53f4f7eb",
+          "reason": "governed semantic review input"
+        }
+      ]
+    },
+    "subject": {
+      "change_sets": [
+        "cs-2a70c0865a06",
+        "cs-2cb12e44f95d",
+        "cs-59b91565610e",
+        "cs-64a431e24de1",
+        "cs-f96233eb5851"
+      ],
+      "base": "6cf4704f591cc7e1d3e4258af81c6c80bfc834d7",
+      "head": "77798eef9aa2d99f0e511159aaa68007f693f9c2",
+      "patch_digest": "sha256:2e208bcafa1b4b596a304313526f692493aed2f9a67ad55af4e4bb06c32a5186",
+      "tree_digest": "sha256:e2ad57d75dbcbbaa4deff85718eb5751c1ba0b7521a3a3113dc5b1b053c2d0fb",
+      "entries": [
+        {
+          "action": "created",
+          "path": ".pose/knowledge/2026-09-10-handoff-go-foundations-io-batch.md",
+          "class": "governance",
+          "digest": "sha256:32c4ae2f5d8de28b3689215e27db6ed172c288f178adc28ba471bef6dcfa73ac",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": ".pose/knowledge/2026-09-16-handoff-go-foundations-automated-review-reservations.md",
+          "class": "governance",
+          "digest": "sha256:f6f054d859923eee9b9f2323da412d0c92e64ded8c2cbca6319730e0bb7c9e8a",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "cmd/codinho/foundation_tracks_integration_test.go",
+          "class": "implementation",
+          "digest": "sha256:e4f9ee69849e5910f05bd0e2f645fb1f30db6284edf97c793a9cd317174a047f",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "docs/catalog/go-foundations.md",
+          "class": "implementation",
+          "digest": "sha256:90b1d09baa880a67c382aca15aa5532e28dc115eb5343e3115ea03d417963125",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/foundation_variants_test.go",
+          "class": "implementation",
+          "digest": "sha256:cb37752107f67352bee05aaa59b38da45e17413ae8a89ed1b6259fb0a650b47f",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "packs/go-core.yaml",
+          "class": "implementation",
+          "digest": "sha256:711e59dc864c17715384119f85d650bf15f78913b3d9ddcb4da4afbbbea2acb7",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "packs/go-data-text.yaml",
+          "class": "implementation",
+          "digest": "sha256:dec4ed61774e925fa66c9794b946f7272fa5fd1ea6a09dd137eddba2b2c371d4",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "packs/go-errors.yaml",
+          "class": "implementation",
+          "digest": "sha256:64788366106cebd7d0ba828cd10474f4c546a8205d7db22378b01fbf87c76c1d",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "packs/go-io.yaml",
+          "class": "implementation",
+          "digest": "sha256:6aeed7c9ca11e0fbac4d1b4393d1149626c4e26a791d3e97acf4098f9c3ccd91",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "packs/go-testing.yaml",
+          "class": "implementation",
+          "digest": "sha256:1069b32670c6d0b313de5629505af552dd9e2865eb493e45eba3b0c1f4f36925",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "created",
+          "path": "packs/go-type-design.yaml",
+          "class": "implementation",
+          "digest": "sha256:5a83543123b0342332004065a3d23ab80de9b07d83506460289ee2e40cd9ecda",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/docs.json",
+          "class": "governance",
+          "digest": "sha256:efbbaf2563560c3bb82c288905c3217e2384cb75173ecc0464a0cb6e9488f795",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/validation-matrix.json",
+          "class": "governance",
+          "digest": "sha256:5a986b2c158283b65a5ab2be78e1c78d3eff569facacff04de6b7399e6fd61fb",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/knowledge/2026-08-24-note-agent-batch-review-pattern.md",
+          "class": "governance",
+          "digest": "sha256:9487603c82dd2c11dda5a3e958481b7c82d8e7f30d22633db59e345f35c75b2c",
+          "reason": "attributed governance path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "docs/agent-review-workflow.md",
+          "class": "implementation",
+          "digest": "sha256:bedb5689c9f50e9a048aa0ab5760d5aa0dd2f081a2a4d0d08f91cb813a67d16c",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "docs/content-review-checklist.md",
+          "class": "implementation",
+          "digest": "sha256:b323ad1b587f7e097e1414f06877ca4d040d700773094a7b26ad3159db9a3ebe",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "docs/editorial/go-foundations-queue.json",
+          "class": "implementation",
+          "digest": "sha256:6788f121a7e11e1b6576346a1b5386f71c17beaee0b015e98a046a6541b83e73",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-core.yaml",
+          "class": "implementation",
+          "digest": "sha256:711e59dc864c17715384119f85d650bf15f78913b3d9ddcb4da4afbbbea2acb7",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-data-text.yaml",
+          "class": "implementation",
+          "digest": "sha256:dec4ed61774e925fa66c9794b946f7272fa5fd1ea6a09dd137eddba2b2c371d4",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-debugging.yaml",
+          "class": "implementation",
+          "digest": "sha256:f63cba9cbfe993b54d40871380e231b46155fe06b023f77d63cbabdb22897723",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-errors.yaml",
+          "class": "implementation",
+          "digest": "sha256:64788366106cebd7d0ba828cd10474f4c546a8205d7db22378b01fbf87c76c1d",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-first-steps.yaml",
+          "class": "implementation",
+          "digest": "sha256:93def054cee7c51d9202298f20cbfdd5e17bc81464d906338a42e58c7ef4547d",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-type-design.yaml",
+          "class": "implementation",
+          "digest": "sha256:5a83543123b0342332004065a3d23ab80de9b07d83506460289ee2e40cd9ecda",
+          "reason": "attributed implementation path in the immutable change set"
+        },
+        {
+          "action": "modified",
+          "path": "packs/manifest.yaml",
+          "class": "implementation",
+          "digest": "sha256:ca975a8cad7e32a57dd761a8af7f282b72c9e4fc786bb08a745f6fb6f0fadb8c",
+          "reason": "attributed implementation path in the immutable change set"
+        }
+      ]
+    },
+    "plan": {
+      "plan_digest": "sha256:c8d4a3aa07097628dcc051db0b59b520b8b174c70f145e1a7cc993b1dbbd51a9",
+      "independence": "same-actor-separate-execution",
+      "components": [
+        {
+          "id": "codinho",
+          "path": "cmd/codinho",
+          "kind": "module",
+          "domain": "cli",
+          "owner": "@oseiaspereira",
+          "criticality": "high",
+          "validation_profile": "baseline",
+          "sources": [
+            "artifact:go-foundations-packs:cmd/codinho/foundation_tracks_integration_test.go",
+            "observed:go-foundations-packs:cmd/codinho/foundation_tracks_integration_test.go"
+          ]
+        },
+        {
+          "id": "docs",
+          "path": "docs",
+          "kind": "module",
+          "domain": "documentation",
+          "owner": "@oseiaspereira",
+          "criticality": "high",
+          "validation_profile": "baseline",
+          "sources": [
+            "artifact:go-foundations-packs:docs/agent-review-workflow.md",
+            "artifact:go-foundations-packs:docs/catalog/go-foundations.md",
+            "artifact:go-foundations-packs:docs/content-review-checklist.md",
+            "artifact:go-foundations-packs:docs/editorial/go-foundations-queue.json",
+            "observed:go-foundations-packs:docs/agent-review-workflow.md",
+            "observed:go-foundations-packs:docs/catalog/go-foundations.md",
+            "observed:go-foundations-packs:docs/content-review-checklist.md",
+            "observed:go-foundations-packs:docs/editorial/go-foundations-queue.json"
+          ]
+        },
+        {
+          "id": "internal",
+          "path": "internal",
+          "kind": "component",
+          "sources": [
+            "artifact:go-foundations-packs:internal/curriculum/foundation_variants_test.go",
+            "observed:go-foundations-packs:internal/curriculum/foundation_variants_test.go"
+          ]
+        },
+        {
+          "id": "packs",
+          "path": "packs",
+          "kind": "module",
+          "domain": "curriculum",
+          "owner": "@oseiaspereira",
+          "criticality": "high",
+          "validation_profile": "baseline",
+          "sources": [
+            "artifact:go-foundations-packs:packs/go-core.yaml",
+            "artifact:go-foundations-packs:packs/go-data-text.yaml",
+            "artifact:go-foundations-packs:packs/go-debugging.yaml",
+            "artifact:go-foundations-packs:packs/go-errors.yaml",
+            "artifact:go-foundations-packs:packs/go-first-steps.yaml",
+            "artifact:go-foundations-packs:packs/go-io.yaml",
+            "artifact:go-foundations-packs:packs/go-testing.yaml",
+            "artifact:go-foundations-packs:packs/go-type-design.yaml",
+            "artifact:go-foundations-packs:packs/manifest.yaml",
+            "observed:go-foundations-packs:packs/go-core.yaml",
+            "observed:go-foundations-packs:packs/go-data-text.yaml",
+            "observed:go-foundations-packs:packs/go-debugging.yaml",
+            "observed:go-foundations-packs:packs/go-errors.yaml",
+            "observed:go-foundations-packs:packs/go-first-steps.yaml",
+            "observed:go-foundations-packs:packs/go-io.yaml",
+            "observed:go-foundations-packs:packs/go-testing.yaml",
+            "observed:go-foundations-packs:packs/go-type-design.yaml",
+            "observed:go-foundations-packs:packs/manifest.yaml"
+          ]
+        }
+      ],
+      "criteria": [
+        {
+          "id": "compatibility",
+          "description": "Public CLI, file and MCP contracts are compatible or explicitly migrated.",
+          "required": true,
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "correctness",
+          "description": "Functional and negative behavior is correct.",
+          "required": true,
+          "evidence_classes": [
+            "build",
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "cross-component-integration",
+          "description": "Observed component boundaries and contracts are integrated and covered by current evidence.",
+          "required": true,
+          "evidence_classes": [
+            "integration"
+          ],
+          "profiles": [
+            "synthetic:cross-component"
+          ]
+        },
+        {
+          "id": "documentation",
+          "description": "Operational docs, templates and scaffold match runtime behavior.",
+          "required": true,
+          "rules": [
+            "documentation-style"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "operability",
+          "description": "Errors, explanations and remediation are actionable.",
+          "required": true,
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "requirements",
+          "description": "Every requirement has current, relevant evidence.",
+          "required": true,
+          "evidence_classes": [
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "scope",
+          "description": "The implementation matches the approved spec scope.",
+          "required": true,
+          "rules": [
+            "documentation-style"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        },
+        {
+          "id": "security",
+          "description": "Inputs, paths, evidence and authority boundaries are safe.",
+          "required": true,
+          "rules": [
+            "security"
+          ],
+          "profiles": [
+            "spec-closeout@1"
+          ]
+        }
+      ],
+      "tools": [
+        {
+          "id": "artifact-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "artifact-check",
+            "--spec",
+            "go-foundations-packs",
+            "--strict"
+          ],
+          "rationale": "reconcile declared artifacts with Git-observed provenance",
+          "criteria": [
+            "requirements",
+            "scope"
+          ],
+          "preconditions": [
+            "artifacts-attributed"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            "cmd/codinho"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": "cmd/codinho",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            "docs"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": "docs",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            "internal"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": "internal",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-discover",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "discover",
+            "--component",
+            "packs"
+          ],
+          "rationale": "inspect component structure, language, size and visible debt",
+          "component": "packs",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-integrate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "assess",
+            "integrate"
+          ],
+          "rationale": "inspect providers, consumers and inter-component contract gaps",
+          "evidence_classes": [
+            "integration"
+          ],
+          "criteria": [
+            "cross-component-integration"
+          ],
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "assess-tech-debt",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "assess",
+            "tech-debt"
+          ],
+          "rationale": "inspect unresolved TODO, FIXME, panic and stub findings",
+          "criteria": [
+            "correctness"
+          ],
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "closeout-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "closeout-check",
+            "spec:go-foundations-packs"
+          ],
+          "rationale": "verify remaining hierarchical closeout blockers",
+          "preconditions": [
+            "review-complete"
+          ]
+        },
+        {
+          "id": "knowledge-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "knowledge-check",
+            "--strict"
+          ],
+          "rationale": "verify knowledge schema, sensitivity and lifecycle",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "review-check",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "review-check",
+            "spec:go-foundations-packs"
+          ],
+          "rationale": "verify exact review-plan coverage and freshness",
+          "preconditions": [
+            "review-complete"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            "cmd/codinho"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": "cmd/codinho",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            "docs"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": "docs",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            "internal"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": "internal",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "suggest-review",
+          "requiredness": "recommended",
+          "args": [
+            "pose",
+            "suggest",
+            "review",
+            "--path",
+            "packs"
+          ],
+          "rationale": "resolve the component-specific workflow, skill, rules and validation trail",
+          "component": "packs",
+          "preconditions": [
+            "scope-authorized"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "build",
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "criteria": [
+            "correctness",
+            "requirements"
+          ],
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            "cmd/codinho"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "build",
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "component": "cmd/codinho",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            "docs"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "build",
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "component": "docs",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            "internal"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "build",
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "component": "internal",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        },
+        {
+          "id": "validate",
+          "requiredness": "required",
+          "args": [
+            "pose",
+            "validate",
+            "--strict",
+            "--module",
+            "packs"
+          ],
+          "rationale": "run the registered deterministic checks for the affected module",
+          "evidence_classes": [
+            "build",
+            "e2e",
+            "integration",
+            "unit"
+          ],
+          "component": "packs",
+          "preconditions": [
+            "delivery-target-declared"
+          ]
+        }
+      ],
+      "selected_profiles": [
+        {
+          "ref": "spec-closeout@1",
+          "category": "base",
+          "order": 0,
+          "source": ".pose/review-profiles/spec-closeout.json",
+          "rationale": "selected by terminal scope policy"
+        }
+      ]
+    },
+    "evidence": [
+      {
+        "id": "./go/agent-authored-catalog-drafts",
+        "module": ".",
+        "check": "agent-authored-catalog-drafts",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/build",
+        "module": ".",
+        "check": "build",
+        "evidence_class": "build",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/catalog",
+        "module": ".",
+        "check": "catalog",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/catalog-publication-integrity",
+        "module": ".",
+        "check": "catalog-publication-integrity",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/ci-assurance",
+        "module": ".",
+        "check": "ci-assurance",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/cli-e2e",
+        "module": ".",
+        "check": "cli-e2e",
+        "evidence_class": "e2e",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/cli-reachability",
+        "module": ".",
+        "check": "cli-reachability",
+        "evidence_class": "reachability",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/concept-content-capability",
+        "module": ".",
+        "check": "concept-content-capability",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/editorial-batch-engine",
+        "module": ".",
+        "check": "editorial-batch-engine",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/evaluation-evidence",
+        "module": ".",
+        "check": "evaluation-evidence",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/format",
+        "module": ".",
+        "check": "format",
+        "evidence_class": "build",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/foundation-track-routing",
+        "module": ".",
+        "check": "foundation-track-routing",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/learning-track-composition",
+        "module": ".",
+        "check": "learning-track-composition",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/mcp-contract",
+        "module": ".",
+        "check": "mcp-contract",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/published-catalog-proof",
+        "module": ".",
+        "check": "published-catalog-proof",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/session-recovery",
+        "module": ".",
+        "check": "session-recovery",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/session-tree-progression",
+        "module": ".",
+        "check": "session-tree-progression",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/smoke-install",
+        "module": ".",
+        "check": "smoke-install",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/startup-budget",
+        "module": ".",
+        "check": "startup-budget",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/stdout-purity",
+        "module": ".",
+        "check": "stdout-purity",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/test",
+        "module": ".",
+        "check": "test",
+        "evidence_class": "unit",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/tutor-skill-routing",
+        "module": ".",
+        "check": "tutor-skill-routing",
+        "evidence_class": "integration",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      },
+      {
+        "id": "./go/vet",
+        "module": ".",
+        "check": "vet",
+        "evidence_class": "build",
+        "outcome": "pass",
+        "git_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+        "report": ".pose/results/delivery-validation.json"
+      }
+    ],
+    "governing_contracts": [
+      "component-aware",
+      "evidence-vocabulary",
+      "review-bundles"
+    ],
+    "gates": {
+      "accepted_risk_severities": [
+        "low"
+      ],
+      "allow_criterion_reuse": true
+    },
+    "consumed_inputs": [
+      {
+        "kind": "governed-config",
+        "path": ".pose/indexes/validation-matrix.json",
+        "digest": "sha256:5a986b2c158283b65a5ab2be78e1c78d3eff569facacff04de6b7399e6fd61fb",
+        "reason": "consumed review policy or validation contract"
+      },
+      {
+        "kind": "governed-config",
+        "path": ".pose/policy/review.json",
+        "digest": "sha256:0a0536853ba9fbf8d7da5fb77371e4d1c19ea9fab06606aa7b8d03947379fd40",
+        "reason": "consumed review policy or validation contract"
+      },
+      {
+        "kind": "review-plan",
+        "path": "spec-closeout@1",
+        "digest": "sha256:c8d4a3aa07097628dcc051db0b59b520b8b174c70f145e1a7cc993b1dbbd51a9",
+        "reason": "effective component-aware plan contract"
+      },
+      {
+        "kind": "review-profile",
+        "path": ".pose/review-profiles/spec-closeout.json",
+        "digest": "sha256:b5858075a81dbb654c37c77b9c9b45793507592eb669411287b3c2510632a138",
+        "reason": "selected by effective review plan"
+      },
+      {
+        "kind": "rule",
+        "path": ".pose/rules/documentation-style.md",
+        "digest": "sha256:5c5c666fc6c796cf9ae3876d25d3fd4fa523d121892459dc0d681d73da1d60ae",
+        "reason": "selected by effective review criterion"
+      },
+      {
+        "kind": "rule",
+        "path": ".pose/rules/security.md",
+        "digest": "sha256:1cbf29c12d09cad0799e2d8715e94f84a49ee8fa09867bb5f12a544f8df43774",
+        "reason": "selected by effective review criterion"
+      },
+      {
+        "kind": "schema",
+        "path": "review-bundle@1",
+        "digest": "sha256:e7c9643ec88eccb2a6dea3ee3291c351983d78e1d2fa44b61399514c5021bcb0",
+        "reason": "canonical bundle and attestation schema identity"
+      },
+      {
+        "kind": "tool-catalog",
+        "path": "native-review-tools@1",
+        "digest": "sha256:c8d4a3aa07097628dcc051db0b59b520b8b174c70f145e1a7cc993b1dbbd51a9",
+        "reason": "closed resolved native tool contract"
+      }
+    ]
+  },
+  "excluded_inputs": [
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/README.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/cmd-ci-assurance.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/cmd-codinho.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/consolidated.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/docs.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/github-workflows.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/integrations.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/internal-ciassurance.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/internal-mcpserver.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/internal.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/packs.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/pose-contracts.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/root.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/scripts.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/assessments/technical-debt.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/contributions/20260915-182942-knowledge-usage-misses-spec-citations.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-09-go-io-authoring-batch.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-catalog-hint-review.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-catalog-luna-review.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-catalog-relations-review.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-core-concept-content.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-core-counter-interface-node.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-core-counter-state-node.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-core-defer-empty-node.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-core-find-first-node.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-core-functional-options-node.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-core-labeled-break-node.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-core-percentage-invariant-node.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-core-run-commands-node.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-core-safe-call-node.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-core-variadic-call-forms.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-data-text-concept-content.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-data-text-csv-quote-node.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-data-text-map-nil-node.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-data-text-truncate-node.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-debugging-competencies.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-debugging-concept-content.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-debugging-step-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-error-concept-content.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-error-concepts-complement.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-errors-as-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-errors-catalog-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-errors-classification-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-errors-empty-value-node.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-errors-join-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-errors-translation-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-first-steps-concept-content.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-first-steps-runtime-content.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-first-steps-shadowing-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-first-steps-step-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-first-steps-structure-content.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-first-steps-tooling-content.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-first-steps-tooling-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-foundation-track-routing.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-foundation-variants-authoring-batch.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-go-errors-authoring-batch.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-go-testing-authoring-batch.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-io-competencies.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-io-concept-content.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-io-fragmented-read-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-io-quoted-attendees-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-io-weather-boundary-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-io-write-report-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-core-creation.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-data-text-creation.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-errors-creation.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-type-design-creation.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-standard-validate-native.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-testing-clock-call-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-testing-clock-count-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-testing-concept-content.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-testing-expiry-output-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-testing-reservation-clock-node.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-testing-snapshot-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-testing-ticket-boundary-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-testing-ticket-mixed-node.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-testing-time-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-testing-timezone-node.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-type-design-assertion-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-type-design-clone-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-type-design-combined-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-type-design-concept-content.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-type-design-generic-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-type-design-interface-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-type-design-receiver-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-10-type-design-step-nodes.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/2026-09-15-standard-validate-native.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/history/standard-reconcile-historical-go-core-creation.jsonl",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/history/standard-reconcile-historical-go-data-text-creation.jsonl",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/history/standard-reconcile-historical-go-errors-creation.jsonl",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/history/standard-reconcile-historical-go-type-design-creation.jsonl",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/reports/history/standard-validate-native.jsonl",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/results/delivery-validation.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/results/go-foundations-review-validation.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/cmd-ci-assurance.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/cmd-codinho.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/docs.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/github-workflows.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/internal-ciassurance.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/internal-mcpserver.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/internal.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/packs.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/pose-contracts.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/root.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/components/scripts.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/integrations.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/project-state.md",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-evidence",
+      "path": ".pose/state/technical-debt.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-index",
+      "path": ".pose/indexes/delivery-integrity.json",
+      "reason": "attributed path is outside the semantic review subject"
+    },
+    {
+      "kind": "derived-section",
+      "path": "final report",
+      "digest": "sha256:dae4c162995cf41cbffd99b5703066af696e2b6fd17ea23b134d7d2faf7c07ce",
+      "reason": "operational closeout content is verified by its own gate"
+    },
+    {
+      "kind": "derived-section",
+      "path": "tasks",
+      "digest": "sha256:28a1478ef3ef1324ad7dd2cdf51413dcaaa4645c75f9c622db5717fde9578e67",
+      "reason": "operational closeout content is verified by its own gate"
+    },
+    {
+      "kind": "derived-section",
+      "path": "validation",
+      "digest": "sha256:4e5808bfcdd01733a75c21a50057efa0117e7bf5e6d7405139ca28acc30f9e21",
+      "reason": "operational closeout content is verified by its own gate"
+    },
+    {
+      "kind": "lifecycle",
+      "path": "/home/go/GolandProjects/codinho/.pose/specs/2026-08-22-go-foundations-packs.md",
+      "reason": "status and completed_at do not define the reviewed semantic subject"
+    },
+    {
+      "kind": "semantic-scope",
+      "path": ".pose/specs/2026-08-22-go-foundations-packs.md",
+      "reason": "attributed path is outside the semantic review subject"
+    }
+  ],
+  "warnings": [
+    "sealed evidence ran against a commit other than the subject head 77798eef9aa2; it is current by provenance, not by having observed this change: build:./go/build, build:./go/format, build:./go/vet, e2e:./go/cli-e2e, integration:./go/agent-authored-catalog-drafts, integration:./go/catalog, integration:./go/catalog-publication-integrity, integration:./go/ci-assurance, integration:./go/concept-content-capability, integration:./go/editorial-batch-engine, integration:./go/evaluation-evidence, integration:./go/foundation-track-routing, integration:./go/learning-track-composition, integration:./go/mcp-contract, integration:./go/published-catalog-proof, integration:./go/session-recovery, integration:./go/session-tree-progression, integration:./go/smoke-install, integration:./go/startup-budget, integration:./go/stdout-purity, integration:./go/tutor-skill-routing, reachability:./go/cli-reachability, unit:./go/test",
+    "unmapped review component explicit:curriculum-content",
+    "unmapped review component path:.pose/assessments/README.md",
+    "unmapped review component path:.pose/assessments/cmd-codinho.md",
+    "unmapped review component path:.pose/assessments/consolidated.md",
+    "unmapped review component path:.pose/assessments/docs.md",
+    "unmapped review component path:.pose/assessments/integrations.md",
+    "unmapped review component path:.pose/assessments/internal.md",
+    "unmapped review component path:.pose/assessments/packs.md",
+    "unmapped review component path:.pose/assessments/technical-debt.md",
+    "unmapped review component path:.pose/docs.json",
+    "unmapped review component path:.pose/indexes/validation-matrix.json",
+    "unmapped review component path:.pose/knowledge/2026-09-16-handoff-go-foundations-automated-review-reservations.md",
+    "unmapped review component path:.pose/results/go-foundations-review-validation.json",
+    "unmapped review component path:.pose/state/components/cmd-codinho.json",
+    "unmapped review component path:.pose/state/components/docs.json",
+    "unmapped review component path:.pose/state/components/internal.json",
+    "unmapped review component path:.pose/state/components/packs.json",
+    "unmapped review component path:.pose/state/integrations.json",
+    "unmapped review component path:.pose/state/technical-debt.json"
+  ],
+  "path": ".pose/review-bundles/rvb-75e96b8abe40fb57.json"
+}

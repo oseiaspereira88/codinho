@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "spec": "go-production-architecture-packs",
+  "tasks": [
+    {
+      "id": "author-go-production-pack",
+      "title": "Autorar pack de produção com nove desafios",
+      "paths": [
+        "packs/go-production.yaml"
+      ],
+      "acceptance": [
+        "Siga docs/content-authoring.md e o inventário editorial da spec; edite apenas o path atribuído.",
+        "Declare exatamente 19 conceitos, 11 competências e os nove IDs go-production do inventário: dois atomic, dois combined, duas functional_slice e três systems_mission.",
+        "Declare temas go-production de performance, observabilidade, resiliência e segurança, relações applies_in e a trilha go-architecture-production com os nove desafios em ordem; trate mensageria/gRPC conceitualmente sem broker ou SDK externo.",
+        "Crie nodes macro/meso/micro distintos, hints progressivos, reflexão e critérios verificáveis; busque pelo menos 84 nodes úteis sem passos redundantes.",
+        "Inclua baseline_fixture ou fixture e reference_fixture completos e checks allowlisted em cada desafio; use go_benchmark para os dois desafios de medição, go_test_race nos desafios de worker/backpressure e nunca aceite baseline inconclusivo.",
+        "Use somente biblioteca padrão, fixtures locais/fakes e checks sem rede; cubra timeout, indisponibilidade, limites, identidade e não exposição de segredos conforme o cenário.",
+        "Em cada missão, explicite requisito incompleto, falhas, custo, operabilidade, alternativa e trade-off; mantenha publication.status draft, sem reviewed_by ou playtested."
+      ]
+    },
+    {
+      "id": "author-go-architecture-debugging-pack",
+      "title": "Autorar pack de depuração e evolução de arquitetura",
+      "paths": [
+        "packs/go-architecture-debugging.yaml"
+      ],
+      "acceptance": [
+        "Siga docs/content-authoring.md e o inventário editorial da spec; edite apenas o path atribuído.",
+        "Declare exatamente oito conceitos, sete competências e quatro IDs do inventário: dois debug, um refactoring e um code_review.",
+        "Declare os temas de investigação/evolução e a trilha go-debugging-performance com seus seis IDs em ordem.",
+        "Crie nodes macro/meso/micro e hints progressivos; busque pelo menos 28 nodes úteis, sem usar RSS/GC timing/sleep como oráculo nem sugerir reescrita total como correção de bug.",
+        "Inclua baseline e referência executáveis por desafio, usando go_test_race para a corrida; evidencie o caso que falha no baseline e passa na referência.",
+        "Mantenha todas as fixtures herméticas e draft; não complete gates humanos."
+      ]
+    },
+    {
+      "id": "integrate-production-catalog",
+      "title": "Integrar manifest e documentação dos packs de produção",
+      "paths": [
+        "packs/manifest.yaml",
+        "docs/catalog/go-production-architecture.md",
+        "testdata/packs/production/README.md",
+        ".pose/docs.json"
+      ],
+      "depends_on": [
+        "author-go-production-pack",
+        "author-go-architecture-debugging-pack"
+      ],
+      "acceptance": [
+        "Inclua os dois packs no manifest sem reordenar conteúdo sem relação.",
+        "Documente contagens observadas, 13 IDs, tipos, relações, duas trilhas, checks, baseline local e limites honestos de segurança/benchmark.",
+        "Registre em testdata/packs/production/README.md que as fixtures executáveis ficam embutidas nos packs para evitar duplicação divergente; não afirme que existem fixtures materializadas nessa pasta.",
+        "Registre todos os itens como draft e deixe revisão, playtest e publicação explicitamente pendentes."
+      ]
+    }
+  ]
+}

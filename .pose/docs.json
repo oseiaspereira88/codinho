@@ -173,6 +173,14 @@
       "owns": ["docs/editorial/go-foundations-queue.json"],
       "applies_to": "docs/editorial",
       "owner": "@pose-maintainers"
+    },
+    {
+      "path": "docs/editorial/go-production-architecture-inventory.md",
+      "doc_type": "reference",
+      "topics": ["editorial", "catalog", "go-production"],
+      "owns": ["docs/editorial/go-production-architecture-queue.json"],
+      "applies_to": "docs/editorial",
+      "owner": "@pose-maintainers"
     }
   ]
 }

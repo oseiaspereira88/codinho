@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "component_slug": "internal-curriculum",
+  "path": "internal/curriculum",
+  "discovered_at": "2026-09-16T07:24:46Z",
+  "baseline_commit": "1fde57a72ff1",
+  "metrics": {
+    "loc_production": 2430,
+    "loc_tests": 1647,
+    "total_files": 28,
+    "languages": [
+      "go"
+    ]
+  },
+  "technical_debt": {
+    "todos": 0,
+    "fixmes": 0,
+    "panics": 0,
+    "stubs": 0
+  },
+  "status": "verified",
+  "completeness_score": 1
+}

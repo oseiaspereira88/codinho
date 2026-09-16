@@ -1,7 +1,7 @@
 ---
 schema_version: 1
-generated_at: 2026-09-09T13:28:01Z
-baseline_commit: ae0f7ae56e5a597ffaedfb03bbbe00098279e87a
+generated_at: 2026-09-16T03:41:06Z
+baseline_commit: 4067f89f02aedba8c9b02cf75f6ed46872396fcd
 staleness_policy: max_age_days=7,max_commits=20
 refresh_pending: 
 ---
@@ -30,24 +30,25 @@ provas de baseline/referência e distribuição canônica em packs/distribution.
 Use os cut criteria do roadmap codinho-v1; esta remediação não encerra a V1.
 
 ## Specs & Roadmaps
-<!-- state:derived hash:50db194798ca -->
+<!-- state:derived hash:f51da1136d98 -->
 
-- specs: total=35 draft=5 in-progress=1 blocked=0 done=29 superseded=0 abandoned=0
+- specs: total=36 draft=4 in-progress=2 blocked=0 done=30 superseded=0 abandoned=0
 - roadmaps: total=1 active=1 done=0
 - últimos closeouts:
+  - spec:agent-authored-catalog-drafts (2026-09-09)
   - spec:learning-track-composition (2026-09-09)
   - spec:concept-content-authoring (2026-09-09)
   - spec:v1-delivery-ci-assurance (2026-09-08)
   - spec:session-tree-progression (2026-09-08)
-  - spec:catalog-publication-integrity (2026-09-08)
-  - ... e mais 24 (ver `pose_list_specs status:done`)
+  - ... e mais 25 (ver `pose_list_specs status:done`)
 
 ## Follow-ups
-<!-- state:derived hash:a7066737ad47 -->
+<!-- state:derived hash:1ab12e4b3c46 -->
 
 - abertos: 10
 - por criticidade: high=5 medium=5 low=0 sem-classificação=0
-- vencidos (review < hoje): 0
+- vencidos (review < hoje): 1
+  - spec:session-recovery-version-pinning (owner:@oseiaspereira review:2026-09-14)
 
 ## Capabilities
 <!-- state:derived hash:80e8415e0da5 -->
@@ -55,40 +56,35 @@ Use os cut criteria do roadmap codinho-v1; esta remediação não encerra a V1.
 - assessment: ausente (rode `pose assess init`)
 
 ## Decisões & Conhecimento
-<!-- state:derived hash:9b887c6ba15e -->
+<!-- state:derived hash:b230590fe157 -->
 
-- ADRs: total=10
+- ADRs: total=13
+  - adr:2026-09-11-editorial-worktrees-and-explicit-sessions.md
+  - adr:2026-09-08-versioned-canonical-concept-content.md
   - adr:2026-09-08-publication-projections-and-executable-editorial-proof.md
+  - adr:2026-09-08-native-ci-evidence-and-prospective-delivery-governance.md
   - adr:2026-09-07-scoped-evaluation-evidence-and-qualitative-registration.md
-  - adr:2026-09-07-depth-aware-session-cursor-and-explicit-branch-selection.md
-  - adr:2026-09-06-durable-session-replay-with-pinned-content.md
-  - adr:2026-08-23-multi-subject-selection-and-path-composition.md
-- knowledge: total=12 ativo=12 expirado=0
+- knowledge: total=18 ativo=18 expirado=0
 
 ## Validação & Evidência
-<!-- state:derived hash:eeb7c47d4ac1 -->
+<!-- state:derived hash:a5ae1c75b718 -->
 
-- último registro: task=v1-delivery-ci-review outcome=pass (2026-09-08T22:05:19Z)
-- últimos 30 dias: total=18 outcome_ok=16 outcome_outro=2
-- reports revisados (.md): total=17
-  - report:2026-09-09-review-learning-track-composition.md
-  - report:2026-09-09-review-concept-content-authoring.md
-  - report:2026-09-08-standard-v1-delivery-ci-review.md
-  - report:2026-09-08-review-catalog-publication-integrity.md
-  - report:2026-09-08-review-session-tree-progression.md
+- último registro: task=validate-native outcome=partial (2026-09-16T02:32:11Z)
+- últimos 30 dias: total=38 outcome_ok=24 outcome_outro=14
+- reports revisados (.md): total=92
+  - report:2026-09-16-standard-validate-native.md
+  - report:2026-09-15-standard-validate-native.md
+  - report:2026-09-10-data-text-csv-quote-node.md
+  - report:2026-09-10-data-text-map-nil-node.md
+  - report:2026-09-10-data-text-truncate-node.md
 
 ## Arquitetura
-<!-- state:derived hash:660915596f46 status:active -->
+<!-- state:derived hash:26bc9a5cafff status:unavailable -->
 
-- componentes: total=10 verificados=10 completude=100.0%
-- linhas_de_codigo: producao=15417 testes=17954 total=33371
-- linguagens: go, shell
-- saude_de_codigo: TODOs=0 FIXMEs=0 panics=0 stubs=0
-- integracoes: contratos=0 ativos=0 gaps=0
-- divida_tecnica: total=0 coberta=0 descoberta=0
-- ultimos_assessments: ver artefatos em .pose/assessments/ e .pose/state/
+GraphForge export local ainda não é publicado por nenhum produtor neste repositório; seção indisponível nesta versão (spec pose-project-state-artifact, Não-objetivos e Compatibilidade).
 
 ## Docs
-<!-- state:derived hash:d5892e1cac69 -->
+<!-- state:derived hash:c646f4fadde7 -->
 
-- manifest: ausente (rode `pose docs-init`)
+- manifest: presente, profile=cli, roots=docs
+- docs: declaradas=16 não-declaradas=0 vencidas=0 erros=0 avisos=0

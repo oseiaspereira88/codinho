@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "component_slug": "docs-catalog",
+  "path": "docs/catalog",
+  "discovered_at": "2026-09-16T03:40:36Z",
+  "baseline_commit": "4067f89f02ae",
+  "metrics": {
+    "loc_production": 0,
+    "loc_tests": 0,
+    "total_files": 0,
+    "languages": null
+  },
+  "technical_debt": {
+    "todos": 0,
+    "fixmes": 0,
+    "panics": 0,
+    "stubs": 0
+  },
+  "status": "verified",
+  "completeness_score": 1
+}

@@ -1,14 +1,14 @@
 # Project Assessment: codinho
 
 > **Gerado por**: POSE Discovery Engine (`pose assess discover`)
-> **Data de Avaliação**: 2026-09-16T02:41:58Z
-> **Baseline Commit**: d22506a6f50c
+> **Data de Avaliação**: 2026-09-16T03:40:37Z
+> **Baseline Commit**: 4067f89f02ae
 
 ---
 
 ## 1. Resumo Executivo do Projeto
 
-- **Total de Componentes Auditados**: 11
+- **Total de Componentes Auditados**: 12
 - **Linhas de Código de Produção**: 29195
 - **Linhas de Código de Testes**: 29849
 - **Total Geral de Linhas de Código**: 59044
@@ -27,14 +27,15 @@
 | 01 | `cmd-ci-assurance` | `cmd/ci-assurance` | `go` | 79 | 53 | 2 | 0 | 100% | `verified` |
 | 02 | `cmd-codinho` | `cmd/codinho` | `go` | 103 | 2105 | 13 | 0 | 100% | `verified` |
 | 03 | `docs` | `docs` | `n/a` | 0 | 0 | 0 | 0 | 100% | `verified` |
-| 04 | `github-workflows` | `.github/workflows` | `n/a` | 0 | 0 | 0 | 0 | 100% | `verified` |
-| 05 | `internal` | `internal` | `go` | 13152 | 11750 | 191 | 0 | 100% | `verified` |
-| 06 | `internal-ciassurance` | `internal/ciassurance` | `go` | 91 | 277 | 3 | 0 | 100% | `verified` |
-| 07 | `internal-mcpserver` | `internal/mcpserver` | `go` | 1444 | 2057 | 28 | 0 | 100% | `verified` |
-| 08 | `packs` | `packs` | `n/a` | 0 | 0 | 0 | 0 | 100% | `verified` |
-| 09 | `pose-contracts` | `.pose/contracts` | `n/a` | 0 | 0 | 0 | 0 | 100% | `verified` |
-| 10 | `root` | `.` | `go, shell` | 13517 | 13607 | 212 | 0 | 100% | `verified` |
-| 11 | `scripts` | `scripts` | `python, shell` | 809 | 0 | 8 | 0 | 100% | `verified` |
+| 04 | `docs-catalog` | `docs/catalog` | `n/a` | 0 | 0 | 0 | 0 | 100% | `verified` |
+| 05 | `github-workflows` | `.github/workflows` | `n/a` | 0 | 0 | 0 | 0 | 100% | `verified` |
+| 06 | `internal` | `internal` | `go` | 13152 | 11750 | 191 | 0 | 100% | `verified` |
+| 07 | `internal-ciassurance` | `internal/ciassurance` | `go` | 91 | 277 | 3 | 0 | 100% | `verified` |
+| 08 | `internal-mcpserver` | `internal/mcpserver` | `go` | 1444 | 2057 | 28 | 0 | 100% | `verified` |
+| 09 | `packs` | `packs` | `n/a` | 0 | 0 | 0 | 0 | 100% | `verified` |
+| 10 | `pose-contracts` | `.pose/contracts` | `n/a` | 0 | 0 | 0 | 0 | 100% | `verified` |
+| 11 | `root` | `.` | `go, shell` | 13517 | 13607 | 212 | 0 | 100% | `verified` |
+| 12 | `scripts` | `scripts` | `python, shell` | 809 | 0 | 8 | 0 | 100% | `verified` |
 
 ---
 
@@ -43,6 +44,7 @@
 - `cmd-ci-assurance`: caminho `cmd/ci-assurance`; linguagens go; status `verified`.
 - `cmd-codinho`: caminho `cmd/codinho`; linguagens go; status `verified`.
 - `docs`: caminho `docs`; linguagens n/a; status `verified`.
+- `docs-catalog`: caminho `docs/catalog`; linguagens n/a; status `verified`.
 - `github-workflows`: caminho `.github/workflows`; linguagens n/a; status `verified`.
 - `internal`: caminho `internal`; linguagens go; status `verified`.
 - `internal-ciassurance`: caminho `internal/ciassurance`; linguagens go; status `verified`.

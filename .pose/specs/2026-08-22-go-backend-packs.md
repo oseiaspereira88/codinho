@@ -1,6 +1,6 @@
 ---
 slug: go-backend-packs
-status: draft
+status: in-progress
 created_at: 2026-08-22
 completed_at:
 supersedes:
@@ -66,6 +66,15 @@ Levar a fluência fundamental até comportamentos backend reais sem saltar diret
 - created: packs/go-database.yaml
 - created: testdata/packs/backend/
 - created: docs/catalog/go-backend.md
+- created: docs/editorial/go-backend-inventory.md
+- created: docs/editorial/go-backend-queue.json
+- modified: .pose/assessments/packs.md
+- created: .pose/assessments/docs-catalog.md
+- modified: .pose/assessments/README.md
+- modified: .pose/assessments/consolidated.md
+- modified: .pose/state/components/packs.json
+- created: .pose/state/components/docs-catalog.json
+- modified: .pose/state/project-state.md
 
 ### Delivery targets
 Nenhum tipado; conteúdo do catálogo.
@@ -83,8 +92,10 @@ Nenhum tipado; conteúdo do catálogo.
 ## 4. Tasks
 
 ### Planning
-- [ ] Criar matriz de conceitos, competências e distribuição 23.
-- [ ] Definir fixtures herméticas e timeouts conservadores.
+- [x] Criar matriz de conceitos, competências e distribuição 23 em `docs/editorial/go-backend-inventory.md`.
+- [x] Definir fila serializável e dependências de autoria em `docs/editorial/go-backend-queue.json`.
+- [x] Definir fixtures herméticas, checks focados e timeouts conservadores por pack.
+- [ ] Recalibrar a matriz após os três packs autorados, sem usar variantes para mascarar déficit.
 
 ### Implementation
 - [ ] Autorar relações, desafios, passos e pistas.
@@ -121,16 +132,27 @@ Executar checks herméticos, repetição para flake, race detector e revisão hu
 - Security / Contract: HTTP negative suite, SQL injection cases e path confinement.
 
 ### Execution log
-- Pendente.
+- 2026-09-16: spec promovida de `draft` para `in-progress` após `pose lint-spec go-backend-packs --ready-check` passar.
+- 2026-09-16: `pose assess discover --component packs` passou (0 LOC de código); `--component docs/catalog` passou (0 LOC); o path ainda inexistente `testdata/packs` foi rejeitado pelo discover e permanece uma lacuna planejada.
+- 2026-09-16: `./codinho catalog validate --json` passou no baseline com 105 conceitos, 64 competências, 54 desafios, 366 nodes e cinco trilhas, todos draft.
+- 2026-09-16: `go run ./cmd/codinho catalog validate --json` não chegou à validação por `disk quota exceeded` durante compilação temporária; a limitação foi preservada, e o binário local foi usado para a leitura do baseline.
+- 2026-09-16: fila backend criada com cinco tarefas; iniciar pelo piloto `author-go-concurrency-context` em worktree isolada, sem aprovação ou integração automática do autor.
 
 ### Results summary
-- Nenhum pack backend publicado.
+- Nenhum pack backend publicado ou integrado ainda. A autoria está planejada para acrescentar 23 desafios, 40 conceitos, 25 competências e pelo menos 120 nodes, mantendo os gates humanos pendentes.
 
 ### Requirement trace
 - Mapear R1–R10 a manifests, coverage, playtests e check results.
 
 ### Known gaps
 - Drivers e versões devem ser fixados no início da implementação.
+- O diretório `testdata/packs/backend/` ainda não existe; sua criação depende da materialização das fixtures do lote.
+- A revisão pedagógica, o playtest e a publicação continuam fora da automação.
+
+### Knowledge consumed
+
+- `knowledge:agent-batch-review-pattern` — revisão independente, limites de paths e retomada de sessões.
+- `knowledge:go-foundations-io-batch` — baseline editorial, distinção entre drafts/variantes e pendências humanas.
 
 ## 7. Final Report
 

@@ -1,0 +1,94 @@
+{
+  "version": 1,
+  "spec": "go-backend-packs",
+  "tasks": [
+    {
+      "id": "author-go-concurrency-context",
+      "title": "Autorar pack de concorrência, contexto e lifecycle",
+      "paths": [
+        "packs/go-concurrency-context.yaml"
+      ],
+      "acceptance": [
+        "Criar um pack schema_version 1, version 1.0.0, id go-concurrency-context, sempre em draft e sem reviewed_by, playtested ou status published.",
+        "Entregar exatamente os oito desafios planejados: três atomic, três combined, uma functional_slice e uma investigação kind debug, preservando os IDs namespaced do inventário.",
+        "Cobrir goroutines, ownership e fechamento de channels, select com cancelamento, locks, race, leak, backpressure e shutdown; usar apenas biblioteca padrão e fixtures offline.",
+        "Adicionar pelo menos 14 conceitos e nove competências namespaced, com relações válidas e sem colidir com o catálogo existente.",
+        "Entregar pelo menos 42 nodes creditáveis, com macro/meso/micro contextualizados, uma intenção por micro, critérios observáveis, evidência não vazia, hints 1–6 progressivos e reflexão causal.",
+        "Declarar checks executáveis e reference_fixture para os desafios com fixture; usar go_test_race onde a propriedade concorrente exigir e não prometer cobertura que o check não executa.",
+        "Adicionar a trilha go-concurrency-lifecycle com os desafios do pack em ordem de pré-requisitos; não adicionar publicação nem alegações de revisão humana.",
+        "Executar ./codinho catalog validate --json após a autoria e reportar limitações sem editar arquivos fora do pack."
+      ]
+    },
+    {
+      "id": "author-go-http",
+      "title": "Autorar pack de HTTP e serviços locais",
+      "paths": [
+        "packs/go-http.yaml"
+      ],
+      "acceptance": [
+        "Criar um pack schema_version 1, version 1.0.0, id go-http, sempre em draft e sem reviewed_by, playtested ou status published.",
+        "Entregar exatamente os nove desafios planejados: três atomic, três combined, duas functional_slice e uma investigação kind debug, preservando os IDs namespaced do inventário.",
+        "Cobrir servidor e cliente net/http, JSON, body limits, timeouts, middleware, lifecycle, transport, httptest e cancelamento sem serviços remotos.",
+        "Adicionar pelo menos 14 conceitos e oito competências namespaced, com relações válidas e sem colidir com o catálogo existente.",
+        "Entregar pelo menos 40 nodes creditáveis, com macro/meso/micro contextualizados, uma intenção por micro, critérios observáveis, evidência não vazia, hints 1–6 progressivos e reflexão causal.",
+        "Declarar fixtures, reference_fixture e checks focados para handler, cliente e investigação; testar limites negativos e timeout sem confundir inspeção de fonte com execução.",
+        "Adicionar a trilha go-http-services com os desafios do pack em ordem de pré-requisitos; não adicionar publicação nem alegações de revisão humana.",
+        "Executar ./codinho catalog validate --json após a autoria e reportar limitações sem editar arquivos fora do pack."
+      ]
+    },
+    {
+      "id": "author-go-database",
+      "title": "Autorar pack de database/sql e persistência",
+      "paths": [
+        "packs/go-database.yaml"
+      ],
+      "acceptance": [
+        "Criar um pack schema_version 1, version 1.0.0, id go-database, sempre em draft e sem reviewed_by, playtested ou status published.",
+        "Entregar exatamente os seis desafios planejados: dois atomic, dois combined, uma functional_slice e uma systems_mission, preservando os IDs namespaced do inventário.",
+        "Cobrir database/sql, pool, contexto, queries parametrizadas, nulls, transações, isolamento, migrations, testes e cleanup sem banco ou serviço remoto obrigatório.",
+        "Adicionar pelo menos 12 conceitos e oito competências namespaced, com relações válidas e sem colidir com o catálogo existente.",
+        "Entregar pelo menos 40 nodes creditáveis, com macro/meso/micro contextualizados, uma intenção por micro, critérios observáveis, evidência não vazia, hints 1–6 progressivos e reflexão causal.",
+        "Usar um driver local sintético ou fixture controlada pelo check; cobrir SQL injection, rollback, cancelamento e concorrência do pool sem declarar prova além da evidência executada.",
+        "Manter tracks vazio ou local ao pack até a tarefa de montagem; não adicionar publicação nem alegações de revisão humana.",
+        "Executar ./codinho catalog validate --json após a autoria e reportar limitações sem editar arquivos fora do pack."
+      ]
+    },
+    {
+      "id": "assemble-go-backend-catalog",
+      "title": "Montar manifest, trilha Go backend e documentação do catálogo",
+      "paths": [
+        "packs/manifest.yaml",
+        "packs/go-database.yaml",
+        "docs/catalog/go-backend.md"
+      ],
+      "depends_on": [
+        "author-go-concurrency-context",
+        "author-go-http",
+        "author-go-database"
+      ],
+      "acceptance": [
+        "Adicionar os três packs backend ao manifest sem remover ou reordenar packs existentes fora do escopo.",
+        "Adicionar no pack go-database a trilha go-backend com os 23 desafios backend em ordem de dependências; preservar as duas trilhas específicas dos demais packs.",
+        "Criar docs/catalog/go-backend.md com inventário dos packs, matriz de distribuição, referências aos checks e distinção explícita entre draft, published e eligible.",
+        "Executar ./codinho catalog validate --json e catalog validate --checks; registrar contagens, diagnósticos e checks efetivamente verificados.",
+        "Não preencher reviewed_by, playtested ou publication.status, não publicar drafts e não editar arquivos fora dos três paths autorizados."
+      ]
+    },
+    {
+      "id": "audit-go-backend-catalog",
+      "title": "Auditar contagem e evidência do catálogo backend",
+      "paths": [
+        "docs/editorial/go-backend-inventory.md"
+      ],
+      "depends_on": [
+        "assemble-go-backend-catalog"
+      ],
+      "acceptance": [
+        "Executar ./codinho catalog validate --json e catalog validate --checks no candidato integrado; registrar o commit, versão do binário e resultado sem transformar falha ambiental em aprovação.",
+        "Conferir exatamente 23 desafios backend e a distribuição 8 atomic, 8 combined, 4 functional_slice, 2 investigation e 1 systems_mission, distinguindo debug no grupo investigation.",
+        "Conferir pelo menos 40 conceitos, 25 competências e 120 nodes adicionais sem contar variantes para mascarar profundidade.",
+        "Atualizar somente o inventário com contagens observadas, limitações, achados e pendências de revisão/playtest; manter todos os gates humanos explícitos."
+      ]
+    }
+  ]
+}

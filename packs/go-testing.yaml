@@ -2327,6 +2327,7 @@ challenges:
   competencies:
     primary:
     - testing-build-counting-double
+  prerequisites: []
   brief: Conte quantos prazos de um lote ainda estão futuros em relação a uma observação controlável pelo
     teste.
   constraints:
@@ -2336,7 +2337,7 @@ challenges:
   - Relógio válido é chamado exatamente uma vez, mesmo para lote vazio.
   - Lote vazio retorna contagem zero.
   - Conta apenas prazos estritamente posteriores ao instante observado.
-  - Relógio nil retorna ErrMissingClock.
+  - Relógio nil retorna contagem zero e ErrMissingClock, sem panic.
   publication:
     status: draft
     author: codex
@@ -2347,31 +2348,35 @@ challenges:
       kind: macro
       title: Observar o relógio de um lote de prazos
       instruction:
-        objective: Conte os prazos ainda futuros usando um único instante para o lote inteiro, com um
-          dublê que revele chamadas extras.
-        scope: Uma competência contextualizada da origem.
+        objective: Implemente a contagem de prazos de uma agenda a partir de um instante controlado pelo teste.
+        scope: Um lote de prazos de atendimento, o relógio injetado e o erro quando essa dependência não existe.
       children:
       - id: count-deadline-clock-calls.meso
         kind: meso
         title: Casos observáveis e implementação
         instruction:
-          objective: Use os casos de aceite para orientar a implementação.
-          scope: Contrato da variante.
+          objective: Separe a regra de contagem das fronteiras observáveis do lote.
+          scope: Lotes nil ou vazios, prazos antes, no instante e depois dele, e relógio ausente.
         children:
         - id: count-deadline-clock-calls.step-1
           kind: micro
-          title: Construa um dublê que denuncia chamadas extras.
+          action: implement
+          target: test_case
+          title: Modele um dublê de relógio que revele leituras extras.
           instruction:
-            objective: Construa um dublê que denuncia chamadas extras.
-            scope: O valor retornado muda a cada observação do relógio.
+            objective: Modele um dublê de relógio que torne observações extras visíveis.
+            scope: O contador de chamadas e o instante retornado a cada leitura do lote.
           concepts:
           - testing-counting-double
           evidence:
             strategies:
             - source_inspection
+            - test
           criteria:
           - id: behavior-1
             kind: qualitative
+          - id: counting-double-exposes-extra-observation
+            kind: structural
           completion:
             requires_positive_evaluation: true
           hints:
@@ -2392,17 +2397,25 @@ challenges:
             - Como uma dependência que muda a cada leitura ajuda a distinguir uma observação por operação de uma por elemento?
         - id: count-deadline-clock-calls.step-2
           kind: micro
-          title: Conte os prazos no mesmo instante.
+          action: implement
+          target: function
+          title: Contar os prazos do lote.
           instruction:
-            objective: Conte os prazos no mesmo instante.
-            scope: Verifique lotes mistos, vazios e dependência ausente.
+            objective: Conte os prazos que permanecem depois do instante observado.
+            scope: Um instante por operação, comparação estrita e retorno definido para dependência ausente.
           concepts:
           - testing-counting-double
+          - testing-table-cases
+          - testing-time-boundaries
+          - testing-clock-injection
           evidence:
             strategies:
+            - source_inspection
             - test
           criteria:
           - id: behavior-2
+            kind: structural
+          - id: batch-contract-covers-empty-strict-and-missing-clock
             kind: structural
           completion:
             requires_positive_evaluation: true
@@ -2421,7 +2434,7 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Por que a igualdade precisa ser um caso separado do prazo imediatamente posterior?
+            - Por que reunir lote vazio, igualdade e prazo imediatamente posterior distingue a regra de fronteira de uma contagem que só acerta casos distantes?
           children:
           - id: count-deadline-clock-calls.verify-empty-batch
             hints:
@@ -2429,6 +2442,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: boundary_case
@@ -2448,12 +2469,23 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+            reflection:
+              optional:
+              - Por que um lote sem elementos ainda precisa consultar o relógio quando o contrato mede uma observação por operação?
           - id: count-deadline-clock-calls.verify-strict-deadline
             hints:
               - level: 1
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: boundary_case
@@ -2471,18 +2503,29 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+            reflection:
+              optional:
+              - Por que um prazo muito depois do instante não distingue uma comparação estrita de uma comparação que inclui a igualdade?
           - id: count-deadline-clock-calls.verify-missing-clock
             hints:
               - level: 1
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: dependency_boundary
             title: Verificar relógio ausente
             instruction:
-              objective: Confirme que uma dependência de relógio nil retorna a sentinela prevista sem panic.
+              objective: Confirme que uma dependência de relógio nil retorna contagem zero e a sentinela prevista sem panic.
               scope: Apenas a fronteira de dependência ausente.
             concepts:
             - testing-clock-injection
@@ -2492,14 +2535,27 @@ challenges:
             criteria:
             - id: missing-clock-is-classified
               kind: structural
+            - id: missing-clock-count-is-zero
+              kind: structural
             completion:
               requires_positive_evaluation: true
+            reflection:
+              optional:
+              - Por que devolver contagem zero junto com ErrMissingClock impede que o chamador use uma medição que nunca aconteceu?
           - id: count-deadline-clock-calls.verify-single-observation
             hints:
               - level: 1
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: counting_double
@@ -2517,6 +2573,9 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+            reflection:
+              optional:
+              - Por que um relógio que avança a cada leitura torna visível uma implementação que consulta o tempo dentro do loop?
   fixture:
   - path: go.mod
     content: |
@@ -2536,11 +2595,38 @@ challenges:
       \ != tc.want || calls != 1 {\n\t\t\tt.Fatalf(\"count=%d calls=%d err=%v\", got, calls, err)\n\t\t\
       }\n\t}\n\tif _, err := CountFuture(nil, nil); !errors.Is(err, ErrMissingClock) {\n\t\tt.Fatal(err)\n\
       \t}\n}\n"
+  - path: review_regression_test.go
+    content: |
+      package exercise
+
+      import (
+          "errors"
+          "testing"
+          "time"
+      )
+
+      func TestVariantEmptyBatchCallsClock(t *testing.T) {
+          calls := 0
+          got, err := CountFuture([]time.Time{}, func() time.Time {
+              calls++
+              return time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
+          })
+          if got != 0 || err != nil || calls != 1 {
+              t.Fatalf("empty batch: count=%d error=%v calls=%d", got, err, calls)
+          }
+      }
+
+      func TestVariantMissingClockResult(t *testing.T) {
+          got, err := CountFuture([]time.Time{time.Unix(0, 0)}, nil)
+          if got != 0 || !errors.Is(err, ErrMissingClock) {
+              t.Fatalf("missing clock: count=%d error=%v", got, err)
+          }
+      }
   checks:
   - id: focused-tests
     runner: go_test
     package: ./...
-    test_pattern: ^TestVariant$
+    test_pattern: ^TestVariant
     timeout: 20s
   variants: []
   validation:
@@ -2565,6 +2651,33 @@ challenges:
         \ got != tc.want || calls != 1 {\n\t\t\tt.Fatalf(\"count=%d calls=%d err=%v\", got, calls, err)\n\
         \t\t}\n\t}\n\tif _, err := CountFuture(nil, nil); !errors.Is(err, ErrMissingClock) {\n\t\tt.Fatal(err)\n\
         \t}\n}\n"
+    - path: review_regression_test.go
+      content: |
+        package exercise
+
+        import (
+            "errors"
+            "testing"
+            "time"
+        )
+
+        func TestVariantEmptyBatchCallsClock(t *testing.T) {
+            calls := 0
+            got, err := CountFuture([]time.Time{}, func() time.Time {
+                calls++
+                return time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
+            })
+            if got != 0 || err != nil || calls != 1 {
+                t.Fatalf("empty batch: count=%d error=%v calls=%d", got, err, calls)
+            }
+        }
+
+        func TestVariantMissingClockResult(t *testing.T) {
+            got, err := CountFuture([]time.Time{time.Unix(0, 0)}, nil)
+            if got != 0 || !errors.Is(err, ErrMissingClock) {
+                t.Fatalf("missing clock: count=%d error=%v", got, err)
+            }
+        }
     expectations:
     - check_id: focused-tests
       baseline: test_failure

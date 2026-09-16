@@ -150,7 +150,8 @@ direcionada posterior o cobre. Limitações aceitas para continuidade: atualiza�
 de base exige nova subfila; interrupção antes de registrar PID exige diagnóstico
 manual. Essas limitações estão documentadas no guia e impedem alegar recuperação
 automática universal. Decisão técnica: aprovado com reservas operacionais;
-atestação POSE formal ainda pendente, sem fechamento da spec.
+atestação POSE formal registrada no bundle `rvb-19986755983b3ea2`, sem
+fechamento da spec.
 
 O recurrence-check de 30 dias sinalizou `validate-native` com seis falhas. A
 investigação encontrou mistura de relatórios sem comandos, cache de módulos não
@@ -160,6 +161,13 @@ regressão do executor. A decisão registrada em
 workflow `.pose/workflows/validate-native-evidence.md`, referenciado pelo
 review e pelo guia editorial. O efeito será medido por 45 dias; nenhum check
 será promovido antes de quatro semanas com 95% de sucesso e evidência completa.
+
+`pose review verify` e `pose review-check` confirmaram cobertura fresca do
+bundle para o escopo semântico, com uma reserva explícita porque parte da
+evidência nativa foi produzida no commit `f061bc...`. O handoff
+`.pose/knowledge/2026-09-16-handoff-editorial-batch-review-reservations.md`
+preserva a próxima ação: repetir a matriz em ambiente com caches graváveis e
+rede disponível, sem declarar revisão humana, playtest ou publicação.
 
 ## 7. Final Report
 Em implementação. Fechamento exige R1–R10 e evidências do piloto.

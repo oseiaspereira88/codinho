@@ -98,7 +98,8 @@ Nenhum tipado; conteúdo do catálogo.
 - [ ] Recalibrar a matriz após os três packs autorados, sem usar variantes para mascarar déficit.
 
 ### Implementation
-- [ ] Autorar relações, desafios, passos e pistas.
+- [x] Materializar o primeiro pack `go-concurrency-context` com oito desafios, relações, passos e pistas; manter os demais packs pendentes.
+- [ ] Autorar relações, desafios, passos e pistas dos packs HTTP e database.
 - [ ] Criar fixtures HTTP, concorrência e SQL.
 - [ ] Criar três trilhas.
 - [ ] Executar checks, race detector e playtests.
@@ -137,9 +138,12 @@ Executar checks herméticos, repetição para flake, race detector e revisão hu
 - 2026-09-16: `./codinho catalog validate --json` passou no baseline com 105 conceitos, 64 competências, 54 desafios, 366 nodes e cinco trilhas, todos draft.
 - 2026-09-16: `go run ./cmd/codinho catalog validate --json` não chegou à validação por `disk quota exceeded` durante compilação temporária; a limitação foi preservada, e o binário local foi usado para a leitura do baseline.
 - 2026-09-16: fila backend criada com cinco tarefas; iniciar pelo piloto `author-go-concurrency-context` em worktree isolada, sem aprovação ou integração automática do autor.
+- 2026-09-16: a tentativa do piloto via `scripts/editorial.py run` terminou com `codex exec` em `exit 1` por limite de uso da CLI; a worktree não produziu patch. A causa foi registrada como limitação operacional, não como aprovação.
+- 2026-09-16: fallback manual do coordenador criou `packs/go-concurrency-context.yaml` e adicionou o pack ao manifest; a revisão corrigiu uma fixture cujo baseline passava indevidamente por fechar `done` em uma goroutine auxiliar.
+- 2026-09-16: `./codinho catalog validate --checks --json` passou após a correção: 55/55 checks verificados, sem diagnostics ou achados editoriais bloqueantes; cobertura global observada 119 conceitos, 73 competências, 62 desafios, 414 nodes e seis trilhas, tudo draft.
 
 ### Results summary
-- Nenhum pack backend publicado ou integrado ainda. A autoria está planejada para acrescentar 23 desafios, 40 conceitos, 25 competências e pelo menos 120 nodes, mantendo os gates humanos pendentes.
+- Nenhum pack backend foi publicado. O primeiro pack foi materializado e validado como draft; HTTP, database, montagem da trilha global, documentação final e fixtures externas continuam pendentes. A autoria completa ainda deve acrescentar 23 desafios, 40 conceitos, 25 competências e pelo menos 120 nodes, mantendo os gates humanos pendentes.
 
 ### Requirement trace
 - Mapear R1–R10 a manifests, coverage, playtests e check results.
@@ -148,6 +152,7 @@ Executar checks herméticos, repetição para flake, race detector e revisão hu
 - Drivers e versões devem ser fixados no início da implementação.
 - O diretório `testdata/packs/backend/` ainda não existe; sua criação depende da materialização das fixtures do lote.
 - A revisão pedagógica, o playtest e a publicação continuam fora da automação.
+- O autor delegado não pôde concluir por limite de uso da CLI; o scaffold manual não substitui uma revisão independente nem o playtest.
 
 ### Knowledge consumed
 

@@ -15,6 +15,11 @@ Baseline medido em 2026-09-16 com `./codinho catalog validate --json`, no
 commit `4067f89`: 105 conceitos, 64 competências, 54 entradas de desafio,
 366 nodes e cinco trilhas. Tudo permanece em draft.
 
+Checkpoint 1 medido após a materialização de `go-concurrency-context`:
+119 conceitos, 73 competências, 62 entradas de desafio, 414 nodes e seis
+trilhas. O acréscimo observado é de 14 conceitos, nove competências, oito
+desafios e 48 nodes; a contagem ainda inclui somente drafts.
+
 O backend adicionará 23 desafios canônicos, pelo menos 40 conceitos, 25
 competências e 120 nodes creditáveis. Como os fundamentos já excedem a meta
 intermediária de 140 conceitos, 85 competências e 420 nodes quando o backend

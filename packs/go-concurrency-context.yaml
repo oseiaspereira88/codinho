@@ -1,0 +1,882 @@
+schema_version: 1
+id: go-concurrency-context
+version: 1.0.0
+publication:
+  status: draft
+  author: codex
+themes:
+  - id: go-concurrency-context.scheduling
+    title: Agendamento e ciclo de vida concorrente
+  - id: go-concurrency-context.communication
+    title: Comunicação e pressão de trabalho
+  - id: go-concurrency-context.lifecycle
+    title: Cancelamento e encerramento
+concepts:
+  - id: go-concurrency-context.goroutine-lifecycle
+    title: Ciclo de vida de uma goroutine
+  - id: go-concurrency-context.channel-ownership
+    title: Ownership de channel
+  - id: go-concurrency-context.channel-close-signal
+    title: Fechamento como sinal de término
+  - id: go-concurrency-context.select-cancellation
+    title: Select com cancelamento
+  - id: go-concurrency-context.context-deadline
+    title: Deadline e cancelamento de contexto
+  - id: go-concurrency-context.mutex-invariant
+    title: Invariante protegido por mutex
+  - id: go-concurrency-context.race-happens-before
+    title: Relação happens-before
+  - id: go-concurrency-context.bounded-buffer
+    title: Buffer limitado
+  - id: go-concurrency-context.backpressure
+    title: Backpressure explícito
+  - id: go-concurrency-context.worker-pool
+    title: Pool limitado de workers
+  - id: go-concurrency-context.pipeline-shutdown
+    title: Encerramento de pipeline
+  - id: go-concurrency-context.error-cancellation
+    title: Cancelamento após primeiro erro
+  - id: go-concurrency-context.leak-detection
+    title: Detecção de goroutine leak
+  - id: go-concurrency-context.graceful-shutdown
+    title: Shutdown gracioso
+competencies:
+  - id: go-concurrency-context.start-and-join-goroutines
+    title: Iniciar e aguardar goroutines
+  - id: go-concurrency-context.own-and-close-channel
+    title: Definir ownership e fechar channels
+  - id: go-concurrency-context.select-with-cancellation
+    title: Selecionar trabalho ou cancelamento
+  - id: go-concurrency-context.protect-shared-state
+    title: Proteger estado compartilhado
+  - id: go-concurrency-context.bound-concurrency
+    title: Limitar concorrência observável
+  - id: go-concurrency-context.propagate-backpressure
+    title: Propagar backpressure sem bloquear o shutdown
+  - id: go-concurrency-context.shut-down-pipeline
+    title: Encerrar pipeline sem abandonar produtores
+  - id: go-concurrency-context.cancel-on-first-error
+    title: Cancelar trabalho após o primeiro erro
+  - id: go-concurrency-context.diagnose-goroutine-leak
+    title: Diagnosticar goroutine leak
+tracks:
+  - id: go-concurrency-lifecycle
+    title: Concorrência e lifecycle em Go
+    themes:
+      - go-concurrency-context.scheduling
+      - go-concurrency-context.communication
+      - go-concurrency-context.lifecycle
+    challenge_ids:
+      - go-concurrency-context.worker-lifecycle-with-waitgroup
+      - go-concurrency-context.channel-ownership-and-close
+      - go-concurrency-context.cancel-select-loop
+      - go-concurrency-context.bounded-worker-pool
+      - go-concurrency-context.pipeline-with-backpressure
+      - go-concurrency-context.shutdown-on-first-error
+      - go-concurrency-context.concurrent-log-aggregator
+      - go-concurrency-context.reproduce-and-fix-goroutine-leak
+relations:
+  - from: go-concurrency-context.worker-lifecycle-with-waitgroup
+    to: go-concurrency-context.start-and-join-goroutines
+    kind: applies_in
+  - from: go-concurrency-context.goroutine-lifecycle
+    to: go-concurrency-context.race-happens-before
+    kind: relates_to
+  - from: go-concurrency-context.channel-ownership-and-close
+    to: go-concurrency-context.own-and-close-channel
+    kind: applies_in
+  - from: go-concurrency-context.channel-ownership
+    to: go-concurrency-context.channel-close-signal
+    kind: relates_to
+  - from: go-concurrency-context.cancel-select-loop
+    to: go-concurrency-context.select-with-cancellation
+    kind: applies_in
+  - from: go-concurrency-context.select-cancellation
+    to: go-concurrency-context.context-deadline
+    kind: relates_to
+  - from: go-concurrency-context.bounded-worker-pool
+    to: go-concurrency-context.bound-concurrency
+    kind: applies_in
+  - from: go-concurrency-context.worker-pool
+    to: go-concurrency-context.bounded-buffer
+    kind: relates_to
+  - from: go-concurrency-context.pipeline-with-backpressure
+    to: go-concurrency-context.propagate-backpressure
+    kind: applies_in
+  - from: go-concurrency-context.bounded-buffer
+    to: go-concurrency-context.backpressure
+    kind: relates_to
+  - from: go-concurrency-context.shutdown-on-first-error
+    to: go-concurrency-context.cancel-on-first-error
+    kind: applies_in
+  - from: go-concurrency-context.error-cancellation
+    to: go-concurrency-context.context-deadline
+    kind: relates_to
+  - from: go-concurrency-context.concurrent-log-aggregator
+    to: go-concurrency-context.shut-down-pipeline
+    kind: applies_in
+  - from: go-concurrency-context.mutex-invariant
+    to: go-concurrency-context.race-happens-before
+    kind: relates_to
+  - from: go-concurrency-context.protect-shared-state
+    to: go-concurrency-context.mutex-invariant
+    kind: relates_to
+  - from: go-concurrency-context.reproduce-and-fix-goroutine-leak
+    to: go-concurrency-context.diagnose-goroutine-leak
+    kind: applies_in
+  - from: go-concurrency-context.leak-detection
+    to: go-concurrency-context.select-cancellation
+    kind: relates_to
+  - from: go-concurrency-context.pipeline-shutdown
+    to: go-concurrency-context.graceful-shutdown
+    kind: relates_to
+challenges:
+  - schema_version: 1
+    id: go-concurrency-context.worker-lifecycle-with-waitgroup
+    version: 1.0.0
+    title: Aguardar o ciclo de vida de workers
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 20
+    themes: [go-concurrency-context.scheduling]
+    competencies:
+      primary: [go-concurrency-context.start-and-join-goroutines]
+      secondary: [go-concurrency-context.shut-down-pipeline]
+    prerequisites: []
+    brief: Uma operação inicia workers independentes e precisa retornar somente depois que todos registrarem seu encerramento.
+    constraints:
+      - Usar apenas a biblioteca padrão.
+      - Não usar sleep para sincronizar o teste.
+    acceptance:
+      - Cada worker executa exatamente uma vez.
+      - A função só retorna depois que todos os workers terminaram.
+      - O teste permanece determinístico sem depender de uma ordem de escalonamento.
+    canonical: true
+    publication: {status: draft, author: codex}
+    layers:
+      - id: worker-lifecycle
+        macro_steps:
+          - id: worker-lifecycle.plan
+            kind: macro
+            title: Planejar o término dos workers
+            children:
+              - id: worker-lifecycle.model
+                kind: meso
+                title: Separar início, trabalho e espera
+                children:
+                  - id: worker-lifecycle.start
+                    kind: micro
+                    action: implement
+                    target: goroutine
+                    title: Iniciar cada worker
+                    instruction: {objective: Inicie uma goroutine para cada trabalho recebido., scope: Apenas a criação das goroutines.}
+                    concepts: [go-concurrency-context.goroutine-lifecycle]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: one-goroutine-per-work-item, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: worker-lifecycle.observe
+                    kind: micro
+                    action: implement
+                    target: completion
+                    title: Registrar o término
+                    instruction: {objective: Registre uma forma de observar que cada worker concluiu., scope: Sem escolher a ordem entre workers.}
+                    concepts: [go-concurrency-context.goroutine-lifecycle]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: completion-is-observable, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: worker-lifecycle.wait
+                    kind: micro
+                    action: verify
+                    target: lifecycle
+                    title: Aguardar todos os workers
+                    instruction: {objective: Faça a operação aguardar o conjunto completo de workers., scope: O retorno da função e nenhum timeout artificial.}
+                    concepts: [go-concurrency-context.goroutine-lifecycle]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: returns-after-all-workers, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: worker-lifecycle.reflect
+                    kind: micro
+                    action: reflect
+                    target: synchronization
+                    title: Explicar a sincronização
+                    instruction: {objective: Explique por que a espera não depende do escalonamento., scope: Relação entre sinalização e retorno.}
+                    concepts: [go-concurrency-context.goroutine-lifecycle, go-concurrency-context.race-happens-before]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: explains-happens-before, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['O que tornaria o contador de conclusão uma corrida de dados?']}
+  - schema_version: 1
+    id: go-concurrency-context.channel-ownership-and-close
+    version: 1.0.0
+    title: Fechar um channel pelo seu owner
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 20
+    themes: [go-concurrency-context.communication]
+    competencies:
+      primary: [go-concurrency-context.own-and-close-channel]
+      secondary: [go-concurrency-context.shut-down-pipeline]
+    prerequisites: [go-concurrency-context.worker-lifecycle-with-waitgroup]
+    brief: Um produtor entrega valores por um channel e o consumidor precisa distinguir fim de fluxo de um valor vazio.
+    constraints:
+      - O consumidor não pode fechar o channel que apenas lê.
+      - O produtor deve fechar o channel exatamente uma vez.
+    acceptance:
+      - Todos os valores produzidos chegam ao consumidor.
+      - A iteração termina depois do último valor sem panic.
+      - O ownership do fechamento fica visível na implementação.
+    canonical: true
+    publication: {status: draft, author: codex}
+    layers:
+      - id: channel-ownership
+        macro_steps:
+          - id: channel-ownership.plan
+            kind: macro
+            title: Modelar o fim do fluxo
+            children:
+              - id: channel-ownership.create
+                kind: meso
+                title: Produzir e consumir com contrato explícito
+                children:
+                  - id: channel-ownership.send
+                    kind: micro
+                    action: implement
+                    target: channel
+                    title: Enviar valores pelo channel
+                    instruction: {objective: Envie cada valor para o consumidor., scope: O fluxo normal de produção.}
+                    concepts: [go-concurrency-context.channel-ownership]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: sends-all-values, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: channel-ownership.close
+                    kind: micro
+                    action: implement
+                    target: channel
+                    title: Fechar após a produção
+                    instruction: {objective: Feche o channel somente depois do último envio., scope: O owner do channel.}
+                    concepts: [go-concurrency-context.channel-close-signal]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: owner-closes-once, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: channel-ownership.range
+                    kind: micro
+                    action: verify
+                    target: consumer
+                    title: Consumir até o fim
+                    instruction: {objective: Consuma o fluxo até o sinal de fechamento., scope: Encerramento sem valor sentinela.}
+                    concepts: [go-concurrency-context.channel-close-signal]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: consumer-stops-after-close, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: channel-ownership.reflect
+                    kind: micro
+                    action: reflect
+                    target: ownership
+                    title: Justificar o owner
+                    instruction: {objective: Explique por que o consumidor não deve fechar o channel., scope: Ownership e panic de fechamento duplicado.}
+                    concepts: [go-concurrency-context.channel-ownership, go-concurrency-context.channel-close-signal]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: explains-close-ownership, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Como vários produtores mudariam a responsabilidade pelo fechamento?']}
+  - schema_version: 1
+    id: go-concurrency-context.cancel-select-loop
+    version: 1.0.0
+    title: Cancelar um loop com select
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 25
+    themes: [go-concurrency-context.lifecycle]
+    competencies:
+      primary: [go-concurrency-context.select-with-cancellation]
+      secondary: [go-concurrency-context.shut-down-pipeline]
+    prerequisites: [go-concurrency-context.channel-ownership-and-close]
+    brief: Um worker espera trabalho, mas precisa abandonar o loop quando o contexto for cancelado.
+    constraints:
+      - Não use polling com sleep.
+      - O cancelamento deve ser observado no mesmo select que recebe trabalho.
+    acceptance:
+      - O worker processa trabalho disponível.
+      - O worker retorna quando o contexto é cancelado.
+      - O encerramento não deixa uma goroutine bloqueada em receive.
+    canonical: true
+    publication: {status: draft, author: codex}
+    layers:
+      - id: cancel-select
+        macro_steps:
+          - id: cancel-select.plan
+            kind: macro
+            title: Escolher entre trabalho e cancelamento
+            children:
+              - id: cancel-select.loop
+                kind: meso
+                title: Encerrar uma espera bloqueante
+                children:
+                  - id: cancel-select.receive
+                    kind: micro
+                    action: implement
+                    target: select
+                    title: Aguardar trabalho
+                    instruction: {objective: Receba o próximo trabalho sem busy loop., scope: A entrada de trabalho.}
+                    concepts: [go-concurrency-context.select-cancellation]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: waits-for-work, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: cancel-select.context
+                    kind: micro
+                    action: implement
+                    target: context
+                    title: Observar cancelamento
+                    instruction: {objective: Adicione a alternativa de cancelamento do contexto., scope: A saída do loop.}
+                    concepts: [go-concurrency-context.context-deadline, go-concurrency-context.select-cancellation]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: cancellation-is-select-case, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: cancel-select.return
+                    kind: micro
+                    action: verify
+                    target: cleanup
+                    title: Liberar o worker
+                    instruction: {objective: Garanta que o worker retorna e libera seus recursos ao cancelar., scope: O caminho de encerramento.}
+                    concepts: [go-concurrency-context.graceful-shutdown]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: worker-returns-on-cancel, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: cancel-select.reflect
+                    kind: micro
+                    action: reflect
+                    target: cancellation
+                    title: Explicar a escolha do select
+                    instruction: {objective: Explique a diferença entre observar cancelamento e testar uma flag depois do receive., scope: Latência e bloqueio do worker.}
+                    concepts: [go-concurrency-context.select-cancellation, go-concurrency-context.context-deadline]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: explains-cancellation-latency, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Em qual ponto um worker que só testa a flag depois do receive pode ficar preso?']}
+  - schema_version: 1
+    id: go-concurrency-context.bounded-worker-pool
+    version: 1.0.0
+    title: Limitar um pool de workers
+    kind: combined
+    difficulty: intermediate
+    estimated_minutes: 35
+    themes: [go-concurrency-context.scheduling]
+    competencies:
+      primary: [go-concurrency-context.bound-concurrency]
+      secondary: [go-concurrency-context.start-and-join-goroutines, go-concurrency-context.protect-shared-state]
+    prerequisites: [go-concurrency-context.cancel-select-loop]
+    brief: Uma fila de tarefas precisa processar muitos itens sem criar uma goroutine ilimitada para cada entrada.
+    constraints:
+      - O limite de workers deve ser observável no teste.
+      - Todos os itens devem terminar ou retornar erro de cancelamento.
+    acceptance:
+      - O número máximo de workers ativos não excede o limite recebido.
+      - Nenhum item é perdido ou processado duas vezes.
+      - O pool encerra todos os workers depois de esgotar o trabalho.
+    canonical: true
+    publication: {status: draft, author: codex}
+    layers:
+      - id: worker-pool
+        macro_steps:
+          - id: worker-pool.plan
+            kind: macro
+            title: Construir um pool limitado
+            children:
+              - id: worker-pool.queue
+                kind: meso
+                title: Separar fila e workers
+                children:
+                  - id: worker-pool.limit
+                    kind: micro
+                    action: implement
+                    target: worker_pool
+                    title: Criar somente o limite necessário
+                    instruction: {objective: Inicie uma quantidade limitada de workers., scope: O limite de concorrência.}
+                    concepts: [go-concurrency-context.worker-pool]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: worker-count-is-bounded, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: worker-pool.dispatch
+                    kind: micro
+                    action: implement
+                    target: dispatch
+                    title: Distribuir tarefas
+                    instruction: {objective: Entregue cada tarefa a um worker disponível., scope: Fila e ownership de cada item.}
+                    concepts: [go-concurrency-context.worker-pool, go-concurrency-context.channel-ownership]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: each-task-dispatched-once, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: worker-pool.join
+                    kind: micro
+                    action: verify
+                    target: cleanup
+                    title: Aguardar o pool
+                    instruction: {objective: Aguarde o término do trabalho e encerre os workers., scope: Espera e fechamento sem goroutines órfãs.}
+                    concepts: [go-concurrency-context.goroutine-lifecycle, go-concurrency-context.graceful-shutdown]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: pool-joins-cleanly, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: worker-pool.reflect
+                    kind: micro
+                    action: reflect
+                    target: tradeoff
+                    title: Explicar o limite
+                    instruction: {objective: 'Explique o trade-off entre limite de workers e vazão.', scope: 'Recursos, fila e pressão no produtor.'}
+                    concepts: [go-concurrency-context.worker-pool, go-concurrency-context.backpressure]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: explains-concurrency-bound, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Por que aumentar workers sem limite pode piorar o sistema?']}
+  - schema_version: 1
+    id: go-concurrency-context.pipeline-with-backpressure
+    version: 1.0.0
+    title: Propagar backpressure em um pipeline
+    kind: combined
+    difficulty: intermediate
+    estimated_minutes: 35
+    themes: [go-concurrency-context.communication]
+    competencies:
+      primary: [go-concurrency-context.propagate-backpressure]
+      secondary: [go-concurrency-context.own-and-close-channel, go-concurrency-context.shut-down-pipeline]
+    prerequisites: [go-concurrency-context.bounded-worker-pool]
+    brief: Um pipeline transforma eventos em etapas e precisa desacelerar a produção quando a etapa seguinte não acompanha.
+    constraints:
+      - Não descarte eventos silenciosamente.
+      - Cada etapa precisa observar o cancelamento.
+    acceptance:
+      - O buffer tem limite explícito.
+      - O produtor sente a pressão quando o consumidor está lento.
+      - Cancelar o pipeline encerra todas as etapas.
+    canonical: true
+    publication: {status: draft, author: codex}
+    layers:
+      - id: pipeline
+        macro_steps:
+          - id: pipeline.plan
+            kind: macro
+            title: Coordenar etapas do pipeline
+            children:
+              - id: pipeline.buffer
+                kind: meso
+                title: Dar forma ao fluxo limitado
+                children:
+                  - id: pipeline.stage
+                    kind: micro
+                    action: implement
+                    target: pipeline
+                    title: Separar uma etapa
+                    instruction: {objective: 'Implemente uma etapa que transforma e encaminha um evento.', scope: 'Entrada, transformação e saída.'}
+                    concepts: [go-concurrency-context.pipeline-shutdown]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: stage-transforms-event, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: pipeline.capacity
+                    kind: micro
+                    action: implement
+                    target: buffer
+                    title: Limitar o buffer
+                    instruction: {objective: Use capacidade finita e torne o bloqueio observável., scope: A fila entre duas etapas.}
+                    concepts: [go-concurrency-context.bounded-buffer, go-concurrency-context.backpressure]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: buffer-capacity-is-explicit, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: pipeline.cancel
+                    kind: micro
+                    action: verify
+                    target: shutdown
+                    title: Cancelar todas as etapas
+                    instruction: {objective: 'Faça cada etapa sair quando o contexto for cancelado.', scope: 'Recebimento, envio e cleanup.'}
+                    concepts: [go-concurrency-context.select-cancellation, go-concurrency-context.pipeline-shutdown]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: all-stages-observe-cancel, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: pipeline.reflect
+                    kind: micro
+                    action: reflect
+                    target: pressure
+                    title: Explicar backpressure
+                    instruction: {objective: 'Explique onde a pressão aparece quando uma etapa fica lenta.', scope: 'Buffer, produtor e consumidor.'}
+                    concepts: [go-concurrency-context.backpressure, go-concurrency-context.bounded-buffer]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: explains-pressure-propagation, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Que diferença existe entre bloquear e descartar quando a fila está cheia?']}
+  - schema_version: 1
+    id: go-concurrency-context.shutdown-on-first-error
+    version: 1.0.0
+    title: Encerrar trabalho após o primeiro erro
+    kind: combined
+    difficulty: intermediate
+    estimated_minutes: 40
+    themes: [go-concurrency-context.lifecycle]
+    competencies:
+      primary: [go-concurrency-context.cancel-on-first-error]
+      secondary: [go-concurrency-context.shut-down-pipeline, go-concurrency-context.select-with-cancellation]
+    prerequisites: [go-concurrency-context.pipeline-with-backpressure]
+    brief: Vários trabalhos podem falhar, mas o chamador deve observar o primeiro erro e cancelar o restante com limpeza.
+    constraints:
+      - O erro retornado deve conservar a causa observável.
+      - Trabalhos já iniciados devem receber cancelamento.
+    acceptance:
+      - O primeiro erro cancela novas entregas.
+      - Todos os workers terminam antes do retorno.
+      - O chamador recebe o erro sem esperar trabalho que não pode mais progredir.
+    canonical: true
+    publication: {status: draft, author: codex}
+    layers:
+      - id: first-error
+        macro_steps:
+          - id: first-error.plan
+            kind: macro
+            title: Definir a política de falha
+            children:
+              - id: first-error.report
+                kind: meso
+                title: Reportar e propagar o erro
+                children:
+                  - id: first-error.capture
+                    kind: micro
+                    action: implement
+                    target: error
+                    title: Capturar a primeira falha
+                    instruction: {objective: Registre a primeira falha de um worker., scope: O valor de erro observado pelo coordenador.}
+                    concepts: [go-concurrency-context.error-cancellation]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: first-error-is-preserved, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: first-error.cancel
+                    kind: micro
+                    action: implement
+                    target: context
+                    title: Cancelar o restante
+                    instruction: {objective: Cancele o contexto assim que a primeira falha for aceita., scope: Trabalhadores pendentes e em execução.}
+                    concepts: [go-concurrency-context.error-cancellation, go-concurrency-context.context-deadline]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: first-error-cancels-context, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: first-error.join
+                    kind: micro
+                    action: verify
+                    target: lifecycle
+                    title: Aguardar a limpeza
+                    instruction: {objective: Aguarde os workers cancelados antes de devolver o erro., scope: Encerramento e recursos.}
+                    concepts: [go-concurrency-context.graceful-shutdown, go-concurrency-context.goroutine-lifecycle]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: cancellation-joins-workers, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: first-error.reflect
+                    kind: micro
+                    action: reflect
+                    target: policy
+                    title: Explicar a política de erro
+                    instruction: {objective: Explique por que devolver cedo pode deixar trabalho concorrente vivo., scope: Causa do erro e lifecycle.}
+                    concepts: [go-concurrency-context.error-cancellation, go-concurrency-context.graceful-shutdown]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: explains-join-before-return, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Quando agregar todos os erros seria melhor do que devolver o primeiro?']}
+  - schema_version: 1
+    id: go-concurrency-context.concurrent-log-aggregator
+    version: 1.0.0
+    title: Agregar logs com concorrência limitada
+    kind: functional_slice
+    difficulty: intermediate
+    estimated_minutes: 45
+    themes: [go-concurrency-context.scheduling, go-concurrency-context.communication]
+    competencies:
+      primary: [go-concurrency-context.bound-concurrency, go-concurrency-context.propagate-backpressure]
+      secondary: [go-concurrency-context.protect-shared-state, go-concurrency-context.shut-down-pipeline]
+    prerequisites: [go-concurrency-context.shutdown-on-first-error]
+    brief: Um agregador lê lotes de eventos, processa linhas em paralelo e devolve contagens determinísticas sem corrida de dados.
+    constraints:
+      - A ordem da resposta deve ser determinística.
+      - O estado compartilhado deve ter proteção explícita.
+      - Cancelamento deve interromper o processamento.
+    acceptance:
+      - O resultado contém todas as categorias esperadas.
+      - A contagem permanece correta sob execução concorrente repetida.
+      - A sincronização deixa explícitos os acessos concorrentes ao estado agregado, sem depender de uma ordem acidental.
+    canonical: true
+    publication: {status: draft, author: codex}
+    layers:
+      - id: log-aggregator
+        macro_steps:
+          - id: log-aggregator.plan
+            kind: macro
+            title: Compor uma fatia concorrente
+            children:
+              - id: log-aggregator.parse
+                kind: meso
+                title: Separar parsing e agregação
+                children:
+                  - id: log-aggregator.dispatch
+                    kind: micro
+                    action: implement
+                    target: workers
+                    title: Distribuir linhas
+                    instruction: {objective: Distribua linhas para workers limitados., scope: O envio de cada evento.}
+                    concepts: [go-concurrency-context.worker-pool, go-concurrency-context.bounded-buffer]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: lines-are-distributed, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: log-aggregator.state
+                    kind: micro
+                    action: implement
+                    target: shared_state
+                    title: Proteger as contagens
+                    instruction: {objective: Atualize contagens compartilhadas com uma invariante protegida., scope: Estado agregado.}
+                    concepts: [go-concurrency-context.mutex-invariant, go-concurrency-context.race-happens-before]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: counts-are-synchronized, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: log-aggregator.order
+                    kind: micro
+                    action: verify
+                    target: result
+                    title: Ordenar a saída
+                    instruction: {objective: Produza uma resposta independente da ordem dos workers., scope: Formato de retorno.}
+                    concepts: [go-concurrency-context.mutex-invariant]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: result-order-is-deterministic, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: log-aggregator.reflect
+                    kind: micro
+                    action: reflect
+                    target: race
+                    title: Explicar a proteção
+                    instruction: {objective: 'Explique que acesso concorrente o race detector deve distinguir.', scope: 'Leitura, escrita e sincronização.'}
+                    concepts: [go-concurrency-context.race-happens-before, go-concurrency-context.mutex-invariant]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: explains-race-boundary, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Por que ordenar somente no fim reduz o estado compartilhado?']}
+  - schema_version: 1
+    id: go-concurrency-context.reproduce-and-fix-goroutine-leak
+    version: 1.0.0
+    title: Diagnosticar um goroutine leak no cancelamento
+    kind: debug
+    difficulty: intermediate
+    estimated_minutes: 40
+    themes: [go-concurrency-context.lifecycle]
+    competencies:
+      primary: [go-concurrency-context.diagnose-goroutine-leak]
+      secondary: [go-concurrency-context.select-with-cancellation, go-concurrency-context.shut-down-pipeline]
+    prerequisites: [go-concurrency-context.cancel-select-loop]
+    brief: Um worker de polling continua vivo depois que o chamador cancela a operação. Reproduza o leak e corrija somente a fronteira de encerramento.
+    constraints:
+      - Preserve a assinatura pública da fixture.
+      - Não aumente o timeout do teste para esconder o leak.
+      - Use apenas biblioteca padrão.
+    acceptance:
+      - O teste inicial falha por worker que não encerra após cancelamento.
+      - A referência encerra o worker com cancelamento observável.
+      - O teste de corrida passa sem sleep usado como sincronização.
+    canonical: true
+    publication: {status: draft, author: codex}
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/goroutine-leak
+
+          go 1.25.0
+      - path: worker.go
+        content: |
+          package leak
+
+          import "context"
+
+          func Run(ctx context.Context, work <-chan int, done chan<- struct{}) {
+              go func() {
+                  defer close(done)
+                  for {
+                      value := <-work
+                      _ = value
+                  }
+              }()
+          }
+      - path: worker_test.go
+        content: |
+          package leak
+
+          import (
+              "context"
+              "testing"
+              "time"
+          )
+
+          func TestWorkerStopsOnCancel(t *testing.T) {
+              ctx, cancel := context.WithCancel(context.Background())
+              work := make(chan int)
+              done := make(chan struct{})
+              Run(ctx, work, done)
+              cancel()
+              select {
+              case <-done:
+              case <-time.After(100 * time.Millisecond):
+                  t.Fatal("worker did not stop")
+              }
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test_race
+        package: ./...
+        test_pattern: ^TestWorkerStopsOnCancel$
+        timeout: 20s
+    validation:
+      reference_fixture:
+        - path: go.mod
+          content: |
+            module codinho-practice/goroutine-leak
+
+            go 1.25.0
+        - path: worker.go
+          content: |
+            package leak
+
+            import "context"
+
+            func Run(ctx context.Context, work <-chan int, done chan<- struct{}) {
+                go func() {
+                    defer close(done)
+                    for {
+                        select {
+                        case <-ctx.Done():
+                            return
+                        case value := <-work:
+                            _ = value
+                        }
+                    }
+                }()
+            }
+        - path: worker_test.go
+          content: |
+            package leak
+
+            import (
+                "context"
+                "testing"
+                "time"
+            )
+
+            func TestWorkerStopsOnCancel(t *testing.T) {
+                ctx, cancel := context.WithCancel(context.Background())
+                work := make(chan int)
+                done := make(chan struct{})
+                Run(ctx, work, done)
+                cancel()
+                select {
+                case <-done:
+                case <-time.After(100 * time.Millisecond):
+                    t.Fatal("worker did not stop")
+                }
+            }
+      expectations:
+        - {check_id: focused-tests, baseline: test_failure, reference: pass}
+    layers:
+      - id: leak-investigation
+        macro_steps:
+          - id: leak-investigation.plan
+            kind: macro
+            title: Reproduzir e corrigir o leak
+            children:
+              - id: leak-investigation.observe
+                kind: meso
+                title: Observar o caminho bloqueante
+                children:
+                  - id: leak-investigation.reproduce
+                    kind: micro
+                    action: verify
+                    target: fixture
+                    title: Reproduzir o encerramento ausente
+                    instruction: {objective: Execute o teste e localize a goroutine que permanece bloqueada., scope: Apenas a fixture inicial.}
+                    concepts: [go-concurrency-context.leak-detection]
+                    evidence: {strategies: [test, source_inspection]}
+                    criteria: [{id: baseline-reproduces-leak, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: leak-investigation.select
+                    kind: micro
+                    action: debug
+                    target: cancellation
+                    title: Localizar a espera sem cancelamento
+                    instruction: {objective: Identifique qual receive não participa da decisão de cancelamento., scope: Loop do worker.}
+                    concepts: [go-concurrency-context.select-cancellation, go-concurrency-context.leak-detection]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: blocked-receive-is-identified, kind: reasoning}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: leak-investigation.fix
+                    kind: micro
+                    action: implement
+                    target: shutdown
+                    title: Corrigir o caminho de saída
+                    instruction: {objective: Faça o worker observar o contexto e sinalizar o término., scope: Somente o loop e seu cleanup.}
+                    concepts: [go-concurrency-context.select-cancellation, go-concurrency-context.graceful-shutdown]
+                    evidence: {strategies: [test, source_inspection]}
+                    criteria: [{id: reference-fix-stops-worker, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: leak-investigation.reflect
+                    kind: micro
+                    action: reflect
+                    target: diagnosis
+                    title: Explicar a causa sistêmica
+                    instruction: {objective: 'Explique por que um timeout maior não corrige a causa do leak.', scope: 'Cancelamento, bloqueio e cleanup.'}
+                    concepts: [go-concurrency-context.leak-detection, go-concurrency-context.context-deadline]
+                    evidence: {strategies: [source_inspection, test]}
+                    criteria: [{id: explains-leak-root-cause, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Que outro caminho de saída deve ser revisado quando um worker recebe context.Context?']}

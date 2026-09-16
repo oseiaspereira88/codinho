@@ -1,9 +1,9 @@
 # Component Assessment: scripts (`scripts`)
 
 > **Mapeamento de Módulo POSE**: `scripts`
-> **Data de Avaliação**: 2026-09-11T03:05:05Z | **Baseline Commit**: 9caef5c1a585
-> **Métricas**: 183 LOC Produção | 0 LOC Testes | 6 Arquivos Totais
-> **Linguagens**: shell
+> **Data de Avaliação**: 2026-09-16T02:13:09Z | **Baseline Commit**: a3a185162c5d
+> **Métricas**: 809 LOC Produção | 0 LOC Testes | 8 Arquivos Totais
+> **Linguagens**: python, shell
 > **Saúde de Código**: 0 TODOs | 0 FIXMEs | 0 Panics | 0 Stubs
 
 ---

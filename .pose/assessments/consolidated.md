@@ -1,18 +1,18 @@
 # Project Assessment: codinho
 
 > **Gerado por**: POSE Discovery Engine (`pose assess discover`)
-> **Data de Avaliação**: 2026-09-15T14:02:21Z
-> **Baseline Commit**: 496a8baa55ef
+> **Data de Avaliação**: 2026-09-16T02:13:09Z
+> **Baseline Commit**: a3a185162c5d
 
 ---
 
 ## 1. Resumo Executivo do Projeto
 
 - **Total de Componentes Auditados**: 10
-- **Linhas de Código de Produção**: 15417
+- **Linhas de Código de Produção**: 16043
 - **Linhas de Código de Testes**: 17954
-- **Total Geral de Linhas de Código**: 33371
-- **Total de Arquivos Auditados**: 264
+- **Total Geral de Linhas de Código**: 33997
+- **Total de Arquivos Auditados**: 266
 - **Completude Dinâmica da Plataforma**: 88.0%
 - **Dívidas Técnicas em Aberto**: 0 TODOs | 0 FIXMEs | 0 Panics | 0 Stubs
 - **Especificações (Specs) em Aberto**: 6
@@ -33,7 +33,7 @@
 | 07 | `packs` | `packs` | `n/a` | 0 | 0 | 0 | 0 | 100% | `verified` |
 | 08 | `pose-contracts` | `.pose/contracts` | `n/a` | 0 | 0 | 0 | 0 | 100% | `verified` |
 | 09 | `root` | `.` | `go, shell` | 13517 | 13607 | 212 | 0 | 100% | `verified` |
-| 10 | `scripts` | `scripts` | `shell` | 183 | 0 | 6 | 0 | 100% | `verified` |
+| 10 | `scripts` | `scripts` | `python, shell` | 809 | 0 | 8 | 0 | 100% | `verified` |
 
 ---
 
@@ -48,4 +48,4 @@
 - `packs`: caminho `packs`; linguagens n/a; status `verified`.
 - `pose-contracts`: caminho `.pose/contracts`; linguagens n/a; status `verified`.
 - `root`: caminho `.`; linguagens go, shell; status `verified`.
-- `scripts`: caminho `scripts`; linguagens shell; status `verified`.
+- `scripts`: caminho `scripts`; linguagens python, shell; status `verified`.

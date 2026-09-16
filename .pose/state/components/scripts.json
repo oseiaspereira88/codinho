@@ -2,13 +2,14 @@
   "schema_version": 1,
   "component_slug": "scripts",
   "path": "scripts",
-  "discovered_at": "2026-09-11T03:05:05Z",
-  "baseline_commit": "9caef5c1a585",
+  "discovered_at": "2026-09-16T02:13:09Z",
+  "baseline_commit": "a3a185162c5d",
   "metrics": {
-    "loc_production": 183,
+    "loc_production": 809,
     "loc_tests": 0,
-    "total_files": 6,
+    "total_files": 8,
     "languages": [
+      "python",
       "shell"
     ]
   },

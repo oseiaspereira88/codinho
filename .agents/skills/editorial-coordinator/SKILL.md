@@ -1,6 +1,10 @@
 ---
 name: editorial-coordinator
 description: Coordenar editoração de catálogo em lotes de autores Codex, com inventário, configuração por execução, revisão primária e integração por commit. Use para executar ou retomar uma esteira editorial governada por spec.
+when_to_use: Coordenar ou retomar uma esteira editorial governada por spec, incluindo inventário, despacho, revisão primária e integração serial.
+pose_schema_range: "1-1"
+clients: agents-skills, mcp, codex-cli
+capabilities: read, write, validate
 ---
 
 # Editor coordenador

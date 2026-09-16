@@ -1,6 +1,10 @@
 ---
 name: editorial-author
 description: Executar um lote editorial delegado de catálogo com paths limitados, testes e relatório para o revisor primário.
+when_to_use: Executar um lote editorial delegado quando o coordenador fornecer paths autorizados, aceite e evidências esperadas.
+pose_schema_range: "1-1"
+clients: agents-skills, mcp, codex-cli
+capabilities: read, write, validate
 ---
 
 # Autor de lote

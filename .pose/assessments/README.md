@@ -15,7 +15,7 @@
 | 07 | `packs` | `packs` | `n/a` | 0 | 0 | 0 | `verified` | [packs.md](./packs.md) |
 | 08 | `pose-contracts` | `.pose/contracts` | `n/a` | 0 | 0 | 0 | `verified` | [pose-contracts.md](./pose-contracts.md) |
 | 09 | `root` | `.` | `go, shell` | 13517 | 13607 | 212 | `verified` | [root.md](./root.md) |
-| 10 | `scripts` | `scripts` | `shell` | 183 | 0 | 6 | `verified` | [scripts.md](./scripts.md) |
+| 10 | `scripts` | `scripts` | `python, shell` | 809 | 0 | 8 | `verified` | [scripts.md](./scripts.md) |
 
 ## Assessments Consolidados & Governança Global
 

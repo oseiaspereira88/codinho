@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "input_digest": "sha256:c5cc61de4377e639d1087963b7f82f7511d40140eb90a84b39a96fe90a334767",
-  "provenance_digest": "sha256:80024f9b32f2aadab2d6bc9e07115081456f91d6521000b994285ca94ecd9939",
+  "input_digest": "sha256:3a4841c1309125dfa146920fd26a3e211b32cbf1934c902e41bdbea394e03a3c",
+  "provenance_digest": "sha256:7dfd665d190fbaaa63ab211a4402b9cacb3272a23bf0286203f02bd07d54ad00",
   "nodes": [
     {
       "id": "artifact:.agents/skills/README.md",
@@ -225,6 +225,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/assessments/consolidated.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/assessments/docs-catalog.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/assessments/docs-catalog.md"
       }
     },
     {
@@ -1677,6 +1684,13 @@
       }
     },
     {
+      "id": "artifact:.pose/review-attestations/rva-cace9361366fcc6f.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-attestations/rva-cace9361366fcc6f.json"
+      }
+    },
+    {
       "id": "artifact:.pose/review-attestations/rva-cb59d98b35a61657.json",
       "type": "artifact",
       "attributes": {
@@ -1786,6 +1800,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/review-bundles/rvb-73bda6d1e470fa22.json"
+      }
+    },
+    {
+      "id": "artifact:.pose/review-bundles/rvb-75e96b8abe40fb57.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/review-bundles/rvb-75e96b8abe40fb57.json"
       }
     },
     {
@@ -2188,6 +2209,13 @@
       }
     },
     {
+      "id": "artifact:.pose/state/components/docs-catalog.json",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/state/components/docs-catalog.json"
+      }
+    },
+    {
       "id": "artifact:.pose/state/components/docs.json",
       "type": "artifact",
       "attributes": {
@@ -2549,6 +2577,20 @@
       "type": "artifact",
       "attributes": {
         "path": "docs/editorial-workflow.md"
+      }
+    },
+    {
+      "id": "artifact:docs/editorial/go-backend-inventory.md",
+      "type": "artifact",
+      "attributes": {
+        "path": "docs/editorial/go-backend-inventory.md"
+      }
+    },
+    {
+      "id": "artifact:docs/editorial/go-backend-queue.json",
+      "type": "artifact",
+      "attributes": {
+        "path": "docs/editorial/go-backend-queue.json"
       }
     },
     {
@@ -4372,10 +4414,10 @@
       }
     },
     {
-      "id": "artifact:testdata/packs/backend",
+      "id": "artifact:testdata/packs/backend/README.md",
       "type": "artifact",
       "attributes": {
-        "path": "testdata/packs/backend"
+        "path": "testdata/packs/backend/README.md"
       }
     },
     {
@@ -4530,6 +4572,14 @@
       }
     },
     {
+      "id": "change-set:cs-343314055e1d",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:1eb906b73caf612ddf9183dfc83f57880aa57be65f2676ad553ddee6e57377c2",
+        "selector": "trailers:go-backend-packs"
+      }
+    },
+    {
       "id": "change-set:cs-34b93787f8dd",
       "type": "change-set",
       "attributes": {
@@ -4591,14 +4641,6 @@
       "attributes": {
         "diff_digest": "sha256:6b05c50d497aacbbfaf7e6028d3fc12669b55bdc8c860551b2da22b2b0362498",
         "selector": "trailers:safe-check-executor"
-      }
-    },
-    {
-      "id": "change-set:cs-64a431e24de1",
-      "type": "change-set",
-      "attributes": {
-        "diff_digest": "sha256:8fa9bb162dd6f5aa0cb55e9ab48b4921ddaed8bda84758e861f2f0fa7b3a484f",
-        "selector": "trailers:go-foundations-packs"
       }
     },
     {
@@ -4711,6 +4753,14 @@
       "attributes": {
         "diff_digest": "sha256:23a990919015bd18bc6d6a5356076c5d035ac06db3d9598447ce60a67e4a76e9",
         "selector": "trailers:reliability-observability-compatibility"
+      }
+    },
+    {
+      "id": "change-set:cs-ceb7e67661d5",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:ce4e6aa34b5ba096d33ee7fa67af4ee6a86b7ecdb67a79d0ed5a07ec1c2011b9",
+        "selector": "trailers:go-foundations-packs"
       }
     },
     {
@@ -4874,7 +4924,7 @@
       "id": "roadmap-criterion:codinho-v1/C1",
       "type": "roadmap-criterion",
       "attributes": {
-        "passed": "true"
+        "passed": "false"
       }
     },
     {
@@ -4895,7 +4945,7 @@
       "id": "roadmap-criterion:codinho-v1/C4",
       "type": "roadmap-criterion",
       "attributes": {
-        "passed": "true"
+        "passed": "false"
       }
     },
     {
@@ -4916,7 +4966,7 @@
       "id": "roadmap-criterion:codinho-v1/C7",
       "type": "roadmap-criterion",
       "attributes": {
-        "passed": "true"
+        "passed": "false"
       }
     },
     {
@@ -5028,7 +5078,7 @@
       "id": "spec:go-backend-packs",
       "type": "spec",
       "attributes": {
-        "status": "draft"
+        "status": "in-progress"
       }
     },
     {
@@ -9150,6 +9200,186 @@
       "type": "changes"
     },
     {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/assessments/README.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/assessments/cmd-ci-assurance.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/assessments/cmd-codinho.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/assessments/consolidated.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/assessments/docs-catalog.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/assessments/docs.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/assessments/github-workflows.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/assessments/internal-ciassurance.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/assessments/internal-mcpserver.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/assessments/packs.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/assessments/pose-contracts.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/assessments/root.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/assessments/scripts.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/specs/2026-08-22-go-backend-packs.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/state/components/cmd-ci-assurance.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/state/components/cmd-codinho.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/state/components/docs-catalog.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/state/components/docs.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/state/components/github-workflows.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/state/components/internal-ciassurance.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/state/components/internal-mcpserver.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/state/components/packs.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/state/components/pose-contracts.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/state/components/root.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/state/components/scripts.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/state/history.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/state/project-state.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:.pose/state/refresh-log.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:docs/catalog/go-backend.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:docs/editorial/go-backend-inventory.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:docs/editorial/go-backend-queue.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:packs/go-concurrency-context.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:packs/go-database.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:packs/go-http.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:packs/manifest.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-343314055e1d",
+      "to": "artifact:testdata/packs/backend/README.md",
+      "type": "changes"
+    },
+    {
       "from": "change-set:cs-34b93787f8dd",
       "to": "artifact:.pose/indexes/delivery-integrity.json",
       "type": "changes"
@@ -10167,656 +10397,6 @@
     {
       "from": "change-set:cs-5bccc7e9e711",
       "to": "artifact:internal/workspace/redaction.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/assessments/README.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/assessments/cmd-ci-assurance.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/assessments/cmd-codinho.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/assessments/consolidated.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/assessments/docs.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/assessments/github-workflows.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/assessments/integrations.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/assessments/internal-ciassurance.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/assessments/internal-mcpserver.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/assessments/internal.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/assessments/packs.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/assessments/pose-contracts.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/assessments/root.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/assessments/scripts.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/assessments/technical-debt.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/contributions/20260915-182942-knowledge-usage-misses-spec-citations.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/docs.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/indexes/delivery-integrity.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/indexes/validation-matrix.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/knowledge/2026-08-24-note-agent-batch-review-pattern.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/knowledge/2026-09-10-handoff-go-foundations-io-batch.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/knowledge/2026-09-16-handoff-go-foundations-automated-review-reservations.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-09-go-io-authoring-batch.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-catalog-hint-review.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-catalog-luna-review.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-catalog-relations-review.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-core-concept-content.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-core-counter-interface-node.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-core-counter-state-node.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-core-defer-empty-node.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-core-find-first-node.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-core-functional-options-node.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-core-labeled-break-node.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-core-percentage-invariant-node.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-core-run-commands-node.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-core-safe-call-node.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-core-variadic-call-forms.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-data-text-concept-content.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-data-text-csv-quote-node.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-data-text-map-nil-node.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-data-text-truncate-node.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-debugging-competencies.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-debugging-concept-content.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-debugging-step-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-error-concept-content.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-error-concepts-complement.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-errors-as-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-errors-catalog-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-errors-classification-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-errors-empty-value-node.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-errors-join-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-errors-translation-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-first-steps-concept-content.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-first-steps-runtime-content.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-first-steps-shadowing-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-first-steps-step-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-first-steps-structure-content.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-first-steps-tooling-content.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-first-steps-tooling-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-foundation-track-routing.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-foundation-variants-authoring-batch.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-go-errors-authoring-batch.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-go-testing-authoring-batch.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-io-competencies.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-io-concept-content.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-io-fragmented-read-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-io-quoted-attendees-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-io-weather-boundary-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-io-write-report-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-standard-reconcile-historical-go-core-creation.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-standard-reconcile-historical-go-data-text-creation.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-standard-reconcile-historical-go-errors-creation.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-standard-reconcile-historical-go-type-design-creation.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-standard-validate-native.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-testing-clock-call-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-testing-clock-count-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-testing-concept-content.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-testing-expiry-output-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-testing-reservation-clock-node.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-testing-snapshot-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-testing-ticket-boundary-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-testing-ticket-mixed-node.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-testing-time-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-testing-timezone-node.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-type-design-assertion-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-type-design-clone-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-type-design-combined-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-type-design-concept-content.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-type-design-generic-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-type-design-interface-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-type-design-receiver-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-10-type-design-step-nodes.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/2026-09-15-standard-validate-native.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/history/standard-reconcile-historical-go-core-creation.jsonl",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/history/standard-reconcile-historical-go-data-text-creation.jsonl",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/history/standard-reconcile-historical-go-errors-creation.jsonl",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/history/standard-reconcile-historical-go-type-design-creation.jsonl",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/reports/history/standard-validate-native.jsonl",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/results/delivery-validation.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/results/go-foundations-review-validation.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/specs/2026-08-22-go-foundations-packs.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/state/components/cmd-ci-assurance.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/state/components/cmd-codinho.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/state/components/docs.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/state/components/github-workflows.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/state/components/internal-ciassurance.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/state/components/internal-mcpserver.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/state/components/internal.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/state/components/packs.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/state/components/pose-contracts.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/state/components/root.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/state/components/scripts.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/state/integrations.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/state/project-state.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:.pose/state/technical-debt.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:cmd/codinho/foundation_tracks_integration_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:docs/agent-review-workflow.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:docs/catalog/go-foundations.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:docs/content-review-checklist.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:docs/editorial/go-foundations-queue.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:internal/curriculum/foundation_variants_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:packs/go-core.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:packs/go-data-text.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:packs/go-debugging.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:packs/go-errors.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:packs/go-first-steps.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:packs/go-io.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:packs/go-testing.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:packs/go-type-design.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-64a431e24de1",
-      "to": "artifact:packs/manifest.yaml",
       "type": "changes"
     },
     {
@@ -12767,6 +12347,676 @@
     {
       "from": "change-set:cs-cd2ac178ff4e",
       "to": "artifact:internal/mcpserver/server.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/assessments/README.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/assessments/cmd-ci-assurance.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/assessments/cmd-codinho.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/assessments/consolidated.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/assessments/docs.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/assessments/github-workflows.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/assessments/integrations.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/assessments/internal-ciassurance.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/assessments/internal-mcpserver.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/assessments/internal.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/assessments/packs.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/assessments/pose-contracts.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/assessments/root.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/assessments/scripts.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/assessments/technical-debt.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/contributions/20260915-182942-knowledge-usage-misses-spec-citations.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/docs.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/indexes/delivery-integrity.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/indexes/releases.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/indexes/spec-graph.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/indexes/validation-matrix.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/knowledge/2026-08-24-note-agent-batch-review-pattern.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/knowledge/2026-09-10-handoff-go-foundations-io-batch.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/knowledge/2026-09-16-handoff-go-foundations-automated-review-reservations.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-09-go-io-authoring-batch.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-catalog-hint-review.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-catalog-luna-review.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-catalog-relations-review.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-core-concept-content.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-core-counter-interface-node.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-core-counter-state-node.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-core-defer-empty-node.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-core-find-first-node.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-core-functional-options-node.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-core-labeled-break-node.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-core-percentage-invariant-node.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-core-run-commands-node.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-core-safe-call-node.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-core-variadic-call-forms.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-data-text-concept-content.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-data-text-csv-quote-node.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-data-text-map-nil-node.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-data-text-truncate-node.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-debugging-competencies.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-debugging-concept-content.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-debugging-step-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-error-concept-content.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-error-concepts-complement.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-errors-as-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-errors-catalog-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-errors-classification-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-errors-empty-value-node.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-errors-join-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-errors-translation-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-first-steps-concept-content.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-first-steps-runtime-content.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-first-steps-shadowing-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-first-steps-step-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-first-steps-structure-content.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-first-steps-tooling-content.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-first-steps-tooling-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-foundation-track-routing.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-foundation-variants-authoring-batch.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-go-errors-authoring-batch.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-go-testing-authoring-batch.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-io-competencies.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-io-concept-content.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-io-fragmented-read-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-io-quoted-attendees-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-io-weather-boundary-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-io-write-report-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-standard-reconcile-historical-go-core-creation.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-standard-reconcile-historical-go-data-text-creation.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-standard-reconcile-historical-go-errors-creation.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-standard-reconcile-historical-go-type-design-creation.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-standard-validate-native.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-testing-clock-call-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-testing-clock-count-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-testing-concept-content.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-testing-expiry-output-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-testing-reservation-clock-node.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-testing-snapshot-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-testing-ticket-boundary-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-testing-ticket-mixed-node.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-testing-time-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-testing-timezone-node.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-type-design-assertion-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-type-design-clone-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-type-design-combined-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-type-design-concept-content.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-type-design-generic-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-type-design-interface-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-type-design-receiver-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-10-type-design-step-nodes.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/2026-09-15-standard-validate-native.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/history/standard-reconcile-historical-go-core-creation.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/history/standard-reconcile-historical-go-data-text-creation.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/history/standard-reconcile-historical-go-errors-creation.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/history/standard-reconcile-historical-go-type-design-creation.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/reports/history/standard-validate-native.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/results/delivery-validation.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/results/go-foundations-review-validation.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/review-attestations/rva-cace9361366fcc6f.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/review-bundles/rvb-75e96b8abe40fb57.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/specs/2026-08-22-go-foundations-packs.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/state/components/cmd-ci-assurance.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/state/components/cmd-codinho.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/state/components/docs.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/state/components/github-workflows.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/state/components/internal-ciassurance.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/state/components/internal-mcpserver.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/state/components/internal.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/state/components/packs.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/state/components/pose-contracts.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/state/components/root.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/state/components/scripts.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/state/integrations.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/state/project-state.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:.pose/state/technical-debt.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:cmd/codinho/foundation_tracks_integration_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:docs/agent-review-workflow.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:docs/catalog/go-foundations.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:docs/content-review-checklist.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:docs/editorial/go-foundations-queue.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:internal/curriculum/foundation_variants_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:packs/go-core.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:packs/go-data-text.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:packs/go-debugging.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:packs/go-errors.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:packs/go-first-steps.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:packs/go-io.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:packs/go-testing.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:packs/go-type-design.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-ceb7e67661d5",
+      "to": "artifact:packs/manifest.yaml",
       "type": "changes"
     },
     {
@@ -17516,7 +17766,52 @@
     },
     {
       "from": "spec:go-backend-packs",
+      "to": "artifact:.pose/assessments/README.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:go-backend-packs",
+      "to": "artifact:.pose/assessments/consolidated.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:go-backend-packs",
+      "to": "artifact:.pose/assessments/docs-catalog.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:go-backend-packs",
+      "to": "artifact:.pose/assessments/packs.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:go-backend-packs",
+      "to": "artifact:.pose/state/components/docs-catalog.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:go-backend-packs",
+      "to": "artifact:.pose/state/components/packs.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:go-backend-packs",
+      "to": "artifact:.pose/state/project-state.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:go-backend-packs",
       "to": "artifact:docs/catalog/go-backend.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:go-backend-packs",
+      "to": "artifact:docs/editorial/go-backend-inventory.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:go-backend-packs",
+      "to": "artifact:docs/editorial/go-backend-queue.json",
       "type": "declares"
     },
     {
@@ -17541,8 +17836,13 @@
     },
     {
       "from": "spec:go-backend-packs",
-      "to": "artifact:testdata/packs/backend",
+      "to": "artifact:testdata/packs/backend/README.md",
       "type": "declares"
+    },
+    {
+      "from": "spec:go-backend-packs",
+      "to": "change-set:cs-343314055e1d",
+      "type": "observed-by"
     },
     {
       "from": "spec:go-foundations-packs",
@@ -17726,7 +18026,7 @@
     },
     {
       "from": "spec:go-foundations-packs",
-      "to": "change-set:cs-64a431e24de1",
+      "to": "change-set:cs-ceb7e67661d5",
       "type": "observed-by"
     },
     {
@@ -21114,7 +21414,27 @@
     {
       "spec": "go-backend-packs",
       "action": "created",
+      "path": ".pose/assessments/docs-catalog.md"
+    },
+    {
+      "spec": "go-backend-packs",
+      "action": "created",
+      "path": ".pose/state/components/docs-catalog.json"
+    },
+    {
+      "spec": "go-backend-packs",
+      "action": "created",
       "path": "docs/catalog/go-backend.md"
+    },
+    {
+      "spec": "go-backend-packs",
+      "action": "created",
+      "path": "docs/editorial/go-backend-inventory.md"
+    },
+    {
+      "spec": "go-backend-packs",
+      "action": "created",
+      "path": "docs/editorial/go-backend-queue.json"
     },
     {
       "spec": "go-backend-packs",
@@ -21134,7 +21454,32 @@
     {
       "spec": "go-backend-packs",
       "action": "created",
-      "path": "testdata/packs/backend"
+      "path": "testdata/packs/backend/README.md"
+    },
+    {
+      "spec": "go-backend-packs",
+      "action": "modified",
+      "path": ".pose/assessments/README.md"
+    },
+    {
+      "spec": "go-backend-packs",
+      "action": "modified",
+      "path": ".pose/assessments/consolidated.md"
+    },
+    {
+      "spec": "go-backend-packs",
+      "action": "modified",
+      "path": ".pose/assessments/packs.md"
+    },
+    {
+      "spec": "go-backend-packs",
+      "action": "modified",
+      "path": ".pose/state/components/packs.json"
+    },
+    {
+      "spec": "go-backend-packs",
+      "action": "modified",
+      "path": ".pose/state/project-state.md"
     },
     {
       "spec": "go-backend-packs",
@@ -25024,6 +25369,170 @@
       "diff_digest": "sha256:71836dbf84b9c3fa835063433c025b3ccec8179e234e7dd610a6f27d8c38f0bd"
     },
     {
+      "id": "cs-343314055e1d",
+      "spec": "go-backend-packs",
+      "selector": "trailers:go-backend-packs",
+      "base": "af0f682aa8de67bf8d7dbffe75a038e69c98166b^",
+      "head": "f8315690de3ee5352d6ad795ab2cae4aa6eedf5a",
+      "resolved_base": "4067f89f02aedba8c9b02cf75f6ed46872396fcd",
+      "resolved_head": "f8315690de3ee5352d6ad795ab2cae4aa6eedf5a",
+      "commits": [
+        "af0f682aa8de67bf8d7dbffe75a038e69c98166b",
+        "5720cb7d97c9d45027f72056edb149f051fdfea5",
+        "2edce4be6be3e203ad10dfafe7a1551844c6ff80",
+        "e28d2bae7b665c2bd033d77fd70828492a6a9e44",
+        "58f88b874cd83a5f49413fd738e1de10a0254ed5",
+        "f8315690de3ee5352d6ad795ab2cae4aa6eedf5a"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": ".pose/assessments/docs-catalog.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/state/components/docs-catalog.json"
+        },
+        {
+          "action": "created",
+          "path": "docs/catalog/go-backend.md"
+        },
+        {
+          "action": "created",
+          "path": "docs/editorial/go-backend-inventory.md"
+        },
+        {
+          "action": "created",
+          "path": "docs/editorial/go-backend-queue.json"
+        },
+        {
+          "action": "created",
+          "path": "packs/go-concurrency-context.yaml"
+        },
+        {
+          "action": "created",
+          "path": "packs/go-database.yaml"
+        },
+        {
+          "action": "created",
+          "path": "packs/go-http.yaml"
+        },
+        {
+          "action": "created",
+          "path": "testdata/packs/backend/README.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/README.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/cmd-ci-assurance.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/cmd-codinho.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/consolidated.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/docs.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/github-workflows.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/internal-ciassurance.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/internal-mcpserver.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/packs.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/pose-contracts.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/root.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/scripts.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-go-backend-packs.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/cmd-ci-assurance.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/cmd-codinho.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/docs.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/github-workflows.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/internal-ciassurance.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/internal-mcpserver.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/packs.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/pose-contracts.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/root.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/scripts.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/history.jsonl"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/project-state.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/refresh-log.jsonl"
+        },
+        {
+          "action": "modified",
+          "path": "packs/manifest.yaml"
+        }
+      ],
+      "diff_digest": "sha256:1eb906b73caf612ddf9183dfc83f57880aa57be65f2676ad553ddee6e57377c2"
+    },
+    {
       "id": "cs-34b93787f8dd",
       "spec": "learning-domain-model",
       "selector": "trailers:learning-domain-model",
@@ -25969,661 +26478,6 @@
         }
       ],
       "diff_digest": "sha256:6b05c50d497aacbbfaf7e6028d3fc12669b55bdc8c860551b2da22b2b0362498"
-    },
-    {
-      "id": "cs-64a431e24de1",
-      "spec": "go-foundations-packs",
-      "selector": "trailers:go-foundations-packs",
-      "base": "6518bebd03b709c5b6af23aaa88eab55d3088456^",
-      "head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
-      "resolved_base": "de2d1229b23a853e0f268900da9a906926c99923",
-      "resolved_head": "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
-      "commits": [
-        "6518bebd03b709c5b6af23aaa88eab55d3088456",
-        "348d9853d2172dfb7268b64f1a120a1bbb591ac0",
-        "edf3269378517d57ce0ad87f77145a11692c41da",
-        "e8cd863e3da3a59f9d215790c499c45621e2af40",
-        "ac886fc02602d452bca409bda6ac69528fc74cd5",
-        "12331fe997abb91687151d64942b9d88af40687d",
-        "dd17450f10d71dd9c5603185693c66b72dbc6c6f",
-        "d4f1638faa78ce35791133b254ba17818d05ff7d",
-        "0d78c7c03857a3dfa53c481d64f6f5c4af5ffe83",
-        "b42895c1bac2803f2ed9c39856af01b6b6323344",
-        "43dba55c4402df7c4bfc7da242e6b21416ff4bf3",
-        "237c3bc00b60c0483b14e3baa89b54350f0c1613",
-        "2eb17141ba8ed8eb5f92e51adc1c3e22937bf175",
-        "2171d72837fd6e626b74425a1bce400bc8633136",
-        "1cd4ef19cc20b9e0e931de1e635303c8dec2ad88",
-        "d688816f97fce164f26965ddda6c9b83765002bc",
-        "831d1783526bef6eb80c791606f1bbeb3dca6c9b",
-        "a98239699acafac47e9ae871afa91b9e49e51bd6",
-        "87f23ee64210e972b5d691cd70e1760c165cfbc1",
-        "623a2cd6e30b15c885f1da1dc5bbd88904290a37",
-        "90c72bdc57d8f55240a8090eba842b3496c8e016",
-        "0789d81132ab40bdf8c994619555d178e561d9c5",
-        "5394e1f729c0790900f15d21e30326189c0d506b",
-        "26d563c92838740e77c39571646136008e49b4da",
-        "b47cda4e8b168851cf974d5099e38236fd36427b",
-        "2c3e723102012a10509fe37ba8edde238293e8d0",
-        "4a90b88b11853cc44ded38ff5e2660da1b5c25d2",
-        "8d31b75a553f4293dbfa8bfa2927ec1ce4e2283b",
-        "57913e9b82f8ee9d654b78deeb7398fba0448aee",
-        "c9985662b9fc682552abdbf1b1540caa31c64bd2",
-        "ad5371c5fcccc207a1b08172cfa89f24b3fe9df0",
-        "ac5d2aad39bf9c546734fe3d35b7cfb0ceaae641",
-        "4a591f0098d86b3a6d8889d8ac66168c0efb0bc5",
-        "6c7768bede37263d8d8c7ee69a67e04194fdf774",
-        "9e5d5862004955c1e5ffb92e735b25f54c91c898",
-        "c8efb752b7480702a4041c61b2e1c29afef0a1a4",
-        "00b4025fc69f194a7ddd73da016cdcd60e7027a5",
-        "c7b30936202d4168d3fc181b7a6fabe60e6fc2f5",
-        "e7ebb8d59723ecf4905356990384d6a2baf67cae",
-        "ef73d44b8e632567163b66b7fde720a5a48985a2",
-        "dbb728ed3d6fc719460f9757a365b51311e9675f",
-        "0c60ce368b3eb62d59cc9bf1f2034b6e8c2a7118",
-        "2d2572ad0bac969a5a95001b23c2a4e32d395942",
-        "82812e7d80eea3d8cef46113727db9ed89e70405",
-        "27582d747f2831b6ed636de756a1211d72aaabf5",
-        "04d2afe03446865d9bcd9ba9c4bcab3ec9690a49",
-        "f736f67ad093f741a204db981ba4d01d9d0775da",
-        "a19b0e499be977b9db3a802dae97bea4080772c3",
-        "135809164856300cd373284842c915997b0a89fa",
-        "0a8c964ad6efe12715aa73a7ecd3300d43c3442c",
-        "11f06dc53264a7d4c56138f213902b2da751ae00",
-        "d08c3da610e98c4cc88c166dc040fff7dbf9ad88",
-        "d13bbc6adc61befad16e38b0b7a72bd89559bcb1",
-        "6d391eff8f89ba557a3edae8df2d65dd207f112f",
-        "4a987a6b2466da7e6f8c1c4038ccf330fe003249",
-        "d67e891a67f9794342ea8d25756c8d4aeb38ef17",
-        "7e68046af7bad77c3065d324d33b03f1d66d4d6d",
-        "9cc2aefc106d9ac385b3fa563644e7b308710d95",
-        "ef8389babc6cadf44f8653c36ff0e1d75e63d470",
-        "13e9dc19ba43e88c9f65f672b8b4cbbedd081e48",
-        "124d29be16f57289a236c140749dd8d137f4bef9",
-        "e04a3c23bcebcfc4fe16fba01c564af26219feed",
-        "08fd832bc22b7e58d3cf99f5dd478e7f6af8e475",
-        "1ffe245dbf5692c878d3568057e6c120f5e95acf",
-        "a443b44b2ecd71b18e4fb32d091c63218df9410b",
-        "fa9bb7e5783786a05af0a682db3d2da95640549c",
-        "8f10355f2bbe753ec1ea32640aabb479ce52f702",
-        "ef1d5123aef717fa8879192557c793c8e426652d",
-        "befc9a2c21b6cd43a561ed1a2e77932b556a489b",
-        "b7867c0480c9d7421762c3a95356142b524e3c1c",
-        "262ed5e82ab8715e2ab7e2ef62ac82b7056a8d1f",
-        "57d128196d18fd2cefb184216a92f373d824f9a5",
-        "f9a6120367c6ef607bc4f642838becb553ab771a",
-        "3618eb37963b3b421f18f2fcdf641e0b020ba39d",
-        "859d4c7c6f2c3041a4ac37bd7a95191e3ef9dc4f",
-        "9caef5c1a585813076d4a4bc3957d71c0e1a2fe2",
-        "eeb5aace249d03f8d44ca61692368652ea4fa347",
-        "f2f0956bd03e1a8dae3f0ad5673aa9385f6f5dc0",
-        "fe41b41802a494f045e6c72d24a64ba65ceb4886",
-        "5797684d1946fd48ca00d5326dd47ba6f449f926",
-        "a6d95565e2c82ecbce50c6ffddc93f5ceb091689",
-        "62075e158e4c38a476ce4fbcb7c0a98cebf253e4",
-        "b67de7f7bb8cfe645c34f34f5f4abc269b36779e",
-        "05a71adf2df0fddadfc99ff80789d827e780e9af",
-        "16993f8d2aabe4df845a5a43b3eea820b014dbe3",
-        "1f5084113668ac84ce008fa109e0a23037e59955",
-        "2f7815abe85b06de25f28acce43403c91b559a2b",
-        "a67bbac529364ee50edc41b0add63916bef4cf37",
-        "4aab20b1a22a1e8054939eade93ac367ff317cb2",
-        "7eb61f8a00d2e2c6722c9a8de3be385f19afe105",
-        "116b1e444098eb41e5fd422630966acbf6f526c5",
-        "b0b2537f526e3f1bbc538449b237a7fc9706baf5",
-        "dfd9f2c7225c1e3c16ddc04c77e47a01e8be929c",
-        "b8ac087fdb0b537bd05d20d6a39b7dd3d1aea1de",
-        "95504cc972e272905587556382ad3c180940481b",
-        "eeaad72cae0f4d4db7227a38276b3c78586c8415",
-        "d345aabe7e4a384ce8b27b4b76d28865124462d8",
-        "655e9611278fb2ce67fd4de0f1d7b1d7e3a6091a",
-        "e7ba4533a31b0806b62ec7af89839d72a47ade7d",
-        "135f532a47e47c66d93a54726ba5e157bc9df9d4",
-        "a5338896cb57550794e2df829c101025a48ce443",
-        "7f4520df7b88b648f66bb342d01d4f42c93f585e",
-        "d493b8bacc9d52506858272c0dffd325c21ed7ef",
-        "e3e16112ab12c4d968f5ce779edd5c7a579a1e16",
-        "71eca974bf61fa1a0b927fd43449d538fb463b03",
-        "57156a50688834f23f3c4300152200cf35891314",
-        "a041b5ca9a4a9c31d4c0657bf919e48be0948bc3",
-        "a9c759b92cf679c650d93320e53e3e4fbc246de1",
-        "7a9388ba26a1c791444ba584d19d1737ce39bd47",
-        "e6a0514c4050a1a55ec1e9c06a1ba50322fbd1e6",
-        "9cadad0f96fcdcc45e30ebe1c57497f4fca73524",
-        "094630197e893d71db98a77fbc47f51577d24837",
-        "dd840a9ce03753e2a6b4d3108c2ea1095a97cad6",
-        "83b86c6942206196de36b118cdc4667786b627c0",
-        "df3057e270ba6a39be5065ef888fdc57a9dc128e",
-        "4ae567db38ddd321c727f9ea649751c6df4d0307",
-        "667fa11600e5a2a11d40517ae0e964074cbe1a43",
-        "a3a185162c5d1328ae13316663f8c11c1177ed34",
-        "dde7e81ce7243ced103fcc65fd60bda500aca772",
-        "310a6959c0a8abcecd06b58eac2096422238f76c",
-        "1574785b2da70d650ce5fb2990ed56e7dc8378fa"
-      ],
-      "paths": [
-        {
-          "action": "created",
-          "path": ".pose/assessments/internal.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/contributions/20260915-182942-knowledge-usage-misses-spec-citations.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/knowledge/2026-09-10-handoff-go-foundations-io-batch.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/knowledge/2026-09-16-handoff-go-foundations-automated-review-reservations.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-09-go-io-authoring-batch.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-catalog-hint-review.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-catalog-luna-review.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-catalog-relations-review.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-core-concept-content.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-core-counter-interface-node.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-core-counter-state-node.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-core-defer-empty-node.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-core-find-first-node.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-core-functional-options-node.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-core-labeled-break-node.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-core-percentage-invariant-node.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-core-run-commands-node.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-core-safe-call-node.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-core-variadic-call-forms.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-data-text-concept-content.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-data-text-csv-quote-node.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-data-text-map-nil-node.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-data-text-truncate-node.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-debugging-competencies.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-debugging-concept-content.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-debugging-step-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-error-concept-content.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-error-concepts-complement.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-errors-as-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-errors-catalog-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-errors-classification-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-errors-empty-value-node.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-errors-join-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-errors-translation-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-first-steps-concept-content.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-first-steps-runtime-content.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-first-steps-shadowing-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-first-steps-step-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-first-steps-structure-content.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-first-steps-tooling-content.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-first-steps-tooling-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-foundation-track-routing.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-foundation-variants-authoring-batch.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-go-errors-authoring-batch.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-go-testing-authoring-batch.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-io-competencies.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-io-concept-content.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-io-fragmented-read-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-io-quoted-attendees-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-io-weather-boundary-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-io-write-report-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-core-creation.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-data-text-creation.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-errors-creation.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-type-design-creation.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-standard-validate-native.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-testing-clock-call-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-testing-clock-count-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-testing-concept-content.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-testing-expiry-output-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-testing-reservation-clock-node.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-testing-snapshot-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-testing-ticket-boundary-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-testing-ticket-mixed-node.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-testing-time-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-testing-timezone-node.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-type-design-assertion-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-type-design-clone-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-type-design-combined-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-type-design-concept-content.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-type-design-generic-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-type-design-interface-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-type-design-receiver-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-10-type-design-step-nodes.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/2026-09-15-standard-validate-native.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/history/standard-reconcile-historical-go-core-creation.jsonl"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/history/standard-reconcile-historical-go-data-text-creation.jsonl"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/history/standard-reconcile-historical-go-errors-creation.jsonl"
-        },
-        {
-          "action": "created",
-          "path": ".pose/reports/history/standard-reconcile-historical-go-type-design-creation.jsonl"
-        },
-        {
-          "action": "created",
-          "path": ".pose/results/go-foundations-review-validation.json"
-        },
-        {
-          "action": "created",
-          "path": ".pose/state/components/internal.json"
-        },
-        {
-          "action": "created",
-          "path": "cmd/codinho/foundation_tracks_integration_test.go"
-        },
-        {
-          "action": "created",
-          "path": "docs/catalog/go-foundations.md"
-        },
-        {
-          "action": "created",
-          "path": "internal/curriculum/foundation_variants_test.go"
-        },
-        {
-          "action": "created",
-          "path": "packs/go-io.yaml"
-        },
-        {
-          "action": "created",
-          "path": "packs/go-testing.yaml"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/README.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/cmd-ci-assurance.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/cmd-codinho.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/consolidated.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/docs.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/github-workflows.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/integrations.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/internal-ciassurance.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/internal-mcpserver.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/packs.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/pose-contracts.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/root.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/scripts.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/technical-debt.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/docs.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/indexes/delivery-integrity.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/indexes/validation-matrix.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/knowledge/2026-08-24-note-agent-batch-review-pattern.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/reports/history/standard-validate-native.jsonl"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/results/delivery-validation.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-go-foundations-packs.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/cmd-ci-assurance.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/cmd-codinho.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/docs.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/github-workflows.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/internal-ciassurance.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/internal-mcpserver.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/packs.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/pose-contracts.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/root.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/scripts.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/integrations.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/project-state.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/technical-debt.json"
-        },
-        {
-          "action": "modified",
-          "path": "docs/agent-review-workflow.md"
-        },
-        {
-          "action": "modified",
-          "path": "docs/content-review-checklist.md"
-        },
-        {
-          "action": "modified",
-          "path": "docs/editorial/go-foundations-queue.json"
-        },
-        {
-          "action": "modified",
-          "path": "packs/go-core.yaml"
-        },
-        {
-          "action": "modified",
-          "path": "packs/go-data-text.yaml"
-        },
-        {
-          "action": "modified",
-          "path": "packs/go-debugging.yaml"
-        },
-        {
-          "action": "modified",
-          "path": "packs/go-errors.yaml"
-        },
-        {
-          "action": "modified",
-          "path": "packs/go-first-steps.yaml"
-        },
-        {
-          "action": "modified",
-          "path": "packs/go-type-design.yaml"
-        },
-        {
-          "action": "modified",
-          "path": "packs/manifest.yaml"
-        }
-      ],
-      "diff_digest": "sha256:8fa9bb162dd6f5aa0cb55e9ab48b4921ddaed8bda84758e861f2f0fa7b3a484f"
     },
     {
       "id": "cs-7525cc2429b5",
@@ -28433,6 +28287,678 @@
       "diff_digest": "sha256:23a990919015bd18bc6d6a5356076c5d035ac06db3d9598447ce60a67e4a76e9"
     },
     {
+      "id": "cs-ceb7e67661d5",
+      "spec": "go-foundations-packs",
+      "selector": "trailers:go-foundations-packs",
+      "base": "6518bebd03b709c5b6af23aaa88eab55d3088456^",
+      "head": "4067f89f02aedba8c9b02cf75f6ed46872396fcd",
+      "resolved_base": "de2d1229b23a853e0f268900da9a906926c99923",
+      "resolved_head": "4067f89f02aedba8c9b02cf75f6ed46872396fcd",
+      "commits": [
+        "6518bebd03b709c5b6af23aaa88eab55d3088456",
+        "348d9853d2172dfb7268b64f1a120a1bbb591ac0",
+        "edf3269378517d57ce0ad87f77145a11692c41da",
+        "e8cd863e3da3a59f9d215790c499c45621e2af40",
+        "ac886fc02602d452bca409bda6ac69528fc74cd5",
+        "12331fe997abb91687151d64942b9d88af40687d",
+        "dd17450f10d71dd9c5603185693c66b72dbc6c6f",
+        "d4f1638faa78ce35791133b254ba17818d05ff7d",
+        "0d78c7c03857a3dfa53c481d64f6f5c4af5ffe83",
+        "b42895c1bac2803f2ed9c39856af01b6b6323344",
+        "43dba55c4402df7c4bfc7da242e6b21416ff4bf3",
+        "237c3bc00b60c0483b14e3baa89b54350f0c1613",
+        "2eb17141ba8ed8eb5f92e51adc1c3e22937bf175",
+        "2171d72837fd6e626b74425a1bce400bc8633136",
+        "1cd4ef19cc20b9e0e931de1e635303c8dec2ad88",
+        "d688816f97fce164f26965ddda6c9b83765002bc",
+        "831d1783526bef6eb80c791606f1bbeb3dca6c9b",
+        "a98239699acafac47e9ae871afa91b9e49e51bd6",
+        "87f23ee64210e972b5d691cd70e1760c165cfbc1",
+        "623a2cd6e30b15c885f1da1dc5bbd88904290a37",
+        "90c72bdc57d8f55240a8090eba842b3496c8e016",
+        "0789d81132ab40bdf8c994619555d178e561d9c5",
+        "5394e1f729c0790900f15d21e30326189c0d506b",
+        "26d563c92838740e77c39571646136008e49b4da",
+        "b47cda4e8b168851cf974d5099e38236fd36427b",
+        "2c3e723102012a10509fe37ba8edde238293e8d0",
+        "4a90b88b11853cc44ded38ff5e2660da1b5c25d2",
+        "8d31b75a553f4293dbfa8bfa2927ec1ce4e2283b",
+        "57913e9b82f8ee9d654b78deeb7398fba0448aee",
+        "c9985662b9fc682552abdbf1b1540caa31c64bd2",
+        "ad5371c5fcccc207a1b08172cfa89f24b3fe9df0",
+        "ac5d2aad39bf9c546734fe3d35b7cfb0ceaae641",
+        "4a591f0098d86b3a6d8889d8ac66168c0efb0bc5",
+        "6c7768bede37263d8d8c7ee69a67e04194fdf774",
+        "9e5d5862004955c1e5ffb92e735b25f54c91c898",
+        "c8efb752b7480702a4041c61b2e1c29afef0a1a4",
+        "00b4025fc69f194a7ddd73da016cdcd60e7027a5",
+        "c7b30936202d4168d3fc181b7a6fabe60e6fc2f5",
+        "e7ebb8d59723ecf4905356990384d6a2baf67cae",
+        "ef73d44b8e632567163b66b7fde720a5a48985a2",
+        "dbb728ed3d6fc719460f9757a365b51311e9675f",
+        "0c60ce368b3eb62d59cc9bf1f2034b6e8c2a7118",
+        "2d2572ad0bac969a5a95001b23c2a4e32d395942",
+        "82812e7d80eea3d8cef46113727db9ed89e70405",
+        "27582d747f2831b6ed636de756a1211d72aaabf5",
+        "04d2afe03446865d9bcd9ba9c4bcab3ec9690a49",
+        "f736f67ad093f741a204db981ba4d01d9d0775da",
+        "a19b0e499be977b9db3a802dae97bea4080772c3",
+        "135809164856300cd373284842c915997b0a89fa",
+        "0a8c964ad6efe12715aa73a7ecd3300d43c3442c",
+        "11f06dc53264a7d4c56138f213902b2da751ae00",
+        "d08c3da610e98c4cc88c166dc040fff7dbf9ad88",
+        "d13bbc6adc61befad16e38b0b7a72bd89559bcb1",
+        "6d391eff8f89ba557a3edae8df2d65dd207f112f",
+        "4a987a6b2466da7e6f8c1c4038ccf330fe003249",
+        "d67e891a67f9794342ea8d25756c8d4aeb38ef17",
+        "7e68046af7bad77c3065d324d33b03f1d66d4d6d",
+        "9cc2aefc106d9ac385b3fa563644e7b308710d95",
+        "ef8389babc6cadf44f8653c36ff0e1d75e63d470",
+        "13e9dc19ba43e88c9f65f672b8b4cbbedd081e48",
+        "124d29be16f57289a236c140749dd8d137f4bef9",
+        "e04a3c23bcebcfc4fe16fba01c564af26219feed",
+        "08fd832bc22b7e58d3cf99f5dd478e7f6af8e475",
+        "1ffe245dbf5692c878d3568057e6c120f5e95acf",
+        "a443b44b2ecd71b18e4fb32d091c63218df9410b",
+        "fa9bb7e5783786a05af0a682db3d2da95640549c",
+        "8f10355f2bbe753ec1ea32640aabb479ce52f702",
+        "ef1d5123aef717fa8879192557c793c8e426652d",
+        "befc9a2c21b6cd43a561ed1a2e77932b556a489b",
+        "b7867c0480c9d7421762c3a95356142b524e3c1c",
+        "262ed5e82ab8715e2ab7e2ef62ac82b7056a8d1f",
+        "57d128196d18fd2cefb184216a92f373d824f9a5",
+        "f9a6120367c6ef607bc4f642838becb553ab771a",
+        "3618eb37963b3b421f18f2fcdf641e0b020ba39d",
+        "859d4c7c6f2c3041a4ac37bd7a95191e3ef9dc4f",
+        "9caef5c1a585813076d4a4bc3957d71c0e1a2fe2",
+        "eeb5aace249d03f8d44ca61692368652ea4fa347",
+        "f2f0956bd03e1a8dae3f0ad5673aa9385f6f5dc0",
+        "fe41b41802a494f045e6c72d24a64ba65ceb4886",
+        "5797684d1946fd48ca00d5326dd47ba6f449f926",
+        "a6d95565e2c82ecbce50c6ffddc93f5ceb091689",
+        "62075e158e4c38a476ce4fbcb7c0a98cebf253e4",
+        "b67de7f7bb8cfe645c34f34f5f4abc269b36779e",
+        "05a71adf2df0fddadfc99ff80789d827e780e9af",
+        "16993f8d2aabe4df845a5a43b3eea820b014dbe3",
+        "1f5084113668ac84ce008fa109e0a23037e59955",
+        "2f7815abe85b06de25f28acce43403c91b559a2b",
+        "a67bbac529364ee50edc41b0add63916bef4cf37",
+        "4aab20b1a22a1e8054939eade93ac367ff317cb2",
+        "7eb61f8a00d2e2c6722c9a8de3be385f19afe105",
+        "116b1e444098eb41e5fd422630966acbf6f526c5",
+        "b0b2537f526e3f1bbc538449b237a7fc9706baf5",
+        "dfd9f2c7225c1e3c16ddc04c77e47a01e8be929c",
+        "b8ac087fdb0b537bd05d20d6a39b7dd3d1aea1de",
+        "95504cc972e272905587556382ad3c180940481b",
+        "eeaad72cae0f4d4db7227a38276b3c78586c8415",
+        "d345aabe7e4a384ce8b27b4b76d28865124462d8",
+        "655e9611278fb2ce67fd4de0f1d7b1d7e3a6091a",
+        "e7ba4533a31b0806b62ec7af89839d72a47ade7d",
+        "135f532a47e47c66d93a54726ba5e157bc9df9d4",
+        "a5338896cb57550794e2df829c101025a48ce443",
+        "7f4520df7b88b648f66bb342d01d4f42c93f585e",
+        "d493b8bacc9d52506858272c0dffd325c21ed7ef",
+        "e3e16112ab12c4d968f5ce779edd5c7a579a1e16",
+        "71eca974bf61fa1a0b927fd43449d538fb463b03",
+        "57156a50688834f23f3c4300152200cf35891314",
+        "a041b5ca9a4a9c31d4c0657bf919e48be0948bc3",
+        "a9c759b92cf679c650d93320e53e3e4fbc246de1",
+        "7a9388ba26a1c791444ba584d19d1737ce39bd47",
+        "e6a0514c4050a1a55ec1e9c06a1ba50322fbd1e6",
+        "9cadad0f96fcdcc45e30ebe1c57497f4fca73524",
+        "094630197e893d71db98a77fbc47f51577d24837",
+        "dd840a9ce03753e2a6b4d3108c2ea1095a97cad6",
+        "83b86c6942206196de36b118cdc4667786b627c0",
+        "df3057e270ba6a39be5065ef888fdc57a9dc128e",
+        "4ae567db38ddd321c727f9ea649751c6df4d0307",
+        "667fa11600e5a2a11d40517ae0e964074cbe1a43",
+        "a3a185162c5d1328ae13316663f8c11c1177ed34",
+        "dde7e81ce7243ced103fcc65fd60bda500aca772",
+        "310a6959c0a8abcecd06b58eac2096422238f76c",
+        "1574785b2da70d650ce5fb2990ed56e7dc8378fa",
+        "4067f89f02aedba8c9b02cf75f6ed46872396fcd"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": ".pose/assessments/internal.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/contributions/20260915-182942-knowledge-usage-misses-spec-citations.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/knowledge/2026-09-10-handoff-go-foundations-io-batch.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/knowledge/2026-09-16-handoff-go-foundations-automated-review-reservations.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-09-go-io-authoring-batch.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-catalog-hint-review.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-catalog-luna-review.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-catalog-relations-review.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-core-concept-content.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-core-counter-interface-node.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-core-counter-state-node.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-core-defer-empty-node.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-core-find-first-node.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-core-functional-options-node.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-core-labeled-break-node.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-core-percentage-invariant-node.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-core-run-commands-node.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-core-safe-call-node.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-core-variadic-call-forms.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-data-text-concept-content.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-data-text-csv-quote-node.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-data-text-map-nil-node.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-data-text-truncate-node.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-debugging-competencies.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-debugging-concept-content.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-debugging-step-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-error-concept-content.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-error-concepts-complement.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-errors-as-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-errors-catalog-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-errors-classification-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-errors-empty-value-node.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-errors-join-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-errors-translation-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-first-steps-concept-content.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-first-steps-runtime-content.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-first-steps-shadowing-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-first-steps-step-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-first-steps-structure-content.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-first-steps-tooling-content.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-first-steps-tooling-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-foundation-track-routing.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-foundation-variants-authoring-batch.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-go-errors-authoring-batch.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-go-testing-authoring-batch.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-io-competencies.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-io-concept-content.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-io-fragmented-read-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-io-quoted-attendees-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-io-weather-boundary-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-io-write-report-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-core-creation.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-data-text-creation.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-errors-creation.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-standard-reconcile-historical-go-type-design-creation.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-standard-validate-native.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-testing-clock-call-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-testing-clock-count-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-testing-concept-content.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-testing-expiry-output-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-testing-reservation-clock-node.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-testing-snapshot-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-testing-ticket-boundary-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-testing-ticket-mixed-node.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-testing-time-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-testing-timezone-node.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-type-design-assertion-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-type-design-clone-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-type-design-combined-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-type-design-concept-content.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-type-design-generic-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-type-design-interface-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-type-design-receiver-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-10-type-design-step-nodes.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/2026-09-15-standard-validate-native.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/history/standard-reconcile-historical-go-core-creation.jsonl"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/history/standard-reconcile-historical-go-data-text-creation.jsonl"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/history/standard-reconcile-historical-go-errors-creation.jsonl"
+        },
+        {
+          "action": "created",
+          "path": ".pose/reports/history/standard-reconcile-historical-go-type-design-creation.jsonl"
+        },
+        {
+          "action": "created",
+          "path": ".pose/results/go-foundations-review-validation.json"
+        },
+        {
+          "action": "created",
+          "path": ".pose/review-attestations/rva-cace9361366fcc6f.json"
+        },
+        {
+          "action": "created",
+          "path": ".pose/review-bundles/rvb-75e96b8abe40fb57.json"
+        },
+        {
+          "action": "created",
+          "path": ".pose/state/components/internal.json"
+        },
+        {
+          "action": "created",
+          "path": "cmd/codinho/foundation_tracks_integration_test.go"
+        },
+        {
+          "action": "created",
+          "path": "docs/catalog/go-foundations.md"
+        },
+        {
+          "action": "created",
+          "path": "internal/curriculum/foundation_variants_test.go"
+        },
+        {
+          "action": "created",
+          "path": "packs/go-io.yaml"
+        },
+        {
+          "action": "created",
+          "path": "packs/go-testing.yaml"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/README.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/cmd-ci-assurance.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/cmd-codinho.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/consolidated.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/docs.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/github-workflows.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/integrations.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/internal-ciassurance.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/internal-mcpserver.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/packs.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/pose-contracts.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/root.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/scripts.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/technical-debt.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/docs.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/delivery-integrity.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/releases.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/spec-graph.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/validation-matrix.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/knowledge/2026-08-24-note-agent-batch-review-pattern.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/reports/history/standard-validate-native.jsonl"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/results/delivery-validation.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-go-foundations-packs.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/cmd-ci-assurance.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/cmd-codinho.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/docs.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/github-workflows.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/internal-ciassurance.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/internal-mcpserver.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/packs.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/pose-contracts.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/root.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/scripts.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/integrations.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/project-state.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/technical-debt.json"
+        },
+        {
+          "action": "modified",
+          "path": "docs/agent-review-workflow.md"
+        },
+        {
+          "action": "modified",
+          "path": "docs/content-review-checklist.md"
+        },
+        {
+          "action": "modified",
+          "path": "docs/editorial/go-foundations-queue.json"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-core.yaml"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-data-text.yaml"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-debugging.yaml"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-errors.yaml"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-first-steps.yaml"
+        },
+        {
+          "action": "modified",
+          "path": "packs/go-type-design.yaml"
+        },
+        {
+          "action": "modified",
+          "path": "packs/manifest.yaml"
+        }
+      ],
+      "diff_digest": "sha256:ce4e6aa34b5ba096d33ee7fa67af4ee6a86b7ecdb67a79d0ed5a07ec1c2011b9"
+    },
+    {
       "id": "cs-dd2a2455f2af",
       "spec": "agent-authored-catalog-drafts",
       "selector": "trailers:agent-authored-catalog-drafts",
@@ -29404,6 +29930,7 @@
       "concept-content-authoring"
     ],
     ".pose/assessments/README.md": [
+      "go-backend-packs",
       "go-foundations-packs"
     ],
     ".pose/assessments/cmd-codinho.md": [
@@ -29411,7 +29938,11 @@
     ],
     ".pose/assessments/consolidated.md": [
       "editorial-batch-engine",
+      "go-backend-packs",
       "go-foundations-packs"
+    ],
+    ".pose/assessments/docs-catalog.md": [
+      "go-backend-packs"
     ],
     ".pose/assessments/docs.md": [
       "go-foundations-packs"
@@ -29424,6 +29955,7 @@
       "go-foundations-packs"
     ],
     ".pose/assessments/packs.md": [
+      "go-backend-packs",
       "go-foundations-packs"
     ],
     ".pose/assessments/scripts.md": [
@@ -29550,6 +30082,9 @@
     ".pose/state/components/cmd-codinho.json": [
       "go-foundations-packs"
     ],
+    ".pose/state/components/docs-catalog.json": [
+      "go-backend-packs"
+    ],
     ".pose/state/components/docs.json": [
       "go-foundations-packs"
     ],
@@ -29557,6 +30092,7 @@
       "go-foundations-packs"
     ],
     ".pose/state/components/packs.json": [
+      "go-backend-packs",
       "go-foundations-packs"
     ],
     ".pose/state/components/scripts.json": [
@@ -29565,6 +30101,9 @@
     ".pose/state/integrations.json": [
       "editorial-batch-engine",
       "go-foundations-packs"
+    ],
+    ".pose/state/project-state.md": [
+      "go-backend-packs"
     ],
     ".pose/state/technical-debt.json": [
       "editorial-batch-engine",
@@ -29704,6 +30243,12 @@
     ],
     "docs/editorial-workflow.md": [
       "editorial-batch-engine"
+    ],
+    "docs/editorial/go-backend-inventory.md": [
+      "go-backend-packs"
+    ],
+    "docs/editorial/go-backend-queue.json": [
+      "go-backend-packs"
     ],
     "docs/editorial/go-foundations-inventory.md": [
       "editorial-batch-engine"
@@ -30721,7 +31266,7 @@
     "testdata/host/session-transcripts/practice-session-happy-path.md": [
       "tutor-skill-host-integration"
     ],
-    "testdata/packs/backend": [
+    "testdata/packs/backend/README.md": [
       "go-backend-packs"
     ],
     "testdata/packs/interviews": [
@@ -30780,15 +31325,6 @@
       "path": "tests/e2e/session-resume",
       "message": "declared current artifact is not tracked at the selected head",
       "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-05fe015391cc",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "go-backend-packs",
-      "path": "testdata/packs/backend",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
     },
     {
       "id": "dif-08f785624e53",
@@ -30859,25 +31395,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-19584d33bd5b",
-      "code": "existence",
-      "severity": "error",
-      "spec": "go-backend-packs",
-      "path": "packs/go-database.yaml",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
-      "id": "dif-1a9ec334a6ab",
-      "code": "undeclared-delivery",
-      "severity": "warning",
-      "spec": "go-foundations-packs",
-      "path": "cmd/codinho/foundation_tracks_integration_test.go",
-      "change_set": "cs-64a431e24de1",
-      "message": "changed delivery root cmd/codinho has no delivery declaration",
-      "remediation": "declare a typed delivery target or narrow the attributed change set"
-    },
-    {
       "id": "dif-1be10b05ee2e",
       "code": "action-mismatch",
       "severity": "error",
@@ -30885,15 +31402,6 @@
       "path": "tests/security/v1-adversarial",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec v1-integrated-acceptance (ensure commits carry 'POSE-Spec: v1-integrated-acceptance' trailer or generate report with pose report)"
-    },
-    {
-      "id": "dif-1d0a4e5b44ff",
-      "code": "existence",
-      "severity": "error",
-      "spec": "go-backend-packs",
-      "path": "packs/go-http.yaml",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
       "id": "dif-1d3e59b3816e",
@@ -31018,15 +31526,6 @@
       "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
-      "id": "dif-2fbbda6142e2",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "go-backend-packs",
-      "path": "packs/go-http.yaml",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-30b43e24286f",
       "code": "undeclared-delivery",
       "severity": "warning",
@@ -31087,15 +31586,6 @@
       "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
-      "id": "dif-34a9401648f7",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "go-backend-packs",
-      "path": "packs/go-concurrency-context.yaml",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-35bdcb64a222",
       "code": "undeclared-delivery",
       "severity": "warning",
@@ -31146,15 +31636,6 @@
       "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
-      "id": "dif-424923f8beb5",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "go-backend-packs",
-      "path": "docs/catalog/go-backend.md",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
-    },
-    {
       "id": "dif-43d44a8d217b",
       "code": "undeclared-delivery",
       "severity": "warning",
@@ -31202,15 +31683,6 @@
       "remediation": "correct the exact path or commit the artifact before closeout"
     },
     {
-      "id": "dif-56aa8c83b302",
-      "code": "existence",
-      "severity": "error",
-      "spec": "go-backend-packs",
-      "path": "testdata/packs/backend",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-56e13ed1d3f5",
       "code": "undeclared-delivery",
       "severity": "warning",
@@ -31229,15 +31701,6 @@
       "change_set": "cs-5bccc7e9e711",
       "message": "changed delivery root internal/mcpserver has no delivery declaration",
       "remediation": "declare a typed delivery target or narrow the attributed change set"
-    },
-    {
-      "id": "dif-5eb4dcafaeaf",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "go-backend-packs",
-      "path": "packs/go-database.yaml",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
     },
     {
       "id": "dif-6370dac46224",
@@ -31462,15 +31925,6 @@
       "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
-      "id": "dif-93f6470c4409",
-      "code": "existence",
-      "severity": "error",
-      "spec": "go-backend-packs",
-      "path": "packs/go-concurrency-context.yaml",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-98247d369ed1",
       "code": "undeclared-delivery",
       "severity": "warning",
@@ -31510,15 +31964,6 @@
       "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
-      "id": "dif-a351218dabec",
-      "code": "existence",
-      "severity": "error",
-      "spec": "go-backend-packs",
-      "path": "docs/catalog/go-backend.md",
-      "message": "declared current artifact is not tracked at the selected head",
-      "remediation": "correct the exact path or commit the artifact before closeout"
-    },
-    {
       "id": "dif-ae014d3c3b09",
       "code": "undeclared-delivery",
       "severity": "error",
@@ -31555,6 +32000,16 @@
       "spec": "assistance-hints-detours",
       "path": "cmd/codinho/main.go",
       "change_set": "cs-ace3ca5ace4e",
+      "message": "changed delivery root cmd/codinho has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
+    },
+    {
+      "id": "dif-b5efdef1df60",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "go-foundations-packs",
+      "path": "cmd/codinho/foundation_tracks_integration_test.go",
+      "change_set": "cs-ceb7e67661d5",
       "message": "changed delivery root cmd/codinho has no delivery declaration",
       "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
@@ -31834,15 +32289,6 @@
       "change_set": "cs-987ed739adc0",
       "message": "changed delivery root internal/mcpserver has no delivery declaration",
       "remediation": "declare a typed delivery target or narrow the attributed change set"
-    },
-    {
-      "id": "dif-edf05599ac75",
-      "code": "action-mismatch",
-      "severity": "error",
-      "spec": "go-backend-packs",
-      "path": "packs/manifest.yaml",
-      "message": "declared artifact action is absent from the attributed Git change sets",
-      "remediation": "no Git change sets are attributed to spec go-backend-packs (ensure commits carry 'POSE-Spec: go-backend-packs' trailer or generate report with pose report)"
     },
     {
       "id": "dif-f0d208ddde77",
@@ -33083,7 +33529,11 @@
         "check:cli-e2e"
       ],
       "raw": "CLI alcançável e integrada: surface:codinho-cli check:cli-reachability check:cli-e2e",
-      "passed": true
+      "passed": false,
+      "reasons": [
+        "check is missing, failing or stale: cli-reachability",
+        "check is missing, failing or stale: cli-e2e"
+      ]
     },
     {
       "roadmap": "codinho-v1",
@@ -33114,7 +33564,10 @@
         "check:tutor-skill-routing"
       ],
       "raw": "Conteúdo canônico e tutor composto: capability:canonical-concept-content capability:codinho-tutor check:tutor-skill-routing",
-      "passed": true
+      "passed": false,
+      "reasons": [
+        "check is missing, failing or stale: tutor-skill-routing"
+      ]
     },
     {
       "roadmap": "codinho-v1",
@@ -33145,7 +33598,13 @@
         "check:smoke-install"
       ],
       "raw": "Protocolo, inicialização e instalação: check:mcp-contract check:stdout-purity check:startup-budget check:smoke-install",
-      "passed": true
+      "passed": false,
+      "reasons": [
+        "check is missing, failing or stale: mcp-contract",
+        "check is missing, failing or stale: stdout-purity",
+        "check is missing, failing or stale: startup-budget",
+        "check is missing, failing or stale: smoke-install"
+      ]
     },
     {
       "roadmap": "codinho-v1",

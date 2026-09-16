@@ -21,6 +21,12 @@ var foundationTrackIDs = []string{
 	"go-testing-and-design",
 }
 
+var backendTrackIDs = []string{
+	"go-concurrency-lifecycle",
+	"go-http-services",
+	"go-backend",
+}
+
 var foundationTrackPaths = map[string][]string{
 	"go-from-zero": {
 		"go-first-steps.declare-a-minimal-module",
@@ -153,8 +159,9 @@ func TestFoundationTracksOverRealStdio(t *testing.T) {
 	defer cs.Close()
 	listed := callTool(ctx, t, cs, "catalog_search", map[string]any{"kind": "track"})
 	items, ok := listed["data"].([]any)
-	if !ok || len(items) != 5 {
-		t.Fatalf("expected five authored tracks: %+v", listed)
+	expectedTrackCount := len(foundationTrackIDs) + len(backendTrackIDs)
+	if !ok || len(items) != expectedTrackCount {
+		t.Fatalf("expected %d authored tracks: %+v", expectedTrackCount, listed)
 	}
 	listedIDs := make(map[string]bool, len(items))
 	for _, item := range items {
@@ -174,6 +181,11 @@ func TestFoundationTracksOverRealStdio(t *testing.T) {
 	for _, id := range foundationTrackIDs {
 		if !listedIDs[id] {
 			t.Fatalf("track search omitted %q: %+v", id, listed)
+		}
+	}
+	for _, id := range backendTrackIDs {
+		if !listedIDs[id] {
+			t.Fatalf("track search omitted backend track %q: %+v", id, listed)
 		}
 	}
 	for _, id := range foundationTrackIDs {

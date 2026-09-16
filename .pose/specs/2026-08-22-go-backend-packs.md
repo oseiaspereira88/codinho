@@ -61,6 +61,8 @@ Levar a fluência fundamental até comportamentos backend reais sem saltar diret
 
 ### Artifacts
 - modified: packs/manifest.yaml
+- modified: cmd/codinho/foundation_tracks_integration_test.go
+- modified: internal/curriculum/foundation_variants_test.go
 - created: packs/go-concurrency-context.yaml
 - created: packs/go-http.yaml
 - created: packs/go-database.yaml
@@ -75,6 +77,9 @@ Levar a fluência fundamental até comportamentos backend reais sem saltar diret
 - modified: .pose/state/components/packs.json
 - created: .pose/state/components/docs-catalog.json
 - modified: .pose/state/project-state.md
+- modified: .pose/indexes/delivery-integrity.json
+- modified: .pose/reports/2026-09-16-standard-validate-native.md
+- modified: .pose/reports/history/standard-validate-native.jsonl
 
 ### Delivery targets
 Nenhum tipado; conteúdo do catálogo.
@@ -150,6 +155,9 @@ Executar checks herméticos, repetição para flake, race detector e revisão hu
 - 2026-09-16: montagem integrada adicionou a trilha `go-backend` ao pack database com os 23 desafios backend em ordem de pré-requisitos e criou `docs/catalog/go-backend.md`.
 - 2026-09-16: `testdata/packs/backend/README.md` registrou o ponto de extração para workspace; a fonte executável permanece embutida nos packs para evitar duplicação não governada.
 - 2026-09-16: segunda execução consecutiva de `./codinho catalog validate --checks --json` verificou novamente 60/60 checks, sem diagnostics ou achados editoriais; cobertura integrada permaneceu em 145 conceitos, 89 competências, 77 desafios, 501 nodes e oito trilhas.
+- 2026-09-16: `pose validate --strict` expôs duas expectativas históricas nos testes de auditoria: a busca de trilhas ainda esperava cinco itens e a auditoria de packs ainda esperava oito packs/105 conceitos/64 competências/54 desafios/366 nodes. A causa foi a expansão intencional do catálogo; os testes foram atualizados para declarar e verificar as três trilhas e os três packs backend, sem alterar o catálogo.
+- 2026-09-16: após o ajuste, `TestFoundationTracksOverRealStdio`, a auditoria de variantes e `go test -race -count=1 ./...` passaram com `GOFLAGS='-mod=readonly -buildvcs=false -p=1'`, cache Go local e `GOTMPDIR=/tmp`; o teste de race completo não encontrou races. A tentativa paralela padrão ficou limitada por `disk quota exceeded` no linker, não por falha de código.
+- 2026-09-16: `pose assess discover --update-state` recalculou assessments/state; a validação nativa estrita registrou 23/24 checks aprovados no relatório `.pose/reports/2026-09-16-standard-validate-native.md`, com formato, testes, vet, build, catálogo, contratos e smoke checks aprovados. O único check não concluído foi `govulncheck`, que falhou ao resolver `vuln.go.dev` (`Temporary failure in name resolution`); não foi tratado como aprovação de segurança.
 
 ### Results summary
 - Nenhum pack backend foi publicado. Os três packs backend foram materializados, integrados à trilha e documentados como drafts; a extração de fixtures para workspace e os gates humanos continuam pendentes. A contagem autorada acrescenta 23 desafios, 40 conceitos, 25 competências e 135 nodes, mantendo os gates humanos pendentes.
@@ -161,13 +169,14 @@ Executar checks herméticos, repetição para flake, race detector e revisão hu
 - R4: database/sql, pool, contexto, queries, nulls, transações, migrations e cleanup estão cobertos pelos seis desafios SQL.
 - R5–R8: distribuição integrada é 8 atomic, 8 combined, 4 functional_slice, 2 debug e 1 systems_mission; checks locais cobrem rollback, cancelamento, HTTP e leak.
 - R9: `go-concurrency-lifecycle`, `go-http-services` e `go-backend` existem no catálogo.
-- R10: `catalog validate --checks` verificou 60/60 cenários; o leak usa `go_test_race`; nenhum resultado humano foi inferido.
+- R10: `catalog validate --checks` verificou 60/60 cenários; o leak usa `go_test_race`; o suite completo com race passou sob execução serializada; nenhum resultado humano foi inferido.
 
 ### Known gaps
 - O pack SQL usa driver sintético local e Go mínimo 1.25 nas fixtures; uma integração com driver real permanece fora desta spec.
 - `testdata/packs/backend/` contém somente o registro de extração; duplicar fixtures para workspace exige fluxo manual de preparação e não é gate do validador catalogal.
 - A revisão pedagógica, o playtest e a publicação continuam fora da automação.
 - O autor delegado não pôde concluir por limite de uso da CLI; o scaffold manual não substitui uma revisão independente nem o playtest.
+- A verificação de vulnerabilidades permanece pendente de um ambiente com resolução/rede para `vuln.go.dev`; o relatório nativo não deve ser promovido a aprovação enquanto esse check não passar.
 
 ### Knowledge consumed
 
@@ -190,6 +199,12 @@ Parcial: os três packs backend estão em draft, com validação estrutural e ch
 - Result: 58/58 checks verificados; todos os itens permanecem em draft.
 - Result adicional: após database, 60/60 checks verificados; todos os itens permanecem em draft.
 - Result integrado: a trilha `go-backend` contém 23 IDs únicos em ordem válida; a segunda execução repetiu 60/60 checks.
+- Command: `bash scripts/ci/check-format.sh`, `go vet ./...` e `go build ./cmd/codinho` com `GOFLAGS='-mod=readonly -buildvcs=false -p=1'`
+- Result: passaram; o build utilizou cache local e temporários fora do workspace.
+- Command: `go test -race -count=1 ./...` com `GOMAXPROCS=2`, `-p=1`, cache local e `GOTMPDIR=/tmp`
+- Result: passou em todos os pacotes, sem data races; a execução paralela padrão foi limitada por quota de disco no linker.
+- Command: `pose validate --strict --module . --report`
+- Result: 23/24 checks passaram. `govulncheck` permanece environment-limited por falha DNS ao consultar `https://vuln.go.dev/index/modules.json.gz`; o relatório foi persistido em `.pose/reports/2026-09-16-standard-validate-native.md`.
 
 ### Residual risks
 - Flakiness será bloqueante para publicação.

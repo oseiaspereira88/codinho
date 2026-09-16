@@ -16,6 +16,12 @@ var foundationPackIDs = map[string]bool{
 	"go-type-design": true,
 }
 
+var backendPackIDs = map[string]bool{
+	"go-concurrency-context": true,
+	"go-http":                true,
+	"go-database":            true,
+}
+
 const (
 	historicalFoundationPrototype = "go-data.slice-filter-preserve-input"
 	outOfScopePrototype           = "go-debug.slice-off-by-one"
@@ -96,19 +102,24 @@ func TestFoundationCatalogAudit(t *testing.T) {
 	for _, p := range packs {
 		byPack[p.ID] = p
 	}
-	if len(byPack) != 8 {
-		t.Fatalf("loaded packs = %d, want seven foundation packs plus debugging", len(byPack))
+	if len(byPack) != 11 {
+		t.Fatalf("loaded packs = %d, want seven foundation packs, debugging and three backend packs", len(byPack))
 	}
 	for id := range foundationPackIDs {
 		if _, ok := byPack[id]; !ok {
 			t.Fatalf("missing foundation pack %s", id)
 		}
 	}
+	for id := range backendPackIDs {
+		if _, ok := byPack[id]; !ok {
+			t.Fatalf("missing backend pack %s", id)
+		}
+	}
 
 	inventory := ProjectCoverage(NewCatalogFromPacks(packs))
 	publication := ProjectPublicationCoverage(packs)
-	if inventory.Concepts != 105 || inventory.Competencies != 64 || inventory.Challenges != 54 || inventory.StepNodes != 366 {
-		t.Fatalf("global inventory = %+v, want concepts=105 competencies=64 challenges=54 nodes=366", inventory)
+	if inventory.Concepts != 145 || inventory.Competencies != 89 || inventory.Challenges != 77 || inventory.StepNodes != 501 {
+		t.Fatalf("global inventory = %+v, want concepts=145 competencies=89 challenges=77 nodes=501", inventory)
 	}
 	if publication.Published.Challenges != 0 || publication.Eligible.Challenges != 0 {
 		t.Fatalf("published projection = %+v, want no published or eligible challenges", publication)

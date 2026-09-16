@@ -1,0 +1,1408 @@
+schema_version: 1
+id: go-architecture-debugging
+version: 1.0.0
+publication:
+  status: draft
+  author: codex
+themes:
+  - id: go-architecture-debugging.investigation
+    title: Investigação orientada por evidências
+  - id: go-architecture-debugging.design-evolution
+    title: Evolução de fronteiras de design
+concepts:
+  - id: go-architecture-debugging.race-happens-before
+    title: Relação happens-before em uma corrida
+  - id: go-architecture-debugging.reachable-heap-retention
+    title: Retenção de heap alcançável
+  - id: go-architecture-debugging.demand-shaped-boundary
+    title: Fronteira moldada pela demanda real
+  - id: go-architecture-debugging.symptom-vs-cause
+    title: Sintoma versus causa
+  - id: go-architecture-debugging.failure-domain
+    title: Domínio de falha
+  - id: go-architecture-debugging.incident-timeline
+    title: Linha do tempo de incidente
+  - id: go-architecture-debugging.causal-evidence
+    title: Evidência causal
+  - id: go-architecture-debugging.reversible-mitigation
+    title: Mitigação reversível
+competencies:
+  - id: go-architecture-debugging.diagnose-data-race
+    title: Diagnosticar uma corrida de dados
+  - id: go-architecture-debugging.trace-retained-object-lifecycle
+    title: Rastrear o ciclo de vida de um objeto retido
+  - id: go-architecture-debugging.remove-unsupported-abstraction
+    title: Remover uma abstração sem pressão real
+  - id: go-architecture-debugging.reconstruct-incident-evidence
+    title: Reconstruir evidência de incidente
+  - id: go-architecture-debugging.select-reversible-mitigation
+    title: Selecionar uma mitigação reversível
+  - id: go-architecture-debugging.distinguish-correlation-from-causation
+    title: Distinguir correlação de causalidade
+  - id: go-architecture-debugging.justify-trade-off-with-evidence
+    title: Justificar um trade-off com evidência
+tracks:
+  - id: go-debugging-performance
+    title: Depuração e performance em Go
+    themes:
+      - go-architecture-debugging.investigation
+      - go-architecture-debugging.design-evolution
+    challenge_ids:
+      - go-production.profile-hot-path
+      - go-production.correlate-request-signals
+      - go-architecture-debugging.diagnose-shared-state-race
+      - go-architecture-debugging.trace-heap-retention
+      - go-architecture-debugging.simplify-overengineered-boundary
+      - go-architecture-debugging.review-partial-outage-evidence
+challenges:
+  - schema_version: 1
+    id: go-architecture-debugging.diagnose-shared-state-race
+    version: 1.0.0
+    title: Diagnosticar uma corrida em estado compartilhado
+    kind: debug
+    difficulty: advanced
+    estimated_minutes: 40
+    themes:
+      - go-architecture-debugging.investigation
+    competencies:
+      primary:
+        - go-architecture-debugging.diagnose-data-race
+      secondary:
+        - go-architecture-debugging.justify-trade-off-with-evidence
+    prerequisites:
+      - go-production.correlate-request-signals
+    brief: >
+      Um contador usado por vários workers produz um resultado instável sob
+      concorrência. Reproduza o comportamento, localize o estado compartilhado
+      e proponha uma correção pequena que preserve o contrato da operação.
+    constraints:
+      - Use o race detector para observar a falha; não use sleep para sincronizar o teste.
+      - Preserve as assinaturas públicas da fixture.
+      - Não reescreva o contador inteiro; altere somente a fronteira de sincronização necessária.
+    acceptance:
+      - O baseline falha sob go_test_race por causa do acesso concorrente não coordenado.
+      - A referência passa no mesmo teste e produz exatamente o total esperado.
+      - A correção estabelece uma relação de ordenação observável sem depender do escalonamento.
+    canonical: true
+    publication:
+      status: draft
+      author: codex
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/shared-state-race
+
+          go 1.25.0
+      - path: counter.go
+        content: |
+          package race
+
+          type Counter struct {
+              value int
+          }
+
+          func NewCounter() *Counter {
+              return &Counter{}
+          }
+
+          func (c *Counter) Add(_ string) {
+              c.value++
+          }
+
+          func (c *Counter) Count(_ string) int {
+              return c.value
+          }
+      - path: counter_test.go
+        content: |
+          package race
+
+          import (
+              "sync"
+              "testing"
+          )
+
+          func TestConcurrentUpdatesAreSafe(t *testing.T) {
+              counter := NewCounter()
+              const workers = 8
+              const updates = 1000
+              start := make(chan struct{})
+              var group sync.WaitGroup
+              group.Add(workers)
+
+              for worker := 0; worker < workers; worker++ {
+                  go func() {
+                      defer group.Done()
+                      <-start
+                      for update := 0; update < updates; update++ {
+                          counter.Add("ok")
+                      }
+                  }()
+              }
+              close(start)
+              group.Wait()
+
+              if got, want := counter.Count("ok"), workers*updates; got != want {
+                  t.Fatalf("count=%d, want %d", got, want)
+              }
+          }
+    checks:
+      - id: shared-state-race
+        runner: go_test_race
+        package: ./...
+        test_pattern: ^TestConcurrentUpdatesAreSafe$
+        timeout: 30s
+        network: false
+    validation:
+      reference_fixture:
+        - path: go.mod
+          content: |
+            module codinho-practice/shared-state-race
+
+            go 1.25.0
+        - path: counter.go
+          content: |
+            package race
+
+            import "sync"
+
+            type Counter struct {
+                mu    sync.Mutex
+                value int
+            }
+
+            func NewCounter() *Counter {
+                return &Counter{}
+            }
+
+            func (c *Counter) Add(_ string) {
+                c.mu.Lock()
+                c.value++
+                c.mu.Unlock()
+            }
+
+            func (c *Counter) Count(_ string) int {
+                c.mu.Lock()
+                defer c.mu.Unlock()
+                return c.value
+            }
+        - path: counter_test.go
+          content: |
+            package race
+
+            import (
+                "sync"
+                "testing"
+            )
+
+            func TestConcurrentUpdatesAreSafe(t *testing.T) {
+                counter := NewCounter()
+                const workers = 8
+                const updates = 1000
+                start := make(chan struct{})
+                var group sync.WaitGroup
+                group.Add(workers)
+
+                for worker := 0; worker < workers; worker++ {
+                    go func() {
+                        defer group.Done()
+                        <-start
+                        for update := 0; update < updates; update++ {
+                            counter.Add("ok")
+                        }
+                    }()
+                }
+                close(start)
+                group.Wait()
+
+                if got, want := counter.Count("ok"), workers*updates; got != want {
+                    t.Fatalf("count=%d, want %d", got, want)
+                }
+            }
+      expectations:
+        - check_id: shared-state-race
+          baseline: test_failure
+          reference: pass
+    layers:
+      - id: go-architecture-debugging.diagnose-shared-state-race.layer
+        macro_steps:
+          - id: go-architecture-debugging.diagnose-shared-state-race.plan
+            kind: macro
+            title: Planejar a investigação da corrida
+            instruction:
+              objective: Delimite o comportamento concorrente que precisa ser observado.
+              scope: O teste e o contrato do contador.
+            children:
+              - id: go-architecture-debugging.diagnose-shared-state-race.observe
+                kind: meso
+                title: Observar os acessos ao contador
+                instruction:
+                  objective: Separe a reprodução, a localização e a correção em etapas observáveis.
+                  scope: Fluxo de investigação da fixture.
+                children:
+                  - id: go-architecture-debugging.diagnose-shared-state-race.reproduce-baseline
+                    kind: micro
+                    action: verify
+                    target: baseline-race
+                    title: Reproduzir a falha do baseline
+                    instruction:
+                      objective: Execute o teste concorrente do baseline e registre a falha observada.
+                      scope: Somente a execução inicial com go_test_race.
+                    concepts:
+                      - go-architecture-debugging.race-happens-before
+                      - go-architecture-debugging.symptom-vs-cause
+                    evidence:
+                      strategies: [test]
+                    criteria:
+                      - id: baseline-race-is-reproduced
+                        kind: behavioral
+                    completion:
+                      requires_positive_evaluation: false
+                      requires_user_confirmation: true
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                  - id: go-architecture-debugging.diagnose-shared-state-race.map-state
+                    kind: micro
+                    action: inspect
+                    target: shared-state
+                    title: Mapear o estado compartilhado
+                    instruction:
+                      objective: Mapeie o campo que recebe leituras ou escritas de mais de um worker.
+                      scope: Implementação do contador antes da edição.
+                    concepts:
+                      - go-architecture-debugging.race-happens-before
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: shared-state-is-mapped
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: false
+                      requires_user_confirmation: true
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                  - id: go-architecture-debugging.diagnose-shared-state-race.formulate-hypothesis
+                    kind: micro
+                    action: analyze
+                    target: missing-ordering
+                    title: Formular a hipótese de ordenação
+                    instruction:
+                      objective: Formule por que os acessos atuais não estabelecem uma relação happens-before suficiente.
+                      scope: Relação entre Add, Count e os workers.
+                    concepts:
+                      - go-architecture-debugging.race-happens-before
+                      - go-architecture-debugging.symptom-vs-cause
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: missing-ordering-is-explained
+                        kind: reasoning
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: true
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                  - id: go-architecture-debugging.diagnose-shared-state-race.apply-minimal-fix
+                    kind: micro
+                    action: modify
+                    target: synchronization-boundary
+                    title: Aplicar a correção mínima
+                    instruction:
+                      objective: Aplique uma sincronização que proteja a fronteira de estado compartilhado.
+                      scope: Somente Counter; preserve a API e não introduza sleep.
+                    concepts:
+                      - go-architecture-debugging.race-happens-before
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: minimal-race-fix-is-applied
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                  - id: go-architecture-debugging.diagnose-shared-state-race.verify-race-free
+                    kind: micro
+                    action: verify
+                    target: race-detector
+                    title: Verificar a fronteira sem corrida
+                    instruction:
+                      objective: Execute novamente o teste com race detector e confirme o total esperado.
+                      scope: Somente a fixture após a correção.
+                    concepts:
+                      - go-architecture-debugging.race-happens-before
+                    evidence:
+                      strategies: [test]
+                    criteria:
+                      - id: reference-race-check-passes
+                        kind: behavioral
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection:
+                      optional:
+                        - Que acesso precisa participar da mesma relação happens-before para que o total seja confiável?
+
+  - schema_version: 1
+    id: go-architecture-debugging.trace-heap-retention
+    version: 1.0.0
+    title: Rastrear uma retenção de heap
+    kind: debug
+    difficulty: advanced
+    estimated_minutes: 40
+    themes:
+      - go-architecture-debugging.investigation
+    competencies:
+      primary:
+        - go-architecture-debugging.trace-retained-object-lifecycle
+      secondary:
+        - go-architecture-debugging.justify-trade-off-with-evidence
+    prerequisites:
+      - go-architecture-debugging.diagnose-shared-state-race
+    brief: >
+      Um store libera entradas ativas, mas o caminho de histórico continua
+      mantendo payloads alcançáveis. Use contadores explícitos de ownership para
+      encontrar a referência que sobrevive ao release.
+    constraints:
+      - Não use RSS, runtime.GC, pausas de GC ou sleep como oráculo.
+      - Preserve a API pública e a representação do payload.
+      - Corrija o ciclo de vida da referência sem reescrever o store inteiro.
+    acceptance:
+      - O baseline falha porque um payload liberado continua contado como retido.
+      - A referência deixa somente os payloads ativos alcançáveis pelo store.
+      - A evidência usa contagem ou bytes retidos determinísticos, sem inferir comportamento do heap pelo timing do runtime.
+    canonical: true
+    publication:
+      status: draft
+      author: codex
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/heap-retention
+
+          go 1.25.0
+      - path: store.go
+        content: |
+          package retention
+
+          type entry struct {
+              id      string
+              payload []byte
+          }
+
+          type Store struct {
+              active   map[string]entry
+              retained []entry
+          }
+
+          func NewStore() *Store {
+              return &Store{active: make(map[string]entry)}
+          }
+
+          func (s *Store) Add(id string, payload []byte) {
+              item := entry{id: id, payload: payload}
+              s.active[id] = item
+              s.retained = append(s.retained, item)
+          }
+
+          func (s *Store) Release(id string) {
+              delete(s.active, id)
+          }
+
+          func (s *Store) ActiveCount() int {
+              return len(s.active)
+          }
+
+          func (s *Store) RetainedBytes() int {
+              total := 0
+              for _, item := range s.retained {
+                  total += len(item.payload)
+              }
+              return total
+          }
+      - path: store_test.go
+        content: |
+          package retention
+
+          import "testing"
+
+          func TestReleasedPayloadIsNoLongerRetained(t *testing.T) {
+              store := NewStore()
+              const alphaBytes = 32
+              const betaBytes = 48
+              store.Add("alpha", make([]byte, alphaBytes))
+              store.Add("beta", make([]byte, betaBytes))
+
+              store.Release("alpha")
+              if got := store.ActiveCount(); got != 1 {
+                  t.Fatalf("active=%d, want 1", got)
+              }
+              if got := store.RetainedBytes(); got != betaBytes {
+                  t.Fatalf("retained bytes after alpha release=%d, want %d", got, betaBytes)
+              }
+
+              store.Release("beta")
+              if got := store.RetainedBytes(); got != 0 {
+                  t.Fatalf("retained bytes after all releases=%d, want 0", got)
+              }
+          }
+    checks:
+      - id: heap-retention-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestReleasedPayloadIsNoLongerRetained$
+        timeout: 30s
+        network: false
+    validation:
+      reference_fixture:
+        - path: go.mod
+          content: |
+            module codinho-practice/heap-retention
+
+            go 1.25.0
+        - path: store.go
+          content: |
+            package retention
+
+            type entry struct {
+                id      string
+                payload []byte
+            }
+
+            type Store struct {
+                active   map[string]entry
+                retained []entry
+            }
+
+            func NewStore() *Store {
+                return &Store{active: make(map[string]entry)}
+            }
+
+            func (s *Store) Add(id string, payload []byte) {
+                item := entry{id: id, payload: payload}
+                s.active[id] = item
+                s.retained = append(s.retained, item)
+            }
+
+            func (s *Store) Release(id string) {
+                delete(s.active, id)
+                kept := make([]entry, 0, len(s.retained))
+                for _, item := range s.retained {
+                    if item.id != id {
+                        kept = append(kept, item)
+                    }
+                }
+                s.retained = kept
+            }
+
+            func (s *Store) ActiveCount() int {
+                return len(s.active)
+            }
+
+            func (s *Store) RetainedBytes() int {
+                total := 0
+                for _, item := range s.retained {
+                    total += len(item.payload)
+                }
+                return total
+            }
+        - path: store_test.go
+          content: |
+            package retention
+
+            import "testing"
+
+            func TestReleasedPayloadIsNoLongerRetained(t *testing.T) {
+                store := NewStore()
+                const alphaBytes = 32
+                const betaBytes = 48
+                store.Add("alpha", make([]byte, alphaBytes))
+                store.Add("beta", make([]byte, betaBytes))
+
+                store.Release("alpha")
+                if got := store.ActiveCount(); got != 1 {
+                    t.Fatalf("active=%d, want 1", got)
+                }
+                if got := store.RetainedBytes(); got != betaBytes {
+                    t.Fatalf("retained bytes after alpha release=%d, want %d", got, betaBytes)
+                }
+
+                store.Release("beta")
+                if got := store.RetainedBytes(); got != 0 {
+                    t.Fatalf("retained bytes after all releases=%d, want 0", got)
+                }
+            }
+      expectations:
+        - check_id: heap-retention-tests
+          baseline: test_failure
+          reference: pass
+    layers:
+      - id: go-architecture-debugging.trace-heap-retention.layer
+        macro_steps:
+          - id: go-architecture-debugging.trace-heap-retention.plan
+            kind: macro
+            title: Planejar o rastreamento de ownership
+            instruction:
+              objective: Delimite quais referências devem sobreviver a cada operação do store.
+              scope: Entradas ativas, histórico e release.
+            children:
+              - id: go-architecture-debugging.trace-heap-retention.observe
+                kind: meso
+                title: Seguir o ciclo de vida do payload
+                instruction:
+                  objective: Separe a observação do contador, a hipótese de retenção e a correção do release.
+                  scope: Caminho local de uma entrada.
+                children:
+                  - id: go-architecture-debugging.trace-heap-retention.reproduce-baseline
+                    kind: micro
+                    action: verify
+                    target: baseline-retention
+                    title: Reproduzir a retenção contada
+                    instruction:
+                      objective: Execute o teste do baseline e registre quando os bytes retidos divergem do ownership ativo.
+                      scope: Somente a execução inicial; não use métricas do runtime.
+                    concepts:
+                      - go-architecture-debugging.reachable-heap-retention
+                      - go-architecture-debugging.symptom-vs-cause
+                    evidence:
+                      strategies: [test]
+                    criteria:
+                      - id: baseline-retention-is-reproduced
+                        kind: behavioral
+                    completion:
+                      requires_positive_evaluation: false
+                      requires_user_confirmation: true
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                  - id: go-architecture-debugging.trace-heap-retention.map-references
+                    kind: micro
+                    action: inspect
+                    target: payload-references
+                    title: Mapear as referências do payload
+                    instruction:
+                      objective: Mapeie cada coleção que mantém uma referência ao payload depois de Add.
+                      scope: Campos de Store e seus owners.
+                    concepts:
+                      - go-architecture-debugging.reachable-heap-retention
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: payload-owners-are-mapped
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: false
+                      requires_user_confirmation: true
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                  - id: go-architecture-debugging.trace-heap-retention.identify-lifecycle-gap
+                    kind: micro
+                    action: analyze
+                    target: release-ownership
+                    title: Identificar a lacuna do release
+                    instruction:
+                      objective: Explique qual referência não acompanha a transição de uma entrada para fora do estado ativo.
+                      scope: Contrato de Release e contagem determinística.
+                    concepts:
+                      - go-architecture-debugging.reachable-heap-retention
+                      - go-architecture-debugging.symptom-vs-cause
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: release-lifecycle-gap-is-explained
+                        kind: reasoning
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: true
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                  - id: go-architecture-debugging.trace-heap-retention.apply-release-fix
+                    kind: micro
+                    action: modify
+                    target: release-boundary
+                    title: Corrigir o release mínimo
+                    instruction:
+                      objective: Faça Release retirar a referência que não deve mais ser alcançável.
+                      scope: Somente o ciclo de vida da entrada liberada; preserve a API pública.
+                    concepts:
+                      - go-architecture-debugging.reachable-heap-retention
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: retained-reference-is-released
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                  - id: go-architecture-debugging.trace-heap-retention.verify-ownership
+                    kind: micro
+                    action: verify
+                    target: ownership-count
+                    title: Verificar o ownership final
+                    instruction:
+                      objective: Execute o teste e confirme que os bytes retidos acompanham apenas as entradas ativas.
+                      scope: Após a correção, usando os contadores da fixture.
+                    concepts:
+                      - go-architecture-debugging.reachable-heap-retention
+                    evidence:
+                      strategies: [test]
+                    criteria:
+                      - id: reference-retention-check-passes
+                        kind: behavioral
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection:
+                      optional:
+                        - Por que uma contagem explícita de referências é evidência melhor que esperar uma pausa de GC?
+
+  - schema_version: 1
+    id: go-architecture-debugging.simplify-overengineered-boundary
+    version: 1.0.0
+    title: Simplificar uma fronteira superprojetada
+    kind: refactoring
+    difficulty: advanced
+    estimated_minutes: 35
+    themes:
+      - go-architecture-debugging.design-evolution
+    competencies:
+      primary:
+        - go-architecture-debugging.remove-unsupported-abstraction
+      secondary:
+        - go-architecture-debugging.justify-trade-off-with-evidence
+    prerequisites:
+      - go-architecture-debugging.trace-heap-retention
+    brief: >
+      Uma fronteira de rótulos tem uma única operação concreta, mas foi cercada
+      por registry e estratégia configurável sem demanda demonstrada. Preserve
+      o contrato observável enquanto reduz a superfície que precisa ser mantida.
+    constraints:
+      - Preserve NewBoundary, NormalizeLabel e seus tipos de retorno.
+      - Remova somente a abstração sem pressão real; não adicione framework ou dependência.
+      - Mantenha os casos de entrada da fixture como contrato de comportamento.
+    acceptance:
+      - O baseline falha ao atender o contrato de normalização por causa da fronteira superprojetada.
+      - A referência passa para entradas com espaços, sem espaços e vazias.
+      - A implementação final mantém a API pública e deixa explícito por que uma única estratégia não exige registry.
+    canonical: true
+    publication:
+      status: draft
+      author: codex
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/demand-boundary
+
+          go 1.25.0
+      - path: boundary.go
+        content: |
+          package boundary
+
+          import (
+              "errors"
+              "strings"
+          )
+
+          type LabelPolicy interface {
+              Normalize(string) string
+          }
+
+          type trimPolicy struct{}
+
+          func (trimPolicy) Normalize(value string) string {
+              return strings.TrimSpace(value)
+          }
+
+          type policyRegistry struct {
+              policies map[string]LabelPolicy
+          }
+
+          type Boundary struct {
+              registry policyRegistry
+          }
+
+          func NewBoundary() *Boundary {
+              return &Boundary{registry: policyRegistry{
+                  policies: map[string]LabelPolicy{"display": trimPolicy{}},
+              }}
+          }
+
+          func (b *Boundary) NormalizeLabel(value string) (string, error) {
+              policy, ok := b.registry.policies["label"]
+              if !ok {
+                  return "", errors.New("label policy unavailable")
+              }
+              return policy.Normalize(value), nil
+          }
+      - path: boundary_test.go
+        content: |
+          package boundary
+
+          import "testing"
+
+          func TestLabelBoundaryPreservesContract(t *testing.T) {
+              boundary := NewBoundary()
+              cases := []struct {
+                  name  string
+                  input string
+                  want  string
+              }{
+                  {name: "surrounded", input: "  api event  ", want: "api event"},
+                  {name: "already normalized", input: "ready", want: "ready"},
+                  {name: "empty", input: "  ", want: ""},
+              }
+
+              for _, tc := range cases {
+                  t.Run(tc.name, func(t *testing.T) {
+                      got, err := boundary.NormalizeLabel(tc.input)
+                      if err != nil {
+                          t.Fatalf("NormalizeLabel(%q): %v", tc.input, err)
+                      }
+                      if got != tc.want {
+                          t.Fatalf("NormalizeLabel(%q)=%q, want %q", tc.input, got, tc.want)
+                      }
+                  })
+              }
+          }
+    checks:
+      - id: boundary-refactoring-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestLabelBoundaryPreservesContract$
+        timeout: 30s
+        network: false
+    validation:
+      reference_fixture:
+        - path: go.mod
+          content: |
+            module codinho-practice/demand-boundary
+
+            go 1.25.0
+        - path: boundary.go
+          content: |
+            package boundary
+
+            import "strings"
+
+            type Boundary struct{}
+
+            func NewBoundary() *Boundary {
+                return &Boundary{}
+            }
+
+            func (b *Boundary) NormalizeLabel(value string) (string, error) {
+                return strings.TrimSpace(value), nil
+            }
+        - path: boundary_test.go
+          content: |
+            package boundary
+
+            import "testing"
+
+            func TestLabelBoundaryPreservesContract(t *testing.T) {
+                boundary := NewBoundary()
+                cases := []struct {
+                    name  string
+                    input string
+                    want  string
+                }{
+                    {name: "surrounded", input: "  api event  ", want: "api event"},
+                    {name: "already normalized", input: "ready", want: "ready"},
+                    {name: "empty", input: "  ", want: ""},
+                }
+
+                for _, tc := range cases {
+                    t.Run(tc.name, func(t *testing.T) {
+                        got, err := boundary.NormalizeLabel(tc.input)
+                        if err != nil {
+                            t.Fatalf("NormalizeLabel(%q): %v", tc.input, err)
+                        }
+                        if got != tc.want {
+                            t.Fatalf("NormalizeLabel(%q)=%q, want %q", tc.input, got, tc.want)
+                        }
+                    })
+                }
+            }
+      expectations:
+        - check_id: boundary-refactoring-tests
+          baseline: test_failure
+          reference: pass
+    layers:
+      - id: go-architecture-debugging.simplify-overengineered-boundary.layer
+        macro_steps:
+          - id: go-architecture-debugging.simplify-overengineered-boundary.plan
+            kind: macro
+            title: Planejar a evolução da fronteira
+            instruction:
+              objective: Delimite o contrato que precisa permanecer depois da simplificação.
+              scope: API pública e casos observáveis.
+            children:
+              - id: go-architecture-debugging.simplify-overengineered-boundary.assess
+                kind: meso
+                title: Avaliar demanda e superfície
+                instruction:
+                  objective: Compare a demanda demonstrada com as camadas de abstração existentes.
+                  scope: Um comportamento concreto de normalização.
+                children:
+                  - id: go-architecture-debugging.simplify-overengineered-boundary.read-contract
+                    kind: micro
+                    action: inspect
+                    target: public-contract
+                    title: Ler o contrato público
+                    instruction:
+                      objective: Liste as assinaturas e os resultados que a fronteira deve preservar.
+                      scope: NewBoundary, NormalizeLabel e casos do teste.
+                    concepts:
+                      - go-architecture-debugging.demand-shaped-boundary
+                    evidence:
+                      strategies: [source_inspection, test]
+                    criteria:
+                      - id: public-contract-is-listed
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: false
+                      requires_user_confirmation: true
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                  - id: go-architecture-debugging.simplify-overengineered-boundary.reproduce-baseline
+                    kind: micro
+                    action: verify
+                    target: baseline-contract
+                    title: Reproduzir o contrato quebrado
+                    instruction:
+                      objective: Execute o teste do baseline e registre qual caso observável não é atendido.
+                      scope: Somente o comportamento inicial da fronteira.
+                    concepts:
+                      - go-architecture-debugging.symptom-vs-cause
+                      - go-architecture-debugging.demand-shaped-boundary
+                    evidence:
+                      strategies: [test]
+                    criteria:
+                      - id: baseline-contract-failure-is-reproduced
+                        kind: behavioral
+                    completion:
+                      requires_positive_evaluation: false
+                      requires_user_confirmation: true
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                  - id: go-architecture-debugging.simplify-overengineered-boundary.assess-abstraction
+                    kind: micro
+                    action: analyze
+                    target: abstraction-pressure
+                    title: Avaliar a pressão da abstração
+                    instruction:
+                      objective: Justifique se a variação suportada pela abstração existe no contrato atual.
+                      scope: Quantidade de estratégias e pontos de extensão usados pela fixture.
+                    concepts:
+                      - go-architecture-debugging.demand-shaped-boundary
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: abstraction-pressure-is-assessed
+                        kind: reasoning
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: true
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                  - id: go-architecture-debugging.simplify-overengineered-boundary.remove-registry
+                    kind: micro
+                    action: modify
+                    target: concrete-boundary
+                    title: Remover a indireção sem contrato
+                    instruction:
+                      objective: Substitua a indireção sem demanda por uma fronteira concreta equivalente.
+                      scope: Preserve as duas assinaturas públicas e a biblioteca padrão.
+                    concepts:
+                      - go-architecture-debugging.demand-shaped-boundary
+                    evidence:
+                      strategies: [source_inspection, compile]
+                    criteria:
+                      - id: unsupported-abstraction-is-removed
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                  - id: go-architecture-debugging.simplify-overengineered-boundary.verify-contract
+                    kind: micro
+                    action: verify
+                    target: refactoring-contract
+                    title: Verificar o contrato preservado
+                    instruction:
+                      objective: Execute os casos do teste e confirme que a simplificação preserva os resultados.
+                      scope: Todos os casos da fixture após a refatoração.
+                    concepts:
+                      - go-architecture-debugging.demand-shaped-boundary
+                    evidence:
+                      strategies: [test]
+                    criteria:
+                      - id: simplified-boundary-check-passes
+                        kind: behavioral
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection:
+                      optional:
+                        - Que evidência de demanda futura justificaria reintroduzir uma abstração nessa fronteira?
+
+  - schema_version: 1
+    id: go-architecture-debugging.review-partial-outage-evidence
+    version: 1.0.0
+    title: Revisar evidências de uma falha parcial
+    kind: code_review
+    difficulty: advanced
+    estimated_minutes: 40
+    themes:
+      - go-architecture-debugging.investigation
+      - go-architecture-debugging.design-evolution
+    competencies:
+      primary:
+        - go-architecture-debugging.reconstruct-incident-evidence
+      secondary:
+        - go-architecture-debugging.select-reversible-mitigation
+        - go-architecture-debugging.distinguish-correlation-from-causation
+        - go-architecture-debugging.justify-trade-off-with-evidence
+    prerequisites:
+      - go-architecture-debugging.simplify-overengineered-boundary
+    brief: >
+      Uma revisão de incidente recebeu eventos de cache, banco e API para a
+      mesma requisição. Separe o que apenas aparece junto do que a linha do
+      tempo sustenta como causa e escolha uma resposta reversível para a falha
+      parcial.
+    constraints:
+      - Use somente os eventos sintéticos da fixture; não invente serviço remoto ou telemetria adicional.
+      - Não trate request_id compartilhado como prova causal por si só.
+      - A mitigação deve ser limitada, reversível e compatível com a evidência disponível.
+    acceptance:
+      - O baseline falha ao atribuir a causa ao sinal correlacionado de cache.
+      - A referência identifica a indisponibilidade da dependência ligada ao timeout pela evidência causal explícita.
+      - A decisão registrada usa uma mitigação reversível e limitada, sem afirmar certeza além da linha do tempo.
+    canonical: true
+    publication:
+      status: draft
+      author: codex
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/partial-outage-review
+
+          go 1.25.0
+      - path: review.go
+        content: |
+          package outage
+
+          type Event struct {
+              ID        string
+              At        int
+              Service   string
+              Kind      string
+              RequestID string
+              CausedBy  string
+          }
+
+          type Finding struct {
+              CauseID    string
+              Mitigation string
+          }
+
+          func ReviewIncident(events []Event) Finding {
+              for _, event := range events {
+                  if event.RequestID == "req-42" && event.Kind == "cache_miss" {
+                      return Finding{CauseID: event.ID, Mitigation: "warm-cache"}
+                  }
+              }
+              return Finding{Mitigation: "collect-more-evidence"}
+          }
+      - path: review_test.go
+        content: |
+          package outage
+
+          import "testing"
+
+          func TestIncidentReviewUsesCausalEvidence(t *testing.T) {
+              events := []Event{
+                  {ID: "request-42", At: 1, Service: "api", Kind: "request_started", RequestID: "req-42"},
+                  {ID: "cache-17", At: 2, Service: "cache", Kind: "cache_miss", RequestID: "req-42", CausedBy: "request-42"},
+                  {ID: "db-17", At: 3, Service: "database", Kind: "dependency_unavailable", RequestID: "req-42", CausedBy: "request-42"},
+                  {ID: "timeout-17", At: 4, Service: "api", Kind: "timeout", RequestID: "req-42", CausedBy: "db-17"},
+                  {ID: "retry-17", At: 5, Service: "api", Kind: "retry_exhausted", RequestID: "req-42", CausedBy: "timeout-17"},
+              }
+
+              got := ReviewIncident(events)
+              if got.CauseID != "db-17" {
+                  t.Fatalf("cause=%q, want db-17", got.CauseID)
+              }
+              if got.Mitigation != "cap-retries" {
+                  t.Fatalf("mitigation=%q, want cap-retries", got.Mitigation)
+              }
+          }
+    checks:
+      - id: outage-evidence-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestIncidentReviewUsesCausalEvidence$
+        timeout: 30s
+        network: false
+    validation:
+      reference_fixture:
+        - path: go.mod
+          content: |
+            module codinho-practice/partial-outage-review
+
+            go 1.25.0
+        - path: review.go
+          content: |
+            package outage
+
+            type Event struct {
+                ID        string
+                At        int
+                Service   string
+                Kind      string
+                RequestID string
+                CausedBy  string
+            }
+
+            type Finding struct {
+                CauseID    string
+                Mitigation string
+            }
+
+            func ReviewIncident(events []Event) Finding {
+                byID := make(map[string]Event, len(events))
+                for _, event := range events {
+                    byID[event.ID] = event
+                }
+                for _, event := range events {
+                    if event.Kind != "timeout" || event.CausedBy == "" {
+                        continue
+                    }
+                    cause, ok := byID[event.CausedBy]
+                    if ok && cause.Kind == "dependency_unavailable" && cause.At < event.At {
+                        return Finding{CauseID: cause.ID, Mitigation: "cap-retries"}
+                    }
+                }
+                return Finding{Mitigation: "collect-more-evidence"}
+            }
+        - path: review_test.go
+          content: |
+            package outage
+
+            import "testing"
+
+            func TestIncidentReviewUsesCausalEvidence(t *testing.T) {
+                events := []Event{
+                    {ID: "request-42", At: 1, Service: "api", Kind: "request_started", RequestID: "req-42"},
+                    {ID: "cache-17", At: 2, Service: "cache", Kind: "cache_miss", RequestID: "req-42", CausedBy: "request-42"},
+                    {ID: "db-17", At: 3, Service: "database", Kind: "dependency_unavailable", RequestID: "req-42", CausedBy: "request-42"},
+                    {ID: "timeout-17", At: 4, Service: "api", Kind: "timeout", RequestID: "req-42", CausedBy: "db-17"},
+                    {ID: "retry-17", At: 5, Service: "api", Kind: "retry_exhausted", RequestID: "req-42", CausedBy: "timeout-17"},
+                }
+
+                got := ReviewIncident(events)
+                if got.CauseID != "db-17" {
+                    t.Fatalf("cause=%q, want db-17", got.CauseID)
+                }
+                if got.Mitigation != "cap-retries" {
+                    t.Fatalf("mitigation=%q, want cap-retries", got.Mitigation)
+                }
+            }
+      expectations:
+        - check_id: outage-evidence-tests
+          baseline: test_failure
+          reference: pass
+    layers:
+      - id: go-architecture-debugging.review-partial-outage-evidence.layer
+        macro_steps:
+          - id: go-architecture-debugging.review-partial-outage-evidence.plan
+            kind: macro
+            title: Planejar a revisão do incidente
+            instruction:
+              objective: Delimite quais afirmações a evidência local pode sustentar.
+              scope: Eventos, relações causais e resposta proposta.
+            children:
+              - id: go-architecture-debugging.review-partial-outage-evidence.review
+                kind: meso
+                title: Separar sinal e causa
+                instruction:
+                  objective: Percorra a linha do tempo antes de escolher uma mitigação.
+                  scope: Incidente sintético de uma requisição.
+                children:
+                  - id: go-architecture-debugging.review-partial-outage-evidence.read-timeline
+                    kind: micro
+                    action: inspect
+                    target: incident-timeline
+                    title: Ler a linha do tempo
+                    instruction:
+                      objective: Ordene os eventos relevantes pela sequência temporal registrada.
+                      scope: Campo At e eventos da fixture.
+                    concepts:
+                      - go-architecture-debugging.incident-timeline
+                      - go-architecture-debugging.failure-domain
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: incident-timeline-is-reconstructed
+                        kind: structural
+                    completion:
+                      requires_positive_evaluation: false
+                      requires_user_confirmation: true
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                  - id: go-architecture-debugging.review-partial-outage-evidence.reproduce-baseline
+                    kind: micro
+                    action: verify
+                    target: baseline-review
+                    title: Reproduzir a atribuição inicial
+                    instruction:
+                      objective: Execute o teste do baseline e registre qual sinal foi escolhido como causa.
+                      scope: Somente a implementação inicial de ReviewIncident.
+                    concepts:
+                      - go-architecture-debugging.symptom-vs-cause
+                    evidence:
+                      strategies: [test]
+                    criteria:
+                      - id: baseline-correlation-error-is-reproduced
+                        kind: behavioral
+                    completion:
+                      requires_positive_evaluation: false
+                      requires_user_confirmation: true
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                  - id: go-architecture-debugging.review-partial-outage-evidence.inspect-causal-edge
+                    kind: micro
+                    action: analyze
+                    target: causal-edge
+                    title: Inspecionar a evidência causal
+                    instruction:
+                      objective: Identifique a relação explícita que liga a indisponibilidade ao timeout.
+                      scope: CausedBy, Kind e ordem temporal.
+                    concepts:
+                      - go-architecture-debugging.causal-evidence
+                      - go-architecture-debugging.incident-timeline
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: causal-edge-is-identified
+                        kind: reasoning
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: true
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                  - id: go-architecture-debugging.review-partial-outage-evidence.choose-mitigation
+                    kind: micro
+                    action: design
+                    target: reversible-response
+                    title: Escolher uma mitigação reversível
+                    instruction:
+                      objective: Escolha uma resposta limitada ao domínio de falha que a evidência sustenta.
+                      scope: Retry budget e reversibilidade; não amplie o incidente.
+                    concepts:
+                      - go-architecture-debugging.failure-domain
+                      - go-architecture-debugging.reversible-mitigation
+                    evidence:
+                      strategies: [source_inspection]
+                    criteria:
+                      - id: reversible-mitigation-is-justified
+                        kind: reasoning
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: true
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                  - id: go-architecture-debugging.review-partial-outage-evidence.verify-review
+                    kind: micro
+                    action: verify
+                    target: causal-review
+                    title: Verificar a revisão causal
+                    instruction:
+                      objective: Execute o teste e confirme a causa e a mitigação sustentadas pelos eventos.
+                      scope: Implementação após a revisão; mantenha a conclusão limitada aos dados.
+                    concepts:
+                      - go-architecture-debugging.causal-evidence
+                      - go-architecture-debugging.reversible-mitigation
+                    evidence:
+                      strategies: [test]
+                    criteria:
+                      - id: causal-review-check-passes
+                        kind: behavioral
+                    completion:
+                      requires_positive_evaluation: true
+                      requires_user_confirmation: false
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: concept_recall}
+                      - {level: 3, kind: design_prompt}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection:
+                      optional:
+                        - Que dado adicional faria a recomendação deixar de ser reversível ou de ser sustentada?
+
+relations:
+  - from: go-architecture-debugging.race-happens-before
+    to: go-architecture-debugging.diagnose-shared-state-race
+    kind: applies_in
+  - from: go-architecture-debugging.reachable-heap-retention
+    to: go-architecture-debugging.trace-heap-retention
+    kind: applies_in
+  - from: go-architecture-debugging.demand-shaped-boundary
+    to: go-architecture-debugging.simplify-overengineered-boundary
+    kind: applies_in
+  - from: go-architecture-debugging.symptom-vs-cause
+    to: go-architecture-debugging.diagnose-shared-state-race
+    kind: applies_in
+  - from: go-architecture-debugging.symptom-vs-cause
+    to: go-architecture-debugging.trace-heap-retention
+    kind: applies_in
+  - from: go-architecture-debugging.symptom-vs-cause
+    to: go-architecture-debugging.review-partial-outage-evidence
+    kind: applies_in
+  - from: go-architecture-debugging.failure-domain
+    to: go-architecture-debugging.review-partial-outage-evidence
+    kind: applies_in
+  - from: go-architecture-debugging.incident-timeline
+    to: go-architecture-debugging.review-partial-outage-evidence
+    kind: applies_in
+  - from: go-architecture-debugging.causal-evidence
+    to: go-architecture-debugging.review-partial-outage-evidence
+    kind: applies_in
+  - from: go-architecture-debugging.reversible-mitigation
+    to: go-architecture-debugging.review-partial-outage-evidence
+    kind: applies_in
+  - from: go-architecture-debugging.diagnose-data-race
+    to: go-architecture-debugging.diagnose-shared-state-race
+    kind: applies_in
+  - from: go-architecture-debugging.trace-retained-object-lifecycle
+    to: go-architecture-debugging.trace-heap-retention
+    kind: applies_in
+  - from: go-architecture-debugging.remove-unsupported-abstraction
+    to: go-architecture-debugging.simplify-overengineered-boundary
+    kind: applies_in
+  - from: go-architecture-debugging.reconstruct-incident-evidence
+    to: go-architecture-debugging.review-partial-outage-evidence
+    kind: applies_in
+  - from: go-architecture-debugging.select-reversible-mitigation
+    to: go-architecture-debugging.review-partial-outage-evidence
+    kind: applies_in
+  - from: go-architecture-debugging.distinguish-correlation-from-causation
+    to: go-architecture-debugging.review-partial-outage-evidence
+    kind: applies_in
+  - from: go-architecture-debugging.justify-trade-off-with-evidence
+    to: go-architecture-debugging.diagnose-shared-state-race
+    kind: applies_in
+  - from: go-architecture-debugging.justify-trade-off-with-evidence
+    to: go-architecture-debugging.trace-heap-retention
+    kind: applies_in
+  - from: go-architecture-debugging.justify-trade-off-with-evidence
+    to: go-architecture-debugging.simplify-overengineered-boundary
+    kind: applies_in
+  - from: go-architecture-debugging.justify-trade-off-with-evidence
+    to: go-architecture-debugging.review-partial-outage-evidence
+    kind: applies_in

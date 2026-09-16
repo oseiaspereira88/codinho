@@ -193,19 +193,28 @@ conceitos / ≥60 competências / ≥300 step nodes (R1's threshold em
 - [x] Lote final de autoria go-errors: classificação de erros encadeados (combinado) e catálogo em memória testado (fatia funcional), preservando fontes históricas e autoria; fixture baseline/reference, ordem determinística e isolamento.
 - [x] Lote go-testing: desafio combinado de seleção temporal determinística, clock injetado, casos de fronteira e isolamento de slices; fixtures baseline/reference, avaliação qualitativa intermediária e check final. Consumir knowledge:go-foundations-io-batch.
 - [x] Lote 2026-09-09: criar go-io com decodificação JSON estrita (combinado) e importação CSV validada para JSON (fatia funcional), fixtures baseline/reference e checks sem rede. Autoria nova identifica codex; conteúdo histórico mantém seu autor.
-- [ ] Autorar conceitos, competências e relações.
-- [ ] Autorar os 44 desafios e 300 step nodes.
-- [ ] Autorar pistas, reflexões, variantes e checks.
-- [ ] Criar cinco trilhas.
-- [ ] Realizar revisão, playtest e correções.
-- [ ] Integrar conteúdo canônico de concept-content-authoring e gates de catalog-publication-integrity antes de publicar os sete packs.
-- [ ] Distinguir desafios canônicos, variantes e protótipos; decidir o destino dos dois exemplos históricos sem quebrar IDs de sessões.
-- [ ] Revisar cobertura real de macro/meso/micro e critérios observáveis, sem inflar a contagem de nodes com passos redundantes.
+- [x] Autorar conceitos, competências e relações no draft; manter a curadoria semântica humana como gate separado.
+- [x] Autorar os 44 desafios fundamentais e superar o mínimo de 300 step nodes creditáveis; manter variantes e protótipos em projeções separadas.
+- [x] Autorar pistas, reflexões, variantes e checks no draft; preservar a validação de baseline/reference.
+- [x] Criar cinco trilhas e verificar seu roteamento técnico em modo de autoria.
+- [x] Executar revisão técnica, pré-revisão automatizada e correções dos lotes; manter a revisão humana e o playtest no gate seguinte.
+- [x] Integrar o conteúdo canônico de `concept-content-authoring` no draft e executar os gates técnicos aplicáveis.
+- [ ] Obter os gates humanos de `catalog-publication-integrity` antes de publicar os sete packs.
+- [x] Distinguir tecnicamente desafios canônicos, variantes e protótipos sem quebrar IDs de sessões.
+- [ ] Decidir humanamente o destino dos dois exemplos históricos e o aceite da distribuição sem quebrar IDs de sessões.
+- [x] Auditar tecnicamente a cobertura de macro/meso/micro e critérios observáveis, sem inflar a contagem com passos redundantes.
+- [ ] Confirmar qualitativamente, em revisão humana, que cada intenção, critério e hint permanece pedagogicamente distinto.
 
 ### Validation
-- [ ] Executar codinho catalog validate packs.
-- [ ] Executar todos os checks de fixtures.
-- [ ] Auditar contagens, duplicação, leaks e cobertura.
+- [x] Executar `go run ./cmd/codinho catalog validate --json` e `--checks --json`.
+- [x] Executar todos os checks declarados de fixtures: 54/54 verificados.
+- [x] Auditar contagens, duplicação, leaks e cobertura técnica; manter a avaliação pedagógica humana pendente.
+
+Checkpoint 2026-09-16 UTC: os itens marcados acima foram reconciliados contra
+o catálogo atual, os relatórios dos lotes editoriais e a sequência integrada
+até `667fa11`. Nenhum campo `reviewed_by`, `playtested` ou `publication.status`
+foi preenchido. As pendências restantes são deliberadamente humanas ou de
+decisão de distribuição.
 
 ## 5. Decisions
 

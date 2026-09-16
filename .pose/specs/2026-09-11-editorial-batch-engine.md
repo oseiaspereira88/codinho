@@ -67,6 +67,10 @@ scripts, skills e docs/editorial. Conteúdo piloto pertence a go-foundations-pac
 - modified: docs/agent-review-workflow.md
 - created: docs/editorial/go-foundations-queue.json
 - created: docs/editorial/go-foundations-inventory.md
+- created: .pose/workflows/validate-native-evidence.md
+- modified: .pose/workflows/review.md
+- created: .pose/knowledge/2026-09-16-decision-log-escalation-validate-native.md
+- modified: .pose/reports/history/interventions.jsonl
 ### API/contract changes
 CLI init/status/run/revise/review/integrate/recover/reconcile; estado JSON por execução.
 depends_on referencia IDs anteriores; tamanho de lote é limite superior.
@@ -144,6 +148,15 @@ de base exige nova subfila; interrupção antes de registrar PID exige diagnóst
 manual. Essas limitações estão documentadas no guia e impedem alegar recuperação
 automática universal. Decisão técnica: aprovado com reservas operacionais;
 atestação POSE formal ainda pendente, sem fechamento da spec.
+
+O recurrence-check de 30 dias sinalizou `validate-native` com seis falhas. A
+investigação encontrou mistura de relatórios sem comandos, cache de módulos não
+gravável e indisponibilidade de DNS para `govulncheck`, sem evidência de
+regressão do executor. A decisão registrada em
+`.pose/knowledge/2026-09-16-decision-log-escalation-validate-native.md` criou o
+workflow `.pose/workflows/validate-native-evidence.md`, referenciado pelo
+review e pelo guia editorial. O efeito será medido por 45 dias; nenhum check
+será promovido antes de quatro semanas com 95% de sucesso e evidência completa.
 
 ## 7. Final Report
 Em implementação. Fechamento exige R1–R10 e evidências do piloto.

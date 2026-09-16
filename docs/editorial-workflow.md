@@ -98,6 +98,12 @@ coordenador verifica cada uma e registra o resultado na spec. Execução iniciad
 não significa execução concluída: aguarde exit code e
 evidência final. Matriz completa após integração é um gate adicional.
 
+Para evidência da matriz nativa, siga o
+[workflow de evidência](../.pose/workflows/validate-native-evidence.md): use
+caches graváveis, preserve o log bruto e o JSON, e classifique limitações de
+cache ou rede sem convertê-las em aprovação manual. Filtros de módulo que não
+selecionarem checks não comprovam a matriz completa.
+
 Consulte [inventário](editorial/go-foundations-inventory.md) e
 [papéis de autor/revisor](agent-review-workflow.md). O script legado
 agent-review.sh continua restrito ao uso sequencial; use o novo executor para

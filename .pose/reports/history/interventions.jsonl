@@ -1,0 +1,1 @@
+{"schema":1,"at":"2026-09-16T02:20:26Z","task_slug":"validate-native","ref":"workflow:validate-native-evidence","window_days":45,"rationale":"Separar falhas de produto de limitações de cache, rede e evidência manual; preservar logs e JSON da validação nativa.","author":"@oseiaspereira"}

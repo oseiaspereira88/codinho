@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "component_slug": "internal",
+  "path": "internal",
+  "discovered_at": "2026-09-16T02:41:57Z",
+  "baseline_commit": "d22506a6f50c",
+  "metrics": {
+    "loc_production": 13152,
+    "loc_tests": 11750,
+    "total_files": 191,
+    "languages": [
+      "go"
+    ]
+  },
+  "technical_debt": {
+    "todos": 0,
+    "fixmes": 0,
+    "panics": 0,
+    "stubs": 0
+  },
+  "status": "verified",
+  "completeness_score": 1
+}

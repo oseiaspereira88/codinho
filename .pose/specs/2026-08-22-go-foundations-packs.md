@@ -74,9 +74,22 @@ Oferecer prática desde o primeiro contato até a base necessária para backend,
 - created: docs/catalog/go-foundations.md
 - modified: .pose/docs.json
 - modified: .pose/indexes/validation-matrix.json
+- modified: .pose/assessments/README.md
 - modified: .pose/assessments/consolidated.md
+- modified: .pose/assessments/cmd-codinho.md
+- modified: .pose/assessments/docs.md
+- modified: .pose/assessments/integrations.md
 - modified: .pose/assessments/packs.md
+- modified: .pose/assessments/technical-debt.md
 - modified: .pose/state/components/packs.json
+- modified: .pose/state/components/cmd-codinho.json
+- modified: .pose/state/components/docs.json
+- created: .pose/assessments/internal.md
+- created: .pose/state/components/internal.json
+- modified: .pose/state/integrations.json
+- modified: .pose/state/technical-debt.json
+- created: .pose/results/go-foundations-review-validation.json
+- created: .pose/knowledge/2026-09-16-handoff-go-foundations-automated-review-reservations.md
 - created: cmd/codinho/foundation_tracks_integration_test.go
 - created: internal/curriculum/foundation_variants_test.go
 
@@ -302,6 +315,17 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
 - Security / Contract: secret scan, path confinement e leak detector.
 
 ### Execution log
+- 2026-09-16 UTC, revisão automatizada da spec: `pose validate --strict
+  --json .pose/results/go-foundations-review-validation.json --verbose`
+  registrou 23 checks aprovados e um erro ambiental em `govulncheck` por DNS/
+  rede indisponível. Testes, build, vet, checks de catálogo e 54/54 fixtures
+  passaram; a cobertura observada foi 105 conceitos, 64 competências, 5
+  trilhas, 54 desafios e 366 nodes. Os filtros por módulo foram executados,
+  mas retornaram zero checks aplicáveis e não foram contados como evidência.
+  `pose artifact-check --spec go-foundations-packs --strict` terminou sem
+  erros, mantendo apenas avisos históricos de atribuição. Handoff operacional:
+  `.pose/knowledge/2026-09-16-handoff-go-foundations-automated-review-reservations.md`.
+  Nenhum gate humano foi preenchido ou convertido em aprovação.
 - 2026-09-15 UTC, reconciliação do relatório da spec: o estado técnico atual foi
   alinhado com a auditoria corrente — 105 conceitos, 64 competências, 5
   trilhas, 54 desafios e 366 nodes no manifesto; nos sete packs, 104 conceitos,

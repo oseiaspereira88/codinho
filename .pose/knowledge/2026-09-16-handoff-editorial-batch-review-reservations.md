@@ -14,7 +14,7 @@ source_refs:
     - "pose review auto-attest rvb-19986755983b3ea2 --apply"
     - "pose review verify rvb-19986755983b3ea2"
     - "pose review-check spec:editorial-batch-engine"
-    - "pose validate --strict"
+    - "pose validate --strict --json .pose/results/editorial-native-validation-current.json --verbose"
   external_sources: []  # [{url: "", accessed_at: "YYYY-MM-DD"}]
 ---
 
@@ -45,6 +45,12 @@ e `GOMODCACHE` graváveis, e preservar JSON, log e exit code. Reexecutar a
 validação quando rede/DNS estiver disponível para `govulncheck`. Após a janela
 de 45 dias da intervenção, executar `pose recurrence-effect` e decidir se o
 workflow deve ser mantido, ajustado ou descartado.
+
+A execução de 2026-09-16 em `74fc7d2` preservou
+`.pose/results/editorial-native-validation-current.json`: formato e o teste
+unitário do executor passaram; os demais checks Go falharam ao baixar
+dependências no `GOMODCACHE` temporário por DNS bloqueado, e `govulncheck`
+terminou como erro ambiental.
 
 ## Risks
 

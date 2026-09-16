@@ -1,0 +1,515 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-16T02:29:16Z",
+  "mode": "strict",
+  "git_head": "74fc7d2ff8b3357769a795128198e25e51ed6c2a",
+  "matrix_sha256": "sha256:5a986b2c158283b65a5ab2be78e1c78d3eff569facacff04de6b7399e6fd61fb",
+  "provenance_digest": "sha256:27734a82cbb24c9f3d8bc20e274b35d3047d48962052f601c5a652513c79269e",
+  "scope_provenance": {
+    "administrative-cli-fixtures": "sha256:9e7160987ce504a8acb9263aa684ff088ba40a7705094b00441872a33f7e98c1",
+    "agent-authored-catalog-drafts": "sha256:28e51824d08d51b8d58d9459261f9ba0c0bba2e76d4793110a8443e03d76c848",
+    "architecture-decision-baseline": "sha256:0cb9538df6c6193eeea826dda56f91288808c178925c98b02a43af253045c99e",
+    "assistance-hints-detours": "sha256:c0202ba8fb90bafa808cb01363abd912a18634ca0e961eb01252b02bb00607e4",
+    "catalog-authoring-quality": "sha256:9ebb565abe01b6eba1b3c0db745497b268ad4455eebdec42f92f8e5a840dbdd4",
+    "catalog-publication-integrity": "sha256:d83412f72039277bcf3b20c6176c545cdef6f836afa66e448447f0bc99bbcdef",
+    "catalog-schema-loader": "sha256:41b16824af93a5c85baf323d23b4e150e819ad577310f9864368cf215da3dca2",
+    "concept-content-authoring": "sha256:4de96f4b51a29edfe5c67f7b2dcd72e86f0d0d16d9609072c6a156a19d312a06",
+    "curriculum-graph-path-recommendation": "sha256:3f9a8ac7c9e899231439f8a13725da0d926a197e910308ff2b2a760ac4e61409",
+    "editorial-batch-engine": "sha256:1e656b5db9ee884a840bba7b87669f0b17c68b85c93c3f784d2c3b41fdfd939f",
+    "evaluation-evidence-lineage": "sha256:1e6ec75be216f6125d36aad6d8842f58d8095853ff0a714fc2f418f3152bc0ee",
+    "eventstore-idempotency-scope": "sha256:4d4cfbfa5b67d544ef35dd906db03e76a69ffe552528035ee5acfa9571ea8ffb",
+    "feedback-evaluation-progression": "sha256:3c863ae69fd3dacf87afd5dbf2e9ec938f2fde2a80c69483985da916e885bd77",
+    "go-foundations-packs": "sha256:b7eb30fc04dbabb81960f15df95a429187789142b41ac98887fe19031d0f5e98",
+    "go-runtime-foundation": "sha256:cf39ed2d45ed11e8b4206daeb5d4accb373bb2c447d6a9b06e8f0a8cef578fcb",
+    "installation-documentation-ci": "sha256:1ac42f7e213e9b8e17a6bb8294304560dfa0976b950837a26f145cab2b6cf40f",
+    "interview-mode": "sha256:2772e64d395798f742d5702b99bd1bee3b32d18c90d76aa7067c330aa2728c49",
+    "learning-domain-model": "sha256:d02fa5101f4bf12416a3360691755de2a1bee097647dc70f162cd6c1c2cd9796",
+    "learning-practice-debug-modes": "sha256:4aee3463143f22742dbebdb2a3efd425b05a9c797593baba03b84028d403d6d3",
+    "learning-track-composition": "sha256:3b9a9d664b84a00dbe5447f54cf384f6493f3271b09bea894a55afcd9f4ddad0",
+    "local-event-store": "sha256:16d225e08c84782f2b1f11c737e1ef1248487fd80543f66e4f2b03a04f6128d6",
+    "mastery-review-scheduling": "sha256:cfca752e0f9f2d5147498ec481b2f31b5983b75a370af0b95fabc0981926ea14",
+    "mcp-stdio-foundation": "sha256:639117bd4747049abb095e9a080c57089e973f964971f39fb8d9d51b4ee02c47",
+    "reliability-observability-compatibility": "sha256:19c11511b2a732584f4787c35bcd3d39e3a0ba209b3588c42cbc8f187a5172e0",
+    "safe-check-executor": "sha256:53aa2d620819329c7e612335600742efeb5ec340f198e269965fe6f2d54d9d85",
+    "security-privacy-hardening": "sha256:54192f837140935be794a931aa1220c12db336e53bc81b6eec115a2ef9e81008",
+    "session-orchestration-disclosure": "sha256:63fe46706452728914372fb2aa6fc2c8c0a3c9c9a1e8138391ce861f86dc6eae",
+    "session-recovery-version-pinning": "sha256:fe6a30a0c4f3c779507cb4f21feb59434898dbacdda7eb294ac094b5282eb312",
+    "session-tree-progression": "sha256:ac0488085f805dcd6ac4d4f3f45f98d94a6b228d09fb290bf4dec2f94e177555",
+    "tutor-skill-host-integration": "sha256:360cbd861c6637081a5bc2800e4d0735346361f9a661b2d23529169878e2c4bf",
+    "v1-delivery-ci-assurance": "sha256:bfb05b785962f36259bb848d050e28bfe3659b00ce495387cfb1501467f95adc",
+    "workspace-observation-baselines": "sha256:8a28a0bf20b4017f75e2a816d3a6087d53d9ff2bfbd68b84a16af980a05bec6a"
+  },
+  "outcome": "fail",
+  "counts": {
+    "executed": 24,
+    "passed": 2,
+    "failed": 21,
+    "optional_failed": 0,
+    "errored": 1,
+    "skipped": 0
+  },
+  "checks": [
+    {
+      "id": "./go/format",
+      "module": ".",
+      "stack": "go",
+      "name": "format",
+      "program": "bash",
+      "args": [
+        "scripts/ci/check-format.sh"
+      ],
+      "severity": "required",
+      "evidence_class": "build",
+      "outcome": "pass",
+      "duration_seconds": 0.38377628
+    },
+    {
+      "id": "./go/test",
+      "module": ".",
+      "stack": "go",
+      "name": "test",
+      "program": "go",
+      "args": [
+        "test",
+        "-race",
+        "-count=1",
+        "./..."
+      ],
+      "severity": "required",
+      "evidence_class": "unit",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 15.843465166,
+      "output": "…sment [setup failed]\nFAIL\tgithub.com/oseiaspereira88/codinho/internal/assistance [setup failed]\n# github.com/oseiaspereira88/codinho/internal/assistance\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n# github.com/oseiaspereira88/codcodinho/internal/ciassurance [setup failedlum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/internal/cli [setup failed]\n# github.com/oseiaspereira88/codinho/internal/cli\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n# github.com/oseiaspereira88/codinho/internal/curriculum\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/internal/diagnostics [setup failed]\n# github.com/oseiaspereira88/codinho/internal/diagnostics\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/internal/drafts [setup failed]\n# github.com/oseiaspereira88/codinho/internal/drafts\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/internal/fixtures [setup failed]\n# github.com/oseiaspereira88/codinho/internal/fixtures\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n# github.com/oseiaspereira88/codinho/internal/mcpserver\ncmd/codinho/main.go:16:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n# github.com/oseiaspereira88/codinho/internal/mcpserver\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/internal/mcpserver [setup failed]\n# github.com/oseiaspereira88/codinho/internal/session\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/internal/session [setup failed]\nok  \tgithub.com/oseiaspereira88/codinho/cmd/ci-assurance\t1.053s\nok  \tgithub.com/oseiaspereira88/codinho/internal/checks\t8.700s\n?   \tgithub.com/oseiaspereira88/codinho/internal/config\t[no test files]\nok  \tgithub.com/oseiaspereira88/codinho/internal/eventstore\t1.032s\nok  \tgithub.com/oseiaspereira88/codinho/internal/evidence\t1.021s\nok  \tgithub.com/oseiaspereira88/codinho/internal/learning\t1.021s\nok  \tgithub.com/oseiaspereira88/codinho/internal/mastery\t1.022s\nok  \tgithub.com/oseiaspereira88/codinho/internal/recommendation\t1.020s\nok  \tgithub.com/oseiaspereira88/codinho/internal/security\t1.022s\nok  \tgithub.com/oseiaspereira88/codinho/internal/workspace\t1.183s\nFAIL\n"
+    },
+    {
+      "id": "./go/vet",
+      "module": ".",
+      "stack": "go",
+      "name": "vet",
+      "program": "go",
+      "args": [
+        "vet",
+        "./..."
+      ],
+      "severity": "required",
+      "evidence_class": "build",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.050328911,
+      "output": "go: downloading github.com/modelcontextprotocol/go-sdk v1.7.0\ngo: downloading gopkg.in/yaml.v3 v3.0.1\ngo: downloading github.com/google/jsonschema-go v0.4.3\ncmd/codinho/main.go:16:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n"
+    },
+    {
+      "id": "./go/editorial-batch-engine",
+      "module": ".",
+      "stack": "go",
+      "name": "editorial-batch-engine",
+      "program": "python3",
+      "args": [
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts",
+        "-p",
+        "test_editorial.py"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "pass",
+      "duration_seconds": 2.215328212,
+      "output": ".................\n----------------------------------------------------------------------\nRan 17 tests in 2.074s\n\nOK\n"
+    },
+    {
+      "id": "./go/build",
+      "module": ".",
+      "stack": "go",
+      "name": "build",
+      "program": "go",
+      "args": [
+        "build",
+        "./cmd/codinho"
+      ],
+      "severity": "required",
+      "evidence_class": "build",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.015403409,
+      "output": "go: downloading github.com/modelcontextprotocol/go-sdk v1.7.0\ngo: downloading gopkg.in/yaml.v3 v3.0.1\ncmd/codinho/main.go:16:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n"
+    },
+    {
+      "id": "./go/catalog-publication-integrity",
+      "module": ".",
+      "stack": "go",
+      "name": "catalog-publication-integrity",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho",
+        "-run",
+        "TestPublicationIntegrity",
+        "-count=1"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.012711329,
+      "output": "go: downloading gopkg.in/yaml.v3 v3.0.1\ngo: downloading github.com/modelcontextprotocol/go-sdk v1.7.0\n# github.com/oseiaspereira88/codinho/cmd/codinho\ncmd/codinho/main.go:16:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n# github.com/oseiaspereira88/codinho/cmd/codinho\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/cmd/codinho [setup failed]\nFAIL\n"
+    },
+    {
+      "id": "./go/published-catalog-proof",
+      "module": ".",
+      "stack": "go",
+      "name": "published-catalog-proof",
+      "program": "go",
+      "args": [
+        "run",
+        "./cmd/codinho",
+        "catalog",
+        "validate",
+        "--published-checks",
+        "--json"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.012029753,
+      "output": "go: downloading gopkg.in/yaml.v3 v3.0.1\ngo: downloading github.com/modelcontextprotocol/go-sdk v1.7.0\ncmd/codinho/main.go:16:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n"
+    },
+    {
+      "id": "./go/session-recovery",
+      "module": ".",
+      "stack": "go",
+      "name": "session-recovery",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho",
+        "-run",
+        "TestSessionRecoveryOverRealStdio",
+        "-count=1"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.01272768,
+      "output": "go: downloading gopkg.in/yaml.v3 v3.0.1\ngo: downloading github.com/modelcontextprotocol/go-sdk v1.7.0\n# github.com/oseiaspereira88/codinho/cmd/codinho\ncmd/codinho/main.go:16:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n# github.com/oseiaspereira88/codinho/cmd/codinho\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/cmd/codinho [setup failed]\nFAIL\n"
+    },
+    {
+      "id": "./go/session-tree-progression",
+      "module": ".",
+      "stack": "go",
+      "name": "session-tree-progression",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho",
+        "-run",
+        "TestTreeProgressionOverRealStdio",
+        "-count=1"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.012143047,
+      "output": "go: downloading gopkg.in/yaml.v3 v3.0.1\ngo: downloading github.com/modelcontextprotocol/go-sdk v1.7.0\n# github.com/oseiaspereira88/codinho/cmd/codinho\ncmd/codinho/main.go:16:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n# github.com/oseiaspereira88/codinho/cmd/codinho\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/cmd/codinho [setup failed]\nFAIL\n"
+    },
+    {
+      "id": "./go/evaluation-evidence",
+      "module": ".",
+      "stack": "go",
+      "name": "evaluation-evidence",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho",
+        "-run",
+        "TestEvaluationEvidenceOverRealStdio",
+        "-count=1"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.015043961,
+      "output": "go: downloading gopkg.in/yaml.v3 v3.0.1\ngo: downloading github.com/modelcontextprotocol/go-sdk v1.7.0\n# github.com/oseiaspereira88/codinho/cmd/codinho\ncmd/codinho/main.go:16:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n# github.com/oseiaspereira88/codinho/cmd/codinho\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/cmd/codinho [setup failed]\nFAIL\n"
+    },
+    {
+      "id": "./go/mcp-contract",
+      "module": ".",
+      "stack": "go",
+      "name": "mcp-contract",
+      "program": "go",
+      "args": [
+        "test",
+        "./internal/mcpserver/...",
+        "-run",
+        "TestContract",
+        "-count=1"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.016057393,
+      "output": "go: downloading github.com/modelcontextprotocol/go-sdk v1.7.0\ngo: downloading gopkg.in/yaml.v3 v3.0.1\n# github.com/oseiaspereira88/codinho/internal/mcpserver\ninternal/mcpserver/assessment_tools.go:6:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n# github.com/oseiaspereira88/codinho/internal/mcpserver\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/internal/mcpserver [setup failed]\nFAIL\n"
+    },
+    {
+      "id": "./go/tutor-skill-routing",
+      "module": ".",
+      "stack": "go",
+      "name": "tutor-skill-routing",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho/...",
+        "-run",
+        "TestTutorSkillFullSessionRoutingOverRealStdio",
+        "-count=1"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.01449238,
+      "output": "go: downloading gopkg.in/yaml.v3 v3.0.1\ngo: downloading github.com/modelcontextprotocol/go-sdk v1.7.0\n# github.com/oseiaspereira88/codinho/cmd/codinho\ncmd/codinho/main.go:16:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n# github.com/oseiaspereira88/codinho/cmd/codinho\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/cmd/codinho [setup failed]\nFAIL\n"
+    },
+    {
+      "id": "./go/cli-reachability",
+      "module": ".",
+      "stack": "go",
+      "name": "cli-reachability",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho/...",
+        "-run",
+        "TestCLIEntrypointReachesEveryCommand",
+        "-count=1"
+      ],
+      "severity": "required",
+      "evidence_class": "reachability",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.015163226,
+      "output": "go: downloading gopkg.in/yaml.v3 v3.0.1\ngo: downloading github.com/modelcontextprotocol/go-sdk v1.7.0\n# github.com/oseiaspereira88/codinho/cmd/codinho\ncmd/codinho/main.go:16:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n# github.com/oseiaspereira88/codinho/cmd/codinho\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/cmd/codinho [setup failed]\nFAIL\n"
+    },
+    {
+      "id": "./go/cli-e2e",
+      "module": ".",
+      "stack": "go",
+      "name": "cli-e2e",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho/...",
+        "-run",
+        "TestCLIEndToEndWorkflow",
+        "-count=1"
+      ],
+      "severity": "required",
+      "evidence_class": "e2e",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.016706278,
+      "output": "go: downloading gopkg.in/yaml.v3 v3.0.1\ngo: downloading github.com/modelcontextprotocol/go-sdk v1.7.0\n# github.com/oseiaspereira88/codinho/cmd/codinho\ncmd/codinho/main.go:16:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n# github.com/oseiaspereira88/codinho/cmd/codinho\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/cmd/codinho [setup failed]\nFAIL\n"
+    },
+    {
+      "id": "./go/govulncheck",
+      "module": ".",
+      "stack": "go",
+      "name": "govulncheck",
+      "program": "govulncheck",
+      "args": [
+        "./..."
+      ],
+      "severity": "required",
+      "outcome": "error",
+      "duration_seconds": 0.000001183,
+      "output": "exec: \"govulncheck\": executable file not found in $PATH"
+    },
+    {
+      "id": "./go/stdout-purity",
+      "module": ".",
+      "stack": "go",
+      "name": "stdout-purity",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho/...",
+        "-run",
+        "TestServeNeverWritesToStdoutOnStartupFailure|TestServeStdoutIsOnlyValidJSONFrames",
+        "-count=1"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.018320585,
+      "output": "go: downloading gopkg.in/yaml.v3 v3.0.1\ngo: downloading github.com/modelcontextprotocol/go-sdk v1.7.0\n# github.com/oseiaspereira88/codinho/cmd/codinho\ncmd/codinho/main.go:16:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n# github.com/oseiaspereira88/codinho/cmd/codinho\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/cmd/codinho [setup failed]\nFAIL\n"
+    },
+    {
+      "id": "./go/startup-budget",
+      "module": ".",
+      "stack": "go",
+      "name": "startup-budget",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho/...",
+        "-run",
+        "TestServeStartupRespondsWithinOneSecond",
+        "-count=1"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.013672112,
+      "output": "go: downloading gopkg.in/yaml.v3 v3.0.1\ngo: downloading github.com/modelcontextprotocol/go-sdk v1.7.0\n# github.com/oseiaspereira88/codinho/cmd/codinho\ncmd/codinho/main.go:16:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n# github.com/oseiaspereira88/codinho/cmd/codinho\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/cmd/codinho [setup failed]\nFAIL\n"
+    },
+    {
+      "id": "./go/smoke-install",
+      "module": ".",
+      "stack": "go",
+      "name": "smoke-install",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho/...",
+        "-run",
+        "TestSmokeInstallScript",
+        "-count=1"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.013745982,
+      "output": "go: downloading gopkg.in/yaml.v3 v3.0.1\ngo: downloading github.com/modelcontextprotocol/go-sdk v1.7.0\n# github.com/oseiaspereira88/codinho/cmd/codinho\ncmd/codinho/main.go:16:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n# github.com/oseiaspereira88/codinho/cmd/codinho\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/cmd/codinho [setup failed]\nFAIL\n"
+    },
+    {
+      "id": "./go/ci-assurance",
+      "module": ".",
+      "stack": "go",
+      "name": "ci-assurance",
+      "program": "go",
+      "args": [
+        "test",
+        "./internal/ciassurance/...",
+        "-count=1"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.013508704,
+      "output": "go: downloading gopkg.in/yaml.v3 v3.0.1\n# github.com/oseiaspereira88/codinho/internal/ciassurance\ninternal/ciassurance/workflows_test.go:12:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\n"
+    },
+    {
+      "id": "./go/catalog",
+      "module": ".",
+      "stack": "go",
+      "name": "catalog",
+      "program": "go",
+      "args": [
+        "run",
+        "./cmd/codinho",
+        "catalog",
+        "validate",
+        "--checks",
+        "--json"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.0136236,
+      "output": "go: downloading github.com/modelcontextprotocol/go-sdk v1.7.0\ngo: downloading gopkg.in/yaml.v3 v3.0.1\ncmd/codinho/main.go:16:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n"
+    },
+    {
+      "id": "./go/concept-content-capability",
+      "module": ".",
+      "stack": "go",
+      "name": "concept-content-capability",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho/...",
+        "-run",
+        "TestConceptContentOverRealStdio",
+        "-count=1"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.012964096,
+      "output": "go: downloading gopkg.in/yaml.v3 v3.0.1\ngo: downloading github.com/modelcontextprotocol/go-sdk v1.7.0\n# github.com/oseiaspereira88/codinho/cmd/codinho\ncmd/codinho/main.go:16:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n# github.com/oseiaspereira88/codinho/cmd/codinho\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/cmd/codinho [setup failed]\nFAIL\n"
+    },
+    {
+      "id": "./go/learning-track-composition",
+      "module": ".",
+      "stack": "go",
+      "name": "learning-track-composition",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho/...",
+        "-run",
+        "TestTrackCompositionOverRealStdio",
+        "-count=1"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.015963867,
+      "output": "go: downloading gopkg.in/yaml.v3 v3.0.1\ngo: downloading github.com/modelcontextprotocol/go-sdk v1.7.0\n# github.com/oseiaspereira88/codinho/cmd/codinho\ncmd/codinho/main.go:16:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n# github.com/oseiaspereira88/codinho/cmd/codinho\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/cmd/codinho [setup failed]\nFAIL\n"
+    },
+    {
+      "id": "./go/agent-authored-catalog-drafts",
+      "module": ".",
+      "stack": "go",
+      "name": "agent-authored-catalog-drafts",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho/...",
+        "-run",
+        "TestDraftOverRealStdio",
+        "-count=1"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.014372444,
+      "output": "go: downloading github.com/modelcontextprotocol/go-sdk v1.7.0\ngo: downloading gopkg.in/yaml.v3 v3.0.1\n# github.com/oseiaspereira88/codinho/cmd/codinho\ncmd/codinho/main.go:16:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n# github.com/oseiaspereira88/codinho/cmd/codinho\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/cmd/codinho [setup failed]\nFAIL\n"
+    },
+    {
+      "id": "./go/foundation-track-routing",
+      "module": ".",
+      "stack": "go",
+      "name": "foundation-track-routing",
+      "program": "go",
+      "args": [
+        "test",
+        "./cmd/codinho/...",
+        "-run",
+        "TestFoundationTracksOverRealStdio",
+        "-count=1"
+      ],
+      "severity": "required",
+      "evidence_class": "integration",
+      "outcome": "fail",
+      "exit_code": 1,
+      "duration_seconds": 0.014155133,
+      "output": "go: downloading gopkg.in/yaml.v3 v3.0.1\ngo: downloading github.com/modelcontextprotocol/go-sdk v1.7.0\n# github.com/oseiaspereira88/codinho/cmd/codinho\ncmd/codinho/main.go:16:2: github.com/modelcontextprotocol/go-sdk@v1.7.0: Get \"https://proxy.golang.org/github.com/modelcontextprotocol/go-sdk/@v/v1.7.0.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\n# github.com/oseiaspereira88/codinho/cmd/codinho\ninternal/curriculum/drafts.go:9:2: gopkg.in/yaml.v3@v3.0.1: Get \"https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip\": dial tcp: lookup proxy.golang.org on 127.0.0.53:53: dial udp 127.0.0.53:53: socket: operation not permitted\nFAIL\tgithub.com/oseiaspereira88/codinho/cmd/codinho [setup failed]\nFAIL\n"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "input_digest": "sha256:3a4841c1309125dfa146920fd26a3e211b32cbf1934c902e41bdbea394e03a3c",
-  "provenance_digest": "sha256:7dfd665d190fbaaa63ab211a4402b9cacb3272a23bf0286203f02bd07d54ad00",
+  "input_digest": "sha256:eb37879c0013daecaf9e3d176b8fe06c254af81be040b81c3945ecc3ae3d7d99",
+  "provenance_digest": "sha256:07c02d887b16b1264e6b8aedbbdf6cead1439f66f5c85d7328664444b58bab02",
   "nodes": [
     {
       "id": "artifact:.agents/skills/README.md",
@@ -1394,6 +1394,13 @@
       "type": "artifact",
       "attributes": {
         "path": ".pose/reports/2026-09-15-standard-validate-native.md"
+      }
+    },
+    {
+      "id": "artifact:.pose/reports/2026-09-16-standard-validate-native.md",
+      "type": "artifact",
+      "attributes": {
+        "path": ".pose/reports/2026-09-16-standard-validate-native.md"
       }
     },
     {
@@ -4540,6 +4547,14 @@
       }
     },
     {
+      "id": "change-set:cs-256ea3773f29",
+      "type": "change-set",
+      "attributes": {
+        "diff_digest": "sha256:aca650580f5c55f050488e0d3bdc95adf1ef9b27db3e3c8b4629d0a5e20de82a",
+        "selector": "trailers:go-backend-packs"
+      }
+    },
+    {
       "id": "change-set:cs-27f24a7c63e8",
       "type": "change-set",
       "attributes": {
@@ -4569,14 +4584,6 @@
       "attributes": {
         "diff_digest": "sha256:71836dbf84b9c3fa835063433c025b3ccec8179e234e7dd610a6f27d8c38f0bd",
         "selector": "trailers:administrative-cli-fixtures"
-      }
-    },
-    {
-      "id": "change-set:cs-343314055e1d",
-      "type": "change-set",
-      "attributes": {
-        "diff_digest": "sha256:1eb906b73caf612ddf9183dfc83f57880aa57be65f2676ad553ddee6e57377c2",
-        "selector": "trailers:go-backend-packs"
       }
     },
     {
@@ -8905,6 +8912,211 @@
       "type": "changes"
     },
     {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/assessments/README.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/assessments/cmd-ci-assurance.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/assessments/cmd-codinho.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/assessments/consolidated.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/assessments/docs-catalog.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/assessments/docs.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/assessments/github-workflows.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/assessments/internal-ciassurance.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/assessments/internal-mcpserver.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/assessments/packs.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/assessments/pose-contracts.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/assessments/root.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/assessments/scripts.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/indexes/delivery-integrity.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/reports/2026-09-16-standard-validate-native.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/reports/history/standard-validate-native.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/specs/2026-08-22-go-backend-packs.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/state/components/cmd-ci-assurance.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/state/components/cmd-codinho.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/state/components/docs-catalog.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/state/components/docs.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/state/components/github-workflows.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/state/components/internal-ciassurance.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/state/components/internal-mcpserver.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/state/components/packs.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/state/components/pose-contracts.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/state/components/root.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/state/components/scripts.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/state/history.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/state/project-state.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:.pose/state/refresh-log.jsonl",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:cmd/codinho/foundation_tracks_integration_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:docs/catalog/go-backend.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:docs/editorial/go-backend-inventory.md",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:docs/editorial/go-backend-queue.json",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:internal/curriculum/foundation_variants_test.go",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:packs/go-concurrency-context.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:packs/go-database.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:packs/go-http.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:packs/manifest.yaml",
+      "type": "changes"
+    },
+    {
+      "from": "change-set:cs-256ea3773f29",
+      "to": "artifact:testdata/packs/backend/README.md",
+      "type": "changes"
+    },
+    {
       "from": "change-set:cs-27f24a7c63e8",
       "to": "artifact:.pose/contributions/20260822-201802-review-bundle-root-level-files-gomod-pro.md",
       "type": "changes"
@@ -9197,186 +9409,6 @@
     {
       "from": "change-set:cs-2e19a390d022",
       "to": "artifact:internal/fixtures/materialize_test.go",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/assessments/README.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/assessments/cmd-ci-assurance.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/assessments/cmd-codinho.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/assessments/consolidated.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/assessments/docs-catalog.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/assessments/docs.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/assessments/github-workflows.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/assessments/internal-ciassurance.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/assessments/internal-mcpserver.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/assessments/packs.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/assessments/pose-contracts.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/assessments/root.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/assessments/scripts.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/specs/2026-08-22-go-backend-packs.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/state/components/cmd-ci-assurance.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/state/components/cmd-codinho.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/state/components/docs-catalog.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/state/components/docs.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/state/components/github-workflows.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/state/components/internal-ciassurance.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/state/components/internal-mcpserver.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/state/components/packs.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/state/components/pose-contracts.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/state/components/root.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/state/components/scripts.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/state/history.jsonl",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/state/project-state.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:.pose/state/refresh-log.jsonl",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:docs/catalog/go-backend.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:docs/editorial/go-backend-inventory.md",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:docs/editorial/go-backend-queue.json",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:packs/go-concurrency-context.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:packs/go-database.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:packs/go-http.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:packs/manifest.yaml",
-      "type": "changes"
-    },
-    {
-      "from": "change-set:cs-343314055e1d",
-      "to": "artifact:testdata/packs/backend/README.md",
       "type": "changes"
     },
     {
@@ -17786,6 +17818,21 @@
     },
     {
       "from": "spec:go-backend-packs",
+      "to": "artifact:.pose/indexes/delivery-integrity.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:go-backend-packs",
+      "to": "artifact:.pose/reports/2026-09-16-standard-validate-native.md",
+      "type": "declares"
+    },
+    {
+      "from": "spec:go-backend-packs",
+      "to": "artifact:.pose/reports/history/standard-validate-native.jsonl",
+      "type": "declares"
+    },
+    {
+      "from": "spec:go-backend-packs",
       "to": "artifact:.pose/state/components/docs-catalog.json",
       "type": "declares"
     },
@@ -17801,6 +17848,11 @@
     },
     {
       "from": "spec:go-backend-packs",
+      "to": "artifact:cmd/codinho/foundation_tracks_integration_test.go",
+      "type": "declares"
+    },
+    {
+      "from": "spec:go-backend-packs",
       "to": "artifact:docs/catalog/go-backend.md",
       "type": "declares"
     },
@@ -17812,6 +17864,11 @@
     {
       "from": "spec:go-backend-packs",
       "to": "artifact:docs/editorial/go-backend-queue.json",
+      "type": "declares"
+    },
+    {
+      "from": "spec:go-backend-packs",
+      "to": "artifact:internal/curriculum/foundation_variants_test.go",
       "type": "declares"
     },
     {
@@ -17841,7 +17898,7 @@
     },
     {
       "from": "spec:go-backend-packs",
-      "to": "change-set:cs-343314055e1d",
+      "to": "change-set:cs-256ea3773f29",
       "type": "observed-by"
     },
     {
@@ -21474,12 +21531,37 @@
     {
       "spec": "go-backend-packs",
       "action": "modified",
+      "path": ".pose/indexes/delivery-integrity.json"
+    },
+    {
+      "spec": "go-backend-packs",
+      "action": "modified",
+      "path": ".pose/reports/2026-09-16-standard-validate-native.md"
+    },
+    {
+      "spec": "go-backend-packs",
+      "action": "modified",
+      "path": ".pose/reports/history/standard-validate-native.jsonl"
+    },
+    {
+      "spec": "go-backend-packs",
+      "action": "modified",
       "path": ".pose/state/components/packs.json"
     },
     {
       "spec": "go-backend-packs",
       "action": "modified",
       "path": ".pose/state/project-state.md"
+    },
+    {
+      "spec": "go-backend-packs",
+      "action": "modified",
+      "path": "cmd/codinho/foundation_tracks_integration_test.go"
+    },
+    {
+      "spec": "go-backend-packs",
+      "action": "modified",
+      "path": "internal/curriculum/foundation_variants_test.go"
     },
     {
       "spec": "go-backend-packs",
@@ -25067,6 +25149,191 @@
       "diff_digest": "sha256:31bc20d5543e9ef14885217c9bcbd880c13269fac35e0e11526ce7e192d5b461"
     },
     {
+      "id": "cs-256ea3773f29",
+      "spec": "go-backend-packs",
+      "selector": "trailers:go-backend-packs",
+      "base": "af0f682aa8de67bf8d7dbffe75a038e69c98166b^",
+      "head": "c2be112acc9589efbdea3f3baed604efa36a6796",
+      "resolved_base": "4067f89f02aedba8c9b02cf75f6ed46872396fcd",
+      "resolved_head": "c2be112acc9589efbdea3f3baed604efa36a6796",
+      "commits": [
+        "af0f682aa8de67bf8d7dbffe75a038e69c98166b",
+        "5720cb7d97c9d45027f72056edb149f051fdfea5",
+        "2edce4be6be3e203ad10dfafe7a1551844c6ff80",
+        "e28d2bae7b665c2bd033d77fd70828492a6a9e44",
+        "58f88b874cd83a5f49413fd738e1de10a0254ed5",
+        "f8315690de3ee5352d6ad795ab2cae4aa6eedf5a",
+        "c2be112acc9589efbdea3f3baed604efa36a6796"
+      ],
+      "paths": [
+        {
+          "action": "created",
+          "path": ".pose/assessments/docs-catalog.md"
+        },
+        {
+          "action": "created",
+          "path": ".pose/state/components/docs-catalog.json"
+        },
+        {
+          "action": "created",
+          "path": "docs/catalog/go-backend.md"
+        },
+        {
+          "action": "created",
+          "path": "docs/editorial/go-backend-inventory.md"
+        },
+        {
+          "action": "created",
+          "path": "docs/editorial/go-backend-queue.json"
+        },
+        {
+          "action": "created",
+          "path": "packs/go-concurrency-context.yaml"
+        },
+        {
+          "action": "created",
+          "path": "packs/go-database.yaml"
+        },
+        {
+          "action": "created",
+          "path": "packs/go-http.yaml"
+        },
+        {
+          "action": "created",
+          "path": "testdata/packs/backend/README.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/README.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/cmd-ci-assurance.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/cmd-codinho.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/consolidated.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/docs.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/github-workflows.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/internal-ciassurance.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/internal-mcpserver.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/packs.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/pose-contracts.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/root.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/assessments/scripts.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/indexes/delivery-integrity.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/reports/2026-09-16-standard-validate-native.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/reports/history/standard-validate-native.jsonl"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/specs/2026-08-22-go-backend-packs.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/cmd-ci-assurance.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/cmd-codinho.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/docs.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/github-workflows.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/internal-ciassurance.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/internal-mcpserver.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/packs.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/pose-contracts.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/root.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/components/scripts.json"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/history.jsonl"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/project-state.md"
+        },
+        {
+          "action": "modified",
+          "path": ".pose/state/refresh-log.jsonl"
+        },
+        {
+          "action": "modified",
+          "path": "cmd/codinho/foundation_tracks_integration_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "internal/curriculum/foundation_variants_test.go"
+        },
+        {
+          "action": "modified",
+          "path": "packs/manifest.yaml"
+        }
+      ],
+      "diff_digest": "sha256:aca650580f5c55f050488e0d3bdc95adf1ef9b27db3e3c8b4629d0a5e20de82a"
+    },
+    {
       "id": "cs-27f24a7c63e8",
       "spec": "go-runtime-foundation",
       "selector": "trailers:go-runtime-foundation",
@@ -25367,170 +25634,6 @@
         }
       ],
       "diff_digest": "sha256:71836dbf84b9c3fa835063433c025b3ccec8179e234e7dd610a6f27d8c38f0bd"
-    },
-    {
-      "id": "cs-343314055e1d",
-      "spec": "go-backend-packs",
-      "selector": "trailers:go-backend-packs",
-      "base": "af0f682aa8de67bf8d7dbffe75a038e69c98166b^",
-      "head": "f8315690de3ee5352d6ad795ab2cae4aa6eedf5a",
-      "resolved_base": "4067f89f02aedba8c9b02cf75f6ed46872396fcd",
-      "resolved_head": "f8315690de3ee5352d6ad795ab2cae4aa6eedf5a",
-      "commits": [
-        "af0f682aa8de67bf8d7dbffe75a038e69c98166b",
-        "5720cb7d97c9d45027f72056edb149f051fdfea5",
-        "2edce4be6be3e203ad10dfafe7a1551844c6ff80",
-        "e28d2bae7b665c2bd033d77fd70828492a6a9e44",
-        "58f88b874cd83a5f49413fd738e1de10a0254ed5",
-        "f8315690de3ee5352d6ad795ab2cae4aa6eedf5a"
-      ],
-      "paths": [
-        {
-          "action": "created",
-          "path": ".pose/assessments/docs-catalog.md"
-        },
-        {
-          "action": "created",
-          "path": ".pose/state/components/docs-catalog.json"
-        },
-        {
-          "action": "created",
-          "path": "docs/catalog/go-backend.md"
-        },
-        {
-          "action": "created",
-          "path": "docs/editorial/go-backend-inventory.md"
-        },
-        {
-          "action": "created",
-          "path": "docs/editorial/go-backend-queue.json"
-        },
-        {
-          "action": "created",
-          "path": "packs/go-concurrency-context.yaml"
-        },
-        {
-          "action": "created",
-          "path": "packs/go-database.yaml"
-        },
-        {
-          "action": "created",
-          "path": "packs/go-http.yaml"
-        },
-        {
-          "action": "created",
-          "path": "testdata/packs/backend/README.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/README.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/cmd-ci-assurance.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/cmd-codinho.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/consolidated.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/docs.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/github-workflows.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/internal-ciassurance.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/internal-mcpserver.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/packs.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/pose-contracts.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/root.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/assessments/scripts.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/specs/2026-08-22-go-backend-packs.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/cmd-ci-assurance.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/cmd-codinho.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/docs.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/github-workflows.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/internal-ciassurance.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/internal-mcpserver.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/packs.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/pose-contracts.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/root.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/components/scripts.json"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/history.jsonl"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/project-state.md"
-        },
-        {
-          "action": "modified",
-          "path": ".pose/state/refresh-log.jsonl"
-        },
-        {
-          "action": "modified",
-          "path": "packs/manifest.yaml"
-        }
-      ],
-      "diff_digest": "sha256:1eb906b73caf612ddf9183dfc83f57880aa57be65f2676ad553ddee6e57377c2"
     },
     {
       "id": "cs-34b93787f8dd",
@@ -29998,6 +30101,9 @@
       "go-foundations-packs",
       "v1-delivery-ci-assurance"
     ],
+    ".pose/indexes/delivery-integrity.json": [
+      "go-backend-packs"
+    ],
     ".pose/indexes/module-metadata.json": [
       "go-runtime-foundation",
       "v1-delivery-ci-assurance"
@@ -30057,8 +30163,14 @@
     ".pose/policy/docs.json": [
       "v1-delivery-ci-assurance"
     ],
+    ".pose/reports/2026-09-16-standard-validate-native.md": [
+      "go-backend-packs"
+    ],
     ".pose/reports/history/interventions.jsonl": [
       "editorial-batch-engine"
+    ],
+    ".pose/reports/history/standard-validate-native.jsonl": [
+      "go-backend-packs"
     ],
     ".pose/results/editorial-review-validation.json": [
       "editorial-batch-engine"
@@ -30146,6 +30258,7 @@
       "evaluation-evidence-lineage"
     ],
     "cmd/codinho/foundation_tracks_integration_test.go": [
+      "go-backend-packs",
       "go-foundations-packs"
     ],
     "cmd/codinho/integration_test.go": [
@@ -30561,6 +30674,7 @@
       "catalog-authoring-quality"
     ],
     "internal/curriculum/foundation_variants_test.go": [
+      "go-backend-packs",
       "go-foundations-packs"
     ],
     "internal/curriculum/graph.go": [
@@ -31809,6 +31923,16 @@
       "path": "packs/manifest.yaml",
       "message": "declared artifact action is absent from the attributed Git change sets",
       "remediation": "no Git change sets are attributed to spec go-production-architecture-packs (ensure commits carry 'POSE-Spec: go-production-architecture-packs' trailer or generate report with pose report)"
+    },
+    {
+      "id": "dif-746bfad2fd62",
+      "code": "undeclared-delivery",
+      "severity": "warning",
+      "spec": "go-backend-packs",
+      "path": "cmd/codinho/foundation_tracks_integration_test.go",
+      "change_set": "cs-256ea3773f29",
+      "message": "changed delivery root cmd/codinho has no delivery declaration",
+      "remediation": "declare a typed delivery target or narrow the attributed change set"
     },
     {
       "id": "dif-75fa921cf30b",

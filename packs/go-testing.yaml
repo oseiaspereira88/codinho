@@ -1989,15 +1989,18 @@ challenges:
   competencies:
     primary:
     - testing-detect-aliasing
-  brief: Uma rotina precisa devolver leituras para uso posterior sem que mudanças em uma versão alterem
-    a outra.
+  prerequisites: []
+  brief: Um relatório recebe uma lista de leituras para uma etapa posterior de edição. A rotina deve permitir
+    que cada versão seja alterada sem que as mudanças alcancem a outra.
   constraints:
   - Use somente a biblioteca padrão e as entradas recebidas.
   - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
   acceptance:
-  - Preserva ordem, rótulos e valores.
-  - Alterações nos elementos da saída não alteram a entrada e vice-versa.
-  - Entrada nil ou vazia produz slice vazio não nil.
+  - A saída mantém a quantidade, a ordem, os rótulos e os valores das leituras recebidas.
+  - A chamada não modifica as leituras recebidas.
+  - Alterar um campo na saída não modifica a leitura correspondente na entrada.
+  - Alterar um campo na entrada não modifica a leitura correspondente na saída.
+  - Entrada nil ou vazia produz uma slice vazia não nil.
   publication:
     status: draft
     author: codex
@@ -2008,22 +2011,24 @@ challenges:
       kind: macro
       title: Detectar aliasing em um snapshot de leituras
       instruction:
-        objective: Produza um snapshot de leituras que possa ser modificado sem alterar o slice original.
-        scope: Uma competência contextualizada da origem.
+        objective: Prepare uma versão de trabalho das leituras para um relatório sem alterar a lista recebida.
+        scope: Conteúdo preservado, independência entre as slices e entradas sem elementos.
       children:
       - id: snapshot-readings.meso
         kind: meso
-        title: Casos observáveis e implementação
+        title: Distinguir conteúdo preservado de armazenamento compartilhado
         instruction:
-          objective: Use os casos de aceite para orientar a implementação.
-          scope: Contrato da variante.
+          objective: Use casos de leituras para separar a verificação do conteúdo da verificação da independência.
+          scope: Ordem, rótulos, valores, mutações em cada versão e entradas nil ou vazias.
         children:
         - id: snapshot-readings.step-1
           kind: micro
-          title: Observe a diferença entre igualdade e independência.
+          action: implement
+          target: test_case
+          title: Planeje a evidência de independência.
           instruction:
-            objective: Observe a diferença entre igualdade e independência.
-            scope: Compare conteúdo antes e depois de uma mutação deliberada.
+            objective: Defina mutações controladas que revelem se as duas versões compartilham mudanças.
+            scope: Uma mutação no snapshot e outra na entrada, usando leituras com posições e valores distintos.
           concepts:
           - testing-input-isolation
           evidence:
@@ -2049,13 +2054,15 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Por que comparar os valores uma única vez não prova que duas slices deixaram de compartilhar armazenamento?
+            - Por que uma igualdade de conteúdo observada antes de qualquer mutação não prova independência entre as duas slices?
         - id: snapshot-readings.step-2
           kind: micro
-          title: Produza o snapshot independente.
+          action: implement
+          target: function
+          title: Produza a versão de trabalho.
           instruction:
-            objective: Produza o snapshot independente.
-            scope: Cubra mutações em ambas as direções e entrada vazia.
+            objective: Produza uma saída com os mesmos dados, mas que possa ser alterada sem atingir a entrada.
+            scope: Ordem, rótulos, valores e não mutação durante a chamada; entradas sem elementos ficam no node dedicado.
           concepts:
           - testing-input-isolation
           - testing-table-cases
@@ -2082,8 +2089,7 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Que mudança pequena na entrada distingue uma implementação correta de uma apenas aparentemente
-              correta?
+            - Por que observar conteúdo, mutações posteriores e entradas sem elementos separa contratos que uma única comparação poderia confundir?
           children:
           - id: snapshot-readings.verify-bidirectional-isolation
             hints:
@@ -2091,6 +2097,14 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: aliasing
@@ -2108,12 +2122,23 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+            reflection:
+              optional:
+              - Por que mutar um valor retornado depois da chamada prova algo que a comparação inicial não prova?
           - id: snapshot-readings.verify-input-isolation
             hints:
               - level: 1
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: aliasing
@@ -2131,12 +2156,23 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+            reflection:
+              optional:
+              - Por que mutar a entrada depois da chamada testa a direção oposta do compartilhamento?
           - id: snapshot-readings.verify-empty-non-nil
             hints:
               - level: 1
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: boundary_case
@@ -2154,6 +2190,9 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+            reflection:
+              optional:
+              - Por que len igual a zero, sozinho, não distingue uma slice vazia de uma slice nil?
   fixture:
   - path: go.mod
     content: |
@@ -2164,13 +2203,50 @@ challenges:
     content: "package exercise\n\ntype Reading struct {\n\tLabel string\n\tValue int\n}\n\nfunc Snapshot(in\
       \ []Reading) []Reading { return in }\n"
   - path: exercise_test.go
-    content: "package exercise\n\nimport (\n\t\"reflect\"\n\t\"testing\"\n)\n\nfunc TestVariant(t *testing.T)\
-      \ {\n\tfor _, in := range [][]Reading{nil, {}} {\n\t\tif got := Snapshot(in); got == nil || len(got)\
-      \ != 0 {\n\t\t\tt.Fatal(\"empty contract\")\n\t\t}\n\t}\n\tin := []Reading{{\"B\", 2}, {\"A\", 1}}\n\
-      \tout := Snapshot(in)\n\tif !reflect.DeepEqual(in, out) {\n\t\tt.Fatal(\"content changed\")\n\t\
-      }\n\tout[0].Value = 99\n\tif in[0].Value != 2 {\n\t\tt.Fatal(\"output aliases input\")\n\t}\n\t\
-      in[1].Label = \"changed\"\n\tif out[1].Label != \"A\" {\n\t\tt.Fatal(\"input aliases output\")\n\
-      \t}\n}\n"
+    content: |
+      package exercise
+
+      import (
+          "reflect"
+          "testing"
+      )
+
+      func TestVariant(t *testing.T) {
+          for _, in := range [][]Reading{nil, {}} {
+              if got := Snapshot(in); got == nil || len(got) != 0 {
+                  t.Fatal("empty contract")
+              }
+          }
+
+          in := make([]Reading, 2, 4)
+          in[0] = Reading{"B", 2}
+          in[1] = Reading{"A", 1}
+          before := append([]Reading(nil), in...)
+          want := []Reading{{"B", 2}, {"A", 1}}
+
+          out := Snapshot(in)
+          if !reflect.DeepEqual(out, want) {
+              t.Fatalf("content = %+v, want %+v", out, want)
+          }
+          if !reflect.DeepEqual(in, before) {
+              t.Fatalf("input changed during snapshot: got %+v, want %+v", in, before)
+          }
+
+          beforeOutput := append([]Reading(nil), out...)
+          expanded := append(in, Reading{"C", 3}, Reading{"D", 4})
+          if len(expanded) != 4 || !reflect.DeepEqual(out, beforeOutput) {
+              t.Fatalf("input append changed output: got %+v, want %+v", out, beforeOutput)
+          }
+
+          out[0].Value = 99
+          if in[0].Value != 2 {
+              t.Fatal("output aliases input")
+          }
+          in[1].Label = "changed"
+          if out[1].Label != "A" {
+              t.Fatal("input aliases output")
+          }
+      }
   checks:
   - id: focused-tests
     runner: go_test
@@ -2189,13 +2265,50 @@ challenges:
       content: "package exercise\n\ntype Reading struct {\n\tLabel string\n\tValue int\n}\n\nfunc Snapshot(in\
         \ []Reading) []Reading { out := make([]Reading, len(in)); copy(out, in); return out }\n"
     - path: exercise_test.go
-      content: "package exercise\n\nimport (\n\t\"reflect\"\n\t\"testing\"\n)\n\nfunc TestVariant(t *testing.T)\
-        \ {\n\tfor _, in := range [][]Reading{nil, {}} {\n\t\tif got := Snapshot(in); got == nil || len(got)\
-        \ != 0 {\n\t\t\tt.Fatal(\"empty contract\")\n\t\t}\n\t}\n\tin := []Reading{{\"B\", 2}, {\"A\"\
-        , 1}}\n\tout := Snapshot(in)\n\tif !reflect.DeepEqual(in, out) {\n\t\tt.Fatal(\"content changed\"\
-        )\n\t}\n\tout[0].Value = 99\n\tif in[0].Value != 2 {\n\t\tt.Fatal(\"output aliases input\")\n\t\
-        }\n\tin[1].Label = \"changed\"\n\tif out[1].Label != \"A\" {\n\t\tt.Fatal(\"input aliases output\"\
-        )\n\t}\n}\n"
+      content: |
+        package exercise
+
+        import (
+            "reflect"
+            "testing"
+        )
+
+        func TestVariant(t *testing.T) {
+            for _, in := range [][]Reading{nil, {}} {
+                if got := Snapshot(in); got == nil || len(got) != 0 {
+                    t.Fatal("empty contract")
+                }
+            }
+
+            in := make([]Reading, 2, 4)
+            in[0] = Reading{"B", 2}
+            in[1] = Reading{"A", 1}
+            before := append([]Reading(nil), in...)
+            want := []Reading{{"B", 2}, {"A", 1}}
+
+            out := Snapshot(in)
+            if !reflect.DeepEqual(out, want) {
+                t.Fatalf("content = %+v, want %+v", out, want)
+            }
+            if !reflect.DeepEqual(in, before) {
+                t.Fatalf("input changed during snapshot: got %+v, want %+v", in, before)
+            }
+
+            beforeOutput := append([]Reading(nil), out...)
+            expanded := append(in, Reading{"C", 3}, Reading{"D", 4})
+            if len(expanded) != 4 || !reflect.DeepEqual(out, beforeOutput) {
+                t.Fatalf("input append changed output: got %+v, want %+v", out, beforeOutput)
+            }
+
+            out[0].Value = 99
+            if in[0].Value != 2 {
+                t.Fatal("output aliases input")
+            }
+            in[1].Label = "changed"
+            if out[1].Label != "A" {
+                t.Fatal("input aliases output")
+            }
+        }
     expectations:
     - check_id: focused-tests
       baseline: test_failure

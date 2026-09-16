@@ -315,10 +315,10 @@ Validar estrutura, distribuição exata, checks, cobertura e playtest humano.
 - Security / Contract: secret scan, path confinement e leak detector.
 
 ### Execution log
-- 2026-09-16 UTC, revisão automatizada da spec: `pose validate --strict
-  --json .pose/results/go-foundations-review-validation.json --verbose`
-  registrou 23 checks aprovados e um erro ambiental em `govulncheck` por DNS/
-  rede indisponível. Testes, build, vet, checks de catálogo e 54/54 fixtures
+- 2026-09-16 UTC, revisão automatizada da spec: `PATH=/home/go/go/bin:$PATH
+  pose validate --strict --json .pose/results/go-foundations-review-validation.json
+  --verbose` registrou 24/24 checks aprovados, incluindo `govulncheck` sem
+  vulnerabilidades. Testes, build, vet, checks de catálogo e 54/54 fixtures
   passaram; a cobertura observada foi 105 conceitos, 64 competências, 5
   trilhas, 54 desafios e 366 nodes. Os filtros por módulo foram executados,
   mas retornaram zero checks aplicáveis e não foram contados como evidência.

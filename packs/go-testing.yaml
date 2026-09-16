@@ -1181,15 +1181,17 @@ challenges:
     - testing-design-deterministic-time
     secondary:
     - control-test-cleanup-lifecycle
-  brief: Uma reserva precisa informar quanto tempo ainda resta em relação a um instante escolhido pelo
-    teste, inclusive quando já terminou ou está no limite.
+  prerequisites: []
+  brief: Um painel de reservas precisa informar ao atendente quanto tempo uma reserva ainda pode ser usada a
+    partir do instante observado pelo teste, inclusive quando o prazo já passou ou acabou de terminar.
   constraints:
   - Use somente a biblioteca padrão e as entradas recebidas.
   - Não use rede, arquivos externos ou esperas reais; preserve as assinaturas da fixture.
   acceptance:
-  - Usa o relógio recebido exatamente uma vez.
-  - Reserva expirada ou no limite retorna zero.
-  - Relógio nil retorna ErrMissingClock.
+  - Com um relógio válido, retorna exatamente a duração restante quando o fim da reserva está no futuro.
+  - Reserva expirada ou no limite retorna duração zero, nunca uma duração negativa.
+  - Consulta o relógio recebido exatamente uma vez por chamada.
+  - Relógio nil retorna duração zero e ErrMissingClock sem provocar panic.
   publication:
     status: draft
     author: codex
@@ -1200,31 +1202,34 @@ challenges:
       kind: macro
       title: Medir o tempo restante de uma reserva
       instruction:
-        objective: Calcule o tempo restante de uma reserva usando um relógio controlado pelo teste, sem
-          retornar durações negativas.
-        scope: Uma competência contextualizada da origem.
+        objective: Implemente a medição da janela de uma reserva a partir de um instante controlado pelo teste.
+        scope: Uma reserva, seu instante final e o contrato de erro da dependência de relógio.
       children:
       - id: measure-reservation-remaining.meso
         kind: meso
         title: Casos observáveis e implementação
         instruction:
-          objective: Use os casos de aceite para orientar a implementação.
-          scope: Contrato da variante.
+          objective: Separe os casos de fronteira da regra que produz a duração observável.
+          scope: Reserva expirada, no limite ou futura, leitura do relógio e dependência ausente.
         children:
         - id: measure-reservation-remaining.step-1
           kind: micro
-          title: Descreva os instantes de teste.
+          action: implement
+          target: function
+          title: Modele os instantes da reserva.
           instruction:
-            objective: Descreva os instantes de teste.
-            scope: Não espere o tempo real passar para criar os casos.
+            objective: Defina os casos temporais da reserva, distinguindo expirada, no limite ou futura.
+            scope: As expectativas para cada relação entre o fim da reserva e o instante fornecido pelo relógio; não espere o tempo real passar.
           concepts:
+          - testing-table-cases
           - testing-clock-injection
           evidence:
             strategies:
             - source_inspection
+            - test
           criteria:
           - id: behavior-1
-            kind: qualitative
+            kind: structural
           completion:
             requires_positive_evaluation: true
           hints:
@@ -1242,18 +1247,21 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Por que fixar o instante observado torna os casos de limite repetíveis sem esperar o relógio do sistema?
+            - Por que fixar o instante observado e variar apenas o fim da reserva separa uma fronteira do tempo que a máquina levou para executar o teste?
         - id: measure-reservation-remaining.step-2
           kind: micro
-          title: Calcule a duração observável.
+          action: implement
+          target: function
+          title: Calcule a duração válida.
           instruction:
-            objective: Calcule a duração observável.
-            scope: Cubra limite, expiração, futuro e ausência da dependência.
+            objective: Calcule a duração que o chamador pode observar para uma reserva.
+            scope: Relógio válido, diferença exata para um fim futuro e normalização dos casos não positivos; a dependência ausente é verificada no node dedicado.
           concepts:
           - testing-clock-injection
           - testing-time-boundaries
           evidence:
             strategies:
+            - source_inspection
             - test
           criteria:
           - id: behavior-2
@@ -1275,7 +1283,7 @@ challenges:
             kind: solution
           reflection:
             optional:
-            - Por que o resultado precisa ser limitado depois de calcular a diferença, em vez de apenas testar um caso futuro?
+            - Por que observar a diferença exata no futuro e o zero na fronteira é necessário para evitar que uma implementação que só reconhece um caso comum pareça correta?
           children:
           - id: measure-reservation-remaining.verify-nonnegative-result
             hints:
@@ -1283,13 +1291,21 @@ challenges:
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: output
             title: Verificar duração nunca negativa
             instruction:
-              objective: Confirme que reserva expirada e reserva no limite retornam zero, enquanto uma futura retorna duração positiva.
-              scope: Apenas as três fronteiras temporais.
+              objective: Confirme que os casos expirado e no limite retornam zero e que o caso futuro retorna a diferença exata.
+              scope: Apenas o resultado temporal com relógio válido; não avalie a quantidade de chamadas neste node.
             concepts:
             - testing-time-boundaries
             evidence:
@@ -1300,21 +1316,34 @@ challenges:
               kind: structural
             - id: future-remains-positive
               kind: structural
+            - id: future-duration-matches-difference
+              kind: structural
             completion:
               requires_positive_evaluation: true
+            reflection:
+              optional:
+              - Por que um caso futuro com duração conhecida, além de um caso expirado, distingue subtração correta de um retorno fixo apenas aparentemente válido?
           - id: measure-reservation-remaining.verify-clock-once
             hints:
               - level: 1
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: dependency
             title: Verificar uma leitura do relógio
             instruction:
-              objective: Use um dublê contador para confirmar que a operação consulta o relógio exatamente uma vez.
-              scope: Apenas a quantidade de chamadas da dependência.
+              objective: Use um dublê contador que altere o instante a cada leitura para confirmar uma única consulta.
+              scope: Apenas a quantidade e a estabilidade do instante observado em uma chamada.
             concepts:
             - testing-counting-double
             evidence:
@@ -1325,12 +1354,23 @@ challenges:
               kind: structural
             completion:
               requires_positive_evaluation: true
+            reflection:
+              optional:
+              - Por que um dublê que muda o instante a cada chamada revela uma segunda leitura que um relógio constante poderia esconder?
           - id: measure-reservation-remaining.verify-missing-clock
             hints:
               - level: 1
                 kind: guiding_question
               - level: 2
                 kind: syntax_recall
+              - level: 3
+                kind: logical_prose
+              - level: 4
+                kind: pseudocode
+              - level: 5
+                kind: partial_code
+              - level: 6
+                kind: solution
             kind: micro
             action: verify
             target: dependency_boundary
@@ -1346,14 +1386,19 @@ challenges:
             criteria:
             - id: missing-clock-returns-sentinel
               kind: structural
+            - id: missing-clock-returns-zero
+              kind: structural
             completion:
               requires_positive_evaluation: true
+            reflection:
+              optional:
+              - Por que devolver duração zero junto com ErrMissingClock impede que o chamador use uma medição que nunca aconteceu?
     - id: measure-reservation-remaining.cleanup-context.macro
       kind: macro
-      title: Encerrar o estado dos casos de reserva
+      title: Delimitar o lifecycle do dublê da reserva
       instruction:
-        objective: Organize o cleanup do estado auxiliar usado pelos casos da variante.
-        scope: Escopo de subtestes e ordem de callbacks, sem alterar o contrato de Remaining.
+        objective: Delimite o lifecycle do estado compartilhado pelos casos temporais.
+        scope: Subtestes, t.Cleanup e observação após cada caso, sem alterar o contrato de Remaining.
       concepts:
       - testing-cleanup-lifecycle
       evidence:
@@ -1365,10 +1410,10 @@ challenges:
       children:
       - id: measure-reservation-remaining.cleanup-context.meso
         kind: meso
-        title: Isolar o estado entre casos
+        title: Resetar o estado entre casos
         instruction:
-          objective: Relacione o encerramento de cada caso ao estado que ele registrou.
-          scope: Cleanup do subteste e do pai, sem introduzir espera real.
+          objective: Relacione o cleanup de cada subteste ao reset do dublê antes do próximo caso.
+          scope: Contador compartilhado, encerramento do subteste e verificação do pai, sem introduzir espera real.
         concepts:
         - testing-cleanup-lifecycle
         evidence:
@@ -1384,13 +1429,14 @@ challenges:
           target: test_lifecycle
           title: Verificar cleanup entre casos de reserva
           instruction:
-            objective: Confirme que o estado de um caso é liberado no escopo correto antes do próximo caso.
-            scope: Apenas o lifecycle observável dos testes da variante.
+            objective: Confirme que cada subteste registra seu cleanup e deixa o contador zerado antes do próximo caso.
+            scope: Apenas o lifecycle observável do dublê e a checagem do teste pai.
           concepts:
           - testing-cleanup-lifecycle
           evidence:
             strategies:
             - source_inspection
+            - test
           criteria:
           - id: reservation-cleanup-scope-observable
             kind: qualitative
@@ -1423,13 +1469,55 @@ challenges:
       missing clock\")\n\nfunc Remaining(end time.Time, clock func() time.Time) (time.Duration, error)\
       \ { return 0, nil }\n"
   - path: exercise_test.go
-    content: "package exercise\n\nimport (\n\t\"errors\"\n\t\"testing\"\n\t\"time\"\n)\n\nfunc TestVariant(t\
-      \ *testing.T) {\n\tnow := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)\n\tfor _, delta := range []time.Duration{-time.Hour,\
-      \ 0, time.Nanosecond, time.Minute} {\n\t\tcalls := 0\n\t\tgot, err := Remaining(now.Add(delta),\
-      \ func() time.Time { calls++; return now })\n\t\twant := delta\n\t\tif want < 0 {\n\t\t\twant =\
-      \ 0\n\t\t}\n\t\tif err != nil || got != want || calls != 1 {\n\t\t\tt.Fatalf(\"%v %v calls=%d\"\
-      , got, err, calls)\n\t\t}\n\t}\n\tif _, err := Remaining(now, nil); !errors.Is(err, ErrMissingClock)\
-      \ {\n\t\tt.Fatal(err)\n\t}\n}\n"
+    content: |
+      package exercise
+
+      import (
+          "errors"
+          "testing"
+          "time"
+      )
+
+      func TestVariant(t *testing.T) {
+          now := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
+          cases := []struct {
+              name  string
+              delta time.Duration
+              want  time.Duration
+          }{
+              {name: "expired", delta: -time.Hour, want: 0},
+              {name: "at-deadline", delta: 0, want: 0},
+              {name: "after-nanosecond", delta: time.Nanosecond, want: time.Nanosecond},
+              {name: "after-minute", delta: time.Minute, want: time.Minute},
+          }
+
+          calls := 0
+          for _, tc := range cases {
+              tc := tc
+              t.Run(tc.name, func(t *testing.T) {
+                  t.Cleanup(func() { calls = 0 })
+                  got, err := Remaining(now.Add(tc.delta), func() time.Time {
+                      observed := now.Add(time.Duration(calls) * 24 * time.Hour)
+                      calls++
+                      return observed
+                  })
+                  if err != nil || got != tc.want {
+                      t.Fatalf("case=%s got=%v want=%v err=%v", tc.name, got, tc.want, err)
+                  }
+                  if calls != 1 {
+                      t.Fatalf("clock calls = %d, want 1", calls)
+                  }
+              })
+              if calls != 0 {
+                  t.Fatalf("clock state leaked after %s: calls=%d", tc.name, calls)
+              }
+          }
+
+          got, err := Remaining(now, nil)
+          if got != 0 || !errors.Is(err, ErrMissingClock) {
+              t.Fatalf("missing clock: duration=%v error=%v", got, err)
+          }
+      }
   - path: review_regression_test.go
     content: |
       package exercise
@@ -1466,13 +1554,55 @@ challenges:
         \ {\n\tif clock == nil {\n\t\treturn 0, ErrMissingClock\n\t}\n\tleft := end.Sub(clock())\n\tif\
         \ left < 0 {\n\t\tleft = 0\n\t}\n\treturn left, nil\n}\n"
     - path: exercise_test.go
-      content: "package exercise\n\nimport (\n\t\"errors\"\n\t\"testing\"\n\t\"time\"\n)\n\nfunc TestVariant(t\
-        \ *testing.T) {\n\tnow := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)\n\tfor _, delta := range\
-        \ []time.Duration{-time.Hour, 0, time.Nanosecond, time.Minute} {\n\t\tcalls := 0\n\t\tgot, err\
-        \ := Remaining(now.Add(delta), func() time.Time { calls++; return now })\n\t\twant := delta\n\t\
-        \tif want < 0 {\n\t\t\twant = 0\n\t\t}\n\t\tif err != nil || got != want || calls != 1 {\n\t\t\
-        \tt.Fatalf(\"%v %v calls=%d\", got, err, calls)\n\t\t}\n\t}\n\tif _, err := Remaining(now, nil);\
-        \ !errors.Is(err, ErrMissingClock) {\n\t\tt.Fatal(err)\n\t}\n}\n"
+      content: |
+        package exercise
+
+        import (
+            "errors"
+            "testing"
+            "time"
+        )
+
+        func TestVariant(t *testing.T) {
+            now := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
+            cases := []struct {
+                name  string
+                delta time.Duration
+                want  time.Duration
+            }{
+                {name: "expired", delta: -time.Hour, want: 0},
+                {name: "at-deadline", delta: 0, want: 0},
+                {name: "after-nanosecond", delta: time.Nanosecond, want: time.Nanosecond},
+                {name: "after-minute", delta: time.Minute, want: time.Minute},
+            }
+
+            calls := 0
+            for _, tc := range cases {
+                tc := tc
+                t.Run(tc.name, func(t *testing.T) {
+                    t.Cleanup(func() { calls = 0 })
+                    got, err := Remaining(now.Add(tc.delta), func() time.Time {
+                        observed := now.Add(time.Duration(calls) * 24 * time.Hour)
+                        calls++
+                        return observed
+                    })
+                    if err != nil || got != tc.want {
+                        t.Fatalf("case=%s got=%v want=%v err=%v", tc.name, got, tc.want, err)
+                    }
+                    if calls != 1 {
+                        t.Fatalf("clock calls = %d, want 1", calls)
+                    }
+                })
+                if calls != 0 {
+                    t.Fatalf("clock state leaked after %s: calls=%d", tc.name, calls)
+                }
+            }
+
+            got, err := Remaining(now, nil)
+            if got != 0 || !errors.Is(err, ErrMissingClock) {
+                t.Fatalf("missing clock: duration=%v error=%v", got, err)
+            }
+        }
     - path: review_regression_test.go
       content: |
         package exercise

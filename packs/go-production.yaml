@@ -1,0 +1,3573 @@
+schema_version: 1
+id: go-production
+version: 1.0.0
+themes:
+- id: go-production.performance
+  title: Performance em produção
+- id: go-production.observability
+  title: Observabilidade em produção
+- id: go-production.resilience
+  title: Resiliência em produção
+- id: go-production.security
+  title: Segurança em produção
+concepts:
+- id: go-production.local-workload-baseline
+  title: Baseline de carga local
+- id: go-production.cpu-and-heap-profiles
+  title: Perfis de CPU e heap
+- id: go-production.benchmark-noise
+  title: Ruído de benchmark
+- id: go-production.trace-context
+  title: Contexto de trace
+- id: go-production.structured-event-correlation
+  title: Correlação de eventos estruturados
+- id: go-production.cardinality-budget
+  title: Orçamento de cardinalidade
+- id: go-production.readiness-vs-liveness
+  title: Readiness e liveness
+- id: go-production.shutdown-budget
+  title: Orçamento de shutdown
+- id: go-production.idempotency-key-scope
+  title: Escopo da chave idempotente
+- id: go-production.retry-budget
+  title: Orçamento de retries
+- id: go-production.grpc-deadline-budget
+  title: Orçamento de deadline RPC
+- id: go-production.queue-saturation
+  title: Saturação de fila
+- id: go-production.redelivery-semantics
+  title: Semântica de redelivery
+- id: go-production.expand-migrate-contract
+  title: Expand, migrate e contract
+- id: go-production.failure-budget
+  title: Orçamento de falha
+- id: go-production.service-identity
+  title: Identidade de serviço
+- id: go-production.secrets-boundary
+  title: Fronteira de segredos
+- id: go-production.release-artifact-provenance
+  title: Proveniência do artefato de release
+- id: go-production.input-size-boundary
+  title: Limite de tamanho de entrada
+competencies:
+- id: go-production.profile-hot-path-with-local-baseline
+  title: Perfilar hot path com baseline local
+- id: go-production.interpret-cpu-and-allocation-evidence
+  title: Interpretar evidência de CPU e alocação
+- id: go-production.correlate-request-signals-safely
+  title: Correlacionar sinais de requisição
+- id: go-production.bound-metric-cardinality
+  title: Limitar cardinalidade de métricas
+- id: go-production.separate-readiness-from-liveness
+  title: Separar readiness de liveness
+- id: go-production.drain-workers-with-deadline
+  title: Drenar workers dentro de deadline
+- id: go-production.make-retries-idempotent-and-bounded
+  title: Tornar retries idempotentes e limitados
+- id: go-production.bound-queue-and-redelivery
+  title: Limitar fila e redelivery
+- id: go-production.roll-schema-compatibly
+  title: Evoluir schema com compatibilidade
+- id: go-production.protect-service-identity-and-secrets
+  title: Proteger identidade e segredos do serviço
+- id: go-production.verify-release-provenance
+  title: Verificar proveniência do release
+tracks:
+- id: go-architecture-production
+  title: Arquitetura e produção em Go
+  themes:
+  - go-production.performance
+  - go-production.observability
+  - go-production.resilience
+  - go-production.security
+  challenge_ids:
+  - go-production.profile-hot-path
+  - go-production.correlate-request-signals
+  - go-production.observable-worker-shutdown
+  - go-production.idempotent-retry-client
+  - go-production.operable-message-worker
+  - go-production.instrumented-service-boundary
+  - go-production.backpressure-redelivery-service
+  - go-production.compatible-schema-rollout
+  - go-production.partial-outage-response
+challenges:
+- schema_version: 1
+  id: go-production.profile-hot-path
+  version: 1.0.0
+  title: Medir um hot path com baseline local
+  kind: atomic
+  difficulty: advanced
+  estimated_minutes: 35
+  themes:
+  - go-production.performance
+  competencies:
+    primary:
+    - go-production.profile-hot-path-with-local-baseline
+    secondary:
+    - go-production.interpret-cpu-and-allocation-evidence
+  brief: Uma transformação determinística precisa de uma medição local repetível. Compare o custo observado antes de escolher
+    uma mudança.
+  constraints:
+  - Use somente dados gerados na fixture.
+  - Não transforme ns/op em limite absoluto entre máquinas.
+  - Registre carga, versão Go e GOMAXPROCS na interpretação.
+  acceptance:
+  - O benchmark executa a transformação determinística e emite ns/op e alocações.
+  - A comparação usa o mesmo host e trata variações abaixo de 15% como inconclusivas.
+  - A decisão de mudança aponta uma evidência observável do perfil.
+  canonical: true
+  publication:
+    status: draft
+    author: codex
+  fixture:
+  - path: go.mod
+    content: 'module codinho-practice/profile-hot-path
+
+
+      go 1.25.0
+
+      '
+  - path: transform.go
+    content: "package profile\n\nfunc Transform(input []int) []int {\n    var output []int\n    for _, value := range input\
+      \ {\n        output = append(output, value*3+1)\n    }\n    return output\n}\n"
+  - path: transform_test.go
+    content: "package profile\n\nimport \"testing\"\n\nvar benchmarkSink []int\n\nfunc BenchmarkHotPath(b *testing.B) {\n\
+      \    input := make([]int, 1024)\n    for i := range input {\n        input[i] = i\n    }\n    b.ReportAllocs()\n   \
+      \ b.SetBytes(int64(len(input)))\n    for i := 0; i < b.N; i++ {\n        benchmarkSink = Transform(input)\n    }\n}\n"
+  checks:
+  - id: hot-path-benchmark
+    runner: go_benchmark
+    package: ./...
+    test_pattern: ^BenchmarkHotPath$
+    timeout: 30s
+    network: false
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: 'module codinho-practice/profile-hot-path
+
+
+        go 1.25.0
+
+        '
+    - path: transform.go
+      content: "package profile\n\nfunc Transform(input []int) []int {\n    output := make([]int, len(input))\n    for i,\
+        \ value := range input {\n        output[i] = value*3+1\n    }\n    return output\n}\n"
+    - path: transform_test.go
+      content: "package profile\n\nimport \"testing\"\n\nvar benchmarkSink []int\n\nfunc BenchmarkHotPath(b *testing.B) {\n\
+        \    input := make([]int, 1024)\n    for i := range input {\n        input[i] = i\n    }\n    b.ReportAllocs()\n \
+        \   b.SetBytes(int64(len(input)))\n    for i := 0; i < b.N; i++ {\n        benchmarkSink = Transform(input)\n    }\n\
+        }\n"
+    expectations:
+    - check_id: hot-path-benchmark
+      baseline: pass
+      reference: pass
+  layers:
+  - id: go-production.profile-hot-path.layer
+    macro_steps:
+    - id: go-production.profile-hot-path.plan
+      kind: macro
+      title: Planejar a decisão operacional
+      children:
+      - id: go-production.profile-hot-path.plan.execution
+        kind: meso
+        title: Executar a decisão com evidência
+        children:
+        - id: go-production.profile-hot-path.describe-workload
+          kind: micro
+          action: analyze
+          target: describe_workload
+          title: Descrever a carga
+          instruction:
+            objective: Delimite a entrada determinística do benchmark.
+            scope: Dados locais e tamanho da entrada.
+          concepts:
+          - go-production.local-workload-baseline
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.profile-hot-path.describe-workload.verified
+            kind: workload-is-explicit
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.profile-hot-path.run-baseline
+          kind: micro
+          action: verify
+          target: run_baseline
+          title: Executar o baseline
+          instruction:
+            objective: Execute o benchmark do baseline.
+            scope: Amostra local da transformação.
+          concepts:
+          - go-production.local-workload-baseline
+          - go-production.benchmark-noise
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.profile-hot-path.run-baseline.verified
+            kind: baseline-measurement-exists
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.profile-hot-path.inspect-cpu
+          kind: micro
+          action: analyze
+          target: inspect_cpu
+          title: Ler o custo de CPU
+          instruction:
+            objective: Relacione ns/op ao hot path medido.
+            scope: Saída do benchmark.
+          concepts:
+          - go-production.cpu-and-heap-profiles
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.profile-hot-path.inspect-cpu.verified
+            kind: cpu-evidence-is-discussed
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.profile-hot-path.inspect-allocations
+          kind: micro
+          action: analyze
+          target: inspect_allocations
+          title: Ler alocações
+          instruction:
+            objective: Relacione alocações ao formato da transformação.
+            scope: Relatório de alocações.
+          concepts:
+          - go-production.cpu-and-heap-profiles
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.profile-hot-path.inspect-allocations.verified
+            kind: allocation-evidence-is-discussed
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.profile-hot-path.state-decision
+          kind: micro
+          action: reflect
+          target: state_decision
+          title: Justificar a decisão
+          instruction:
+            objective: Justifique a mudança com uma mediana local.
+            scope: Comparação pareada.
+          concepts:
+          - go-production.benchmark-noise
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.profile-hot-path.state-decision.verified
+            kind: decision-respects-noise
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que evidência separa uma otimização real do ruído do host?
+- schema_version: 1
+  id: go-production.correlate-request-signals
+  version: 1.0.0
+  title: Correlacionar sinais sem estourar cardinalidade
+  kind: atomic
+  difficulty: advanced
+  estimated_minutes: 40
+  themes:
+  - go-production.observability
+  competencies:
+    primary:
+    - go-production.correlate-request-signals-safely
+    secondary:
+    - go-production.bound-metric-cardinality
+  brief: Um serviço precisa ligar eventos ao trace de uma requisição sem transformar cada identificador em uma série métrica
+    nova.
+  constraints:
+  - Use somente IDs sintéticos.
+  - Mantenha o trace ID no evento.
+  - O orçamento de cardinalidade é explícito e local.
+  acceptance:
+  - O sinal devolvido preserva o trace ID e a rota.
+  - O número de chaves métricas permanece dentro do orçamento declarado.
+  - O benchmark de correlação emite medição sem depender de rede.
+  canonical: true
+  publication:
+    status: draft
+    author: codex
+  fixture:
+  - path: go.mod
+    content: 'module codinho-practice/correlation
+
+
+      go 1.25.0
+
+      '
+  - path: correlation.go
+    content: "package correlation\n\nimport \"sync\"\n\ntype Signal struct {\n    TraceID   string\n    Route     string\n\
+      \    MetricKey string\n}\n\ntype Correlator struct {\n    mu   sync.Mutex\n    seen map[string]struct{}\n    max  int\n\
+      }\n\nfunc NewCorrelator(max int) *Correlator {\n    return &Correlator{seen: make(map[string]struct{}), max: max}\n\
+      }\n\nfunc (c *Correlator) Observe(traceID, route string) Signal {\n    c.mu.Lock()\n    defer c.mu.Unlock()\n    c.seen[traceID]\
+      \ = struct{}{}\n    return Signal{TraceID: traceID, Route: route, MetricKey: route}\n}\n\nfunc (c *Correlator) Cardinality()\
+      \ int {\n    c.mu.Lock()\n    defer c.mu.Unlock()\n    return len(c.seen)\n}\n"
+  - path: correlation_test.go
+    content: "package correlation\n\nimport (\n    \"fmt\"\n    \"testing\"\n)\n\nvar benchmarkSignal Signal\n\nfunc TestCorrelationCardinality(t\
+      \ *testing.T) {\n    c := NewCorrelator(2)\n    for i := 0; i < 8; i++ {\n        signal := c.Observe(fmt.Sprintf(\"\
+      trace-%d\", i), \"/items\")\n        if signal.TraceID == \"\" || signal.MetricKey != \"/items\" {\n            t.Fatalf(\"\
+      correlation was not propagated: %+v\", signal)\n        }\n    }\n    if got := c.Cardinality(); got > 2 {\n       \
+      \ t.Fatalf(\"cardinality=%d, want at most 2\", got)\n    }\n}\n\nfunc BenchmarkRequestCorrelation(b *testing.B) {\n\
+      \    c := NewCorrelator(32)\n    b.ReportAllocs()\n    for i := 0; i < b.N; i++ {\n        benchmarkSignal = c.Observe(\"\
+      trace-fixed\", \"/items\")\n    }\n}\n"
+  checks:
+  - id: correlation-tests
+    runner: go_test
+    package: ./...
+    test_pattern: ^TestCorrelationCardinality$
+    timeout: 30s
+    network: false
+  - id: correlation-benchmark
+    runner: go_benchmark
+    package: ./...
+    test_pattern: ^BenchmarkRequestCorrelation$
+    timeout: 30s
+    network: false
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: 'module codinho-practice/correlation
+
+
+        go 1.25.0
+
+        '
+    - path: correlation.go
+      content: "package correlation\n\nimport \"sync\"\n\ntype Signal struct {\n    TraceID   string\n    Route     string\n\
+        \    MetricKey string\n}\n\ntype Correlator struct {\n    mu   sync.Mutex\n    seen map[string]struct{}\n    max \
+        \ int\n}\n\nfunc NewCorrelator(max int) *Correlator {\n    return &Correlator{seen: make(map[string]struct{}), max:\
+        \ max}\n}\n\nfunc (c *Correlator) Observe(traceID, route string) Signal {\n    c.mu.Lock()\n    defer c.mu.Unlock()\n\
+        \    if len(c.seen) < c.max {\n        c.seen[route] = struct{}{}\n    }\n    return Signal{TraceID: traceID, Route:\
+        \ route, MetricKey: route}\n}\n\nfunc (c *Correlator) Cardinality() int {\n    c.mu.Lock()\n    defer c.mu.Unlock()\n\
+        \    return len(c.seen)\n}\n"
+    - path: correlation_test.go
+      content: "package correlation\n\nimport (\n    \"fmt\"\n    \"testing\"\n)\n\nvar benchmarkSignal Signal\n\nfunc TestCorrelationCardinality(t\
+        \ *testing.T) {\n    c := NewCorrelator(2)\n    for i := 0; i < 8; i++ {\n        signal := c.Observe(fmt.Sprintf(\"\
+        trace-%d\", i), \"/items\")\n        if signal.TraceID == \"\" || signal.MetricKey != \"/items\" {\n            t.Fatalf(\"\
+        correlation was not propagated: %+v\", signal)\n        }\n    }\n    if got := c.Cardinality(); got > 2 {\n     \
+        \   t.Fatalf(\"cardinality=%d, want at most 2\", got)\n    }\n}\n\nfunc BenchmarkRequestCorrelation(b *testing.B)\
+        \ {\n    c := NewCorrelator(32)\n    b.ReportAllocs()\n    for i := 0; i < b.N; i++ {\n        benchmarkSignal = c.Observe(\"\
+        trace-fixed\", \"/items\")\n    }\n}\n"
+    expectations:
+    - check_id: correlation-tests
+      baseline: test_failure
+      reference: pass
+    - check_id: correlation-benchmark
+      baseline: pass
+      reference: pass
+  layers:
+  - id: go-production.correlate-request-signals.layer
+    macro_steps:
+    - id: go-production.correlate-request-signals.plan
+      kind: macro
+      title: Planejar a decisão operacional
+      children:
+      - id: go-production.correlate-request-signals.plan.execution
+        kind: meso
+        title: Executar a decisão com evidência
+        children:
+        - id: go-production.correlate-request-signals.define-signal
+          kind: micro
+          action: design
+          target: define_signal
+          title: Definir o sinal
+          instruction:
+            objective: Defina os campos que carregam a correlação.
+            scope: Evento local de uma requisição.
+          concepts:
+          - go-production.trace-context
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.correlate-request-signals.define-signal.verified
+            kind: signal-carries-trace
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.correlate-request-signals.record-route
+          kind: micro
+          action: implement
+          target: record_route
+          title: Registrar a rota
+          instruction:
+            objective: Registre a rota como chave estável.
+            scope: Observação de uma requisição.
+          concepts:
+          - go-production.structured-event-correlation
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.correlate-request-signals.record-route.verified
+            kind: route-is-stable-key
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.correlate-request-signals.set-budget
+          kind: micro
+          action: implement
+          target: set_budget
+          title: Declarar o orçamento
+          instruction:
+            objective: Declare o limite de cardinalidade.
+            scope: Construtor do correlator.
+          concepts:
+          - go-production.cardinality-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.correlate-request-signals.set-budget.verified
+            kind: budget-is-configured
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.correlate-request-signals.check-cardinality
+          kind: micro
+          action: verify
+          target: check_cardinality
+          title: Verificar cardinalidade
+          instruction:
+            objective: Verifique o limite com IDs variados.
+            scope: Teste local da métrica.
+          concepts:
+          - go-production.cardinality-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.correlate-request-signals.check-cardinality.verified
+            kind: cardinality-stays-bounded
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.correlate-request-signals.compare-signal
+          kind: micro
+          action: reflect
+          target: compare_signal
+          title: Comparar sinais
+          instruction:
+            objective: Compare trace e chave métrica.
+            scope: Saída do teste e benchmark.
+          concepts:
+          - go-production.trace-context
+          - go-production.structured-event-correlation
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.correlate-request-signals.compare-signal.verified
+            kind: trace-and-metric-roles-are-distinct
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Por que o trace ID pode ter alta cardinalidade enquanto a chave métrica precisa de orçamento?
+  prerequisites:
+  - go-production.profile-hot-path
+- schema_version: 1
+  id: go-production.observable-worker-shutdown
+  version: 1.0.0
+  title: Encerrar worker com readiness observável
+  kind: combined
+  difficulty: advanced
+  estimated_minutes: 45
+  themes:
+  - go-production.observability
+  - go-production.resilience
+  competencies:
+    primary:
+    - go-production.separate-readiness-from-liveness
+    secondary:
+    - go-production.drain-workers-with-deadline
+    - go-production.separate-readiness-from-liveness
+  brief: Um worker local precisa sair do tráfego, drenar trabalho aceito e retornar dentro de um prazo de shutdown.
+  constraints:
+  - Não use sleep como sincronização.
+  - A fila é local e limitada.
+  - O cancelamento do contexto é um prazo verificável.
+  acceptance:
+  - Readiness fica falsa antes do retorno de shutdown.
+  - Trabalho aceito é processado antes do retorno normal.
+  - Um contexto cancelado faz shutdown retornar erro observável.
+  canonical: true
+  publication:
+    status: draft
+    author: codex
+  fixture:
+  - path: go.mod
+    content: 'module codinho-practice/worker-shutdown
+
+
+      go 1.25.0
+
+      '
+  - path: worker.go
+    content: "package shutdown\n\nimport (\n    \"context\"\n    \"sync\"\n)\n\ntype Worker struct {\n    mu         sync.Mutex\n\
+      \    jobs       chan int\n    done       chan struct{}\n    ready      bool\n    accepting  bool\n    processed  int\n\
+      }\n\nfunc NewWorker(capacity int) *Worker {\n    return &Worker{jobs: make(chan int, capacity), done: make(chan struct{})}\n\
+      }\n\nfunc (w *Worker) Start() {\n    w.mu.Lock()\n    w.ready = true\n    w.accepting = true\n    w.mu.Unlock()\n  \
+      \  go func() {\n        defer close(w.done)\n        for job := range w.jobs {\n            w.mu.Lock()\n          \
+      \  w.processed += job\n            w.mu.Unlock()\n        }\n    }()\n}\n\nfunc (w *Worker) Submit(job int) bool {\n\
+      \    w.mu.Lock()\n    defer w.mu.Unlock()\n    if !w.accepting {\n        return false\n    }\n    select {\n    case\
+      \ w.jobs <- job:\n        return true\n    default:\n        return false\n    }\n}\n\nfunc (w *Worker) Ready() bool\
+      \ {\n    w.mu.Lock()\n    defer w.mu.Unlock()\n    return w.ready\n}\n\nfunc (w *Worker) Processed() int {\n    w.mu.Lock()\n\
+      \    defer w.mu.Unlock()\n    return w.processed\n}\n\nfunc (w *Worker) Shutdown(ctx context.Context) error {\n    return\
+      \ nil\n}\n"
+  - path: worker_test.go
+    content: "package shutdown\n\nimport (\n    \"context\"\n    \"testing\"\n)\n\nfunc TestShutdownDrainsBeforeReturn(t *testing.T)\
+      \ {\n    w := NewWorker(4)\n    w.Start()\n    for _, job := range []int{1, 2, 3} {\n        if !w.Submit(job) {\n \
+      \           t.Fatalf(\"job %d was rejected\", job)\n        }\n    }\n    if err := w.Shutdown(context.Background());\
+      \ err != nil {\n        t.Fatalf(\"shutdown: %v\", err)\n    }\n    if w.Ready() {\n        t.Fatal(\"readiness stayed\
+      \ true after shutdown\")\n    }\n    if got := w.Processed(); got != 6 {\n        t.Fatalf(\"processed=%d, want 6\"\
+      , got)\n    }\n}\n\nfunc TestShutdownHonorsCanceledContext(t *testing.T) {\n    w := NewWorker(1)\n    w.Start()\n \
+      \   ctx, cancel := context.WithCancel(context.Background())\n    cancel()\n    if err := w.Shutdown(ctx); err == nil\
+      \ {\n        t.Fatal(\"shutdown accepted an already canceled context\")\n    }\n}\n"
+  checks:
+  - id: shutdown-tests
+    runner: go_test
+    package: ./...
+    test_pattern: ^TestShutdown
+    timeout: 30s
+    network: false
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: 'module codinho-practice/worker-shutdown
+
+
+        go 1.25.0
+
+        '
+    - path: worker.go
+      content: "package shutdown\n\nimport (\n    \"context\"\n    \"sync\"\n)\n\ntype Worker struct {\n    mu         sync.Mutex\n\
+        \    jobs       chan int\n    done       chan struct{}\n    ready      bool\n    accepting  bool\n    processed  int\n\
+        }\n\nfunc NewWorker(capacity int) *Worker {\n    return &Worker{jobs: make(chan int, capacity), done: make(chan struct{})}\n\
+        }\n\nfunc (w *Worker) Start() {\n    w.mu.Lock()\n    w.ready = true\n    w.accepting = true\n    w.mu.Unlock()\n\
+        \    go func() {\n        defer close(w.done)\n        for job := range w.jobs {\n            w.mu.Lock()\n      \
+        \      w.processed += job\n            w.mu.Unlock()\n        }\n    }()\n}\n\nfunc (w *Worker) Submit(job int) bool\
+        \ {\n    w.mu.Lock()\n    defer w.mu.Unlock()\n    if !w.accepting {\n        return false\n    }\n    select {\n\
+        \    case w.jobs <- job:\n        return true\n    default:\n        return false\n    }\n}\n\nfunc (w *Worker) Ready()\
+        \ bool {\n    w.mu.Lock()\n    defer w.mu.Unlock()\n    return w.ready\n}\n\nfunc (w *Worker) Processed() int {\n\
+        \    w.mu.Lock()\n    defer w.mu.Unlock()\n    return w.processed\n}\n\nfunc (w *Worker) Shutdown(ctx context.Context)\
+        \ error {\n    if err := ctx.Err(); err != nil {\n        return err\n    }\n    w.mu.Lock()\n    if !w.accepting\
+        \ {\n        w.mu.Unlock()\n        return nil\n    }\n    w.accepting = false\n    w.ready = false\n    close(w.jobs)\n\
+        \    w.mu.Unlock()\n    select {\n    case <-w.done:\n        return nil\n    case <-ctx.Done():\n        return ctx.Err()\n\
+        \    }\n}\n"
+    - path: worker_test.go
+      content: "package shutdown\n\nimport (\n    \"context\"\n    \"testing\"\n)\n\nfunc TestShutdownDrainsBeforeReturn(t\
+        \ *testing.T) {\n    w := NewWorker(4)\n    w.Start()\n    for _, job := range []int{1, 2, 3} {\n        if !w.Submit(job)\
+        \ {\n            t.Fatalf(\"job %d was rejected\", job)\n        }\n    }\n    if err := w.Shutdown(context.Background());\
+        \ err != nil {\n        t.Fatalf(\"shutdown: %v\", err)\n    }\n    if w.Ready() {\n        t.Fatal(\"readiness stayed\
+        \ true after shutdown\")\n    }\n    if got := w.Processed(); got != 6 {\n        t.Fatalf(\"processed=%d, want 6\"\
+        , got)\n    }\n}\n\nfunc TestShutdownHonorsCanceledContext(t *testing.T) {\n    w := NewWorker(1)\n    w.Start()\n\
+        \    ctx, cancel := context.WithCancel(context.Background())\n    cancel()\n    if err := w.Shutdown(ctx); err ==\
+        \ nil {\n        t.Fatal(\"shutdown accepted an already canceled context\")\n    }\n}\n"
+    expectations:
+    - check_id: shutdown-tests
+      baseline: test_failure
+      reference: pass
+  layers:
+  - id: go-production.observable-worker-shutdown.layer
+    macro_steps:
+    - id: go-production.observable-worker-shutdown.plan
+      kind: macro
+      title: Planejar a decisão operacional
+      children:
+      - id: go-production.observable-worker-shutdown.plan.execution
+        kind: meso
+        title: Executar a decisão com evidência
+        children:
+        - id: go-production.observable-worker-shutdown.observe-readiness
+          kind: micro
+          action: verify
+          target: observe_readiness
+          title: Observar readiness
+          instruction:
+            objective: Observe o estado inicial de readiness.
+            scope: Worker recém iniciado.
+          concepts:
+          - go-production.readiness-vs-liveness
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.observable-worker-shutdown.observe-readiness.verified
+            kind: readiness-starts-true
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.observable-worker-shutdown.close-admission
+          kind: micro
+          action: implement
+          target: close_admission
+          title: Fechar admissão
+          instruction:
+            objective: Feche a admissão de novos jobs.
+            scope: Fronteira de Submit.
+          concepts:
+          - go-production.readiness-vs-liveness
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.observable-worker-shutdown.close-admission.verified
+            kind: new-jobs-are-rejected
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.observable-worker-shutdown.mark-not-ready
+          kind: micro
+          action: implement
+          target: mark_not_ready
+          title: Marcar indisponível
+          instruction:
+            objective: Marque o worker como não pronto.
+            scope: Estado publicado ao shutdown.
+          concepts:
+          - go-production.readiness-vs-liveness
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.observable-worker-shutdown.mark-not-ready.verified
+            kind: readiness-stops-before-return
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.observable-worker-shutdown.close-queue
+          kind: micro
+          action: implement
+          target: close_queue
+          title: Fechar a fila
+          instruction:
+            objective: Feche a fila após retirar o worker.
+            scope: Canal de jobs aceitos.
+          concepts:
+          - go-production.shutdown-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.observable-worker-shutdown.close-queue.verified
+            kind: queue-close-is-ordered
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.observable-worker-shutdown.await-drain
+          kind: micro
+          action: implement
+          target: await_drain
+          title: Aguardar o drain
+          instruction:
+            objective: Aguarde o processamento dos jobs.
+            scope: Sinal done do worker.
+          concepts:
+          - go-production.shutdown-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.observable-worker-shutdown.await-drain.verified
+            kind: accepted-work-is-drained
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.observable-worker-shutdown.honor-deadline
+          kind: micro
+          action: verify
+          target: honor_deadline
+          title: Respeitar o prazo
+          instruction:
+            objective: Retorne o cancelamento do contexto.
+            scope: Caminho de espera de shutdown.
+          concepts:
+          - go-production.shutdown-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.observable-worker-shutdown.honor-deadline.verified
+            kind: deadline-is-observable
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Como a janela de drain muda quando readiness e liveness são confundidas?
+  prerequisites:
+  - go-production.correlate-request-signals
+- schema_version: 1
+  id: go-production.idempotent-retry-client
+  version: 1.0.0
+  title: Retentar uma chamada RPC conceitual com idempotência
+  kind: combined
+  difficulty: advanced
+  estimated_minutes: 45
+  themes:
+  - go-production.resilience
+  - go-production.security
+  competencies:
+    primary:
+    - go-production.make-retries-idempotent-and-bounded
+    secondary:
+    - go-production.make-retries-idempotent-and-bounded
+    - go-production.profile-hot-path-with-local-baseline
+  brief: Um cliente conversa com um double de RPC local. A dependência pode falhar, o prazo pode acabar e a operação não pode
+    ser duplicada.
+  constraints:
+  - O RPC é uma função local; não instale SDK.
+  - O orçamento inclui tentativa inicial.
+  - A chave idempotente não contém o número da tentativa.
+  acceptance:
+  - A mesma chave acompanha todas as tentativas.
+  - O cliente nunca excede o retry budget.
+  - Cancelamento do contexto impede nova tentativa e retorna sua causa.
+  canonical: true
+  publication:
+    status: draft
+    author: codex
+  fixture:
+  - path: go.mod
+    content: 'module codinho-practice/retry-client
+
+
+      go 1.25.0
+
+      '
+  - path: client.go
+    content: "package retry\n\nimport (\n    \"context\"\n    \"fmt\"\n)\n\ntype Request struct { Key, Payload string }\n\
+      type Call func(context.Context, Request) error\n\ntype Client struct { call Call; maxRetries int }\n\nfunc NewClient(call\
+      \ Call, maxRetries int) *Client { return &Client{call: call, maxRetries: maxRetries} }\n\nfunc (c *Client) Do(ctx context.Context,\
+      \ key, payload string) error {\n    var last error\n    for attempt := 0; attempt <= c.maxRetries; attempt++ {\n   \
+      \     req := Request{Key: fmt.Sprintf(\"%s-%d\", key, attempt), Payload: payload}\n        last = c.call(ctx, req)\n\
+      \        if last == nil { return nil }\n        if ctx.Err() != nil { return ctx.Err() }\n    }\n    return last\n}\n"
+  - path: client_test.go
+    content: "package retry\n\nimport (\n    \"context\"\n    \"errors\"\n    \"testing\"\n)\n\nfunc TestRetryUsesStableKeyAndBudget(t\
+      \ *testing.T) {\n    var keys []string\n    calls := 0\n    call := func(_ context.Context, req Request) error {\n \
+      \       keys = append(keys, req.Key)\n        calls++\n        if calls < 2 { return errors.New(\"temporary\") }\n \
+      \       return nil\n    }\n    c := NewClient(call, 2)\n    if err := c.Do(context.Background(), \"order-7\", \"charge\"\
+      ); err != nil {\n        t.Fatalf(\"do: %v\", err)\n    }\n    if len(keys) != 2 || keys[0] != keys[1] {\n        t.Fatalf(\"\
+      keys=%v, want one stable idempotency key\", keys)\n    }\n}\n\nfunc TestRetryStopsAfterCancellation(t *testing.T) {\n\
+      \    calls := 0\n    ctx, cancel := context.WithCancel(context.Background())\n    cancel()\n    c := NewClient(func(context.Context,\
+      \ Request) error { calls++; return errors.New(\"down\") }, 2)\n    if err := c.Do(ctx, \"order-8\", \"charge\"); !errors.Is(err,\
+      \ context.Canceled) {\n        t.Fatalf(\"error=%v, want context canceled\", err)\n    }\n    if calls > 1 { t.Fatalf(\"\
+      calls=%d after cancellation\", calls) }\n}\n"
+  checks:
+  - id: retry-tests
+    runner: go_test
+    package: ./...
+    test_pattern: ^TestRetry
+    timeout: 30s
+    network: false
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: 'module codinho-practice/retry-client
+
+
+        go 1.25.0
+
+        '
+    - path: client.go
+      content: "package retry\n\nimport \"context\"\n\ntype Request struct { Key, Payload string }\ntype Call func(context.Context,\
+        \ Request) error\n\ntype Client struct { call Call; maxRetries int }\n\nfunc NewClient(call Call, maxRetries int)\
+        \ *Client { return &Client{call: call, maxRetries: maxRetries} }\n\nfunc (c *Client) Do(ctx context.Context, key,\
+        \ payload string) error {\n    var last error\n    for attempt := 0; attempt <= c.maxRetries; attempt++ {\n      \
+        \  if err := ctx.Err(); err != nil { return err }\n        last = c.call(ctx, Request{Key: key, Payload: payload})\n\
+        \        if last == nil { return nil }\n        if err := ctx.Err(); err != nil { return err }\n    }\n    return\
+        \ last\n}\n"
+    - path: client_test.go
+      content: "package retry\n\nimport (\n    \"context\"\n    \"errors\"\n    \"testing\"\n)\n\nfunc TestRetryUsesStableKeyAndBudget(t\
+        \ *testing.T) {\n    var keys []string\n    calls := 0\n    call := func(_ context.Context, req Request) error {\n\
+        \        keys = append(keys, req.Key)\n        calls++\n        if calls < 2 { return errors.New(\"temporary\") }\n\
+        \        return nil\n    }\n    c := NewClient(call, 2)\n    if err := c.Do(context.Background(), \"order-7\", \"\
+        charge\"); err != nil {\n        t.Fatalf(\"do: %v\", err)\n    }\n    if len(keys) != 2 || keys[0] != keys[1] {\n\
+        \        t.Fatalf(\"keys=%v, want one stable idempotency key\", keys)\n    }\n}\n\nfunc TestRetryStopsAfterCancellation(t\
+        \ *testing.T) {\n    calls := 0\n    ctx, cancel := context.WithCancel(context.Background())\n    cancel()\n    c\
+        \ := NewClient(func(context.Context, Request) error { calls++; return errors.New(\"down\") }, 2)\n    if err := c.Do(ctx,\
+        \ \"order-8\", \"charge\"); !errors.Is(err, context.Canceled) {\n        t.Fatalf(\"error=%v, want context canceled\"\
+        , err)\n    }\n    if calls > 1 { t.Fatalf(\"calls=%d after cancellation\", calls) }\n}\n"
+    expectations:
+    - check_id: retry-tests
+      baseline: test_failure
+      reference: pass
+  layers:
+  - id: go-production.idempotent-retry-client.layer
+    macro_steps:
+    - id: go-production.idempotent-retry-client.plan
+      kind: macro
+      title: Planejar a decisão operacional
+      children:
+      - id: go-production.idempotent-retry-client.plan.execution
+        kind: meso
+        title: Executar a decisão com evidência
+        children:
+        - id: go-production.idempotent-retry-client.model-request
+          kind: micro
+          action: design
+          target: model_request
+          title: Modelar a requisição
+          instruction:
+            objective: Modele a requisição com chave estável.
+            scope: Double local de RPC.
+          concepts:
+          - go-production.idempotency-key-scope
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.idempotent-retry-client.model-request.verified
+            kind: request-has-stable-key
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.idempotent-retry-client.set-retries
+          kind: micro
+          action: implement
+          target: set_retries
+          title: Configurar retries
+          instruction:
+            objective: Configure o número máximo de retries.
+            scope: Política do cliente.
+          concepts:
+          - go-production.retry-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.idempotent-retry-client.set-retries.verified
+            kind: retry-budget-is-explicit
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.idempotent-retry-client.pass-deadline
+          kind: micro
+          action: implement
+          target: pass_deadline
+          title: Passar deadline
+          instruction:
+            objective: Passe o contexto ao double.
+            scope: Fronteira da chamada.
+          concepts:
+          - go-production.grpc-deadline-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.idempotent-retry-client.pass-deadline.verified
+            kind: deadline-reaches-call
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.idempotent-retry-client.retry-transient
+          kind: micro
+          action: implement
+          target: retry_transient
+          title: Retentar falha transitória
+          instruction:
+            objective: Retente uma falha transitória.
+            scope: Sequência de chamadas.
+          concepts:
+          - go-production.retry-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.idempotent-retry-client.retry-transient.verified
+            kind: transient-failure-is-retried
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.idempotent-retry-client.reuse-key
+          kind: micro
+          action: verify
+          target: reuse_key
+          title: Reutilizar a chave
+          instruction:
+            objective: Reutilize a chave entre tentativas.
+            scope: Requests observadas pelo double.
+          concepts:
+          - go-production.idempotency-key-scope
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.idempotent-retry-client.reuse-key.verified
+            kind: key-is-idempotent
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.idempotent-retry-client.stop-cancel
+          kind: micro
+          action: verify
+          target: stop_cancel
+          title: Parar no cancelamento
+          instruction:
+            objective: Pare ao observar o contexto cancelado.
+            scope: Erro retornado pelo cliente.
+          concepts:
+          - go-production.grpc-deadline-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.idempotent-retry-client.stop-cancel.verified
+            kind: cancel-stops-retries
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Qual custo de um retry extra aparece quando a operação não é idempotente?
+  prerequisites:
+  - go-production.observable-worker-shutdown
+- schema_version: 1
+  id: go-production.operable-message-worker
+  version: 1.0.0
+  title: Operar worker de mensagens com fila limitada
+  kind: functional_slice
+  difficulty: advanced
+  estimated_minutes: 55
+  themes:
+  - go-production.resilience
+  - go-production.observability
+  competencies:
+    primary:
+    - go-production.bound-queue-and-redelivery
+    secondary:
+    - go-production.correlate-request-signals-safely
+    - go-production.bound-metric-cardinality
+  brief: Implemente uma fatia local de worker com fila bounded. O handler decide quando confirmar, enquanto sinais operacionais
+    mostram aceites e rejeições.
+  constraints:
+  - Use canais e fakes locais.
+  - Ack é explícito e idempotente.
+  - O teste de concorrência deve passar com race detector.
+  acceptance:
+  - A fila rejeita a mensagem além da capacidade.
+  - Ack só ocorre após uma chamada explícita.
+  - Stop retorna dentro do contexto e os contadores são protegidos.
+  canonical: true
+  publication:
+    status: draft
+    author: codex
+  fixture:
+  - path: go.mod
+    content: 'module codinho-practice/message-worker
+
+
+      go 1.25.0
+
+      '
+  - path: worker.go
+    content: "package worker\n\nimport (\n    \"context\"\n    \"sync\"\n)\n\ntype Message struct { ID string; Value int }\n\
+      type Stats struct { Accepted, Rejected, Acked int }\n\ntype Worker struct {\n    mu       sync.Mutex\n    queue    chan\
+      \ Message\n    acked    map[string]bool\n    stats    Stats\n    done     chan struct{}\n}\n\nfunc NewWorker(capacity\
+      \ int) *Worker {\n    return &Worker{queue: make(chan Message, capacity), acked: make(map[string]bool), done: make(chan\
+      \ struct{})}\n}\n\nfunc (w *Worker) Start(ctx context.Context, handle func(Message) error) {\n    go func() {\n    \
+      \    defer close(w.done)\n        for {\n            select {\n            case <-ctx.Done():\n                return\n\
+      \            case msg := <-w.queue:\n                _ = handle(msg)\n                w.Ack(msg.ID)\n            }\n\
+      \        }\n    }()\n}\n\nfunc (w *Worker) Submit(ctx context.Context, msg Message) bool {\n    select {\n    case w.queue\
+      \ <- msg:\n        w.mu.Lock(); w.stats.Accepted++; w.mu.Unlock()\n        return true\n    case <-ctx.Done():\n   \
+      \     w.mu.Lock(); w.stats.Rejected++; w.mu.Unlock()\n        return false\n    default:\n        w.mu.Lock(); w.stats.Rejected++;\
+      \ w.mu.Unlock()\n        return false\n    }\n}\n\nfunc (w *Worker) Ack(id string) {\n    w.mu.Lock()\n    w.acked[id]\
+      \ = true\n    w.stats.Acked = len(w.acked)\n    w.mu.Unlock()\n}\n\nfunc (w *Worker) Stats() Stats {\n    w.mu.Lock();\
+      \ defer w.mu.Unlock()\n    return w.stats\n}\n\nfunc (w *Worker) Stop(ctx context.Context) error {\n    select { case\
+      \ <-w.done: return nil; case <-ctx.Done(): return ctx.Err() }\n}\n"
+  - path: worker_test.go
+    content: "package worker\n\nimport (\n    \"context\"\n    \"testing\"\n)\n\nfunc TestWorkerRequiresAckAndBoundsQueue(t\
+      \ *testing.T) {\n    ctx, cancel := context.WithCancel(context.Background())\n    defer cancel()\n    w := NewWorker(1)\n\
+      \    started := make(chan struct{})\n    processed := make(chan struct{})\n    release := make(chan struct{})\n    w.Start(ctx, func(msg Message) error {\n\
+      \        if msg.ID == \"first\" {\n            close(started)\n            <-release\n        }\n        if msg.ID == \"second\" {\n            close(processed)\n        }\n        return nil\n\
+      \    })\n    if !w.Submit(context.Background(), Message{ID: \"first\", Value: 1}) { t.Fatal(\"first message rejected\"\
+      ) }\n    <-started\n    if !w.Submit(context.Background(), Message{ID: \"second\", Value: 2}) { t.Fatal(\"second message\
+      \ rejected\") }\n    canceled, stop := context.WithCancel(context.Background())\n    stop()\n    if w.Submit(canceled,\
+      \ Message{ID: \"third\", Value: 3}) { t.Fatal(\"full queue accepted third message\") }\n    close(release)\n    <-processed\n    cancel()\n    if err\
+      \ := w.Stop(context.Background()); err != nil { t.Fatalf(\"stop: %v\", err) }\n    if got := w.Stats().Acked; got !=\
+      \ 0 { t.Fatalf(\"acked=%d, want explicit ack only\", got) }\n    if got := w.Stats().Accepted; got != 2 { t.Fatalf(\"\
+      accepted=%d, want 2\", got) }\n    if got := w.Stats().Rejected; got != 1 { t.Fatalf(\"rejected=%d, want 1\", got) }\n\
+      }\n"
+  checks:
+  - id: worker-race-tests
+    runner: go_test_race
+    package: ./...
+    test_pattern: ^TestWorker
+    timeout: 30s
+    network: false
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: 'module codinho-practice/message-worker
+
+
+        go 1.25.0
+
+        '
+    - path: worker.go
+      content: "package worker\n\nimport (\n    \"context\"\n    \"sync\"\n)\n\ntype Message struct { ID string; Value int\
+        \ }\ntype Stats struct { Accepted, Rejected, Acked int }\n\ntype Worker struct {\n    mu       sync.Mutex\n    queue\
+        \    chan Message\n    acked    map[string]bool\n    stats    Stats\n    done     chan struct{}\n}\n\nfunc NewWorker(capacity\
+        \ int) *Worker {\n    return &Worker{queue: make(chan Message, capacity), acked: make(map[string]bool), done: make(chan\
+        \ struct{})}\n}\n\nfunc (w *Worker) Start(ctx context.Context, handle func(Message) error) {\n    go func() {\n  \
+        \      defer close(w.done)\n        for {\n            select {\n            case <-ctx.Done():\n                return\n\
+        \            case msg := <-w.queue:\n                _ = handle(msg)\n            }\n        }\n    }()\n}\n\nfunc\
+        \ (w *Worker) Submit(ctx context.Context, msg Message) bool {\n    select {\n    case w.queue <- msg:\n        w.mu.Lock();\
+        \ w.stats.Accepted++; w.mu.Unlock()\n        return true\n    case <-ctx.Done():\n        w.mu.Lock(); w.stats.Rejected++;\
+        \ w.mu.Unlock()\n        return false\n    default:\n        w.mu.Lock(); w.stats.Rejected++; w.mu.Unlock()\n    \
+        \    return false\n    }\n}\n\nfunc (w *Worker) Ack(id string) {\n    w.mu.Lock()\n    w.acked[id] = true\n    w.stats.Acked\
+        \ = len(w.acked)\n    w.mu.Unlock()\n}\n\nfunc (w *Worker) Stats() Stats {\n    w.mu.Lock(); defer w.mu.Unlock()\n\
+        \    return w.stats\n}\n\nfunc (w *Worker) Stop(ctx context.Context) error {\n    select { case <-w.done: return nil;\
+        \ case <-ctx.Done(): return ctx.Err() }\n}\n"
+    - path: worker_test.go
+      content: "package worker\n\nimport (\n    \"context\"\n    \"testing\"\n)\n\nfunc TestWorkerRequiresAckAndBoundsQueue(t\
+        \ *testing.T) {\n    ctx, cancel := context.WithCancel(context.Background())\n    defer cancel()\n    w := NewWorker(1)\n\
+        \    started := make(chan struct{})\n    processed := make(chan struct{})\n    release := make(chan struct{})\n    w.Start(ctx, func(msg Message) error\
+        \ {\n        if msg.ID == \"first\" {\n            close(started)\n            <-release\n        }\n        if msg.ID == \"second\" {\n            close(processed)\n        }\n        return\
+        \ nil\n    })\n    if !w.Submit(context.Background(), Message{ID: \"first\", Value: 1}) { t.Fatal(\"first message\
+        \ rejected\") }\n    <-started\n    if !w.Submit(context.Background(), Message{ID: \"second\", Value: 2}) { t.Fatal(\"\
+        second message rejected\") }\n    canceled, stop := context.WithCancel(context.Background())\n    stop()\n    if w.Submit(canceled,\
+        \ Message{ID: \"third\", Value: 3}) { t.Fatal(\"full queue accepted third message\") }\n    close(release)\n    <-processed\n    cancel()\n    if\
+        \ err := w.Stop(context.Background()); err != nil { t.Fatalf(\"stop: %v\", err) }\n    if got := w.Stats().Acked;\
+        \ got != 0 { t.Fatalf(\"acked=%d, want explicit ack only\", got) }\n    if got := w.Stats().Accepted; got != 2 { t.Fatalf(\"\
+        accepted=%d, want 2\", got) }\n    if got := w.Stats().Rejected; got != 1 { t.Fatalf(\"rejected=%d, want 1\", got)\
+        \ }\n}\n"
+    expectations:
+    - check_id: worker-race-tests
+      baseline: test_failure
+      reference: pass
+  layers:
+  - id: go-production.operable-message-worker.layer
+    macro_steps:
+    - id: go-production.operable-message-worker.plan
+      kind: macro
+      title: Planejar a decisão operacional
+      children:
+      - id: go-production.operable-message-worker.plan.execution
+        kind: meso
+        title: Executar a decisão com evidência
+        children:
+        - id: go-production.operable-message-worker.choose-capacity
+          kind: micro
+          action: design
+          target: choose_capacity
+          title: Escolher a capacidade
+          instruction:
+            objective: Escolha a capacidade finita da fila.
+            scope: Construtor do worker.
+          concepts:
+          - go-production.queue-saturation
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.operable-message-worker.choose-capacity.verified
+            kind: capacity-is-finite
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.operable-message-worker.submit-message
+          kind: micro
+          action: implement
+          target: submit_message
+          title: Aceitar mensagem
+          instruction:
+            objective: Aceite uma mensagem enquanto houver espaço.
+            scope: Método Submit.
+          concepts:
+          - go-production.queue-saturation
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.operable-message-worker.submit-message.verified
+            kind: accepted-message-is-counted
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.operable-message-worker.reject-full
+          kind: micro
+          action: implement
+          target: reject_full
+          title: Rejeitar fila cheia
+          instruction:
+            objective: Rejeite uma mensagem sem espaço.
+            scope: Caminho de saturação.
+          concepts:
+          - go-production.queue-saturation
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.operable-message-worker.reject-full.verified
+            kind: full-queue-is-rejected
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.operable-message-worker.start-handler
+          kind: micro
+          action: implement
+          target: start_handler
+          title: Iniciar o handler
+          instruction:
+            objective: Inicie o consumo com contexto.
+            scope: Goroutine do worker.
+          concepts:
+          - go-production.readiness-vs-liveness
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.operable-message-worker.start-handler.verified
+            kind: handler-observes-context
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.operable-message-worker.leave-unacked
+          kind: micro
+          action: verify
+          target: leave_unacked
+          title: Preservar ausência de ack
+          instruction:
+            objective: Preserve a ausência de ack do handler.
+            scope: Mensagem sem confirmação.
+          concepts:
+          - go-production.redelivery-semantics
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.operable-message-worker.leave-unacked.verified
+            kind: unacked-message-remains-unacked
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.operable-message-worker.record-ack
+          kind: micro
+          action: implement
+          target: record_ack
+          title: Registrar ack
+          instruction:
+            objective: Registre uma confirmação explícita.
+            scope: Mapa de IDs confirmados.
+          concepts:
+          - go-production.redelivery-semantics
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.operable-message-worker.record-ack.verified
+            kind: explicit-ack-is-counted
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.operable-message-worker.report-stats
+          kind: micro
+          action: verify
+          target: report_stats
+          title: Publicar sinais
+          instruction:
+            objective: Publique contadores de operação.
+            scope: Snapshot de Stats.
+          concepts:
+          - go-production.structured-event-correlation
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.operable-message-worker.report-stats.verified
+            kind: stats-are-consistent
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que custo operacional aparece quando a fila rejeita versus quando acumula mensagens sem limite?
+  prerequisites:
+  - go-production.idempotent-retry-client
+- schema_version: 1
+  id: go-production.instrumented-service-boundary
+  version: 1.0.0
+  title: Fechar a fronteira de serviço instrumentado
+  kind: functional_slice
+  difficulty: advanced
+  estimated_minutes: 55
+  themes:
+  - go-production.security
+  - go-production.observability
+  competencies:
+    primary:
+    - go-production.protect-service-identity-and-secrets
+    secondary:
+    - go-production.correlate-request-signals-safely
+    - go-production.bound-metric-cardinality
+  brief: Construa uma fronteira HTTP local com identidade explícita, limite de corpo, correlação e logs seguros.
+  constraints:
+  - Use httptest e valores sintéticos.
+  - Não escreva o segredo em resposta ou log.
+  - O limite deve funcionar mesmo sem Content-Length confiável.
+  acceptance:
+  - Identidade desconhecida recebe 401.
+  - Entrada acima do limite recebe 413.
+  - Logs preservam correlação e não contêm o segredo sintético.
+  canonical: true
+  publication:
+    status: draft
+    author: codex
+  fixture:
+  - path: go.mod
+    content: 'module codinho-practice/service-boundary
+
+
+      go 1.25.0
+
+      '
+  - path: boundary.go
+    content: "package boundary\n\nimport (\n    \"io\"\n    \"log\"\n    \"net/http\"\n)\n\nfunc NewHandler(identity, secret\
+      \ string, maxBody int64, logger *log.Logger) http.Handler {\n    return http.HandlerFunc(func(w http.ResponseWriter,\
+      \ r *http.Request) {\n        if r.Header.Get(\"X-Service-Identity\") == \"\" {\n            http.Error(w, \"identity\
+      \ required\", http.StatusUnauthorized)\n            return\n        }\n        body, _ := io.ReadAll(r.Body)\n     \
+      \   logger.Printf(\"request_id=%s authorization=%s bytes=%d\", r.Header.Get(\"X-Request-ID\"), r.Header.Get(\"Authorization\"\
+      ), len(body))\n        w.WriteHeader(http.StatusOK)\n    })\n}\n"
+  - path: boundary_test.go
+    content: "package boundary\n\nimport (\n    \"bytes\"\n    \"log\"\n    \"net/http\"\n    \"net/http/httptest\"\n    \"\
+      strings\"\n    \"testing\"\n)\n\nfunc TestBoundaryRejectsOversizedAndUnknownIdentity(t *testing.T) {\n    var logs bytes.Buffer\n\
+      \    secret := \"synthetic-token-42\"\n    handler := NewHandler(\"inventory-worker\", secret, 10, log.New(&logs, \"\
+      \", 0))\n    tooLarge := httptest.NewRequest(http.MethodPost, \"/events\", strings.NewReader(\"12345678901\"))\n   \
+      \ tooLarge.Header.Set(\"X-Service-Identity\", \"inventory-worker\")\n    tooLarge.Header.Set(\"X-Request-ID\", \"req-1\"\
+      )\n    tooLarge.Header.Set(\"Authorization\", \"Bearer \"+secret)\n    rec := httptest.NewRecorder()\n    handler.ServeHTTP(rec,\
+      \ tooLarge)\n    if rec.Code != http.StatusRequestEntityTooLarge { t.Fatalf(\"oversized status=%d\", rec.Code) }\n\n\
+      \    unknown := httptest.NewRequest(http.MethodPost, \"/events\", strings.NewReader(\"ok\"))\n    unknown.Header.Set(\"\
+      X-Service-Identity\", \"other-worker\")\n    unknown.Header.Set(\"X-Request-ID\", \"req-2\")\n    rec = httptest.NewRecorder()\n\
+      \    handler.ServeHTTP(rec, unknown)\n    if rec.Code != http.StatusUnauthorized { t.Fatalf(\"unknown identity status=%d\"\
+      , rec.Code) }\n\n    valid := httptest.NewRequest(http.MethodPost, \"/events\", strings.NewReader(\"ok\"))\n    valid.Header.Set(\"\
+      X-Service-Identity\", \"inventory-worker\")\n    valid.Header.Set(\"X-Request-ID\", \"req-3\")\n    rec = httptest.NewRecorder()\n\
+      \    handler.ServeHTTP(rec, valid)\n    if rec.Code != http.StatusOK { t.Fatalf(\"valid status=%d\", rec.Code) }\n \
+      \   if strings.Contains(logs.String(), secret) { t.Fatal(\"secret appeared in logs\") }\n    if !strings.Contains(logs.String(),\
+      \ \"req-3\") { t.Fatal(\"request correlation missing from logs\") }\n}\n"
+  checks:
+  - id: boundary-tests
+    runner: go_test
+    package: ./...
+    test_pattern: ^TestBoundary
+    timeout: 30s
+    network: false
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: 'module codinho-practice/service-boundary
+
+
+        go 1.25.0
+
+        '
+    - path: boundary.go
+      content: "package boundary\n\nimport (\n    \"io\"\n    \"log\"\n    \"net/http\"\n)\n\nfunc NewHandler(identity, secret\
+        \ string, maxBody int64, logger *log.Logger) http.Handler {\n    return http.HandlerFunc(func(w http.ResponseWriter,\
+        \ r *http.Request) {\n        if r.Header.Get(\"X-Service-Identity\") != identity {\n            http.Error(w, \"\
+        identity rejected\", http.StatusUnauthorized)\n            return\n        }\n        if r.ContentLength > maxBody\
+        \ {\n            http.Error(w, \"body too large\", http.StatusRequestEntityTooLarge)\n            return\n       \
+        \ }\n        body, err := io.ReadAll(io.LimitReader(r.Body, maxBody+1))\n        if err != nil || int64(len(body))\
+        \ > maxBody {\n            http.Error(w, \"body too large\", http.StatusRequestEntityTooLarge)\n            return\n\
+        \        }\n        logger.Printf(\"request_id=%s identity=%s bytes=%d\", r.Header.Get(\"X-Request-ID\"), identity,\
+        \ len(body))\n        w.WriteHeader(http.StatusOK)\n    })\n}\n"
+    - path: boundary_test.go
+      content: "package boundary\n\nimport (\n    \"bytes\"\n    \"log\"\n    \"net/http\"\n    \"net/http/httptest\"\n  \
+        \  \"strings\"\n    \"testing\"\n)\n\nfunc TestBoundaryRejectsOversizedAndUnknownIdentity(t *testing.T) {\n    var\
+        \ logs bytes.Buffer\n    secret := \"synthetic-token-42\"\n    handler := NewHandler(\"inventory-worker\", secret,\
+        \ 10, log.New(&logs, \"\", 0))\n    tooLarge := httptest.NewRequest(http.MethodPost, \"/events\", strings.NewReader(\"\
+        12345678901\"))\n    tooLarge.Header.Set(\"X-Service-Identity\", \"inventory-worker\")\n    tooLarge.Header.Set(\"\
+        X-Request-ID\", \"req-1\")\n    tooLarge.Header.Set(\"Authorization\", \"Bearer \"+secret)\n    rec := httptest.NewRecorder()\n\
+        \    handler.ServeHTTP(rec, tooLarge)\n    if rec.Code != http.StatusRequestEntityTooLarge { t.Fatalf(\"oversized\
+        \ status=%d\", rec.Code) }\n\n    unknown := httptest.NewRequest(http.MethodPost, \"/events\", strings.NewReader(\"\
+        ok\"))\n    unknown.Header.Set(\"X-Service-Identity\", \"other-worker\")\n    unknown.Header.Set(\"X-Request-ID\"\
+        , \"req-2\")\n    rec = httptest.NewRecorder()\n    handler.ServeHTTP(rec, unknown)\n    if rec.Code != http.StatusUnauthorized\
+        \ { t.Fatalf(\"unknown identity status=%d\", rec.Code) }\n\n    valid := httptest.NewRequest(http.MethodPost, \"/events\"\
+        , strings.NewReader(\"ok\"))\n    valid.Header.Set(\"X-Service-Identity\", \"inventory-worker\")\n    valid.Header.Set(\"\
+        X-Request-ID\", \"req-3\")\n    rec = httptest.NewRecorder()\n    handler.ServeHTTP(rec, valid)\n    if rec.Code !=\
+        \ http.StatusOK { t.Fatalf(\"valid status=%d\", rec.Code) }\n    if strings.Contains(logs.String(), secret) { t.Fatal(\"\
+        secret appeared in logs\") }\n    if !strings.Contains(logs.String(), \"req-3\") { t.Fatal(\"request correlation missing\
+        \ from logs\") }\n}\n"
+    expectations:
+    - check_id: boundary-tests
+      baseline: test_failure
+      reference: pass
+  layers:
+  - id: go-production.instrumented-service-boundary.layer
+    macro_steps:
+    - id: go-production.instrumented-service-boundary.plan
+      kind: macro
+      title: Planejar a decisão operacional
+      children:
+      - id: go-production.instrumented-service-boundary.plan.execution
+        kind: meso
+        title: Executar a decisão com evidência
+        children:
+        - id: go-production.instrumented-service-boundary.check-identity
+          kind: micro
+          action: implement
+          target: check_identity
+          title: Validar identidade
+          instruction:
+            objective: Valide a identidade do chamador.
+            scope: Header de serviço.
+          concepts:
+          - go-production.service-identity
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.instrumented-service-boundary.check-identity.verified
+            kind: unknown-identity-is-rejected
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.instrumented-service-boundary.check-length
+          kind: micro
+          action: implement
+          target: check_length
+          title: Checar tamanho declarado
+          instruction:
+            objective: Chegue o Content-Length quando presente.
+            scope: Metadado da requisição.
+          concepts:
+          - go-production.input-size-boundary
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.instrumented-service-boundary.check-length.verified
+            kind: declared-limit-is-enforced
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.instrumented-service-boundary.limit-read
+          kind: micro
+          action: implement
+          target: limit_read
+          title: Limitar leitura
+          instruction:
+            objective: Limite bytes lidos do corpo.
+            scope: Reader do request.
+          concepts:
+          - go-production.input-size-boundary
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.instrumented-service-boundary.limit-read.verified
+            kind: actual-body-is-bounded
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.instrumented-service-boundary.log-correlation
+          kind: micro
+          action: implement
+          target: log_correlation
+          title: Registrar correlação
+          instruction:
+            objective: Registre o request ID no evento.
+            scope: Logger local.
+          concepts:
+          - go-production.trace-context
+          - go-production.structured-event-correlation
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.instrumented-service-boundary.log-correlation.verified
+            kind: request-id-is-searchable
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.instrumented-service-boundary.omit-secret
+          kind: micro
+          action: implement
+          target: omit_secret
+          title: Omitir segredo
+          instruction:
+            objective: Omitir o segredo do evento.
+            scope: Campos do log.
+          concepts:
+          - go-production.secrets-boundary
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.instrumented-service-boundary.omit-secret.verified
+            kind: secret-is-absent-from-logs
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.instrumented-service-boundary.exercise-boundary
+          kind: micro
+          action: verify
+          target: exercise_boundary
+          title: Exercitar a fronteira
+          instruction:
+            objective: Exercite entradas válidas e inválidas.
+            scope: Testes httptest.
+          concepts:
+          - go-production.service-identity
+          - go-production.input-size-boundary
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.instrumented-service-boundary.exercise-boundary.verified
+            kind: boundary-cases-are-covered
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.instrumented-service-boundary.justify-exposure
+          kind: micro
+          action: reflect
+          target: justify_exposure
+          title: Justificar exposição
+          instruction:
+            objective: Justifique o menor conjunto de dados logado.
+            scope: Decisão de observabilidade.
+          concepts:
+          - go-production.secrets-boundary
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.instrumented-service-boundary.justify-exposure.verified
+            kind: logging-choice-is-justified
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Como o limite de entrada e a identidade reduzem modos de falha diferentes na mesma fronteira?
+  prerequisites:
+  - go-production.operable-message-worker
+- schema_version: 1
+  id: go-production.backpressure-redelivery-service
+  version: 1.0.0
+  title: Responder à pressão com redelivery controlado
+  kind: systems_mission
+  difficulty: expert
+  estimated_minutes: 75
+  themes:
+  - go-production.resilience
+  - go-production.observability
+  competencies:
+    primary:
+    - go-production.bound-queue-and-redelivery
+    secondary:
+    - go-production.bound-queue-and-redelivery
+    - go-production.make-retries-idempotent-and-bounded
+  brief: 'Missão: um requisito de disponibilidade está incompleto e o broker real não está disponível. Projete um broker sintético
+    que suporte pressão e redelivery observáveis.'
+  constraints:
+  - 'Requisito incompleto: a meta de disponibilidade não informa janela nem carga.'
+  - 'Falhas: broker indisponível e fila saturada.'
+  - Use apenas double local sem broker ou SDK.
+  - Declare o custo de bloquear, rejeitar e redeliver.
+  acceptance:
+  - A fila bounded rejeita além do limite.
+  - Falha transitória agenda redelivery com limite de tentativas.
+  - Indisponibilidade é um erro explícito e rápido.
+  - A missão explica custo, operabilidade, alternativa e trade-off com evidência do teste.
+  canonical: true
+  publication:
+    status: draft
+    author: codex
+  fixture:
+  - path: go.mod
+    content: 'module codinho-practice/backpressure
+
+
+      go 1.25.0
+
+      '
+  - path: service.go
+    content: "package backpressure\n\nimport (\n    \"context\"\n    \"errors\"\n    \"sync\"\n)\n\nvar ErrQueueFull = errors.New(\"\
+      queue full\")\nvar ErrUnavailable = errors.New(\"broker unavailable\")\nvar ErrEmpty = errors.New(\"queue empty\")\n\
+      var ErrRetryScheduled = errors.New(\"retry scheduled\")\n\ntype Message struct { ID string; Body string }\n\ntype Broker\
+      \ struct {\n    mu sync.Mutex\n    queue []Message\n    capacity int\n    available bool\n    redeliveries map[string]int\n\
+      \    acked map[string]bool\n}\n\nfunc NewBroker(capacity int) *Broker {\n    return &Broker{capacity: capacity, available:\
+      \ true, redeliveries: make(map[string]int), acked: make(map[string]bool)}\n}\nfunc (b *Broker) SetAvailable(ok bool)\
+      \ { b.mu.Lock(); b.available = ok; b.mu.Unlock() }\nfunc (b *Broker) Publish(_ context.Context, m Message) error {\n\
+      \    b.mu.Lock(); defer b.mu.Unlock()\n    if !b.available { return ErrUnavailable }\n    if len(b.queue) >= b.capacity\
+      \ { return nil }\n    b.queue = append(b.queue, m)\n    return nil\n}\nfunc (b *Broker) Receive(_ context.Context) (Message,\
+      \ error) {\n    b.mu.Lock(); defer b.mu.Unlock()\n    if !b.available { return Message{}, ErrUnavailable }\n    if len(b.queue)\
+      \ == 0 { return Message{}, ErrEmpty }\n    m := b.queue[0]; b.queue = b.queue[1:]\n    return m, nil\n}\nfunc (b *Broker)\
+      \ Redeliver(m Message) error { b.mu.Lock(); defer b.mu.Unlock(); b.redeliveries[m.ID]++; b.queue = append(b.queue, m);\
+      \ return nil }\nfunc (b *Broker) Ack(id string) { b.mu.Lock(); b.acked[id] = true; b.mu.Unlock() }\nfunc (b *Broker)\
+      \ Redeliveries(id string) int { b.mu.Lock(); defer b.mu.Unlock(); return b.redeliveries[id] }\nfunc (b *Broker) Acked(id\
+      \ string) bool { b.mu.Lock(); defer b.mu.Unlock(); return b.acked[id] }\n\ntype Service struct { broker *Broker; handle\
+      \ func(Message) error; maxAttempts int; mu sync.Mutex; attempts map[string]int }\nfunc NewService(b *Broker, handle\
+      \ func(Message) error, maxAttempts int) *Service { return &Service{broker:b, handle:handle, maxAttempts:maxAttempts,\
+      \ attempts:make(map[string]int)} }\nfunc (s *Service) Process(ctx context.Context) error {\n    m, err := s.broker.Receive(ctx);\
+      \ if err != nil { return err }\n    s.mu.Lock(); s.attempts[m.ID]++; attempt := s.attempts[m.ID]; s.mu.Unlock()\n  \
+      \  if err := s.handle(m); err != nil {\n        if attempt < s.maxAttempts { return err }\n        return err\n    }\n\
+      \    s.broker.Ack(m.ID); return nil\n}\n"
+  - path: service_test.go
+    content: "package backpressure\n\nimport (\n    \"context\"\n    \"errors\"\n    \"testing\"\n)\n\nfunc TestBackpressureAndRedelivery(t\
+      \ *testing.T) {\n    b := NewBroker(1)\n    if err := b.Publish(context.Background(), Message{ID: \"job-1\", Body: \"\
+      x\"}); err != nil { t.Fatal(err) }\n    if err := b.Publish(context.Background(), Message{ID: \"job-2\", Body: \"y\"\
+      }); !errors.Is(err, ErrQueueFull) { t.Fatalf(\"second publish=%v, want queue full\", err) }\n    calls := 0\n    s :=\
+      \ NewService(b, func(Message) error { calls++; if calls == 1 { return errors.New(\"temporary\") }; return nil }, 2)\n\
+      \    if err := s.Process(context.Background()); !errors.Is(err, ErrRetryScheduled) { t.Fatalf(\"first process=%v, want\
+      \ retry scheduled\", err) }\n    if b.Redeliveries(\"job-1\") != 1 { t.Fatalf(\"redelivery=%d, want 1\", b.Redeliveries(\"\
+      job-1\")) }\n    if err := s.Process(context.Background()); err != nil { t.Fatalf(\"second process=%v\", err) }\n  \
+      \  if !b.Acked(\"job-1\") { t.Fatal(\"message was not acked\") }\n}\n\nfunc TestUnavailableBrokerIsExplicit(t *testing.T)\
+      \ {\n    b := NewBroker(1); b.SetAvailable(false)\n    if _, err := b.Receive(context.Background()); !errors.Is(err,\
+      \ ErrUnavailable) { t.Fatalf(\"receive=%v, want unavailable\", err) }\n}\n"
+  checks:
+  - id: backpressure-race-tests
+    runner: go_test_race
+    package: ./...
+    test_pattern: ^Test
+    timeout: 30s
+    network: false
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: 'module codinho-practice/backpressure
+
+
+        go 1.25.0
+
+        '
+    - path: service.go
+      content: "package backpressure\n\nimport (\n    \"context\"\n    \"errors\"\n    \"sync\"\n)\n\nvar ErrQueueFull = errors.New(\"\
+        queue full\")\nvar ErrUnavailable = errors.New(\"broker unavailable\")\nvar ErrEmpty = errors.New(\"queue empty\"\
+        )\nvar ErrRetryScheduled = errors.New(\"retry scheduled\")\n\ntype Message struct { ID string; Body string }\n\ntype\
+        \ Broker struct {\n    mu sync.Mutex\n    queue []Message\n    capacity int\n    available bool\n    redeliveries\
+        \ map[string]int\n    acked map[string]bool\n}\n\nfunc NewBroker(capacity int) *Broker {\n    return &Broker{capacity:\
+        \ capacity, available: true, redeliveries: make(map[string]int), acked: make(map[string]bool)}\n}\nfunc (b *Broker)\
+        \ SetAvailable(ok bool) { b.mu.Lock(); b.available = ok; b.mu.Unlock() }\nfunc (b *Broker) Publish(_ context.Context,\
+        \ m Message) error {\n    b.mu.Lock(); defer b.mu.Unlock()\n    if !b.available { return ErrUnavailable }\n    if\
+        \ len(b.queue) >= b.capacity { return ErrQueueFull }\n    b.queue = append(b.queue, m)\n    return nil\n}\nfunc (b\
+        \ *Broker) Receive(_ context.Context) (Message, error) {\n    b.mu.Lock(); defer b.mu.Unlock()\n    if !b.available\
+        \ { return Message{}, ErrUnavailable }\n    if len(b.queue) == 0 { return Message{}, ErrEmpty }\n    m := b.queue[0];\
+        \ b.queue = b.queue[1:]\n    return m, nil\n}\nfunc (b *Broker) Redeliver(m Message) error { b.mu.Lock(); defer b.mu.Unlock();\
+        \ b.redeliveries[m.ID]++; if len(b.queue) >= b.capacity { return ErrQueueFull }; b.queue = append(b.queue, m); return\
+        \ nil }\nfunc (b *Broker) Ack(id string) { b.mu.Lock(); b.acked[id] = true; b.mu.Unlock() }\nfunc (b *Broker) Redeliveries(id\
+        \ string) int { b.mu.Lock(); defer b.mu.Unlock(); return b.redeliveries[id] }\nfunc (b *Broker) Acked(id string) bool\
+        \ { b.mu.Lock(); defer b.mu.Unlock(); return b.acked[id] }\n\ntype Service struct { broker *Broker; handle func(Message)\
+        \ error; maxAttempts int; mu sync.Mutex; attempts map[string]int }\nfunc NewService(b *Broker, handle func(Message)\
+        \ error, maxAttempts int) *Service { return &Service{broker:b, handle:handle, maxAttempts:maxAttempts, attempts:make(map[string]int)}\
+        \ }\nfunc (s *Service) Process(ctx context.Context) error {\n    m, err := s.broker.Receive(ctx); if err != nil {\
+        \ return err }\n    s.mu.Lock(); s.attempts[m.ID]++; attempt := s.attempts[m.ID]; s.mu.Unlock()\n    if err := s.handle(m);\
+        \ err != nil {\n        if attempt >= s.maxAttempts { return err }\n        if err := s.broker.Redeliver(m); err !=\
+        \ nil { return err }\n        return ErrRetryScheduled\n    }\n    s.broker.Ack(m.ID); return nil\n}\n"
+    - path: service_test.go
+      content: "package backpressure\n\nimport (\n    \"context\"\n    \"errors\"\n    \"testing\"\n)\n\nfunc TestBackpressureAndRedelivery(t\
+        \ *testing.T) {\n    b := NewBroker(1)\n    if err := b.Publish(context.Background(), Message{ID: \"job-1\", Body:\
+        \ \"x\"}); err != nil { t.Fatal(err) }\n    if err := b.Publish(context.Background(), Message{ID: \"job-2\", Body:\
+        \ \"y\"}); !errors.Is(err, ErrQueueFull) { t.Fatalf(\"second publish=%v, want queue full\", err) }\n    calls := 0\n\
+        \    s := NewService(b, func(Message) error { calls++; if calls == 1 { return errors.New(\"temporary\") }; return\
+        \ nil }, 2)\n    if err := s.Process(context.Background()); !errors.Is(err, ErrRetryScheduled) { t.Fatalf(\"first\
+        \ process=%v, want retry scheduled\", err) }\n    if b.Redeliveries(\"job-1\") != 1 { t.Fatalf(\"redelivery=%d, want\
+        \ 1\", b.Redeliveries(\"job-1\")) }\n    if err := s.Process(context.Background()); err != nil { t.Fatalf(\"second\
+        \ process=%v\", err) }\n    if !b.Acked(\"job-1\") { t.Fatal(\"message was not acked\") }\n}\n\nfunc TestUnavailableBrokerIsExplicit(t\
+        \ *testing.T) {\n    b := NewBroker(1); b.SetAvailable(false)\n    if _, err := b.Receive(context.Background()); !errors.Is(err,\
+        \ ErrUnavailable) { t.Fatalf(\"receive=%v, want unavailable\", err) }\n}\n"
+    expectations:
+    - check_id: backpressure-race-tests
+      baseline: test_failure
+      reference: pass
+  layers:
+  - id: go-production.backpressure-redelivery-service.layer
+    macro_steps:
+    - id: go-production.backpressure-redelivery-service.plan
+      kind: macro
+      title: Planejar a decisão operacional
+      children:
+      - id: go-production.backpressure-redelivery-service.plan.execution
+        kind: meso
+        title: Executar a decisão com evidência
+        children:
+        - id: go-production.backpressure-redelivery-service.state-gap
+          kind: micro
+          action: analyze
+          target: state_gap
+          title: Registrar o requisito incompleto
+          instruction:
+            objective: Registre a lacuna da meta de disponibilidade.
+            scope: Entrada da missão e carga.
+          concepts:
+          - go-production.failure-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.backpressure-redelivery-service.state-gap.verified
+            kind: availability-gap-is-explicit
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.backpressure-redelivery-service.map-failures
+          kind: micro
+          action: analyze
+          target: map_failures
+          title: Mapear falhas
+          instruction:
+            objective: Mapeie os modos de falha locais.
+            scope: Broker e handler sintéticos.
+          concepts:
+          - go-production.failure-budget
+          - go-production.queue-saturation
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.backpressure-redelivery-service.map-failures.verified
+            kind: failure-modes-are-listed
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.backpressure-redelivery-service.choose-pressure
+          kind: micro
+          action: design
+          target: choose_pressure
+          title: Escolher a resposta à pressão
+          instruction:
+            objective: Escolha a resposta para fila cheia.
+            scope: Política Publish.
+          concepts:
+          - go-production.queue-saturation
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.backpressure-redelivery-service.choose-pressure.verified
+            kind: pressure-policy-has-cost
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.backpressure-redelivery-service.receive-message
+          kind: micro
+          action: implement
+          target: receive_message
+          title: Receber mensagem
+          instruction:
+            objective: Receba uma mensagem do double.
+            scope: Fronteira Receive.
+          concepts:
+          - go-production.redelivery-semantics
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.backpressure-redelivery-service.receive-message.verified
+            kind: receive-is-bounded
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.backpressure-redelivery-service.schedule-redelivery
+          kind: micro
+          action: implement
+          target: schedule_redelivery
+          title: Agendar redelivery
+          instruction:
+            objective: Agende uma nova entrega após falha transitória.
+            scope: Processamento do serviço.
+          concepts:
+          - go-production.redelivery-semantics
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.backpressure-redelivery-service.schedule-redelivery.verified
+            kind: transient-failure-redelivers
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.backpressure-redelivery-service.cap-attempts
+          kind: micro
+          action: implement
+          target: cap_attempts
+          title: Limitar tentativas
+          instruction:
+            objective: Limite tentativas por ID.
+            scope: Mapa de tentativas.
+          concepts:
+          - go-production.failure-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.backpressure-redelivery-service.cap-attempts.verified
+            kind: attempt-budget-is-enforced
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.backpressure-redelivery-service.ack-success
+          kind: micro
+          action: implement
+          target: ack_success
+          title: Confirmar sucesso
+          instruction:
+            objective: Confirme somente após sucesso.
+            scope: Ack do broker.
+          concepts:
+          - go-production.redelivery-semantics
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.backpressure-redelivery-service.ack-success.verified
+            kind: success-is-acked
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.backpressure-redelivery-service.surface-outage
+          kind: micro
+          action: verify
+          target: surface_outage
+          title: Sinalizar indisponibilidade
+          instruction:
+            objective: Sinalize broker indisponível.
+            scope: Erro de disponibilidade.
+          concepts:
+          - go-production.failure-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.backpressure-redelivery-service.surface-outage.verified
+            kind: outage-is-observable
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.backpressure-redelivery-service.compare-alternatives
+          kind: micro
+          action: reflect
+          target: compare_alternatives
+          title: Comparar alternativas
+          instruction:
+            objective: Compare rejeição e bloqueio.
+            scope: Decisão de pressão.
+          concepts:
+          - go-production.queue-saturation
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.backpressure-redelivery-service.compare-alternatives.verified
+            kind: alternative-cost-is-compared
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.backpressure-redelivery-service.justify-tradeoff
+          kind: micro
+          action: reflect
+          target: justify_tradeoff
+          title: Justificar trade-off
+          instruction:
+            objective: Justifique a política escolhida.
+            scope: Rubrica da missão.
+          concepts:
+          - go-production.failure-budget
+          - go-production.redelivery-semantics
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.backpressure-redelivery-service.justify-tradeoff.verified
+            kind: mission-tradeoff-is-evidenced
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Qual requisito de disponibilidade você pediria ao produto antes de escolher bloqueio, rejeição ou redelivery?
+  prerequisites:
+  - go-production.instrumented-service-boundary
+- schema_version: 1
+  id: go-production.compatible-schema-rollout
+  version: 1.0.0
+  title: Evoluir schema com leitores mistos
+  kind: systems_mission
+  difficulty: expert
+  estimated_minutes: 75
+  themes:
+  - go-production.resilience
+  - go-production.security
+  competencies:
+    primary:
+    - go-production.roll-schema-compatibly
+    secondary:
+    - go-production.roll-schema-compatibly
+    - go-production.verify-release-provenance
+  brief: 'Missão: leitores antigos e novos coexistem durante um rollout. O requisito de rollback está incompleto; demonstre
+    expand, migrate, contract e retorno seguro com store sintético.'
+  constraints:
+  - 'Requisito incompleto: a janela de coexistência e o critério de rollback não foram definidos.'
+  - 'Falhas: leitor antigo perde campo e migração destrói dados.'
+  - Use somente mapas locais; não conecte banco real.
+  - Explicite custo de dual-write, compatibilidade e rollback.
+  acceptance:
+  - Leitor antigo lê registro escrito durante expand.
+  - Leitor novo lê dados legados.
+  - Migrate não destrói o campo antigo antes de contract.
+  - Rollback restaura leitura legada e a reflexão cobre custo, operação, alternativa e trade-off.
+  canonical: true
+  publication:
+    status: draft
+    author: codex
+  fixture:
+  - path: go.mod
+    content: 'module codinho-practice/schema-rollout
+
+
+      go 1.25.0
+
+      '
+  - path: schema.go
+    content: 'package schema
+
+
+      import "errors"
+
+
+      var ErrMissingField = errors.New("legacy field missing")
+
+
+      type Store struct { rows map[string]map[string]string; mode string }
+
+      func NewStore() *Store { return &Store{rows: make(map[string]map[string]string), mode: "legacy"} }
+
+      func (s *Store) SeedLegacy(id, name string) { s.rows[id] = map[string]string{"name": name} }
+
+      func (s *Store) Expand() { s.mode = "expand" }
+
+      func (s *Store) Write(id, name string) { s.rows[id] = map[string]string{"display_name": name} }
+
+      func (s *Store) Migrate() { for _, row := range s.rows { if value, ok := row["name"]; ok { row["display_name"] = value
+      } } }
+
+      func (s *Store) Contract() { s.mode = "contract"; for _, row := range s.rows { delete(row, "name") } }
+
+      func (s *Store) Rollback() { s.mode = "expand"; for _, row := range s.rows { if value, ok := row["display_name"]; ok
+      { row["name"] = value } } }
+
+      func (s *Store) LegacyRead(id string) (string, error) { value, ok := s.rows[id]["name"]; if !ok { return "", ErrMissingField
+      }; return value, nil }
+
+      func (s *Store) CurrentRead(id string) (string, error) { if value, ok := s.rows[id]["display_name"]; ok { return value,
+      nil }; return s.LegacyRead(id) }
+
+      '
+  - path: schema_test.go
+    content: "package schema\n\nimport \"testing\"\n\nfunc TestSchemaMixedReadersDuringExpand(t *testing.T) {\n    s := NewStore();\
+      \ s.SeedLegacy(\"old\", \"Old value\"); s.Expand(); s.Write(\"new\", \"New value\")\n    if _, err := s.LegacyRead(\"\
+      new\"); err != nil { t.Fatalf(\"legacy reader during expand: %v\", err) }\n    if value, err := s.CurrentRead(\"old\"\
+      ); err != nil || value != \"Old value\" { t.Fatalf(\"current reader old=%q err=%v\", value, err) }\n}\n\nfunc TestSchemaMigrationAndRollbackKeepDataReadable(t\
+      \ *testing.T) {\n    s := NewStore(); s.SeedLegacy(\"old\", \"Old value\"); s.Expand(); s.Migrate(); s.Contract(); s.Rollback()\n\
+      \    if value, err := s.LegacyRead(\"old\"); err != nil || value != \"Old value\" { t.Fatalf(\"rollback value=%q err=%v\"\
+      , value, err) }\n    if value, err := s.CurrentRead(\"old\"); err != nil || value != \"Old value\" { t.Fatalf(\"current\
+      \ value=%q err=%v\", value, err) }\n}\n"
+  checks:
+  - id: schema-rollout-tests
+    runner: go_test
+    package: ./...
+    test_pattern: ^TestSchema
+    timeout: 30s
+    network: false
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: 'module codinho-practice/schema-rollout
+
+
+        go 1.25.0
+
+        '
+    - path: schema.go
+      content: 'package schema
+
+
+        import "errors"
+
+
+        var ErrMissingField = errors.New("legacy field missing")
+
+
+        type Store struct { rows map[string]map[string]string; mode string }
+
+        func NewStore() *Store { return &Store{rows: make(map[string]map[string]string), mode: "legacy"} }
+
+        func (s *Store) SeedLegacy(id, name string) { s.rows[id] = map[string]string{"name": name} }
+
+        func (s *Store) Expand() { s.mode = "expand" }
+
+        func (s *Store) Write(id, name string) { s.rows[id] = map[string]string{"name": name, "display_name": name} }
+
+        func (s *Store) Migrate() { for _, row := range s.rows { if value, ok := row["name"]; ok { row["display_name"] = value
+        } } }
+
+        func (s *Store) Contract() { s.mode = "contract"; for _, row := range s.rows { delete(row, "name") } }
+
+        func (s *Store) Rollback() { s.mode = "expand"; for _, row := range s.rows { if value, ok := row["display_name"];
+        ok { row["name"] = value } } }
+
+        func (s *Store) LegacyRead(id string) (string, error) { value, ok := s.rows[id]["name"]; if !ok { return "", ErrMissingField
+        }; return value, nil }
+
+        func (s *Store) CurrentRead(id string) (string, error) { if value, ok := s.rows[id]["display_name"]; ok { return value,
+        nil }; return s.LegacyRead(id) }
+
+        '
+    - path: schema_test.go
+      content: "package schema\n\nimport \"testing\"\n\nfunc TestSchemaMixedReadersDuringExpand(t *testing.T) {\n    s := NewStore();\
+        \ s.SeedLegacy(\"old\", \"Old value\"); s.Expand(); s.Write(\"new\", \"New value\")\n    if _, err := s.LegacyRead(\"\
+        new\"); err != nil { t.Fatalf(\"legacy reader during expand: %v\", err) }\n    if value, err := s.CurrentRead(\"old\"\
+        ); err != nil || value != \"Old value\" { t.Fatalf(\"current reader old=%q err=%v\", value, err) }\n}\n\nfunc TestSchemaMigrationAndRollbackKeepDataReadable(t\
+        \ *testing.T) {\n    s := NewStore(); s.SeedLegacy(\"old\", \"Old value\"); s.Expand(); s.Migrate(); s.Contract();\
+        \ s.Rollback()\n    if value, err := s.LegacyRead(\"old\"); err != nil || value != \"Old value\" { t.Fatalf(\"rollback\
+        \ value=%q err=%v\", value, err) }\n    if value, err := s.CurrentRead(\"old\"); err != nil || value != \"Old value\"\
+        \ { t.Fatalf(\"current value=%q err=%v\", value, err) }\n}\n"
+    expectations:
+    - check_id: schema-rollout-tests
+      baseline: test_failure
+      reference: pass
+  layers:
+  - id: go-production.compatible-schema-rollout.layer
+    macro_steps:
+    - id: go-production.compatible-schema-rollout.plan
+      kind: macro
+      title: Planejar a decisão operacional
+      children:
+      - id: go-production.compatible-schema-rollout.plan.execution
+        kind: meso
+        title: Executar a decisão com evidência
+        children:
+        - id: go-production.compatible-schema-rollout.state-rollout-gap
+          kind: micro
+          action: analyze
+          target: state_rollout_gap
+          title: Registrar lacuna do rollout
+          instruction:
+            objective: Registre o critério ausente de rollback.
+            scope: Plano expand/migrate/contract.
+          concepts:
+          - go-production.expand-migrate-contract
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.compatible-schema-rollout.state-rollout-gap.verified
+            kind: rollout-gap-is-explicit
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.compatible-schema-rollout.model-readers
+          kind: micro
+          action: design
+          target: model_readers
+          title: Modelar leitores
+          instruction:
+            objective: Modele contratos antigo e novo.
+            scope: Funções LegacyRead e CurrentRead.
+          concepts:
+          - go-production.expand-migrate-contract
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.compatible-schema-rollout.model-readers.verified
+            kind: reader-contracts-are-distinct
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.compatible-schema-rollout.choose-dual-write
+          kind: micro
+          action: design
+          target: choose_dual_write
+          title: Escolher dual-write
+          instruction:
+            objective: Escolha a escrita compatível.
+            scope: Operação Write.
+          concepts:
+          - go-production.expand-migrate-contract
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.compatible-schema-rollout.choose-dual-write.verified
+            kind: dual-write-cost-is-stated
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.compatible-schema-rollout.expand-stage
+          kind: micro
+          action: implement
+          target: expand_stage
+          title: Executar expand
+          instruction:
+            objective: Execute o estágio expand.
+            scope: Store com campos mistos.
+          concepts:
+          - go-production.expand-migrate-contract
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.compatible-schema-rollout.expand-stage.verified
+            kind: expand-keeps-old-reader
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.compatible-schema-rollout.migrate-stage
+          kind: micro
+          action: implement
+          target: migrate_stage
+          title: Executar migrate
+          instruction:
+            objective: Copie dados para o campo novo.
+            scope: Registros legados.
+          concepts:
+          - go-production.expand-migrate-contract
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.compatible-schema-rollout.migrate-stage.verified
+            kind: migration-is-nondestructive
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.compatible-schema-rollout.contract-stage
+          kind: micro
+          action: implement
+          target: contract_stage
+          title: Executar contract
+          instruction:
+            objective: Remova o campo antigo no estágio contract.
+            scope: Store após migração.
+          concepts:
+          - go-production.expand-migrate-contract
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.compatible-schema-rollout.contract-stage.verified
+            kind: contract-follows-migration
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.compatible-schema-rollout.rollback-stage
+          kind: micro
+          action: implement
+          target: rollback_stage
+          title: Executar rollback
+          instruction:
+            objective: Restaure a leitura legada.
+            scope: Retorno para expand.
+          concepts:
+          - go-production.expand-migrate-contract
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.compatible-schema-rollout.rollback-stage.verified
+            kind: rollback-restores-compatibility
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.compatible-schema-rollout.verify-mixed
+          kind: micro
+          action: verify
+          target: verify_mixed
+          title: Verificar leitores mistos
+          instruction:
+            objective: Verifique os dois leitores em cada estágio.
+            scope: Testes de schema.
+          concepts:
+          - go-production.expand-migrate-contract
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.compatible-schema-rollout.verify-mixed.verified
+            kind: mixed-readers-pass
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.compatible-schema-rollout.price-dual-write
+          kind: micro
+          action: analyze
+          target: price_dual_write
+          title: Calcular custo dual-write
+          instruction:
+            objective: Calcule o custo operacional da duplicação.
+            scope: Decisão de rollout.
+          concepts:
+          - go-production.failure-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.compatible-schema-rollout.price-dual-write.verified
+            kind: dual-write-cost-is-explicit
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.compatible-schema-rollout.justify-rollback
+          kind: micro
+          action: reflect
+          target: justify_rollback
+          title: Justificar rollback
+          instruction:
+            objective: Justifique o gatilho de retorno.
+            scope: Rubrica da missão.
+          concepts:
+          - go-production.failure-budget
+          - go-production.release-artifact-provenance
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.compatible-schema-rollout.justify-rollback.verified
+            kind: rollback-tradeoff-is-evidenced
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Que sinal operacional justificaria pagar o custo de dual-write durante uma janela de leitores mistos?
+  prerequisites:
+  - go-production.backpressure-redelivery-service
+- schema_version: 1
+  id: go-production.partial-outage-response
+  version: 1.0.0
+  title: Mitigar outage parcial com orçamento de retries
+  kind: systems_mission
+  difficulty: expert
+  estimated_minutes: 75
+  themes:
+  - go-production.resilience
+  - go-production.observability
+  - go-production.security
+  competencies:
+    primary:
+    - go-production.make-retries-idempotent-and-bounded
+    secondary:
+    - go-production.make-retries-idempotent-and-bounded
+    - go-production.verify-release-provenance
+  brief: 'Missão: uma dependência falha parcialmente. O orçamento de retries e a proveniência do fallback precisam ser decididos
+    com dados sintéticos antes de uma mitigação reversível.'
+  constraints:
+  - 'Requisito incompleto: não há SLO de latência nem política de fallback definida.'
+  - 'Falhas: timeout da dependência e resposta primária inconsistente.'
+  - Use um Call local; não use DNS, credenciais ou serviços externos.
+  - Compare retry, fallback e desligamento gradual por custo e operabilidade.
+  acceptance:
+  - O cliente respeita o orçamento de tentativas.
+  - Fallback informa sua proveniência e marca mitigação.
+  - Sucesso primário interrompe retries.
+  - Cancelamento não inicia nova tentativa.
+  - A reflexão justifica custo, falha, operabilidade, alternativa e trade-off.
+  canonical: true
+  publication:
+    status: draft
+    author: codex
+  fixture:
+  - path: go.mod
+    content: 'module codinho-practice/partial-outage
+
+
+      go 1.25.0
+
+      '
+  - path: service.go
+    content: "package outage\n\nimport \"context\"\n\ntype Call func(context.Context, string) (string, error)\ntype Outcome\
+      \ struct { Value, Source string; Attempts int; Mitigated bool }\ntype Client struct { call Call; maxRetries int; fallback\
+      \ string }\nfunc NewClient(call Call, maxRetries int, fallback string) *Client { return &Client{call:call, maxRetries:maxRetries,\
+      \ fallback:fallback} }\nfunc (c *Client) Fetch(ctx context.Context, key string) (Outcome, error) {\n    var last error\n\
+      \    for attempt := 1; attempt <= c.maxRetries+2; attempt++ {\n        value, err := c.call(ctx, key)\n        if err\
+      \ == nil { return Outcome{Value:value, Source:\"primary\", Attempts:attempt}, nil }\n        last = err\n    }\n   \
+      \ return Outcome{Value:c.fallback, Attempts:c.maxRetries+2, Mitigated:true}, last\n}\n"
+  - path: service_test.go
+    content: "package outage\n\nimport (\n    \"context\"\n    \"errors\"\n    \"testing\"\n)\n\nfunc TestPartialOutageUsesBudgetAndProvenance(t\
+      \ *testing.T) {\n    calls := 0\n    c := NewClient(func(context.Context, string) (string, error) { calls++; return\
+      \ \"\", errors.New(\"dependency down\") }, 2, \"cached-value\")\n    out, err := c.Fetch(context.Background(), \"item-7\"\
+      )\n    if err != nil { t.Fatalf(\"fetch: %v\", err) }\n    if calls != 3 || out.Attempts != 3 { t.Fatalf(\"calls=%d\
+      \ attempts=%d, want 3\", calls, out.Attempts) }\n    if out.Source != \"fallback\" || !out.Mitigated { t.Fatalf(\"outcome=%+v,\
+      \ want fallback provenance\", out) }\n}\n\nfunc TestSuccessStopsWithinBudget(t *testing.T) {\n    calls := 0\n    c\
+      \ := NewClient(func(context.Context, string) (string, error) { calls++; if calls == 1 { return \"\", errors.New(\"temporary\"\
+      ) }; return \"fresh\", nil }, 2, \"cached\")\n    out, err := c.Fetch(context.Background(), \"item-8\")\n    if err\
+      \ != nil || out.Value != \"fresh\" || out.Source != \"primary\" || out.Attempts != 2 { t.Fatalf(\"out=%+v err=%v\",\
+      \ out, err) }\n}\n\nfunc TestCancellationStopsAttempt(t *testing.T) {\n    ctx, cancel := context.WithCancel(context.Background());\
+      \ cancel()\n    c := NewClient(func(context.Context, string) (string, error) { return \"\", errors.New(\"down\") },\
+      \ 2, \"cached\")\n    if _, err := c.Fetch(ctx, \"item-9\"); err == nil { t.Fatal(\"canceled request was retried\")\
+      \ }\n}\n"
+  checks:
+  - id: outage-tests
+    runner: go_test
+    package: ./...
+    test_pattern: ^Test
+    timeout: 30s
+    network: false
+  validation:
+    reference_fixture:
+    - path: go.mod
+      content: 'module codinho-practice/partial-outage
+
+
+        go 1.25.0
+
+        '
+    - path: service.go
+      content: "package outage\n\nimport \"context\"\n\ntype Call func(context.Context, string) (string, error)\ntype Outcome\
+        \ struct { Value, Source string; Attempts int; Mitigated bool }\ntype Client struct { call Call; maxRetries int; fallback\
+        \ string }\nfunc NewClient(call Call, maxRetries int, fallback string) *Client { return &Client{call:call, maxRetries:maxRetries,\
+        \ fallback:fallback} }\nfunc (c *Client) Fetch(ctx context.Context, key string) (Outcome, error) {\n    \
+        \    for attempt := 1; attempt <= c.maxRetries+1; attempt++ {\n        if err := ctx.Err(); err != nil { return Outcome{Attempts:\
+        \ attempt - 1}, err }\n        value, err := c.call(ctx, key)\n        if err == nil { return Outcome{Value:value,\
+        \ Source:\"primary\", Attempts:attempt}, nil }\n                if err := ctx.Err(); err != nil { return\
+        \ Outcome{Attempts: attempt}, err }\n    }\n    return Outcome{Value:c.fallback, Source:\"fallback\", Attempts:c.maxRetries+1,\
+        \ Mitigated:true}, nil\n}\n"
+    - path: service_test.go
+      content: "package outage\n\nimport (\n    \"context\"\n    \"errors\"\n    \"testing\"\n)\n\nfunc TestPartialOutageUsesBudgetAndProvenance(t\
+        \ *testing.T) {\n    calls := 0\n    c := NewClient(func(context.Context, string) (string, error) { calls++; return\
+        \ \"\", errors.New(\"dependency down\") }, 2, \"cached-value\")\n    out, err := c.Fetch(context.Background(), \"\
+        item-7\")\n    if err != nil { t.Fatalf(\"fetch: %v\", err) }\n    if calls != 3 || out.Attempts != 3 { t.Fatalf(\"\
+        calls=%d attempts=%d, want 3\", calls, out.Attempts) }\n    if out.Source != \"fallback\" || !out.Mitigated { t.Fatalf(\"\
+        outcome=%+v, want fallback provenance\", out) }\n}\n\nfunc TestSuccessStopsWithinBudget(t *testing.T) {\n    calls\
+        \ := 0\n    c := NewClient(func(context.Context, string) (string, error) { calls++; if calls == 1 { return \"\", errors.New(\"\
+        temporary\") }; return \"fresh\", nil }, 2, \"cached\")\n    out, err := c.Fetch(context.Background(), \"item-8\"\
+        )\n    if err != nil || out.Value != \"fresh\" || out.Source != \"primary\" || out.Attempts != 2 { t.Fatalf(\"out=%+v\
+        \ err=%v\", out, err) }\n}\n\nfunc TestCancellationStopsAttempt(t *testing.T) {\n    ctx, cancel := context.WithCancel(context.Background());\
+        \ cancel()\n    c := NewClient(func(context.Context, string) (string, error) { return \"\", errors.New(\"down\") },\
+        \ 2, \"cached\")\n    if _, err := c.Fetch(ctx, \"item-9\"); err == nil { t.Fatal(\"canceled request was retried\"\
+        ) }\n}\n"
+    expectations:
+    - check_id: outage-tests
+      baseline: test_failure
+      reference: pass
+  layers:
+  - id: go-production.partial-outage-response.layer
+    macro_steps:
+    - id: go-production.partial-outage-response.plan
+      kind: macro
+      title: Planejar a decisão operacional
+      children:
+      - id: go-production.partial-outage-response.plan.execution
+        kind: meso
+        title: Executar a decisão com evidência
+        children:
+        - id: go-production.partial-outage-response.state-slo-gap
+          kind: micro
+          action: analyze
+          target: state_slo_gap
+          title: Registrar lacuna do SLO
+          instruction:
+            objective: Registre o SLO ausente do requisito.
+            scope: Contexto do outage.
+          concepts:
+          - go-production.failure-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.partial-outage-response.state-slo-gap.verified
+            kind: slo-gap-is-explicit
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.partial-outage-response.classify-failure
+          kind: micro
+          action: analyze
+          target: classify_failure
+          title: Classificar falhas
+          instruction:
+            objective: Classifique timeout e erro de dependência.
+            scope: Call sintético.
+          concepts:
+          - go-production.failure-budget
+          - go-production.grpc-deadline-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.partial-outage-response.classify-failure.verified
+            kind: failure-classes-are-distinct
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.partial-outage-response.choose-budget
+          kind: micro
+          action: design
+          target: choose_budget
+          title: Escolher orçamento
+          instruction:
+            objective: Escolha o limite de tentativas.
+            scope: Configuração do cliente.
+          concepts:
+          - go-production.retry-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.partial-outage-response.choose-budget.verified
+            kind: retry-budget-has-rationale
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.partial-outage-response.define-provenance
+          kind: micro
+          action: design
+          target: define_provenance
+          title: Definir proveniência
+          instruction:
+            objective: Defina a origem de cada resposta.
+            scope: Outcome retornado.
+          concepts:
+          - go-production.release-artifact-provenance
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.partial-outage-response.define-provenance.verified
+            kind: outcome-source-is-explicit
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.partial-outage-response.attempt-primary
+          kind: micro
+          action: implement
+          target: attempt_primary
+          title: Tentar dependência
+          instruction:
+            objective: Faça uma tentativa primária.
+            scope: Call com contexto.
+          concepts:
+          - go-production.grpc-deadline-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.partial-outage-response.attempt-primary.verified
+            kind: primary-attempt-is-bounded
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.partial-outage-response.stop-on-success
+          kind: micro
+          action: implement
+          target: stop_on_success
+          title: Parar no sucesso
+          instruction:
+            objective: Pare retries após sucesso primário.
+            scope: Laço de Fetch.
+          concepts:
+          - go-production.retry-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.partial-outage-response.stop-on-success.verified
+            kind: success-stops-retries
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.partial-outage-response.use-fallback
+          kind: micro
+          action: implement
+          target: use_fallback
+          title: Usar fallback
+          instruction:
+            objective: Use fallback após esgotar orçamento.
+            scope: Outcome de mitigação.
+          concepts:
+          - go-production.failure-budget
+          - go-production.release-artifact-provenance
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.partial-outage-response.use-fallback.verified
+            kind: fallback-has-provenance
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.partial-outage-response.honor-cancel
+          kind: micro
+          action: verify
+          target: honor_cancel
+          title: Respeitar cancelamento
+          instruction:
+            objective: Respeite contexto cancelado.
+            scope: Entrada de Fetch.
+          concepts:
+          - go-production.grpc-deadline-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.partial-outage-response.honor-cancel.verified
+            kind: cancelation-stops-attempts
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.partial-outage-response.compare-mitigations
+          kind: micro
+          action: analyze
+          target: compare_mitigations
+          title: Comparar mitigações
+          instruction:
+            objective: Compare fallback e retry.
+            scope: Alternativas locais.
+          concepts:
+          - go-production.failure-budget
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.partial-outage-response.compare-mitigations.verified
+            kind: mitigation-costs-are-compared
+          completion:
+            requires_positive_evaluation: false
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+        - id: go-production.partial-outage-response.justify-reversal
+          kind: micro
+          action: reflect
+          target: justify_reversal
+          title: Justificar reversibilidade
+          instruction:
+            objective: Justifique como reverter a mitigação.
+            scope: Plano de retorno.
+          concepts:
+          - go-production.release-artifact-provenance
+          evidence:
+            strategies:
+            - source_inspection
+            - test
+          criteria:
+          - id: go-production.partial-outage-response.justify-reversal.verified
+            kind: reversal-is-operable
+          completion:
+            requires_positive_evaluation: true
+          hints:
+          - level: 1
+            kind: guiding_question
+          - level: 2
+            kind: concept_recall
+          - level: 3
+            kind: design_prompt
+          - level: 4
+            kind: pseudocode
+          - level: 5
+            kind: partial_code
+          - level: 6
+            kind: solution
+          reflection:
+            optional:
+            - Quando o fallback reduz impacto e quando ele apenas mascara uma falha sem proveniência?
+  prerequisites:
+  - go-production.compatible-schema-rollout
+publication:
+  status: draft
+  author: codex
+relations:
+- from: go-production.performance
+  to: go-production.profile-hot-path
+  kind: applies_in
+- from: go-production.observability
+  to: go-production.correlate-request-signals
+  kind: applies_in
+- from: go-production.observability
+  to: go-production.observable-worker-shutdown
+  kind: applies_in
+- from: go-production.observability
+  to: go-production.operable-message-worker
+  kind: applies_in
+- from: go-production.observability
+  to: go-production.instrumented-service-boundary
+  kind: applies_in
+- from: go-production.observability
+  to: go-production.backpressure-redelivery-service
+  kind: applies_in
+- from: go-production.observability
+  to: go-production.partial-outage-response
+  kind: applies_in
+- from: go-production.resilience
+  to: go-production.observable-worker-shutdown
+  kind: applies_in
+- from: go-production.resilience
+  to: go-production.idempotent-retry-client
+  kind: applies_in
+- from: go-production.resilience
+  to: go-production.operable-message-worker
+  kind: applies_in
+- from: go-production.resilience
+  to: go-production.backpressure-redelivery-service
+  kind: applies_in
+- from: go-production.resilience
+  to: go-production.compatible-schema-rollout
+  kind: applies_in
+- from: go-production.resilience
+  to: go-production.partial-outage-response
+  kind: applies_in
+- from: go-production.security
+  to: go-production.idempotent-retry-client
+  kind: applies_in
+- from: go-production.security
+  to: go-production.instrumented-service-boundary
+  kind: applies_in
+- from: go-production.security
+  to: go-production.compatible-schema-rollout
+  kind: applies_in
+- from: go-production.security
+  to: go-production.partial-outage-response
+  kind: applies_in
+- from: go-production.profile-hot-path-with-local-baseline
+  to: go-production.profile-hot-path
+  kind: applies_in
+- from: go-production.interpret-cpu-and-allocation-evidence
+  to: go-production.profile-hot-path
+  kind: applies_in
+- from: go-production.correlate-request-signals-safely
+  to: go-production.correlate-request-signals
+  kind: applies_in
+- from: go-production.bound-metric-cardinality
+  to: go-production.correlate-request-signals
+  kind: applies_in
+- from: go-production.separate-readiness-from-liveness
+  to: go-production.observable-worker-shutdown
+  kind: applies_in
+- from: go-production.drain-workers-with-deadline
+  to: go-production.observable-worker-shutdown
+  kind: applies_in
+- from: go-production.shutdown-budget
+  to: go-production.observable-worker-shutdown
+  kind: applies_in
+- from: go-production.make-retries-idempotent-and-bounded
+  to: go-production.idempotent-retry-client
+  kind: applies_in
+- from: go-production.retry-budget
+  to: go-production.idempotent-retry-client
+  kind: applies_in
+- from: go-production.grpc-deadline-budget
+  to: go-production.idempotent-retry-client
+  kind: applies_in
+- from: go-production.idempotency-key-scope
+  to: go-production.idempotent-retry-client
+  kind: applies_in
+- from: go-production.bound-queue-and-redelivery
+  to: go-production.operable-message-worker
+  kind: applies_in
+- from: go-production.queue-saturation
+  to: go-production.operable-message-worker
+  kind: applies_in
+- from: go-production.redelivery-semantics
+  to: go-production.operable-message-worker
+  kind: applies_in
+- from: go-production.protect-service-identity-and-secrets
+  to: go-production.instrumented-service-boundary
+  kind: applies_in
+- from: go-production.service-identity
+  to: go-production.instrumented-service-boundary
+  kind: applies_in
+- from: go-production.secrets-boundary
+  to: go-production.instrumented-service-boundary
+  kind: applies_in
+- from: go-production.input-size-boundary
+  to: go-production.instrumented-service-boundary
+  kind: applies_in
+- from: go-production.bound-queue-and-redelivery
+  to: go-production.backpressure-redelivery-service
+  kind: applies_in
+- from: go-production.queue-saturation
+  to: go-production.backpressure-redelivery-service
+  kind: applies_in
+- from: go-production.redelivery-semantics
+  to: go-production.backpressure-redelivery-service
+  kind: applies_in
+- from: go-production.failure-budget
+  to: go-production.backpressure-redelivery-service
+  kind: applies_in
+- from: go-production.roll-schema-compatibly
+  to: go-production.compatible-schema-rollout
+  kind: applies_in
+- from: go-production.expand-migrate-contract
+  to: go-production.compatible-schema-rollout
+  kind: applies_in
+- from: go-production.release-artifact-provenance
+  to: go-production.compatible-schema-rollout
+  kind: applies_in
+- from: go-production.make-retries-idempotent-and-bounded
+  to: go-production.partial-outage-response
+  kind: applies_in
+- from: go-production.retry-budget
+  to: go-production.partial-outage-response
+  kind: applies_in
+- from: go-production.failure-budget
+  to: go-production.partial-outage-response
+  kind: applies_in
+- from: go-production.release-artifact-provenance
+  to: go-production.partial-outage-response
+  kind: applies_in
+- from: go-production.local-workload-baseline
+  to: go-production.profile-hot-path
+  kind: applies_in
+- from: go-production.cpu-and-heap-profiles
+  to: go-production.profile-hot-path
+  kind: applies_in
+- from: go-production.benchmark-noise
+  to: go-production.profile-hot-path
+  kind: applies_in
+- from: go-production.benchmark-noise
+  to: go-production.correlate-request-signals
+  kind: applies_in
+- from: go-production.trace-context
+  to: go-production.correlate-request-signals
+  kind: applies_in
+- from: go-production.trace-context
+  to: go-production.instrumented-service-boundary
+  kind: applies_in
+- from: go-production.trace-context
+  to: go-production.partial-outage-response
+  kind: applies_in
+- from: go-production.structured-event-correlation
+  to: go-production.correlate-request-signals
+  kind: applies_in
+- from: go-production.structured-event-correlation
+  to: go-production.operable-message-worker
+  kind: applies_in
+- from: go-production.structured-event-correlation
+  to: go-production.backpressure-redelivery-service
+  kind: applies_in
+- from: go-production.structured-event-correlation
+  to: go-production.partial-outage-response
+  kind: applies_in
+- from: go-production.cardinality-budget
+  to: go-production.correlate-request-signals
+  kind: applies_in
+- from: go-production.readiness-vs-liveness
+  to: go-production.observable-worker-shutdown
+  kind: applies_in
+- from: go-production.readiness-vs-liveness
+  to: go-production.operable-message-worker
+  kind: applies_in
+- from: go-production.shutdown-budget
+  to: go-production.observable-worker-shutdown
+  kind: applies_in
+- from: go-production.idempotency-key-scope
+  to: go-production.idempotent-retry-client
+  kind: applies_in
+- from: go-production.retry-budget
+  to: go-production.idempotent-retry-client
+  kind: applies_in
+- from: go-production.retry-budget
+  to: go-production.partial-outage-response
+  kind: applies_in
+- from: go-production.grpc-deadline-budget
+  to: go-production.idempotent-retry-client
+  kind: applies_in
+- from: go-production.grpc-deadline-budget
+  to: go-production.partial-outage-response
+  kind: applies_in
+- from: go-production.queue-saturation
+  to: go-production.operable-message-worker
+  kind: applies_in
+- from: go-production.queue-saturation
+  to: go-production.backpressure-redelivery-service
+  kind: applies_in
+- from: go-production.redelivery-semantics
+  to: go-production.operable-message-worker
+  kind: applies_in
+- from: go-production.redelivery-semantics
+  to: go-production.backpressure-redelivery-service
+  kind: applies_in
+- from: go-production.expand-migrate-contract
+  to: go-production.compatible-schema-rollout
+  kind: applies_in
+- from: go-production.failure-budget
+  to: go-production.backpressure-redelivery-service
+  kind: applies_in
+- from: go-production.failure-budget
+  to: go-production.compatible-schema-rollout
+  kind: applies_in
+- from: go-production.failure-budget
+  to: go-production.partial-outage-response
+  kind: applies_in
+- from: go-production.service-identity
+  to: go-production.instrumented-service-boundary
+  kind: applies_in
+- from: go-production.secrets-boundary
+  to: go-production.instrumented-service-boundary
+  kind: applies_in
+- from: go-production.release-artifact-provenance
+  to: go-production.compatible-schema-rollout
+  kind: applies_in
+- from: go-production.release-artifact-provenance
+  to: go-production.partial-outage-response
+  kind: applies_in
+- from: go-production.input-size-boundary
+  to: go-production.instrumented-service-boundary
+  kind: applies_in
+- from: go-production.verify-release-provenance
+  to: go-production.compatible-schema-rollout
+  kind: applies_in
+- from: go-production.verify-release-provenance
+  to: go-production.partial-outage-response
+  kind: applies_in

@@ -59,6 +59,7 @@ scripts, skills e docs/editorial. Conteúdo piloto pertence a go-foundations-pac
 - modified: .pose/docs.json
 - modified: .pose/assessments/technical-debt.md
 - modified: .pose/state/technical-debt.json
+- modified: scripts/agent-review.sh
 - created: .pose/results/editorial-review-validation.json
 - created: .agents/skills/editorial-coordinator/SKILL.md
 - created: .agents/skills/editorial-author/SKILL.md
@@ -70,7 +71,7 @@ scripts, skills e docs/editorial. Conteúdo piloto pertence a go-foundations-pac
 - created: .pose/workflows/validate-native-evidence.md
 - modified: .pose/workflows/review.md
 - created: .pose/knowledge/2026-09-16-decision-log-escalation-validate-native.md
-- modified: .pose/reports/history/interventions.jsonl
+- created: .pose/reports/history/interventions.jsonl
 ### API/contract changes
 CLI init/status/run/revise/review/integrate/recover/reconcile; estado JSON por execução.
 depends_on referencia IDs anteriores; tamanho de lote é limite superior.

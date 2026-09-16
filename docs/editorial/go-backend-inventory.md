@@ -20,6 +20,12 @@ Checkpoint 1 medido após a materialização de `go-concurrency-context`:
 trilhas. O acréscimo observado é de 14 conceitos, nove competências, oito
 desafios e 48 nodes; a contagem ainda inclui somente drafts.
 
+Checkpoint 2 medido após a materialização de `go-http`:
+133 conceitos, 81 competências, 71 entradas de desafio, 459 nodes e sete
+trilhas. O pack HTTP acrescentou 14 conceitos, oito competências, nove
+desafios e 45 nodes; seus 58 checks declarados foram verificados, sem
+diagnostics ou achados editoriais. A contagem ainda inclui somente drafts.
+
 O backend adicionará 23 desafios canônicos, pelo menos 40 conceitos, 25
 competências e 120 nodes creditáveis. Como os fundamentos já excedem a meta
 intermediária de 140 conceitos, 85 competências e 420 nodes quando o backend

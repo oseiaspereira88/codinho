@@ -1,0 +1,1234 @@
+schema_version: 1
+id: go-http
+version: 1.0.0
+publication:
+  status: draft
+  author: codex
+themes:
+  - id: go-http.protocol
+    title: Protocolo HTTP e representação
+  - id: go-http.server-lifecycle
+    title: Lifecycle de servidores
+  - id: go-http.client-resilience
+    title: Resiliência de clientes
+concepts:
+  - id: go-http.request-context
+    title: Contexto da requisição
+  - id: go-http.json-encoding
+    title: Codificação JSON em fronteiras HTTP
+  - id: go-http.body-limit
+    title: Limite de corpo recebido
+  - id: go-http.method-validation
+    title: Validação de método HTTP
+  - id: go-http.handler-contract
+    title: Contrato observável de handler
+  - id: go-http.middleware-chain
+    title: Composição de middleware
+  - id: go-http.server-lifecycle-concept
+    title: Inicialização e shutdown de servidor
+  - id: go-http.client-timeout
+    title: Timeout de cliente
+  - id: go-http.transport-reuse
+    title: Reuso de transport
+  - id: go-http.httptest-isolation
+    title: Isolamento com httptest
+  - id: go-http.error-response
+    title: Resposta de erro e status
+  - id: go-http.deadline-propagation
+    title: Propagação de deadline
+  - id: go-http.redirect-policy
+    title: Política de redirects
+  - id: go-http.response-drain
+    title: Fechamento e drenagem de response body
+competencies:
+  - id: go-http.decode-json-request
+    title: Analisar uma requisição JSON
+  - id: go-http.bound-request-body
+    title: Limitar corpo de requisição
+  - id: go-http.validate-http-method
+    title: Validar método e contrato HTTP
+  - id: go-http.compose-middleware
+    title: Compor middleware sem perder o contrato
+  - id: go-http.manage-server-lifecycle
+    title: Gerenciar lifecycle de servidor
+  - id: go-http.forward-request-deadline
+    title: Propagar timeout de requisição
+  - id: go-http.test-http-handler
+    title: Testar handler HTTP isoladamente
+  - id: go-http.build-resilient-client
+    title: Construir cliente HTTP resiliente
+tracks:
+  - id: go-http-services
+    title: HTTP e serviços locais em Go
+    themes:
+      - go-http.protocol
+      - go-http.server-lifecycle
+      - go-http.client-resilience
+    challenge_ids:
+      - go-http.parse-json-request
+      - go-http.limit-http-body
+      - go-http.propagate-request-timeout
+      - go-http.compose-json-handler-middleware
+      - go-http.configure-http-server-lifecycle
+      - go-http.build-resilient-http-client
+      - go-http.tested-json-handler
+      - go-http.resilient-service-client
+      - go-http.reproduce-http-timeout-leak
+relations:
+  - {from: go-http.request-context, to: go-http.deadline-propagation, kind: relates_to}
+  - {from: go-http.json-encoding, to: go-http.handler-contract, kind: relates_to}
+  - {from: go-http.body-limit, to: go-http.error-response, kind: relates_to}
+  - {from: go-http.method-validation, to: go-http.handler-contract, kind: relates_to}
+  - {from: go-http.middleware-chain, to: go-http.handler-contract, kind: relates_to}
+  - {from: go-http.server-lifecycle-concept, to: go-http.request-context, kind: relates_to}
+  - {from: go-http.client-timeout, to: go-http.deadline-propagation, kind: relates_to}
+  - {from: go-http.transport-reuse, to: go-http.response-drain, kind: relates_to}
+  - {from: go-http.httptest-isolation, to: go-http.test-http-handler, kind: relates_to}
+  - {from: go-http.redirect-policy, to: go-http.client-timeout, kind: relates_to}
+  - {from: go-http.parse-json-request, to: go-http.decode-json-request, kind: applies_in}
+  - {from: go-http.limit-http-body, to: go-http.bound-request-body, kind: applies_in}
+  - {from: go-http.propagate-request-timeout, to: go-http.forward-request-deadline, kind: applies_in}
+  - {from: go-http.compose-json-handler-middleware, to: go-http.compose-middleware, kind: applies_in}
+  - {from: go-http.configure-http-server-lifecycle, to: go-http.manage-server-lifecycle, kind: applies_in}
+  - {from: go-http.build-resilient-http-client, to: go-http.build-resilient-client, kind: applies_in}
+  - {from: go-http.tested-json-handler, to: go-http.test-http-handler, kind: applies_in}
+  - {from: go-http.resilient-service-client, to: go-http.build-resilient-client, kind: applies_in}
+  - {from: go-http.reproduce-http-timeout-leak, to: go-http.propagate-request-timeout, kind: applies_in}
+  - {from: go-http.validate-http-method, to: go-http.method-validation, kind: applies_in}
+challenges:
+  - schema_version: 1
+    id: go-http.parse-json-request
+    version: 1.0.0
+    title: Analisar uma requisição JSON
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 20
+    themes: [go-http.protocol]
+    competencies:
+      primary: [go-http.decode-json-request]
+      secondary: [go-http.test-http-handler]
+    prerequisites: []
+    brief: Um endpoint recebe um objeto JSON pequeno e precisa rejeitar entradas malformadas sem expor detalhes internos.
+    constraints:
+      - Use encoding/json da biblioteca padrão.
+      - Diferencie erro de sintaxe de resposta de sucesso.
+    acceptance:
+      - JSON válido produz uma resposta estruturada.
+      - JSON malformado produz status de cliente sem panic.
+      - O corpo da resposta usa um formato estável.
+    canonical: true
+    publication: {status: draft, author: codex}
+    layers:
+      - id: parse-json
+        macro_steps:
+          - id: parse-json.plan
+            kind: macro
+            title: Definir a fronteira JSON
+            children:
+              - id: parse-json.decode
+                kind: meso
+                title: Decodificar e responder
+                children:
+                  - id: parse-json.read
+                    kind: micro
+                    action: implement
+                    target: decoder
+                    title: Ler o objeto recebido
+                    instruction:
+                      objective: Decodifique o objeto JSON da requisição.
+                      scope: Somente a entrada e o tipo esperado.
+                    concepts: [go-http.json-encoding]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: json-is-decoded, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: parse-json.error
+                    kind: micro
+                    action: verify
+                    target: error-response
+                    title: Tratar sintaxe inválida
+                    instruction:
+                      objective: Transforme erro de decodificação em resposta de cliente.
+                      scope: O caminho de entrada inválida.
+                    concepts: [go-http.error-response]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: malformed-json-is-rejected, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: parse-json.reflect
+                    kind: micro
+                    action: reflect
+                    target: contract
+                    title: Explicar o contrato de erro
+                    instruction:
+                      objective: Explique por que a resposta não deve vazar o erro interno completo.
+                      scope: Status, formato e fronteira pública.
+                    concepts: [go-http.json-encoding, go-http.error-response]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: explains-json-error-boundary, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Que parte do erro pertence ao log interno e que parte pertence ao cliente?']}
+  - schema_version: 1
+    id: go-http.limit-http-body
+    version: 1.0.0
+    title: Limitar o corpo de uma requisição
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 20
+    themes: [go-http.protocol]
+    competencies:
+      primary: [go-http.bound-request-body]
+      secondary: [go-http.validate-http-method]
+    prerequisites: [go-http.parse-json-request]
+    brief: Um handler aceita JSON, mas precisa impor um limite de entrada antes de decodificar o conteúdo.
+    constraints:
+      - O limite deve ser aplicado antes da leitura completa.
+      - O handler não pode depender de serviço externo.
+    acceptance:
+      - Um corpo dentro do limite é processado.
+      - Um corpo acima do limite é rejeitado de forma observável.
+      - O limite não é substituído por truncamento silencioso.
+    canonical: true
+    publication: {status: draft, author: codex}
+    layers:
+      - id: body-limit
+        macro_steps:
+          - id: body-limit.plan
+            kind: macro
+            title: Proteger a leitura da entrada
+            children:
+              - id: body-limit.wrap
+                kind: meso
+                title: Aplicar limite e validar resultado
+                children:
+                  - id: body-limit.bound
+                    kind: micro
+                    action: implement
+                    target: request-body
+                    title: Aplicar o limite
+                    instruction:
+                      objective: Envolva o corpo recebido com um limite explícito.
+                      scope: A fronteira de leitura do handler.
+                    concepts: [go-http.body-limit]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: request-body-is-bounded, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: body-limit.reject
+                    kind: micro
+                    action: verify
+                    target: negative-case
+                    title: Rejeitar entrada grande
+                    instruction:
+                      objective: Verifique o comportamento quando o corpo excede o orçamento.
+                      scope: Status e ausência de processamento parcial.
+                    concepts: [go-http.body-limit, go-http.error-response]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: oversized-body-is-rejected, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: body-limit.reflect
+                    kind: micro
+                    action: reflect
+                    target: resource-budget
+                    title: Explicar o orçamento
+                    instruction:
+                      objective: Explique por que limite e validação são decisões diferentes.
+                      scope: Memória, protocolo e resposta de erro.
+                    concepts: [go-http.body-limit, go-http.handler-contract]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: explains-body-budget, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Por que validar depois de ler tudo ainda deixa um risco de recurso?']}
+  - schema_version: 1
+    id: go-http.propagate-request-timeout
+    version: 1.0.0
+    title: Propagar timeout da requisição
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 25
+    themes: [go-http.client-resilience]
+    competencies:
+      primary: [go-http.forward-request-deadline]
+      secondary: [go-http.build-resilient-client]
+    prerequisites: [go-http.limit-http-body]
+    brief: Uma operação downstream deve respeitar o deadline recebido pelo handler em vez de criar uma espera independente.
+    constraints:
+      - Passe o contexto derivado da requisição ao trabalho downstream.
+      - Não use time.Sleep para sincronizar o teste.
+    acceptance:
+      - O trabalho recebe o mesmo cancelamento lógico da requisição.
+      - O handler não continua trabalho depois do deadline.
+      - O caminho de timeout produz uma resposta estável.
+    canonical: true
+    publication: {status: draft, author: codex}
+    layers:
+      - id: request-timeout
+        macro_steps:
+          - id: request-timeout.plan
+            kind: macro
+            title: Respeitar o tempo da requisição
+            children:
+              - id: request-timeout.context
+                kind: meso
+                title: Encadear o contexto
+                children:
+                  - id: request-timeout.read
+                    kind: micro
+                    action: implement
+                    target: context
+                    title: Obter contexto do request
+                    instruction:
+                      objective: Use o contexto associado à requisição no trabalho downstream.
+                      scope: A chamada do handler para o serviço.
+                    concepts: [go-http.request-context]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: request-context-is-forwarded, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: request-timeout.cancel
+                    kind: micro
+                    action: verify
+                    target: deadline
+                    title: Observar o deadline
+                    instruction:
+                      objective: Verifique o caminho em que o contexto é cancelado antes do resultado.
+                      scope: Timeout e resposta de erro.
+                    concepts: [go-http.deadline-propagation, go-http.client-timeout]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: deadline-stops-downstream-work, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: request-timeout.reflect
+                    kind: micro
+                    action: reflect
+                    target: lifecycle
+                    title: Explicar a propagação
+                    instruction:
+                      objective: Explique por que um contexto novo quebra o orçamento da requisição.
+                      scope: Cancelamento e responsabilidade do chamador.
+                    concepts: [go-http.request-context, go-http.deadline-propagation]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: explains-deadline-propagation, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Como distinguir timeout do cliente de erro interno do serviço?']}
+  - schema_version: 1
+    id: go-http.compose-json-handler-middleware
+    version: 1.0.0
+    title: Compor handler JSON com middleware
+    kind: combined
+    difficulty: intermediate
+    estimated_minutes: 35
+    themes: [go-http.protocol]
+    competencies:
+      primary: [go-http.compose-middleware, go-http.validate-http-method]
+      secondary: [go-http.decode-json-request]
+    prerequisites: [go-http.propagate-request-timeout]
+    brief: Um endpoint JSON precisa validar método, aplicar uma política transversal e preservar o contrato do handler.
+    constraints:
+      - Middleware deve envolver sem duplicar a resposta.
+      - Método não permitido deve terminar antes da decodificação.
+    acceptance:
+      - O método permitido chega ao handler interno.
+      - Método não permitido recebe status de cliente sem executar o corpo.
+      - O middleware mantém headers e status coerentes.
+    canonical: true
+    publication: {status: draft, author: codex}
+    layers:
+      - id: handler-middleware
+        macro_steps:
+          - id: handler-middleware.plan
+            kind: macro
+            title: Compor responsabilidades HTTP
+            children:
+              - id: handler-middleware.method
+                kind: meso
+                title: Validar antes de delegar
+                children:
+                  - id: handler-middleware.check
+                    kind: micro
+                    action: implement
+                    target: method
+                    title: Validar o método
+                    instruction:
+                      objective: Restrinja a entrada ao método contratado.
+                      scope: A decisão antes do handler interno.
+                    concepts: [go-http.method-validation]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: method-is-checked-first, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: handler-middleware.wrap
+                    kind: micro
+                    action: implement
+                    target: middleware
+                    title: Encadear middleware
+                    instruction:
+                      objective: Envolva o handler sem assumir o controle do contrato interno.
+                      scope: Ordem de composição e delegação.
+                    concepts: [go-http.middleware-chain]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: middleware-delegates-once, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: handler-middleware.reflect
+                    kind: micro
+                    action: reflect
+                    target: contract
+                    title: Explicar a ordem
+                    instruction:
+                      objective: Explique por que validação de método precede parsing do corpo.
+                      scope: Custo e comportamento observável.
+                    concepts: [go-http.method-validation, go-http.middleware-chain]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: explains-middleware-order, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Que erro aparece se dois níveis escrevem status sem uma política de ownership?']}
+  - schema_version: 1
+    id: go-http.configure-http-server-lifecycle
+    version: 1.0.0
+    title: Configurar lifecycle de servidor HTTP
+    kind: combined
+    difficulty: intermediate
+    estimated_minutes: 40
+    themes: [go-http.server-lifecycle]
+    competencies:
+      primary: [go-http.manage-server-lifecycle]
+      secondary: [go-http.forward-request-deadline]
+    prerequisites: [go-http.compose-json-handler-middleware]
+    brief: Um servidor precisa iniciar, aceitar cancelamento e encerrar sem abandonar requests em andamento.
+    constraints:
+      - O shutdown deve receber o contexto de encerramento.
+      - Não trate erro normal de shutdown como falha inesperada.
+    acceptance:
+      - O servidor publica seu endereço somente depois de iniciar.
+      - O cancelamento dispara shutdown com prazo definido.
+      - O erro final diferencia encerramento esperado de falha de serve.
+    canonical: true
+    publication: {status: draft, author: codex}
+    layers:
+      - id: server-lifecycle
+        macro_steps:
+          - id: server-lifecycle.plan
+            kind: macro
+            title: Orquestrar o servidor
+            children:
+              - id: server-lifecycle.start
+                kind: meso
+                title: Iniciar e anunciar
+                children:
+                  - id: server-lifecycle.configure
+                    kind: micro
+                    action: implement
+                    target: server
+                    title: Configurar o servidor
+                    instruction:
+                      objective: Defina handler, endereço e limites do servidor.
+                      scope: Configuração antes da goroutine de serve.
+                    concepts: [go-http.server-lifecycle-concept]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: server-has-explicit-config, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: server-lifecycle.shutdown
+                    kind: micro
+                    action: implement
+                    target: shutdown
+                    title: Encerrar com contexto
+                    instruction:
+                      objective: Conecte cancelamento ao shutdown do servidor.
+                      scope: Caminho de encerramento gracioso.
+                    concepts: [go-http.server-lifecycle-concept, go-http.request-context]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: shutdown-uses-context, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: server-lifecycle.reflect
+                    kind: micro
+                    action: reflect
+                    target: errors
+                    title: Explicar erros de lifecycle
+                    instruction:
+                      objective: Explique como diferenciar shutdown esperado de falha de serve.
+                      scope: Classificação do erro retornado.
+                    concepts: [go-http.server-lifecycle-concept, go-http.error-response]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: explains-server-error-policy, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Por que fechar o listener não é equivalente a aguardar requests?']}
+  - schema_version: 1
+    id: go-http.build-resilient-http-client
+    version: 1.0.0
+    title: Construir cliente HTTP resiliente
+    kind: combined
+    difficulty: intermediate
+    estimated_minutes: 40
+    themes: [go-http.client-resilience]
+    competencies:
+      primary: [go-http.build-resilient-client]
+      secondary: [go-http.forward-request-deadline]
+    prerequisites: [go-http.configure-http-server-lifecycle]
+    brief: Um cliente chama um serviço local e precisa respeitar timeout, reutilizar transport e tratar response body corretamente.
+    constraints:
+      - Não crie um transport novo a cada request.
+      - Sempre feche o response body recebido.
+    acceptance:
+      - O request carrega o contexto do chamador.
+      - Timeout e status não esperado são erros observáveis.
+      - O body é fechado em caminhos de sucesso e erro após a resposta.
+    canonical: true
+    publication: {status: draft, author: codex}
+    layers:
+      - id: resilient-client
+        macro_steps:
+          - id: resilient-client.plan
+            kind: macro
+            title: Delimitar o cliente
+            children:
+              - id: resilient-client.request
+                kind: meso
+                title: Executar request com política
+                children:
+                  - id: resilient-client.transport
+                    kind: micro
+                    action: implement
+                    target: transport
+                    title: Reutilizar transport
+                    instruction:
+                      objective: Configure um cliente com transport reutilizável.
+                      scope: Construção e uso do cliente.
+                    concepts: [go-http.transport-reuse]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: transport-is-reused, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: resilient-client.timeout
+                    kind: micro
+                    action: verify
+                    target: context
+                    title: Propagar contexto ao request
+                    instruction:
+                      objective: Verifique que cancelamento do chamador chega ao request.
+                      scope: Timeout e erro de transporte.
+                    concepts: [go-http.client-timeout, go-http.deadline-propagation]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: client-respects-context, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: resilient-client.reflect
+                    kind: micro
+                    action: reflect
+                    target: response
+                    title: Explicar o fechamento do body
+                    instruction:
+                      objective: Explique por que o response body precisa ser fechado mesmo quando o status falha.
+                      scope: Reuso de conexão e cleanup.
+                    concepts: [go-http.response-drain, go-http.transport-reuse]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: explains-response-cleanup, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Que recurso fica preso quando o body não é fechado?']}
+  - schema_version: 1
+    id: go-http.tested-json-handler
+    version: 1.0.0
+    title: Testar handler JSON com httptest
+    kind: functional_slice
+    difficulty: intermediate
+    estimated_minutes: 45
+    themes: [go-http.protocol]
+    competencies:
+      primary: [go-http.test-http-handler, go-http.decode-json-request]
+      secondary: [go-http.validate-http-method]
+    prerequisites: [go-http.build-resilient-http-client]
+    brief: Uma fatia de endpoint JSON deve ser implementada e testada sem abrir uma porta real.
+    constraints:
+      - Use httptest e requests locais.
+      - Cubra sucesso, método inválido e JSON inválido.
+    acceptance:
+      - O baseline falha e a referência passa no check focado.
+      - Os testes distinguem status, headers e payload.
+      - O handler permanece isolado do sistema operacional.
+    canonical: true
+    publication: {status: draft, author: codex}
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/http-handler
+
+          go 1.25.0
+      - path: handler.go
+        content: |
+          package handler
+
+          import "net/http"
+
+          type Item struct {
+              Name string `json:"name"`
+          }
+
+          func Serve(w http.ResponseWriter, r *http.Request) {
+              http.Error(w, "not implemented", http.StatusNotImplemented)
+          }
+      - path: handler_test.go
+        content: |
+          package handler
+
+          import (
+              "encoding/json"
+              "net/http"
+              "net/http/httptest"
+              "strings"
+              "testing"
+          )
+
+          func TestServe(t *testing.T) {
+              request := httptest.NewRequest(http.MethodPost, "/items", strings.NewReader(`{"name":"box"}`))
+              response := httptest.NewRecorder()
+              Serve(response, request)
+              if response.Code != http.StatusCreated {
+                  t.Fatalf("status = %d, want %d", response.Code, http.StatusCreated)
+              }
+              var item Item
+              if err := json.NewDecoder(response.Body).Decode(&item); err != nil || item.Name != "box" {
+                  t.Fatalf("body = %q, item = %+v, err = %v", response.Body.String(), item, err)
+              }
+          }
+      - path: method_test.go
+        content: |
+          package handler
+
+          import (
+              "net/http"
+              "net/http/httptest"
+              "strings"
+              "testing"
+          )
+
+          func TestServeRejectsMethod(t *testing.T) {
+              request := httptest.NewRequest(http.MethodGet, "/items", strings.NewReader(`{"name":"box"}`))
+              response := httptest.NewRecorder()
+              Serve(response, request)
+              if response.Code != http.StatusMethodNotAllowed {
+                  t.Fatalf("status = %d, want %d", response.Code, http.StatusMethodNotAllowed)
+              }
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestServe
+        timeout: 20s
+    validation:
+      reference_fixture:
+        - path: go.mod
+          content: |
+            module codinho-practice/http-handler
+
+            go 1.25.0
+        - path: handler.go
+          content: |
+            package handler
+
+            import (
+                "encoding/json"
+                "net/http"
+            )
+
+            type Item struct {
+                Name string `json:"name"`
+            }
+
+            func Serve(w http.ResponseWriter, r *http.Request) {
+                if r.Method != http.MethodPost {
+                    http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
+                    return
+                }
+                var item Item
+                if err := json.NewDecoder(r.Body).Decode(&item); err != nil {
+                    http.Error(w, "invalid json", http.StatusBadRequest)
+                    return
+                }
+                w.Header().Set("Content-Type", "application/json")
+                w.WriteHeader(http.StatusCreated)
+                _ = json.NewEncoder(w).Encode(item)
+            }
+        - path: handler_test.go
+          content: |
+            package handler
+
+            import (
+                "encoding/json"
+                "net/http"
+                "net/http/httptest"
+                "strings"
+                "testing"
+            )
+
+            func TestServe(t *testing.T) {
+                request := httptest.NewRequest(http.MethodPost, "/items", strings.NewReader(`{"name":"box"}`))
+                response := httptest.NewRecorder()
+                Serve(response, request)
+                if response.Code != http.StatusCreated {
+                    t.Fatalf("status = %d, want %d", response.Code, http.StatusCreated)
+                }
+                var item Item
+                if err := json.NewDecoder(response.Body).Decode(&item); err != nil || item.Name != "box" {
+                    t.Fatalf("body = %q, item = %+v, err = %v", response.Body.String(), item, err)
+                }
+            }
+        - path: method_test.go
+          content: |
+            package handler
+
+            import (
+                "net/http"
+                "net/http/httptest"
+                "strings"
+                "testing"
+            )
+
+            func TestServeRejectsMethod(t *testing.T) {
+                request := httptest.NewRequest(http.MethodGet, "/items", strings.NewReader(`{"name":"box"}`))
+                response := httptest.NewRecorder()
+                Serve(response, request)
+                if response.Code != http.StatusMethodNotAllowed {
+                    t.Fatalf("status = %d, want %d", response.Code, http.StatusMethodNotAllowed)
+                }
+            }
+      expectations:
+        - {check_id: focused-tests, baseline: test_failure, reference: pass}
+    layers:
+      - id: tested-handler
+        macro_steps:
+          - id: tested-handler.plan
+            kind: macro
+            title: Construir uma fatia verificável
+            children:
+              - id: tested-handler.implementation
+                kind: meso
+                title: Implementar e observar o contrato
+                children:
+                  - id: tested-handler.route
+                    kind: micro
+                    action: implement
+                    target: handler
+                    title: Implementar a rota
+                    instruction:
+                      objective: Implemente o caminho de sucesso do handler.
+                      scope: Método, JSON e status criado.
+                    concepts: [go-http.handler-contract, go-http.json-encoding]
+                    evidence: {strategies: [test, compile]}
+                    criteria: [{id: handler-success-is-tested, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: tested-handler.boundaries
+                    kind: micro
+                    action: verify
+                    target: httptest
+                    title: Testar fronteiras
+                    instruction:
+                      objective: Execute os casos de método e payload inválidos.
+                      scope: Requests sintéticos e respostas observáveis.
+                    concepts: [go-http.httptest-isolation, go-http.method-validation]
+                    evidence: {strategies: [test]}
+                    criteria: [{id: handler-boundaries-are-covered, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: tested-handler.reflect
+                    kind: micro
+                    action: reflect
+                    target: evidence
+                    title: Explicar o isolamento
+                    instruction:
+                      objective: Explique por que httptest prova o contrato sem exigir listener real.
+                      scope: Evidência do check e seus limites.
+                    concepts: [go-http.httptest-isolation, go-http.handler-contract]
+                    evidence: {strategies: [test, source_inspection]}
+                    criteria: [{id: explains-httptest-boundary, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Que comportamento ainda exigiria um teste com servidor real?']}
+  - schema_version: 1
+    id: go-http.resilient-service-client
+    version: 1.0.0
+    title: Testar cliente resiliente com transport controlado
+    kind: functional_slice
+    difficulty: intermediate
+    estimated_minutes: 45
+    themes: [go-http.client-resilience]
+    competencies:
+      primary: [go-http.build-resilient-client]
+      secondary: [go-http.test-http-handler, go-http.forward-request-deadline]
+    prerequisites: [go-http.tested-json-handler]
+    brief: Um cliente deve ser exercitado com um RoundTripper controlado para provar timeout, status e fechamento de body.
+    constraints:
+      - Não abra conexão de rede no teste.
+      - O dublê deve tornar o contexto observável.
+    acceptance:
+      - O baseline falha e a referência passa no check focado.
+      - O teste verifica o contexto e o status retornado.
+      - O cliente fecha o response body.
+    canonical: true
+    publication: {status: draft, author: codex}
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/http-client
+
+          go 1.25.0
+      - path: client.go
+        content: |
+          package client
+
+          import (
+              "context"
+              "net/http"
+          )
+
+          func Fetch(ctx context.Context, transport http.RoundTripper) (int, error) {
+              return 0, nil
+          }
+      - path: client_test.go
+        content: |
+          package client
+
+          import (
+              "context"
+              "io"
+              "net/http"
+              "strings"
+              "testing"
+          )
+
+          type roundTripper func(*http.Request) (*http.Response, error)
+
+          func (f roundTripper) RoundTrip(r *http.Request) (*http.Response, error) { return f(r) }
+
+          func TestFetch(t *testing.T) {
+              ctx, cancel := context.WithCancel(context.Background())
+              defer cancel()
+              closed := false
+              status, err := Fetch(ctx, roundTripper(func(r *http.Request) (*http.Response, error) {
+                  if r.Context() != ctx {
+                      t.Fatal("request context was not propagated")
+                  }
+                  return &http.Response{StatusCode: http.StatusAccepted, Body: closeTracker{Reader: strings.NewReader("ok"), closed: &closed}}, nil
+              }))
+              if err != nil || status != http.StatusAccepted || !closed {
+                  t.Fatalf("status=%d err=%v closed=%v", status, err, closed)
+              }
+          }
+
+          type closeTracker struct { io.Reader; closed *bool }
+          func (c closeTracker) Close() error { *c.closed = true; return nil }
+      - path: method_test.go
+        content: |
+          package client
+
+          import (
+              "context"
+              "errors"
+              "net/http"
+              "testing"
+          )
+
+          func TestFetchRejectsTransportError(t *testing.T) {
+              want := errors.New("synthetic transport error")
+              _, err := Fetch(context.Background(), roundTripper(func(*http.Request) (*http.Response, error) { return nil, want }))
+              if !errors.Is(err, want) {
+                  t.Fatalf("err=%v, want %v", err, want)
+              }
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestFetch
+        timeout: 20s
+    validation:
+      reference_fixture:
+        - path: go.mod
+          content: |
+            module codinho-practice/http-client
+
+            go 1.25.0
+        - path: client.go
+          content: |
+            package client
+
+            import (
+                "context"
+                "io"
+                "net/http"
+            )
+
+            func Fetch(ctx context.Context, transport http.RoundTripper) (int, error) {
+                request, err := http.NewRequestWithContext(ctx, http.MethodGet, "http://service.local/items", nil)
+                if err != nil {
+                    return 0, err
+                }
+                response, err := (&http.Client{Transport: transport}).Do(request)
+                if err != nil {
+                    return 0, err
+                }
+                defer response.Body.Close()
+                _, _ = io.Copy(io.Discard, response.Body)
+                if response.StatusCode < 200 || response.StatusCode >= 300 {
+                    return response.StatusCode, &statusError{code: response.StatusCode}
+                }
+                return response.StatusCode, nil
+            }
+
+            type statusError struct { code int }
+            func (e *statusError) Error() string { return "unexpected status" }
+        - path: client_test.go
+          content: |
+            package client
+
+            import (
+                "context"
+                "io"
+                "net/http"
+                "strings"
+                "testing"
+            )
+
+            type roundTripper func(*http.Request) (*http.Response, error)
+            func (f roundTripper) RoundTrip(r *http.Request) (*http.Response, error) { return f(r) }
+
+            func TestFetch(t *testing.T) {
+                ctx, cancel := context.WithCancel(context.Background())
+                defer cancel()
+                closed := false
+                status, err := Fetch(ctx, roundTripper(func(r *http.Request) (*http.Response, error) {
+                    if r.Context() != ctx {
+                        t.Fatal("request context was not propagated")
+                    }
+                    return &http.Response{StatusCode: http.StatusAccepted, Body: closeTracker{Reader: strings.NewReader("ok"), closed: &closed}}, nil
+                }))
+                if err != nil || status != http.StatusAccepted || !closed {
+                    t.Fatalf("status=%d err=%v closed=%v", status, err, closed)
+                }
+            }
+
+            type closeTracker struct { io.Reader; closed *bool }
+            func (c closeTracker) Close() error { *c.closed = true; return nil }
+        - path: method_test.go
+          content: |
+            package client
+
+            import (
+                "context"
+                "errors"
+                "net/http"
+                "testing"
+            )
+
+            func TestFetchRejectsTransportError(t *testing.T) {
+                want := errors.New("synthetic transport error")
+                _, err := Fetch(context.Background(), roundTripper(func(*http.Request) (*http.Response, error) { return nil, want }))
+                if !errors.Is(err, want) {
+                    t.Fatalf("err=%v, want %v", err, want)
+                }
+            }
+      expectations:
+        - {check_id: focused-tests, baseline: test_failure, reference: pass}
+    layers:
+      - id: resilient-client-slice
+        macro_steps:
+          - id: resilient-client-slice.plan
+            kind: macro
+            title: Provar a política do cliente
+            children:
+              - id: resilient-client-slice.transport
+                kind: meso
+                title: Controlar transporte e resposta
+                children:
+                  - id: resilient-client-slice.request
+                    kind: micro
+                    action: implement
+                    target: client
+                    title: Criar request contextualizado
+                    instruction:
+                      objective: Construa o request usando o contexto recebido.
+                      scope: Método, URL sintética e transport.
+                    concepts: [go-http.request-context, go-http.transport-reuse]
+                    evidence: {strategies: [test, compile]}
+                    criteria: [{id: client-request-is-contextualized, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: resilient-client-slice.cleanup
+                    kind: micro
+                    action: verify
+                    target: body
+                    title: Verificar cleanup da resposta
+                    instruction:
+                      objective: Execute o teste que observa fechamento e drenagem do body.
+                      scope: Caminho de resposta do cliente.
+                    concepts: [go-http.response-drain, go-http.httptest-isolation]
+                    evidence: {strategies: [test]}
+                    criteria: [{id: response-body-is-closed, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: resilient-client-slice.reflect
+                    kind: micro
+                    action: reflect
+                    target: evidence
+                    title: Explicar o dublê
+                    instruction:
+                      objective: Explique quais propriedades o RoundTripper prova e quais ele não prova.
+                      scope: Contexto, status e ausência de rede.
+                    concepts: [go-http.httptest-isolation, go-http.client-timeout]
+                    evidence: {strategies: [test, source_inspection]}
+                    criteria: [{id: explains-transport-test-boundary, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Que propriedade exigiria um servidor HTTP real em vez do transport dublê?']}
+  - schema_version: 1
+    id: go-http.reproduce-http-timeout-leak
+    version: 1.0.0
+    title: Diagnosticar timeout HTTP não propagado
+    kind: debug
+    difficulty: intermediate
+    estimated_minutes: 40
+    themes: [go-http.client-resilience]
+    competencies:
+      primary: [go-http.forward-request-deadline]
+      secondary: [go-http.build-resilient-client]
+    prerequisites: [go-http.resilient-service-client]
+    brief: Um cliente recebe deadline, mas constrói uma requisição sem o contexto e continua esperando a resposta.
+    constraints:
+      - Preserve a assinatura pública da fixture.
+      - Não aumente o timeout do teste.
+      - Não use rede real.
+    acceptance:
+      - O baseline ignora o deadline e falha no check.
+      - A referência propaga o contexto e passa dentro do prazo.
+      - A correção não converte timeout em sucesso silencioso.
+    canonical: true
+    publication: {status: draft, author: codex}
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/http-timeout
+
+          go 1.25.0
+      - path: timeout.go
+        content: |
+          package timeout
+
+          import (
+              "context"
+              "net/http"
+          )
+
+          func Fetch(ctx context.Context, transport http.RoundTripper) error {
+              request, err := http.NewRequest(http.MethodGet, "http://service.local/slow", nil)
+              if err != nil {
+                  return err
+              }
+              _, err = transport.RoundTrip(request)
+              return err
+          }
+      - path: timeout_test.go
+        content: |
+          package timeout
+
+          import (
+              "context"
+              "errors"
+              "io"
+              "net/http"
+              "strings"
+              "testing"
+              "time"
+          )
+
+          type delayedTransport struct{}
+          func (delayedTransport) RoundTrip(r *http.Request) (*http.Response, error) {
+              select {
+              case <-r.Context().Done():
+                  return nil, r.Context().Err()
+              case <-time.After(200 * time.Millisecond):
+                  return &http.Response{StatusCode: http.StatusOK, Body: io.NopCloser(strings.NewReader("ok"))}, nil
+              }
+          }
+
+          func TestFetchRespectsDeadline(t *testing.T) {
+              ctx, cancel := context.WithTimeout(context.Background(), 20*time.Millisecond)
+              defer cancel()
+              err := Fetch(ctx, delayedTransport{})
+              if !errors.Is(err, context.DeadlineExceeded) {
+                  t.Fatalf("err = %v, want deadline exceeded", err)
+              }
+          }
+      - path: timeout_contract_test.go
+        content: |
+          package timeout
+
+          import "testing"
+
+          func TestSyntheticFixtureIsLocal(t *testing.T) {}
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestFetchRespectsDeadline$
+        timeout: 20s
+    validation:
+      reference_fixture:
+        - path: go.mod
+          content: |
+            module codinho-practice/http-timeout
+
+            go 1.25.0
+        - path: timeout.go
+          content: |
+            package timeout
+
+            import (
+                "context"
+                "net/http"
+            )
+
+            func Fetch(ctx context.Context, transport http.RoundTripper) error {
+                request, err := http.NewRequestWithContext(ctx, http.MethodGet, "http://service.local/slow", nil)
+                if err != nil {
+                    return err
+                }
+                _, err = transport.RoundTrip(request)
+                return err
+            }
+        - path: timeout_test.go
+          content: |
+            package timeout
+
+            import (
+                "context"
+                "errors"
+                "io"
+                "net/http"
+                "strings"
+                "testing"
+                "time"
+            )
+
+            type delayedTransport struct{}
+            func (delayedTransport) RoundTrip(r *http.Request) (*http.Response, error) {
+                select {
+                case <-r.Context().Done():
+                    return nil, r.Context().Err()
+                case <-time.After(200 * time.Millisecond):
+                    return &http.Response{StatusCode: http.StatusOK, Body: io.NopCloser(strings.NewReader("ok"))}, nil
+                }
+            }
+
+            func TestFetchRespectsDeadline(t *testing.T) {
+                ctx, cancel := context.WithTimeout(context.Background(), 20*time.Millisecond)
+                defer cancel()
+                err := Fetch(ctx, delayedTransport{})
+                if !errors.Is(err, context.DeadlineExceeded) {
+                    t.Fatalf("err = %v, want deadline exceeded", err)
+                }
+            }
+        - path: timeout_contract_test.go
+          content: |
+            package timeout
+
+            import "testing"
+            func TestSyntheticFixtureIsLocal(t *testing.T) {}
+      expectations:
+        - {check_id: focused-tests, baseline: test_failure, reference: pass}
+    layers:
+      - id: timeout-investigation
+        macro_steps:
+          - id: timeout-investigation.plan
+            kind: macro
+            title: Corrigir o timeout perdido
+            children:
+              - id: timeout-investigation.reproduce
+                kind: meso
+                title: Reproduzir e isolar a falha
+                children:
+                  - id: timeout-investigation.run
+                    kind: micro
+                    action: verify
+                    target: fixture
+                    title: Reproduzir espera excessiva
+                    instruction:
+                      objective: Execute o baseline e observe que o deadline não interrompe o transport.
+                      scope: Fixture local e teste focado.
+                    concepts: [go-http.client-timeout]
+                    evidence: {strategies: [test, source_inspection]}
+                    criteria: [{id: baseline-ignores-deadline, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: timeout-investigation.context
+                    kind: micro
+                    action: debug
+                    target: request
+                    title: Encontrar a construção incorreta
+                    instruction:
+                      objective: Identifique onde o request perde o contexto do chamador.
+                      scope: Criação do request e chamada do transport.
+                    concepts: [go-http.request-context, go-http.deadline-propagation]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: missing-context-is-identified, kind: reasoning}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: timeout-investigation.reflect
+                    kind: micro
+                    action: reflect
+                    target: diagnosis
+                    title: Explicar o diagnóstico
+                    instruction:
+                      objective: Explique por que um timeout externo não substitui a propagação do contexto.
+                      scope: Responsabilidade do request e do transport.
+                    concepts: [go-http.client-timeout, go-http.deadline-propagation]
+                    evidence: {strategies: [source_inspection, test]}
+                    criteria: [{id: explains-timeout-root-cause, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Que outros recursos downstream precisam observar a mesma deadline?']}

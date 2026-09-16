@@ -99,7 +99,8 @@ Nenhum tipado; conteúdo do catálogo.
 
 ### Implementation
 - [x] Materializar o primeiro pack `go-concurrency-context` com oito desafios, relações, passos e pistas; manter os demais packs pendentes.
-- [ ] Autorar relações, desafios, passos e pistas dos packs HTTP e database.
+- [x] Autorar relações, desafios, passos e pistas do pack HTTP; manter o pack database pendente.
+- [ ] Autorar relações, desafios, passos e pistas do pack database.
 - [ ] Criar fixtures HTTP, concorrência e SQL.
 - [ ] Criar três trilhas.
 - [ ] Executar checks, race detector e playtests.
@@ -141,15 +142,17 @@ Executar checks herméticos, repetição para flake, race detector e revisão hu
 - 2026-09-16: a tentativa do piloto via `scripts/editorial.py run` terminou com `codex exec` em `exit 1` por limite de uso da CLI; a worktree não produziu patch. A causa foi registrada como limitação operacional, não como aprovação.
 - 2026-09-16: fallback manual do coordenador criou `packs/go-concurrency-context.yaml` e adicionou o pack ao manifest; a revisão corrigiu uma fixture cujo baseline passava indevidamente por fechar `done` em uma goroutine auxiliar.
 - 2026-09-16: `./codinho catalog validate --checks --json` passou após a correção: 55/55 checks verificados, sem diagnostics ou achados editoriais bloqueantes; cobertura global observada 119 conceitos, 73 competências, 62 desafios, 414 nodes e seis trilhas, tudo draft.
+- 2026-09-16: fallback manual do coordenador criou `packs/go-http.yaml` e adicionou o pack ao manifest; a auditoria estática confirmou nove desafios canônicos, 14 conceitos, oito competências e 45 nodes, sem campos humanos preenchidos.
+- 2026-09-16: `./codinho catalog validate --json` passou após a inclusão de HTTP, sem diagnostics ou achados editoriais; `./codinho catalog validate --checks --json` verificou 58/58 checks, incluindo seis cenários HTTP, com cobertura global de 133 conceitos, 81 competências, 71 desafios, 459 nodes e sete trilhas, tudo draft.
 
 ### Results summary
-- Nenhum pack backend foi publicado. O primeiro pack foi materializado e validado como draft; HTTP, database, montagem da trilha global, documentação final e fixtures externas continuam pendentes. A autoria completa ainda deve acrescentar 23 desafios, 40 conceitos, 25 competências e pelo menos 120 nodes, mantendo os gates humanos pendentes.
+- Nenhum pack backend foi publicado. Os packs de concorrência e HTTP foram materializados e validados como drafts; database, montagem da trilha global, documentação final e fixtures externas continuam pendentes. A autoria completa ainda deve acrescentar 23 desafios, 40 conceitos, 25 competências e pelo menos 120 nodes, mantendo os gates humanos pendentes.
 
 ### Requirement trace
 - Mapear R1–R10 a manifests, coverage, playtests e check results.
 
 ### Known gaps
-- Drivers e versões devem ser fixados no início da implementação.
+- Drivers e versões devem ser fixados no início da implementação SQL.
 - O diretório `testdata/packs/backend/` ainda não existe; sua criação depende da materialização das fixtures do lote.
 - A revisão pedagógica, o playtest e a publicação continuam fora da automação.
 - O autor delegado não pôde concluir por limite de uso da CLI; o scaffold manual não substitui uma revisão independente nem o playtest.
@@ -162,14 +165,17 @@ Executar checks herméticos, repetição para flake, race detector e revisão hu
 ## 7. Final Report
 
 ### Delivered scope
-Nenhum; spec draft.
+Parcial: packs de concorrência e HTTP em draft, com validação estrutural e checks determinísticos; o pack database e os gates humanos permanecem pendentes.
 
 ### Files and modules changed
-- Planejados nos três packs, testdata e docs.
+- `packs/go-concurrency-context.yaml`, `packs/go-http.yaml` e `packs/manifest.yaml`.
+- Inventário e fila editorial, além dos artefatos de assessment/state registrados no planejamento.
 
 ### Validation executed
-- Command: pose lint-spec go-backend-packs --ready-check
-- Result: registrar após gate.
+- Command: `./codinho catalog validate --json`
+- Result: passou sem diagnostics/editorial, cobertura global 133 conceitos, 81 competências, 71 desafios, 459 nodes e sete trilhas.
+- Command: `./codinho catalog validate --checks --json`
+- Result: 58/58 checks verificados; todos os itens permanecem em draft.
 
 ### Residual risks
 - Flakiness será bloqueante para publicação.

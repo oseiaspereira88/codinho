@@ -79,9 +79,15 @@ Use os cut criteria do roadmap codinho-v1; esta remediação não encerra a V1.
   - report:2026-09-10-data-text-truncate-node.md
 
 ## Arquitetura
-<!-- state:derived hash:26bc9a5cafff status:unavailable -->
+<!-- state:derived hash:059dc41e1f5b status:active -->
 
-GraphForge export local ainda não é publicado por nenhum produtor neste repositório; seção indisponível nesta versão (spec pose-project-state-artifact, Não-objetivos e Compatibilidade).
+- componentes: total=10 verificados=10 completude=100.0%
+- linhas_de_codigo: producao=16669 testes=18400 total=35069
+- linguagens: go, python, shell
+- saude_de_codigo: TODOs=0 FIXMEs=0 panics=0 stubs=0
+- integracoes: contratos=0 ativos=0 gaps=0
+- divida_tecnica: total=0 coberta=0 descoberta=0
+- ultimos_assessments: ver artefatos em .pose/assessments/ e .pose/state/
 
 ## Docs
 <!-- state:derived hash:c646f4fadde7 -->

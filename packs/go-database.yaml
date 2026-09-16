@@ -53,7 +53,43 @@ competencies:
     title: Testar repositório transacional
   - id: go-database.run-persistent-service-lifecycle
     title: Executar lifecycle persistente
-tracks: []
+tracks:
+  - id: go-backend
+    title: Go backend integrado
+    themes:
+      - go-concurrency-context.scheduling
+      - go-concurrency-context.communication
+      - go-concurrency-context.lifecycle
+      - go-http.protocol
+      - go-http.server-lifecycle
+      - go-http.client-resilience
+      - go-database.sql-model
+      - go-database.transactions-pool
+      - go-database.persistence-lifecycle
+    challenge_ids:
+      - go-concurrency-context.worker-lifecycle-with-waitgroup
+      - go-concurrency-context.channel-ownership-and-close
+      - go-concurrency-context.cancel-select-loop
+      - go-concurrency-context.bounded-worker-pool
+      - go-concurrency-context.pipeline-with-backpressure
+      - go-concurrency-context.shutdown-on-first-error
+      - go-concurrency-context.concurrent-log-aggregator
+      - go-concurrency-context.reproduce-and-fix-goroutine-leak
+      - go-http.parse-json-request
+      - go-http.limit-http-body
+      - go-http.propagate-request-timeout
+      - go-http.compose-json-handler-middleware
+      - go-http.configure-http-server-lifecycle
+      - go-http.build-resilient-http-client
+      - go-http.tested-json-handler
+      - go-http.resilient-service-client
+      - go-http.reproduce-http-timeout-leak
+      - go-database.parameterize-query-and-null
+      - go-database.bound-query-to-context
+      - go-database.transaction-with-isolation
+      - go-database.pool-and-migration-lifecycle
+      - go-database.transactional-repository
+      - go-database.graceful-service-with-persistence
 relations:
   - from: go-database.database-sql-contract
     to: go-database.parameterized-query

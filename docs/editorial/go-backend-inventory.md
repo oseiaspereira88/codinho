@@ -33,6 +33,13 @@ desafios e 42 nodes; seus quatro cenários de fixture foram verificados dentro
 dos 60 checks globais, sem diagnostics ou achados editoriais. O pack mantém
 `tracks: []` até a montagem da trilha backend.
 
+Checkpoint 4 medido após a montagem da trilha integrada e da documentação:
+145 conceitos, 89 competências, 77 entradas de desafio, 501 nodes e oito
+trilhas. A trilha `go-backend` contém exatamente os 23 desafios backend em
+ordem de pré-requisitos; a segunda execução consecutiva verificou novamente
+60/60 checks, sem diagnostics ou achados editoriais. Todos os itens continuam
+em draft.
+
 O backend adicionará 23 desafios canônicos, pelo menos 40 conceitos, 25
 competências e 120 nodes creditáveis. Como os fundamentos já excedem a meta
 intermediária de 140 conceitos, 85 competências e 420 nodes quando o backend

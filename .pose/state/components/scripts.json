@@ -2,8 +2,8 @@
   "schema_version": 1,
   "component_slug": "scripts",
   "path": "scripts",
-  "discovered_at": "2026-09-16T02:13:09Z",
-  "baseline_commit": "a3a185162c5d",
+  "discovered_at": "2026-09-16T05:17:04Z",
+  "baseline_commit": "e28d2bae7b66",
   "metrics": {
     "loc_production": 809,
     "loc_tests": 0,

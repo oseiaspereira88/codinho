@@ -2,8 +2,8 @@
   "schema_version": 1,
   "component_slug": "docs",
   "path": "docs",
-  "discovered_at": "2026-09-16T02:41:57Z",
-  "baseline_commit": "d22506a6f50c",
+  "discovered_at": "2026-09-16T05:17:04Z",
+  "baseline_commit": "e28d2bae7b66",
   "metrics": {
     "loc_production": 0,
     "loc_tests": 0,

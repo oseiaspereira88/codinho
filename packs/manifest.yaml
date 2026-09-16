@@ -1,6 +1,7 @@
 schema_version: 1
 packs:
   - go-concurrency-context.yaml
+  - go-database.yaml
   - go-http.yaml
   - go-core.yaml
   - go-data-text.yaml

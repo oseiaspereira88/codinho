@@ -100,7 +100,7 @@ Nenhum tipado; conteúdo do catálogo.
 ### Implementation
 - [x] Materializar o primeiro pack `go-concurrency-context` com oito desafios, relações, passos e pistas; manter os demais packs pendentes.
 - [x] Autorar relações, desafios, passos e pistas do pack HTTP; manter o pack database pendente.
-- [ ] Autorar relações, desafios, passos e pistas do pack database.
+- [x] Autorar relações, desafios, passos e pistas do pack database; manter `tracks: []` para a montagem global.
 - [ ] Criar fixtures HTTP, concorrência e SQL.
 - [ ] Criar três trilhas.
 - [ ] Executar checks, race detector e playtests.
@@ -144,9 +144,11 @@ Executar checks herméticos, repetição para flake, race detector e revisão hu
 - 2026-09-16: `./codinho catalog validate --checks --json` passou após a correção: 55/55 checks verificados, sem diagnostics ou achados editoriais bloqueantes; cobertura global observada 119 conceitos, 73 competências, 62 desafios, 414 nodes e seis trilhas, tudo draft.
 - 2026-09-16: fallback manual do coordenador criou `packs/go-http.yaml` e adicionou o pack ao manifest; a auditoria estática confirmou nove desafios canônicos, 14 conceitos, oito competências e 45 nodes, sem campos humanos preenchidos.
 - 2026-09-16: `./codinho catalog validate --json` passou após a inclusão de HTTP, sem diagnostics ou achados editoriais; `./codinho catalog validate --checks --json` verificou 58/58 checks, incluindo seis cenários HTTP, com cobertura global de 133 conceitos, 81 competências, 71 desafios, 459 nodes e sete trilhas, tudo draft.
+- 2026-09-16: fallback manual do coordenador criou `packs/go-database.yaml` e adicionou o pack ao manifest para validação; a auditoria estática confirmou seis desafios canônicos, 12 conceitos, oito competências e 42 nodes, sem campos humanos preenchidos e com `tracks: []`.
+- 2026-09-16: `./codinho catalog validate --json` passou após a inclusão de database, sem diagnostics ou achados editoriais; `./codinho catalog validate --checks --json` verificou 60/60 checks, incluindo quatro cenários SQL locais, com cobertura global de 145 conceitos, 89 competências, 77 desafios, 501 nodes e sete trilhas, tudo draft.
 
 ### Results summary
-- Nenhum pack backend foi publicado. Os packs de concorrência e HTTP foram materializados e validados como drafts; database, montagem da trilha global, documentação final e fixtures externas continuam pendentes. A autoria completa ainda deve acrescentar 23 desafios, 40 conceitos, 25 competências e pelo menos 120 nodes, mantendo os gates humanos pendentes.
+- Nenhum pack backend foi publicado. Os três packs backend foram materializados e validados como drafts; montagem da trilha global, documentação final e fixtures externas continuam pendentes. A contagem autorada acrescenta 23 desafios, 40 conceitos, 25 competências e 135 nodes, mantendo os gates humanos pendentes.
 
 ### Requirement trace
 - Mapear R1–R10 a manifests, coverage, playtests e check results.
@@ -165,10 +167,10 @@ Executar checks herméticos, repetição para flake, race detector e revisão hu
 ## 7. Final Report
 
 ### Delivered scope
-Parcial: packs de concorrência e HTTP em draft, com validação estrutural e checks determinísticos; o pack database e os gates humanos permanecem pendentes.
+Parcial: os três packs backend estão em draft, com validação estrutural e checks determinísticos; montagem global, fixtures externas e gates humanos permanecem pendentes.
 
 ### Files and modules changed
-- `packs/go-concurrency-context.yaml`, `packs/go-http.yaml` e `packs/manifest.yaml`.
+- `packs/go-concurrency-context.yaml`, `packs/go-http.yaml`, `packs/go-database.yaml` e `packs/manifest.yaml`.
 - Inventário e fila editorial, além dos artefatos de assessment/state registrados no planejamento.
 
 ### Validation executed
@@ -176,6 +178,7 @@ Parcial: packs de concorrência e HTTP em draft, com validação estrutural e ch
 - Result: passou sem diagnostics/editorial, cobertura global 133 conceitos, 81 competências, 71 desafios, 459 nodes e sete trilhas.
 - Command: `./codinho catalog validate --checks --json`
 - Result: 58/58 checks verificados; todos os itens permanecem em draft.
+- Result adicional: após database, 60/60 checks verificados; todos os itens permanecem em draft.
 
 ### Residual risks
 - Flakiness será bloqueante para publicação.

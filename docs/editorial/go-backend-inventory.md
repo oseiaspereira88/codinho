@@ -26,6 +26,13 @@ trilhas. O pack HTTP acrescentou 14 conceitos, oito competências, nove
 desafios e 45 nodes; seus 58 checks declarados foram verificados, sem
 diagnostics ou achados editoriais. A contagem ainda inclui somente drafts.
 
+Checkpoint 3 medido após a materialização de `go-database`:
+145 conceitos, 89 competências, 77 entradas de desafio, 501 nodes e sete
+trilhas. O pack database acrescentou 12 conceitos, oito competências, seis
+desafios e 42 nodes; seus quatro cenários de fixture foram verificados dentro
+dos 60 checks globais, sem diagnostics ou achados editoriais. O pack mantém
+`tracks: []` até a montagem da trilha backend.
+
 O backend adicionará 23 desafios canônicos, pelo menos 40 conceitos, 25
 competências e 120 nodes creditáveis. Como os fundamentos já excedem a meta
 intermediária de 140 conceitos, 85 competências e 420 nodes quando o backend

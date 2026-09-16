@@ -1,0 +1,1392 @@
+schema_version: 1
+id: go-database
+version: 1.0.0
+publication:
+  status: draft
+  author: codex
+themes:
+  - id: go-database.sql-model
+    title: Modelo de dados e consultas SQL
+  - id: go-database.transactions-pool
+    title: Transações e pool de conexões
+  - id: go-database.persistence-lifecycle
+    title: Persistência e lifecycle do serviço
+concepts:
+  - id: go-database.database-sql-contract
+    title: Contrato de database/sql
+  - id: go-database.parameterized-query
+    title: Query parametrizada
+  - id: go-database.sql-nullability
+    title: Nullability na fronteira SQL
+  - id: go-database.row-scan-lifetime
+    title: Lifetime de rows e scan
+  - id: go-database.query-context
+    title: Contexto de consulta
+  - id: go-database.pool-limits
+    title: Limites do pool
+  - id: go-database.transaction-boundary
+    title: Fronteira transacional
+  - id: go-database.rollback-semantics
+    title: Semântica de rollback
+  - id: go-database.isolation-level
+    title: Isolamento transacional
+  - id: go-database.migration-order
+    title: Ordem de migrations
+  - id: go-database.repository-contract
+    title: Contrato de repositório
+  - id: go-database.graceful-persistence-shutdown
+    title: Shutdown gracioso com persistência
+competencies:
+  - id: go-database.bind-query-parameters
+    title: Vincular parâmetros sem interpolação
+  - id: go-database.model-nullable-data
+    title: Modelar valores nulos
+  - id: go-database.cancel-database-work
+    title: Cancelar trabalho de banco
+  - id: go-database.configure-pool
+    title: Configurar e observar o pool
+  - id: go-database.commit-or-rollback-transaction
+    title: Comitar ou reverter transação
+  - id: go-database.apply-migrations-safely
+    title: Aplicar migrations com segurança
+  - id: go-database.test-transactional-repository
+    title: Testar repositório transacional
+  - id: go-database.run-persistent-service-lifecycle
+    title: Executar lifecycle persistente
+tracks: []
+relations:
+  - from: go-database.database-sql-contract
+    to: go-database.parameterized-query
+    kind: relates_to
+  - from: go-database.parameterized-query
+    to: go-database.sql-nullability
+    kind: relates_to
+  - from: go-database.sql-nullability
+    to: go-database.row-scan-lifetime
+    kind: relates_to
+  - from: go-database.query-context
+    to: go-database.pool-limits
+    kind: relates_to
+  - from: go-database.pool-limits
+    to: go-database.transaction-boundary
+    kind: relates_to
+  - from: go-database.transaction-boundary
+    to: go-database.rollback-semantics
+    kind: relates_to
+  - from: go-database.rollback-semantics
+    to: go-database.isolation-level
+    kind: relates_to
+  - from: go-database.isolation-level
+    to: go-database.migration-order
+    kind: relates_to
+  - from: go-database.migration-order
+    to: go-database.repository-contract
+    kind: relates_to
+  - from: go-database.repository-contract
+    to: go-database.graceful-persistence-shutdown
+    kind: relates_to
+  - from: go-database.bind-query-parameters
+    to: go-database.parameterized-query
+    kind: applies_in
+  - from: go-database.model-nullable-data
+    to: go-database.sql-nullability
+    kind: applies_in
+  - from: go-database.cancel-database-work
+    to: go-database.query-context
+    kind: applies_in
+  - from: go-database.configure-pool
+    to: go-database.pool-limits
+    kind: applies_in
+  - from: go-database.commit-or-rollback-transaction
+    to: go-database.rollback-semantics
+    kind: applies_in
+  - from: go-database.apply-migrations-safely
+    to: go-database.migration-order
+    kind: applies_in
+  - from: go-database.test-transactional-repository
+    to: go-database.repository-contract
+    kind: applies_in
+  - from: go-database.run-persistent-service-lifecycle
+    to: go-database.graceful-persistence-shutdown
+    kind: applies_in
+  - from: go-database.parameterize-query-and-null
+    to: go-database.bind-query-parameters
+    kind: applies_in
+  - from: go-database.bound-query-to-context
+    to: go-database.cancel-database-work
+    kind: applies_in
+  - from: go-database.transaction-with-isolation
+    to: go-database.commit-or-rollback-transaction
+    kind: applies_in
+  - from: go-database.pool-and-migration-lifecycle
+    to: go-database.configure-pool
+    kind: applies_in
+  - from: go-database.transactional-repository
+    to: go-database.test-transactional-repository
+    kind: applies_in
+  - from: go-database.graceful-service-with-persistence
+    to: go-database.run-persistent-service-lifecycle
+    kind: applies_in
+challenges:
+  - schema_version: 1
+    id: go-database.parameterize-query-and-null
+    version: 1.0.0
+    title: Parametrizar query e modelar null
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 25
+    themes: [go-database.sql-model]
+    competencies:
+      primary: [go-database.bind-query-parameters]
+      secondary: [go-database.model-nullable-data]
+    prerequisites: []
+    brief: Uma consulta recebe texto externo e devolve um campo que pode ser nulo sem interpolar entrada na instrução SQL.
+    constraints:
+      - Use os argumentos da API database/sql para valores externos.
+      - Diferencie NULL do banco de uma string vazia no modelo Go.
+    acceptance:
+      - A instrução permanece constante para entradas com aspas ou sintaxe SQL.
+      - O valor nulo é representado explicitamente no resultado.
+      - A consulta não transforma entrada em código SQL.
+    canonical: true
+    publication: {status: draft, author: codex}
+    layers:
+      - id: parameterize-query
+        macro_steps:
+          - id: parameterize-query.plan
+            kind: macro
+            title: Separar código e dados
+            children:
+              - id: parameterize-query.boundary
+                kind: meso
+                title: Definir a fronteira SQL
+                children:
+                  - id: parameterize-query.inspect
+                    kind: micro
+                    action: inspect
+                    target: query-boundary
+                    title: Identificar entrada externa
+                    instruction:
+                      objective: Localize cada valor que chega de fora da consulta.
+                      scope: O contrato entre aplicação e database/sql.
+                    concepts: [go-database.database-sql-contract]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: external-values-are-listed, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: parameterize-query.bind
+                    kind: micro
+                    action: implement
+                    target: query-arguments
+                    title: Vincular argumentos
+                    instruction:
+                      objective: Passe os valores como argumentos da operação SQL.
+                      scope: A chamada QueryContext ou ExecContext.
+                    concepts: [go-database.parameterized-query]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: query-uses-arguments, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: parameterize-query.null
+                    kind: micro
+                    action: implement
+                    target: nullable-field
+                    title: Representar NULL
+                    instruction:
+                      objective: Escolha um tipo que preserve a diferença entre NULL e valor vazio.
+                      scope: O scan da coluna opcional.
+                    concepts: [go-database.sql-nullability]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: null-is-not-empty, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: parameterize-query.verify
+                    kind: micro
+                    action: verify
+                    target: injection-negative
+                    title: Verificar entrada hostil
+                    instruction:
+                      objective: Verifique que aspas e marcadores SQL continuam sendo dados.
+                      scope: O caso negativo da consulta.
+                    concepts: [go-database.parameterized-query, go-database.sql-nullability]
+                    evidence: {strategies: [source_inspection, test]}
+                    criteria: [{id: hostile-input-stays-data, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: parameterize-query.reflect
+                    kind: micro
+                    action: reflect
+                    target: data-code-separation
+                    title: Explicar a fronteira
+                    instruction:
+                      objective: Explique por que parametrização e nullability resolvem riscos diferentes.
+                      scope: Segurança da query e fidelidade do modelo.
+                    concepts: [go-database.parameterized-query, go-database.sql-nullability]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: explains-data-code-separation, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Que informação seria perdida se NULL fosse convertido silenciosamente em string vazia?']}
+  - schema_version: 1
+    id: go-database.bound-query-to-context
+    version: 1.0.0
+    title: Vincular query ao contexto
+    kind: atomic
+    difficulty: foundational
+    estimated_minutes: 25
+    themes: [go-database.sql-model]
+    competencies:
+      primary: [go-database.cancel-database-work]
+      secondary: [go-database.configure-pool]
+    prerequisites: [go-database.parameterize-query-and-null]
+    brief: Uma consulta lenta não pode ignorar o cancelamento que o chamador já propagou.
+    constraints:
+      - O contexto deve chegar à operação que pode bloquear.
+      - Não use goroutine extra para mascarar uma chamada sem cancelamento.
+    acceptance:
+      - Cancelar o contexto torna a operação observavelmente interrompível.
+      - O erro de cancelamento é devolvido ao chamador.
+      - O código não cria um contexto de fundo no meio da requisição.
+    canonical: true
+    publication: {status: draft, author: codex}
+    layers:
+      - id: bound-query-context
+        macro_steps:
+          - id: bound-query-context.plan
+            kind: macro
+            title: Propagar cancelamento até o banco
+            children:
+              - id: bound-query-context.path
+                kind: meso
+                title: Mapear o caminho bloqueante
+                children:
+                  - id: bound-query-context.receive
+                    kind: micro
+                    action: inspect
+                    target: caller-context
+                    title: Encontrar o contexto recebido
+                    instruction:
+                      objective: Identifique o contexto que representa o orçamento do chamador.
+                      scope: A assinatura da função de persistência.
+                    concepts: [go-database.query-context]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: caller-context-is-preserved, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: bound-query-context.call
+                    kind: micro
+                    action: implement
+                    target: query-context
+                    title: Usar QueryContext
+                    instruction:
+                      objective: Escolha a operação database/sql que recebe o contexto.
+                      scope: A consulta ou comando que pode esperar por I/O.
+                    concepts: [go-database.query-context, go-database.database-sql-contract]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: blocking-call-accepts-context, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: bound-query-context.pool
+                    kind: micro
+                    action: verify
+                    target: pool-wait
+                    title: Considerar espera por conexão
+                    instruction:
+                      objective: Descreva como o contexto também limita a espera por uma conexão do pool.
+                      scope: Limites antes da execução SQL.
+                    concepts: [go-database.query-context, go-database.pool-limits]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: pool-wait-has-budget, kind: reasoning}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: bound-query-context.error
+                    kind: micro
+                    action: verify
+                    target: cancellation-error
+                    title: Preservar erro de cancelamento
+                    instruction:
+                      objective: Verifique que o erro devolvido mantém a causa observável do cancelamento.
+                      scope: O retorno da camada de persistência.
+                    concepts: [go-database.query-context]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: cancellation-error-is-returned, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: bound-query-context.reflect
+                    kind: micro
+                    action: reflect
+                    target: context-boundary
+                    title: Explicar o orçamento
+                    instruction:
+                      objective: Explique por que goroutine e timeout local não substituem contexto propagado.
+                      scope: Ownership do cancelamento e espera por recursos.
+                    concepts: [go-database.query-context, go-database.pool-limits]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: explains-context-budget, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Em que ponto o cancelamento deixaria de ser observável se a camada criasse context.Background?']}
+  - schema_version: 1
+    id: go-database.transaction-with-isolation
+    version: 1.0.0
+    title: Compor transação com isolamento
+    kind: combined
+    difficulty: intermediate
+    estimated_minutes: 40
+    themes: [go-database.transactions-pool]
+    competencies:
+      primary: [go-database.commit-or-rollback-transaction]
+      secondary: [go-database.model-nullable-data]
+    prerequisites: [go-database.bound-query-to-context]
+    brief: Duas escritas relacionadas precisam compartilhar uma fronteira transacional e deixar explícita a política de isolamento.
+    constraints:
+      - Toda saída antecipada deve reverter a transação ainda aberta.
+      - A escolha de isolamento deve ser justificada pelo conflito que se quer evitar.
+    acceptance:
+      - Falha em qualquer escrita não deixa commit parcial.
+      - Sucesso comita uma vez depois das operações necessárias.
+      - O nível de isolamento não aparece como detalhe sem relação com a invariável.
+    canonical: true
+    publication: {status: draft, author: codex}
+    layers:
+      - id: transaction-isolation
+        macro_steps:
+          - id: transaction-isolation.plan
+            kind: macro
+            title: Definir a fronteira da transação
+            children:
+              - id: transaction-isolation.boundary
+                kind: meso
+                title: Encadear operações relacionadas
+                children:
+                  - id: transaction-isolation.begin
+                    kind: micro
+                    action: implement
+                    target: transaction
+                    title: Iniciar com contexto
+                    instruction:
+                      objective: Inicie uma transação usando o contexto do chamador e as opções necessárias.
+                      scope: A entrada da operação composta.
+                    concepts: [go-database.transaction-boundary, go-database.query-context]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: transaction-has-caller-context, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: transaction-isolation.write
+                    kind: micro
+                    action: implement
+                    target: related-writes
+                    title: Executar escritas relacionadas
+                    instruction:
+                      objective: Execute as operações que precisam observar a mesma fronteira transacional.
+                      scope: A sequência de comandos dentro da transação.
+                    concepts: [go-database.transaction-boundary, go-database.isolation-level]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: related-writes-share-transaction, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: transaction-isolation.rollback
+                    kind: micro
+                    action: implement
+                    target: rollback
+                    title: Reverter falhas
+                    instruction:
+                      objective: Garanta rollback em cada caminho de erro antes de retornar.
+                      scope: Falha da primeira ou da segunda escrita.
+                    concepts: [go-database.rollback-semantics]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: every-error-rolls-back, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: transaction-isolation.commit
+                    kind: micro
+                    action: verify
+                    target: commit
+                    title: Comitar no final
+                    instruction:
+                      objective: Verifique que commit ocorre somente depois da última operação bem-sucedida.
+                      scope: O caminho de sucesso.
+                    concepts: [go-database.transaction-boundary, go-database.rollback-semantics]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: commit-is-last, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: transaction-isolation.reflect
+                    kind: micro
+                    action: reflect
+                    target: isolation-policy
+                    title: Explicar isolamento
+                    instruction:
+                      objective: Explique qual conflito a política de isolamento pretende controlar.
+                      scope: Leitura, escrita e invariável de negócio.
+                    concepts: [go-database.isolation-level, go-database.rollback-semantics]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: explains-isolation-choice, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Que invariável seria quebrada se a segunda escrita ocorresse fora da transação?']}
+  - schema_version: 1
+    id: go-database.pool-and-migration-lifecycle
+    version: 1.0.0
+    title: Configurar pool e lifecycle de migration
+    kind: combined
+    difficulty: intermediate
+    estimated_minutes: 40
+    themes: [go-database.transactions-pool, go-database.persistence-lifecycle]
+    competencies:
+      primary: [go-database.configure-pool, go-database.apply-migrations-safely]
+      secondary: [go-database.commit-or-rollback-transaction]
+    prerequisites: [go-database.transaction-with-isolation]
+    brief: Um serviço precisa abrir o pool, aplicar migrations ordenadas e fechá-lo sem esconder vazamentos de recursos.
+    constraints:
+      - Migrations devem ser idempotentes ou ter uma política explícita de versão.
+      - O pool deve ser configurado por orçamento de conexão observável.
+    acceptance:
+      - A ordem de migrations é estável e falha cedo quando uma etapa falha.
+      - Os limites do pool refletem o orçamento do processo.
+      - O fechamento do pool ocorre no lifecycle do serviço.
+    canonical: true
+    publication: {status: draft, author: codex}
+    layers:
+      - id: pool-migration
+        macro_steps:
+          - id: pool-migration.plan
+            kind: macro
+            title: Orquestrar recursos de persistência
+            children:
+              - id: pool-migration.startup
+                kind: meso
+                title: Abrir e preparar o pool
+                children:
+                  - id: pool-migration.open
+                    kind: micro
+                    action: implement
+                    target: database-open
+                    title: Abrir database
+                    instruction:
+                      objective: Abra o handle database/sql sem confundir abertura lógica com conexão pronta.
+                      scope: Inicialização do serviço.
+                    concepts: [go-database.database-sql-contract]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: database-handle-is-opened, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: pool-migration.limits
+                    kind: micro
+                    action: implement
+                    target: pool-config
+                    title: Configurar limites
+                    instruction:
+                      objective: Defina limites de conexões coerentes com a capacidade do serviço.
+                      scope: MaxOpenConns, MaxIdleConns e lifetime.
+                    concepts: [go-database.pool-limits]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: pool-budget-is-explicit, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: pool-migration.order
+                    kind: micro
+                    action: implement
+                    target: migrations
+                    title: Ordenar migrations
+                    instruction:
+                      objective: Aplique migrations em ordem determinística e registre cada fronteira.
+                      scope: Startup sem banco remoto obrigatório.
+                    concepts: [go-database.migration-order, go-database.transaction-boundary]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: migrations-have-stable-order, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: pool-migration.close
+                    kind: micro
+                    action: verify
+                    target: pool-close
+                    title: Fechar no shutdown
+                    instruction:
+                      objective: Verifique que o handle é fechado depois que o trabalho dependente terminou.
+                      scope: O caminho normal e o caminho de erro do serviço.
+                    concepts: [go-database.graceful-persistence-shutdown, go-database.pool-limits]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: pool-closes-on-lifecycle-end, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: pool-migration.reflect
+                    kind: micro
+                    action: reflect
+                    target: pool-policy
+                    title: Explicar o orçamento
+                    instruction:
+                      objective: Explique como pool, migration e shutdown compõem um único lifecycle de recurso.
+                      scope: Capacidade, ordenação e cleanup.
+                    concepts: [go-database.pool-limits, go-database.migration-order, go-database.graceful-persistence-shutdown]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: explains-persistence-lifecycle, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Por que fechar o pool antes de terminar migrations pode transformar um erro de ordem em indisponibilidade?']}
+  - schema_version: 1
+    id: go-database.transactional-repository
+    version: 1.0.0
+    title: Implementar repositório transacional
+    kind: functional_slice
+    difficulty: intermediate
+    estimated_minutes: 50
+    themes: [go-database.sql-model, go-database.transactions-pool]
+    competencies:
+      primary: [go-database.test-transactional-repository]
+      secondary: [go-database.bind-query-parameters, go-database.commit-or-rollback-transaction]
+    prerequisites: [go-database.pool-and-migration-lifecycle]
+    brief: Um repositório salva uma entidade com query parametrizada e precisa provar rollback quando o driver falha.
+    constraints:
+      - A fixture usa somente um driver sintético local controlado pelo teste.
+      - O erro do driver não pode produzir commit parcial.
+      - A entrada hostil deve permanecer em argumentos e não em SQL concatenado.
+    acceptance:
+      - O caso negativo prova parametrização e rollback.
+      - O caso positivo comita depois da operação.
+      - O teste não depende de banco ou serviço remoto.
+    canonical: true
+    publication: {status: draft, author: codex}
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/repository
+
+          go 1.25.0
+      - path: repository.go
+        content: |
+          package repository
+
+          import (
+              "context"
+              "database/sql"
+              "fmt"
+          )
+
+          func SaveUser(ctx context.Context, db *sql.DB, name, email string) error {
+              tx, err := db.BeginTx(ctx, nil)
+              if err != nil {
+                  return err
+              }
+              query := fmt.Sprintf("INSERT INTO users (name, email) VALUES ('%s', '%s')", name, email)
+              if _, err := tx.ExecContext(ctx, query); err != nil {
+                  _ = tx.Rollback()
+                  return err
+              }
+              return tx.Commit()
+          }
+      - path: repository_test.go
+        content: |
+          package repository
+
+          import (
+              "context"
+              "database/sql"
+              "database/sql/driver"
+              "errors"
+              "fmt"
+              "strings"
+              "sync"
+              "testing"
+          )
+
+          type fakeState struct {
+              mu        sync.Mutex
+              fail      bool
+              query     string
+              args      []driver.NamedValue
+              commits   int
+              rollbacks int
+          }
+
+          type fakeDriver struct{}
+
+          var fakeStates sync.Map
+
+          func init() {
+              sql.Register("codinho-repository", fakeDriver{})
+          }
+
+          func (fakeDriver) Open(name string) (driver.Conn, error) {
+              state, ok := fakeStates.Load(name)
+              if !ok {
+                  return nil, errors.New("unknown fake state")
+              }
+              return &fakeConn{state: state.(*fakeState)}, nil
+          }
+
+          type fakeConn struct{ state *fakeState }
+
+          func (c *fakeConn) Prepare(query string) (driver.Stmt, error) {
+              return &fakeStmt{conn: c, query: query}, nil
+          }
+          func (c *fakeConn) Close() error { return nil }
+          func (c *fakeConn) Begin() (driver.Tx, error) { return &fakeTx{state: c.state}, nil }
+          func (c *fakeConn) BeginTx(ctx context.Context, _ driver.TxOptions) (driver.Tx, error) {
+              select {
+              case <-ctx.Done():
+                  return nil, ctx.Err()
+              default:
+                  return &fakeTx{state: c.state}, nil
+              }
+          }
+          func (c *fakeConn) ExecContext(ctx context.Context, query string, args []driver.NamedValue) (driver.Result, error) {
+              select {
+              case <-ctx.Done():
+                  return nil, ctx.Err()
+              default:
+              }
+              c.state.mu.Lock()
+              c.state.query = query
+              c.state.args = append([]driver.NamedValue(nil), args...)
+              fail := c.state.fail
+              c.state.mu.Unlock()
+              if fail {
+                  return nil, errors.New("synthetic write failure")
+              }
+              return driver.RowsAffected(1), nil
+          }
+
+          type fakeStmt struct {
+              conn  *fakeConn
+              query string
+          }
+
+          func (s *fakeStmt) Close() error { return nil }
+          func (s *fakeStmt) NumInput() int { return -1 }
+          func (s *fakeStmt) Exec(args []driver.Value) (driver.Result, error) {
+              named := make([]driver.NamedValue, len(args))
+              for i, arg := range args {
+                  named[i] = driver.NamedValue{Ordinal: i + 1, Value: arg}
+              }
+              return s.conn.ExecContext(context.Background(), s.query, named)
+          }
+          func (s *fakeStmt) Query([]driver.Value) (driver.Rows, error) { return nil, errors.New("query unsupported") }
+
+          type fakeTx struct{ state *fakeState }
+
+          func (t *fakeTx) Commit() error {
+              t.state.mu.Lock()
+              t.state.commits++
+              t.state.mu.Unlock()
+              return nil
+          }
+          func (t *fakeTx) Rollback() error {
+              t.state.mu.Lock()
+              t.state.rollbacks++
+              t.state.mu.Unlock()
+              return nil
+          }
+
+          func openFakeDB(t *testing.T, state *fakeState) *sql.DB {
+              t.Helper()
+              name := fmt.Sprintf("%p", state)
+              fakeStates.Store(name, state)
+              db, err := sql.Open("codinho-repository", name)
+              if err != nil {
+                  t.Fatal(err)
+              }
+              return db
+          }
+
+          func TestSaveUserParameterizesAndRollsBack(t *testing.T) {
+              state := &fakeState{fail: true}
+              db := openFakeDB(t, state)
+              defer db.Close()
+              hostile := "x'); DROP TABLE users;--"
+              if err := SaveUser(context.Background(), db, "Ada", hostile); err == nil {
+                  t.Fatal("SaveUser returned nil on synthetic failure")
+              }
+              state.mu.Lock()
+              defer state.mu.Unlock()
+              if state.rollbacks != 1 || state.commits != 0 {
+                  t.Fatalf("transaction counts = rollback %d commit %d", state.rollbacks, state.commits)
+              }
+              if len(state.args) != 2 || state.args[1].Value != hostile {
+                  t.Fatalf("query args = %#v, want name and hostile email as arguments", state.args)
+              }
+              if strings.Contains(state.query, hostile) {
+                  t.Fatalf("hostile value interpolated into query: %q", state.query)
+              }
+          }
+
+          func TestSaveUserCommits(t *testing.T) {
+              state := &fakeState{}
+              db := openFakeDB(t, state)
+              defer db.Close()
+              if err := SaveUser(context.Background(), db, "Ada", "ada@example.test"); err != nil {
+                  t.Fatal(err)
+              }
+              state.mu.Lock()
+              defer state.mu.Unlock()
+              if state.commits != 1 || state.rollbacks != 0 {
+                  t.Fatalf("transaction counts = rollback %d commit %d", state.rollbacks, state.commits)
+              }
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestSaveUser
+        timeout: 20s
+    validation:
+      reference_fixture:
+        - path: go.mod
+          content: |
+            module codinho-practice/repository
+
+            go 1.25.0
+        - path: repository.go
+          content: |
+            package repository
+
+            import (
+                "context"
+                "database/sql"
+            )
+
+            func SaveUser(ctx context.Context, db *sql.DB, name, email string) error {
+                tx, err := db.BeginTx(ctx, nil)
+                if err != nil {
+                    return err
+                }
+                if _, err := tx.ExecContext(ctx, "INSERT INTO users (name, email) VALUES (?, ?)", name, email); err != nil {
+                    _ = tx.Rollback()
+                    return err
+                }
+                return tx.Commit()
+            }
+        - path: repository_test.go
+          content: |
+            package repository
+
+            import (
+                "context"
+                "database/sql"
+                "database/sql/driver"
+                "errors"
+                "fmt"
+                "strings"
+                "sync"
+                "testing"
+            )
+
+            type fakeState struct {
+                mu        sync.Mutex
+                fail      bool
+                query     string
+                args      []driver.NamedValue
+                commits   int
+                rollbacks int
+            }
+
+            type fakeDriver struct{}
+
+            var fakeStates sync.Map
+
+            func init() {
+                sql.Register("codinho-repository", fakeDriver{})
+            }
+
+            func (fakeDriver) Open(name string) (driver.Conn, error) {
+                state, ok := fakeStates.Load(name)
+                if !ok {
+                    return nil, errors.New("unknown fake state")
+                }
+                return &fakeConn{state: state.(*fakeState)}, nil
+            }
+
+            type fakeConn struct{ state *fakeState }
+
+            func (c *fakeConn) Prepare(query string) (driver.Stmt, error) {
+                return &fakeStmt{conn: c, query: query}, nil
+            }
+            func (c *fakeConn) Close() error { return nil }
+            func (c *fakeConn) Begin() (driver.Tx, error) { return &fakeTx{state: c.state}, nil }
+            func (c *fakeConn) BeginTx(ctx context.Context, _ driver.TxOptions) (driver.Tx, error) {
+                select {
+                case <-ctx.Done():
+                    return nil, ctx.Err()
+                default:
+                    return &fakeTx{state: c.state}, nil
+                }
+            }
+            func (c *fakeConn) ExecContext(ctx context.Context, query string, args []driver.NamedValue) (driver.Result, error) {
+                select {
+                case <-ctx.Done():
+                    return nil, ctx.Err()
+                default:
+                }
+                c.state.mu.Lock()
+                c.state.query = query
+                c.state.args = append([]driver.NamedValue(nil), args...)
+                fail := c.state.fail
+                c.state.mu.Unlock()
+                if fail {
+                    return nil, errors.New("synthetic write failure")
+                }
+                return driver.RowsAffected(1), nil
+            }
+
+            type fakeStmt struct {
+                conn  *fakeConn
+                query string
+            }
+
+            func (s *fakeStmt) Close() error { return nil }
+            func (s *fakeStmt) NumInput() int { return -1 }
+            func (s *fakeStmt) Exec(args []driver.Value) (driver.Result, error) {
+                named := make([]driver.NamedValue, len(args))
+                for i, arg := range args {
+                    named[i] = driver.NamedValue{Ordinal: i + 1, Value: arg}
+                }
+                return s.conn.ExecContext(context.Background(), s.query, named)
+            }
+            func (s *fakeStmt) Query([]driver.Value) (driver.Rows, error) { return nil, errors.New("query unsupported") }
+
+            type fakeTx struct{ state *fakeState }
+
+            func (t *fakeTx) Commit() error {
+                t.state.mu.Lock()
+                t.state.commits++
+                t.state.mu.Unlock()
+                return nil
+            }
+            func (t *fakeTx) Rollback() error {
+                t.state.mu.Lock()
+                t.state.rollbacks++
+                t.state.mu.Unlock()
+                return nil
+            }
+
+            func openFakeDB(t *testing.T, state *fakeState) *sql.DB {
+                t.Helper()
+                name := fmt.Sprintf("%p", state)
+                fakeStates.Store(name, state)
+                db, err := sql.Open("codinho-repository", name)
+                if err != nil {
+                    t.Fatal(err)
+                }
+                return db
+            }
+
+            func TestSaveUserParameterizesAndRollsBack(t *testing.T) {
+                state := &fakeState{fail: true}
+                db := openFakeDB(t, state)
+                defer db.Close()
+                hostile := "x'); DROP TABLE users;--"
+                if err := SaveUser(context.Background(), db, "Ada", hostile); err == nil {
+                    t.Fatal("SaveUser returned nil on synthetic failure")
+                }
+                state.mu.Lock()
+                defer state.mu.Unlock()
+                if state.rollbacks != 1 || state.commits != 0 {
+                    t.Fatalf("transaction counts = rollback %d commit %d", state.rollbacks, state.commits)
+                }
+                if len(state.args) != 2 || state.args[1].Value != hostile {
+                    t.Fatalf("query args = %#v, want name and hostile email as arguments", state.args)
+                }
+                if strings.Contains(state.query, hostile) {
+                    t.Fatalf("hostile value interpolated into query: %q", state.query)
+                }
+            }
+
+            func TestSaveUserCommits(t *testing.T) {
+                state := &fakeState{}
+                db := openFakeDB(t, state)
+                defer db.Close()
+                if err := SaveUser(context.Background(), db, "Ada", "ada@example.test"); err != nil {
+                    t.Fatal(err)
+                }
+                state.mu.Lock()
+                defer state.mu.Unlock()
+                if state.commits != 1 || state.rollbacks != 0 {
+                    t.Fatalf("transaction counts = rollback %d commit %d", state.rollbacks, state.commits)
+                }
+            }
+      expectations:
+        - {check_id: focused-tests, baseline: test_failure, reference: pass}
+    layers:
+      - id: transactional-repository
+        macro_steps:
+          - id: transactional-repository.plan
+            kind: macro
+            title: Compor o repositório verificável
+            children:
+              - id: transactional-repository.contract
+                kind: meso
+                title: Proteger a operação transacional
+                children:
+                  - id: transactional-repository.begin
+                    kind: micro
+                    action: implement
+                    target: repository-transaction
+                    title: Abrir transação
+                    instruction:
+                      objective: Inicie a transação com o contexto recebido pelo repositório.
+                      scope: A entrada da operação de persistência.
+                    concepts: [go-database.repository-contract, go-database.transaction-boundary]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: repository-opens-transaction, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: transactional-repository.bind
+                    kind: micro
+                    action: implement
+                    target: parameterized-write
+                    title: Parametrizar a escrita
+                    instruction:
+                      objective: Passe os campos da entidade como argumentos da escrita.
+                      scope: O comando de insert do repositório.
+                    concepts: [go-database.parameterized-query, go-database.repository-contract]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: repository-binds-values, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: transactional-repository.failure
+                    kind: micro
+                    action: implement
+                    target: rollback-path
+                    title: Fechar o caminho de falha
+                    instruction:
+                      objective: Reverta a transação quando o driver devolver erro.
+                      scope: A saída de erro depois da escrita.
+                    concepts: [go-database.rollback-semantics]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: repository-rolls-back-on-error, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: transactional-repository.check
+                    kind: micro
+                    action: verify
+                    target: local-driver
+                    title: Executar o driver sintético
+                    instruction:
+                      objective: Execute os casos de entrada hostil, falha e sucesso sem serviço remoto.
+                      scope: A fixture controlada pelo teste.
+                    concepts: [go-database.parameterized-query, go-database.rollback-semantics]
+                    evidence: {strategies: [test, compile]}
+                    criteria: [{id: local-driver-proves-boundary, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: transactional-repository.reflect
+                    kind: micro
+                    action: reflect
+                    target: repository-evidence
+                    title: Explicar a evidência
+                    instruction:
+                      objective: Explique que comportamento o teste prova e qual ele não prova.
+                      scope: Parametrização, rollback e limites do driver sintético.
+                    concepts: [go-database.repository-contract, go-database.rollback-semantics]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: explains-repository-evidence, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Por que um driver sintético pode provar ownership da transação sem provar compatibilidade de um banco específico?']}
+  - schema_version: 1
+    id: go-database.graceful-service-with-persistence
+    version: 1.0.0
+    title: Encerrar serviço com persistência
+    kind: systems_mission
+    difficulty: intermediate
+    estimated_minutes: 60
+    themes: [go-database.persistence-lifecycle, go-database.transactions-pool]
+    competencies:
+      primary: [go-database.run-persistent-service-lifecycle]
+      secondary: [go-database.cancel-database-work, go-database.configure-pool]
+    prerequisites: [go-database.transactional-repository]
+    brief: Um serviço local precisa observar cancelamento, deixar o trabalho persistente terminar e fechar o pool no encerramento.
+    constraints:
+      - O cenário deve permanecer hermético e usar apenas driver sintético.
+      - Não encerre o processo com os workers de persistência ainda vivos.
+      - Diferencie cancelamento esperado de erro inesperado do trabalho.
+    acceptance:
+      - O callback recebe o contexto de shutdown e termina quando ele é cancelado.
+      - O database handle é fechado depois da decisão de encerramento.
+      - O caminho de cancelamento devolve context.Canceled sem depender de sleep de sincronização.
+    canonical: true
+    publication: {status: draft, author: codex}
+    fixture:
+      - path: go.mod
+        content: |
+          module codinho-practice/service
+
+          go 1.25.0
+      - path: service.go
+        content: |
+          package service
+
+          import (
+              "context"
+              "database/sql"
+          )
+
+          func Run(ctx context.Context, db *sql.DB, work func(context.Context, *sql.DB) error) error {
+              err := work(context.Background(), db)
+              _ = db.Close()
+              return err
+          }
+      - path: service_test.go
+        content: |
+          package service
+
+          import (
+              "context"
+              "database/sql"
+              "database/sql/driver"
+              "errors"
+              "fmt"
+              "sync"
+              "testing"
+              "time"
+          )
+
+          type closeState struct {
+              mu     sync.Mutex
+              closed int
+          }
+
+          type closeDriver struct{}
+
+          var closeStates sync.Map
+
+          func init() {
+              sql.Register("codinho-service", closeDriver{})
+          }
+
+          func (closeDriver) Open(name string) (driver.Conn, error) {
+              state, ok := closeStates.Load(name)
+              if !ok {
+                  return nil, errors.New("unknown close state")
+              }
+              return &closeConn{state: state.(*closeState)}, nil
+          }
+
+          type closeConn struct{ state *closeState }
+
+          func (c *closeConn) Prepare(query string) (driver.Stmt, error) { return &closeStmt{}, nil }
+          func (c *closeConn) Close() error {
+              c.state.mu.Lock()
+              c.state.closed++
+              c.state.mu.Unlock()
+              return nil
+          }
+          func (c *closeConn) Begin() (driver.Tx, error) { return &closeTx{}, nil }
+          func (c *closeConn) Ping(context.Context) error { return nil }
+
+          type closeStmt struct{}
+
+          func (closeStmt) Close() error { return nil }
+          func (closeStmt) NumInput() int { return -1 }
+          func (closeStmt) Exec([]driver.Value) (driver.Result, error) { return driver.RowsAffected(1), nil }
+          func (closeStmt) Query([]driver.Value) (driver.Rows, error) { return nil, errors.New("query unsupported") }
+
+          type closeTx struct{}
+
+          func (closeTx) Commit() error { return nil }
+          func (closeTx) Rollback() error { return nil }
+
+          func openCloseDB(t *testing.T, state *closeState) *sql.DB {
+              t.Helper()
+              name := fmt.Sprintf("%p", state)
+              closeStates.Store(name, state)
+              db, err := sql.Open("codinho-service", name)
+              if err != nil {
+                  t.Fatal(err)
+              }
+              if err := db.Ping(); err != nil {
+                  t.Fatal(err)
+              }
+              return db
+          }
+
+          func TestRunCancelsWorkAndClosesDB(t *testing.T) {
+              state := &closeState{}
+              db := openCloseDB(t, state)
+              ctx, cancel := context.WithCancel(context.Background())
+              defer cancel()
+              started := make(chan struct{})
+              observed := make(chan error, 1)
+              result := make(chan error, 1)
+              go func() {
+                  result <- Run(ctx, db, func(workCtx context.Context, _ *sql.DB) error {
+                      close(started)
+                      <-workCtx.Done()
+                      observed <- workCtx.Err()
+                      return nil
+                  })
+              }()
+              select {
+              case <-started:
+              case <-time.After(200 * time.Millisecond):
+                  t.Fatal("service did not start work")
+              }
+              cancel()
+              select {
+              case err := <-result:
+                  if !errors.Is(err, context.Canceled) {
+                      t.Fatalf("Run error = %v, want cancellation", err)
+                  }
+              case <-time.After(200 * time.Millisecond):
+                  t.Fatal("service did not stop after cancellation")
+              }
+              select {
+              case err := <-observed:
+                  if !errors.Is(err, context.Canceled) {
+                      t.Fatalf("work context error = %v", err)
+                  }
+              case <-time.After(200 * time.Millisecond):
+                  t.Fatal("work did not observe cancellation")
+              }
+              state.mu.Lock()
+              defer state.mu.Unlock()
+              if state.closed == 0 {
+                  t.Fatal("database connection was not closed")
+              }
+          }
+    checks:
+      - id: focused-tests
+        runner: go_test
+        package: ./...
+        test_pattern: ^TestRunCancelsWorkAndClosesDB$
+        timeout: 20s
+    validation:
+      reference_fixture:
+        - path: go.mod
+          content: |
+            module codinho-practice/service
+
+            go 1.25.0
+        - path: service.go
+          content: |
+            package service
+
+            import (
+                "context"
+                "database/sql"
+            )
+
+            func Run(ctx context.Context, db *sql.DB, work func(context.Context, *sql.DB) error) error {
+                done := make(chan error, 1)
+                go func() {
+                    done <- work(ctx, db)
+                }()
+                select {
+                case err := <-done:
+                    _ = db.Close()
+                    return err
+                case <-ctx.Done():
+                    _ = db.Close()
+                    <-done
+                    return ctx.Err()
+                }
+            }
+        - path: service_test.go
+          content: |
+            package service
+
+            import (
+                "context"
+                "database/sql"
+                "database/sql/driver"
+                "errors"
+                "fmt"
+                "sync"
+                "testing"
+                "time"
+            )
+
+            type closeState struct {
+                mu     sync.Mutex
+                closed int
+            }
+
+            type closeDriver struct{}
+
+            var closeStates sync.Map
+
+            func init() {
+                sql.Register("codinho-service", closeDriver{})
+            }
+
+            func (closeDriver) Open(name string) (driver.Conn, error) {
+                state, ok := closeStates.Load(name)
+                if !ok {
+                    return nil, errors.New("unknown close state")
+                }
+                return &closeConn{state: state.(*closeState)}, nil
+            }
+
+            type closeConn struct{ state *closeState }
+
+            func (c *closeConn) Prepare(query string) (driver.Stmt, error) { return &closeStmt{}, nil }
+            func (c *closeConn) Close() error {
+                c.state.mu.Lock()
+                c.state.closed++
+                c.state.mu.Unlock()
+                return nil
+            }
+            func (c *closeConn) Begin() (driver.Tx, error) { return &closeTx{}, nil }
+            func (c *closeConn) Ping(context.Context) error { return nil }
+
+            type closeStmt struct{}
+
+            func (closeStmt) Close() error { return nil }
+            func (closeStmt) NumInput() int { return -1 }
+            func (closeStmt) Exec([]driver.Value) (driver.Result, error) { return driver.RowsAffected(1), nil }
+            func (closeStmt) Query([]driver.Value) (driver.Rows, error) { return nil, errors.New("query unsupported") }
+
+            type closeTx struct{}
+
+            func (closeTx) Commit() error { return nil }
+            func (closeTx) Rollback() error { return nil }
+
+            func openCloseDB(t *testing.T, state *closeState) *sql.DB {
+                t.Helper()
+                name := fmt.Sprintf("%p", state)
+                closeStates.Store(name, state)
+                db, err := sql.Open("codinho-service", name)
+                if err != nil {
+                    t.Fatal(err)
+                }
+                if err := db.Ping(); err != nil {
+                    t.Fatal(err)
+                }
+                return db
+            }
+
+            func TestRunCancelsWorkAndClosesDB(t *testing.T) {
+                state := &closeState{}
+                db := openCloseDB(t, state)
+                ctx, cancel := context.WithCancel(context.Background())
+                defer cancel()
+                started := make(chan struct{})
+                observed := make(chan error, 1)
+                result := make(chan error, 1)
+                go func() {
+                    result <- Run(ctx, db, func(workCtx context.Context, _ *sql.DB) error {
+                        close(started)
+                        <-workCtx.Done()
+                        observed <- workCtx.Err()
+                        return nil
+                    })
+                }()
+                select {
+                case <-started:
+                case <-time.After(200 * time.Millisecond):
+                    t.Fatal("service did not start work")
+                }
+                cancel()
+                select {
+                case err := <-result:
+                    if !errors.Is(err, context.Canceled) {
+                        t.Fatalf("Run error = %v, want cancellation", err)
+                    }
+                case <-time.After(200 * time.Millisecond):
+                    t.Fatal("service did not stop after cancellation")
+                }
+                select {
+                case err := <-observed:
+                    if !errors.Is(err, context.Canceled) {
+                        t.Fatalf("work context error = %v", err)
+                    }
+                case <-time.After(200 * time.Millisecond):
+                    t.Fatal("work did not observe cancellation")
+                }
+                state.mu.Lock()
+                defer state.mu.Unlock()
+                if state.closed == 0 {
+                    t.Fatal("database connection was not closed")
+                }
+            }
+      expectations:
+        - {check_id: focused-tests, baseline: test_failure, reference: pass}
+    layers:
+      - id: graceful-service
+        macro_steps:
+          - id: graceful-service.plan
+            kind: macro
+            title: Orquestrar persistência e encerramento
+            children:
+              - id: graceful-service.lifecycle
+                kind: meso
+                title: Fechar o serviço com ordem
+                children:
+                  - id: graceful-service.start
+                    kind: micro
+                    action: implement
+                    target: service-work
+                    title: Iniciar trabalho com contexto
+                    instruction:
+                      objective: Passe o contexto de lifecycle para o callback que coordena persistência.
+                      scope: A fronteira entre serviço e trabalho.
+                    concepts: [go-database.graceful-persistence-shutdown, go-database.query-context]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: service-propagates-lifecycle-context, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: graceful-service.cancel
+                    kind: micro
+                    action: implement
+                    target: cancellation-path
+                    title: Observar cancelamento
+                    instruction:
+                      objective: Faça o serviço distinguir cancelamento esperado de falha do trabalho.
+                      scope: A decisão de encerramento.
+                    concepts: [go-database.query-context, go-database.graceful-persistence-shutdown]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: service-observes-cancellation, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: graceful-service.wait
+                    kind: micro
+                    action: verify
+                    target: worker-join
+                    title: Aguardar trabalho persistente
+                    instruction:
+                      objective: Verifique que o callback terminou antes de abandonar a coordenação.
+                      scope: O caminho de shutdown após cancelamento.
+                    concepts: [go-database.graceful-persistence-shutdown, go-database.transaction-boundary]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: service-waits-for-work, kind: behavioral}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: graceful-service.close
+                    kind: micro
+                    action: implement
+                    target: database-close
+                    title: Fechar database
+                    instruction:
+                      objective: Feche o database handle depois que o trabalho dependente foi encerrado.
+                      scope: Cleanup do pool no fim do lifecycle.
+                    concepts: [go-database.pool-limits, go-database.graceful-persistence-shutdown]
+                    evidence: {strategies: [source_inspection, compile]}
+                    criteria: [{id: database-closes-after-work, kind: structural}]
+                    completion: {requires_positive_evaluation: false}
+                  - id: graceful-service.reflect
+                    kind: micro
+                    action: reflect
+                    target: mission-boundary
+                    title: Explicar o limite da missão
+                    instruction:
+                      objective: Explique que o driver sintético prova coordenação, mas não substitui playtest de produção.
+                      scope: Cancelamento, join e cleanup.
+                    concepts: [go-database.graceful-persistence-shutdown, go-database.pool-limits]
+                    evidence: {strategies: [source_inspection]}
+                    criteria: [{id: explains-mission-evidence, kind: reasoning}]
+                    completion: {requires_positive_evaluation: true}
+                    hints:
+                      - {level: 1, kind: guiding_question}
+                      - {level: 2, kind: syntax_recall}
+                      - {level: 3, kind: logical_prose}
+                      - {level: 4, kind: pseudocode}
+                      - {level: 5, kind: partial_code}
+                      - {level: 6, kind: solution}
+                    reflection: {optional: ['Qual recurso seria abandonado se o processo fechasse o pool sem aguardar a operação persistente?']}

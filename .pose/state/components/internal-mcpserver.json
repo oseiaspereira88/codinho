@@ -2,8 +2,8 @@
   "schema_version": 1,
   "component_slug": "internal-mcpserver",
   "path": "internal/mcpserver",
-  "discovered_at": "2026-09-16T05:17:04Z",
-  "baseline_commit": "e28d2bae7b66",
+  "discovered_at": "2026-09-16T05:35:24Z",
+  "baseline_commit": "7908412fd462",
   "metrics": {
     "loc_production": 1444,
     "loc_tests": 2057,

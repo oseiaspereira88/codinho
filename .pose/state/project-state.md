@@ -79,10 +79,10 @@ Use os cut criteria do roadmap codinho-v1; esta remediação não encerra a V1.
   - report:2026-09-10-data-text-truncate-node.md
 
 ## Arquitetura
-<!-- state:derived hash:059dc41e1f5b status:active -->
+<!-- state:derived hash:07ad545db205 status:active -->
 
 - componentes: total=10 verificados=10 completude=100.0%
-- linhas_de_codigo: producao=16669 testes=18400 total=35069
+- linhas_de_codigo: producao=16669 testes=18432 total=35101
 - linguagens: go, python, shell
 - saude_de_codigo: TODOs=0 FIXMEs=0 panics=0 stubs=0
 - integracoes: contratos=0 ativos=0 gaps=0

@@ -74,9 +74,27 @@ Levar a fluência fundamental até comportamentos backend reais sem saltar diret
 - created: .pose/assessments/docs-catalog.md
 - modified: .pose/assessments/README.md
 - modified: .pose/assessments/consolidated.md
+- modified: .pose/assessments/cmd-ci-assurance.md
+- modified: .pose/assessments/cmd-codinho.md
+- modified: .pose/assessments/docs.md
+- modified: .pose/assessments/github-workflows.md
+- modified: .pose/assessments/internal-ciassurance.md
+- modified: .pose/assessments/internal-mcpserver.md
+- modified: .pose/assessments/pose-contracts.md
+- modified: .pose/assessments/root.md
+- modified: .pose/assessments/scripts.md
 - modified: .pose/state/components/packs.json
 - created: .pose/state/components/docs-catalog.json
 - modified: .pose/state/project-state.md
+- modified: .pose/state/components/cmd-ci-assurance.json
+- modified: .pose/state/components/cmd-codinho.json
+- modified: .pose/state/components/docs.json
+- modified: .pose/state/components/github-workflows.json
+- modified: .pose/state/components/internal-ciassurance.json
+- modified: .pose/state/components/internal-mcpserver.json
+- modified: .pose/state/components/pose-contracts.json
+- modified: .pose/state/components/root.json
+- modified: .pose/state/components/scripts.json
 - modified: .pose/indexes/delivery-integrity.json
 - modified: .pose/reports/2026-09-16-standard-validate-native.md
 - modified: .pose/reports/history/standard-validate-native.jsonl
@@ -158,6 +176,7 @@ Executar checks herméticos, repetição para flake, race detector e revisão hu
 - 2026-09-16: `pose validate --strict` expôs duas expectativas históricas nos testes de auditoria: a busca de trilhas ainda esperava cinco itens e a auditoria de packs ainda esperava oito packs/105 conceitos/64 competências/54 desafios/366 nodes. A causa foi a expansão intencional do catálogo; os testes foram atualizados para declarar e verificar as três trilhas e os três packs backend, sem alterar o catálogo.
 - 2026-09-16: após o ajuste, `TestFoundationTracksOverRealStdio`, a auditoria de variantes e `go test -race -count=1 ./...` passaram com `GOFLAGS='-mod=readonly -buildvcs=false -p=1'`, cache Go local e `GOTMPDIR=/tmp`; o teste de race completo não encontrou races. A tentativa paralela padrão ficou limitada por `disk quota exceeded` no linker, não por falha de código.
 - 2026-09-16: `pose assess discover --update-state` recalculou assessments/state; a validação nativa estrita registrou 23/24 checks aprovados no relatório `.pose/reports/2026-09-16-standard-validate-native.md`, com formato, testes, vet, build, catálogo, contratos e smoke checks aprovados. O único check não concluído foi `govulncheck`, que falhou ao resolver `vuln.go.dev` (`Temporary failure in name resolution`); não foi tratado como aprovação de segurança.
+- 2026-09-16: a repetição final de `pose assess discover --update-state` encontrou dez componentes e persistiu os LOC/debt metrics atuais nos assessments/state; nenhum marcador TODO/FIXME foi introduzido.
 
 ### Results summary
 - Nenhum pack backend foi publicado. Os três packs backend foram materializados, integrados à trilha e documentados como drafts; a extração de fixtures para workspace e os gates humanos continuam pendentes. A contagem autorada acrescenta 23 desafios, 40 conceitos, 25 competências e 135 nodes, mantendo os gates humanos pendentes.

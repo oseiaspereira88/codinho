@@ -181,6 +181,17 @@
       "owns": ["docs/editorial/go-production-architecture-queue.json"],
       "applies_to": "docs/editorial",
       "owner": "@pose-maintainers"
+    },
+    {
+      "path": "docs/catalog/go-production-architecture.md",
+      "doc_type": "reference",
+      "topics": ["catalog", "go-production", "go-architecture-debugging"],
+      "owns": [
+        "packs/go-production.yaml",
+        "packs/go-architecture-debugging.yaml"
+      ],
+      "applies_to": "packs",
+      "owner": "@pose-maintainers"
     }
   ]
 }

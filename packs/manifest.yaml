@@ -11,3 +11,5 @@ packs:
   - go-io.yaml
   - go-testing.yaml
   - go-type-design.yaml
+  - go-production.yaml
+  - go-architecture-debugging.yaml

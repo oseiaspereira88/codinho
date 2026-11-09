@@ -11,6 +11,7 @@
   "continuous_closeout": true,
   "enabled": true,
   "evidence_vocabulary_reconciled_at": "2026-09-09",
+  "explicit_judgment_adopted_at": "2026-11-09",
   "overlay_profiles": [
     "backend-review@1",
     "frontend-review@1"
@@ -29,5 +30,6 @@
     "spec": "same-actor-separate-execution"
   },
   "schema_version": 2,
+  "structural_causality_adopted_at": "2026-11-09",
   "unmapped_component_behavior": "warning"
 }

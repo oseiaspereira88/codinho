@@ -22,7 +22,7 @@ Verify that a change is correct, production-safe, and aligned with its approved 
 7. Check compliance with specs, contracts, and local instructions.
 8. Review functional correctness and edge cases.
 9. Evaluate security, observability, and performance risks.
-10. Require validation evidence from `.pose/indexes/validation-matrix.json` proportional to risk; use `.pose/workflows/validate-native-evidence.md` when the native matrix is involved.
+10. Require validation evidence from `.pose/indexes/validation-matrix.json` proportional to risk.
 11. Identify regression and rollout or rollback risks.
 12. Run plan-selected assessments, including tech-debt and integration when applicable.
 13. Classify findings by severity and propose objective actions.
@@ -93,8 +93,6 @@ Attach this section to the review:
 - Require lint, typecheck, test, and build coverage proportional to risk.
 - Require executed `pose validate` evidence and relevant results.
 - Record environment limitations and residual validation risks.
-- Preserve the raw log, structured JSON, exit code, and evaluated commit; do not
-  replace a failed or incomplete run with a manually recorded pass.
 
 ## Editorial checklist
 

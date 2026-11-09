@@ -1,0 +1,205 @@
+{
+  "pending": [
+    {
+      "spec": "administrative-cli-fixtures",
+      "category": "added",
+      "breaking": false,
+      "body": "A CLI `codinho` ganha comandos administrativos completos: `init`, `catalog\nvalidate/list/show`, `session inspect`, `progress show/export` e `workspace\nprepare`. `workspace prepare` materializa o código inicial de um desafio em\num destino explícito, sempre com preview (`--dry-run`) e sem sobrescrever\nnada por padrão.",
+      "path": "administrative-cli-fixtures.md",
+      "digest": "sha256:00d3588ba2a4c8ed03d847e38dcde646377b9e55350ae16b40b19a4bc1d33e5d"
+    },
+    {
+      "spec": "agent-authored-catalog-drafts",
+      "category": "added",
+      "breaking": true,
+      "body": "Pratique conteúdo gerado pelo tutor com consentimento explícito e aviso de\nrascunho. Submeta, revise e remova rascunhos pelo MCP; o estado local preserva\nas sessões e inclui a quarentena no export/purge. Evidências de rascunhos ou\nhistóricos sem proveniência verificável deixam de contar na maestria revisada,\nsem apagar eventos anteriores. A publicação continua exigindo revisão humana.",
+      "path": "agent-authored-catalog-drafts.md",
+      "digest": "sha256:da21800dc24b797d4b299d19f7bdf015c45b3165018fd3770047bdd081858261"
+    },
+    {
+      "spec": "assistance-hints-detours",
+      "category": "added",
+      "breaking": false,
+      "body": "`codinho serve` now supports the assistance ladder and conceptual detours:\n`hint_request` delivers progressively deeper hints (up to a commented\nsolution, which requires explicit confirmation), `syntax_recall_get`\noffers a lighter-cost syntax reminder, `concept_content_get` returns\ncanonical concept records, and `learning_detour_start`/\n`learning_detour_finish` let the learner ask a side question without\nlosing their place.",
+      "path": "assistance-hints-detours.md",
+      "digest": "sha256:5a54ef2fa2d73da9883b1d77e094366987522cdaa2fd231a078b17e4dd77590c"
+    },
+    {
+      "spec": "catalog-authoring-quality",
+      "category": "added",
+      "breaking": false,
+      "body": "`codinho catalog validate` agora aplica um gate editorial completo além\nda validação de schema: pistas em ordem crescente sem gabarito\nprematuro, competência e critério de aceite obrigatórios, metadados de\npublicação com revisor diferente do autor, e coerência do grafo de\nrelações. `--checks` executa de verdade os checks declarados contra a\nfixture materializada; `--v1-gate` confere os limiares de conclusão da\nV1 sob demanda.",
+      "path": "catalog-authoring-quality.md",
+      "digest": "sha256:8b143c23bf7dfb0ca29418c5e60d33dccac135ad6e5625227e2db826974f6f38"
+    },
+    {
+      "spec": "catalog-publication-integrity",
+      "category": "fixed",
+      "breaking": true,
+      "body": "MCP usa apenas conteúdo publicado; autoria/playtest de rascunhos exige\nserve --authoring. Gates separam inventário, publicação e desafios canônicos,\naplicam distribuição versionada e conferem expectativas executáveis de baseline\ne referência. --checks rejeita prova ausente, falha inesperada, skip e zero testes.\nGabaritos privados não entram em respostas ou eventos; sessões anteriores mantêm\nseu conteúdo fixado. Campos YAML desconhecidos deixam de ser ignorados.",
+      "path": "catalog-publication-integrity.md",
+      "digest": "sha256:501a5a0ac98705cef193e1764c9b5445f3c3e2d66cd90b4e6ea981d3fbfe64c5"
+    },
+    {
+      "spec": "concept-content-authoring",
+      "category": "added",
+      "breaking": false,
+      "body": "Conceitos podem oferecer explicações canônicas, exemplos e relações autoradas\npela ferramenta concept_content_get. Conceitos legados indicam conteúdo ausente;\na consulta preserva a sessão e a progressão das pistas.",
+      "path": "concept-content-authoring.md",
+      "digest": "sha256:b2f5583172b4cb2d7bfee2654e201a17e728219dbde6d25639f9ba251f71ac11"
+    },
+    {
+      "spec": "curriculum-graph-path-recommendation",
+      "category": "added",
+      "breaking": false,
+      "body": "O tutor agora consegue buscar o catálogo por texto, tema, competência,\ndificuldade, tipo e duração, consultar como conceitos e desafios se\nrelacionam entre si, e recomendar o próximo passo explicando por que —\nevidência, gap, dependência e custo — combinando o grafo curricular com\no domínio já demonstrado e as revisões vencidas.",
+      "path": "curriculum-graph-path-recommendation.md",
+      "digest": "sha256:a7b986e5c48a058456ce42c84d4e53187999d2136913fa4eabf0e05e2db2e4a1"
+    },
+    {
+      "spec": "evaluation-evidence-lineage",
+      "category": "security",
+      "breaking": true,
+      "body": "Avaliações verificam a sessão, o passo, o check e a atualidade das evidências\ncitadas antes de registrar resultados. Envie check_id para critérios estruturais\nbaseados em checks e registre observações qualitativas com evidence_record,\ninformando origem e rubrica. Retries já confirmados preservam o resultado original.",
+      "path": "evaluation-evidence-lineage.md",
+      "digest": "sha256:8d260bcb1a10d5a108a06762d0787d8f91971199da4150a902f1dfe07ba44eae"
+    },
+    {
+      "spec": "eventstore-idempotency-scope",
+      "category": "fixed",
+      "breaking": false,
+      "body": "Corrigido um bug de idempotência no event store: uma retentativa com o\nmesmo `request_id` em duas sessões diferentes podia devolver o evento de\numa sessão para a outra, silenciosamente. Agora o `request_id` é único por\nsessão, não globalmente — retentativas continuam idempotentes dentro da\nmesma sessão, e sessões diferentes nunca mais colidem.",
+      "path": "eventstore-idempotency-scope.md",
+      "digest": "sha256:64186bcde8df60221331ddf42f5245e5a7c7e8d8c074eeab19e8056cced0293f"
+    },
+    {
+      "spec": "feedback-evaluation-progression",
+      "category": "added",
+      "breaking": false,
+      "body": "O tutor agora consegue preparar feedback consultivo, avaliar uma tentativa por\ncritérios determinísticos e qualitativos, registrar reflexão do aluno,\nconcluir um passo respeitando a política autoral e avançar para o próximo\npasso da árvore de um desafio — sem que o feedback sozinho conclua ou avance\nnada.",
+      "path": "feedback-evaluation-progression.md",
+      "digest": "sha256:8de7a65d124e2a60b5624dd49059320814161556d5675fa3b5af9efdf11dd25d"
+    },
+    {
+      "spec": "installation-documentation-ci",
+      "category": "added",
+      "breaking": false,
+      "body": "Documentação completa de instalação, quickstart e configuração de host\n(Codex CLI e extensão de IDE). CI real roda gofmt, vet, build, testes\ncom race detector, govulncheck, validação de catálogo e checagem de\nskills em cada pull request e push para main. Um script de\nsmoke-install verifica o onboarding de ponta a ponta em um diretório\nlimpo.",
+      "path": "installation-documentation-ci.md",
+      "digest": "sha256:0d5e6702619a9c02f84e0b88d774c9efdfa3104be02d598e4b32413ef249bf1b"
+    },
+    {
+      "spec": "interview-mode",
+      "category": "added",
+      "breaking": false,
+      "body": "Simulação de entrevista técnica genérica: duração opcional com timer\nreal, política de auxílio fixada (pistas bloqueadas são registradas sem\nrevelar nada), encerramento explícito ou por timeout, e um relatório\nfinal descritivo — nunca um score único — sempre acompanhado de um aviso\nclaro de que é uma prática local, sem vigilância e sem vínculo com\nprocesso seletivo real.",
+      "path": "interview-mode.md",
+      "digest": "sha256:269218a270fea6eb56a8cb6943b5d216f654cea483ee53389e0bcb5b30695062"
+    },
+    {
+      "spec": "learning-practice-debug-modes",
+      "category": "added",
+      "breaking": false,
+      "body": "Cada modo de sessão (ensino, prática, revisão, depuração, exploração)\nagora tem seus próprios padrões de profundidade, ajuda, revelação e\navaliação, sempre substituíveis explicitamente. O modo depuração segue um\nprotocolo guiado de 6 estágios; a granularidade pode se ajustar\nautomaticamente com base em evidência repetida, sempre explicando a\nmudança ao aluno; e o aluno agora pode propor seu próprio próximo passo.",
+      "path": "learning-practice-debug-modes.md",
+      "digest": "sha256:f9653d7c9f42ea4ed52df57545a564a9a4ed8d48b0d6af093b40ab6156b313a5"
+    },
+    {
+      "spec": "learning-track-composition",
+      "category": "added",
+      "breaking": false,
+      "body": "Selecione vários assuntos com indicação de cobertura e tópicos ausentes.\nInicie uma trilha autorada ou aceite uma composição de desafios; a sessão\npreserva a sequência, as versões e o ponto de retomada mesmo após mudanças\nno catálogo. Campos MCP singulares continuam compatíveis.",
+      "path": "learning-track-composition.md",
+      "digest": "sha256:e19b7e28555157cc9b9f3f644a3b1245a0aeea7df3089918d042a1f40672596f"
+    },
+    {
+      "spec": "mastery-review-scheduling",
+      "category": "added",
+      "breaking": false,
+      "body": "O tutor agora projeta domínio do aluno em oito dimensões independentes\n(compreensão, sintaxe, implementação guiada e autônoma, depuração,\nexplicação, retenção e transferência) por regras transparentes, e\nagenda revisões espaçadas que se adaptam ao resultado real — sem nunca\npromover domínio por uma única conclusão guiada ou por uma solução\nrevelada.",
+      "path": "mastery-review-scheduling.md",
+      "digest": "sha256:1bcb94fd1a8affa8b580584a52eba850e3af1841ef4d29301080c1ea1b0efc33"
+    },
+    {
+      "spec": "mcp-stdio-foundation",
+      "category": "added",
+      "breaking": false,
+      "body": "`codinho serve` now starts a local MCP server over stdio, exposing an initial\nvertical slice for agents to browse the curriculum and run a minimal\nlearning session: `catalog_search`, `catalog_get`, `session_start`,\n`session_get` and `instruction_get`.",
+      "path": "mcp-stdio-foundation.md",
+      "digest": "sha256:9ac910e91c2352fc5dc8bbde1356994b22ac45a97fe0e17380419a333da49ec1"
+    },
+    {
+      "spec": "reliability-observability-compatibility",
+      "category": "added",
+      "breaking": false,
+      "body": "`codinho doctor` agora diagnostica de verdade: catálogo, estado local\ngravável, lock órfão de uma execução anterior encerrada abruptamente,\nevidência e toolchain necessária — sempre sem expor ambiente completo,\ncódigo ou segredos. Toda chamada de tool MCP passa a gerar uma linha de\nlog estruturada (ferramenta, duração, status, tamanho) em stderr.\nStartup e busca no catálogo têm orçamentos de desempenho documentados e\ncomprovados.",
+      "path": "reliability-observability-compatibility.md",
+      "digest": "sha256:26402b020691d8d2e6960784a02b6cfec6a6782feb70e2fdefe7bc82cba80ece"
+    },
+    {
+      "spec": "safe-check-executor",
+      "category": "added",
+      "breaking": false,
+      "body": "O tutor agora consegue rodar verificações determinísticas de verdade\n(testes, vet, build, formatação) sobre o código do aluno, isoladas de\nrede, ambiente e tempo, e usar o resultado real para decidir se um\ncritério de avaliação foi atendido — em vez de confiar apenas em o\naluno ter citado alguma evidência.",
+      "path": "safe-check-executor.md",
+      "digest": "sha256:de388b43c1dc318c4ae0023f373f5065d099ab74a70a4bbc476b01d6ec1c610f"
+    },
+    {
+      "spec": "security-privacy-hardening",
+      "category": "added",
+      "breaking": false,
+      "body": "Adiciona `codinho privacy export`/`purge` para exportar ou apagar\nexplicitamente o estado local (nunca o código do aluno ou o Git);\npublica o threat model, a política de privacidade e os limites de\nsegurança do executor de checks; e torna visível se um check rodou com\nrede aprovada (`network_approved`).",
+      "path": "security-privacy-hardening.md",
+      "digest": "sha256:4f1a21013ce5d9fc14d4a26a374875621bbcb16d72ccbf8f49a46411b4693d68"
+    },
+    {
+      "spec": "session-orchestration-disclosure",
+      "category": "added",
+      "breaking": false,
+      "body": "`codinho serve` now supports the full session lifecycle: `session_configure`,\n`session_pause`, `session_resume`, `session_finish` and `granularity_adjust`\njoin `session_start`/`session_get`/`instruction_get`, letting an agent\npause, resume, finish and adjust the instructional depth of a running\nsession with optimistic-concurrency safety and idempotent retries.",
+      "path": "session-orchestration-disclosure.md",
+      "digest": "sha256:792f2673ede51ce52e04a7ab9e3f457db66f134affa998f84bc0d9eca86616d7"
+    },
+    {
+      "spec": "session-recovery-version-pinning",
+      "category": "fixed",
+      "breaking": false,
+      "body": "Retome sessões após reiniciar o servidor, preservando conteúdo, políticas,\nprogresso, baselines e repetições de requests já confirmados. Atualizações do\ncatálogo não alteram sessões existentes; históricos sem dados suficientes\nrecebem um diagnóstico explícito de recuperação indisponível.",
+      "path": "session-recovery-version-pinning.md",
+      "digest": "sha256:56189f9c528e1dc821e816f2caf555880fab1cb89a4392f35dc641973f808a49"
+    },
+    {
+      "spec": "session-tree-progression",
+      "category": "fixed",
+      "breaking": true,
+      "body": "Sessões iniciam na profundidade solicitada e percorrem todas as layers,\npreservando progresso ao mudar granularidade e reiniciar o servidor. Declare\nchildren_mode: choice para alternativas e use next_step_id em step_advance\npara selecionar um ramo permitido. Irmãos sem choice passam a seguir sequência\nobrigatória; concluir uma janela ampla cobre sua subárvore sem duplicar eventos.",
+      "path": "session-tree-progression.md",
+      "digest": "sha256:809ee955d17b100bed8877ca9e0158a661ebb880480f36af398fc1706559635f"
+    },
+    {
+      "spec": "tutor-skill-host-integration",
+      "category": "added",
+      "breaking": false,
+      "body": "Adicionada a skill `codinho`, que ensina o Codex CLI e a extensão de IDE a\nusar o servidor MCP como tutor de prática deliberada em Go: anuncia modo e\nprofundidade, observa o workspace antes de avaliar, trata feedback como\nconsultivo e nunca edita o código do aluno.",
+      "path": "tutor-skill-host-integration.md",
+      "digest": "sha256:bb719c351e85305a46e021641d89d61a2305867bcc40bd27f06e33eb86160e78"
+    },
+    {
+      "spec": "v1-delivery-ci-assurance",
+      "category": "changed",
+      "breaking": false,
+      "body": "CI exige ferramentas verificadas, checks estritos e evidência identificada por\nplataforma e commit. Build de release valida o rótulo e continua sem publicação.\nDocumentação tem manifest; contratos MCP e rename histórico têm mapas testados.\nProvas privadas dos rascunhos e execução nativa de Linux/macOS foram verificadas.\nO aceite integrado da V1 permanece separado desta entrega de governança.",
+      "path": "v1-delivery-ci-assurance.md",
+      "digest": "sha256:96df707ad53e22c409e8936ce64d7c543fc0f9da4cba152aa2b14853631e7c9c"
+    },
+    {
+      "spec": "workspace-observation-baselines",
+      "category": "added",
+      "breaking": false,
+      "body": "O tutor agora consegue observar o workspace do aluno de forma somente\nleitura: estabelece uma baseline no início de um passo, reporta o que\nmudou em chamadas seguintes (restrito aos arquivos declarados pelo\ndesafio), e nunca inclui segredos ou credenciais na evidência coletada.",
+      "path": "workspace-observation-baselines.md",
+      "digest": "sha256:bde891834e16b6d7972b892a4e0e236eca043de988f268cccfd88936e04ff8df"
+    }
+  ],
+  "releases": []
+}

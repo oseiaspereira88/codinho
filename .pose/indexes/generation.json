@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "generation_id": "gen-ca7add8f7dfd8de8",
+  "files": [
+    {
+      "name": "repo-map.json",
+      "sha256": "sha256:36a99a92af1064a949fad95df93369fec586d495a89d032496a0641bb3de00ca",
+      "bytes": 946
+    },
+    {
+      "name": "services.json",
+      "sha256": "sha256:37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3
+    },
+    {
+      "name": "packages.json",
+      "sha256": "sha256:b2fa3da373a2f3cc113f37693368cbe32ab823b2b50f85426ed675e745921fca",
+      "bytes": 510
+    },
+    {
+      "name": "spec-graph.json",
+      "sha256": "sha256:d49f68037416607ed196865a1e0d21acbabdd1550418173f38571bd891178eb9",
+      "bytes": 189913
+    },
+    {
+      "name": "roadmaps.json",
+      "sha256": "sha256:f8d25eed1ec8ff8e5925fa77337f61273ce8f71aa4ef3534c2226b2edaa22faa",
+      "bytes": 37566
+    },
+    {
+      "name": "delivery-integrity.json",
+      "sha256": "sha256:e651c2fe4cb6f90ad3a667f91b137fc1bc9e7c151fcc69be6e088b9ccafe6adc",
+      "bytes": 830134
+    },
+    {
+      "name": "releases.json",
+      "sha256": "sha256:9b514f4b28628173bacec73d11210bbfd0e8759043829547f68c285d2ed1cac4",
+      "bytes": 15613
+    }
+  ],
+  "inputs": {
+    "federated-material": "sha256:68caf5f5333b4fc3b44d11df93d44922cabf3a8ca746cf7c35ecdc398df45755",
+    "module-discovery": "sha256:ee664fd60159776d67583edbd4065a9e0e1f7d24bba47d2af96933d7ccc822f3",
+    "module-metadata": "sha256:f4690d410db865754951f0f19406113289a8489ffd25920f15720fbd8a23ea05",
+    "policy": "sha256:fafcfe7ec3cf437e7e7c04968bf2aa6b11fc6ca8e8a84ab978a1cbbe22e06e83",
+    "recorded-change-sets": "sha256:6b11cd6c716bb9cec471968c59ca41a4bcea921797149c1c71760c3209b8786e",
+    "release-status": "sha256:fe8ecd2163d131580fdc5ecf9507f0e6e22659578abeabe523b3d00a8d86f63d",
+    "roadmaps": "sha256:836fc1326d67987bb04341c8b1bced05bdb3e32a913d89e195daf7290d77c4c1",
+    "smoke-results": "sha256:74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "specs": "sha256:fca68cc707c5de5cac1541442fec18b5dce0ebfb5ea9093808e3d32f5dfc0573",
+    "validation-matrix": "sha256:5a986b2c158283b65a5ab2be78e1c78d3eff569facacff04de6b7399e6fd61fb",
+    "validation-results": "sha256:a6845d063e8f4f5c31e1f27e896a57009618d63a4650adc99ba521c0520137b9"
+  }
+}

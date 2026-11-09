@@ -1,0 +1,44 @@
+{
+  "apps": [],
+  "dockerfiles": [],
+  "helmCharts": [],
+  "manifests": [
+    "go.mod"
+  ],
+  "moduleMetadata": {
+    "schemaVersion": 1,
+    "source": ".pose/indexes/module-metadata.json"
+  },
+  "packages": [
+    {
+      "name": "codinho",
+      "path": "",
+      "language": "go",
+      "hasDockerfile": false,
+      "hasHelmChart": false,
+      "owner": "@oseiaspereira",
+      "criticality": "high",
+      "domain": "runtime",
+      "validationProfile": "baseline",
+      "metadata": {
+        "criticality": "high",
+        "domain": "runtime",
+        "owner": "@oseiaspereira",
+        "validationProfile": "baseline"
+      },
+      "metadataStatus": {
+        "isComplete": true,
+        "missingFields": [],
+        "source": "declared"
+      }
+    }
+  ],
+  "readmes": [
+    ".agents/skills/README.md",
+    ".agents/skills/README.md.pose-backup",
+    ".pose/assessments/README.md",
+    "README.md"
+  ],
+  "root": ".",
+  "services": []
+}

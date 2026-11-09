@@ -1,8 +1,805 @@
 {
   "roadmaps": {
     "codinho-v1": {
+      "consumes": null,
       "created_at": "2026-08-22",
       "depends_on": null,
+      "federated_acceptance": {
+        "manifest": {
+          "schema_version": 1,
+          "coordinator": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "roadmap",
+            "slug": "codinho-v1"
+          },
+          "coordinator_revision": "dbd848e927ff636e65c2a38220f029e29a07057b",
+          "dependencies": [
+            {
+              "ref": "xref:proj.ai-code-micro-learning/milestone:codinho-v1/adaptive-content-and-selection",
+              "relationship": "prerequisite",
+              "relationships": [
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "milestone",
+                "slug": "codinho-v1",
+                "milestone": "adaptive-content-and-selection"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "dbd848e927ff636e65c2a38220f029e29a07057b",
+              "source_digest": "bc691ff77d6364f83628f29cd3c344e86a9a6c19e402dc753d00a8d192eda1c7"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/milestone:codinho-v1/architecture-baseline",
+              "relationship": "prerequisite",
+              "relationships": [
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "milestone",
+                "slug": "codinho-v1",
+                "milestone": "architecture-baseline"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "dbd848e927ff636e65c2a38220f029e29a07057b",
+              "source_digest": "bc691ff77d6364f83628f29cd3c344e86a9a6c19e402dc753d00a8d192eda1c7"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/milestone:codinho-v1/curriculum-v1",
+              "relationship": "prerequisite",
+              "relationships": [
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "milestone",
+                "slug": "codinho-v1",
+                "milestone": "curriculum-v1"
+              },
+              "resolution_state": "resolved",
+              "status": "pending",
+              "source_revision": "dbd848e927ff636e65c2a38220f029e29a07057b",
+              "source_digest": "bc691ff77d6364f83628f29cd3c344e86a9a6c19e402dc753d00a8d192eda1c7"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/milestone:codinho-v1/delivery-assurance",
+              "relationship": "prerequisite",
+              "relationships": [
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "milestone",
+                "slug": "codinho-v1",
+                "milestone": "delivery-assurance"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "dbd848e927ff636e65c2a38220f029e29a07057b",
+              "source_digest": "bc691ff77d6364f83628f29cd3c344e86a9a6c19e402dc753d00a8d192eda1c7"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/milestone:codinho-v1/editorial-integrity",
+              "relationship": "prerequisite",
+              "relationships": [
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "milestone",
+                "slug": "codinho-v1",
+                "milestone": "editorial-integrity"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "dbd848e927ff636e65c2a38220f029e29a07057b",
+              "source_digest": "bc691ff77d6364f83628f29cd3c344e86a9a6c19e402dc753d00a8d192eda1c7"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/milestone:codinho-v1/executable-foundation",
+              "relationship": "prerequisite",
+              "relationships": [
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "milestone",
+                "slug": "codinho-v1",
+                "milestone": "executable-foundation"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "dbd848e927ff636e65c2a38220f029e29a07057b",
+              "source_digest": "bc691ff77d6364f83628f29cd3c344e86a9a6c19e402dc753d00a8d192eda1c7"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/milestone:codinho-v1/pedagogical-core",
+              "relationship": "prerequisite",
+              "relationships": [
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "milestone",
+                "slug": "codinho-v1",
+                "milestone": "pedagogical-core"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "dbd848e927ff636e65c2a38220f029e29a07057b",
+              "source_digest": "bc691ff77d6364f83628f29cd3c344e86a9a6c19e402dc753d00a8d192eda1c7"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/milestone:codinho-v1/production-hardening",
+              "relationship": "prerequisite",
+              "relationships": [
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "milestone",
+                "slug": "codinho-v1",
+                "milestone": "production-hardening"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "dbd848e927ff636e65c2a38220f029e29a07057b",
+              "source_digest": "bc691ff77d6364f83628f29cd3c344e86a9a6c19e402dc753d00a8d192eda1c7"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/milestone:codinho-v1/session-continuity",
+              "relationship": "prerequisite",
+              "relationships": [
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "milestone",
+                "slug": "codinho-v1",
+                "milestone": "session-continuity"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "dbd848e927ff636e65c2a38220f029e29a07057b",
+              "source_digest": "bc691ff77d6364f83628f29cd3c344e86a9a6c19e402dc753d00a8d192eda1c7"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/milestone:codinho-v1/tutor-surfaces-and-modes",
+              "relationship": "prerequisite",
+              "relationships": [
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "milestone",
+                "slug": "codinho-v1",
+                "milestone": "tutor-surfaces-and-modes"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "dbd848e927ff636e65c2a38220f029e29a07057b",
+              "source_digest": "bc691ff77d6364f83628f29cd3c344e86a9a6c19e402dc753d00a8d192eda1c7"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:administrative-cli-fixtures",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "administrative-cli-fixtures"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "de93036ee604c1efb7751ef1c42c84e401371014",
+              "source_digest": "f4cf3461950d1e8aff7237b6b96bc70ed6e18bb25decc95abd2085b8a7784829"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:agent-authored-catalog-drafts",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "agent-authored-catalog-drafts"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "6f4089d03132fe8bb0cff1ea146fcf34e062ec9d",
+              "source_digest": "682093f59af981925e22cb3856afb84160302d132bb273ea43c892a36a93384c"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:architecture-decision-baseline",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "architecture-decision-baseline"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "34c16410926f5958808e6c25270e3d931a8311ea",
+              "source_digest": "872c7fffe7e3e74b2eeaf0899a69ecef9505a37658b2c1fee3010528ecd6c286"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:assistance-hints-detours",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "assistance-hints-detours"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "99978b852bdfe571536187d5c44356a56b8a5cdf",
+              "source_digest": "62a5ddb86453cc49792655a4450ecaee06d50f030ec331316e86d76e4f0713c8"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:catalog-authoring-quality",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "catalog-authoring-quality"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "47326979ac6325a4215d2ef49fbba12335d02e85",
+              "source_digest": "c2971b5a9c20fecfdd4350142d51140097db4c62f69f7defd1098d71555e835f"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:catalog-publication-integrity",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "catalog-publication-integrity"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "57c24bd0f05d11623afe0e0b70a0597dab1e03f7",
+              "source_digest": "801d0246196177206454f076c57ce852503e0b2cc435e2d2a421a42daefa2639"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:catalog-schema-loader",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "catalog-schema-loader"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "1652ed741df6f9a887a98a81dff5e9181a6fef3a",
+              "source_digest": "69f97d4ed9b8a28e96a414e015932a26a51f291b1251741b8378b4db6d371302"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:concept-content-authoring",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "concept-content-authoring"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "248f1df883489b37386d8c47c72708d5dc36060e",
+              "source_digest": "07b71b159c9753561ec1f024fc3128c9642570aa1cf7c88e1527653c2108d6af"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:curriculum-graph-path-recommendation",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "curriculum-graph-path-recommendation"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "8461aa7181f300d9e1a12f31c8f2270378d49f4e",
+              "source_digest": "76420589909045116749b18c8f5b92284f4cdb04620e30cf0b485aae9d177dc9"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:evaluation-evidence-lineage",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "evaluation-evidence-lineage"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "cf6d772d91665ca7b48551675e53407ffc58e82d",
+              "source_digest": "6fc65a21f188cacc1324633870b707fe0ac5b1e4291be93996ed700376169548"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:eventstore-idempotency-scope",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "eventstore-idempotency-scope"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "de2d1229b23a853e0f268900da9a906926c99923",
+              "source_digest": "8d5483937c88582fd77aaa6201069f7bbb56393f8633647cd857a0a013065768"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:feedback-evaluation-progression",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "feedback-evaluation-progression"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "7c118dba569470f2b5ebf38abf3c98c007b0a1ee",
+              "source_digest": "1abdd39dedf4e770836418b331da1b801309e809d57df59c55ba9fc75de08207"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:go-backend-packs",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "go-backend-packs"
+              },
+              "resolution_state": "resolved",
+              "status": "in-progress",
+              "source_revision": "67b86894aa93e443d9ec35ed001c21810afc8ecb",
+              "source_digest": "d6c449b53a81c0b70b5f9dc15382b9f776de982eeedf1834be610d8538ff2c1e"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:go-foundations-packs",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "go-foundations-packs"
+              },
+              "resolution_state": "resolved",
+              "status": "in-progress",
+              "source_revision": "310a6959c0a8abcecd06b58eac2096422238f76c",
+              "source_digest": "45259f1220891913c4543c176ea19c85563f0ab88bb09c58a71a00a755d50dc4"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:go-interviews-pack",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "go-interviews-pack"
+              },
+              "resolution_state": "resolved",
+              "status": "draft",
+              "source_revision": "99978b852bdfe571536187d5c44356a56b8a5cdf",
+              "source_digest": "2b862e9093c9b1a884e7fbc9655223de77b092380f3220a88365e8348fe69ba0"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:go-production-architecture-packs",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "go-production-architecture-packs"
+              },
+              "resolution_state": "resolved",
+              "status": "in-progress",
+              "source_revision": "b521b12b8b42cb9609a8a87f83ae18fef6d50249",
+              "source_digest": "2e967e21baac32db8c546756509c000bdeec5cc36849cc1f967ff5e7e4916f31"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:go-runtime-foundation",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "go-runtime-foundation"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "1652ed741df6f9a887a98a81dff5e9181a6fef3a",
+              "source_digest": "ef4daf75ff2f31d88a7831291b6421e2235926a55375fc26484cdf6da9e6d33b"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:installation-documentation-ci",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "installation-documentation-ci"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "99978b852bdfe571536187d5c44356a56b8a5cdf",
+              "source_digest": "932d8440e7c896e94142d59998f0dd0eea2bbe1ae79435cd52ae5cd853bffb97"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:interview-mode",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "interview-mode"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "48c34f87868825fd5f9d0aa8a7e5fe4823a38115",
+              "source_digest": "7152cd31a5cce5509b9889d8f61bd1c9f502cd975858f4348ef40fdd52a71143"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:learning-domain-model",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "learning-domain-model"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "1652ed741df6f9a887a98a81dff5e9181a6fef3a",
+              "source_digest": "a3ad07380c2063eab7c487566b5a916bab1112657f687829e42bf91de38fa707"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:learning-practice-debug-modes",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "learning-practice-debug-modes"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "99978b852bdfe571536187d5c44356a56b8a5cdf",
+              "source_digest": "4f47c5e317b9b4f911a4df96978cd685d8112acdada01812c340fe399be8f0b5"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:learning-track-composition",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "learning-track-composition"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "adb32358550c3cb916082be8d01b0b780bc3fe77",
+              "source_digest": "b32efa5d2e26240944cc9e16fa981b4d6701473776ea1afff56e170bfa9f8cf3"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:local-event-store",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "local-event-store"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "1652ed741df6f9a887a98a81dff5e9181a6fef3a",
+              "source_digest": "54c95a5f0fc4a7caeef35e1eb330e3aacbdb136fa4bd3618a4e73bee5c33ece6"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:mastery-review-scheduling",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "mastery-review-scheduling"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "3b6888091ae013bf11417c4be505c0d239a2f5de",
+              "source_digest": "62a3b875d89352a1c4737a3eb34f0ae0c84b8e2e804b6c0f804811000d2c4035"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:mcp-stdio-foundation",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "mcp-stdio-foundation"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "1652ed741df6f9a887a98a81dff5e9181a6fef3a",
+              "source_digest": "5d0ed09bbb2bad4f2bc79791542ebce6294c0b7f8e62adb05e1ddd31b8438a55"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:reliability-observability-compatibility",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "reliability-observability-compatibility"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "99978b852bdfe571536187d5c44356a56b8a5cdf",
+              "source_digest": "f91ba2e303e8f8880e554664bb2ed86a8572ae0d9e4de65f3986a2c9e00e7409"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:safe-check-executor",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "safe-check-executor"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "86ac5cc4b1ce1efa947138303365ab176eb3ff03",
+              "source_digest": "5b9e8dbc375a1f2f7f4b798c14bf8e91b1abfbd4236e3ab9ae32f6dc9eaf11c1"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:security-privacy-hardening",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "security-privacy-hardening"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "99978b852bdfe571536187d5c44356a56b8a5cdf",
+              "source_digest": "b7ac2b49bbdac2d749f20be6caba6c2300399a5a7a70e672f61d166e28b1b405"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:session-orchestration-disclosure",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "session-orchestration-disclosure"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "1652ed741df6f9a887a98a81dff5e9181a6fef3a",
+              "source_digest": "1bbb37a149529beeb87f4ec3be182c9e1356cc6c63f388c883eccc7776d1e2eb"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:session-recovery-version-pinning",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "session-recovery-version-pinning"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "b978493870ff03b4133bc845b037be296ab154b6",
+              "source_digest": "7b0fec036e52443e5853c51a43e1141d02215dca1ad57ae66f21f209e1a9b281"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:session-tree-progression",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "session-tree-progression"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "2283ca036ca5d780e3e9992bf7a784370d87aa2c",
+              "source_digest": "fda19fe1a3522c69273bf69615ac3de248f0db38ab96a45f1f38a8a47b5e882a"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:tutor-skill-host-integration",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "tutor-skill-host-integration"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "33f0f48bf12b7c08be2e58a1f47bd8cf961f8b79",
+              "source_digest": "ffde41ca5e76c46c252a89fdd759bc48a3bcd4c869cd9c3d3db008240623012f"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:v1-delivery-ci-assurance",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "v1-delivery-ci-assurance"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "e9bde241b3e7e93dd056029da2732498efefc131",
+              "source_digest": "f725626d3bef6b8cfd14f3538a7943bbde3366336c3b603d27e74864f8a92ac2"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:v1-integrated-acceptance",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "v1-integrated-acceptance"
+              },
+              "resolution_state": "resolved",
+              "status": "draft",
+              "source_revision": "8c2ee6e794bde10070666ac89dd58afe0af537a6",
+              "source_digest": "8ab53e52fd20faf0c6b4dbfa389f8405462a4db3688eba916b9e17bc67002767"
+            },
+            {
+              "ref": "xref:proj.ai-code-micro-learning/spec:workspace-observation-baselines",
+              "relationship": "ownership",
+              "relationships": [
+                "ownership",
+                "prerequisite"
+              ],
+              "identity": {
+                "project_id": "proj.ai-code-micro-learning",
+                "kind": "spec",
+                "slug": "workspace-observation-baselines"
+              },
+              "resolution_state": "resolved",
+              "status": "done",
+              "source_revision": "913e4b8e13e6bbde56fdf0989a227e3ed8d45d06",
+              "source_digest": "4a4987849c635a342a2741d33184336905d4dc25ccea9c1a580f82e30004124e"
+            }
+          ],
+          "ready": false,
+          "blockers": [
+            "xref:proj.ai-code-micro-learning/milestone:codinho-v1/curriculum-v1:not-done",
+            "xref:proj.ai-code-micro-learning/spec:go-backend-packs:not-done",
+            "xref:proj.ai-code-micro-learning/spec:go-foundations-packs:not-done",
+            "xref:proj.ai-code-micro-learning/spec:go-interviews-pack:not-done",
+            "xref:proj.ai-code-micro-learning/spec:go-production-architecture-packs:not-done",
+            "xref:proj.ai-code-micro-learning/spec:v1-integrated-acceptance:not-done"
+          ],
+          "digest": "sha256:395897bf6145941c4135b69009a2e19e87602c717d1eb3f0091f8cf68ce05c97"
+        },
+        "ready": false,
+        "blockers": [
+          "xref:proj.ai-code-micro-learning/milestone:codinho-v1/curriculum-v1:not-done",
+          "xref:proj.ai-code-micro-learning/spec:go-backend-packs:not-done",
+          "xref:proj.ai-code-micro-learning/spec:go-foundations-packs:not-done",
+          "xref:proj.ai-code-micro-learning/spec:go-interviews-pack:not-done",
+          "xref:proj.ai-code-micro-learning/spec:go-production-architecture-packs:not-done",
+          "xref:proj.ai-code-micro-learning/spec:v1-integrated-acceptance:not-done"
+        ]
+      },
       "milestones": [
         {
           "id": "architecture-baseline",

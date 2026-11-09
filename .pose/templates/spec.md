@@ -1,13 +1,15 @@
 ---
 slug: <feature-slug>
-status: draft        # draft | in-progress | done | blocked | superseded | abandoned
+status: draft        # draft | in-progress | done | superseded | abandoned; blocked = operational wait, not terminal
 created_at: <YYYY-MM-DD>
 completed_at:        # stamped on the transition to status: done
 supersedes:          # slug of the superseded spec (when applicable)
 depends_on:          # prerequisites, inline list: other-spec, milestone:<roadmap>/<id>, roadmap:<slug>
+remediates:          # optional explicit links: spec:slug@defect-fix, finding:rva-<16hex>/F1@revert (never inferred from depends_on)
 priority:            # integer >= 0 (lower = higher priority); ordering preference, not a blocker
 components:          # optional, inline comma-separated list: modules/components touched (e.g. mcp-server, cli) — used by pose_list_specs' `components` filter
 task_type:           # optional: feature | bugfix | refactor — a key of taskTypes in .pose/policy/dor.json; selects the sections the Definition of Ready requires (default: defaultTaskType)
+surface:             # optional: minimal | standard | full (default) — minimal drops Tasks and derivable report sections; `pose specs facts <slug>` derives them
 delivers:            # optional typed refs: surface:id, contract:id, capability:id, infrastructure:id, governance:id
 ---
 
@@ -75,8 +77,10 @@ delivers:            # optional typed refs: surface:id, contract:id, capability:
 
 ### Delivery targets
 <!-- When `delivers` is populated, declare the exact same refs here. Profiles
-     and evidenceClass requirements come from validation-matrix.json. -->
-- surface:example module:path/to/module profile:web-ui entrypoint:path/to/production-entrypoint
+     and evidenceClass requirements come from validation-matrix.json. Leave the
+     section empty when the spec delivers nothing typed. One line per target,
+     for example: surface:example module:path/to/module profile:web-ui
+     entrypoint:path/to/production-entrypoint (as a "- " list item). -->
 
 ### API/contract changes
 - 
@@ -106,7 +110,33 @@ delivers:            # optional typed refs: surface:id, contract:id, capability:
 ## 5. Decisions
 
 > Optional section. Use it when the implementation involves trade-offs or
-> alternatives.
+> alternatives. For a material basis, keep structured `Assumption A<N>` and
+> `Decision D<N>` nodes in this section and run
+> `pose lint-spec <slug> --design-check` (advisory).
+> Only for a material premise, `Valid scope:` names the context it holds in and
+> `Stale trigger: doc:<path>@<pin>` pins the content it was judged against; a
+> change to that content projects a `premise-stale` judgment obligation. There is
+> no calendar expiry, and trivial premises need neither field.
+> Likewise, a material decision may add `Expected effect:` and `Falsifier check:
+> check:<module>/<check>`; a failed indexed result of that check projects a
+> reconsideration candidate, never a verdict. Small fixes need neither.
+
+```markdown
+### Assumption A1
+- Claim: a material premise
+- Status: unverified
+- Evidence: contract:example
+- Scope: version or bounded context
+- Affects: R1
+
+### Decision D1
+- Basis: R1, A1
+- Minimal option: keep the current flow
+- Selected option: keep the current flow
+- Rationale: concrete reason
+- Consequences: durable effect
+- Falsifier: condition that would invalidate the choice
+```
 
 ### Decision <N>
 - Date:

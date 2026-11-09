@@ -1,0 +1,24 @@
+[
+  {
+    "name": "codinho",
+    "path": "",
+    "language": "go",
+    "hasDockerfile": false,
+    "hasHelmChart": false,
+    "owner": "@oseiaspereira",
+    "criticality": "high",
+    "domain": "runtime",
+    "validationProfile": "baseline",
+    "metadata": {
+      "criticality": "high",
+      "domain": "runtime",
+      "owner": "@oseiaspereira",
+      "validationProfile": "baseline"
+    },
+    "metadataStatus": {
+      "isComplete": true,
+      "missingFields": [],
+      "source": "declared"
+    }
+  }
+]

@@ -35,6 +35,7 @@
   ],
   "readmes": [
     ".agents/skills/README.md",
+    ".agents/skills/README.md.pose-backup",
     ".pose/assessments/README.md",
     "README.md"
   ],

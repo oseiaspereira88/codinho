@@ -15,6 +15,8 @@ capabilities: read
 2. [`.pose/workflows/review.md`](../../../.pose/workflows/review.md).
 3. Applicable domain rules; security takes precedence in conflicts.
 
+Resolve the selected task with `pose context --task <typed-or-qualified-artifact-ref> --json` before reviewing. Follow its canonical authority and stop on ambiguity, stale binding, unsupported metadata or `transfer-in-progress`. Use the qualified `xref:` scope for cross-project review; every cross-project write requires an explicit `POSE_PROJECT_ROOTS` binding and the current `context_revision` as `--expect-context`. Keep review evidence and its `POSE-Spec:` trailer in the authority repository.
+
 ## Steps
 
 1. Classify the change as feature, bugfix, refactor, documentation, or mixed.
@@ -24,12 +26,12 @@ capabilities: read
 5. Select rules with `pose suggest review --path <affected-dir>` for every mapped component.
 6. Search `.pose/knowledge/` for prior module decisions, accepted risks, and pending follow-ups.
 7. Require deterministic `pose validate --strict` evidence matching delivery targets.
-8. Evaluate every required plan criterion, including cross-component boundaries.
+8. Evaluate every required plan criterion, including cross-component boundaries. When the change adds or alters a governance gate, also answer: what is the cheapest way to satisfy this gate in form without producing its value, and what stops that? Point to the adversarial corpus case that proves it (`pose-mcp/internal/cli/testdata/adversarial/README.md`), or record the gap.
 9. Classify findings as critical, high, medium, or low with evidence and expected action.
 10. Run `pose recurrence-check --tolerant --window-days 14`; use recurrence escalation for a matching systemic signal.
 11. Create a handoff with `pose new-knowledge handoff <slug>` for accepted residual risk, monitoring, or deferred action.
 12. Seal the review subject with `pose review bundle <scope> --seal`.
-13. Attest the bundle automatically using `pose review auto-attest <bundle-id> --reviewer agent:<id> --apply` (or `pose review attest` with explicit findings when requesting changes). An explicit attestation records `--criterion ID|passed|evidence` (or `not-applicable` with a rationale, or `finding` naming a recorded finding) and `--finding ID|severity|disposition|action|evidence[|owner|rationale|review-by]`; every finding needs a severity and an action, and an `accepted-risk` finding also needs an owner, a rationale and a review date. A `passed` criterion may cite only evidence the sealed bundle contains, of a class the criterion accepts.
+13. Prepare the mechanical half with `pose review auto-attest <bundle-id> --reviewer agent:<id>` — without `--apply` — and read `review_attestation.pending`: those are the criteria no registered check answers, and they are yours to answer. Then record the attestation with `pose review attest`, giving every judgment criterion a conclusion. `--apply` on auto-attest records only when nothing is pending; it refuses otherwise, and never answers a judgment criterion for you. An explicit attestation records `--criterion ID|passed|evidence` (or `not-applicable` with a rationale, or `finding` naming a recorded finding) and `--finding ID|severity|disposition|action|evidence[|owner|rationale|review-by]`; every finding needs a severity and an action, and an `accepted-risk` or `wont-fix` finding also needs an owner, a rationale and a review date. A `passed` criterion may cite only evidence the sealed bundle contains, of a class the criterion accepts. For a cross-project attestation, use the qualified `xref:` as the target argument to `pose review attest`, include `--expect-context <digest>` with `--apply`, and keep the explicit project binding; a bundle ID alone does not select an authority project.
 14. Run `pose review verify <scope>` and `pose review-check <scope>`; close only when both confirm a valid, approved attestation.
 15. Decide: approved, approved with reservations, changes requested, or rejected.
 16. When Contributor Mode is active, if review uncovers POSE linter false-positives, diagnostic frictions, or rule gaps, stage an improvement proposal with `pose contribute stage --type enhancement --title "<summary>"`.

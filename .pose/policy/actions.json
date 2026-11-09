@@ -1,0 +1,8 @@
+{
+  "_comment": "Roles that may answer action requests (spec pose-action-request-resolution). No principal is named: list this project's own, for example \"maintainer\": [\"human:<you>\"]. A request addressed to a principal can be answered without a role.",
+  "schema_version": 1,
+  "roles": {
+    "maintainer": []
+  },
+  "identity_assurance": "declared"
+}

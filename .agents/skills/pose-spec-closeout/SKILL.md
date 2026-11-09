@@ -20,8 +20,9 @@ Close a spec lifecycle and triage every follow-up without silently losing intent
 ## Lifecycle
 
 The normal path is `draft` to `in-progress` to `done`. Alternative terminal
-states are `blocked`, `superseded`, and `abandoned`. Set `completed_at` only
-when transitioning to `done`.
+states are `superseded` and `abandoned`. `blocked` is not terminal: it is an
+operational condition the spec can leave, never a delivery outcome, and it is
+never closed out. Set `completed_at` only when transitioning to `done`.
 
 ## Follow-up dispositions
 
@@ -55,14 +56,30 @@ never becomes overdue. `pose lint-spec` warns when it sees that.
 3. Stop and obtain user confirmation before writing `spawned`, `covered`, or `duplicate`. These transitions create work or silently discard an item if wrong. `open`, `done`, and `wont-do` do not require confirmation.
 4. Ensure every target slug exists and does not point back to the current spec.
 
+## Recoverable plan (preferred)
+
+For a spec, `pose close spec:<slug> --plan` shows the ordered closeout —
+context, evidence, index, seal, mechanical attestation, judgment, verify,
+transition — computed from the repository. `pose close spec:<slug> --apply
+--reviewer agent:<id>` runs every mechanical step in that order (it regenerates
+`results_path` before sealing) and stops with exit 3 when a judgment criterion
+needs a reviewer: answer it with `pose review attest`, then
+`pose close spec:<slug> --resume --reviewer agent:<id>`. An interrupted run is
+resumed the same way; done steps are not repeated. The plan never answers a
+judgment, never publishes and never edits policy. Commit the spec, index,
+results, bundle and attestation in one closeout commit afterwards. The steps
+below are the same flow by hand, for diagnosis.
+
 ## Steps
+
+Before reviewing or closing a cross-project task, run `pose context --task <xref> --json` and use its current `context_revision`. Resolve redirects to the canonical authority; stop on ambiguity, unsupported metadata, stale binding or `transfer-in-progress`. Cross-project review writes and close require an explicit `POSE_PROJECT_ROOTS` binding plus `--expect-context <context_revision>`.
 
 1. Confirm strict deterministic validation passed for affected modules (`pose validate --strict --module <affected-path>`).
 2. Verify that all implementation commits modifying the spec's declared `### Artifacts` carry a `POSE-Spec: <slug>` trailer in their commit message. Commits lacking this trailer cannot be attributed during `pose close` or `pose artifact-check`.
 3. Regenerate the evidence the bundle will seal, **before** sealing it, into
    the path `.pose/policy/delivery.json` declares as `results_path`:
    ```bash
-   pose validate --tolerant --json <results_path>
+   pose validate --tolerant --json-out <results_path>
    pose index
    ```
    The engine reads that **one file** and nothing else under `.pose/results/`.
@@ -75,11 +92,13 @@ never becomes overdue. `pose lint-spec` warns when it sees that.
    Order matters. Generate, index, seal, attest, and commit **last**: the commit
    that stores a result moves the head and invalidates that result's provenance
    for a scope still open.
-4. Run a separate review pass: prepare and seal via `pose review bundle spec:<slug> --seal`, attest via `pose review auto-attest <bundle-id> --reviewer agent:<id> --apply` (or `pose review attest`), and verify with `pose review verify spec:<slug>` (or use `pose review record spec:<slug> ... --apply` for legacy policies without review bundles).
-5. Require `pose review verify spec:<slug>` and `pose review-check spec:<slug>`; remediate, revalidate and supersede stale or rejected attempts.
+4. Run a separate review pass in the canonical project: prepare and seal via `pose review bundle <spec-ref> --seal [--expect-context <digest>]`, prepare the collected half via `pose review auto-attest <bundle-id> --reviewer agent:<id>` (no `--apply`), answer each `review_attestation.pending` criterion with `pose review attest <spec-ref> --reviewer <id> --decision approved --evidence <ref> --criterion ID|passed|<evidence>|<conclusion> --apply [--expect-context <digest>]`, and verify with `pose review verify <spec-ref>` (or use `pose review record <spec-ref> ... --apply [--expect-context <digest>]` for legacy policies without review bundles). For cross-project writes, pass the qualified `xref:` as the attest/record scope, the latest context digest and an explicit project binding; a bundle ID alone does not select the authority project.
+5. Require `pose review verify <spec-ref>` and `pose review-check <spec-ref>`; remediate, revalidate and supersede stale or rejected attempts.
 6. Inspect `pose followups --all` and, if useful, lower `--similarity` to broaden candidates.
 7. Propose each consequential disposition and obtain confirmation before writing it.
-8. Apply `pose close spec:<slug>`; use a manual lifecycle edit only when the Git workflow requires it and preserve the same gate.
+8. Apply `pose close <spec-ref> [--expect-context <digest>]`; use a manual lifecycle edit only when the Git workflow requires it and preserve the same gate. For an external authority, pass its qualified `xref:<project>/spec:<slug>` and the latest context digest.
+   If it prints `close.next`, follow it: a milestone is closed when it is reached, not at the end of its roadmap. Seal and attest `milestone:<roadmap>/<id>`, then `pose close milestone:<roadmap>/<id>`; the close of the last milestone names `pose close roadmap:<roadmap>`. `pose state --attention` lists what is reached and open as `milestone-reached`.
+   That applies to a milestone of several members. A milestone of one member has no review of its own: it stands once that spec is closed and approved, unless a review recorded on the milestone refused it or its edges do not hold, and the review of the spec answers for its exit gate. A roadmap may declare `unreviewed_milestones: <reason>` in its frontmatter for old milestones whose members are all terminal; the review of the roadmap seals and reads the reason.
 9. Produce a **changelog fragment** for the delivered spec:
    ```bash
    cp .pose/templates/changelog-fragment.md .pose/changelogs/unreleased/<slug>.md
@@ -90,7 +109,7 @@ never becomes overdue. `pose lint-spec` warns when it sees that.
    without a fragment (post-adoption).
 10. Run `pose lint-spec <slug> --strict`.
 11. Create any confirmed successor spec with `pose new-spec <slug>` (defaults to dated flat `.pose/specs/YYYY-MM-DD-<slug>.md`) and revalidate its intent instead of copying follow-up text verbatim.
-12. Run `pose assess discover --update-state` upon spec closure to update dynamic platform assessments.
+12. Run `pose assess discover --if-stale --update-state` upon spec closure; unchanged components are reused, changed ones refreshed.
 13. Inspect residual live backlog with `pose followups --open --json`.
 14. When Contributor Mode is active, if the delivery cycle revealed POSE engine friction, false-positive linters, or tooling gaps, stage a sanitized feedback report with `pose contribute stage --type enhancement --title "<summary>"`.
 
@@ -106,6 +125,7 @@ never becomes overdue. `pose lint-spec` warns when it sees that.
 ## Anti-patterns
 
 - Closing before deterministic validation.
+- Editing `status: done` by hand instead of `pose review record`/`pose close`: `pose check --strict` then fails with `review closeout: record or remediate a fresh review`, and the cause is not obvious from the error.
 - Reusing follow-ups automatically without confirmation.
 - Treating lexical candidates as semantic verdicts.
 - Deleting history instead of using `wont-do`.

@@ -1,0 +1,5784 @@
+{
+  "edges": [
+    {
+      "from": "administrative-cli-fixtures",
+      "to": "go-runtime-foundation"
+    },
+    {
+      "from": "administrative-cli-fixtures",
+      "to": "catalog-schema-loader"
+    },
+    {
+      "from": "administrative-cli-fixtures",
+      "to": "local-event-store"
+    },
+    {
+      "from": "administrative-cli-fixtures",
+      "to": "workspace-observation-baselines"
+    },
+    {
+      "from": "administrative-cli-fixtures",
+      "to": "safe-check-executor"
+    },
+    {
+      "from": "agent-authored-catalog-drafts",
+      "to": "catalog-authoring-quality"
+    },
+    {
+      "from": "agent-authored-catalog-drafts",
+      "to": "learning-track-composition"
+    },
+    {
+      "from": "agent-authored-catalog-drafts",
+      "to": "tutor-skill-host-integration"
+    },
+    {
+      "from": "agent-authored-catalog-drafts",
+      "to": "catalog-publication-integrity"
+    },
+    {
+      "from": "agent-authored-catalog-drafts",
+      "to": "concept-content-authoring"
+    },
+    {
+      "from": "agent-authored-catalog-drafts",
+      "to": "session-recovery-version-pinning"
+    },
+    {
+      "from": "assistance-hints-detours",
+      "to": "session-orchestration-disclosure"
+    },
+    {
+      "from": "catalog-authoring-quality",
+      "to": "catalog-schema-loader"
+    },
+    {
+      "from": "catalog-authoring-quality",
+      "to": "safe-check-executor"
+    },
+    {
+      "from": "catalog-authoring-quality",
+      "to": "administrative-cli-fixtures"
+    },
+    {
+      "from": "catalog-authoring-quality",
+      "to": "curriculum-graph-path-recommendation"
+    },
+    {
+      "from": "catalog-publication-integrity",
+      "to": "catalog-authoring-quality"
+    },
+    {
+      "from": "catalog-publication-integrity",
+      "to": "catalog-schema-loader"
+    },
+    {
+      "from": "catalog-publication-integrity",
+      "to": "safe-check-executor"
+    },
+    {
+      "from": "catalog-schema-loader",
+      "to": "architecture-decision-baseline"
+    },
+    {
+      "from": "catalog-schema-loader",
+      "to": "go-runtime-foundation"
+    },
+    {
+      "from": "concept-content-authoring",
+      "to": "assistance-hints-detours"
+    },
+    {
+      "from": "concept-content-authoring",
+      "to": "catalog-authoring-quality"
+    },
+    {
+      "from": "curriculum-graph-path-recommendation",
+      "to": "catalog-schema-loader"
+    },
+    {
+      "from": "curriculum-graph-path-recommendation",
+      "to": "mastery-review-scheduling"
+    },
+    {
+      "from": "evaluation-evidence-lineage",
+      "to": "session-recovery-version-pinning"
+    },
+    {
+      "from": "evaluation-evidence-lineage",
+      "to": "safe-check-executor"
+    },
+    {
+      "from": "evaluation-evidence-lineage",
+      "to": "feedback-evaluation-progression"
+    },
+    {
+      "from": "eventstore-idempotency-scope",
+      "to": "local-event-store"
+    },
+    {
+      "from": "feedback-evaluation-progression",
+      "to": "session-orchestration-disclosure"
+    },
+    {
+      "from": "feedback-evaluation-progression",
+      "to": "local-event-store"
+    },
+    {
+      "from": "feedback-evaluation-progression",
+      "to": "mcp-stdio-foundation"
+    },
+    {
+      "from": "go-backend-packs",
+      "to": "curriculum-graph-path-recommendation"
+    },
+    {
+      "from": "go-backend-packs",
+      "to": "catalog-authoring-quality"
+    },
+    {
+      "from": "go-backend-packs",
+      "to": "go-foundations-packs"
+    },
+    {
+      "from": "go-foundations-packs",
+      "to": "curriculum-graph-path-recommendation"
+    },
+    {
+      "from": "go-foundations-packs",
+      "to": "catalog-authoring-quality"
+    },
+    {
+      "from": "go-interviews-pack",
+      "to": "curriculum-graph-path-recommendation"
+    },
+    {
+      "from": "go-interviews-pack",
+      "to": "catalog-authoring-quality"
+    },
+    {
+      "from": "go-interviews-pack",
+      "to": "interview-mode"
+    },
+    {
+      "from": "go-interviews-pack",
+      "to": "go-production-architecture-packs"
+    },
+    {
+      "from": "go-production-architecture-packs",
+      "to": "curriculum-graph-path-recommendation"
+    },
+    {
+      "from": "go-production-architecture-packs",
+      "to": "catalog-authoring-quality"
+    },
+    {
+      "from": "go-production-architecture-packs",
+      "to": "go-backend-packs"
+    },
+    {
+      "from": "go-runtime-foundation",
+      "to": "architecture-decision-baseline"
+    },
+    {
+      "from": "installation-documentation-ci",
+      "to": "tutor-skill-host-integration"
+    },
+    {
+      "from": "installation-documentation-ci",
+      "to": "administrative-cli-fixtures"
+    },
+    {
+      "from": "installation-documentation-ci",
+      "to": "catalog-authoring-quality"
+    },
+    {
+      "from": "installation-documentation-ci",
+      "to": "security-privacy-hardening"
+    },
+    {
+      "from": "installation-documentation-ci",
+      "to": "reliability-observability-compatibility"
+    },
+    {
+      "from": "interview-mode",
+      "to": "feedback-evaluation-progression"
+    },
+    {
+      "from": "interview-mode",
+      "to": "safe-check-executor"
+    },
+    {
+      "from": "interview-mode",
+      "to": "tutor-skill-host-integration"
+    },
+    {
+      "from": "interview-mode",
+      "to": "learning-practice-debug-modes"
+    },
+    {
+      "from": "learning-domain-model",
+      "to": "architecture-decision-baseline"
+    },
+    {
+      "from": "learning-domain-model",
+      "to": "go-runtime-foundation"
+    },
+    {
+      "from": "learning-practice-debug-modes",
+      "to": "session-orchestration-disclosure"
+    },
+    {
+      "from": "learning-practice-debug-modes",
+      "to": "assistance-hints-detours"
+    },
+    {
+      "from": "learning-practice-debug-modes",
+      "to": "feedback-evaluation-progression"
+    },
+    {
+      "from": "learning-practice-debug-modes",
+      "to": "mastery-review-scheduling"
+    },
+    {
+      "from": "learning-practice-debug-modes",
+      "to": "tutor-skill-host-integration"
+    },
+    {
+      "from": "learning-track-composition",
+      "to": "curriculum-graph-path-recommendation"
+    },
+    {
+      "from": "learning-track-composition",
+      "to": "session-orchestration-disclosure"
+    },
+    {
+      "from": "learning-track-composition",
+      "to": "mastery-review-scheduling"
+    },
+    {
+      "from": "learning-track-composition",
+      "to": "session-recovery-version-pinning"
+    },
+    {
+      "from": "learning-track-composition",
+      "to": "session-tree-progression"
+    },
+    {
+      "from": "learning-track-composition",
+      "to": "catalog-publication-integrity"
+    },
+    {
+      "from": "local-event-store",
+      "to": "architecture-decision-baseline"
+    },
+    {
+      "from": "local-event-store",
+      "to": "go-runtime-foundation"
+    },
+    {
+      "from": "local-event-store",
+      "to": "learning-domain-model"
+    },
+    {
+      "from": "mastery-review-scheduling",
+      "to": "local-event-store"
+    },
+    {
+      "from": "mastery-review-scheduling",
+      "to": "feedback-evaluation-progression"
+    },
+    {
+      "from": "mcp-stdio-foundation",
+      "to": "go-runtime-foundation"
+    },
+    {
+      "from": "mcp-stdio-foundation",
+      "to": "learning-domain-model"
+    },
+    {
+      "from": "mcp-stdio-foundation",
+      "to": "catalog-schema-loader"
+    },
+    {
+      "from": "mcp-stdio-foundation",
+      "to": "local-event-store"
+    },
+    {
+      "from": "reliability-observability-compatibility",
+      "to": "local-event-store"
+    },
+    {
+      "from": "reliability-observability-compatibility",
+      "to": "mcp-stdio-foundation"
+    },
+    {
+      "from": "reliability-observability-compatibility",
+      "to": "safe-check-executor"
+    },
+    {
+      "from": "reliability-observability-compatibility",
+      "to": "mastery-review-scheduling"
+    },
+    {
+      "from": "reliability-observability-compatibility",
+      "to": "administrative-cli-fixtures"
+    },
+    {
+      "from": "reliability-observability-compatibility",
+      "to": "security-privacy-hardening"
+    },
+    {
+      "from": "safe-check-executor",
+      "to": "catalog-schema-loader"
+    },
+    {
+      "from": "safe-check-executor",
+      "to": "workspace-observation-baselines"
+    },
+    {
+      "from": "safe-check-executor",
+      "to": "feedback-evaluation-progression"
+    },
+    {
+      "from": "security-privacy-hardening",
+      "to": "mcp-stdio-foundation"
+    },
+    {
+      "from": "security-privacy-hardening",
+      "to": "workspace-observation-baselines"
+    },
+    {
+      "from": "security-privacy-hardening",
+      "to": "safe-check-executor"
+    },
+    {
+      "from": "security-privacy-hardening",
+      "to": "tutor-skill-host-integration"
+    },
+    {
+      "from": "security-privacy-hardening",
+      "to": "administrative-cli-fixtures"
+    },
+    {
+      "from": "session-orchestration-disclosure",
+      "to": "learning-domain-model"
+    },
+    {
+      "from": "session-orchestration-disclosure",
+      "to": "catalog-schema-loader"
+    },
+    {
+      "from": "session-orchestration-disclosure",
+      "to": "local-event-store"
+    },
+    {
+      "from": "session-orchestration-disclosure",
+      "to": "mcp-stdio-foundation"
+    },
+    {
+      "from": "session-recovery-version-pinning",
+      "to": "eventstore-idempotency-scope"
+    },
+    {
+      "from": "session-recovery-version-pinning",
+      "to": "session-orchestration-disclosure"
+    },
+    {
+      "from": "session-recovery-version-pinning",
+      "to": "workspace-observation-baselines"
+    },
+    {
+      "from": "session-recovery-version-pinning",
+      "to": "reliability-observability-compatibility"
+    },
+    {
+      "from": "session-tree-progression",
+      "to": "feedback-evaluation-progression"
+    },
+    {
+      "from": "session-tree-progression",
+      "to": "learning-practice-debug-modes"
+    },
+    {
+      "from": "session-tree-progression",
+      "to": "session-recovery-version-pinning"
+    },
+    {
+      "from": "session-tree-progression",
+      "to": "evaluation-evidence-lineage"
+    },
+    {
+      "from": "tutor-skill-host-integration",
+      "to": "mcp-stdio-foundation"
+    },
+    {
+      "from": "tutor-skill-host-integration",
+      "to": "session-orchestration-disclosure"
+    },
+    {
+      "from": "tutor-skill-host-integration",
+      "to": "assistance-hints-detours"
+    },
+    {
+      "from": "tutor-skill-host-integration",
+      "to": "feedback-evaluation-progression"
+    },
+    {
+      "from": "tutor-skill-host-integration",
+      "to": "workspace-observation-baselines"
+    },
+    {
+      "from": "tutor-skill-host-integration",
+      "to": "safe-check-executor"
+    },
+    {
+      "from": "v1-delivery-ci-assurance",
+      "to": "installation-documentation-ci"
+    },
+    {
+      "from": "v1-delivery-ci-assurance",
+      "to": "reliability-observability-compatibility"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "architecture-decision-baseline"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "go-runtime-foundation"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "learning-domain-model"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "catalog-schema-loader"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "local-event-store"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "mcp-stdio-foundation"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "session-orchestration-disclosure"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "assistance-hints-detours"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "feedback-evaluation-progression"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "workspace-observation-baselines"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "safe-check-executor"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "mastery-review-scheduling"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "curriculum-graph-path-recommendation"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "tutor-skill-host-integration"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "administrative-cli-fixtures"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "learning-practice-debug-modes"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "interview-mode"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "catalog-authoring-quality"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "go-foundations-packs"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "go-backend-packs"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "go-production-architecture-packs"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "go-interviews-pack"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "security-privacy-hardening"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "reliability-observability-compatibility"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "installation-documentation-ci"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "eventstore-idempotency-scope"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "learning-track-composition"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "agent-authored-catalog-drafts"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "session-recovery-version-pinning"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "session-tree-progression"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "catalog-publication-integrity"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "concept-content-authoring"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "v1-delivery-ci-assurance"
+    },
+    {
+      "from": "v1-integrated-acceptance",
+      "to": "evaluation-evidence-lineage"
+    },
+    {
+      "from": "workspace-observation-baselines",
+      "to": "go-runtime-foundation"
+    },
+    {
+      "from": "workspace-observation-baselines",
+      "to": "local-event-store"
+    },
+    {
+      "from": "workspace-observation-baselines",
+      "to": "learning-domain-model"
+    }
+  ],
+  "schemaVersion": 1,
+  "specs": {
+    "administrative-cli-fixtures": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "go-runtime-foundation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "ef4daf75ff2f31d88a7831291b6421e2235926a55375fc26484cdf6da9e6d33b",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-schema-loader"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "69f97d4ed9b8a28e96a414e015932a26a51f291b1251741b8378b4db6d371302",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "local-event-store"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "54c95a5f0fc4a7caeef35e1eb330e3aacbdb136fa4bd3618a4e73bee5c33ece6",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "workspace-observation-baselines"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "4a4987849c635a342a2741d33184336905d4dc25ccea9c1a580f82e30004124e",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "safe-check-executor"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "5b9e8dbc375a1f2f7f4b798c14bf8e91b1abfbd4236e3ab9ae32f6dc9eaf11c1",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "go-runtime-foundation",
+        "catalog-schema-loader",
+        "local-event-store",
+        "workspace-observation-baselines",
+        "safe-check-executor"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "administrative-cli-fixtures"
+      },
+      "path": ".pose/specs/2026-08-22-administrative-cli-fixtures.md",
+      "priority": 140,
+      "status": "done"
+    },
+    "agent-authored-catalog-drafts": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-authoring-quality"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "c2971b5a9c20fecfdd4350142d51140097db4c62f69f7defd1098d71555e835f",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "administrative-cli-fixtures"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "curriculum-graph-path-recommendation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "learning-track-composition"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "b32efa5d2e26240944cc9e16fa981b4d6701473776ea1afff56e170bfa9f8cf3",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "curriculum-graph-path-recommendation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mastery-review-scheduling"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-recovery-version-pinning"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-tree-progression"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-publication-integrity"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "tutor-skill-host-integration"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "ffde41ca5e76c46c252a89fdd759bc48a3bcd4c869cd9c3d3db008240623012f",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "assistance-hints-detours"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-publication-integrity"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "801d0246196177206454f076c57ce852503e0b2cc435e2d2a421a42daefa2639",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-authoring-quality"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "concept-content-authoring"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "07b71b159c9753561ec1f024fc3128c9642570aa1cf7c88e1527653c2108d6af",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "assistance-hints-detours"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-authoring-quality"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "session-recovery-version-pinning"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "7b0fec036e52443e5853c51a43e1141d02215dca1ad57ae66f21f209e1a9b281",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "eventstore-idempotency-scope"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "reliability-observability-compatibility"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "catalog-authoring-quality",
+        "learning-track-composition",
+        "tutor-skill-host-integration",
+        "catalog-publication-integrity",
+        "concept-content-authoring",
+        "session-recovery-version-pinning"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "agent-authored-catalog-drafts"
+      },
+      "path": ".pose/specs/2026-08-24-agent-authored-catalog-drafts.md",
+      "priority": 75,
+      "status": "done"
+    },
+    "architecture-decision-baseline": {
+      "dependency_resolutions": [],
+      "depends_on": null,
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "architecture-decision-baseline"
+      },
+      "path": ".pose/specs/2026-08-22-architecture-decision-baseline.md",
+      "priority": 0,
+      "status": "done"
+    },
+    "assistance-hints-detours": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "session-orchestration-disclosure"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "1bbb37a149529beeb87f4ec3be182c9e1356cc6c63f388c883eccc7776d1e2eb",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "session-orchestration-disclosure"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "assistance-hints-detours"
+      },
+      "path": ".pose/specs/2026-08-22-assistance-hints-detours.md",
+      "priority": 70,
+      "status": "done"
+    },
+    "catalog-authoring-quality": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-schema-loader"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "69f97d4ed9b8a28e96a414e015932a26a51f291b1251741b8378b4db6d371302",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "safe-check-executor"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "5b9e8dbc375a1f2f7f4b798c14bf8e91b1abfbd4236e3ab9ae32f6dc9eaf11c1",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "administrative-cli-fixtures"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "f4cf3461950d1e8aff7237b6b96bc70ed6e18bb25decc95abd2085b8a7784829",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "curriculum-graph-path-recommendation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "76420589909045116749b18c8f5b92284f4cdb04620e30cf0b485aae9d177dc9",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mastery-review-scheduling"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "catalog-schema-loader",
+        "safe-check-executor",
+        "administrative-cli-fixtures",
+        "curriculum-graph-path-recommendation"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "catalog-authoring-quality"
+      },
+      "path": ".pose/specs/2026-08-22-catalog-authoring-quality.md",
+      "priority": 170,
+      "status": "done"
+    },
+    "catalog-publication-integrity": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-authoring-quality"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "c2971b5a9c20fecfdd4350142d51140097db4c62f69f7defd1098d71555e835f",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "administrative-cli-fixtures"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "curriculum-graph-path-recommendation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-schema-loader"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "69f97d4ed9b8a28e96a414e015932a26a51f291b1251741b8378b4db6d371302",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "safe-check-executor"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "5b9e8dbc375a1f2f7f4b798c14bf8e91b1abfbd4236e3ab9ae32f6dc9eaf11c1",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "catalog-authoring-quality",
+        "catalog-schema-loader",
+        "safe-check-executor"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "catalog-publication-integrity"
+      },
+      "path": ".pose/specs/2026-09-07-catalog-publication-integrity.md",
+      "priority": 30,
+      "status": "done"
+    },
+    "catalog-schema-loader": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "architecture-decision-baseline"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "872c7fffe7e3e74b2eeaf0899a69ecef9505a37658b2c1fee3010528ecd6c286"
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "go-runtime-foundation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "ef4daf75ff2f31d88a7831291b6421e2235926a55375fc26484cdf6da9e6d33b",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "architecture-decision-baseline",
+        "go-runtime-foundation"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "catalog-schema-loader"
+      },
+      "path": ".pose/specs/2026-08-22-catalog-schema-loader.md",
+      "priority": 30,
+      "status": "done"
+    },
+    "concept-content-authoring": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "assistance-hints-detours"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "62a5ddb86453cc49792655a4450ecaee06d50f030ec331316e86d76e4f0713c8",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-authoring-quality"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "c2971b5a9c20fecfdd4350142d51140097db4c62f69f7defd1098d71555e835f",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "administrative-cli-fixtures"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "curriculum-graph-path-recommendation"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "assistance-hints-detours",
+        "catalog-authoring-quality"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "concept-content-authoring"
+      },
+      "path": ".pose/specs/2026-09-07-concept-content-authoring.md",
+      "priority": 40,
+      "status": "done"
+    },
+    "curriculum-graph-path-recommendation": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-schema-loader"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "69f97d4ed9b8a28e96a414e015932a26a51f291b1251741b8378b4db6d371302",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "mastery-review-scheduling"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "62a3b875d89352a1c4737a3eb34f0ae0c84b8e2e804b6c0f804811000d2c4035",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "catalog-schema-loader",
+        "mastery-review-scheduling"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "curriculum-graph-path-recommendation"
+      },
+      "path": ".pose/specs/2026-08-22-curriculum-graph-path-recommendation.md",
+      "priority": 120,
+      "status": "done"
+    },
+    "editorial-batch-engine": {
+      "dependency_resolutions": [],
+      "depends_on": null,
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "editorial-batch-engine"
+      },
+      "path": ".pose/specs/2026-09-11-editorial-batch-engine.md",
+      "priority": 100,
+      "status": "in-progress"
+    },
+    "evaluation-evidence-lineage": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "session-recovery-version-pinning"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "7b0fec036e52443e5853c51a43e1141d02215dca1ad57ae66f21f209e1a9b281",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "eventstore-idempotency-scope"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "reliability-observability-compatibility"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "safe-check-executor"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "5b9e8dbc375a1f2f7f4b798c14bf8e91b1abfbd4236e3ab9ae32f6dc9eaf11c1",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "feedback-evaluation-progression"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "1abdd39dedf4e770836418b331da1b801309e809d57df59c55ba9fc75de08207",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "session-recovery-version-pinning",
+        "safe-check-executor",
+        "feedback-evaluation-progression"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "evaluation-evidence-lineage"
+      },
+      "path": ".pose/specs/2026-09-07-evaluation-evidence-lineage.md",
+      "priority": 15,
+      "status": "done"
+    },
+    "eventstore-idempotency-scope": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "local-event-store"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "54c95a5f0fc4a7caeef35e1eb330e3aacbdb136fa4bd3618a4e73bee5c33ece6",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "local-event-store"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "eventstore-idempotency-scope"
+      },
+      "path": ".pose/specs/2026-08-23-eventstore-idempotency-scope.md",
+      "priority": 15,
+      "status": "done"
+    },
+    "feedback-evaluation-progression": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "session-orchestration-disclosure"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "1bbb37a149529beeb87f4ec3be182c9e1356cc6c63f388c883eccc7776d1e2eb",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "local-event-store"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "54c95a5f0fc4a7caeef35e1eb330e3aacbdb136fa4bd3618a4e73bee5c33ece6",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "mcp-stdio-foundation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "5d0ed09bbb2bad4f2bc79791542ebce6294c0b7f8e62adb05e1ddd31b8438a55",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "session-orchestration-disclosure",
+        "local-event-store",
+        "mcp-stdio-foundation"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "feedback-evaluation-progression"
+      },
+      "path": ".pose/specs/2026-08-22-feedback-evaluation-progression.md",
+      "priority": 80,
+      "status": "done"
+    },
+    "go-backend-packs": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "curriculum-graph-path-recommendation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "76420589909045116749b18c8f5b92284f4cdb04620e30cf0b485aae9d177dc9",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mastery-review-scheduling"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-authoring-quality"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "c2971b5a9c20fecfdd4350142d51140097db4c62f69f7defd1098d71555e835f",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "administrative-cli-fixtures"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "curriculum-graph-path-recommendation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "go-foundations-packs"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "in-progress",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "45259f1220891913c4543c176ea19c85563f0ab88bb09c58a71a00a755d50dc4",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "curriculum-graph-path-recommendation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-authoring-quality"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "curriculum-graph-path-recommendation",
+        "catalog-authoring-quality",
+        "go-foundations-packs"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "go-backend-packs"
+      },
+      "path": ".pose/specs/2026-08-22-go-backend-packs.md",
+      "priority": 190,
+      "status": "in-progress"
+    },
+    "go-foundations-packs": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "curriculum-graph-path-recommendation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "76420589909045116749b18c8f5b92284f4cdb04620e30cf0b485aae9d177dc9",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mastery-review-scheduling"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-authoring-quality"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "c2971b5a9c20fecfdd4350142d51140097db4c62f69f7defd1098d71555e835f",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "administrative-cli-fixtures"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "curriculum-graph-path-recommendation"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "curriculum-graph-path-recommendation",
+        "catalog-authoring-quality"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "go-foundations-packs"
+      },
+      "path": ".pose/specs/2026-08-22-go-foundations-packs.md",
+      "priority": 180,
+      "status": "in-progress"
+    },
+    "go-interviews-pack": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "curriculum-graph-path-recommendation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "76420589909045116749b18c8f5b92284f4cdb04620e30cf0b485aae9d177dc9",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mastery-review-scheduling"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-authoring-quality"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "c2971b5a9c20fecfdd4350142d51140097db4c62f69f7defd1098d71555e835f",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "administrative-cli-fixtures"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "curriculum-graph-path-recommendation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "interview-mode"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "7152cd31a5cce5509b9889d8f61bd1c9f502cd975858f4348ef40fdd52a71143",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "tutor-skill-host-integration"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-practice-debug-modes"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "go-production-architecture-packs"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "in-progress",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "2e967e21baac32db8c546756509c000bdeec5cc36849cc1f967ff5e7e4916f31",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "curriculum-graph-path-recommendation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-authoring-quality"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-backend-packs"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "curriculum-graph-path-recommendation",
+        "catalog-authoring-quality",
+        "interview-mode",
+        "go-production-architecture-packs"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "go-interviews-pack"
+      },
+      "path": ".pose/specs/2026-08-22-go-interviews-pack.md",
+      "priority": 210,
+      "status": "draft"
+    },
+    "go-production-architecture-packs": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "curriculum-graph-path-recommendation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "76420589909045116749b18c8f5b92284f4cdb04620e30cf0b485aae9d177dc9",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mastery-review-scheduling"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-authoring-quality"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "c2971b5a9c20fecfdd4350142d51140097db4c62f69f7defd1098d71555e835f",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "administrative-cli-fixtures"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "curriculum-graph-path-recommendation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "go-backend-packs"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "in-progress",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "d6c449b53a81c0b70b5f9dc15382b9f776de982eeedf1834be610d8538ff2c1e",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "curriculum-graph-path-recommendation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-authoring-quality"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-foundations-packs"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "curriculum-graph-path-recommendation",
+        "catalog-authoring-quality",
+        "go-backend-packs"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "go-production-architecture-packs"
+      },
+      "path": ".pose/specs/2026-08-22-go-production-architecture-packs.md",
+      "priority": 200,
+      "status": "in-progress"
+    },
+    "go-runtime-foundation": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "architecture-decision-baseline"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "872c7fffe7e3e74b2eeaf0899a69ecef9505a37658b2c1fee3010528ecd6c286"
+        }
+      ],
+      "depends_on": [
+        "architecture-decision-baseline"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "go-runtime-foundation"
+      },
+      "path": ".pose/specs/2026-08-22-go-runtime-foundation.md",
+      "priority": 10,
+      "status": "done"
+    },
+    "installation-documentation-ci": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "tutor-skill-host-integration"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "ffde41ca5e76c46c252a89fdd759bc48a3bcd4c869cd9c3d3db008240623012f",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "assistance-hints-detours"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "administrative-cli-fixtures"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "f4cf3461950d1e8aff7237b6b96bc70ed6e18bb25decc95abd2085b8a7784829",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-authoring-quality"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "c2971b5a9c20fecfdd4350142d51140097db4c62f69f7defd1098d71555e835f",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "administrative-cli-fixtures"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "curriculum-graph-path-recommendation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "security-privacy-hardening"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "b7ac2b49bbdac2d749f20be6caba6c2300399a5a7a70e672f61d166e28b1b405",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "tutor-skill-host-integration"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "administrative-cli-fixtures"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "reliability-observability-compatibility"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "f91ba2e303e8f8880e554664bb2ed86a8572ae0d9e4de65f3986a2c9e00e7409",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mastery-review-scheduling"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "administrative-cli-fixtures"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "security-privacy-hardening"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "tutor-skill-host-integration",
+        "administrative-cli-fixtures",
+        "catalog-authoring-quality",
+        "security-privacy-hardening",
+        "reliability-observability-compatibility"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "installation-documentation-ci"
+      },
+      "path": ".pose/specs/2026-08-22-installation-documentation-ci.md",
+      "priority": 240,
+      "status": "done"
+    },
+    "interview-mode": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "feedback-evaluation-progression"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "1abdd39dedf4e770836418b331da1b801309e809d57df59c55ba9fc75de08207",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "safe-check-executor"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "5b9e8dbc375a1f2f7f4b798c14bf8e91b1abfbd4236e3ab9ae32f6dc9eaf11c1",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "tutor-skill-host-integration"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "ffde41ca5e76c46c252a89fdd759bc48a3bcd4c869cd9c3d3db008240623012f",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "assistance-hints-detours"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "learning-practice-debug-modes"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "4f47c5e317b9b4f911a4df96978cd685d8112acdada01812c340fe399be8f0b5",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "assistance-hints-detours"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mastery-review-scheduling"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "tutor-skill-host-integration"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "feedback-evaluation-progression",
+        "safe-check-executor",
+        "tutor-skill-host-integration",
+        "learning-practice-debug-modes"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "interview-mode"
+      },
+      "path": ".pose/specs/2026-08-22-interview-mode.md",
+      "priority": 160,
+      "status": "done"
+    },
+    "learning-domain-model": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "architecture-decision-baseline"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "872c7fffe7e3e74b2eeaf0899a69ecef9505a37658b2c1fee3010528ecd6c286"
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "go-runtime-foundation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "ef4daf75ff2f31d88a7831291b6421e2235926a55375fc26484cdf6da9e6d33b",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "architecture-decision-baseline",
+        "go-runtime-foundation"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "learning-domain-model"
+      },
+      "path": ".pose/specs/2026-08-22-learning-domain-model.md",
+      "priority": 20,
+      "status": "done"
+    },
+    "learning-practice-debug-modes": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "session-orchestration-disclosure"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "1bbb37a149529beeb87f4ec3be182c9e1356cc6c63f388c883eccc7776d1e2eb",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "assistance-hints-detours"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "62a5ddb86453cc49792655a4450ecaee06d50f030ec331316e86d76e4f0713c8",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "feedback-evaluation-progression"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "1abdd39dedf4e770836418b331da1b801309e809d57df59c55ba9fc75de08207",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "mastery-review-scheduling"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "62a3b875d89352a1c4737a3eb34f0ae0c84b8e2e804b6c0f804811000d2c4035",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "tutor-skill-host-integration"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "ffde41ca5e76c46c252a89fdd759bc48a3bcd4c869cd9c3d3db008240623012f",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "assistance-hints-detours"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "session-orchestration-disclosure",
+        "assistance-hints-detours",
+        "feedback-evaluation-progression",
+        "mastery-review-scheduling",
+        "tutor-skill-host-integration"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "learning-practice-debug-modes"
+      },
+      "path": ".pose/specs/2026-08-22-learning-practice-debug-modes.md",
+      "priority": 150,
+      "status": "done"
+    },
+    "learning-track-composition": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "curriculum-graph-path-recommendation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "76420589909045116749b18c8f5b92284f4cdb04620e30cf0b485aae9d177dc9",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mastery-review-scheduling"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "session-orchestration-disclosure"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "1bbb37a149529beeb87f4ec3be182c9e1356cc6c63f388c883eccc7776d1e2eb",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "mastery-review-scheduling"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "62a3b875d89352a1c4737a3eb34f0ae0c84b8e2e804b6c0f804811000d2c4035",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "session-recovery-version-pinning"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "7b0fec036e52443e5853c51a43e1141d02215dca1ad57ae66f21f209e1a9b281",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "eventstore-idempotency-scope"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "reliability-observability-compatibility"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "session-tree-progression"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "fda19fe1a3522c69273bf69615ac3de248f0db38ab96a45f1f38a8a47b5e882a",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-practice-debug-modes"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-recovery-version-pinning"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "evaluation-evidence-lineage"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-publication-integrity"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "801d0246196177206454f076c57ce852503e0b2cc435e2d2a421a42daefa2639",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-authoring-quality"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "curriculum-graph-path-recommendation",
+        "session-orchestration-disclosure",
+        "mastery-review-scheduling",
+        "session-recovery-version-pinning",
+        "session-tree-progression",
+        "catalog-publication-integrity"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "learning-track-composition"
+      },
+      "path": ".pose/specs/2026-08-24-learning-track-composition.md",
+      "priority": 65,
+      "status": "done"
+    },
+    "local-event-store": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "architecture-decision-baseline"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "872c7fffe7e3e74b2eeaf0899a69ecef9505a37658b2c1fee3010528ecd6c286"
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "go-runtime-foundation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "ef4daf75ff2f31d88a7831291b6421e2235926a55375fc26484cdf6da9e6d33b",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "learning-domain-model"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "a3ad07380c2063eab7c487566b5a916bab1112657f687829e42bf91de38fa707",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "architecture-decision-baseline",
+        "go-runtime-foundation",
+        "learning-domain-model"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "local-event-store"
+      },
+      "path": ".pose/specs/2026-08-22-local-event-store.md",
+      "priority": 40,
+      "status": "done"
+    },
+    "mastery-review-scheduling": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "local-event-store"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "54c95a5f0fc4a7caeef35e1eb330e3aacbdb136fa4bd3618a4e73bee5c33ece6",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "feedback-evaluation-progression"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "1abdd39dedf4e770836418b331da1b801309e809d57df59c55ba9fc75de08207",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "local-event-store",
+        "feedback-evaluation-progression"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "mastery-review-scheduling"
+      },
+      "path": ".pose/specs/2026-08-22-mastery-review-scheduling.md",
+      "priority": 110,
+      "status": "done"
+    },
+    "mcp-stdio-foundation": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "go-runtime-foundation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "ef4daf75ff2f31d88a7831291b6421e2235926a55375fc26484cdf6da9e6d33b",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "learning-domain-model"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "a3ad07380c2063eab7c487566b5a916bab1112657f687829e42bf91de38fa707",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-schema-loader"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "69f97d4ed9b8a28e96a414e015932a26a51f291b1251741b8378b4db6d371302",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "local-event-store"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "54c95a5f0fc4a7caeef35e1eb330e3aacbdb136fa4bd3618a4e73bee5c33ece6",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "go-runtime-foundation",
+        "learning-domain-model",
+        "catalog-schema-loader",
+        "local-event-store"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "mcp-stdio-foundation"
+      },
+      "path": ".pose/specs/2026-08-22-mcp-stdio-foundation.md",
+      "priority": 50,
+      "status": "done"
+    },
+    "pose-configuration-review-7-4-1": {
+      "dependency_resolutions": [],
+      "depends_on": null,
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "pose-configuration-review-7-4-1"
+      },
+      "path": ".pose/specs/2026-11-09-pose-configuration-review-7-4-1.md",
+      "priority": 1,
+      "status": "draft"
+    },
+    "reliability-observability-compatibility": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "local-event-store"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "54c95a5f0fc4a7caeef35e1eb330e3aacbdb136fa4bd3618a4e73bee5c33ece6",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "mcp-stdio-foundation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "5d0ed09bbb2bad4f2bc79791542ebce6294c0b7f8e62adb05e1ddd31b8438a55",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "safe-check-executor"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "5b9e8dbc375a1f2f7f4b798c14bf8e91b1abfbd4236e3ab9ae32f6dc9eaf11c1",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "mastery-review-scheduling"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "62a3b875d89352a1c4737a3eb34f0ae0c84b8e2e804b6c0f804811000d2c4035",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "administrative-cli-fixtures"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "f4cf3461950d1e8aff7237b6b96bc70ed6e18bb25decc95abd2085b8a7784829",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "security-privacy-hardening"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "b7ac2b49bbdac2d749f20be6caba6c2300399a5a7a70e672f61d166e28b1b405",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "tutor-skill-host-integration"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "administrative-cli-fixtures"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "local-event-store",
+        "mcp-stdio-foundation",
+        "safe-check-executor",
+        "mastery-review-scheduling",
+        "administrative-cli-fixtures",
+        "security-privacy-hardening"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "reliability-observability-compatibility"
+      },
+      "path": ".pose/specs/2026-08-22-reliability-observability-compatibility.md",
+      "priority": 230,
+      "status": "done"
+    },
+    "safe-check-executor": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-schema-loader"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "69f97d4ed9b8a28e96a414e015932a26a51f291b1251741b8378b4db6d371302",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "workspace-observation-baselines"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "4a4987849c635a342a2741d33184336905d4dc25ccea9c1a580f82e30004124e",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "feedback-evaluation-progression"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "1abdd39dedf4e770836418b331da1b801309e809d57df59c55ba9fc75de08207",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "catalog-schema-loader",
+        "workspace-observation-baselines",
+        "feedback-evaluation-progression"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "safe-check-executor"
+      },
+      "path": ".pose/specs/2026-08-22-safe-check-executor.md",
+      "priority": 100,
+      "status": "done"
+    },
+    "security-privacy-hardening": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "mcp-stdio-foundation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "5d0ed09bbb2bad4f2bc79791542ebce6294c0b7f8e62adb05e1ddd31b8438a55",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "workspace-observation-baselines"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "4a4987849c635a342a2741d33184336905d4dc25ccea9c1a580f82e30004124e",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "safe-check-executor"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "5b9e8dbc375a1f2f7f4b798c14bf8e91b1abfbd4236e3ab9ae32f6dc9eaf11c1",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "tutor-skill-host-integration"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "ffde41ca5e76c46c252a89fdd759bc48a3bcd4c869cd9c3d3db008240623012f",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "assistance-hints-detours"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "administrative-cli-fixtures"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "f4cf3461950d1e8aff7237b6b96bc70ed6e18bb25decc95abd2085b8a7784829",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "mcp-stdio-foundation",
+        "workspace-observation-baselines",
+        "safe-check-executor",
+        "tutor-skill-host-integration",
+        "administrative-cli-fixtures"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "security-privacy-hardening"
+      },
+      "path": ".pose/specs/2026-08-22-security-privacy-hardening.md",
+      "priority": 220,
+      "status": "done"
+    },
+    "session-orchestration-disclosure": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "learning-domain-model"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "a3ad07380c2063eab7c487566b5a916bab1112657f687829e42bf91de38fa707",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-schema-loader"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "69f97d4ed9b8a28e96a414e015932a26a51f291b1251741b8378b4db6d371302",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "local-event-store"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "54c95a5f0fc4a7caeef35e1eb330e3aacbdb136fa4bd3618a4e73bee5c33ece6",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "mcp-stdio-foundation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "5d0ed09bbb2bad4f2bc79791542ebce6294c0b7f8e62adb05e1ddd31b8438a55",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "learning-domain-model",
+        "catalog-schema-loader",
+        "local-event-store",
+        "mcp-stdio-foundation"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "session-orchestration-disclosure"
+      },
+      "path": ".pose/specs/2026-08-22-session-orchestration-disclosure.md",
+      "priority": 60,
+      "status": "done"
+    },
+    "session-recovery-version-pinning": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "eventstore-idempotency-scope"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "8d5483937c88582fd77aaa6201069f7bbb56393f8633647cd857a0a013065768",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "session-orchestration-disclosure"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "1bbb37a149529beeb87f4ec3be182c9e1356cc6c63f388c883eccc7776d1e2eb",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "workspace-observation-baselines"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "4a4987849c635a342a2741d33184336905d4dc25ccea9c1a580f82e30004124e",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "reliability-observability-compatibility"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "f91ba2e303e8f8880e554664bb2ed86a8572ae0d9e4de65f3986a2c9e00e7409",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mastery-review-scheduling"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "administrative-cli-fixtures"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "security-privacy-hardening"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "eventstore-idempotency-scope",
+        "session-orchestration-disclosure",
+        "workspace-observation-baselines",
+        "reliability-observability-compatibility"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "session-recovery-version-pinning"
+      },
+      "path": ".pose/specs/2026-09-07-session-recovery-version-pinning.md",
+      "priority": 10,
+      "status": "done"
+    },
+    "session-tree-progression": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "feedback-evaluation-progression"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "1abdd39dedf4e770836418b331da1b801309e809d57df59c55ba9fc75de08207",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "learning-practice-debug-modes"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "4f47c5e317b9b4f911a4df96978cd685d8112acdada01812c340fe399be8f0b5",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "assistance-hints-detours"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mastery-review-scheduling"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "tutor-skill-host-integration"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "session-recovery-version-pinning"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "7b0fec036e52443e5853c51a43e1141d02215dca1ad57ae66f21f209e1a9b281",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "eventstore-idempotency-scope"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "reliability-observability-compatibility"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "evaluation-evidence-lineage"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "6fc65a21f188cacc1324633870b707fe0ac5b1e4291be93996ed700376169548",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-recovery-version-pinning"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "feedback-evaluation-progression",
+        "learning-practice-debug-modes",
+        "session-recovery-version-pinning",
+        "evaluation-evidence-lineage"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "session-tree-progression"
+      },
+      "path": ".pose/specs/2026-09-07-session-tree-progression.md",
+      "priority": 20,
+      "status": "done"
+    },
+    "tutor-skill-host-integration": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "mcp-stdio-foundation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "5d0ed09bbb2bad4f2bc79791542ebce6294c0b7f8e62adb05e1ddd31b8438a55",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "session-orchestration-disclosure"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "1bbb37a149529beeb87f4ec3be182c9e1356cc6c63f388c883eccc7776d1e2eb",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "assistance-hints-detours"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "62a5ddb86453cc49792655a4450ecaee06d50f030ec331316e86d76e4f0713c8",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "feedback-evaluation-progression"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "1abdd39dedf4e770836418b331da1b801309e809d57df59c55ba9fc75de08207",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "workspace-observation-baselines"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "4a4987849c635a342a2741d33184336905d4dc25ccea9c1a580f82e30004124e",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "safe-check-executor"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "5b9e8dbc375a1f2f7f4b798c14bf8e91b1abfbd4236e3ab9ae32f6dc9eaf11c1",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "mcp-stdio-foundation",
+        "session-orchestration-disclosure",
+        "assistance-hints-detours",
+        "feedback-evaluation-progression",
+        "workspace-observation-baselines",
+        "safe-check-executor"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "tutor-skill-host-integration"
+      },
+      "path": ".pose/specs/2026-08-22-tutor-skill-host-integration.md",
+      "priority": 130,
+      "status": "done"
+    },
+    "v1-delivery-ci-assurance": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "installation-documentation-ci"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "932d8440e7c896e94142d59998f0dd0eea2bbe1ae79435cd52ae5cd853bffb97",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "tutor-skill-host-integration"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "administrative-cli-fixtures"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-authoring-quality"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "security-privacy-hardening"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "reliability-observability-compatibility"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "reliability-observability-compatibility"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "f91ba2e303e8f8880e554664bb2ed86a8572ae0d9e4de65f3986a2c9e00e7409",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mastery-review-scheduling"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "administrative-cli-fixtures"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "security-privacy-hardening"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "installation-documentation-ci",
+        "reliability-observability-compatibility"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "v1-delivery-ci-assurance"
+      },
+      "path": ".pose/specs/2026-09-07-v1-delivery-ci-assurance.md",
+      "priority": 35,
+      "status": "done"
+    },
+    "v1-integrated-acceptance": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "architecture-decision-baseline"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "872c7fffe7e3e74b2eeaf0899a69ecef9505a37658b2c1fee3010528ecd6c286"
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "go-runtime-foundation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "ef4daf75ff2f31d88a7831291b6421e2235926a55375fc26484cdf6da9e6d33b",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "learning-domain-model"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "a3ad07380c2063eab7c487566b5a916bab1112657f687829e42bf91de38fa707",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-schema-loader"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "69f97d4ed9b8a28e96a414e015932a26a51f291b1251741b8378b4db6d371302",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "local-event-store"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "54c95a5f0fc4a7caeef35e1eb330e3aacbdb136fa4bd3618a4e73bee5c33ece6",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "mcp-stdio-foundation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "5d0ed09bbb2bad4f2bc79791542ebce6294c0b7f8e62adb05e1ddd31b8438a55",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "session-orchestration-disclosure"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "1bbb37a149529beeb87f4ec3be182c9e1356cc6c63f388c883eccc7776d1e2eb",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "assistance-hints-detours"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "62a5ddb86453cc49792655a4450ecaee06d50f030ec331316e86d76e4f0713c8",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "feedback-evaluation-progression"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "1abdd39dedf4e770836418b331da1b801309e809d57df59c55ba9fc75de08207",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "workspace-observation-baselines"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "4a4987849c635a342a2741d33184336905d4dc25ccea9c1a580f82e30004124e",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "safe-check-executor"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "5b9e8dbc375a1f2f7f4b798c14bf8e91b1abfbd4236e3ab9ae32f6dc9eaf11c1",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "mastery-review-scheduling"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "62a3b875d89352a1c4737a3eb34f0ae0c84b8e2e804b6c0f804811000d2c4035",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "curriculum-graph-path-recommendation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "76420589909045116749b18c8f5b92284f4cdb04620e30cf0b485aae9d177dc9",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mastery-review-scheduling"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "tutor-skill-host-integration"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "ffde41ca5e76c46c252a89fdd759bc48a3bcd4c869cd9c3d3db008240623012f",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "assistance-hints-detours"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "administrative-cli-fixtures"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "f4cf3461950d1e8aff7237b6b96bc70ed6e18bb25decc95abd2085b8a7784829",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "learning-practice-debug-modes"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "4f47c5e317b9b4f911a4df96978cd685d8112acdada01812c340fe399be8f0b5",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "assistance-hints-detours"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mastery-review-scheduling"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "tutor-skill-host-integration"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "interview-mode"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "7152cd31a5cce5509b9889d8f61bd1c9f502cd975858f4348ef40fdd52a71143",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "tutor-skill-host-integration"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-practice-debug-modes"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-authoring-quality"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "c2971b5a9c20fecfdd4350142d51140097db4c62f69f7defd1098d71555e835f",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "administrative-cli-fixtures"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "curriculum-graph-path-recommendation"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "go-foundations-packs"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "in-progress",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "45259f1220891913c4543c176ea19c85563f0ab88bb09c58a71a00a755d50dc4",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "curriculum-graph-path-recommendation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-authoring-quality"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "go-backend-packs"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "in-progress",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "d6c449b53a81c0b70b5f9dc15382b9f776de982eeedf1834be610d8538ff2c1e",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "curriculum-graph-path-recommendation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-authoring-quality"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-foundations-packs"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "go-production-architecture-packs"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "in-progress",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "2e967e21baac32db8c546756509c000bdeec5cc36849cc1f967ff5e7e4916f31",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "curriculum-graph-path-recommendation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-authoring-quality"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-backend-packs"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "go-interviews-pack"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "draft",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "2b862e9093c9b1a884e7fbc9655223de77b092380f3220a88365e8348fe69ba0",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "curriculum-graph-path-recommendation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-authoring-quality"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "interview-mode"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-production-architecture-packs"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "security-privacy-hardening"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "b7ac2b49bbdac2d749f20be6caba6c2300399a5a7a70e672f61d166e28b1b405",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "tutor-skill-host-integration"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "administrative-cli-fixtures"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "reliability-observability-compatibility"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "f91ba2e303e8f8880e554664bb2ed86a8572ae0d9e4de65f3986a2c9e00e7409",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mcp-stdio-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mastery-review-scheduling"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "administrative-cli-fixtures"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "security-privacy-hardening"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "installation-documentation-ci"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "932d8440e7c896e94142d59998f0dd0eea2bbe1ae79435cd52ae5cd853bffb97",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "tutor-skill-host-integration"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "administrative-cli-fixtures"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-authoring-quality"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "security-privacy-hardening"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "reliability-observability-compatibility"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "eventstore-idempotency-scope"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "8d5483937c88582fd77aaa6201069f7bbb56393f8633647cd857a0a013065768",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "local-event-store"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "learning-track-composition"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "b32efa5d2e26240944cc9e16fa981b4d6701473776ea1afff56e170bfa9f8cf3",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "curriculum-graph-path-recommendation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "mastery-review-scheduling"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-recovery-version-pinning"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-tree-progression"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-publication-integrity"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "agent-authored-catalog-drafts"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "682093f59af981925e22cb3856afb84160302d132bb273ea43c892a36a93384c",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-authoring-quality"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-track-composition"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "tutor-skill-host-integration"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-publication-integrity"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "concept-content-authoring"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-recovery-version-pinning"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "session-recovery-version-pinning"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "7b0fec036e52443e5853c51a43e1141d02215dca1ad57ae66f21f209e1a9b281",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "eventstore-idempotency-scope"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-orchestration-disclosure"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "workspace-observation-baselines"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "reliability-observability-compatibility"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "session-tree-progression"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "fda19fe1a3522c69273bf69615ac3de248f0db38ab96a45f1f38a8a47b5e882a",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-practice-debug-modes"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-recovery-version-pinning"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "evaluation-evidence-lineage"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "catalog-publication-integrity"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "801d0246196177206454f076c57ce852503e0b2cc435e2d2a421a42daefa2639",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-authoring-quality"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-schema-loader"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "concept-content-authoring"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "07b71b159c9753561ec1f024fc3128c9642570aa1cf7c88e1527653c2108d6af",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "assistance-hints-detours"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "catalog-authoring-quality"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "v1-delivery-ci-assurance"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "f725626d3bef6b8cfd14f3538a7943bbde3366336c3b603d27e74864f8a92ac2",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "installation-documentation-ci"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "reliability-observability-compatibility"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "evaluation-evidence-lineage"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "6fc65a21f188cacc1324633870b707fe0ac5b1e4291be93996ed700376169548",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "session-recovery-version-pinning"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "safe-check-executor"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "feedback-evaluation-progression"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "architecture-decision-baseline",
+        "go-runtime-foundation",
+        "learning-domain-model",
+        "catalog-schema-loader",
+        "local-event-store",
+        "mcp-stdio-foundation",
+        "session-orchestration-disclosure",
+        "assistance-hints-detours",
+        "feedback-evaluation-progression",
+        "workspace-observation-baselines",
+        "safe-check-executor",
+        "mastery-review-scheduling",
+        "curriculum-graph-path-recommendation",
+        "tutor-skill-host-integration",
+        "administrative-cli-fixtures",
+        "learning-practice-debug-modes",
+        "interview-mode",
+        "catalog-authoring-quality",
+        "go-foundations-packs",
+        "go-backend-packs",
+        "go-production-architecture-packs",
+        "go-interviews-pack",
+        "security-privacy-hardening",
+        "reliability-observability-compatibility",
+        "installation-documentation-ci",
+        "eventstore-idempotency-scope",
+        "learning-track-composition",
+        "agent-authored-catalog-drafts",
+        "session-recovery-version-pinning",
+        "session-tree-progression",
+        "catalog-publication-integrity",
+        "concept-content-authoring",
+        "v1-delivery-ci-assurance",
+        "evaluation-evidence-lineage"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "v1-integrated-acceptance"
+      },
+      "path": ".pose/specs/2026-08-22-v1-integrated-acceptance.md",
+      "priority": 250,
+      "status": "draft"
+    },
+    "workspace-observation-baselines": {
+      "dependency_resolutions": [
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "go-runtime-foundation"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "ef4daf75ff2f31d88a7831291b6421e2235926a55375fc26484cdf6da9e6d33b",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "local-event-store"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "54c95a5f0fc4a7caeef35e1eb330e3aacbdb136fa4bd3618a4e73bee5c33ece6",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "learning-domain-model"
+            }
+          ]
+        },
+        {
+          "schema_version": 1,
+          "identity": {
+            "project_id": "proj.ai-code-micro-learning",
+            "kind": "spec",
+            "slug": "learning-domain-model"
+          },
+          "resolved": true,
+          "resolution_state": "resolved",
+          "status": "done",
+          "source_revision": "429790757689223d562cb36efb09bb7bf37036be",
+          "source_digest": "a3ad07380c2063eab7c487566b5a916bab1112657f687829e42bf91de38fa707",
+          "dependencies": [
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "architecture-decision-baseline"
+            },
+            {
+              "project_id": "proj.ai-code-micro-learning",
+              "kind": "spec",
+              "slug": "go-runtime-foundation"
+            }
+          ]
+        }
+      ],
+      "depends_on": [
+        "go-runtime-foundation",
+        "local-event-store",
+        "learning-domain-model"
+      ],
+      "identity": {
+        "project_id": "proj.ai-code-micro-learning",
+        "kind": "spec",
+        "slug": "workspace-observation-baselines"
+      },
+      "path": ".pose/specs/2026-08-22-workspace-observation-baselines.md",
+      "priority": 90,
+      "status": "done"
+    }
+  }
+}

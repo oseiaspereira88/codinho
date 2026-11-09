@@ -8,7 +8,7 @@
       "command": "pose",
       "env": {
         "POSE_DEFAULT_PROJECT_ID": "proj.ai-code-micro-learning",
-        "POSE_PROJECT_ROOT": "/home/go/GolandProjects/ai-code-micro-learning"
+        "POSE_PROJECT_ROOT": "/home/go/GolandProjects/codinho"
       },
       "type": "stdio"
     }

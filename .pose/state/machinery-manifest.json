@@ -95,11 +95,11 @@
       "## 3) Structure": "sha256:55944e5ab5f31db3e4bdced276726aef8294c52e045057e80df8001fde137eed",
       "## 4) Key files": "sha256:fca1e5c746e77f517618ec6a527d0d2205affe90dceb0ff11c572636192d415c",
       "## 5) Flows per task type": "sha256:8814fa9e254feddeaf43aff14ff4d72183aca775f46ce81639251cc200379434",
-      "## 6) The `pose` CLI": "sha256:8a5af4afeccd33e2cb643d6a0a579529f991b81c579766ed0e79ed1d919f77bf",
+      "## 6) The `pose` CLI": "sha256:30bd824f9a946809edbf5e1cad301d1172bed1ab058071faabc27a7a0a2d3d57",
       "## 7) CI policy": "sha256:94573f66648d27efc94536aafc2f0d5d6cbe736d8bbe62320549b94e67b18b8e",
       "## 8) `.pose/knowledge/` governance": "sha256:4175cd4981309cf20525a1c33b951cb3104420c7b917afb26903d3c4b49d8a44",
       "## Opt-in progressive review profiles (ABM)": "sha256:212a829cac0d6e394627aa90c7846ce41223a4403fdd3c84c43ce90292cc1ce9",
-      "## Verified review authority (ABM)": "sha256:cd445e4b4e486bbaa5c91db6644c03d97f9b4c139aa57821e06b380adba5d280"
+      "## Verified review authority (ABM)": "sha256:e652aec1f3a175705e10fdde167506b872d29726041b1a59cbda7c7216603068"
     }
   }
 }

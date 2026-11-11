@@ -95,7 +95,7 @@
       "## 3) Structure": "sha256:55944e5ab5f31db3e4bdced276726aef8294c52e045057e80df8001fde137eed",
       "## 4) Key files": "sha256:fca1e5c746e77f517618ec6a527d0d2205affe90dceb0ff11c572636192d415c",
       "## 5) Flows per task type": "sha256:8814fa9e254feddeaf43aff14ff4d72183aca775f46ce81639251cc200379434",
-      "## 6) The `pose` CLI": "sha256:9008397675a5e2d00a1352a82289d595eb0a3c6d57c00871b28751f377c64bf9",
+      "## 6) The `pose` CLI": "sha256:200960d91a08cd72a887d4ca2f0ba59404dbfbf73439c147e56f82c4395ff548",
       "## 7) CI policy": "sha256:94573f66648d27efc94536aafc2f0d5d6cbe736d8bbe62320549b94e67b18b8e",
       "## 8) `.pose/knowledge/` governance": "sha256:4175cd4981309cf20525a1c33b951cb3104420c7b917afb26903d3c4b49d8a44",
       "## Opt-in progressive review profiles (ABM)": "sha256:212a829cac0d6e394627aa90c7846ce41223a4403fdd3c84c43ce90292cc1ce9",
